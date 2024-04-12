@@ -27,7 +27,7 @@ class ConfigController extends AbstractController
     }
 
     /**
-     * @Route("/%eccube_admin_route%/ace_client/config", name="ace_client_admin_config")
+     * @Route("/%eccube_admin_route%/aceclient/config", name="ace_client_admin_config")
      * @Template("@AceClient/admin/config.twig")
      */
     public function index(Request $request)
