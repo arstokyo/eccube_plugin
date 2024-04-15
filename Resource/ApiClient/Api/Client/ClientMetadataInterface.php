@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\ApiClient\Api;
+namespace Plugin\AceClient\ApiClient\Api\Client;
 
 interface ClientMetadataInterface
 {

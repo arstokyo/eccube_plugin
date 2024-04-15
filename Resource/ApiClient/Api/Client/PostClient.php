@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\APiClient\Api;
+namespace Plugin\AceClient\ApiClient\Api\Client;
 
 use Plugin\AceClient\Exception;
 

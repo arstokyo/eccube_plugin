@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\APiClient\Api;
+namespace Plugin\AceClient\ApiClient\Api\Client;
 
-use Plugin\AceClient\ApiClient\Api\ClientMetadataInterface;
+use Plugin\AceClient\ApiClient\Api\Client\ClientMetadataInterface;
 use Plugin\AceClient\ApiClient\Response\ResponseInterface;
 use Plugin\AceClient\Exception;
 

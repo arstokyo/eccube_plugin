@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\APiClient\Api;
+namespace Plugin\AceClient\ApiClient\Api\Client;
 
 use Plugin\AceClient\Exception;
 
@@ -26,8 +26,8 @@ class GetClient extends AbstractClient implements GetClientInterface
             $query = str_contains($baseUri, '?') ? '&' : '?';
             /** @psalm-suppress MixedArgumentTypeCoercion */
             $query .= array_is_list($data)
-                ? implode('&', $data)
-                : http_build_query($data);
+                      ? implode('&', $data)
+                      : http_build_query($data);
         } catch (\Throwable $t) {
             $this->delegate->getLogger()->error("API Client error: {$t->getMessage()}");
             throw new Exception\RequestBuildException('Cannot build GET query string', $t);
