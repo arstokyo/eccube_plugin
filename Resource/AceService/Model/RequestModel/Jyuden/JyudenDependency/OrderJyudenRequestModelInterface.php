@@ -7,5 +7,10 @@ use Plugin\AceClient\AceService\Model\request\Jyuden\Dependency\MemberJyudenRequ
 
 interface OrderJyudenRequestModelInterface extends OrderModelRequestInterface
 {
-    public function getMember() : 
+    // /**
+    //  * Get 顧客情報
+    //  * 
+    //  * @return MemberJyudenRequestModelInterface
+    //  */
+    // public function getMember() : MemberJyudenRequestModelInterface;
 }

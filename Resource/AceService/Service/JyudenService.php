@@ -4,7 +4,7 @@ namespace Plugin\AceClient\AceService;
 
 class JyudenService extends AceServiceAbstract implements AceServiceInterface
 {
-    private $servicename = '';
-
+    private $servicename = 'Jyuden';
+    
     
 }
