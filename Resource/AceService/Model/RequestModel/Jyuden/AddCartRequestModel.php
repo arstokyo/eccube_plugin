@@ -49,9 +49,9 @@ class AddCartRequestModel extends JyudenRequestAbstract implements JyudenRequest
      */
     public function EnsureValidParameters(): bool
     {
-        if (empty($this->id)) {  return false; }
-        if (empty($this->sessid)) {  return false; }
-        if (empty($this->prm)) {  return false; }
+        if (empty($this->id)) { return false; }
+        if (empty($this->sessid)) { return false; }
+        if (empty($this->prm)) { return false; }
         return true;
     }
 
