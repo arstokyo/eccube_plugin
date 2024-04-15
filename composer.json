@@ -4,9 +4,15 @@
   "description": "AceClient Plugin",
   "type": "eccube-plugin",
   "require": {
-    "ec-cube/plugin-installer": "~0.0.7 || ^2.0"
+    "ec-cube/plugin-installer": "~0.0.7 || ^2.0",
+    "guzzlehttp/guzzle": "^7.8"
   },
   "extra": {
     "code": "AceClient"
+  },
+  "config": {
+    "allow-plugins": {
+      "ec-cube/plugin-installer": true
+    }
   }
 }
