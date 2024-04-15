@@ -39,7 +39,7 @@ class AddCartRequestModel extends JyudenRequestAbstract implements JyudenRequest
      */
     public function SetSessid(string $sessid)
     {
-
+        $this->sessid = $sessid;
     }
 
     /**
@@ -54,6 +54,5 @@ class AddCartRequestModel extends JyudenRequestAbstract implements JyudenRequest
         if (empty($this->prm)) {  return false; }
         return true;
     }
-
 
 }
