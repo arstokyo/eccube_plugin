@@ -3,6 +3,7 @@
 namespace Plugin\AceClient\AceService\Model\Request\Jyuden\Dependency;
 
 use Plugin\AceClient\AceService\Model\Request\Dependency\OrderPrmModelRequestAbstract;
+use Plugin\AceClient\AceService\Model\Request\Dependency\OrderModelRequestInterface;
 
 class OrderPrmJyudenRequestModelAbstract extends OrderPrmModelRequestAbstract implements OrderPrmJyudenRequestModelInterface
 {
@@ -11,13 +12,13 @@ class OrderPrmJyudenRequestModelAbstract extends OrderPrmModelRequestAbstract im
     protected OrderJyudenRequestModelAbstract $order;
 
     /**
-     * Get Order Jyuden Request Model Abstract
+     * Set Order Jyuden Request Model Abstract
      * 
-     * @return OrderJyudenRequestModelAbstract
+     * @param OrderJyudenRequestModelAbstract $order
      */
-    public function getOrder(): OrderJyudenRequestModelAbstract
+    public function setOrder(OrderModelRequestInterface $order)
     {
-        return $this->order;
+        $this->order = $order;
     }
 
 }

@@ -8,13 +8,13 @@ class NmemModelRequestAbstract extends NmemberModelAbstract implements PersonMod
 {
 
     /**
-     * Get 納品先枝番号
+     * Set 納品先枝番号
      * 
-     * @return int
+     * @param int
      */
-    public function getNouEda() : int
+    public function setNouEda(int $eda)
     {
-        return $this->eda;
+        $this->eda = $eda;
     }
     
 }

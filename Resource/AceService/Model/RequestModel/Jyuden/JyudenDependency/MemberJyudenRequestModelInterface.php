@@ -8,23 +8,23 @@ use Plugin\AceClient\AceService\Model\Request\Dependency\MemberModelRequestInter
 interface MemberJyudenRequestModelInterface extends MemberModelRequestInterface
 {
     /**
-     * Get 受注先顧客情報
+     * Set 受注先顧客情報
      * 
-     * @return PersonModelRequestInterface
+     * @param PersonJyudenRequestModelInterface $jmember
      */
-    public function GetJmember(): PersonModelRequestInterface;
+    public function setJmember(PersonModelRequestInterface $jmember);
 
     /**
-     * Get 納品先顧客情報
+     * Set 納品先顧客情報
      * 
-     * @return PersonModelRequestInterface
+     * @param PersonJyudenRequestModelInterface $nmember
      */
-    public function GetNmember(): PersonModelRequestInterface;
+    public function setNmember(PersonModelRequestInterface $nmember);
 
     /**
-     * Get 請求先顧客情報
+     * Set 請求先顧客情報
      * 
-     * @return PersonModelRequestInterface
+     * @param PersonJyudenRequestModelInterface $smember
      */
-    public function GetSmember(): PersonModelRequestInterface;
+    public function setSmember(PersonModelRequestInterface $smember);
 }

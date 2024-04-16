@@ -7,9 +7,9 @@ use Plugin\AceClient\AceService\Model\DependencyModel\OrderPrmModelInterface;
 interface OrderPrmModelRequestInterface extends OrderPrmModelInterface
 {
     /**
-     * Get Order Model Request Interface
+     * Set Order Model Request Interface
      * 
-     * @return OrderModelRequestInterface
+     * @param OrderModelRequestInterface $order
      */
-    public function getOrder(): OrderModelRequestInterface;
+    public function setOrder(OrderModelRequestInterface $order);
 }

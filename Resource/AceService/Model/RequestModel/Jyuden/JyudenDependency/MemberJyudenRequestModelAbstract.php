@@ -4,42 +4,43 @@ namespace Plugin\AceClient\AceService\Model\Request\Jyuden\Dependency;
 
 use Plugin\AceClient\AceService\Model\Request\Jyuden\Dependency\MemberJyudenRequestModelInterface;
 use Plugin\AceClient\AceService\Model\Request\Dependency\PersonModelRequestAbstract;
+use Plugin\AceClient\AceService\Model\Request\Dependency\PersonModelRequestInterface;
 use plugin\AceClient\AceService\Model\Request\Dependency\MemberModelRequestAbstract;
 use Plugin\AceClient\AceService\Model\Request\Dependency\NmemModelRequestAbstract;
 
 class MemberJyudenRequestModelAbstract extends MemberModelRequestAbstract implements MemberJyudenRequestModelInterface
 {
-    private PersonModelRequestAbstract $jmember;
-    private NmemModelRequestAbstract $nmember;
-    private PersonModelRequestAbstract $smember;
+    protected PersonJyudenRequestModelAbstract $jmember;
+    protected NmemJyudenRequestModel $nmember;
+    protected PersonJyudenRequestModelAbstract $smember;
 
     /**
-     * Get 受注先顧客情報
+     * Set 受注先顧客情報
      * 
-     * @return PersonModelRequestAbstract
+     * @param PersonJyudenRequestModelAbstract $jmember
      */
-    public function GetJmember(): PersonModelRequestAbstract
+    public function setJmember(PersonModelRequestInterface $jmember)
     {
-        return $this->jmember;
+        $this->jmember = $jmember;
     }
 
     /**
-     * Get 納品先顧客情報
+     * Set 納品先顧客情報
      * 
-     * @return NmemModelRequestAbstract
+     * @param NmemJyudenRequestModel $nmember
      */
-    public function GetNmember(): NmemModelRequestAbstract
+    public function setNmember(PersonModelRequestInterface $nmember)
     {
-        return $this->nmember;
+        return $this->nmember = $nmember;
     }
 
     /**
-     * Get 請求先顧客情報
+     * Set 請求先顧客情報
      * 
-     * @return PersonModelRequestAbstract
+     * @param PersonJyudenRequestModelAbstract $smember
      */
-    public function GetSmember(): PersonModelRequestAbstract
+    public function setSmember(PersonModelRequestInterface $smember)
     {
-        return $this->smember;
+        $this->smember = $smember;
     }
 }

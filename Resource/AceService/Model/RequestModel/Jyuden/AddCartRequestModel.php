@@ -2,15 +2,17 @@
 
 namespace Plugin\AceClient\AceService\Model\Request\Jyuden;
 
+use Plugin\AceClient\AceService\Model\Request\Jyuden\Dependency\OrderPrmJyudenRequestModelForAddCart;
+
 class AddCartRequestModel extends JyudenRequestAbstract implements JyudenRequestInterface
 {
-    /** @var int Ace System ID */
+    /** @var int $id Ace System ID */
     private ?int $id;
-    /** @var string Session ID */
+    /** @var string $sessid Session ID */
     private ?string $sessid;
 
-    /** @var AddCartRequestPrm Order Info */
-    private ?AddCartRequestPrm $prm;
+    /** @var OrderPrmJyudenRequestModelForAddCart $prm Order Info */
+    private ?OrderPrmJyudenRequestModelForAddCart $prm;
 
     /**
      * Set ID
@@ -25,9 +27,9 @@ class AddCartRequestModel extends JyudenRequestAbstract implements JyudenRequest
     /**
      * Set Order Info
      * 
-     * @param AddCartRequestPrm $prm
+     * @param OrderPrmJyudenRequestModelForAddCart $prm
      */
-    public function SetPrm(AddCartRequestPrm $prm)
+    public function SetPrm(OrderPrmJyudenRequestModelForAddCart $prm)
     {
         $this->prm = $prm;
     }

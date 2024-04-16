@@ -2,6 +2,8 @@
 
 namespace Plugin\AceClient\AceService\Model\Request\Jyuden\Dependency;
 
+use Plugin\AceClient\AceService\Model\Request\Dependency\OrderModelRequestInterface;
+
 class OrderPrmJyudenRequestModelForAddCart extends OrderPrmJyudenRequestModelAbstract implements OrderPrmJyudenRequestModelInterface
 {
 
@@ -9,11 +11,11 @@ class OrderPrmJyudenRequestModelForAddCart extends OrderPrmJyudenRequestModelAbs
     protected OrderJyudenRequestModelForAddCart $order;
 
     /**
-     * Get Order Jyuden Request Model For AddCart
+     * Set Order Jyuden Request Model For AddCart
      * 
-     * @return OrderJyudenRequestModelForAddCart
+     * @param OrderJyudenRequestModelForAddCart $order
      */
-    public function getOrder(): OrderJyudenRequestModelForAddCart
+    public function setOrder(OrderModelRequestInterface $order)
     {
         return $this->order;
     }

@@ -8,12 +8,12 @@ class PersonModelRequestAbstract extends PersonModelAbstract implements PersonMo
 {
 
     /**
-     * Get Person Code
+     * Set Person Code
      * 
-     * @return string
+     * @param string $code
      */
-    public function getPersonCode() : string
+    public function setPersonCode(string $code) 
     {
-        return $this->code;
+        $this->code = $code;
     }
 }
