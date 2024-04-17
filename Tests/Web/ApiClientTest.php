@@ -11,8 +11,8 @@ use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\AddCartRequestMode
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\OrderModel;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\PrmModel;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency\MemberModelAbstract;
-use Plugin\AceClient\AceServices\Model\Request\jyuden\Dependency\NmemModelAbstract;
-use Plugin\AceClient\AceServices\Model\Request\jyuden\Dependency\PersonModelAbstract;
+use Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency\NmemModelAbstract;
+use Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency\PersonModelAbstract;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
