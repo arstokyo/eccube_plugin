@@ -5,14 +5,24 @@ namespace Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\JyudenRequestInterface;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\JyudenRequestAbstract;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 class AddCartRequestModel extends JyudenRequestAbstract implements JyudenRequestInterface
 {
-    /** @var int $id Ace System ID */
+
+    /** @var int $id Ace System ID  */
+    #[Groups('xml')]
+    #[SerializedName('id')]
     private ?int $id;
+
+    #[Groups('xml')]
+    #[SerializedName('sessid')]
     /** @var string $sessid Session ID */
     private ?string $sessid;
 
+    #[Groups('xml')]
+    #[SerializedName('prm')]
     /** @var ?PrmModel $prm Order Info */
     private ?PrmModel $prm;
 
