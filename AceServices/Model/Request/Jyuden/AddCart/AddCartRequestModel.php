@@ -14,17 +14,17 @@ class AddCartRequestModel extends JyudenRequestAbstract implements JyudenRequest
     /** @var int $id Ace System ID  */
     #[Groups('xml')]
     #[SerializedName('id')]
-    private ?int $id;
+    public ?int $id;
 
     #[Groups('xml')]
     #[SerializedName('sessid')]
     /** @var string $sessid Session ID */
-    private ?string $sessid;
+    public ?string $sessid;
 
     #[Groups('xml')]
     #[SerializedName('prm')]
     /** @var ?PrmModel $prm Order Info */
-    private ?PrmModel $prm;
+    public ?PrmModel $prm;
 
     /**
      * Set ID
