@@ -60,7 +60,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
                              ->setSessid(1)
                              ->setPrm($prm);
 
-        dump($addCartModel);
+        var_dump($addCartModel);
 
         $loader = new AnnotationLoader();
         $classMetadataFactory = new ClassMetadataFactory($loader);
@@ -69,7 +69,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
 
         $serializer = new Serializer($nomalizer, $encoders);
         $context = $serializer->serialize((new PersonModelAbstract())->setPersonCode('456'),'json');
-        dump($context);
+        var_dump($context);
         $this->assertNotNull($context);
     }
 
