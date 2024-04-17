@@ -67,7 +67,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
 
         $serializer = new Serializer($nomalizer, $encoders);
         $data = ['name' => 'John', 'age' => 30];
-        $context = $serializer->serialize($data,'json');
+        $context = $serializer->serialize($data,'xml');
         echo $context;
         $this->assertNotNull($context);
     }
