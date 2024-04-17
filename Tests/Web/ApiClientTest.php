@@ -73,7 +73,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
         $nomalizer = [new ObjectNormalizer($classMetadataFactory)];
 
         $serializer = new Serializer($nomalizer, $encoders);
-        $context = $serializer->serialize($test,'json');
+        $context = $serializer->serialize($test,'xml');
         var_dump($context);
         $this->assertNotNull($context);
     }
