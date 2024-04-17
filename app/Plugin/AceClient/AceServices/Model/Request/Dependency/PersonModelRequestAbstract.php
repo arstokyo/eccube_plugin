@@ -12,7 +12,7 @@ class PersonModelRequestAbstract extends PersonModelAbstract implements PersonMo
      * 
      * @param string $code
      */
-    public function setPersonCode(string $code) 
+    public function setPersonCode(string $code): void
     {
         $this->code = $code;
     }

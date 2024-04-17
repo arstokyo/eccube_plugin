@@ -4,8 +4,8 @@ namespace Plugin\AceClient\AceServices;
 
 class AceServiceAbstract implements AceServiceInterface {
 
-    protected $servicename;
-    protected $baseuri;
+    protected string $servicename;
+    protected string $baseuri;
 
     public function __construct() {
         // read config 

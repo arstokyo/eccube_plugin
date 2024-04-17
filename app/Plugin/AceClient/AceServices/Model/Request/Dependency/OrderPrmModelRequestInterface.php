@@ -11,5 +11,5 @@ interface OrderPrmModelRequestInterface extends OrderPrmModelInterface
      * 
      * @param OrderModelRequestInterface $order
      */
-    public function setOrder(OrderModelRequestInterface $order);
+    public function setOrder(OrderModelRequestInterface $order): void;
 }
