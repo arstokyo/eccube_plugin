@@ -4,7 +4,7 @@ namespace Plugin\AceClient\ApiClient;
 
 use Plugin\AceClient\ApiClient\Api\Client;
 
-interface ApiClientInteface
+interface ApiClientInterface
 {
     /**
      * Make GET client
