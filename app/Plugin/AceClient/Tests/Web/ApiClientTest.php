@@ -16,6 +16,8 @@ use Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency\PersonModelAbst
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
+use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
 
 
 class ApiClientTest extends AbstractAdminWebTestCase
@@ -58,10 +60,12 @@ class ApiClientTest extends AbstractAdminWebTestCase
                              ->setSessid(1)
                              ->setPrm($prm);
 
-        // $encoder = [new JsonEncoder()];
-        // $nomalizer = [new ObjectNormalizer()];
+        $loader = new AnnotationLoader();
+        $classMetadataFactory = new ClassMetadataFactory($loader);
+        $encoders = [new XmlEncoder(), new JsonEncoder()];
+        $nomalizer = [new ObjectNormalizer($classMetadataFactory)];
 
-        $serializer = new Serializer();
+        $serializer = new Serializer($nomalizer, $encoders);
         $context = $serializer->serialize($addCartModel,'json');
         echo $context;
         $this->assertNotNull($context);
