@@ -11,8 +11,19 @@
  * file that was distributed with this source code.
  */
 
-$loader = require __DIR__.'/../../../../vendor/autoload.php';
-$envFile = __DIR__.'/../../../../.env';
-if (file_exists($envFile)) {
-    (new \Symfony\Component\Dotenv\Dotenv())->load($envFile);
+use Symfony\Component\Dotenv\Dotenv;
+
+require dirname(__DIR__).'/../../../../vendor/autoload.php';
+
+if (file_exists(dirname(__DIR__).'/config/bootstrap.php')) {
+    require dirname(__DIR__).'/config/bootstrap.php';
+} elseif (method_exists(Dotenv::class, 'bootEnv')) {
+    (new Dotenv())->bootEnv(dirname(__DIR__).'/../../../../.env');
 }
+
+
+// $loader = require __DIR__.'/../../../../vendor/autoload.php';
+// $envFile = __DIR__.'/../../../../.env';
+// if (file_exists($envFile)) {
+//     (new \Symfony\Component\Dotenv\Dotenv())->load($envFile);
+// }
