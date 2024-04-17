@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\ApiClient;
+namespace Plugin\AceClient\ApiClient\Api;
 
 use GuzzleHttp\ClientInterface;
 use Psr\Log\LoggerInterface;

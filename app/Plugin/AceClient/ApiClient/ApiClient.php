@@ -2,14 +2,14 @@
 
 namespace Plugin\AceClient\ApiClient;
 
-use Plugin\AceClient\ApiClient\Delegate;
+use Plugin\AceClient\ApiClient\Api\Delegate;
 use Plugin\AceClient\ApiClient\Api\Client;
 use GuzzleHttp\ClientInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class ApiClient implements ApiClientInteface
+class ApiClient implements ApiClientInterface
 {
     private Delegate $delegate;
 

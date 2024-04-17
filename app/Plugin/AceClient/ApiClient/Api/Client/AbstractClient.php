@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\ApiClient\Api\Client;
 
-use Plugin\AceClient\ApiClient\Delegate;
+use Plugin\AceClient\ApiClient\Api\Delegate;
 use Plugin\AceClient\ApiClient\Response;
 use Psr\Http\Message\ResponseInterface as PsrResponse;
 use Plugin\AceClient\Exception;

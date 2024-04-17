@@ -2,18 +2,17 @@
 
 namespace Plugin\AceClient;
 
-use Plugin\AceClient\AceService;
-use Plugin\AceClient\AceService\AceServiceFactory;
-use Plugin\AceClient\AceService\JyudenService;
+use Plugin\AceClient\AceServices\AceServiceFactory;
+use Plugin\AceClient\AceServices\Service\JyudenService;
 
 class AceClient {
 
     /**
      * Make AceJyudenService
      * 
-     * @return AceService\JyudenService
+     * @return JyudenService
      */
-    public function makeJyudenService() : AceService\JyudenService
+    public function makeJyudenService() : JyudenService
     {
         return AceServiceFactory::MakeJyudenService();
     }
