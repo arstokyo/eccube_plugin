@@ -58,10 +58,10 @@ class ApiClientTest extends AbstractAdminWebTestCase
                              ->setSessid(1)
                              ->setPrm($prm);
 
-        $encoder = [new JsonEncoder()];
-        $nomalizer = [new ObjectNormalizer()];
+        // $encoder = [new JsonEncoder()];
+        // $nomalizer = [new ObjectNormalizer()];
 
-        $serializer = new Serializer($nomalizer,$encoder);
+        $serializer = new Serializer();
         $context = $serializer->serialize($addCartModel,'json');
         echo $context;
         $this->assertNotNull($context);
