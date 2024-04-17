@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\AceService\Model\Request\Dependency;
 
-use Plugin\AceClient\AceService\Model\DependencyModel\OrderPrmModelAbstract;
+use Plugin\AceClient\AceService\Model\Dependency\OrderPrmModelAbstract;
 
 class OrderPrmModelRequestAbstract extends OrderPrmModelAbstract implements OrderPrmModelRequestInterface
 {

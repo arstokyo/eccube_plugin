@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceService\Model\DependencyModel;
+namespace Plugin\AceClient\AceService\Model\Dependency;
 
 class NmemberModelAbstract implements PersonModelInterface
 {
