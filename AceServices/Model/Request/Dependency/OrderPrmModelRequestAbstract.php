@@ -11,7 +11,7 @@ class OrderPrmModelRequestAbstract extends OrderPrmModelAbstract implements Orde
      * 
      * @param OrderModelRequestAbstract
      */
-    public function setOrder(OrderModelRequestInterface $order)
+    public function setOrder(OrderModelRequestInterface $order): void
     {
         $this->order = $order;
     }

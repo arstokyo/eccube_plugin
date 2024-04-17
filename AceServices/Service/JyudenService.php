@@ -7,6 +7,6 @@ use Plugin\AceClient\AceServices\AceServiceAbstract;
 
 class JyudenService extends AceServiceAbstract implements AceServiceInterface
 {
-    protected $servicename = 'Jyuden';
+    protected string $servicename = 'Jyuden';
     
 }

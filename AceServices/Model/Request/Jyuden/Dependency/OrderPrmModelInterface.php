@@ -2,15 +2,16 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency;
 
+use Plugin\AceClient\AceServices\Model\Request\Jyuden;
 use Plugin\AceClient\AceServices\Model\Request\Dependency\OrderPrmModelRequestInterface;
 use Plugin\AceClient\AceServices\Model\Request\Dependency\OrderModelRequestInterface;
 
-interface OrderPrmJyudenRequestModelInterface extends OrderPrmModelRequestInterface
+interface OrderPrmModelInterface extends OrderPrmModelRequestInterface
 {
     /**
      * Set Order Model Request Interface
      * 
-     * @param OrderJyudenRequestModelInterface $order
+     * @param Jyuden\Dependency\OrderModelAbstract $order
      */
-    public function setOrder(OrderModelRequestInterface $order);
+    public function setOrder(OrderModelRequestInterface $order): void;
 }

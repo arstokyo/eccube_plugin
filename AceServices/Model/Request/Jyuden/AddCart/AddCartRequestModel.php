@@ -1,8 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Jyuden;
+namespace Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart;
 
-use Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency\OrderPrmJyudenRequestModelForAddCart;
+use Plugin\AceClient\AceServices\Model\Request\Jyuden;
+use Plugin\AceClient\AceServices\Model\Request\Jyuden\JyudenRequestInterface;
+use Plugin\AceClient\AceServices\Model\Request\Jyuden\JyudenRequestAbstract;
 
 class AddCartRequestModel extends JyudenRequestAbstract implements JyudenRequestInterface
 {
@@ -11,15 +13,15 @@ class AddCartRequestModel extends JyudenRequestAbstract implements JyudenRequest
     /** @var string $sessid Session ID */
     private ?string $sessid;
 
-    /** @var OrderPrmJyudenRequestModelForAddCart $prm Order Info */
-    private ?OrderPrmJyudenRequestModelForAddCart $prm;
+    /** @var ?PrmModel $prm Order Info */
+    private ?PrmModel $prm;
 
     /**
      * Set ID
      * 
      * @param int $id
      */
-    public function SetId(int $id)
+    public function setId(int $id)
     {
         $this->id = $id;
     }
@@ -27,9 +29,9 @@ class AddCartRequestModel extends JyudenRequestAbstract implements JyudenRequest
     /**
      * Set Order Info
      * 
-     * @param OrderPrmJyudenRequestModelForAddCart $prm
+     * @param Jyuden\AddCart\PrmModel $prm
      */
-    public function SetPrm(OrderPrmJyudenRequestModelForAddCart $prm)
+    public function setPrm(PrmModel $prm)
     {
         $this->prm = $prm;
     }
@@ -39,7 +41,7 @@ class AddCartRequestModel extends JyudenRequestAbstract implements JyudenRequest
      * 
      * @param string $sessid
      */
-    public function SetSessid(string $sessid)
+    public function setSessid(string $sessid)
     {
         $this->sessid = $sessid;
     }
@@ -49,7 +51,7 @@ class AddCartRequestModel extends JyudenRequestAbstract implements JyudenRequest
      * 
      * @return bool
      */
-    public function EnsureValidParameters(): bool
+    public function ensureValidParameters(): bool
     {
         if (empty($this->id)) { return false; }
         if (empty($this->sessid)) { return false; }
