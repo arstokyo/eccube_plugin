@@ -70,7 +70,10 @@ class ApiClientTest extends AbstractAdminWebTestCase
         $addCartModel->setSessid(1);
         $addCartModel->setPrm($prm);
 
-        $serializer = new Serializer();
+        $encoder = [new XmlEncoder()];
+        $nomalizer = [new ObjectNormalizer()];
+
+        $serializer = new Serializer($nomalizer,$encoder);
         $context = $serializer->serialize($addCartModel,'xml');
         echo $context;
     }
