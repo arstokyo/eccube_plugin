@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\AceService\Model\Request\Dependency;
 
-use Plugin\AceClient\AceService\Model\DependencyModel\NmemberModelAbstract;
+use Plugin\AceClient\AceService\Model\Dependency\NmemberModelAbstract;
 
 class NmemModelRequestAbstract extends NmemberModelAbstract implements PersonModelRequestInterface
 {
