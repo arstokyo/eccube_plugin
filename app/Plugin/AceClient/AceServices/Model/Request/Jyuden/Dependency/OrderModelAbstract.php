@@ -15,9 +15,11 @@ class OrderModelAbstract extends OrderModelRequestAbstract implements OrderModel
      * Set 顧客情報
      * 
      * @param Jyuden\Dependency\MemberModelAbstract $member
+     * @return Jyuden\Dependency\OrderModelAbstract
      */
-    public function setMember(MemberModelInterface $member) 
+    public function setMember(MemberModelInterface $member): self
     {
         $this->member = $member;
+        return $this;
     }
 }

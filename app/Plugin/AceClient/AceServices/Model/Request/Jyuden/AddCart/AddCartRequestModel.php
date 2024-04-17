@@ -20,30 +20,36 @@ class AddCartRequestModel extends JyudenRequestAbstract implements JyudenRequest
      * Set ID
      * 
      * @param int $id
+     * @return AddCartRequestModel
      */
-    public function setId(int $id)
+    public function setId(int $id): self
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
      * Set Order Info
      * 
      * @param Jyuden\AddCart\PrmModel $prm
+     * @return AddCartRequestModel
      */
-    public function setPrm(PrmModel $prm)
+    public function setPrm(PrmModel $prm): self
     {
         $this->prm = $prm;
+        return $this;
     }
 
     /**
      * Set Session ID
      * 
      * @param string $sessid
+     * @return AddCartRequestModel
      */
-    public function setSessid(string $sessid)
+    public function setSessid(string $sessid): self
     {
         $this->sessid = $sessid;
+        return $this;
     }
 
     /**

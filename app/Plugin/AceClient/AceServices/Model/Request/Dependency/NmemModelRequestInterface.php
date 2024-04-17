@@ -10,6 +10,7 @@ interface NmemModelRequestInterface extends NmemModelInterface
      * Set 納品先枝番号
      * 
      * @param int
+     * @return NmemModelRequestInterface
      */
-    public function setNouEda(int $eda): void;
+    public function setNouEda(int $eda): self;
 }
