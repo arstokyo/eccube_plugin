@@ -28,7 +28,8 @@ class ApiClientTest extends AbstractAdminWebTestCase
             echo $e->getMessage(),'';
         }
 
-        // $postClient = $apiClient->makePostClient("test.com");
+        $postClient = $apiClient->makePostClient("test.com");
+        $postClient->withHeaders(["test" => "test value"]);
         $this->assertTrue(true);
     }
 }
