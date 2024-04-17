@@ -5,7 +5,7 @@ namespace Plugin\AceClient\Tests\Web;
 use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Plugin\AceClient\ApiClient\ApiClient;
 use Symfony\Component\Serializer\Serializer;
-use Plugin\AceClient\Dependency\Normalize\Normalizer;
+use Plugin\AceClient\Utils\Normalize\Normalizer;
 use Psr\Log\NullLogger;
 
 class ApiClientTest extends AbstractAdminWebTestCase
