@@ -45,30 +45,18 @@ class ApiClientTest extends AbstractAdminWebTestCase
 
     public function testAsignValueForAddCartMethod(): void
     {
-        $nmem = new NmemModelAbstract();
-        $nmem->setNouEda(1);
-        
-        $jmem = new PersonModelAbstract();
-        $jmem->setPersonCode('123');
 
-        $smem = new PersonModelAbstract();
-        $smem->setPersonCode('234');
+        $member = (new MemberModelAbstract)
+                        ->setJmember((new PersonModelAbstract())->setPersonCode('456'))
+                        ->setSmember((new PersonModelAbstract())->setPersonCode('123'))
+                        ->setNmember((new NmemModelAbstract())->setNouEda(1));
 
-        $member = new MemberModelAbstract;
-        $member->setJmember($jmem);
-        $member->setSmember($smem);
-        $member->setNmember($nmem);
-
-        $order = new OrderModel();
-        $order->setMember($member);
-
-        $prm = new PrmModel();
-        $prm->setOrder($order);
-
-        $addCartModel = new AddCartRequestModel();
-        $addCartModel->setId(7);
-        $addCartModel->setSessid(1);
-        $addCartModel->setPrm($prm);
+        $order = (new OrderModel())->setMember($member);
+        $prm = (new PrmModel())->setOrder($order);
+        $addCartModel = (new AddCartRequestModel())
+                             ->setId(7)
+                             ->setSessid(1)
+                             ->setPrm($prm);
 
         $encoder = [new XmlEncoder()];
         $nomalizer = [new ObjectNormalizer()];

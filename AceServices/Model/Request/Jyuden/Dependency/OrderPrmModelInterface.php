@@ -12,6 +12,7 @@ interface OrderPrmModelInterface extends OrderPrmModelRequestInterface
      * Set Order Model Request Interface
      * 
      * @param Jyuden\Dependency\OrderModelAbstract $order
+     * @return Jyuden\Dependency\OrderPrmModelInterface
      */
-    public function setOrder(OrderModelRequestInterface $order): void;
+    public function setOrder(OrderModelRequestInterface $order): self;
 }

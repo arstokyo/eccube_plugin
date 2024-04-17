@@ -13,11 +13,13 @@ class OrderModel extends OrderModelAbstract implements OrderModelInterface
     /**
      * Set 顧客情報
      * 
-     * @param Jyuden\Dependency\MemberModelAbstract $member
+     * @param Jyuden\Dependency\MemberModelInterface $member
+     * @return Jyuden\AddCart\OrderModel
      */
-    public function setMember(MemberModelInterface $member) 
+    public function setMember(MemberModelInterface $member): self
     {
         $this->member = $member;
+        return $this;
     }
 
 }
