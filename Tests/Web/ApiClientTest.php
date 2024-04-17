@@ -58,7 +58,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
                              ->setSessid(1)
                              ->setPrm($prm);
 
-        $encoder = [new XmlEncoder()];
+        $encoder = [new JsonEncoder()];
         $nomalizer = [new ObjectNormalizer()];
 
         $serializer = new Serializer($nomalizer,$encoder);
