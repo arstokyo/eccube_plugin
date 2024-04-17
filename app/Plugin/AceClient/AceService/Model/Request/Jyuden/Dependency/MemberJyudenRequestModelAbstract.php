@@ -3,10 +3,8 @@
 namespace Plugin\AceClient\AceService\Model\Request\Jyuden\Dependency;
 
 use Plugin\AceClient\AceService\Model\Request\Jyuden\Dependency\MemberJyudenRequestModelInterface;
-use Plugin\AceClient\AceService\Model\Request\Dependency\PersonModelRequestAbstract;
 use Plugin\AceClient\AceService\Model\Request\Dependency\PersonModelRequestInterface;
 use plugin\AceClient\AceService\Model\Request\Dependency\MemberModelRequestAbstract;
-use Plugin\AceClient\AceService\Model\Request\Dependency\NmemModelRequestAbstract;
 
 class MemberJyudenRequestModelAbstract extends MemberModelRequestAbstract implements MemberJyudenRequestModelInterface
 {
