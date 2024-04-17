@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\Dependency;
+namespace Plugin\AceClient\Dependency\Normalizer;
 
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
