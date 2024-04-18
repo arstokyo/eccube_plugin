@@ -98,11 +98,21 @@ class ApiClientTest extends AbstractAdminWebTestCase
                 $this->getRequestContent() .
                 '</soap12:Body>
                 </soap12:Envelope>';
+        $bodyTest = '<?xml version="1.0" encoding="utf-8"?>
+                    <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+                    <soap12:Body>
+                        <addCart xmlns="http://ar-system-api.co.jp/">
+                        <id>1</id>
+                        <sessId>2</sessId>
+                        <prm></prm>
+                        </addCart>
+                    </soap12:Body>
+                    </soap12:Envelope>';
                 
         $this->httpClient = $this->createHttpClient();
         $request =  [
             'headers' => ['Content-Type' => 'application/soap+xml; charset=utf-8'],
-            'body'    => $body,
+            'body'    => $bodyTest,
         ];
         try {
             $response = $this->httpClient->request('POST','/ACEXML/Jyuden/service2.asmx', $request);
