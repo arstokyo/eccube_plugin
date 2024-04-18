@@ -54,7 +54,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
         $member = (new MemberModelAbstract)
                         ->setJmember((new PersonModelAbstract())->setPersonCode('456'))
                         ->setSmember((new PersonModelAbstract())->setPersonCode('123'))
-                        ->setNmember((new NmemModelAbstract())->setNouEda(1));
+                        ->setNmember((new NmemModelAbstract())->setEda(1));
 
         $order = (new OrderModel())->setMember($member);
         $prm = (new PrmModel())->setOrder($order);
@@ -63,11 +63,6 @@ class ApiClientTest extends AbstractAdminWebTestCase
                              ->setSessid(1)
                              ->setPrm($prm);
 
-        var_dump($addCartModel);
-
-        $xmlEncoder = new XmlEncoder();
-
-        
         $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader));
         $encoders = [new XmlEncoder(), new JsonEncoder()];
         $nomalizer = [new ObjectNormalizer(
