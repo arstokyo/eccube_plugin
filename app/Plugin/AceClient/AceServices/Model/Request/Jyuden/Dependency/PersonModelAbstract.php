@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency;
 
-use Plugin\AceClient\AceServices\Model\Request\Jyuden;
+use Plugin\AceClient\AceServices\Model\Request;
 use Plugin\AceClient\AceServices\Model\Request\Dependency\PersonModelRequestAbstract;
 
 class PersonModelAbstract extends PersonModelRequestAbstract implements PersonModelInterface
@@ -11,7 +11,7 @@ class PersonModelAbstract extends PersonModelRequestAbstract implements PersonMo
      * Set Person Code
      * 
      * @param string $code
-     * @return Jyuden\Dependency\PersonModelAbstract
+     * @return Request\Jyuden\Dependency\PersonModelAbstract
      */
     public function setPersonCode(string $code): self
     {
