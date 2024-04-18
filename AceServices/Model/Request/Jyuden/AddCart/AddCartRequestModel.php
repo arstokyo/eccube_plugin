@@ -5,6 +5,7 @@ namespace Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart;
 use Plugin\AceClient\AceServices\Model\Request;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\JyudenRequestAbstract;
 use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 class AddCartRequestModel extends JyudenRequestAbstract implements AddCartRequestModelInterface
 {
@@ -17,6 +18,9 @@ class AddCartRequestModel extends JyudenRequestAbstract implements AddCartReques
 
     /** @var ?PrmModel $prm Order Info */
     private ?PrmModel $prm;
+
+    #[Ignore]
+    private const XML_NODE_NAME = 'addCart';
 
     /**
      * Set SystemID
@@ -96,6 +100,16 @@ class AddCartRequestModel extends JyudenRequestAbstract implements AddCartReques
         if (empty($this->sessid)) { return false; }
         if (empty($this->prm)) { return false; }
         return true;
+    }
+
+    /**
+     * Get Xml Node Name
+     * 
+     * @return string
+     */
+    public function getXmlNodeName(): string
+    {
+        return self::XML_NODE_NAME;
     }
 
 }

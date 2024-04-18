@@ -62,7 +62,6 @@ class ApiClientTest extends AbstractAdminWebTestCase
                              ->setId(7)
                              ->setSessid(1)
                              ->setPrm($prm);
-                             $addCartModel->setXmlNodeName('addCart');
 
         var_dump($addCartModel);
 
