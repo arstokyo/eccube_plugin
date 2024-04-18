@@ -37,9 +37,9 @@ abstract class OrderPrmModelAbstract extends PrmModelRequestAbstract implements 
         return $this->member;
     }
 
-    public function setXmlSerializeOptions(): array
+    protected function setXmlRootNodeName(): string
     {
-        return array_merge(parent::setXmlSerializeOptions(), ['xml_root_node_name'=> self::XML_ROOT_NOT_NAME ],);
+        return self::XML_ROOT_NOT_NAME;
     }
 
 }
