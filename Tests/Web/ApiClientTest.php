@@ -63,10 +63,6 @@ class ApiClientTest extends AbstractAdminWebTestCase
 
         var_dump($addCartModel);
 
-        $test = new TestSerialize();
-        $test->id = 7;
-        $test->name = 'test';
-
         $loader = new AnnotationLoader();
         $classMetadataFactory = new ClassMetadataFactory($loader);
         $encoders = [new XmlEncoder(), new JsonEncoder()];

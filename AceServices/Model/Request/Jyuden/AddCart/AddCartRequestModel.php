@@ -8,26 +8,23 @@ use Plugin\AceClient\AceServices\Model\Request\Jyuden\JyudenRequestAbstract;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
-class AddCartRequestModel extends JyudenRequestAbstract implements JyudenRequestInterface
+class AddCartRequestModel extends JyudenRequestAbstract implements AddCartRequestInterface
 {
 
     /** @var int $id Ace System ID  */
-    #[Groups('xml')]
     #[SerializedName('id')]
-    public ?int $id;
+    private ?int $id;
 
-    #[Groups('xml')]
     #[SerializedName('sessid')]
     /** @var string $sessid Session ID */
-    public ?string $sessid;
+    private string $sessid;
 
-    #[Groups('xml')]
     #[SerializedName('prm')]
     /** @var ?PrmModel $prm Order Info */
-    public ?PrmModel $prm;
+    private ?PrmModel $prm;
 
     /**
-     * Set ID
+     * Set SystemID
      * 
      * @param int $id
      * @return AddCartRequestModel
@@ -39,7 +36,7 @@ class AddCartRequestModel extends JyudenRequestAbstract implements JyudenRequest
     }
 
     /**
-     * Set Order Info
+     * Set オーダー情報
      * 
      * @param Jyuden\AddCart\PrmModel $prm
      * @return AddCartRequestModel
@@ -51,7 +48,7 @@ class AddCartRequestModel extends JyudenRequestAbstract implements JyudenRequest
     }
 
     /**
-     * Set Session ID
+     * Set セッションID
      * 
      * @param string $sessid
      * @return AddCartRequestModel
@@ -60,6 +57,36 @@ class AddCartRequestModel extends JyudenRequestAbstract implements JyudenRequest
     {
         $this->sessid = $sessid;
         return $this;
+    }
+
+    /**
+     * Get Id
+     * 
+     * @return ?int
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * Get セッションID
+     * 
+     * @return string
+     */
+    public function getSessid(): string
+    {
+        return $this->sessid;
+    }
+
+    /**
+     * Get オーダー情報
+     * 
+     * @return ?PrmModel
+     */
+    public function getPrm(): ?PrmModel
+    {
+        return $this->prm;
     }
 
     /**
