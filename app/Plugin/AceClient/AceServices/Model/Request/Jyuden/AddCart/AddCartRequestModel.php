@@ -8,7 +8,7 @@ use Plugin\AceClient\AceServices\Model\Request\Jyuden\JyudenRequestAbstract;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
-class AddCartRequestModel extends JyudenRequestAbstract implements AddCartRequestInterface
+class AddCartRequestModel extends JyudenRequestAbstract implements AddCartRequestModelInterface
 {
 
     /** @var int $id Ace System ID  */
