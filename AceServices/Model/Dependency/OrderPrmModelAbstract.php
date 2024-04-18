@@ -4,7 +4,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency;
 
 use Plugin\AceClient\AceServices\Model;
 
-abstract  class  OrderPrmModelAbstract extends PrmModelAbstract implements OrderPrmModelInterface
+abstract class  OrderPrmModelAbstract extends PrmModelAbstract implements OrderPrmModelInterface
 {
     /** @var OrderModelInterface オーダー情報 */
     protected OrderModelInterface $order;

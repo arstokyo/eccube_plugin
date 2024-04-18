@@ -9,7 +9,6 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 class AddCartRequestModel extends JyudenRequestAbstract implements AddCartRequestModelInterface
 {
-
     /** @var int $id Ace System ID  */
     private ?int $id;
 
@@ -84,11 +83,11 @@ class AddCartRequestModel extends JyudenRequestAbstract implements AddCartReques
     /**
      * Get オーダー情報
      * 
-     * @return Request\Jyuden\AddCart\PrmModel
+     * @return string
      */
-    public function getPrm(): ?PrmModel
+    public function getPrm(): string
     {
-        return $this->prm;
+        return $this->prm->asXML();
     }
 
     /**
