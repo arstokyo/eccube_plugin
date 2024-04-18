@@ -24,7 +24,7 @@ trait AsXmlTrait
                       encoders: [new XmlEncoder()] );
         try {
             $context = $serializer->serialize($this,'xml',$this->setXmlSerializeOptions());
-        } catch(\Exception $e) {
+        } catch(\Throwable $e) {
             throw new SerializeException("Could not serialize class '".\get_class($this)."' to XML"."\n". $e->getMessage());
         };
         return $context;
