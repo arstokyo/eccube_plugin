@@ -12,7 +12,6 @@ class AddCartRequestModel extends JyudenRequestAbstract implements AddCartReques
 {
 
     /** @var int $id Ace System ID  */
-    #[SerializedName('xid')]
     private ?int $id;
 
     #[SerializedName('xsessid')]
@@ -64,6 +63,7 @@ class AddCartRequestModel extends JyudenRequestAbstract implements AddCartReques
      * 
      * @return ?int
      */
+    #[SerializedName('xid')]
     public function getId(): ?int
     {
         return $this->id;
