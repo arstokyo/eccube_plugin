@@ -66,7 +66,8 @@ class ApiClientTest extends AbstractAdminWebTestCase
         $prm = (new PrmModel())->setOrder($order);
         $addCartModel = (new AddCartRequestModel())
                              ->setId(7)
-                             ->setSessid(1);
+                             ->setSessid(1)
+                             ->setPrm($prm);
 
         $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader));
         $encoders = [new XmlEncoder(), new JsonEncoder()];
