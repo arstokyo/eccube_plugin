@@ -75,16 +75,16 @@ class ApiClientTest extends AbstractAdminWebTestCase
             nameConverter: new MetadataAwareNameConverter($classMetadataFactory, new CamelCaseToSnakeCaseNameConverter),
         )];
 
-        $rootNode = [
-            '@xmlns'=> 'http://ar-system-api.co.jp/',
-            '#'=> $addCartModel
-        ];
         $serializer = new Serializer($nomalizer, $encoders);
-        $context = $serializer->serialize($rootNode,'xml',['xml_root_node_name'=> $addCartModel->getXmlNodeName(), 
-                                                            'xml_format_output' => true,
-                                                            'encoder_ignored_node_types' =>  [
-                                                                \XML_PI_NODE, // removes XML declaration (the leading xml tag)
-                                                            ],]);
+        $context = $serializer->serialize([
+                                            '@xmlns'=> 'http://ar-system-api.co.jp/',
+                                            '#'=> $addCartModel
+                                          ],'xml',
+                                          [ 'xml_root_node_name'=> $addCartModel->getXmlNodeName(), 
+                                            'xml_format_output' => true,
+                                            'encoder_ignored_node_types' =>  [
+                                                \XML_PI_NODE, // removes XML declaration (the leading xml tag)
+                                            ],]);
         var_dump($context);
         $this->assertNotNull($context);
     }
