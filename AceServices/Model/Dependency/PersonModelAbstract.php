@@ -2,13 +2,34 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency;
 
-use Symfony\Component\Serializer\Annotation\SerializedName;
+use Plugin\AceClient\AceServices\Model;
 
 class PersonModelAbstract implements PersonModelInterface
 {
     
     /** @var string Person Code  */
-    #[SerializedName('code')]
     protected string $code;
+
+    /**
+     * Get 顧客コード
+     * 
+     * @return string
+     */
+    public function getPersonCode(): string
+    {
+        return $this->code;
+    }
+
+    /**
+     * Set 顧客コード
+     * 
+     * @param string $code
+     * @return Model\Dependency\PersonModelInterface
+     */
+    public function setPersonCode(string $code): PersonModelInterface
+    {
+        $this->code = $code;
+        return $this;
+    }
 
 }
