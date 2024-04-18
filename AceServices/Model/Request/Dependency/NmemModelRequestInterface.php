@@ -14,4 +14,11 @@ interface NmemModelRequestInterface extends NmemModelInterface
      * @return Request\Dependency\NmemModelRequestInterface
      */
     public function setNouEda(int $eda): self;
+
+    /**
+     * Get 納品先枝番号
+     * 
+     * @return int
+     */
+    public function getNouEda(): int;
 }

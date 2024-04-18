@@ -24,6 +24,16 @@ class MemberModelAbstract extends MemberModelRequestAbstract implements MemberMo
     }
 
     /**
+     * Get 受注先顧客情報
+     * 
+     * @return Request\Jyuden\Dependency\PersonModelInterface
+     */
+    public function getJmember(): PersonModelInterface
+    {
+        return $this->jmember;
+    }
+
+    /**
      * Set 納品先顧客情報
      * 
      * @param Request\Jyuden\Dependency\NmemModelInterface $nmember
@@ -36,6 +46,16 @@ class MemberModelAbstract extends MemberModelRequestAbstract implements MemberMo
     }
 
     /**
+     * Get 納品先顧客情報
+     * 
+     * @return Request\Jyuden\Dependency\NmemModelInterface
+     */
+    public function getNmember(): NmemModelInterface
+    {
+        return $this->nmember;
+    }
+
+    /**
      * Set 請求先顧客情報
      * 
      * @param Request\Jyuden\Dependency\PersonModelInterface $smember
@@ -45,5 +65,15 @@ class MemberModelAbstract extends MemberModelRequestAbstract implements MemberMo
     {
         $this->smember = $smember;
         return $this;
+    }
+
+    /**
+     * Get 請求先顧客情報
+     * 
+     * @return Request\Jyuden\Dependency\PersonModelInterface
+     */
+    public function getSmember(): PersonModelInterface
+    {
+        return $this->smember;
     }
 }
