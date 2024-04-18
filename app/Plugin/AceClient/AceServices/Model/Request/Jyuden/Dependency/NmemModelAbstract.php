@@ -14,7 +14,7 @@ class NmemModelAbstract extends NmemModelRequestAbstract implements NmemModelInt
      * @param int $eda
      * @return Request\Jyuden\Dependency\NmemModelAbstract
      */
-    public function setNouEda(int $eda): self
+    public function setEda(int $eda): self
     {
         $this->eda = $eda;
         return $this;

@@ -19,7 +19,6 @@ abstract  class NmemberModelAbstract implements NmemModelInterface
         return $this->eda;
     }
 
-
     /**
      * Set 納品先枝番号
      * 
