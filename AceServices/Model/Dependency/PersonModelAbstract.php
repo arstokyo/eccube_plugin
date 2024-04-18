@@ -15,7 +15,7 @@ abstract  class PersonModelAbstract implements PersonModelInterface
      * 
      * @return string
      */
-    public function getPersonCode(): string
+    public function getCode(): string
     {
         return $this->code;
     }
@@ -26,7 +26,7 @@ abstract  class PersonModelAbstract implements PersonModelInterface
      * @param string $code
      * @return Model\Dependency\PersonModelInterface
      */
-    public function setPersonCode(string $code): PersonModelInterface
+    public function setCode(string $code): PersonModelInterface
     {
         $this->code = $code;
         return $this;

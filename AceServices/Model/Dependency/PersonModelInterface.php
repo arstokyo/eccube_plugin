@@ -11,7 +11,7 @@ interface PersonModelInterface
      * 
      * @return string
      */
-    public function getPersonCode(): string;
+    public function getCode(): string;
 
     /**
      * Set 顧客コード
@@ -19,5 +19,5 @@ interface PersonModelInterface
      * @param string $code
      * @return Model\Dependency\PersonModelInterface
      */
-    public function setPersonCode(string $code): self;
+    public function setCode(string $code): self;
 }
