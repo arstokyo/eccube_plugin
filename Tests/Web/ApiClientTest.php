@@ -52,8 +52,8 @@ class ApiClientTest extends AbstractAdminWebTestCase
     {
 
         $member = (new MemberModelAbstract)
-                        ->setJmember((new PersonModelAbstract())->setPersonCode('456'))
-                        ->setSmember((new PersonModelAbstract())->setPersonCode('123'))
+                        ->setJmember((new PersonModelAbstract())->setCode('456'))
+                        ->setSmember((new PersonModelAbstract())->setCode('123'))
                         ->setNmember((new NmemModelAbstract())->setEda(1));
 
         $order = (new OrderModel())->setMember($member);
