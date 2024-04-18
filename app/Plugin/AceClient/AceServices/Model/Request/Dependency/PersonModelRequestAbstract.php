@@ -14,7 +14,7 @@ abstract class PersonModelRequestAbstract extends PersonModelAbstract implements
      * @param string $code
      * @return Request\Dependency\PersonModelRequestAbstract
      */
-    public function setPersonCode(string $code): self
+    public function setCode(string $code): self
     {
         $this->code = $code;
         return $this;

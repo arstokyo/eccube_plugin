@@ -51,4 +51,5 @@ interface MemberModelInterface extends MemberModelRequestInterface
      * @return Request\Jyuden\Dependency\PersonModelInterface
      */
     public function getSmember(): PersonModelInterface;
+    
 }
