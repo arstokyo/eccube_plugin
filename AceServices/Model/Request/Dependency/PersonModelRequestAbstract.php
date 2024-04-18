@@ -5,7 +5,7 @@ namespace Plugin\AceClient\AceServices\Model\Request\Dependency;
 use Plugin\AceClient\AceServices\Model\Request;
 use Plugin\AceClient\AceServices\Model\Dependency\PersonModelAbstract;
 
-class PersonModelRequestAbstract extends PersonModelAbstract implements PersonModelRequestInterface
+abstract class PersonModelRequestAbstract extends PersonModelAbstract implements PersonModelRequestInterface
 {
 
     /**

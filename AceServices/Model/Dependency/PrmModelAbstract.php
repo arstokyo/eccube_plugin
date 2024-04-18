@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency;
 
-class PrmModelAbstract implements PrmModelInterface
+abstract class PrmModelAbstract implements PrmModelInterface
 {
     
 }

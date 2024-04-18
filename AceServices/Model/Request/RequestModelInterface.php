@@ -2,12 +2,15 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request;
 
-interface RequestModelInterface
+use Plugin\AceClient\AceServices\Model\Request\Dependency\SoapNodeRequestInterface;
+
+interface RequestModelInterface extends SoapNodeRequestInterface
 {
     /**
      * Ensure Input Parameters are valid
      * 
      * @return boolean
      */
-    public function EnsureValidParameters(): bool;
+    public function ensureValidParameters(): bool;
+
 }

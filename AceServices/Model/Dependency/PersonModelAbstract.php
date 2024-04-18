@@ -4,7 +4,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency;
 
 use Plugin\AceClient\AceServices\Model;
 
-class PersonModelAbstract implements PersonModelInterface
+abstract  class PersonModelAbstract implements PersonModelInterface
 {
     
     /** @var string Person Code  */
