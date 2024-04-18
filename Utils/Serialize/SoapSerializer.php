@@ -14,7 +14,7 @@ class SoapSerializer implements SoapSerializerInterface
 {
     private SerializerInterface $serializer;
 
-    private const XMLNS = ['@xmlns'=> 'http://ar-system-api.co.jp/'];
+    private const XMLNS = ['@xmlns' => 'http://ar-system-api.co.jp/'];
     private const DEFAULT_SERIALIZE_OPTIONS = [ 'xml_format_output' => true,
                                                 'xml_encoding' => 'utf-8',
                                                 'encoder_ignored_node_types' =>  [
@@ -58,7 +58,7 @@ class SoapSerializer implements SoapSerializerInterface
      * @param Request\RequestModelInterface $data
      */
     private function serializeWithOptions($data, string $format, array $context): string{
-        return $this->serializer->serialize([ self::XMLNS,'#' => $data ],
+        return $this->serializer->serialize(\array_merge(self::XMLNS,['#' => $data]),
                                               $format,
                                               $context 
                                                     ?? 
