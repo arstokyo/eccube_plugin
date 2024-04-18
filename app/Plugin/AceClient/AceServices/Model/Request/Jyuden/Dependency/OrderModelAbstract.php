@@ -22,4 +22,14 @@ class OrderModelAbstract extends OrderModelRequestAbstract implements OrderModel
         $this->member = $member;
         return $this;
     }
+
+    /**
+     * Get 顧客情報
+     * 
+     * @return Request\Jyuden\Dependency\MemberModelAbstract
+     */
+    public function getMember(): MemberModelAbstract
+    {
+        return $this->member;
+    }
 }
