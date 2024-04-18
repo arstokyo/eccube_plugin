@@ -69,7 +69,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
         $classMetadataFactory = new ClassMetadataFactory($loader);
         $encoders = [new XmlEncoder(), new JsonEncoder()];
         $nomalizer = [new ObjectNormalizer(
-            classMetadataFactory: new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader)),
+            classMetadataFactory: $classMetadataFactory ,
             nameConverter: new MetadataAwareNameConverter($classMetadataFactory, new CamelCaseToSnakeCaseNameConverter),
         )];
 
