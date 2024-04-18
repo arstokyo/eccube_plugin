@@ -12,8 +12,8 @@ class AddCartRequestModel extends JyudenRequestAbstract implements AddCartReques
     /** @var int $id Ace System ID  */
     private ?int $id;
 
-    /** @var string $sessid Session ID */
-    private string $sessid;
+    /** @var string $sessId Session ID */
+    private string $sessId;
 
     /** @var ?PrmModel $prm Order Info */
     private ?PrmModel $prm;
@@ -53,7 +53,7 @@ class AddCartRequestModel extends JyudenRequestAbstract implements AddCartReques
      */
     public function setSessid(string $sessid): self
     {
-        $this->sessid = $sessid;
+        $this->sessId = $sessid;
         return $this;
     }
 
@@ -75,7 +75,7 @@ class AddCartRequestModel extends JyudenRequestAbstract implements AddCartReques
      */
     public function getSessid(): string
     {
-        return $this->sessid;
+        return $this->sessId;
     }
 
     /**
@@ -96,7 +96,7 @@ class AddCartRequestModel extends JyudenRequestAbstract implements AddCartReques
     public function ensureValidParameters(): bool
     {
         if (empty($this->id)) { return false; }
-        if (empty($this->sessid)) { return false; }
+        if (empty($this->sessId)) { return false; }
         if (empty($this->prm)) { return false; }
         return true;
     }
