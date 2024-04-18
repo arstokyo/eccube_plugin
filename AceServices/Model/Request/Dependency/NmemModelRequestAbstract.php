@@ -14,20 +14,10 @@ abstract  class NmemModelRequestAbstract extends NmemberModelAbstract implements
      * @param int $eda
      * @return Request\Dependency\NmemModelRequestAbstract
      */
-    public function setNouEda(int $eda): self
+    public function setEda(int $eda): self
     {
         $this->eda = $eda;
         return $this;
     }
 
-    /**
-     * Get 納品先枝番号
-     * 
-     * @return int
-     */
-    public function getNouEda(): int
-    {
-        return $this->eda;
-    }
-    
 }

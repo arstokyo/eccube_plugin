@@ -14,6 +14,6 @@ interface NmemModelInterface extends NmemModelRequestInterface
      * @param int $eda
      * @return Request\Jyuden\Dependency\NmemModelInterface
      */
-    public function setNouEda(int $eda): self;
+    public function setEda(int $eda): self;
 
 }
