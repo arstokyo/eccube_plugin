@@ -93,11 +93,12 @@ class ApiClientTest extends AbstractAdminWebTestCase
     {
         $body = '<?xml version="1.0" encoding="utf-8"?>
                 <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
-                <soap12:Body>
-                ' .
-                $this->getRequestContent() .
-                '
-                </soap12:Body>
+                    <soap12:Body>
+                    ' .
+                        $this->getRequestContent() 
+                    .
+                    '
+                    </soap12:Body>
                 </soap12:Envelope>';
         $bodyTest = '<?xml version="1.0" encoding="utf-8"?>
                     <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
@@ -116,7 +117,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
             'body'    => $body,
         ];
         try {
-            $response = $this->httpClient->request('POST','/ACEXML/Jyuden/service2.asmx', $request);
+            $response = $this->httpClient->request('POST','/service2.asmx', $request);
             var_dump($response->getBody());
         } catch(\Exception $e) {
             echo $e->getMessage();
@@ -126,7 +127,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
 
     private function createHttpClient(): GuzzleHttp\ClientInterface
     {
-        return new GuzzleHttp\Client(['base_uri'        => 'http://192.168.0.77:20443/',
+        return new GuzzleHttp\Client(['base_uri'        => 'http://192.168.0.81:55667/',
                                        'timeout'         => 600,
                                        'allow_redirects' => false,]
                                     );
