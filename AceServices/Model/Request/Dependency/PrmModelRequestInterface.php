@@ -2,9 +2,9 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request\Dependency;
 
-use Plugin\AceClient\AceServices\Model\Dependency\PrmModelInterface;
+use Plugin\AceClient\AceServices\Model\Dependency\XmlableInterface;
 
-interface PrmModelRequestInterface extends PrmModelInterface
+interface PrmModelRequestInterface extends XmlableInterface
 {
     
 }

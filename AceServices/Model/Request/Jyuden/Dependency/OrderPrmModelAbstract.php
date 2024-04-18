@@ -3,22 +3,43 @@
 namespace Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency;
 
 use Plugin\AceClient\AceServices\Model\Request;
-use Plugin\AceClient\AceServices\Model\Request\Dependency\OrderPrmModelRequestAbstract;
-use Plugin\AceClient\AceServices\Model\Request\Dependency\OrderModelRequestInterface;
+use Plugin\AceClient\AceServices\Model\Request\Dependency\PrmModelRequestAbstract;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
-abstract class OrderPrmModelAbstract extends OrderPrmModelRequestAbstract implements OrderPrmModelInterface
+abstract class OrderPrmModelAbstract extends PrmModelRequestAbstract implements OrderPrmModelInterface
 {
 
+    /** @var Request\Jyuden\Dependency\MemberModelInterface $member 顧客情報*/
+    protected MemberModelInterface $member;
+
+    #[Ignore]
+    protected const XML_ROOT_NOT_NAME = 'order';
+
     /**
-     * Set Order Model Abstract
+     * Set 顧客情報
      * 
-     * @param Request\Jyuden\Dependency\OrderModelAbstract $order
+     * @param Request\Jyuden\Dependency\MemberModelAbstract $member
      * @return Request\Jyuden\Dependency\OrderPrmModelAbstract
      */
-    public function setOrder(OrderModelRequestInterface $order): self
+    public function setMember(MemberModelInterface $member): self
     {
-        $this->order = $order;
+        $this->member = $member;
         return $this;
+    }
+
+    /**
+     * Get 顧客情報
+     * 
+     * @return Request\Jyuden\Dependency\MemberModelAbstract
+     */
+    public function getMember(): MemberModelAbstract
+    {
+        return $this->member;
+    }
+
+    public function setXmlSerializeOptions(): array
+    {
+        return array_merge(parent::setXmlSerializeOptions(), ['xml_root_node_name'=> self::XML_ROOT_NOT_NAME ],);
     }
 
 }

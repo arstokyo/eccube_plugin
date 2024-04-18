@@ -3,16 +3,23 @@
 namespace Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency;
 
 use Plugin\AceClient\AceServices\Model\Request;
-use Plugin\AceClient\AceServices\Model\Request\Dependency\OrderPrmModelRequestInterface;
-use Plugin\AceClient\AceServices\Model\Request\Dependency\OrderModelRequestInterface;
+use Plugin\AceClient\AceServices\Model\Request\Dependency\PrmModelRequestInterface;
 
-interface OrderPrmModelInterface extends OrderPrmModelRequestInterface
+interface OrderPrmModelInterface extends PrmModelRequestInterface
 {
     /**
-     * Set Order Model Request Interface
+     * Set 顧客情報
      * 
-     * @param Request\Jyuden\Dependency\OrderModelAbstract $order
+     * @param Request\Jyuden\Dependency\MemberModelAbstract $member
      * @return Request\Jyuden\Dependency\OrderPrmModelInterface
      */
-    public function setOrder(OrderModelRequestInterface $order): self;
+    public function setMember(MemberModelInterface $member): self;
+
+    /**
+     * Get 顧客情報
+     * 
+     * @return Request\Jyuden\Dependency\MemberModelAbstract
+     */
+    public function getMember(): MemberModelAbstract;
+    
 }

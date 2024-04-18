@@ -4,17 +4,17 @@ namespace Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart;
 
 use Plugin\AceClient\AceServices\Model\Request;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency\MemberModelInterface;
-use Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency\OrderModelAbstract;
-use Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency\OrderModelInterface;
+use Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency\OrderPrmModelAbstract;
+use Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency\OrderPrmModelInterface;
 
-class OrderModel extends OrderModelAbstract implements OrderModelInterface
+class OrderPrmModel extends OrderPrmModelAbstract implements OrderPrmModelInterface
 {
-    
+
     /**
      * Set 顧客情報
      * 
-     * @param Request\Jyuden\AddCart\MemberOrderModel $member
-     * @return Request\Jyuden\AddCart\OrderModel
+     * @param Request\Jyuden\Dependency\MemberModelAbstract $member
+     * @return Request\Jyuden\AddCart\OrderPrmModel
      */
     public function setMember(MemberModelInterface $member): self
     {
