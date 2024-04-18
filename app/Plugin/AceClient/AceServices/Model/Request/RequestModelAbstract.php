@@ -7,7 +7,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 class RequestModelAbstract implements RequestModelInterface
 {
     /** @var string $rootNoodName Root Node Name */
-    #[Ignore]
+    // #[Ignore]
     protected string $rootNoodName;
 
     /**
