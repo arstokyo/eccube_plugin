@@ -4,7 +4,6 @@ namespace Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart;
 
 use Plugin\AceClient\AceServices\Model\Request;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\JyudenRequestAbstract;
-use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Serializer\Annotation\Ignore;
 
 class AddCartRequestModel extends JyudenRequestAbstract implements AddCartRequestModelInterface
