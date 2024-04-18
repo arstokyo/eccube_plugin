@@ -66,8 +66,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
         $prm = (new PrmModel())->setOrder($order);
         $addCartModel = (new AddCartRequestModel())
                              ->setId(7)
-                             ->setSessid(1)
-                             ->setPrm($prm);
+                             ->setSessid(1);
 
         $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader));
         $encoders = [new XmlEncoder(), new JsonEncoder()];
@@ -118,10 +117,11 @@ class ApiClientTest extends AbstractAdminWebTestCase
         ];
         try {
             $response = $this->httpClient->request('POST','/ACEXML/Jyuden/service2.asmx', $request);
+            var_dump($response);
         } catch(\Exception $e) {
             echo $e->getMessage();
         }
-        var_dump($response);
+
     }
 
     private function createHttpClient(): GuzzleHttp\ClientInterface
