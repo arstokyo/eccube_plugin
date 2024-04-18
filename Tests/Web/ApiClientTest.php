@@ -21,6 +21,7 @@ use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
 use \Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 use Doctrine\Common\Annotations\AnnotationReader;
+use Plugin\AceClient\Utils\Serialize\SoapSerializer;
 use GuzzleHttp;
 
 
@@ -50,7 +51,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
         $this->assertTrue(true);
     }
 
-    public function getRequestContent()
+    public function getRequestContent(): \Plugin\AceClient\AceServices\Model\Request\RequestModelInterface
     {
 
         $member = (new MemberOrderModel)
@@ -65,26 +66,26 @@ class ApiClientTest extends AbstractAdminWebTestCase
                              ->setSessid(1)
                              ->setPrm($prm);
 
-        $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader));
-        $encoders = [new XmlEncoder(), new JsonEncoder()];
-        $nomalizer = [new ObjectNormalizer(
-            classMetadataFactory: $classMetadataFactory ,
-            nameConverter: new MetadataAwareNameConverter($classMetadataFactory, new CamelCaseToSnakeCaseNameConverter),
-        )];
+        // $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader));
+        // $encoders = [new XmlEncoder(), new JsonEncoder()];
+        // $nomalizer = [new ObjectNormalizer(
+        //     classMetadataFactory: $classMetadataFactory ,
+        //     nameConverter: new MetadataAwareNameConverter($classMetadataFactory, new CamelCaseToSnakeCaseNameConverter),
+        // )];
 
-        $serializer = new Serializer($nomalizer, $encoders);
-        $context = $serializer->serialize([
-                                            '@xmlns'=> 'http://ar-system-api.co.jp/',
-                                            '#'=> $addCartModel
-                                          ],'xml',
-                                          [ 'xml_root_node_name'=> $addCartModel->getXmlNodeName(), 
-                                            'xml_format_output' => true,
-                                            'xml_encoding' => 'utf-8',
-                                            'encoder_ignored_node_types' =>  [
-                                                \XML_PI_NODE, // removes XML declaration (the leading xml tag)
-                                            ],]);
-        var_dump($context);
-        return $context;
+        // $serializer = new Serializer($nomalizer, $encoders);
+        // $context = $serializer->serialize([
+        //                                     '@xmlns'=> 'http://ar-system-api.co.jp/',
+        //                                     '#'=> $addCartModel
+        //                                   ],'xml',
+        //                                   [ 'xml_root_node_name'=> $addCartModel->getXmlNodeName(), 
+        //                                     'xml_format_output' => true,
+        //                                     'xml_encoding' => 'utf-8',
+        //                                     'encoder_ignored_node_types' =>  [
+        //                                         \XML_PI_NODE, // removes XML declaration (the leading xml tag)
+        //                                     ],]);
+        // var_dump($context);
+        return $addCartModel;
     }
 
     public function testPostRequest()
@@ -134,6 +135,21 @@ class ApiClientTest extends AbstractAdminWebTestCase
                                        'timeout'         => 600,
                                        'allow_redirects' => false,]
                                     );
+    }
+
+    public function testSoapSerializer() 
+    {
+
+        $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader));
+        $nomalizer = [new ObjectNormalizer(
+            classMetadataFactory: $classMetadataFactory ,
+            nameConverter: new MetadataAwareNameConverter($classMetadataFactory, new CamelCaseToSnakeCaseNameConverter),
+        )];
+
+        $serializer = new SoapSerializer($nomalizer);
+        $result = $serializer->serialize($this->getRequestContent());
+        echo $result;
+        $this->assertNotNull($result);
     }
 
 }
