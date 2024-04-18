@@ -48,12 +48,12 @@ class AddCartRequestModel extends JyudenRequestAbstract implements AddCartReques
     /**
      * Set セッションID
      * 
-     * @param string $sessid
+     * @param string $sessId
      * @return Request\Jyuden\AddCart\AddCartRequestModel
      */
-    public function setSessid(string $sessid): self
+    public function setSessId(string $sessId): self
     {
-        $this->sessId = $sessid;
+        $this->sessId = $sessId;
         return $this;
     }
 
@@ -73,7 +73,7 @@ class AddCartRequestModel extends JyudenRequestAbstract implements AddCartReques
      * 
      * @return string
      */
-    public function getSessid(): string
+    public function getSessId(): string
     {
         return $this->sessId;
     }

@@ -66,7 +66,8 @@ class ApiClientTest extends AbstractAdminWebTestCase
         $prm = (new PrmModel())->setOrder($order);
         $addCartModel = (new AddCartRequestModel())
                              ->setId(7)
-                             ->setSessid(1);
+                             ->setSessid(1)
+                             ->setPrm($prm);
 
         $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader));
         $encoders = [new XmlEncoder(), new JsonEncoder()];
@@ -114,7 +115,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
         $this->httpClient = $this->createHttpClient();
         $request =  [
             'headers' => ['Content-Type' => 'application/soap+xml; charset=utf-8'],
-            'body'    => $bodyTest,
+            'body'    => $body,
         ];
         try {
             $response = $this->httpClient->request('POST','/service2.asmx', $request);
