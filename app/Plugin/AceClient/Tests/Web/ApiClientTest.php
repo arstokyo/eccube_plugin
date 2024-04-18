@@ -113,7 +113,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
         $this->httpClient = $this->createHttpClient();
         $request =  [
             'headers' => ['Content-Type' => 'application/soap+xml; charset=utf-8'],
-            'body'    => $bodyTest,
+            'body'    => $body,
         ];
         try {
             $response = $this->httpClient->request('POST','/service2.asmx', $request);
