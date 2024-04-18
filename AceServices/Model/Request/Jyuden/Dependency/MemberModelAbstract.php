@@ -76,4 +76,5 @@ class MemberModelAbstract extends MemberModelRequestAbstract implements MemberMo
     {
         return $this->smember;
     }
+    
 }

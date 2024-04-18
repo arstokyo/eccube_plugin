@@ -13,7 +13,7 @@ class PersonModelAbstract extends PersonModelRequestAbstract implements PersonMo
      * @param string $code
      * @return Request\Jyuden\Dependency\PersonModelAbstract
      */
-    public function setPersonCode(string $code): self
+    public function setCode(string $code): self
     {
         $this->code = $code;
         return $this;

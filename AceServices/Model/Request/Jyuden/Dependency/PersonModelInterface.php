@@ -14,5 +14,5 @@ interface PersonModelInterface extends PersonModelRequestInterface
      * @param string $code
      * @return Request\Jyuden\Dependency\PersonModelInterface
      */
-    public function setPersonCode(string $code): self;
+    public function setCode(string $code): self;
 }

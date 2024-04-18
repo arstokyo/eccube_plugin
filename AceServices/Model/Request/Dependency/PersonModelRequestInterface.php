@@ -14,6 +14,6 @@ interface PersonModelRequestInterface extends PersonModelInterface
      * @param string $code
      * @return Request\Dependency\PersonModelRequestInterface
      */
-    public function setPersonCode(string $code): self;
+    public function setCode(string $code): self;
 
 }
