@@ -25,6 +25,7 @@ class RequestModelAbstract implements RequestModelInterface
      * 
      * @return string
      */
+    #[Ignore]
     public function getXmlNodeName(): string
     {
         return $this->rootNoodName;
