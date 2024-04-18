@@ -65,8 +65,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
 
         var_dump($addCartModel);
 
-        $loader = new AnnotationLoader(new AnnotationReader);
-        $classMetadataFactory = new ClassMetadataFactory($loader);
+        $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader));
         $encoders = [new XmlEncoder(), new JsonEncoder()];
         $nomalizer = [new ObjectNormalizer(
             classMetadataFactory: $classMetadataFactory ,
