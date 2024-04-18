@@ -5,6 +5,7 @@ namespace Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart;
 use Plugin\AceClient\AceServices\Model\Request;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\JyudenRequestAbstract;
 use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 class AddCartRequestModel extends JyudenRequestAbstract implements AddCartRequestModelInterface
 {
@@ -12,6 +13,7 @@ class AddCartRequestModel extends JyudenRequestAbstract implements AddCartReques
     /** @var int $id Ace System ID  */
     private ?int $id;
 
+    #[SerializedName("sessId")]
     /** @var string $sessId Session ID */
     private string $sessId;
 
@@ -51,6 +53,7 @@ class AddCartRequestModel extends JyudenRequestAbstract implements AddCartReques
      * @param string $sessId
      * @return Request\Jyuden\AddCart\AddCartRequestModel
      */
+    #[SerializedName("sessId")]
     public function setSessId(string $sessId): self
     {
         $this->sessId = $sessId;
