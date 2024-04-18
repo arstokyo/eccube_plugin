@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
-use Plugin\AceClient\AceServices\TestSerialize;
+use Doctrine\Common\Annotations\AnnotationReader;
 
 
 class ApiClientTest extends AbstractAdminWebTestCase
@@ -63,7 +63,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
 
         var_dump($addCartModel);
 
-        $loader = new AnnotationLoader();
+        $loader = new AnnotationLoader(new AnnotationReader);
         $classMetadataFactory = new ClassMetadataFactory($loader);
         $encoders = [new XmlEncoder(), new JsonEncoder()];
         $nomalizer = [new ObjectNormalizer($classMetadataFactory)];
