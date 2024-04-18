@@ -3,6 +3,7 @@
 namespace Plugin\AceClient\Tests\Web;
 
 use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
+use SoapClient;
 use Symfony\Component\Serializer\NameConverter\MetadataAwareNameConverter;
 use Symfony\Component\Serializer\Serializer;
 use Psr\Log\NullLogger;
@@ -24,16 +25,18 @@ use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
 use \Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 use Doctrine\Common\Annotations\AnnotationReader;
+use GuzzleHttp;
 
 
 class ApiClientTest extends AbstractAdminWebTestCase
 {
+    private GuzzleHttp\ClientInterface $httpClient;
     public function testSomething(): void
     {
         try {
             $httpClient = new \GuzzleHttp\Client([
                 'base_uri'        => 'http://www.foo.com/1.0/',
-                'timeout'         => 0,
+                'timeout'         => 600,
                 'allow_redirects' => false,
                 'proxy'           => '192.168.16.1:10'
                 ]);
@@ -51,7 +54,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
         $this->assertTrue(true);
     }
 
-    public function testAsignValueForAddCartMethod(): void
+    public function getRequestContent()
     {
 
         $member = (new MemberOrderModel)
@@ -84,7 +87,37 @@ class ApiClientTest extends AbstractAdminWebTestCase
                                                 \XML_PI_NODE, // removes XML declaration (the leading xml tag)
                                             ],]);
         var_dump($context);
-        $this->assertNotNull($context);
+        return $context;
+    }
+
+    public function testPostRequest()
+    {
+        $body = '<?xml version="1.0" encoding="utf-8"?>
+                <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+                <soap12:Body>' .
+                $this->getRequestContent() .
+                '</soap12:Body>
+                </soap12:Envelope>';
+                
+        $this->httpClient = $this->createHttpClient();
+        $request =  [
+            'headers' => ['Content-Type' => 'application/soap+xml; charset=utf-8'],
+            'body'    => $body,
+        ];
+        try {
+            $response = $this->httpClient->request('POST','/ACEXML/Jyuden/service2.asmx', $request);
+        } catch(\Exception $e) {
+            echo $e->getMessage();
+        }
+        var_dump($response);
+    }
+
+    private function createHttpClient(): GuzzleHttp\ClientInterface
+    {
+        return new GuzzleHttp\Client(['base_uri'        => 'http://192.168.0.77:20443/',
+                                       'timeout'         => 600,
+                                       'allow_redirects' => false,]
+                                    );
     }
 
 }
