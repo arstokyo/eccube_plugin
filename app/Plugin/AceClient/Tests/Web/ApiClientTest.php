@@ -62,6 +62,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
                              ->setId(7)
                              ->setSessid(1)
                              ->setPrm($prm);
+                             $addCartModel->setXmlNodeName('addCart');
 
         var_dump($addCartModel);
 
@@ -73,7 +74,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
         )];
 
         $serializer = new Serializer($nomalizer, $encoders);
-        $context = $serializer->serialize($addCartModel,'xml',['xml_root_node_name'=> null]);
+        $context = $serializer->serialize($addCartModel,'xml',['xml_root_node_name'=> $addCartModel->getXmlNodeName()]);
         var_dump($context);
         $this->assertNotNull($context);
     }

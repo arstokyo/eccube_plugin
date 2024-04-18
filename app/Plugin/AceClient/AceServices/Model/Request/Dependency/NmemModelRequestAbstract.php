@@ -5,7 +5,7 @@ namespace Plugin\AceClient\AceServices\Model\Request\Dependency;
 use Plugin\AceClient\AceServices\Model\Request;
 use Plugin\AceClient\AceServices\Model\Dependency\NmemberModelAbstract;
 
-class NmemModelRequestAbstract extends NmemberModelAbstract implements NmemModelRequestInterface
+abstract  class NmemModelRequestAbstract extends NmemberModelAbstract implements NmemModelRequestInterface
 {
 
     /**

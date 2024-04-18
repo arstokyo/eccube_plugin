@@ -5,7 +5,7 @@ namespace Plugin\AceClient\AceServices\Model\Request\Dependency;
 use Plugin\AceClient\AceServices\Model\Request;
 use Plugin\AceClient\AceServices\Model\Dependency\OrderPrmModelAbstract;
 
-class OrderPrmModelRequestAbstract extends OrderPrmModelAbstract implements OrderPrmModelRequestInterface
+abstract class OrderPrmModelRequestAbstract extends OrderPrmModelAbstract implements OrderPrmModelRequestInterface
 {
     /**
      * Set Order Model Request Abstract

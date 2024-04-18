@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency;
 
-class OrderModelAbstract implements OrderModelInterface
+abstract class OrderModelAbstract implements OrderModelInterface
 {
     
 }

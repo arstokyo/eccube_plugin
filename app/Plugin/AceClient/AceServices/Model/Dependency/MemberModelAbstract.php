@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency;
 
-class MemberModelAbstract implements MemberModelInterface
+abstract class MemberModelAbstract implements MemberModelInterface
 {
     
 }
