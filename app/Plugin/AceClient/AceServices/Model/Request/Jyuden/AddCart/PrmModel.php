@@ -22,4 +22,9 @@ class PrmModel extends OrderPrmModelAbstract implements OrderPrmModelInterface
         return $this;
     }
 
+    protected function xmlNodeName(): string
+    {
+        return 'order';
+    }
+
 }

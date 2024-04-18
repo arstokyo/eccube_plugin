@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency;
 
-interface PrmModelInterface extends XmlableInterface
+interface XmlableInterface
 {
-    
+    public function asXML(): string;
 }

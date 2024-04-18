@@ -6,7 +6,7 @@ use Plugin\AceClient\AceServices\Model\Request;
 use Plugin\AceClient\AceServices\Model\Request\Dependency\OrderPrmModelRequestAbstract;
 use Plugin\AceClient\AceServices\Model\Request\Dependency\OrderModelRequestInterface;
 
-class OrderPrmModelAbstract extends OrderPrmModelRequestAbstract implements OrderPrmModelInterface
+abstract class OrderPrmModelAbstract extends OrderPrmModelRequestAbstract implements OrderPrmModelInterface
 {
 
     /**
