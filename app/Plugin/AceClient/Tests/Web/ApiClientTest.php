@@ -65,6 +65,9 @@ class ApiClientTest extends AbstractAdminWebTestCase
 
         var_dump($addCartModel);
 
+        $xmlEncoder = new XmlEncoder();
+
+        
         $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader));
         $encoders = [new XmlEncoder(), new JsonEncoder()];
         $nomalizer = [new ObjectNormalizer(
@@ -72,8 +75,12 @@ class ApiClientTest extends AbstractAdminWebTestCase
             nameConverter: new MetadataAwareNameConverter($classMetadataFactory, new CamelCaseToSnakeCaseNameConverter),
         )];
 
+        $rootNode = [
+            '@xmlns'=> 'http://ar-system-api.co.jp/',
+            '#'=> $addCartModel
+        ];
         $serializer = new Serializer($nomalizer, $encoders);
-        $context = $serializer->serialize($addCartModel,'xml',['xml_root_node_name'=> $addCartModel->getXmlNodeName(),    'xml_standalone' => true,
+        $context = $serializer->serialize($rootNode,'xml',['xml_root_node_name'=> $addCartModel->getXmlNodeName(),    'xml_standalone' => true,
         'xml_format_output' => true,]);
         var_dump($context);
         $this->assertNotNull($context);
