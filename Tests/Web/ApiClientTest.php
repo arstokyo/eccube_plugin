@@ -3,6 +3,7 @@
 namespace Plugin\AceClient\Tests\Web;
 
 use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
+use Symfony\Component\Serializer\NameConverter\MetadataAwareNameConverter;
 use Symfony\Component\Serializer\Serializer;
 use Psr\Log\NullLogger;
 use Plugin\AceClient\ApiClient\ApiClient;
@@ -18,6 +19,7 @@ use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
+use \Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 use Doctrine\Common\Annotations\AnnotationReader;
 
 
@@ -66,7 +68,10 @@ class ApiClientTest extends AbstractAdminWebTestCase
         $loader = new AnnotationLoader(new AnnotationReader);
         $classMetadataFactory = new ClassMetadataFactory($loader);
         $encoders = [new XmlEncoder(), new JsonEncoder()];
-        $nomalizer = [new ObjectNormalizer($classMetadataFactory)];
+        $nomalizer = [new ObjectNormalizer(
+            classMetadataFactory: new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader)),
+            nameConverter: new MetadataAwareNameConverter($classMetadataFactory, new CamelCaseToSnakeCaseNameConverter),
+        )];
 
         $serializer = new Serializer($nomalizer, $encoders);
         $context = $serializer->serialize($addCartModel,'xml');
