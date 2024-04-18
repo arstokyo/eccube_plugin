@@ -59,6 +59,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
                         ->setNmember((new NmemModel())->setEda(1));
 
         $prm = (new OrderPrmModel())->setMember($member);
+
         $addCartModel = (new AddCartRequestModel())
                              ->setId(7)
                              ->setSessid(1)
@@ -115,7 +116,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
         ];
         try {
             $response = $this->httpClient->request('POST','/service2.asmx', $request);
-            var_dump($response->getBody());
+            var_dump($response->getBody()->getContents());
         } catch(\Exception $e) {
             echo $e->getMessage();
         }
