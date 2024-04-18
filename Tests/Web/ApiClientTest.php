@@ -66,8 +66,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
         $prm = (new PrmModel())->setOrder($order);
         $addCartModel = (new AddCartRequestModel())
                              ->setId(7)
-                             ->setSessid(1)
-                             ->setPrm($prm);
+                             ->setSessid(1);
 
         $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader));
         $encoders = [new XmlEncoder(), new JsonEncoder()];
@@ -83,7 +82,10 @@ class ApiClientTest extends AbstractAdminWebTestCase
                                           ],'xml',
                                           [ 'xml_root_node_name'=> $addCartModel->getXmlNodeName(), 
                                             'xml_format_output' => true,
-                                            'xml_encoding' => 'Shift_JIS',]);
+                                            'xml_encoding' => 'utf-8',
+                                            'encoder_ignored_node_types' =>  [
+                                                \XML_PI_NODE, // removes XML declaration (the leading xml tag)
+                                            ],]);
         var_dump($context);
         return $context;
     }
