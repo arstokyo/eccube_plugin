@@ -66,25 +66,25 @@ class ApiClientTest extends AbstractAdminWebTestCase
                              ->setSessid(1)
                              ->setPrm($prm);
 
-        // $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader));
-        // $encoders = [new XmlEncoder(), new JsonEncoder()];
-        // $nomalizer = [new ObjectNormalizer(
-        //     classMetadataFactory: $classMetadataFactory ,
-        //     nameConverter: new MetadataAwareNameConverter($classMetadataFactory, new CamelCaseToSnakeCaseNameConverter),
-        // )];
+        $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader));
+        $encoders = [new XmlEncoder(), new JsonEncoder()];
+        $nomalizer = [new ObjectNormalizer(
+            classMetadataFactory: $classMetadataFactory ,
+            nameConverter: new MetadataAwareNameConverter($classMetadataFactory, new CamelCaseToSnakeCaseNameConverter),
+        )];
 
-        // $serializer = new Serializer($nomalizer, $encoders);
-        // $context = $serializer->serialize([
-        //                                     '@xmlns'=> 'http://ar-system-api.co.jp/',
-        //                                     '#'=> $addCartModel
-        //                                   ],'xml',
-        //                                   [ 'xml_root_node_name'=> $addCartModel->getXmlNodeName(), 
-        //                                     'xml_format_output' => true,
-        //                                     'xml_encoding' => 'utf-8',
-        //                                     'encoder_ignored_node_types' =>  [
-        //                                         \XML_PI_NODE, // removes XML declaration (the leading xml tag)
-        //                                     ],]);
-        // var_dump($context);
+        $serializer = new Serializer($nomalizer, $encoders);
+        $context = $serializer->serialize([
+                                            '@xmlns'=> 'http://ar-system-api.co.jp/',
+                                            '#'=> $addCartModel
+                                          ],'xml',
+                                          [ 'xml_root_node_name'=> $addCartModel->getXmlNodeName(), 
+                                            'xml_format_output' => true,
+                                            'xml_encoding' => 'utf-8',
+                                            'encoder_ignored_node_types' =>  [
+                                                \XML_PI_NODE, // removes XML declaration (the leading xml tag)
+                                            ],]);
+        var_dump($context);
         return $addCartModel;
     }
 
@@ -149,7 +149,18 @@ class ApiClientTest extends AbstractAdminWebTestCase
         $serializer = new SoapSerializer($nomalizer);
         $result = $serializer->serialize($this->getRequestContent());
         echo $result;
-        $this->assertNotNull($result);
+        $this->httpClient = $this->createHttpClient();
+        $request =  [
+            'headers' => ['Content-Type' => 'application/soap+xml; charset=utf-8'],
+            'body'    => $result,
+        ];
+        try {
+            $response = $this->httpClient->request('POST','/ACEXML/Jyuden/service2.asmx', $request);
+            $responseContent = $response->getBody()->getContents();
+            var_dump($responseContent);
+        } catch(\Exception $e) {
+            echo $e->getMessage();
+        }
     }
 
 }
