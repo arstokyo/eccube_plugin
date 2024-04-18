@@ -11,7 +11,8 @@ abstract class PrmModelRequestAbstract implements PrmModelRequestInterface
     protected function setXmlSerializeOptions(): array
     {
         return ['xml_format_output' => true,
-                'xml_encoding' => 'Shift_JIS',];
+                'xml_encoding' => 'Shift_JIS',
+                'xml_root_node_name' => $this->setXmlRootNodeName()];
     }
 
     abstract protected function setXmlRootNodeName(): string;
