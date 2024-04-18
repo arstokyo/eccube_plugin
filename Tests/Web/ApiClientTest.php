@@ -11,6 +11,9 @@ use Plugin\AceClient\Utils\Normalize\Normalizer;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\AddCartRequestModel;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\OrderModel;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\PrmModel;
+use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\MemberOrderModel;
+use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\PersonModel;
+use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\NmemModel;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency\MemberModelAbstract;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency\NmemModelAbstract;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency\PersonModelAbstract;
@@ -51,10 +54,10 @@ class ApiClientTest extends AbstractAdminWebTestCase
     public function testAsignValueForAddCartMethod(): void
     {
 
-        $member = (new MemberModelAbstract)
-                        ->setJmember((new PersonModelAbstract())->setCode('456'))
-                        ->setSmember((new PersonModelAbstract())->setCode('123'))
-                        ->setNmember((new NmemModelAbstract())->setEda(1));
+        $member = (new MemberOrderModel)
+                        ->setJmember((new PersonModel())->setCode('456'))
+                        ->setSmember((new PersonModel())->setCode('123'))
+                        ->setNmember((new NmemModel())->setEda(1));
 
         $order = (new OrderModel())->setMember($member);
         $prm = (new PrmModel())->setOrder($order);

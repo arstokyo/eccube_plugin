@@ -13,7 +13,7 @@ class PrmModel extends OrderPrmModelAbstract implements OrderPrmModelInterface
     /**
      * Set Order Model
      * 
-     * @param Request\Jyuden\Dependency\OrderModelInterface $order
+     * @param Request\Jyuden\AddCart\OrderModel $order
      * @return Request\Jyuden\AddCart\PrmModel
      */
     public function setOrder(OrderModelRequestInterface $order): self
