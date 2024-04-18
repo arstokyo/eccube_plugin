@@ -57,7 +57,7 @@ class SoapSerializer implements SoapSerializerInterface
      * 
      * @param Request\RequestModelInterface $data
      */
-    private function serializeWithOptions($data, string $format, array $context): string{
+    private function serializeWithOptions($data, string $format, array $context = []): string{
         return $this->serializer->serialize(\array_merge(self::XMLNS,['#' => $data]),
                                               $format,
                                               $context 
