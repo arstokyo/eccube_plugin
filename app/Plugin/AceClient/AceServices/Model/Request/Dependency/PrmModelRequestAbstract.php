@@ -2,10 +2,17 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request\Dependency;
 
-use Plugin\AceClient\AceServices\Model\Dependency\PrmModelAbstract;
+use Plugin\AceClient\Utils\Serialize\AsXmlTrait;
 
-abstract class PrmModelRequestAbstract extends PrmModelAbstract implements PrmModelRequestInterface
+class PrmModelRequestAbstract implements PrmModelRequestInterface
 {
+    use AsXmlTrait;
+
+    function setXmlSerializeOptions(): array
+    {
+        return ['xml_format_output' => true,
+                'xml_encoding' => 'Shift_JIS',];
+    }
 
 }
 

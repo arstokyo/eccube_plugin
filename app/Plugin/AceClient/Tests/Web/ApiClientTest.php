@@ -10,14 +10,10 @@ use Psr\Log\NullLogger;
 use Plugin\AceClient\ApiClient\ApiClient;
 use Plugin\AceClient\Utils\Normalize\Normalizer;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\AddCartRequestModel;
-use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\OrderModel;
-use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\PrmModel;
+use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\OrderPrmModel;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\MemberOrderModel;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\PersonModel;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\NmemModel;
-use Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency\MemberModelAbstract;
-use Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency\NmemModelAbstract;
-use Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency\PersonModelAbstract;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -62,8 +58,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
                         ->setSmember((new PersonModel())->setCode('123'))
                         ->setNmember((new NmemModel())->setEda(1));
 
-        $order = (new OrderModel())->setMember($member);
-        $prm = (new PrmModel())->setOrder($order);
+        $prm = (new OrderPrmModel())->setMember($member);
         $addCartModel = (new AddCartRequestModel())
                              ->setId(7)
                              ->setSessid(1)

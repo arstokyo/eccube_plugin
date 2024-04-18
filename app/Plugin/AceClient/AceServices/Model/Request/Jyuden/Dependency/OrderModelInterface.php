@@ -8,19 +8,4 @@ use Plugin\AceClient\AceServices\Model\Request\Dependency\OrderModelRequestInter
 interface OrderModelInterface extends OrderModelRequestInterface
 {
 
-    /**
-     * Set 顧客情報
-     * 
-     * @param Request\Jyuden\Dependency\MemberModelAbstract $member
-     * @return Request\Jyuden\Dependency\OrderModelInterface
-     */
-    public function setMember(MemberModelInterface $member): self;
-
-    /**
-     * Get 顧客情報
-     * 
-     * @return Request\Jyuden\Dependency\MemberModelAbstract
-     */
-    public function getMember(): MemberModelAbstract;
-    
 }

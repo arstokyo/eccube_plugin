@@ -16,8 +16,8 @@ class AddCartRequestModel extends JyudenRequestAbstract implements AddCartReques
     /** @var string $sessId Session ID */
     private string $sessId;
 
-    /** @var ?PrmModel $prm Order Info */
-    private ?PrmModel $prm;
+    /** @var ?OrderPrmModel $prm Order Info */
+    private ?OrderPrmModel $prm;
 
     #[Ignore]
     private const XML_NODE_NAME = 'addCart';
@@ -37,10 +37,10 @@ class AddCartRequestModel extends JyudenRequestAbstract implements AddCartReques
     /**
      * Set オーダー情報
      * 
-     * @param Request\Jyuden\AddCart\PrmModel $prm
+     * @param Request\Jyuden\AddCart\OrderPrmModel $prm
      * @return Request\Jyuden\AddCart\AddCartRequestModel
      */
-    public function setPrm(PrmModel $prm): self
+    public function setPrm(OrderPrmModel $prm): self
     {
         $this->prm = $prm;
         return $this;
