@@ -19,5 +19,15 @@ abstract  class NmemModelRequestAbstract extends NmemberModelAbstract implements
         $this->eda = $eda;
         return $this;
     }
+
+    /**
+     * Get 納品先枝番号
+     * 
+     * @return int
+     */
+    public function getNouEda(): int
+    {
+        return $this->eda;
+    }
     
 }
