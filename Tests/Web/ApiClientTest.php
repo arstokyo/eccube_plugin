@@ -115,7 +115,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
             'body'    => $body,
         ];
         try {
-            $response = $this->httpClient->request('POST','/Jyuden/service2.asmx', $request);
+            $response = $this->httpClient->request('POST','/ACEXML/Jyuden/service2.asmx', $request);
             $responseContent = $response->getBody()->getContents();
             var_dump($responseContent);
         } catch(\Exception $e) {
@@ -130,7 +130,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
         //                                'timeout'         => 600,
         //                                'allow_redirects' => false,]
         //                             );
-                return new GuzzleHttp\Client(['base_uri'        => 'http://192.168.0.77:20443/ACEXML/',
+                return new GuzzleHttp\Client(['base_uri'        => 'http://192.168.0.77:20443/',
                                        'timeout'         => 600,
                                        'allow_redirects' => false,]
                                     );
