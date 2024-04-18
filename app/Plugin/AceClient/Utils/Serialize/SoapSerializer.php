@@ -59,8 +59,8 @@ class SoapSerializer implements SoapSerializerInterface
      */
     private function serializeWithOptions($data, string $format, array $context = []): string{
         return $this->serializer->serialize(\array_merge(self::XMLNS,['#' => $data]),
-                                              $format,
-                                              ((!empty($context)) ?  $context :
+                                            $format,
+                                            (!empty($context) ?  $context :
                                               \array_merge(['xml_root_node_name'=>$data->getXmlNodeName()],
                                                              self::DEFAULT_SERIALIZE_OPTIONS,)));
     }
