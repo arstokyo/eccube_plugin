@@ -24,8 +24,8 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Plugin\AceClient\Utils\Serialize\SoapSerializer;
 use GuzzleHttp;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Plugin\AceClient\Utils\DependecyInjection\SoapSerializerExtension;
-use Plugin\AceClient\Utils\DependecyInjection\SoapSerializerConfiguration;
+use Plugin\AceClient\DependecyInjection\SoapSerializerExtension;
+use Plugin\AceClient\DependecyInjection\SoapSerializerConfiguration;
 
 
 class ApiClientTest extends AbstractAdminWebTestCase
