@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\Utils\DependencyInjection;
+namespace Plugin\AceClient\Utils\DependecyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

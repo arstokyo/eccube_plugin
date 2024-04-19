@@ -1,13 +1,12 @@
 <?php
 
-namespace Plugin\AceClient\Utils\DependencyInjection;
+namespace Plugin\AceClient\Utils\DependecyInjection;
 
 use Plugin\AceClient\Utils\Mapper\ConfigFileMapper;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-
 
 class SoapSerializerExtension extends Extension
 {
@@ -20,6 +19,7 @@ class SoapSerializerExtension extends Extension
         $loader = new YamlFileLoader($container, new FileLocator(ConfigFileMapper::ROOT_CONFIG_PATH));
         $loader->load(ConfigFileMapper::SOAP_SERIALIZER_FILE_NAME);
         
+        $soapSerializerDefinition = $container->getDefinition('ace_client.soap_serializer');
         // Your code here
     }
 }
