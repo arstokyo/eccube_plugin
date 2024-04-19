@@ -24,7 +24,7 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Plugin\AceClient\Utils\Serialize\SoapSerializer;
 use GuzzleHttp;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Plugin\AceClient\DependecyInjection\SoapSerializerExtension;
+use Plugin\AceClient\DependecyInjection\SoapXmlSerializerExtension;
 use Plugin\AceClient\DependecyInjection\SoapSerializerConfiguration;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;
@@ -172,7 +172,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
     {
 
         // Create a new SoapSerializerExtension instance
-        $extension = new SoapSerializerExtension();
+        $extension = new SoapXmlSerializerExtension();
 
          // Create a new ContainerBuilder instance
         $container = new ContainerBuilder();
@@ -183,7 +183,8 @@ class ApiClientTest extends AbstractAdminWebTestCase
         $extension->load([], $container);
 
         // Get the soap_serializer service
-        $soapSerializer = $container->get('ace_client.soap_serializer');
+        $soapSerializer = $container->get('soap_xml_serializer.XMLNS');
+        
     }
 
     public function loadyamlfile()

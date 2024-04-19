@@ -1,5 +1,5 @@
-soap_serializer:
-  XMLNS: "http://www.example.com/soap"
+soap_xml_serializer:
+  XMLNS: "http://ar-system-api.co.jp/"
   DEFAULT_SERIALIZE_OPTIONS:
     options:
       - option1: value1
