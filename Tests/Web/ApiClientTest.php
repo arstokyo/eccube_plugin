@@ -17,6 +17,7 @@ use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\NmemModel;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
 use \Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
@@ -201,7 +202,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
         $nomalizer = [new ObjectNormalizer(
             classMetadataFactory: $classMetadataFactory ,
             nameConverter: new MetadataAwareNameConverter($classMetadataFactory, new CamelCaseToSnakeCaseNameConverter),
-        )];
+        ), new ArrayDenormalizer()];
 
         $serializer = new Serializer($nomalizer, $encoders);
 
