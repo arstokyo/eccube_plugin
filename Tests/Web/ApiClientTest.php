@@ -182,7 +182,6 @@ class ApiClientTest extends AbstractAdminWebTestCase
         // Get the soap_serializer service
         $soapSerializer = $container->getParameter('soap_xml_serializer');
         
-        var_dump($soapSerializer);
         return $soapSerializer;
         
     }
@@ -210,8 +209,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
 
         $dto = $serializer->denormalize($configs, \Plugin\AceClient\Config\Model\SoapXmlSerializerModel::class);
         echo($dto->getXmlns());
-        var_dump($dto);
-
+        var_dump($dto->getDefaultSerializeOptions());
     }
 
 }
