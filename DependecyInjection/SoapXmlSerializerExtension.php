@@ -17,6 +17,8 @@ class SoapXmlSerializerExtension extends Extension
         
         $loader = new YamlFileLoader($container, new FileLocator(ConfigFileMapper::ROOT_CONFIG_PATH));
         $loader->load(ConfigFileMapper::SOAP_SERIALIZER_FILE_NAME);
+
+        $container->setParameter('soap_serializer.XMLNS', $processedConfig['XMLNS']);
         
         // Your code here
     }
