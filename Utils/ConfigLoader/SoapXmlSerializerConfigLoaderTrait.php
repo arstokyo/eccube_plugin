@@ -24,7 +24,7 @@ trait SoapXmlSerializerConfigLoaderTrait
      * 
      * @return string
      */
-    protected function getConfigModelClass(): string
+    protected function getConfigModelClassName(): string
     {
         return SoapXmlSerializerModel::class;
     }

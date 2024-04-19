@@ -11,18 +11,18 @@ trait BaseConfigLoaderTrait
     use DTODenormalizerTrait;
 
     /**
-     * Returns The Configuration Node Name.
+     * Returns The Configuration Root Node Name.
      * 
      * @return string
      */
     abstract protected function getConfigRootNodeName(): string;
 
     /**
-     * Returns The Configuration Model Class.
+     * Returns The Configuration Model Class Name.
      * 
      * @return string
      */
-    abstract protected function getConfigModelClass(): string;
+    abstract protected function getConfigModelClassName(): string;
 
     /**
      * Loads the configuration.
@@ -32,7 +32,7 @@ trait BaseConfigLoaderTrait
     public function loadConfig(): ConfigModelInterface
     {
         $configs = $this->parseConfigToArray();
-        return $this->denormalizeDTO($configs, $this->getConfigModelClass());
+        return $this->denormalizeDTO($configs, $this->getConfigModelClassName());
     }
 
     /**
@@ -42,8 +42,8 @@ trait BaseConfigLoaderTrait
      */
     private function parseConfigToArray(): array
     {
-        $container = ContainerBuilderFactory::makeAceExtensionContainer();
-        return $container->getParameter($this->getConfigRootNodeName());
+        return ContainerBuilderFactory::makeAceExtensionContainer()
+                                       ->getParameter($this->getConfigRootNodeName());
     }
 
 }
