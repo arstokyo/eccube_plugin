@@ -9,7 +9,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 class SoapXmlSerializerModel implements ConfigModelInterface
 {
     #[SerializedName("xmlns")]
-    private string $xmlns;
+    private array $xmlns;
 
     #[SerializedName("default_serialize_options")]
     private array $defaultSerializeOptions;
@@ -23,9 +23,9 @@ class SoapXmlSerializerModel implements ConfigModelInterface
     /**
      * Get the value of xmlns
      * 
-     * @return string
+     * @return array
      */
-    public function getXmlns(): string
+    public function getXmlns(): array
     {
         return $this->xmlns;
     }
@@ -35,7 +35,7 @@ class SoapXmlSerializerModel implements ConfigModelInterface
      *
      * @return  void
      */
-    public function setXmlns(string $xmlns): void
+    public function setXmlns(array $xmlns): void
     {
         $this->xmlns = $xmlns;
     }
