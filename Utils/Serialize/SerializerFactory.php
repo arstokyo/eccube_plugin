@@ -14,7 +14,7 @@ class SerializerFactory
     /**
      * Make Xml Serializer
      * 
-     * @return SerializerInterface
+     * @return Serializer
      */
     public static function makeXmlSerializer(): SerializerInterface {
         return self::makeSerializer(new XmlEncoder());
@@ -23,7 +23,7 @@ class SerializerFactory
     /**
      * Make Json Serializer
      * 
-     * @return SerializerInterface
+     * @return Serializer
      */
     public static function makeJsonSerializer(): SerializerInterface {
         return self::makeSerializer(new JsonEncoder());
