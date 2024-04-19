@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\Utils\DependecyInjection;
+namespace Plugin\AceClient\DependecyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
