@@ -196,8 +196,16 @@ class ApiClientTest extends AbstractAdminWebTestCase
 
     public function testDenormailize()
     {
+        $classMetadataFactory = new ClassMetaDataFactory(
+            new AnnotationLoader(new AnnotationReader())
+        );
+        $metadataAwareNameConverter = new MetadataAwareNameConverter($classMetadataFactory);
+        $encoders = [new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer($classMetadataFactory, $metadataAwareNameConverter)];
+
+        $serializer = new Serializer($normalizers, $encoders);
         $configs = $this->getConfigArray();
-        $serializer = new Serializer( normalizers: [new Normalizer()], encoders: []);
+        
         $dto = $serializer->denormalize($configs, \Plugin\AceClient\Config\Model\SoapXmlSerializerModel::class);
         var_dump($dto);
 
