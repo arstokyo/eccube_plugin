@@ -183,7 +183,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
         $extension->load([], $container);
 
         // Get the soap_serializer service
-        $soapSerializer = $container->getExtensionConfig('soap_serializer.XMLNS');
+        $soapSerializer = $container->getExtensionConfig('soap_xml_serializer.XMLNS');
         echo $soapSerializer;
         
     }
