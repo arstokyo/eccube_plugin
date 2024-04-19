@@ -104,10 +104,8 @@ class SoapXmlSerializerModel implements ConfigModelInterface
     {
         if (\in_array(XmlEncoder::ENCODER_IGNORED_NODE_TYPES, $defaultSerializeOptions)) {
             $var = $defaultSerializeOptions[XmlEncoder::ENCODER_IGNORED_NODE_TYPES];
-            foreach($defaultSerializeOptions as $key => $value) {
-                if ($key === XmlEncoder::ENCODER_IGNORED_NODE_TYPES) {
-                    $defaultSerializeOptions[$key] = \constant($value);
-                }
+            foreach($defaultSerializeOptions[XmlEncoder::ENCODER_IGNORED_NODE_TYPES] as $key => $value) {
+                $defaultSerializeOptions[XmlEncoder::ENCODER_IGNORED_NODE_TYPES][$key] = constant($value);
             }
         }
         return $defaultSerializeOptions;
