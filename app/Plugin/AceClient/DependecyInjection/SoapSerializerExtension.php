@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\Utils\DependecyInjection;
+namespace Plugin\AceClient\DependecyInjection;
 
 use Plugin\AceClient\Utils\Mapper\ConfigFileMapper;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
