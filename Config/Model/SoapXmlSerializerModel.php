@@ -8,16 +8,16 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 class SoapXmlSerializerModel implements ConfigModelInterface
 {
-    #[SerializedName(name:"xmlns")]
+    #[SerializedName("xmlns")]
     private string $xmlns;
-    
-    #[SerializedName(name:"default_serialize_options")]
+
+    #[SerializedName("default_serialize_options")]
     private array $defaultSerializeOptions;
 
-    #[SerializedName(name:"request_soap_header")]
+    #[SerializedName("request_soap_header")]
     private string $requestSoapHeader;
     
-    #[SerializedName(name:"request_soap_end")]
+    #[SerializedName("request_soap_end")]
     private string $requestSoapEnd;
 
     public function getXmlns(): string

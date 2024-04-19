@@ -202,7 +202,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
         $nomalizer = [new ObjectNormalizer(
             classMetadataFactory: $classMetadataFactory ,
             nameConverter: new MetadataAwareNameConverter($classMetadataFactory, new CamelCaseToSnakeCaseNameConverter),
-        ), new ArrayDenormalizer()];
+        )];
 
         $serializer = new Serializer($nomalizer, $encoders);
 
