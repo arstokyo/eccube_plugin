@@ -199,13 +199,13 @@ class ApiClientTest extends AbstractAdminWebTestCase
         $classMetadataFactory = new ClassMetaDataFactory(
             new AnnotationLoader(new AnnotationReader())
         );
-        $metadataAwareNameConverter = new MetadataAwareNameConverter($classMetadataFactory);
+        $metadataAwareNameConverter = new MetadataAwareNameConverter($classMetadataFactory, new CamelCaseToSnakeCaseNameConverter);
         $encoders = [new JsonEncoder()];
         $normalizers = [new ObjectNormalizer($classMetadataFactory, $metadataAwareNameConverter)];
 
         $serializer = new Serializer($normalizers, $encoders);
         $configs = $this->getConfigArray();
-        
+
         $dto = $serializer->denormalize($configs, \Plugin\AceClient\Config\Model\SoapXmlSerializerModel::class);
         var_dump($dto);
 
