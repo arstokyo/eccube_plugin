@@ -58,7 +58,9 @@ class SoapSerializer implements SoapSerializerInterface
      * @param Request\RequestModelInterface $data
      */
     private function serializeWithOptions($data, string $format, array $context = []): string{
-        return $this->serializer->serialize( \array_merge( $this->config->getXmlns()
+        $test = \array_merge($this->config->getXmlns()
+                             ,['#' => $data]);
+        return $this->serializer->serialize( \array_merge($this->config->getXmlns()
                                                          ,['#' => $data])
                                             , $format
                                             , $context ?: \array_merge(['xml_root_node_name'=>$data->getXmlNodeName()],
