@@ -168,7 +168,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
         }
     }
 
-    public function testLoadSoapSerializerConfig() 
+    public function getConfigArray() 
     {
 
         $extension = new AceClientExtension();
@@ -179,9 +179,10 @@ class ApiClientTest extends AbstractAdminWebTestCase
         $extension->load([], $container);
 
         // Get the soap_serializer service
-        $soapSerializer = $container->getParameter('soap_xml_serializer')['request_soap_header'];
+        $soapSerializer = $container->getParameter('soap_xml_serializer');
         
         var_dump($soapSerializer);
+        return $soapSerializer;
         
     }
 
@@ -191,6 +192,15 @@ class ApiClientTest extends AbstractAdminWebTestCase
         $container = new ContainerBuilder();
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../Resource/Config'));
         $loader->load('SoapSerializer.yaml');
+    }
+
+    public function testDenormailize()
+    {
+        $configs = $this->getConfigArray();
+        $serializer = new Serializer( normalizers: [new Normalizer()], encoders: []);
+        $dto = $serializer->denormalize($configs, \Plugin\AceClient\Config\Model\SoapXmlSerializerModel::class);
+        var_dump($dto);
+
     }
 
 }
