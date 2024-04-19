@@ -41,7 +41,7 @@ class SoapSerializer implements SoapSerializerInterface
     public function serialize($data, string $format = 'xml', array $context = [])
     {
         if (!$data instanceof RequestModelInterface) {
-            throw new NotCompatibleArgument(sprintf('Input Data Object Not Compatible. Respected Data Type "%s"', RequestModelInterface::class));
+            throw new NotCompatibleArgument(sprintf('Data Object Not Compatible. Respected Object Type "%s"', RequestModelInterface::class));
         }
         return $this->compileWithSoapHeader($this->serializeWithOptions($data, $format, $context));
     }
