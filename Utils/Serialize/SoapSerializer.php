@@ -8,27 +8,27 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Plugin\AceClient\AceServices\Model\Request;
 use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient\Exception;
+use Plugin\AceClient\Config\Model\SoapXmlSerializerModel;
+use Plugin\AceClient\Utils\ConfigLoader\SoapXmlSerializerConfigLoaderTrait;
 
 class SoapSerializer implements SoapSerializerInterface
 {
+    /**
+     * @var SerializerInterface $serializer
+     */
     private SerializerInterface $serializer;
 
-    private const XMLNS = ['@xmlns' => 'http://ar-system-api.co.jp/'];
-    private const DEFAULT_SERIALIZE_OPTIONS = [ 'xml_format_output' => true,
-                                                'xml_encoding' => 'utf-8',
-                                                'encoder_ignored_node_types' =>  [
-                                                    \XML_PI_NODE, // removes XML declaration (the leading xml tag)
-                                              ],];
-    private const REQ_SOAP_HEAD = '<?xml version="1.0" encoding="utf-8"?>
-                                   <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
-                                   <soap12:Body>';
-    private const REQ_SOAP_END =  '</soap12:Body>
-                                   </soap12:Envelope>';
+    /**
+     * @var SoapXmlSerializerModel $config
+     */
+    private SoapXmlSerializerModel $config;
+    
+    use SoapXmlSerializerConfigLoaderTrait;
 
     public function __construct(array $nomalizer = [], array $encoders = [new XmlEncoder()]) 
     {
         $this->serializer = new Serializer($nomalizer, $encoders);
+        $this->config = $this->loadConfig();
     }
 
     /**
@@ -58,16 +58,16 @@ class SoapSerializer implements SoapSerializerInterface
      * @param Request\RequestModelInterface $data
      */
     private function serializeWithOptions($data, string $format, array $context = []): string{
-        return $this->serializer->serialize(\array_merge(self::XMLNS,['#' => $data]),
+        return $this->serializer->serialize(\array_merge($this->config->getXmlns(),['#' => $data]),
                                             $format,
                                             $context ?: \array_merge(['xml_root_node_name'=>$data->getXmlNodeName()],
-                                                                       self::DEFAULT_SERIALIZE_OPTIONS,)
+                                                                       $this->config->getDefaultSerializeOptions(),)
                                             ,);
     }
 
     private function compileWithSoapHeader(string $data): string
     {
-        return self::REQ_SOAP_HEAD . $data . self::REQ_SOAP_END;
+        return $this->config->getRequestSoapHeader() . $data . $this->config->getRequestSoapEnd();
     }
 
 }

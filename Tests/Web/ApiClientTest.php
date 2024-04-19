@@ -29,6 +29,7 @@ use Plugin\AceClient\DependecyInjection\AceClientExtension;
 use Plugin\AceClient\DependecyInjection\SoapSerializerConfiguration;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;
+use Plugin\AceClient\Utils\Normalize\NormalizerFactory;
 
 
 class ApiClientTest extends AbstractAdminWebTestCase
@@ -146,12 +147,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
     public function testSoapSerializer() 
     {
 
-        $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader));
-        $nomalizer = [new ObjectNormalizer(
-            classMetadataFactory: $classMetadataFactory ,
-            nameConverter: new MetadataAwareNameConverter($classMetadataFactory, new CamelCaseToSnakeCaseNameConverter),
-        )];
-
+        $nomalizer = NormalizerFactory::makeAnnotationNormalizers();
         $serializer = new SoapSerializer($nomalizer);
         $result = $serializer->serialize($this->getRequestContent());
         echo $result;
