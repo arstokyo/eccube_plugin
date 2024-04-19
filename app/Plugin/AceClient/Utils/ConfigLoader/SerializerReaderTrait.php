@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\Utils\ConfigLoader;
 
-use Plugin\AceClient\Utils\Mapper\ConfigPathMapper;
+use Plugin\AceClient\Utils\Mapper\ConfigFileMapper;
 
 trait SerializerReaderTrait
 {
@@ -11,7 +11,7 @@ trait SerializerReaderTrait
 
     protected function getConfigPath(): string
     {
-        return ConfigPathMapper::SERIALIZE_PATH;
+        return ConfigFileMapper::SERIALIZE_PATH;
     }
 
 }
