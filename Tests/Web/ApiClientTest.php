@@ -171,9 +171,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
     public function testLoadSoapSerializerConfig() 
     {
 
-        // Create a new SoapSerializerExtension instance
         $extension = new AceClientExtension();
-         // Create a new ContainerBuilder instance
         $container = new ContainerBuilder();
         $container->registerExtension($extension);
 
