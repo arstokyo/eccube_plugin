@@ -12,7 +12,7 @@ trait AsXmlTrait
         try {
             $context = $serializer->serialize($this,'xml',$this->setXmlSerializeOptions());
         } catch(\Throwable $e) {
-            throw new SerializeException(sprintf('Could not serialize class "%s" to XML', self::class));
+            throw new SerializeException(sprintf('Could not serialize class "%s" to XML '."\n".'Detail Error Message: "%s"',self::class ,$e->getMessage()));
         };
         return $context;
     }
