@@ -134,14 +134,14 @@ class ApiClientTest extends AbstractAdminWebTestCase
 
     private function createHttpClient(): GuzzleHttp\ClientInterface
     {
-        // return new GuzzleHttp\Client(['base_uri'        => 'http://192.168.0.81:55667/',
-        //                                'timeout'         => 600,
-        //                                'allow_redirects' => false,]
-        //                             );
-                return new GuzzleHttp\Client(['base_uri'        => 'http://192.168.0.77:20443/',
+        return new GuzzleHttp\Client(['base_uri'        => 'http://192.168.0.81:55667/',
                                        'timeout'         => 600,
                                        'allow_redirects' => false,]
                                     );
+                // return new GuzzleHttp\Client(['base_uri'        => 'http://192.168.0.77:20443/',
+                //                        'timeout'         => 600,
+                //                        'allow_redirects' => false,]
+                //                     );
     }
 
     public function testSoapSerializer() 

@@ -43,8 +43,7 @@ class SoapSerializer implements SoapSerializerInterface
         if (!$data instanceof RequestModelInterface) {
             throw new NotCompatibleArgument(sprintf('Input Data Object Not Compatible. Respected Data Type "%s"', RequestModelInterface::class));
         }
-        // return $this->compileWithSoapHeader($this->serializeWithOptions($data, $format, $context));
-        return $this->serializeWithOptions($data, $format, $context);
+        return $this->compileWithSoapHeader($this->serializeWithOptions($data, $format, $context));
     }
 
     public function deserialize($data, string $type, string $format, array $context = [])
@@ -64,16 +63,6 @@ class SoapSerializer implements SoapSerializerInterface
                                             , $context ?: \array_merge(['xml_root_node_name'=>$data->getXmlNodeName()],
                                                                        $this->config->getDefaultSerializeOptions(),)
                                             ,);
-        // return $this->serializer->serialize( \array_merge($this->config->getXmlns()
-        //                                     ,['#' => $data])
-        //                                     , $format
-        //                                     , $context ?: \array_merge(['xml_root_node_name'=>$data->getXmlNodeName()],
-        //                                                                [ 'xml_format_output' => true,
-        //                                                                  'xml_encoding' => 'utf-8',
-        //                                                                  'encoder_ignored_node_types' =>  [
-        //                                                                     \XML_PI_NODE, // removes XML declaration (the leading xml tag)
-        //                                                                 ],],)
-        //                                     ,);
     }
 
     private function compileWithSoapHeader(string $data): string
