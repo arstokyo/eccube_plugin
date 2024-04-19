@@ -2,7 +2,6 @@ parameters:
   soap_xml_serializer:
     XMLNS: "http://ar-system-api.co.jp/"
     DEFAULT_SERIALIZE_OPTIONS:
-      options:
-        - option1: value1
-        - option2: value2
-        - option3: value3
+      - option1: value1
+      - option2: value2
+      - option3: value3
