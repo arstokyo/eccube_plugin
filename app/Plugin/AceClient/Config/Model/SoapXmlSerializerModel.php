@@ -100,6 +100,13 @@ class SoapXmlSerializerModel implements ConfigModelInterface
         $this->requestSoapEnd = $requestSoapEnd;
     }
 
+    /**
+     * Convert XML Constants
+     * 
+     * @param array $defaultSerializeOptions
+     * 
+     * @return array
+     */
     private function convertXMLConst(array $defaultSerializeOptions): array
     {
         if (\in_array(XmlEncoder::ENCODER_IGNORED_NODE_TYPES, $defaultSerializeOptions)) {
