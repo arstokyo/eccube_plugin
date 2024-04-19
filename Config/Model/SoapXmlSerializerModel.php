@@ -3,8 +3,8 @@
 namespace Plugin\AceClient\Config\Model;
 
 use Plugin\AceClient\Config\Model\ConfigModelInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
 
 class SoapXmlSerializerModel implements ConfigModelInterface
 {
@@ -57,7 +57,7 @@ class SoapXmlSerializerModel implements ConfigModelInterface
      */
     public function setDefaultSerializeOptions(array $defaultSerializeOptions): void
     {
-        $this->defaultSerializeOptions = $defaultSerializeOptions;
+        $this->defaultSerializeOptions = $this->convertXMLConst($defaultSerializeOptions);
     }
     
     /**
@@ -99,5 +99,14 @@ class SoapXmlSerializerModel implements ConfigModelInterface
     {
         $this->requestSoapEnd = $requestSoapEnd;
     }
+
+    private function convertXMLConst(array $defaultSerializeOptions): array
+    {
+        if (\in_array(XmlEncoder::ENCODER_IGNORED_NODE_TYPES, $defaultSerializeOptions)) {
+            $defaultSerializeOptions[XmlEncoder::ENCODER_IGNORED_NODE_TYPES] = \constant($defaultSerializeOptions[XmlEncoder::ENCODER_IGNORED_NODE_TYPES]);
+        }
+        return $defaultSerializeOptions;
+    }
+
 }
 
