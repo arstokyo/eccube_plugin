@@ -25,7 +25,7 @@ trait AsXmlTrait
         try {
             $context = $serializer->serialize($this,'xml',$this->setXmlSerializeOptions());
         } catch(\Throwable $e) {
-            throw new SerializeException("Could not serialize class '".\get_class($this)."' to XML"."\n". $e->getMessage());
+            throw new SerializeException(sprintf('Could not serialize class "%s" to XML', self::class));
         };
         return $context;
     }
