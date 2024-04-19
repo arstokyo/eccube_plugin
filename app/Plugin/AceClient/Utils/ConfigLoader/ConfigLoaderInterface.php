@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\Utils\ConfigLoader;
 
-interface ConfigReaderInterface
+interface ConfigLoaderInterface
 {
     public static function read(string $path): mixed;
 }
