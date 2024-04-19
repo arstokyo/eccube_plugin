@@ -157,7 +157,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
             'body'    => $result,
         ];
         try {
-            $response = $this->httpClient->request('POST','/ACEXML/Jyuden/service2.asmx', $request);
+            $response = $this->httpClient->request('POST','/service2.asmx', $request);
             $responseContent = $response->getBody()->getContents();
             var_dump($responseContent);
         } catch(\Exception $e) {
