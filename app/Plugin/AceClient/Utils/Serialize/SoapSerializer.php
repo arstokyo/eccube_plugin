@@ -41,7 +41,7 @@ class SoapSerializer implements SoapSerializerInterface
     public function serialize($data, string $format = 'xml', array $context = [])
     {
         if (!$data instanceof RequestModelInterface) {
-            throw new NotCompatibleArgument("Input Data Object Not Compatible. Respected Data Type:'".RequestModelInterface::class."'");
+            throw new NotCompatibleArgument(sprintf('Input Data Object Not Compatible. Respected Data Type "%s"', RequestModelInterface::class));
         }
         return $this->compileWithSoapHeader($this->serializeWithOptions($data, $format, $context));
         
@@ -60,9 +60,9 @@ class SoapSerializer implements SoapSerializerInterface
     private function serializeWithOptions($data, string $format, array $context = []): string{
         return $this->serializer->serialize(\array_merge(self::XMLNS,['#' => $data]),
                                             $format,
-                                            (!empty($context) ?  $context :
-                                              \array_merge(['xml_root_node_name'=>$data->getXmlNodeName()],
-                                                             self::DEFAULT_SERIALIZE_OPTIONS,)));
+                                            $context ?: \array_merge(['xml_root_node_name'=>$data->getXmlNodeName()],
+                                                                       self::DEFAULT_SERIALIZE_OPTIONS,)
+                                            ,);
     }
 
     private function compileWithSoapHeader(string $data): string

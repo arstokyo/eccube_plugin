@@ -1,0 +1,7 @@
+soap_serializer:
+  XMLNS: "http://www.example.com/soap"
+  DEFAULT_SERIALIZE_OPTIONS:
+    options:
+      - option1: value1
+      - option2: value2
+      - option3: value3
