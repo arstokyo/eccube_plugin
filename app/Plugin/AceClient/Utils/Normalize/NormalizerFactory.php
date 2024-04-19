@@ -22,6 +22,7 @@ class NormalizerFactory
         $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader));
         return [new ObjectNormalizer(
                     classMetadataFactory: $classMetadataFactory ,
-                    nameConverter: new MetadataAwareNameConverter($classMetadataFactory, new CamelCaseToSnakeCaseNameConverter),)];
+                    nameConverter: new MetadataAwareNameConverter($classMetadataFactory, new CamelCaseToSnakeCaseNameConverter)
+                ,)];
     }
 }
