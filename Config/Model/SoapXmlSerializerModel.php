@@ -3,12 +3,21 @@
 namespace Plugin\AceClient\Config\Model;
 
 use Plugin\AceClient\Config\Model\ConfigModelInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 class SoapXmlSerializerModel implements ConfigModelInterface
 {
+    #[SerializedName(name:"xmlns")]
     private string $xmlns;
+    
+    #[SerializedName(name:"default_serialize_options")]
     private array $defaultSerializeOptions;
+
+    #[SerializedName(name:"request_soap_header")]
     private string $requestSoapHeader;
+    
+    #[SerializedName(name:"request_soap_end")]
     private string $requestSoapEnd;
 
     public function getXmlns(): string
