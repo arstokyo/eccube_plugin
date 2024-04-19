@@ -1,7 +1,8 @@
 parameters:
   soap_xml_serializer:
-    XMLNS: "http://ar-system-api.co.jp/"
-    DEFAULT_SERIALIZE_OPTIONS:
-      - option1: value1
-      - option2: value2
-      - option3: value3
+    xmlns: "http://ar-system-api.co.jp/"
+    default_serialize_options:
+      - xml_format_output: true
+      - xml_encoding: utf-8
+      - encoder_ignored_node_types: 
+        - \XML_PI_NODE
