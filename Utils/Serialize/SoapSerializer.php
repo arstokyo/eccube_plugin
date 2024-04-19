@@ -58,22 +58,22 @@ class SoapSerializer implements SoapSerializerInterface
      * @param Request\RequestModelInterface $data
      */
     private function serializeWithOptions($data, string $format, array $context = []): string{
-        // return $this->serializer->serialize( \array_merge($this->config->getXmlns()
-        //                                                  ,['#' => $data])
-        //                                     , $format
-        //                                     , $context ?: \array_merge(['xml_root_node_name'=>$data->getXmlNodeName()],
-        //                                                                $this->config->getDefaultSerializeOptions(),)
-        //                                     ,);
         return $this->serializer->serialize( \array_merge($this->config->getXmlns()
-                                            ,['#' => $data])
+                                                         ,['#' => $data])
                                             , $format
                                             , $context ?: \array_merge(['xml_root_node_name'=>$data->getXmlNodeName()],
-                                                                       [ 'xml_format_output' => true,
-                                                                         'xml_encoding' => 'utf-8',
-                                                                         'encoder_ignored_node_types' =>  [
-                                                                            \XML_PI_NODE, // removes XML declaration (the leading xml tag)
-                                                                        ],],)
+                                                                       $this->config->getDefaultSerializeOptions(),)
                                             ,);
+        // return $this->serializer->serialize( \array_merge($this->config->getXmlns()
+        //                                     ,['#' => $data])
+        //                                     , $format
+        //                                     , $context ?: \array_merge(['xml_root_node_name'=>$data->getXmlNodeName()],
+        //                                                                [ 'xml_format_output' => true,
+        //                                                                  'xml_encoding' => 'utf-8',
+        //                                                                  'encoder_ignored_node_types' =>  [
+        //                                                                     \XML_PI_NODE, // removes XML declaration (the leading xml tag)
+        //                                                                 ],],)
+        //                                     ,);
     }
 
     private function compileWithSoapHeader(string $data): string
