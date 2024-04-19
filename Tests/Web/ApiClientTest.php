@@ -26,6 +26,8 @@ use GuzzleHttp;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Plugin\AceClient\DependecyInjection\SoapSerializerExtension;
 use Plugin\AceClient\DependecyInjection\SoapSerializerConfiguration;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\Config\FileLocator;
 
 
 class ApiClientTest extends AbstractAdminWebTestCase
@@ -179,6 +181,14 @@ class ApiClientTest extends AbstractAdminWebTestCase
 
         // Get the soap_serializer service
         $soapSerializer = $container->get('ace_client.soap_serializer');
+    }
+
+    public function loadyamlfile()
+    {
+        // Create a new ContainerBuilder instance
+        $container = new ContainerBuilder();
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../Resource/Config'));
+        $loader->load('SoapSerializer.yaml');
     }
 
 }
