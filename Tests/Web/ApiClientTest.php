@@ -209,6 +209,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
         $configs = $this->getConfigArray();
 
         $dto = $serializer->denormalize($configs, \Plugin\AceClient\Config\Model\SoapXmlSerializerModel::class);
+        echo($dto->getXmlns());
         var_dump($dto);
 
     }
