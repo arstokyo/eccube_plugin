@@ -12,7 +12,7 @@ class SoapXmlSerializerExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
-        $configuration = new SoapXmlSerializerConfiguration();
+        // $configuration = new SoapXmlSerializerConfiguration();
         // $processedConfig = $this->processConfiguration($configuration, $configs);
         
         $loader = new YamlFileLoader($container, new FileLocator(ConfigFileMapper::ROOT_CONFIG_PATH));
