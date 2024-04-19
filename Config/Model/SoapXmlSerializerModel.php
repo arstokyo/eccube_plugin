@@ -103,7 +103,8 @@ class SoapXmlSerializerModel implements ConfigModelInterface
     private function convertXMLConst(array $defaultSerializeOptions): array
     {
         if (\in_array(XmlEncoder::ENCODER_IGNORED_NODE_TYPES, $defaultSerializeOptions)) {
-            $defaultSerializeOptions[XmlEncoder::ENCODER_IGNORED_NODE_TYPES] = \constant($defaultSerializeOptions[XmlEncoder::ENCODER_IGNORED_NODE_TYPES]);
+            $var = $defaultSerializeOptions[XmlEncoder::ENCODER_IGNORED_NODE_TYPES];
+            $defaultSerializeOptions[XmlEncoder::ENCODER_IGNORED_NODE_TYPES] = \constant(($defaultSerializeOptions[XmlEncoder::ENCODER_IGNORED_NODE_TYPES]));
         }
         return $defaultSerializeOptions;
     }
