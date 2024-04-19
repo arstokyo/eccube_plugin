@@ -23,6 +23,9 @@ use \Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverte
 use Doctrine\Common\Annotations\AnnotationReader;
 use Plugin\AceClient\Utils\Serialize\SoapSerializer;
 use GuzzleHttp;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Plugin\AceClient\Utils\DependecyInjection\SoapSerializerExtension;
+use Plugin\AceClient\Utils\DependecyInjection\SoapSerializerConfiguration;
 
 
 class ApiClientTest extends AbstractAdminWebTestCase
@@ -161,6 +164,21 @@ class ApiClientTest extends AbstractAdminWebTestCase
         } catch(\Exception $e) {
             echo $e->getMessage();
         }
+    }
+
+    public function testLoadSoapSerializerConfig() 
+    {
+         // Create a new ContainerBuilder instance
+        $container = new ContainerBuilder();
+
+        // Create a new SoapSerializerExtension instance
+        $extension = new SoapSerializerExtension();
+
+        // Load the configuration
+        $extension->load([], $container);
+
+        // Get the soap_serializer service
+        $soapSerializer = $container->get('ace_client.soap_serializer');
     }
 
 }
