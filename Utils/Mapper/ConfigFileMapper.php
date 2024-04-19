@@ -11,5 +11,5 @@ class ConfigFileMapper
 
     const ACE_SERVICE = self::ROOT_CONFIG_PATH.'AceService.yaml';
 
-    const SOAP_SERIALIZER_FILE_NAME = 'SoapSerializer.yaml';
+    const SOAP_SERIALIZER_FILE_NAME = 'SoapXmlSerializer.yaml';
 }
