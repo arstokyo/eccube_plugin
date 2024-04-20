@@ -26,7 +26,7 @@ trait DTODenormalizerTrait
      */
     protected function denormalizeDTO($data, string $type, string $format = null, array $context = []): ConfigModelInterface
     {
-        if (!$this->getSerializer()) {
+        if (!$this->serializer) {
             $this->serializer = SerializerFactory::makeJsonSerializer();
         }
         return $this->serializer->denormalize($data, $type, $format, $context);
@@ -49,7 +49,7 @@ trait DTODenormalizerTrait
      */
     protected function getSerializer(): ?SerializerInterface
     {
-        return $this->serializer;
+        return $this->serializer ?? null;
     }
 
 }
