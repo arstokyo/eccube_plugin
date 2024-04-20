@@ -1,4 +1,17 @@
 parameters:
+
+  prm_otd_format:
+    default: 
+        format: 'xml'
+        options: 
+            xml_format_output: true
+            xml_encoding: 'utf-8'
+            encoder_ignored_node_types: 
+                - \XML_PI_NODE
+    overrides:
+        - Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart: 
+            format: 'json'
+
   soap_xml_serializer:
     xmlns: 
       '@xmlns': "http://ar-system-api.co.jp/"

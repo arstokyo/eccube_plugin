@@ -4,9 +4,16 @@ namespace Plugin\AceClient\Utils\Denormalize;
 
 use Plugin\AceClient\Utils\Serialize\SerializerFactory;
 use Plugin\AceClient\Config\Model\ConfigModelInterface;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Serializer;
 
 trait DTODenormalizerTrait
 {
+    /**
+     * @var Serializer $serializer
+     */
+    private SerializerInterface $serializer;
+    
     /**
      * Deserializes data into the given type.
      * 
@@ -19,6 +26,20 @@ trait DTODenormalizerTrait
      */
     protected function denormalizeDTO($data, string $type, string $format = null, array $context = []): ConfigModelInterface
     {
-        return SerializerFactory::makeJsonSerializer()->denormalize($data, $type, $format, $context);
+        if (!isset($this->serializer)) {
+            $this->serializer = SerializerFactory::makeJsonSerializer();
+        }
+        return $this->serializer->denormalize($data, $type, $format, $context);
     }
+
+    /**
+     * Sets the Serializer.
+     * 
+     * @param SerializerInterface $serializer
+     */
+    protected function setSerializer(SerializerInterface $serializer): void
+    {
+        $this->serializer = $serializer;
+    }
+
 }
