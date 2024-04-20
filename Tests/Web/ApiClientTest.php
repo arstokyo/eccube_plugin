@@ -209,8 +209,8 @@ class ApiClientTest extends AbstractAdminWebTestCase
     }
 
     public function testLoadPrmDTOFormat() {
-        $addCart = new AddCartRequestModel();
-        var_dump($addCart);
+        $orderPrm = new OrderPrmModel();
+        var_dump($orderPrm);
     }
 
 }
