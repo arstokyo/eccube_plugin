@@ -43,18 +43,6 @@ class PrmOTDFormatModel implements ConfigModelInterface
         $this->default = $this->denormalizeDTO($default, PrmDetailFormatModel::class);
     }
 
-    //     /**
-    //  * Set the value of default
-    //  * 
-    //  * @param PrmDetailFormatModel[] $default
-    //  *
-    //  * @return 
-    //  */
-    // public function setDefault(array $default): void
-    // {
-    //     $this->default = $this->$default;
-    // }
-
     /**
      * Get the value of overrides
      * 
@@ -65,29 +53,18 @@ class PrmOTDFormatModel implements ConfigModelInterface
         return $this->overrides;
     }
 
-    // /**
-    //  * Set the value of overrides
-    //  *
-    //  * @param array|null $overrides
-    //  * 
-    //  * @return void
-    //  */
-    // public function setOverrides(array|null $overrides): void
-    // {
-    //     $this->overrides = $overrides ? $this->denormalizeADTAO($overrides, PrmDetailFormatModel::class) : [];
-    // }
-
     /**
      * Set the value of overrides
      *
-     * @param array $overrides
+     * @param array|null $overrides
      * 
      * @return void
      */
-    public function setOverrides(array $overrides): void
+    public function setOverrides(array|null $overrides): void
     {
-        $this->overrides = $overrides;
+        $this->overrides = $overrides ? $this->denormalizeADTAO($overrides, PrmDetailFormatModel::class) : [];
     }
+
 
     /**
      * Get a specific override value
