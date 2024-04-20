@@ -66,9 +66,9 @@ class PrmOTDFormatModel implements ConfigModelInterface
      * 
      * @param string $classNameFQD
      * 
-     * @return PrmDetailFormatModel
+     * @return ?PrmDetailFormatModel
      */
-    public function getSpecificOverride(string $classNameFQD): PrmDetailFormatModel
+    public function getSpecificOverride(string $classNameFQD): ?PrmDetailFormatModel
     {
         return $this->overrides[$classNameFQD] ?? null;
     }
