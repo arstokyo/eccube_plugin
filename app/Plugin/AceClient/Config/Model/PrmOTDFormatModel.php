@@ -75,9 +75,11 @@ class PrmOTDFormatModel implements ConfigModelInterface
      */
     public function getSpecificOverride(string $classNameFQD): ?PrmDetailFormatModel
     {
-        foreach ($this->overrides as $key => $value) {
-            if (is_array($value) && array_key_exists($classNameFQD, $value)) {
-                return $value[$classNameFQD];
+        if (isset($this->overrides)) {
+            foreach ($this->overrides as $key => $value) {
+                if (is_array($value) && array_key_exists($classNameFQD, $value)) {
+                    return $value[$classNameFQD];
+                }
             }
         }
         return null;
