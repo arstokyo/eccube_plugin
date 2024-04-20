@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\Utils\ConfigLoader;
 
 use Plugin\AceClient\Utils\Mapper\ConfigNodeRootNameMapper;
-use Plugin\AceClient\COnfig\Model\PrmOTDFormatModel;
+use Plugin\AceClient\Config\Model\PrmOTDFormatModel;
 
 trait PrmOTDFormatConfigLoaderTrait
 {
