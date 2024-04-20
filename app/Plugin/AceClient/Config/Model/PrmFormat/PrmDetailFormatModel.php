@@ -9,7 +9,7 @@ class PrmDetailFormatModel implements ConfigModelInterface
     /**
      * @var string $format
      */
-    private string $format;
+    private ?string $format;
     /**
      * @var array $options
      */
@@ -30,7 +30,7 @@ class PrmDetailFormatModel implements ConfigModelInterface
      *
      * @return  void
      */
-    public function setFormat(string $format): void
+    public function setFormat(?string $format): void
     {
         $this->format = $format;
     }
