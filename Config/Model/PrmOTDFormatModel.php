@@ -31,27 +31,29 @@ class PrmOTDFormatModel implements ConfigModelInterface
         return $this->default;
     }
 
-    // /**
-    //  * Set the value of default
-    //  *
-    //  * @return  void
-    //  */
-    // public function setDefault(array $default): void
-    // {
-    //     $this->default = $this->denormalizeDTO($default, PrmDetailFormatModel::class);
-    // }
-
-        /**
+    /**
      * Set the value of default
-     * 
-     * @param PrmDetailFormatModel[] $default
      *
-     * @return 
+     * @param array $default
+     * 
+     * @return  void
      */
     public function setDefault(array $default): void
     {
-        $this->default = $this->$default;
+        $this->default = $this->denormalizeDTO($default, PrmDetailFormatModel::class);
     }
+
+    //     /**
+    //  * Set the value of default
+    //  * 
+    //  * @param PrmDetailFormatModel[] $default
+    //  *
+    //  * @return 
+    //  */
+    // public function setDefault(array $default): void
+    // {
+    //     $this->default = $this->$default;
+    // }
 
     /**
      * Get the value of overrides
