@@ -10,6 +10,7 @@ use Plugin\AceClient\AceServices\Model\Request;
 use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient\Config\Model\SoapXmlSerializer\SoapXmlSerializerModel;
 use Plugin\AceClient\Utils\ConfigLoader\SoapXmlSerializerConfigLoaderTrait;
+use Plugin\AceClient\Utils\Mapper\EncodeNameMapper;
 
 class SoapSerializer implements SoapSerializerInterface
 {
@@ -38,7 +39,7 @@ class SoapSerializer implements SoapSerializerInterface
      * 
      * @throws NotCompatibleArgument
      */
-    public function serialize($data, string $format = 'xml', array $context = [])
+    public function serialize($data, string $format = EncodeNameMapper::XML, array $context = [])
     {
         if (!$data instanceof RequestModelInterface) {
             throw new NotCompatibleArgument(sprintf('Data Object Not Compatible. Respected Object Type "%s"', RequestModelInterface::class));

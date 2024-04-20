@@ -4,13 +4,14 @@ namespace Plugin\AceClient\Utils\Serialize;
 
 use Plugin\AceClient\Exception\SerializeException;
 use Plugin\AceClient\Utils\Serialize\SerializerFactory;
+use Plugin\AceClient\Utils\Mapper\EncodeNameMapper;
 
 trait AsXmlTrait
 {
     public function asXML() : string {
         $serializer = SerializerFactory::makeXmlSerializer();
         try {
-            $context = $serializer->serialize($this,'xml',$this->setXmlSerializeOptions());
+            $context = $serializer->serialize($this, EncodeNameMapper::XML, $this->setXmlSerializeOptions());
         } catch(\Throwable $e) {
             throw new SerializeException(sprintf('Could not serialize class "%s" to XML '."\n".'Detail Error Message: "%s"',self::class ,$e->getMessage()));
         };
