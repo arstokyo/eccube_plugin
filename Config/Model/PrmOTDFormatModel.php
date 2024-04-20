@@ -36,7 +36,7 @@ class PrmOTDFormatModel implements ConfigModelInterface
      *
      * @return  void
      */
-    public function setDefault(string $default): void
+    public function setDefault(array $default): void
     {
         $this->default = $this->denormalizeDTO($default, PrmDetailFormatModel::class);
     }
