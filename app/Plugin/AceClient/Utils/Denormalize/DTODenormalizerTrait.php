@@ -49,7 +49,7 @@ trait DTODenormalizerTrait
      */
     protected function getSerializer(): ?SerializerInterface
     {
-        return $this->serializer ?? null;
+        return $this->serializer;
     }
 
 }
