@@ -23,7 +23,7 @@ trait DTODenormalizerTrait
      * @param string|null $format
      * @param array $context
      * 
-     * @return ConfigModelInterface
+     * @return ConfigModelInterface|ConfigModelInterface[]
      */
     final protected function denormalizeDTO($data, string $type, string $format = null, array $context = []): ConfigModelInterface|array
     {

@@ -8,7 +8,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Plugin\AceClient\AceServices\Model\Request;
 use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient\Config\Model\SoapXmlSerializerModel;
+use Plugin\AceClient\Config\Model\SoapXmlSerializer\SoapXmlSerializerModel;
 use Plugin\AceClient\Utils\ConfigLoader\SoapXmlSerializerConfigLoaderTrait;
 
 class SoapSerializer implements SoapSerializerInterface

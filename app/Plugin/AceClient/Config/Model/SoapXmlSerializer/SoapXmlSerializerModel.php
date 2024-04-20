@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\Config\Model;
+namespace Plugin\AceClient\Config\Model\SoapXmlSerializer;
 
 use Plugin\AceClient\Config\Model\ConfigModelInterface;
 use Symfony\Component\Serializer\Annotation\SerializedName;

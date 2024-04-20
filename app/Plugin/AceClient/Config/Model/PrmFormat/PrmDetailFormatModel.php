@@ -1,6 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\Config\Model;
+namespace Plugin\AceClient\Config\Model\PrmFormat;
+
+use Plugin\AceClient\Config\Model\ConfigModelInterface;
 
 class PrmDetailFormatModel implements ConfigModelInterface
 {
