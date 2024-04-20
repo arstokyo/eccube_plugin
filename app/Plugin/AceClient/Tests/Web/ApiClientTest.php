@@ -208,4 +208,9 @@ class ApiClientTest extends AbstractAdminWebTestCase
         var_dump($dto->getDefaultSerializeOptions());
     }
 
+    public function testLoadPrmDTOFormat() {
+        $addCart = new AddCartRequestModel();
+        var_dump($addCart);
+    }
+
 }
