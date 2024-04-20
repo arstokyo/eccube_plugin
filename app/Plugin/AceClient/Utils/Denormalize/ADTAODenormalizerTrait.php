@@ -30,7 +30,7 @@ trait ADTAODenormalizerTrait
         foreach ($result as $key => $value) {
             if (is_array($value)) {
                 foreach($value as $k => $v) {
-                    $result[$key][$k] = $this->denormalizeADTAO($v, $type, $format, $context);
+                    $result[$key][$k] = $this->denormalizeDTO($v, $type, $format, $context);
                 }
             }
         }
