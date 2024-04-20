@@ -54,13 +54,13 @@ class PrmOTDFormatModel implements ConfigModelInterface
     /**
      * Set the value of overrides
      *
-     * @param ?array $overrides
+     * @param array|null $overrides
      * 
      * @return void
      */
-    public function setOverrides(?array $overrides): void
+    public function setOverrides(array|null $overrides): void
     {
-        $this->overrides = $this->denormalizeADTAO($overrides, PrmDetailFormatModel::class);
+        $this->overrides = $overrides ? $this->denormalizeADTAO($overrides, PrmDetailFormatModel::class) : [];
     }
 
     /**
