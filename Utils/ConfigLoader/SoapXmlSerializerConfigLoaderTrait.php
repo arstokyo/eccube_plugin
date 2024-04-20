@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\Utils\ConfigLoader;
 
-use Plugin\AceClient\Config\Model\SoapXmlSerializerModel;
+use Plugin\AceClient\Config\Model\SoapXmlSerializer\SoapXmlSerializerModel;
 use Plugin\AceClient\Utils\Mapper\ConfigNodeRootNameMapper;
 
 trait SoapXmlSerializerConfigLoaderTrait

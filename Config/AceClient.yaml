@@ -4,7 +4,8 @@ parameters:
 
   prm_otd_format:
     default: 
-        format: 'xml'
+        # format: 'xml'
+        format: 
         options: 
             xml_format_output: true
             xml_encoding: 'utf-8'
