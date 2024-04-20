@@ -83,11 +83,11 @@ class AddCartRequestModel extends JyudenRequestAbstract implements AddCartReques
     /**
      * Get オーダー情報
      * 
-     * @return string
+     * @return string|null|object
      */
-    public function getPrm(): string
+    public function getPrm(): string|null|object
     {
-        return $this->prm->asXML();
+        return $this->prm->toData();
     }
 
     /**

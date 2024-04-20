@@ -2,14 +2,31 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request\Dependency;
 
-use Plugin\AceClient\Utils\Denormalize\OTDDenormalizerInterface;
-use Plugin\AceClient\Utils\Denormalize\OTDDelegate;
+use Plugin\AceClient\Utils\Denormalize\OTD\OTDDenormalizerInterface;
+use Plugin\AceClient\Utils\Denormalize\OTD\OTDDelegate;
 use Plugin\AceClient\Config\Model\PrmFormat\PrmOTDFormatModel;
 use Plugin\AceClient\Utils\ConfigLoader\PrmOTDFormatConfigLoaderTrait;
+use Plugin\AceClient\Utils\Mapper\EncodeDefineMapper;
+use Plugin\AceClient\Utils\Denormalize\OTD\OTDDenormalizerFactory;
 
 abstract class PrmModelRequestAbstract implements PrmModelRequestInterface
 {
     use PrmOTDFormatConfigLoaderTrait;
+
+    public const XML_FORMAT_NAME = EncodeDefineMapper::XML;
+    public const JSON_FORMAT_NAME = EncodeDefineMapper::JSON;
+
+    public const OBJECT_FORMAT = 'object';
+
+    /**
+     * @var string $format
+     */
+    private string $format = self::OBJECT_FORMAT;
+
+    /**
+     * @var array $denormalizeOptions
+     */
+    private array $denormalizeOptions = [];
 
     /**
      * @var OTDDenormalizerInterface $OTDDenomarlizer
@@ -33,10 +50,48 @@ abstract class PrmModelRequestAbstract implements PrmModelRequestInterface
     public function __construct()
     {
         $this->config = $this->loadConfig();
-        $format = $this->config->getSpecificOverride($this::class)->getFormat();
-        var_dump($format);
-        // $this->OTDDenomarlizer = $OTDDenomarlizer;
-        // $this->OTDDelegate = $OTDDelegate;
+        $this->loadFormat();
+        $this->initializeDenormalizer();
+        $this->OTDDelegate = new OTDDelegate($this, $this->denormalizeOptions);
+    }
+
+    /**
+     * Loads the Format.
+     * 
+     * @return void
+     */
+    private function loadFormat(): void
+    {
+        $specificFormat = null;    
+        if ($this->config->getSpecificOverride($this::class)) {
+            $specificFormat = $this->config->getSpecificOverride($this::class)->getFormat();
+        } 
+        
+        if (empty($specificFormat) && ($this->config->getDefault())) {
+            $specificFormat = $this->config->getDefault()->getFormat();
+        }
+        $this->format = $specificFormat ?: $this->format;
+    }
+
+    /**
+     * Initializes the Denormalizer.
+     * 
+     * @return void
+     */
+    private function initializeDenormalizer(): void
+    {
+        switch ($this->format) {
+            case self::XML_FORMAT_NAME:
+                $this->OTDDenomarlizer = OTDDenormalizerFactory::makeOTDXmlDenormalizer();
+                $this->denormalizeOptions = $this->buildXMlDenormalizeOptions();
+                break;
+            case self::JSON_FORMAT_NAME:
+                $this->OTDDenomarlizer = OTDDenormalizerFactory::makeOTDJsonDenormalizer();
+                $this->denormalizeOptions = $this->buildJsonDenormalizeOptions();
+                break;
+            default:
+                $this->OTDDenomarlizer = OTDDenormalizerFactory::makeOTDObjectDenormalizer();
+        }
     }
 
     /**
@@ -46,7 +101,25 @@ abstract class PrmModelRequestAbstract implements PrmModelRequestInterface
      */
     private function buildXMlDenormalizeOptions(): array
     {
-        return \array_merge($this->config->getOverrides(), ['xml_root_node_name' => $this->setXmlRootNodeName()]);
+        $options = [];
+        if ($this->config->getSpecificOverride($this::class)) {
+            $options = $this->config->getSpecificOverride($this::class)->getOptions();
+        }
+        if ((!$options) && ($this->config->getDefault()) && (self::XML_FORMAT_NAME === $this->config->getDefault()->getFormat() ?? '')) {
+            $options = $this->config->getDefault()->getOptions();
+        }
+        return \array_merge([EncodeDefineMapper::XML_ROOT_NODE_NAME => $this->setXmlRootNodeName()], $options ?? []);
+    }
+
+    /**
+     * Builds the JSON Denormalize Options.
+     * 
+     * @return array
+     */
+    private function buildJsonDenormalizeOptions(): array
+    {
+        // TODO: Implement buildJsonDenormalizeOptions() method.
+        return [];
     }
 
     /**
@@ -59,7 +132,7 @@ abstract class PrmModelRequestAbstract implements PrmModelRequestInterface
     /**
      * {@inheritDoc}
      */
-    public function toData(): mixed
+    public function toData(): string|null|object
     {
         return $this->OTDDenomarlizer->denormalizeOTD($this->OTDDelegate);
     }

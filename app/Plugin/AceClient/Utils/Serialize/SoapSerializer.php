@@ -10,7 +10,7 @@ use Plugin\AceClient\AceServices\Model\Request;
 use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient\Config\Model\SoapXmlSerializer\SoapXmlSerializerModel;
 use Plugin\AceClient\Utils\ConfigLoader\SoapXmlSerializerConfigLoaderTrait;
-use Plugin\AceClient\Utils\Mapper\EncodeNameMapper;
+use Plugin\AceClient\Utils\Mapper\EncodeDefineMapper;
 
 class SoapSerializer implements SoapSerializerInterface
 {
@@ -28,7 +28,7 @@ class SoapSerializer implements SoapSerializerInterface
 
     public function __construct(array $nomalizer = [], array $encoders = [new XmlEncoder()]) 
     {
-        $this->serializer = new Serializer($nomalizer, $encoders);
+        $this->serializer = SerializerFactory::makeSerializer($nomalizer, $encoders);
         $this->config = $this->loadConfig();
     }
 
@@ -39,7 +39,7 @@ class SoapSerializer implements SoapSerializerInterface
      * 
      * @throws NotCompatibleArgument
      */
-    public function serialize($data, string $format = EncodeNameMapper::XML, array $context = [])
+    public function serialize($data, string $format = EncodeDefineMapper::XML, array $context = [])
     {
         if (!$data instanceof RequestModelInterface) {
             throw new NotCompatibleArgument(sprintf('Data Object Not Compatible. Respected Object Type "%s"', RequestModelInterface::class));
@@ -61,8 +61,8 @@ class SoapSerializer implements SoapSerializerInterface
         return $this->serializer->serialize( \array_merge($this->config->getXmlns()
                                                          ,['#' => $data])
                                             , $format
-                                            , $context ?: \array_merge(['xml_root_node_name'=>$data->getXmlNodeName()],
-                                                                       $this->config->getDefaultSerializeOptions(),)
+                                            , $context ?: \array_merge([EncodeDefineMapper::XML_ROOT_NODE_NAME => $data->getXmlNodeName()],
+                                                                       $this->config->getDefaultSerializeOptions() ?: [],)
                                             ,);
     }
 

@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\Config\Model\PrmFormat;
 
-use Plugin\AceClient\Utils\Denormalize\ADTAODenormalizerTrait;
+use Plugin\AceClient\Utils\Denormalize\DTO\ADTAODenormalizerTrait;
 use Plugin\AceClient\Config\Model\ConfigModelInterface;
 
 class PrmOTDFormatModel implements ConfigModelInterface

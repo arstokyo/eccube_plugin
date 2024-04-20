@@ -1,10 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\Utils\Denormalize;
+namespace Plugin\AceClient\Utils\Denormalize\DTO;
 
 use Plugin\AceClient\Utils\Serialize\SerializerFactory;
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Serializer\Serializer;
 
 /**
  * Trait for denormalizing Array Data To Array objects.

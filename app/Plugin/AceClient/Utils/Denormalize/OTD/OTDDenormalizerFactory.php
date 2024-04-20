@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\Utils\Denormalize;
+namespace Plugin\AceClient\Utils\Denormalize\OTD;
 
 class OTDDenormalizerFactory
 {
@@ -27,11 +27,21 @@ class OTDDenormalizerFactory
     /**
      * Make OTDNoDenormalizer
      * 
-     * @return OTDNoDenormalizer
+     * @return OTDObjectDenormalizer
      */
-    public static function makeOTDNoDenormalizer(): OTDNoDenormalizer
+    public static function makeOTDObjectDenormalizer(): OTDObjectDenormalizer
     {
-        return new OTDNoDenormalizer();
+        return new OTDObjectDenormalizer();
+    }
+
+    /**
+     * Make OTDJsonDenormalizer
+     * 
+     * @return OTDJsonDenormalizer
+     */
+    public static function makeOTDJsonDenormalizer(): OTDJsonDenormalizer
+    {
+        return new OTDJsonDenormalizer();
     }
 
 }

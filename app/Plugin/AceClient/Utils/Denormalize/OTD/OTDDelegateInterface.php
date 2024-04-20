@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\Utils\Denormalize;
+namespace Plugin\AceClient\Utils\Denormalize\OTD;
 
 interface OTDDelegateInterface
 {
-    public function getObject(): mixed;
+    public function getObject(): object;
 
     public function getDenomarlizeOptions(): array;
 }

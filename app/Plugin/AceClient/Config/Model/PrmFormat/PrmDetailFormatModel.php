@@ -22,7 +22,7 @@ class PrmDetailFormatModel implements ConfigModelInterface
      */
     public function getFormat(): ?string
     {
-        return $this->format;
+        return $this->format ?? null;
     }
 
     /**
@@ -42,7 +42,7 @@ class PrmDetailFormatModel implements ConfigModelInterface
      */
     public function getOptions(): ?array
     {
-        return $this->options;
+        return $this->options ?? [];
     }
 
     /**
