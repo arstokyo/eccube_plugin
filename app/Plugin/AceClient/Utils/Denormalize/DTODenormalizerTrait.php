@@ -30,9 +30,9 @@ trait DTODenormalizerTrait
         if (!isset($this->serializer)) {
             $this->serializer = SerializerFactory::makeDTOSerializer();
         }
-        // if (!isset($context[AbstractObjectNormalizer::SKIP_NULL_VALUES])) {
-        //     $context[AbstractObjectNormalizer::SKIP_NULL_VALUES] = true;
-        // }
+        if (!isset($context[AbstractObjectNormalizer::SKIP_NULL_VALUES])) {
+            $context[AbstractObjectNormalizer::SKIP_NULL_VALUES] = true;
+        }
         return $this->serializer->denormalize($data, $type, $format, $context);
     }
 
