@@ -80,18 +80,18 @@ class ApiClientTest extends AbstractAdminWebTestCase
             nameConverter: new MetadataAwareNameConverter($classMetadataFactory, new CamelCaseToSnakeCaseNameConverter),
         )];
 
-        $serializer = new Serializer($nomalizer, $encoders);
-        $context = $serializer->serialize([
-                                            '@xmlns'=> 'http://ar-system-api.co.jp/',
-                                            '#'=> $addCartModel
-                                          ],'xml',
-                                          [ 'xml_root_node_name'=> $addCartModel->getXmlNodeName(), 
-                                            'xml_format_output' => true,
-                                            'xml_encoding' => 'utf-8',
-                                            'encoder_ignored_node_types' =>  [
-                                                \XML_PI_NODE, // removes XML declaration (the leading xml tag)
-                                            ],]);
-        var_dump($context);
+        // $serializer = new Serializer($nomalizer, $encoders);
+        // $context = $serializer->serialize([
+        //                                     '@xmlns'=> 'http://ar-system-api.co.jp/',
+        //                                     '#'=> $addCartModel
+        //                                   ],'xml',
+        //                                   [ 'xml_root_node_name'=> $addCartModel->getXmlNodeName(), 
+        //                                     'xml_format_output' => true,
+        //                                     'xml_encoding' => 'utf-8',
+        //                                     'encoder_ignored_node_types' =>  [
+        //                                         \XML_PI_NODE, // removes XML declaration (the leading xml tag)
+        //                                     ],]);
+        // var_dump($context);
         return $addCartModel;
     }
 
@@ -210,7 +210,6 @@ class ApiClientTest extends AbstractAdminWebTestCase
 
     public function testLoadPrmDTOFormat() {
         $orderPrm = new OrderPrmModel();
-        var_dump($orderPrm);
     }
 
 }

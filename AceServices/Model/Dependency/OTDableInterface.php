@@ -7,7 +7,7 @@ interface OTDableInterface
     /**
      * Returns the data.
      * 
-     * @return mixed
+     * @return string|null|object
      */
-    public function toData(): mixed;
+    public function toData(): string|null|object;
 }

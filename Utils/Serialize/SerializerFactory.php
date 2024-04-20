@@ -7,6 +7,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Plugin\AceClient\Utils\Normalize\NormalizerFactory;
 use Plugin\AceClient\Utils\Denormalize\DenormalizerFactory;
 
@@ -18,7 +19,7 @@ final class SerializerFactory
      * @return Serializer
      */
     final public static function makeXmlSerializer(): SerializerInterface {
-        return self::makeSerializer(NormalizerFactory::makeAnnotationNormalizers(), new XmlEncoder());
+        return self::makeSerializer(NormalizerFactory::makeAnnotationNormalizers(), [new XmlEncoder()]);
     }
 
     /**
@@ -27,21 +28,23 @@ final class SerializerFactory
      * @return Serializer
      */
     final public static function makeJsonSerializer(): SerializerInterface {
-        return self::makeSerializer(NormalizerFactory::makeAnnotationNormalizers(), new JsonEncoder());
+        return self::makeSerializer(NormalizerFactory::makeAnnotationNormalizers(), [new JsonEncoder()]);
     }
 
     final public static function makeDTOSerializer(): SerializerInterface {
-        return self::makeSerializer(array_merge(NormalizerFactory::makeRecursiveNormalizers(),[DenormalizerFactory::makeArrayDenormalizer()]), new JsonEncoder());
+        return self::makeSerializer(array_merge(NormalizerFactory::makeRecursiveNormalizers(),[DenormalizerFactory::makeArrayDenormalizer()]), [new JsonEncoder()]);
     }
 
     /**
      * Make Serializer
      * 
-     * @param EncoderInterface $encode
+     * @param NormalizerInterface[] $normalizers
+     * @param EncoderInterface[] $encode
+     * 
      * @return SerializerInterface
      */
-    private static function makeSerializer(array $normalizers, EncoderInterface $encode): SerializerInterface
+    public static function makeSerializer(array $normalizers, array $encode): SerializerInterface
     {
-        return new Serializer(normalizers: $normalizers, encoders: [$encode]);
+        return new Serializer(normalizers: $normalizers, encoders: $encode);
     }
 }

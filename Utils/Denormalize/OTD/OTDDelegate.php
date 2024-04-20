@@ -1,26 +1,26 @@
 <?php
 
-namespace Plugin\AceClient\Utils\Denormalize;
+namespace Plugin\AceClient\Utils\Denormalize\OTD;
 
-class OTDDelegate implements OTDDelegateInterface
+final class OTDDelegate implements OTDDelegateInterface
 {
     /**
      * @var mixed $object
      */
-    private $object;
+    private object $object;
 
     /**
      * @var array $denormalizeOptions
      */
-    private $denormalizeOptions;
+    private array $denormalizeOptions;
 
     /**
      * Constructor.
      * 
-     * @param mixed $object
+     * @param object $object
      * @param array $denormalizeOptions
      */
-    public function __construct($object, array $denormalizeOptions = [])
+    public function __construct(object $object, array $denormalizeOptions = [])
     {
         $this->object = $object;
         $this->denormalizeOptions = $denormalizeOptions;
@@ -31,7 +31,7 @@ class OTDDelegate implements OTDDelegateInterface
      * 
      * @return mixed
      */
-    public function getObject(): mixed
+    public function getObject(): object
     {
         return $this->object;
     }

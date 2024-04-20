@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\Utils\Denormalize;
+namespace Plugin\AceClient\Utils\Denormalize\DTO;
 
 use Plugin\AceClient\Utils\Serialize\SerializerFactory;
 use Plugin\AceClient\Config\Model\ConfigModelInterface;
@@ -8,6 +8,9 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 
+/**
+ * Trait for denormalizing Data to Object.
+ */
 trait DTODenormalizerTrait
 {
     /**

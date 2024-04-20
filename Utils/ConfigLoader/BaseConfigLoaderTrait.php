@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\Utils\ConfigLoader;
 
 use Plugin\AceClient\Config\Model\ConfigModelInterface;
-use Plugin\AceClient\Utils\Denormalize\DTODenormalizerTrait;
+use Plugin\AceClient\Utils\Denormalize\DTO\DTODenormalizerTrait;
 use Plugin\AceClient\Utils\ContainerBuilder\ContainerBuilderFactory;
 
 trait BaseConfigLoaderTrait
