@@ -11,7 +11,7 @@ class PrmDetailFormatModel implements ConfigModelInterface
     /**
      * @var array $options
      */
-    private array $options;
+    private ?array $options;
 
     /**
      * Get the value of format
@@ -38,7 +38,7 @@ class PrmDetailFormatModel implements ConfigModelInterface
      * 
      * @return array
      */
-    public function getOptions(): array
+    public function getOptions(): ?array
     {
         return $this->options;
     }
@@ -48,7 +48,7 @@ class PrmDetailFormatModel implements ConfigModelInterface
      *
      * @return void
      */
-    public function setOptions(array $options): void
+    public function setOptions(?array $options): void
     {
         $this->options = $options;
     }
