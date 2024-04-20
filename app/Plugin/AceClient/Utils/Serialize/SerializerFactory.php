@@ -9,15 +9,15 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Plugin\AceClient\Utils\Normalize\NormalizerFactory;
 
-class SerializerFactory
+final class SerializerFactory
 {
     /**
      * Make Xml Serializer
      * 
      * @return Serializer
      */
-    public static function makeXmlSerializer(): SerializerInterface {
-        return self::makeSerializer(new XmlEncoder());
+    final public static function makeXmlSerializer(): SerializerInterface {
+        return self::makeSerializer(NormalizerFactory::makeAnnotationNormalizers(), new XmlEncoder());
     }
 
     /**
@@ -25,8 +25,12 @@ class SerializerFactory
      * 
      * @return Serializer
      */
-    public static function makeJsonSerializer(): SerializerInterface {
-        return self::makeSerializer(new JsonEncoder());
+    final public static function makeJsonSerializer(): SerializerInterface {
+        return self::makeSerializer(NormalizerFactory::makeAnnotationNormalizers(), new JsonEncoder());
+    }
+
+    final public static function makeDTOSerializer(): SerializerInterface {
+        return self::makeSerializer(NormalizerFactory::makeRecursiveNormalizers(), new JsonEncoder());
     }
 
     /**
@@ -35,8 +39,8 @@ class SerializerFactory
      * @param EncoderInterface $encode
      * @return SerializerInterface
      */
-    private static function makeSerializer(EncoderInterface $encode): SerializerInterface
+    private static function makeSerializer(array $normalizers, EncoderInterface $encode): SerializerInterface
     {
-        return new Serializer(normalizers: NormalizerFactory::makeAnnotationNormalizers(), encoders: [$encode]);
+        return new Serializer(normalizers: $normalizers, encoders: [$encode]);
     }
 }
