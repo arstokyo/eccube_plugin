@@ -42,4 +42,14 @@ trait DTODenormalizerTrait
         $this->serializer = $serializer;
     }
 
+    /**
+     * Gets the Serializer.
+     * 
+     * @return SerializerInterface
+     */
+    protected function getSerializer(): SerializerInterface
+    {
+        return $this->serializer;
+    }
+
 }
