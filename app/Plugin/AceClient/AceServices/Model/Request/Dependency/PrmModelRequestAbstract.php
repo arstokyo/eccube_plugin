@@ -33,7 +33,7 @@ abstract class PrmModelRequestAbstract implements PrmModelRequestInterface
     public function __construct()
     {
         $this->config = $this->loadConfig();
-        $option = $this->config->getSpecificOverride(self::class)->getOptions();
+        $option = $this->config->getSpecificOverride($this::class);
         var_dump($option);
         // $this->OTDDenomarlizer = $OTDDenomarlizer;
         // $this->OTDDelegate = $OTDDelegate;
