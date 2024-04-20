@@ -64,13 +64,13 @@ class PrmOTDFormatModel implements ConfigModelInterface
     /**
      * Get a specific override value
      * 
-     * @param string $key
+     * @param string $classNameFQD
      * 
      * @return PrmDetailFormatModel
      */
-    public function getSpecificOverride(string $className): PrmDetailFormatModel
+    public function getSpecificOverride(string $classNameFQD): PrmDetailFormatModel
     {
-        return $this->overrides[$className] ?? new PrmDetailFormatModel();
+        return $this->overrides[$classNameFQD];
     }
 
 }

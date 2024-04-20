@@ -27,7 +27,7 @@ trait ADTAODenormalizerTrait
         if (!$this->getSerializer()) {
             $this->setSerializer(SerializerFactory::makeJsonSerializer());
         };
-        foreach ($data as $key => $value) {
+        foreach ($result as $key => $value) {
             $result[$key] = $this->denormalizeDTO($value, $type, $format, $context);
         }
         return $result;
