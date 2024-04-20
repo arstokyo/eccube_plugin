@@ -1,0 +1,76 @@
+<?php
+
+namespace Plugin\AceClient\Config\Model;
+
+use Plugin\AceClient\Utils\Denormalize\ADTAODenormalizerTrait;
+
+class PrmOTDFormatModel implements ConfigModelInterface
+{
+    use ADTAODenormalizerTrait;
+    /**
+     * Default Format
+     * 
+     * @var PrmDetailFormatModel $default
+     */
+    private PrmDetailFormatModel $default;
+
+    /**
+     * Overrides Format
+     * 
+     * @var ?array $overrides
+     */
+    private ?array $overrides;
+
+    /**
+     * Get the value of default
+     * 
+     * @return PrmDetailFormatModel
+     */
+    public function getDefault(): PrmDetailFormatModel
+    {
+        return $this->default;
+    }
+
+    /**
+     * Set the value of default
+     *
+     * @return  void
+     */
+    public function setDefault(string $default): void
+    {
+        $this->default = $this->denormalizeDTO($default, PrmDetailFormatModel::class);
+    }
+
+    /**
+     * Get the value of overrides
+     * 
+     * @return ?array
+     */
+    public function getOverrides(): ?array
+    {
+        return $this->overrides;
+    }
+
+    /**
+     * Set the value of overrides
+     *
+     * @return void
+     */
+    public function setOverrides(array $overrides): void
+    {
+        $this->overrides = $this->denormalizeADTAO($overrides, PrmDetailFormatModel::class);
+    }
+
+    /**
+     * Get a specific override value
+     * 
+     * @param string $key
+     * 
+     * @return PrmDetailFormatModel
+     */
+    public function getSpecificOverride(string $className): PrmDetailFormatModel
+    {
+        return $this->overrides[$className] ?? new PrmDetailFormatModel();
+    }
+
+}

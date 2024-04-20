@@ -2,9 +2,9 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request\Dependency;
 
-use Plugin\AceClient\AceServices\Model\Dependency\XmlableInterface;
+use Plugin\AceClient\AceServices\Model\Dependency\OTDableInterface;
 
-interface PrmModelRequestInterface extends XmlableInterface
+interface PrmModelRequestInterface extends OTDableInterface
 {
     
 }
