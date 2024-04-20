@@ -8,6 +8,7 @@ use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Plugin\AceClient\Utils\Normalize\NormalizerFactory;
+use Plugin\AceClient\Utils\Denormalize\DenormalizerFactory;
 
 final class SerializerFactory
 {
@@ -30,7 +31,7 @@ final class SerializerFactory
     }
 
     final public static function makeDTOSerializer(): SerializerInterface {
-        return self::makeSerializer(NormalizerFactory::makeRecursiveNormalizers(), new JsonEncoder());
+        return self::makeSerializer(array_merge(NormalizerFactory::makeRecursiveNormalizers(),[DenormalizerFactory::makeArrayDenormalizer()]), new JsonEncoder());
     }
 
     /**
