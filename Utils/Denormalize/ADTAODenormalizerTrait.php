@@ -21,7 +21,7 @@ trait ADTAODenormalizerTrait
      * @param string|null $format
      * @param array $context
      */
-    public function denormalizeADTAO(array $data,string $type, string $format = null, array $context = []): array
+    final public function denormalizeADTAO(array $data,string $type, string $format = null, array $context = []): array
     {
         $result = $data;
         if (!$this->getSerializer()) {

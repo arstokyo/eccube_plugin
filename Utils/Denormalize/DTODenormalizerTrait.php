@@ -24,9 +24,9 @@ trait DTODenormalizerTrait
      * 
      * @return ConfigModelInterface
      */
-    protected function denormalizeDTO($data, string $type, string $format = null, array $context = []): ConfigModelInterface
+    final protected function denormalizeDTO($data, string $type, string $format = null, array $context = []): ConfigModelInterface
     {
-        if (!$this->serializer) {
+        if (!isset($this->serializer)) {
             $this->serializer = SerializerFactory::makeJsonSerializer();
         }
         return $this->serializer->denormalize($data, $type, $format, $context);
@@ -37,7 +37,7 @@ trait DTODenormalizerTrait
      * 
      * @param SerializerInterface $serializer
      */
-    protected function setSerializer(SerializerInterface $serializer): void
+    final protected function setSerializer(SerializerInterface $serializer): void
     {
         $this->serializer = $serializer;
     }
@@ -47,7 +47,7 @@ trait DTODenormalizerTrait
      * 
      * @return ?SerializerInterface
      */
-    protected function getSerializer(): ?SerializerInterface
+    final protected function getSerializer(): ?SerializerInterface
     {
         return $this->serializer ?? null;
     }
