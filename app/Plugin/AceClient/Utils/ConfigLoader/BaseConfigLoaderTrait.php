@@ -29,7 +29,7 @@ trait BaseConfigLoaderTrait
      * 
      * @return ConfigModelInterface
      */
-    public function loadConfig(): ConfigModelInterface
+    final public function loadConfig(): ConfigModelInterface
     {
         $configs = $this->parseConfigToArray();
         return $this->denormalizeDTO($configs, $this->getConfigModelClassName());
