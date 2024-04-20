@@ -9,7 +9,7 @@ parameters:
             encoder_ignored_node_types: 
                 - \XML_PI_NODE
     overrides:
-        - Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart: 
+        - Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\OrderPrmModel: 
             format: 'json'
             options: 
                 xml_format_output: true
