@@ -18,9 +18,9 @@ class PrmDetailFormatModel implements ConfigModelInterface
     /**
      * Get the value of format
      * 
-     * @return string
+     * @return ?string
      */
-    public function getFormat(): string
+    public function getFormat(): ?string
     {
         return $this->format;
     }
@@ -28,7 +28,7 @@ class PrmDetailFormatModel implements ConfigModelInterface
     /**
      * Set the value of format
      *
-     * @return  void
+     * @return void
      */
     public function setFormat(?string $format): void
     {
@@ -38,7 +38,7 @@ class PrmDetailFormatModel implements ConfigModelInterface
     /**
      * Get the value of options
      * 
-     * @return array
+     * @return ?array
      */
     public function getOptions(): ?array
     {
