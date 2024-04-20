@@ -6,5 +6,5 @@ use Plugin\AceClient\AceServices\Model\Response\ResponseModelAbtract;
 
 class RegMemResponseModel extends ResponseModelAbtract
 {
-    
+
 }
