@@ -30,5 +30,12 @@ interface OverridableConfigInterface
      */
     public function getOverrides() : ?array;
 
+    /**
+     * Get the overrided config
+     *
+     * @return ?ConfigModelInterface
+     */
+    public function getOverridedConfig(string $key) : ?ConfigModelInterface;
+
 }
 

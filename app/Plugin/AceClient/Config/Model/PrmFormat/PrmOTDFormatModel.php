@@ -35,9 +35,42 @@ class PrmOTDFormatModel extends OverridableConfigAbstract implements ConfigModel
         return parent::getSpecificOverride($classNameFQD);
     }
 
+    /**
+     * Set the value of Child Config.
+     * 
+     * @return string
+     */
     protected function setChildConfigClassName(): string
     {
         return PrmDetailFormatModel::class;
+    }
+
+    /**
+     * Perform Override Config
+     * 
+     * @param PrmDetailFormatModel $overrideConfig
+     * 
+     * @return PrmDetailFormatModel
+     */
+    protected function performOverrideConfig(ConfigModelInterface $overrideConfig): ConfigModelInterface
+    {
+
+        $result = new PrmDetailFormatModel;
+        if ($overrideConfig->getFormat())
+        {
+            $result->setFormat($overrideConfig->getFormat());
+        } else {
+            $result->setFormat($this->getDefaultConfig()->getFormat());
+        }
+
+        if ($overrideConfig->getOptions())
+        {
+            $result->setOptions($overrideConfig->getOptions());
+        } elseif ($overrideConfig->getFormat() === $this->getDefaultConfig()->getFormat()) {
+            $result->setOptions($this->getDefaultConfig()->getOptions());
+        }
+        
+        return $result;
     }
 
 }

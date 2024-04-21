@@ -33,9 +33,9 @@ class OTDXmlDenormalizer extends OTDDenormalizerAbstract
     /**
      * Set options for XML serialization.
      * 
-     * @return array
+     * @return ?array
      */
-    protected function setXmlSerializeOptions(): array
+    protected function setXmlSerializeOptions(): ?array
     {
         return $this->delegate->getDenomarlizeOptions() ?? [];
     }

@@ -13,13 +13,13 @@ use Plugin\AceClient\Config\Model\ConfigModelInterface;
 class PrmDetailFormatModel implements ConfigModelInterface
 {
     /**
-     * @var string $format
+     * @var ?string $format
      */
-    private ?string $format;
+    private ?string $format = null;
     /**
-     * @var array $options
+     * @var ?array $options
      */
-    private ?array $options;
+    private ?array $options = null;
 
     /**
      * Get the value of format
@@ -28,7 +28,7 @@ class PrmDetailFormatModel implements ConfigModelInterface
      */
     public function getFormat(): ?string
     {
-        return $this->format ?? null;
+        return $this->format;
     }
 
     /**
@@ -48,7 +48,7 @@ class PrmDetailFormatModel implements ConfigModelInterface
      */
     public function getOptions(): ?array
     {
-        return $this->options ?? [];
+        return $this->options;
     }
 
     /**

@@ -4,6 +4,7 @@ namespace Plugin\AceClient\Utils\Denormalize\DTO;
 
 use Plugin\AceClient\Utils\Serialize\SerializerFactory;
 use Plugin\AceClient\Config\Model\ConfigModelInterface;
+use Plugin\AceClient\Config\Model\OverridableConfigInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
@@ -28,9 +29,9 @@ trait DTODenormalizerTrait
      * @param string|null $format
      * @param array $context
      * 
-     * @return ConfigModelInterface|ConfigModelInterface[]
+     * @return ConfigModelInterface|OverridableConfigInterface
      */
-    final protected function denormalizeDTO($data, string $type, string $format = null, array $context = []): ConfigModelInterface|array
+    final protected function denormalizeDTO($data, string $type, string $format = null, array $context = []): ConfigModelInterface|OverridableConfigInterface
     {
         if (!isset($this->serializer)) {
             $this->serializer = SerializerFactory::makeDTOSerializer();
