@@ -15,9 +15,9 @@ final class OTDDelegate implements OTDDelegateInterface
     private object $object;
 
     /**
-     * @var array $denormalizeOptions
+     * @var ?array $denormalizeOptions
      */
-    private array $denormalizeOptions;
+    private ?array $denormalizeOptions = null;
 
     /**
      * Constructor.
@@ -44,9 +44,9 @@ final class OTDDelegate implements OTDDelegateInterface
     /**
      * Get the value of denormalizeOptions
      * 
-     * @return array
+     * @return ?array
      */
-    public function getDenomarlizeOptions(): array
+    public function getDenomarlizeOptions(): ?array
     {
         return $this->denormalizeOptions;
     }

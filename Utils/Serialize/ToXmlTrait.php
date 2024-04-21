@@ -23,7 +23,7 @@ trait ToXmlTrait
     public function toXML($object = null) : string {
         $serializer = SerializerFactory::makeXmlSerializer();
         try {
-            $context = $serializer->serialize($object ?? $this, EncodeDefineMapper::XML, $this->setXmlSerializeOptions());
+            $context = $serializer->serialize($object ?? $this, EncodeDefineMapper::XML, $this->setXmlSerializeOptions() ?? []);
         } catch(\Throwable $e) {
             throw new SerializeException(sprintf('Could not serialize class "%s" to XML '."\n".'Detail Error Message: "%s"',self::class ,$e->getMessage()));
         };
@@ -33,8 +33,8 @@ trait ToXmlTrait
     /**
      * Set the options for the XML serialization
      * 
-     * @return array
+     * @return ?array
      */
-    abstract protected function setXmlSerializeOptions(): array;
+    abstract protected function setXmlSerializeOptions(): ?array;
 
 }

@@ -34,11 +34,11 @@ parameters:
         # Example:
         # - Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\OrderPrmModel:
         #     format: 'object'
-        #     options:
-        #         xml_format_output: true
-        #         xml_encoding: 'utf-8'
-        #         encoder_ignored_node_types:
-        #             - \XML_PI_NODE
+            # options:
+            #     xml_format_output: true
+            #     xml_encoding: 'utf-8'
+            #     encoder_ignored_node_types:
+            #         - \XML_PI_NODE
 
     soap_xml_serializer:
         xmlns: 

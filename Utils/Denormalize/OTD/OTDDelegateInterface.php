@@ -9,7 +9,17 @@ namespace Plugin\AceClient\Utils\Denormalize\OTD;
  */
 interface OTDDelegateInterface
 {
+    /**
+     * Get Object
+     * 
+     * @return object
+     */
     public function getObject(): object;
 
-    public function getDenomarlizeOptions(): array;
+    /**
+     * Get Denormalize Options
+     * 
+     * @return ?array
+     */
+    public function getDenomarlizeOptions(): ?array;
 }

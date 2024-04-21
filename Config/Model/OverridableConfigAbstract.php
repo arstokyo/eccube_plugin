@@ -24,7 +24,7 @@ abstract class OverridableConfigAbstract implements OverridableConfigInterface
      * 
      * @var ?array $overrides
      */
-    protected ?array $overrides;
+    protected ?array $overrides = null;
 
     /**
      * Get the value of default
@@ -61,13 +61,13 @@ abstract class OverridableConfigAbstract implements OverridableConfigInterface
     /**
      * Set the value of overrides
      *
-     * @param array|null $overrides
+     * @param ?array $overrides
      * 
      * @return void
      */
-    public function setOverrides(array|null $overrides): void
+    public function setOverrides(?array $overrides): void
     {
-        $this->overrides = $overrides ? $this->denormalizeADTAO($overrides, $this->setChildConfigClassName()) : [];
+        $this->overrides = $overrides ? $this->denormalizeADTAO($overrides, $this->setChildConfigClassName()) : null;
     }
 
     /**
@@ -77,7 +77,7 @@ abstract class OverridableConfigAbstract implements OverridableConfigInterface
      */
     public function getSpecificOverride(string $target): ?ConfigModelInterface
     {
-        if (isset($this->overrides)) {
+        if (!empty($this->overrides)) {
             foreach ($this->overrides as $key => $value) {
                 if (is_array($value) && array_key_exists($target, $value)) {
                     return $value[$target];
@@ -87,6 +87,17 @@ abstract class OverridableConfigAbstract implements OverridableConfigInterface
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
+    public function getOverridedConfig(string $targetOverride): ?ConfigModelInterface
+    {
+        $targetOverrideConfig = $this->getSpecificOverride($targetOverride);
+        return $targetOverrideConfig ? $this->performOverrideConfig($targetOverrideConfig) : $this->getDefaultConfig();
+    }
+
     abstract protected function setChildConfigClassName(): string; 
+    abstract protected function performOverrideConfig(ConfigModelInterface $config): ConfigModelInterface;
 
 }

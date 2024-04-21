@@ -3,6 +3,7 @@
 namespace Plugin\AceClient\Utils\ConfigLoader;
 
 use Plugin\AceClient\Config\Model\ConfigModelInterface;
+use Plugin\AceClient\Config\Model\OverridableConfigInterface;
 use Plugin\AceClient\Utils\Denormalize\DTO\DTODenormalizerTrait;
 use Plugin\AceClient\Utils\ContainerBuilder\ContainerBuilderFactory;
 
@@ -32,9 +33,9 @@ trait BaseConfigLoaderTrait
     /**
      * Loads the configuration.
      * 
-     * @return ConfigModelInterface
+     * @return ConfigModelInterface|OverridableConfigInterface
      */
-    final public function loadConfig(): ConfigModelInterface
+    final public function loadConfig(): ConfigModelInterface|OverridableConfigInterface
     {
         $configs = $this->parseConfigToArray();
         return $this->denormalizeDTO($configs, $this->getConfigModelClassName());
