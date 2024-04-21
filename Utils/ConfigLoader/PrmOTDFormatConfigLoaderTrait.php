@@ -5,6 +5,11 @@ namespace Plugin\AceClient\Utils\ConfigLoader;
 use Plugin\AceClient\Utils\Mapper\ConfigNodeRootNameMapper;
 use Plugin\AceClient\Config\Model\PrmFormat\PrmOTDFormatModel;
 
+/**
+ * Trait for PrmOTDFormatConfigLoader.
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 trait PrmOTDFormatConfigLoaderTrait
 {
     use BaseConfigLoaderTrait;

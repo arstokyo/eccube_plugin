@@ -6,6 +6,11 @@ use Plugin\AceClient\Config\Model\ConfigModelInterface;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 
+/**
+ * Model for SoapXmlSerializer
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 class SoapXmlSerializerModel implements ConfigModelInterface
 {
     #[SerializedName("xmlns")]

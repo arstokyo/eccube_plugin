@@ -2,6 +2,11 @@
 
 namespace Plugin\AceClient\Utils\Denormalize\OTD;
 
+/**
+ * Delegate for Object To Data.
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 final class OTDDelegate implements OTDDelegateInterface
 {
     /**

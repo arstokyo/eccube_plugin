@@ -4,7 +4,12 @@ namespace Plugin\AceClient\AceServices\Model\Request\Dependency;
 
 use Symfony\Component\Serializer\Annotation\Ignore;
 
-interface SoapNodeRequestInterface
+/**
+ * Interface SoapRequestAbleInterface
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
+interface SoapRequestAbleInterface
 {
     /**
      * Get Node Name

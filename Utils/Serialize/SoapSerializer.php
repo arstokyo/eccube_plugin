@@ -3,7 +3,6 @@
 namespace Plugin\AceClient\Utils\Serialize;
 
 use Plugin\AceClient\Exception\NotCompatibleArgument;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Plugin\AceClient\AceServices\Model\Request;
@@ -12,6 +11,11 @@ use Plugin\AceClient\Config\Model\SoapXmlSerializer\SoapXmlSerializerModel;
 use Plugin\AceClient\Utils\ConfigLoader\SoapXmlSerializerConfigLoaderTrait;
 use Plugin\AceClient\Utils\Mapper\EncodeDefineMapper;
 
+/**
+ * Serializer for SOAP XML API.
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 class SoapSerializer implements SoapSerializerInterface
 {
     /**
@@ -26,6 +30,13 @@ class SoapSerializer implements SoapSerializerInterface
     
     use SoapXmlSerializerConfigLoaderTrait;
 
+    
+    /**
+     * Constructor.
+     * 
+     * @param array $nomalizer
+     * @param array $encoders
+     */
     public function __construct(array $nomalizer = [], array $encoders = [new XmlEncoder()]) 
     {
         $this->serializer = SerializerFactory::makeSerializer($nomalizer, $encoders);
@@ -33,11 +44,8 @@ class SoapSerializer implements SoapSerializerInterface
     }
 
     /**
-     * Serializes data in the appropriate format.
+     * {@inheritDoc}
      * 
-     * @param Request\RequestModelInterface $data
-     * 
-     * @throws NotCompatibleArgument
      */
     public function serialize($data, string $format = EncodeDefineMapper::XML, array $context = [])
     {
@@ -47,6 +55,10 @@ class SoapSerializer implements SoapSerializerInterface
         return $this->compileWithSoapHeader($this->serializeWithOptions($data, $format, $context));
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     */
     public function deserialize($data, string $type, string $format, array $context = [])
     {
         $this->serializer->deserialize($data, $type, $format, $context);
@@ -66,6 +78,11 @@ class SoapSerializer implements SoapSerializerInterface
                                             ,);
     }
 
+    /**
+     * Compile With Soap Header
+     * 
+     * @param string $data
+     */
     private function compileWithSoapHeader(string $data): string
     {
         return $this->config->getRequestSoapHeader() . $data . $this->config->getRequestSoapEnd();

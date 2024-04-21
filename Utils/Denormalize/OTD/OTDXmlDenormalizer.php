@@ -4,6 +4,11 @@ namespace Plugin\AceClient\Utils\Denormalize\OTD;
 
 use Plugin\AceClient\Utils\Serialize\ToXmlTrait;
 
+/**
+ * Denormalizer for Object To Data.
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 class OTDXmlDenormalizer extends OTDDenormalizerAbstract
 {
     use ToXmlTrait;
@@ -26,12 +31,13 @@ class OTDXmlDenormalizer extends OTDDenormalizerAbstract
     }
 
     /**
-     *  {@inheritDoc}
+     * Set options for XML serialization.
      * 
+     * @return array
      */
     protected function setXmlSerializeOptions(): array
     {
         return $this->delegate->getDenomarlizeOptions() ?? [];
     }
-    // Add your code here
+
 }

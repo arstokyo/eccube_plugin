@@ -17,6 +17,11 @@ use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 
 
+/**
+ * Factory for Normalizer.
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 final class NormalizerFactory
 {
     /**

@@ -2,7 +2,11 @@
 
 namespace Plugin\AceClient\Utils\Denormalize\OTD;
 
-
+/**
+ * Object To Data Denormalizer for JSON.
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 class OTDJsonDenormalizer extends OTDDenormalizerAbstract
 {
 

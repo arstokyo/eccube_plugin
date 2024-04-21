@@ -5,6 +5,11 @@ namespace Plugin\AceClient\Utils\ConfigLoader;
 use Plugin\AceClient\Config\Model\SoapXmlSerializer\SoapXmlSerializerModel;
 use Plugin\AceClient\Utils\Mapper\ConfigNodeRootNameMapper;
 
+/**
+ * Trait for SoapXmlSerializerConfigLoader.
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 trait SoapXmlSerializerConfigLoaderTrait
 {
     use BaseConfigLoaderTrait;

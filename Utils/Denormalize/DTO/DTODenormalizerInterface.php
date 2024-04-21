@@ -4,6 +4,8 @@ namespace Plugin\AceClient\Utils\Denormalize\DTO;
 
 /**
  * Interface for denormalizing DataToObject.
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 interface DTODenormalizerInterface
 {

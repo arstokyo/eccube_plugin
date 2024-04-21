@@ -6,6 +6,11 @@ use Plugin\AceClient\Config\Model\ConfigModelInterface;
 use Plugin\AceClient\Utils\Denormalize\DTO\DTODenormalizerTrait;
 use Plugin\AceClient\Utils\ContainerBuilder\ContainerBuilderFactory;
 
+/**
+ * Trait for BaseConfigLoader.
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 trait BaseConfigLoaderTrait
 {
     use DTODenormalizerTrait;
