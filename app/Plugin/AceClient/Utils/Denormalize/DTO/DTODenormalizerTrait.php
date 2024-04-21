@@ -10,6 +10,8 @@ use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 
 /**
  * Trait for denormalizing Data to Object.
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 trait DTODenormalizerTrait
 {

@@ -8,7 +8,12 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-class AceClientExtension extends Extension
+/**
+ * Extension for AceClient.
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
+final class AceClientExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {

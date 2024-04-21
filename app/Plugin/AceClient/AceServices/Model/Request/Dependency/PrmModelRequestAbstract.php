@@ -67,8 +67,8 @@ abstract class PrmModelRequestAbstract implements PrmModelRequestInterface
             $specificFormat = $this->config->getSpecificOverride($this::class)->getFormat();
         } 
         
-        if (empty($specificFormat) && ($this->config->getDefault())) {
-            $specificFormat = $this->config->getDefault()->getFormat();
+        if (empty($specificFormat) && ($this->config->getDefaultConfig())) {
+            $specificFormat = $this->config->getDefaultConfig()->getFormat();
         }
         $this->format = $specificFormat ?: $this->format;
     }
@@ -105,8 +105,8 @@ abstract class PrmModelRequestAbstract implements PrmModelRequestInterface
         if ($this->config->getSpecificOverride($this::class)) {
             $options = $this->config->getSpecificOverride($this::class)->getOptions();
         }
-        if ((!$options) && ($this->config->getDefault()) && (self::XML_FORMAT_NAME === $this->config->getDefault()->getFormat() ?? '')) {
-            $options = $this->config->getDefault()->getOptions();
+        if ((!$options) && ($this->config->getDefaultConfig()) && (self::XML_FORMAT_NAME === $this->config->getDefaultConfig()->getFormat() ?? '')) {
+            $options = $this->config->getDefaultConfig()->getOptions();
         }
         return \array_merge([EncodeDefineMapper::XML_ROOT_NODE_NAME => $this->setXmlRootNodeName()], $options ?? []);
     }

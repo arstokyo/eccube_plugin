@@ -6,6 +6,8 @@ use Plugin\AceClient\Utils\Serialize\SerializerFactory;
 
 /**
  * Trait for denormalizing Array Data To Array objects.
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-sytem.co.jp>
  */
 trait ADTAODenormalizerTrait
 {

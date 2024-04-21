@@ -6,7 +6,12 @@ use Plugin\AceClient\DependecyInjection\AceClientExtension;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class ContainerBuilderFactory
+/**
+ * Factory for Container Builder.
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
+final class ContainerBuilderFactory
 {
     public static function makeAceExtensionContainer(): ContainerInterface
     {

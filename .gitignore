@@ -22,4 +22,5 @@
 /phpunit.xml
 .phpunit.result.cache
 bin
+/.env
 ###< phpunit/phpunit ###

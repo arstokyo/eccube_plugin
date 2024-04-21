@@ -4,6 +4,12 @@ namespace Plugin\AceClient\Config\Model\PrmFormat;
 
 use Plugin\AceClient\Config\Model\ConfigModelInterface;
 
+
+/**
+ * Model for Prm Detail Format
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 class PrmDetailFormatModel implements ConfigModelInterface
 {
     /**

@@ -6,6 +6,11 @@ use Plugin\AceClient\Exception\SerializeException;
 use Plugin\AceClient\Utils\Serialize\SerializerFactory;
 use Plugin\AceClient\Utils\Mapper\EncodeDefineMapper;
 
+/**
+ * Trait for XML serialization.
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 trait ToXmlTrait
 {
     /**

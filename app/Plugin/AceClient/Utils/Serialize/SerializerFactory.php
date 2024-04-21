@@ -11,6 +11,11 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Plugin\AceClient\Utils\Normalize\NormalizerFactory;
 use Plugin\AceClient\Utils\Denormalize\DenormalizerFactory;
 
+/**
+ * Factory for Serializer.
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 final class SerializerFactory
 {
     /**
