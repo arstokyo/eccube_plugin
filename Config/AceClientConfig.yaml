@@ -1,26 +1,42 @@
 # Author: Ars-Thong
 parameters:
-    http_client:
+    ace_method:
         default:
-            base_uri: 'http://ar-system-api.co.jp/'
-            options:
-                timeout: 600
-                verify: false
+            serializer: 
+                class_name: 'Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\Serializer'
+            normalizer: 
+                class_name: 'Plugin\AceClient\AceServices\Model\Response\Jyuden\AddCart\Normalizer'
+            logger: 
+                class_name: 'Plugin\AceClient\AceServices\Model\Logger\AceLogger'
+            api_client:
+                client_name: 'Plugin\AceClient\ApiClient\Api\Client\PostClient'
+                base_uri: 'http://192.168.0.77:20443/ACEXML/'
                 headers:
-                    'Content-Type': 'application/xml'
-                    'Accept': 'application/xml'
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'
+                    'Content-Type': 'application/soap+xml; charset=utf-8'
+                    'User-Agent': 'AceClient v1.0'
+                options:
+                    timeout: 600
+                    verify: false
+
         overrides:
-        # Change here for specific class
-        # Example:
-        # - Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\OrderPrmModel:
-        #     options:
-        #         timeout: 60
-        #         verify: true
-        #         headers:
-        #             'Content-Type': 'application/json'
-        #             'Accept': 'application/json'
-        
+            # Change here for overriding default configuration
+            # Example:
+            - Plugin\AceClient\Config\Model\TestLoadConfig:
+                serializer: 
+                    class_name: 'Test\Serializer'
+                normalizer: 
+                    # class_name: 'Test\Normalizer'
+                logger: 
+                    class_name: 
+                api_client:
+                    client_name: 'Plugin\AceClient\ApiClient\Api\Client\PostSoapClient'
+                    base_uri: 'http://192.168.0.77:20443/testACEXML/'
+                    headers:
+                        'Content-Type': 'application/json'
+                        'User-Agent': 'AceClient v1.2'
+                    options:
+                        timeout: 20
+                        verify: true
 
     prm_otd_format:
         default: 
@@ -30,7 +46,7 @@ parameters:
                 xml_encoding: 'Shift_JIS'
 
         overrides:
-        # Change here for specific class
+        # Change here for overriding default configuration
         # Example:
         # - Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\OrderPrmModel:
         #     format: 'object'
@@ -48,7 +64,7 @@ parameters:
             xml_encoding: 'utf-8'
             encoder_ignored_node_types: 
                 - \XML_PI_NODE
-        request_soap_header: '<?xml version="1.0" encoding="utf-8"?>
+        request_soap_head: '<?xml version="1.0" encoding="utf-8"?>
                                 <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
                                 <soap12:Body>'
         request_soap_end: '</soap12:Body>

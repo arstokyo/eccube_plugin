@@ -6,7 +6,7 @@ use Plugin\AceClient\Exception;
 
 class PostClient extends AbstractClient implements PostClientInterface
 {
-    protected string $method = 'POST';
+    protected string $requestmethod = 'POST';
 
     /**
      * Build the request JSON body with the specified parameters
@@ -29,7 +29,7 @@ class PostClient extends AbstractClient implements PostClientInterface
             $request = $this->delegate->getSerializer()->serialize($this->request, 'json');
         } catch (\Throwable $t) {
             $this->delegate->getLogger()->error("API Client error: {$t->getMessage()}");
-            throw new Exception\RequestBuildException("Cannot build {$this->method} request body", $t);
+            throw new Exception\RequestBuildException("Cannot build {$this->requestmethod} request body", $t);
         }
         return array_merge_recursive(
             $baseOptions,

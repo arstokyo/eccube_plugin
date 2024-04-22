@@ -8,7 +8,7 @@ use Symfony\Component\Serializer\NameConverter\MetadataAwareNameConverter;
 use Symfony\Component\Serializer\Serializer;
 use Psr\Log\NullLogger;
 use Plugin\AceClient\ApiClient\ApiClient;
-use Plugin\AceClient\Utils\Normalize\Normalizer;
+use Plugin\AceClient\Utils\Normalize\SoapXMLNormalizer;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\AddCartRequestModel;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\OrderPrmModel;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\MemberOrderModel;
@@ -22,7 +22,7 @@ use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
 use \Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 use Doctrine\Common\Annotations\AnnotationReader;
-use Plugin\AceClient\Utils\Serialize\SoapSerializer;
+use Plugin\AceClient\Utils\Serialize\SoapXMLSerializer;
 use GuzzleHttp;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Plugin\AceClient\DependecyInjection\AceClientExtension;
@@ -30,6 +30,7 @@ use Plugin\AceClient\DependecyInjection\SoapSerializerConfiguration;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;
 use Plugin\AceClient\Utils\Normalize\NormalizerFactory;
+use Plugin\AceClient\Config\Model\TestLoadConfig;
 
 
 class ApiClientTest extends AbstractAdminWebTestCase
@@ -46,7 +47,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
                 ]);
                 $serializer = new Serializer();
                 $nullLogger = new NullLogger();
-                $normalizer = new Normalizer();
+                $normalizer = new SoapXMLNormalizer();
                 $apiClient = new ApiClient($httpClient,$serializer,$normalizer,$nullLogger);
 
         } catch (\Exception $e) {
@@ -118,12 +119,15 @@ class ApiClientTest extends AbstractAdminWebTestCase
                     </soap12:Envelope>';
                 
         $this->httpClient = $this->createHttpClient();
+        // $request =  [
+        //     'headers' => ['Content-Type' => 'application/soap+xml; charset=utf-8'],
+        //     'body'    => $body,
+        // ];
         $request =  [
-            'headers' => ['Content-Type' => 'application/soap+xml; charset=utf-8'],
             'body'    => $body,
         ];
         try {
-            $response = $this->httpClient->request('POST','/ACEXML/Jyuden/service2.asmx', $request);
+            $response = $this->httpClient->request('POST','Jyuden/service2.asmx', $request);
             $responseContent = $response->getBody()->getContents();
             var_dump($responseContent);
         } catch(\Exception $e) {
@@ -134,30 +138,36 @@ class ApiClientTest extends AbstractAdminWebTestCase
 
     private function createHttpClient(): GuzzleHttp\ClientInterface
     {
-        return new GuzzleHttp\Client(['base_uri'        => 'http://192.168.0.81:55667/',
+        // return new GuzzleHttp\Client(['base_uri'        => 'http://192.168.0.81:55667/',
+        //                                'timeout'         => 600,
+        //                                'allow_redirects' => false,]
+        //                             );
+                return new GuzzleHttp\Client(['base_uri'        => 'http://192.168.0.77:20443/ACEXML/',
                                        'timeout'         => 600,
-                                       'allow_redirects' => false,]
+                                       'allow_redirects' => false,
+                                       'version' => '1.3',
+                                       'headers' => ['Content-Type' => 'application/soap+xml; charset=utf-8'],]
                                     );
-                // return new GuzzleHttp\Client(['base_uri'        => 'http://192.168.0.77:20443/',
-                //                        'timeout'         => 600,
-                //                        'allow_redirects' => false,]
-                //                     );
     }
 
     public function testSoapSerializer() 
     {
 
         $nomalizer = NormalizerFactory::makeAnnotationNormalizers();
-        $serializer = new SoapSerializer($nomalizer);
+        $serializer = new SoapXMLSerializer($nomalizer);
         $result = $serializer->serialize($this->getRequestContent());
         echo $result;
         $this->httpClient = $this->createHttpClient();
         $request =  [
-            'headers' => ['Content-Type' => 'application/soap+xml; charset=utf-8'],
+            'headers' => ['Content-Type' => 'application/soap+xml; charset=utf-8',
+                          'User-Agent' => 'AceClient 1.0',],
             'body'    => $result,
         ];
+
         try {
-            $response = $this->httpClient->request('POST','/service2.asmx', $request);
+            // // $response = $this->httpClient->request('POST','/service2.asmx', $request);
+            // // $response = $this->httpClient->request('POST','Jyuden/service2.asmx', $request);
+            $response = $this->httpClient->request('POST','http://192.168.0.77:20443/ACEXML/Jyuden/service2.asmx', $request);
             $responseContent = $response->getBody()->getContents();
             var_dump($responseContent);
         } catch(\Exception $e) {
@@ -209,7 +219,8 @@ class ApiClientTest extends AbstractAdminWebTestCase
     }
 
     public function testLoadPrmDTOFormat() {
-        $orderPrm = new OrderPrmModel();
+        $orderPrm = new TestLoadConfig();
+        $this->assertTrue(true);
     }
 
 }

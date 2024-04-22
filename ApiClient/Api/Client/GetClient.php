@@ -6,7 +6,7 @@ use Plugin\AceClient\Exception;
 
 class GetClient extends AbstractClient implements GetClientInterface
 {
-    protected string $method = 'GET';
+    protected string $requestmethod = 'GET';
 
     /**
      * Build the request url with the specified parameters

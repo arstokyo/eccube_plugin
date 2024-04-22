@@ -3,6 +3,7 @@
 namespace Plugin\AceClient\Config\Model;
 
 use Plugin\AceClient\Utils\Denormalize\DTO\ADTAODenormalizerTrait;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 /**
  * Abstract Class for Overridable Config
@@ -27,6 +28,14 @@ abstract class OverridableConfigAbstract implements OverridableConfigInterface
     protected ?array $overrides = null;
 
     /**
+     * Overrided Config
+     * 
+     * @var ?ConfigModelInterface $overridedConfig
+     */
+    #[Ignore]
+    protected ?ConfigModelInterface $overridedConfig = null;
+
+    /**
      * Get the value of default
      * 
      * @return ConfigModelInterface
@@ -45,7 +54,7 @@ abstract class OverridableConfigAbstract implements OverridableConfigInterface
      */
     public function setDefault(array $default): void
     {
-        $this->default = $this->denormalizeDTO($default, $this->setChildConfigClassName());
+        $this->default = $this->denormalizeDTO($default, $this->setDetailConfigClassName());
     }
 
     /**
@@ -67,7 +76,7 @@ abstract class OverridableConfigAbstract implements OverridableConfigInterface
      */
     public function setOverrides(?array $overrides): void
     {
-        $this->overrides = $overrides ? $this->denormalizeADTAO($overrides, $this->setChildConfigClassName()) : null;
+        $this->overrides = $overrides ? $this->denormalizeADTAO($overrides, $this->setDetailConfigClassName()) : null;
     }
 
     /**
@@ -93,11 +102,38 @@ abstract class OverridableConfigAbstract implements OverridableConfigInterface
      */
     public function getOverridedConfig(string $targetOverride): ?ConfigModelInterface
     {
-        $targetOverrideConfig = $this->getSpecificOverride($targetOverride);
-        return $targetOverrideConfig ? $this->performOverrideConfig($targetOverrideConfig) : $this->getDefaultConfig();
+        if (empty($this->overridedConfig)) {
+            $this->setOverrideConfig($targetOverride);
+        }
+        return $this->overridedConfig;
     }
 
-    abstract protected function setChildConfigClassName(): string; 
+    /**
+     * Set the overrided config
+     *
+     * @param string $targetOverride
+     */
+    #[Ignore]
+    private function setOverrideConfig(string $targetOverride): void
+    {
+        $targetOverrideConfig = $this->getSpecificOverride($targetOverride);
+        $this->overridedConfig = $targetOverrideConfig ? $this->performOverrideConfig($targetOverrideConfig) : $this->getDefaultConfig();
+    }
+
+    /**
+     * Set the Detail Config Class Name.
+     * 
+     * @return string
+     */
+    abstract protected function setDetailConfigClassName(): string; 
+    
+    /**
+     * Perform the override config
+     * 
+     * @param ConfigModelInterface $config
+     * 
+     * @return ConfigModelInterface
+     */
     abstract protected function performOverrideConfig(ConfigModelInterface $config): ConfigModelInterface;
 
 }

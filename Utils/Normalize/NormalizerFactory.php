@@ -16,7 +16,6 @@ use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactoryInterface;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 
-
 /**
  * Factory for Normalizer.
  * 

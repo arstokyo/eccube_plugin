@@ -5,6 +5,7 @@ namespace Plugin\AceClient\Config\Model\SoapXmlSerializer;
 use Plugin\AceClient\Config\Model\ConfigModelInterface;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Plugin\AceClient\Utils\ConfigLoader\ConvertToConstTrait;
 
 /**
  * Model for SoapXmlSerializer
@@ -13,14 +14,17 @@ use Symfony\Component\Serializer\Encoder\XmlEncoder;
  */
 class SoapXmlSerializerModel implements ConfigModelInterface
 {
+
+    use ConvertToConstTrait;
+
     #[SerializedName("xmlns")]
     private array $xmlns;
 
     #[SerializedName("default_serialize_options")]
     private array $defaultSerializeOptions;
 
-    #[SerializedName("request_soap_header")]
-    private string $requestSoapHeader;
+    #[SerializedName("request_soap_head")]
+    private string $requestSoapHead;
     
     #[SerializedName("request_soap_end")]
     private string $requestSoapEnd;
@@ -70,9 +74,9 @@ class SoapXmlSerializerModel implements ConfigModelInterface
      * 
      * @return string
      */
-    public function getRequestSoapHeader(): string
+    public function getRequestSoapHead(): string
     {
-        return $this->requestSoapHeader;
+        return $this->requestSoapHead;
     }
 
     /**
@@ -80,9 +84,9 @@ class SoapXmlSerializerModel implements ConfigModelInterface
      *
      * @return void
      */
-    public function setRequestSoapHeader(string $requestSoapHeader): void
+    public function setRequestSoapHead(string $requestSoapHead): void
     {
-        $this->requestSoapHeader = $requestSoapHeader;
+        $this->requestSoapHead = $requestSoapHead;
     }
 
     /**
@@ -116,7 +120,7 @@ class SoapXmlSerializerModel implements ConfigModelInterface
     {
         if (\in_array(XmlEncoder::ENCODER_IGNORED_NODE_TYPES, $defaultSerializeOptions)) {
             foreach($defaultSerializeOptions[XmlEncoder::ENCODER_IGNORED_NODE_TYPES] as $key => $value) {
-                $defaultSerializeOptions[XmlEncoder::ENCODER_IGNORED_NODE_TYPES][$key] = constant($value);
+                $defaultSerializeOptions[XmlEncoder::ENCODER_IGNORED_NODE_TYPES][$key] = $this->convertVarToIntConst($value);
             }
         }
         return $defaultSerializeOptions;
