@@ -16,7 +16,7 @@ use Plugin\AceClient\Utils\Mapper\EncodeDefineMapper;
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class SoapSerializer implements SoapSerializerInterface
+class SoapXMLSerializer implements SoapXMLSerializerInterface
 {
     /**
      * @var SerializerInterface $serializer
@@ -85,7 +85,7 @@ class SoapSerializer implements SoapSerializerInterface
      */
     private function compileWithSoapHeader(string $data): string
     {
-        return $this->config->getRequestSoapHeader() . $data . $this->config->getRequestSoapEnd();
+        return $this->config->getRequestSoapHead() . $data . $this->config->getRequestSoapEnd();
     }
 
 }

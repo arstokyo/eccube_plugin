@@ -13,6 +13,5 @@ class EncodeDefineMapper
 {
     const XML = 'xml'; 
     const JSON = 'json';
-
     const XML_ROOT_NODE_NAME = XmlEncoder::ROOT_NODE_NAME;
 } 

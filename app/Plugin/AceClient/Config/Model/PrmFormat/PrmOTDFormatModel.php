@@ -36,11 +36,10 @@ class PrmOTDFormatModel extends OverridableConfigAbstract implements ConfigModel
     }
 
     /**
-     * Set the value of Child Config.
+     * {@inheritDoc}
      * 
-     * @return string
      */
-    protected function setChildConfigClassName(): string
+    protected function setDetailConfigClassName(): string
     {
         return PrmDetailFormatModel::class;
     }

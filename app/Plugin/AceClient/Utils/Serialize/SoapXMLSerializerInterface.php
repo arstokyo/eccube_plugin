@@ -9,7 +9,7 @@ use Symfony\Component\Serializer\SerializerInterface;
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-interface SoapSerializerInterface extends SerializerInterface
+interface SoapXMLSerializerInterface extends SerializerInterface
 {
 
 }

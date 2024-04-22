@@ -2,7 +2,6 @@
 
 namespace Plugin\AceClient\Utils\Mapper;
 
-
 /**
  * Mapper for File Path.
  * 
