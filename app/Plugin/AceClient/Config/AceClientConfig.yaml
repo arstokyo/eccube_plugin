@@ -21,22 +21,22 @@ parameters:
         overrides:
             # Change here for overriding default configuration
             # Example:
-            - Plugin\AceClient\Config\Model\TestLoadConfig:
-                serializer: 
-                    class_name: 'Test\Serializer'
-                normalizer: 
-                    # class_name: 'Test\Normalizer'
-                logger: 
-                    class_name: 
-                api_client:
-                    client_name: 'Plugin\AceClient\ApiClient\Api\Client\PostSoapClient'
-                    base_uri: 'http://192.168.0.77:20443/testACEXML/'
-                    headers:
-                        'Content-Type': 'application/json'
-                        'User-Agent': 'AceClient v1.2'
-                    options:
-                        timeout: 20
-                        verify: true
+            # - Plugin\AceClient\Config\Model\TestLoadConfig:
+            #     serializer: 
+            #         class_name: 'Test\Serializer'
+            #     normalizer: 
+            #         # class_name: 'Test\Normalizer'
+            #     logger: 
+            #         class_name: 
+            #     api_client:
+            #         client_name: 'Plugin\AceClient\ApiClient\Api\Client\PostSoapClient'
+            #         base_uri: 'http://192.168.0.77:20443/testACEXML/'
+            #         headers:
+            #             'Content-Type': 'application/json'
+            #             'User-Agent': 'AceClient v1.2'
+            #         options:
+            #             timeout: 20
+            #             verify: true
 
     prm_otd_format:
         default: 
@@ -46,15 +46,15 @@ parameters:
                 xml_encoding: 'Shift_JIS'
 
         overrides:
-        # Change here for overriding default configuration
-        # Example:
-        # - Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\OrderPrmModel:
-        #     format: 'object'
-            # options:
-            #     xml_format_output: true
-            #     xml_encoding: 'utf-8'
-            #     encoder_ignored_node_types:
-            #         - \XML_PI_NODE
+            # Change here for overriding default configuration
+            # Example:
+            # - Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\OrderPrmModel:
+            #     format: 'object'
+            #     options:
+            #         xml_format_output: true
+            #         xml_encoding: 'utf-8'
+            #         encoder_ignored_node_types:
+            #             - \XML_PI_NODE
 
     soap_xml_serializer:
         xmlns: 
