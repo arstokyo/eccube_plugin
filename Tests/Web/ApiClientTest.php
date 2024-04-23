@@ -31,6 +31,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;
 use Plugin\AceClient\Utils\Normalize\NormalizerFactory;
 use Plugin\AceClient\Config\Model\TestLoadConfig;
+use Plugin\AceClient\AceClient;
 
 
 class ApiClientTest extends AbstractAdminWebTestCase
@@ -59,7 +60,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
         $this->assertTrue(true);
     }
 
-    public function getRequestContent(): \Plugin\AceClient\AceServices\Model\Request\RequestModelInterface
+    public function getAddCartModel(): \Plugin\AceClient\AceServices\Model\Request\RequestModelInterface
     {
 
         $member = (new MemberOrderModel)
@@ -74,25 +75,6 @@ class ApiClientTest extends AbstractAdminWebTestCase
                              ->setSessid(1)
                              ->setPrm($prm);
 
-        $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader));
-        $encoders = [new XmlEncoder(), new JsonEncoder()];
-        $nomalizer = [new ObjectNormalizer(
-            classMetadataFactory: $classMetadataFactory ,
-            nameConverter: new MetadataAwareNameConverter($classMetadataFactory, new CamelCaseToSnakeCaseNameConverter),
-        )];
-
-        // $serializer = new Serializer($nomalizer, $encoders);
-        // $context = $serializer->serialize([
-        //                                     '@xmlns'=> 'http://ar-system-api.co.jp/',
-        //                                     '#'=> $addCartModel
-        //                                   ],'xml',
-        //                                   [ 'xml_root_node_name'=> $addCartModel->getXmlNodeName(), 
-        //                                     'xml_format_output' => true,
-        //                                     'xml_encoding' => 'utf-8',
-        //                                     'encoder_ignored_node_types' =>  [
-        //                                         \XML_PI_NODE, // removes XML declaration (the leading xml tag)
-        //                                     ],]);
-        // var_dump($context);
         return $addCartModel;
     }
 
@@ -155,7 +137,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
 
         $nomalizer = NormalizerFactory::makeAnnotationNormalizers();
         $serializer = new SoapXMLSerializer($nomalizer);
-        $result = $serializer->serialize($this->getRequestContent());
+        $result = $serializer->serialize($this->getAddCartModel());
         echo $result;
         $this->httpClient = $this->createHttpClient();
         $request =  [
@@ -234,6 +216,17 @@ class ApiClientTest extends AbstractAdminWebTestCase
     public function testConfigWriter()
     {
         $configWriter = new \Plugin\AceClient\Utils\ConfigWriter\ConfigWriterTestor();
+    }
+
+    public function testAddCartMethod()
+    {
+        $addCartRequest = $this->getAddCartModel();
+        $response = (new AceClient)->makeJyudenService()
+                                    ->makeAddCartMethod()
+                                    ->withRequest($addCartRequest)
+                                    ->send();
+        var_dump($response);
+        $this->assertTrue(true);
     }
 
 }

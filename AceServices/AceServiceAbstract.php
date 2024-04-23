@@ -8,6 +8,6 @@ namespace Plugin\AceClient\AceServices;
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 class AceServiceAbstract implements AceServiceInterface {
-    protected string $servicename;
+    protected string $baseServiceName;
 
 }
