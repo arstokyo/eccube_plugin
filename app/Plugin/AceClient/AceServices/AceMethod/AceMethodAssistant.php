@@ -14,6 +14,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Plugin\AceClient\Utils\HttpClient\HttpClientFactory;
 
+
 /**
  * Ace Method Assistant
  * 
@@ -67,12 +68,12 @@ final class AceMethodAssistant
      * 
      * @return ClientInterface
      */
-    public function buildApiClient(string $endpoint): ClientInterface
+    public function buildApiClient(string $endpoint, string $responseObj): ClientInterface
     {
         return ApiClientFactory::makeClient($this->config->getApiClient()->getClassName() ?: ApiClientFactory::DEFAULT_API_CLIENT,
                                             $endpoint,
                                             $this->buildDelegate(), 
-                                           );
+                                            )->withResponseAs($responseObj);
 
     }
 

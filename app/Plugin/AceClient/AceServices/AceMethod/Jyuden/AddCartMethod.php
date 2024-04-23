@@ -3,6 +3,7 @@
 namespace Plugin\AceClient\AceServices\AceMethod\Jyuden;
 
 use Plugin\AceClient\AceServices\AceMethod\AceMethodAbstract;
+use Plugin\AceClient\AceServices\Model\Response\Jyuden\AddCartResponseModel;
 
 class AddCartMethod extends AceMethodAbstract
 {
@@ -16,6 +17,15 @@ class AddCartMethod extends AceMethodAbstract
     protected function setRequestMethodName(): string
     {
         return self::METHOD_REQUEST_NAME;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     */
+    protected function setResponseObjectAs(): string
+    {
+        return AddCartResponseModel::class;
     }
 
 }

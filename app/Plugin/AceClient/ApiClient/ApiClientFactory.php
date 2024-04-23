@@ -59,7 +59,7 @@ class ApiClientFactory
     private static function validateCompatible($obj, string $targetInterface): object
     {
         $interfaces = class_implements($obj);
-        if (!(in_array($targetInterface, $interfaces) || is_subclass_of($obj, $targetInterface))){
+        if (!(in_array($targetInterface, $interfaces, true) || is_subclass_of($obj, $targetInterface))){
             throw new NotCompatibleDataType(sprintf('Given object is not compatible with %s. Given object %s', $targetInterface, get_class($obj)));
         };
         return $obj;
