@@ -7,6 +7,11 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Serializer;
 use Symfony\Component\Serializer\Normalizer;
 
+/**
+ * Delegate For Api Client
+ *
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 class Delegate implements DelegateInterface
 {
    /**

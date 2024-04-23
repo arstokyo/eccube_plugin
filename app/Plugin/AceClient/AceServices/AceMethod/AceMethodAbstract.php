@@ -39,7 +39,7 @@ abstract class AceMethodAbstract implements AceMethodInterface
     {
         $this->assistant = new AceMethodAssistant($this->loadConfig()->getOverridedConfig($this::class));
         $this->apiClient = $this->assistant->buildApiClient(self::buildEndPoint($baseServiceName), 
-                                                            self::getResponseObjectAs());
+                                                            self::getResponseAsObject());
     }
 
     /**
@@ -81,7 +81,7 @@ abstract class AceMethodAbstract implements AceMethodInterface
      */
     private function buildEndPoint(string $baseService): string
     {
-        return sprintf('%s/%s', $baseService, $this->setRequestMethodName());
+        return sprintf('%s/%s', $baseService, $this->setEndPointService());
     }
 
     /**
@@ -89,14 +89,14 @@ abstract class AceMethodAbstract implements AceMethodInterface
      * 
      * @return string
      */
-    abstract protected function setRequestMethodName(): string;
+    abstract protected function setEndPointService(): string;
 
     /**
      * Set the response object.
      * 
      * @return string
      */
-    abstract protected function setResponseObjectAs(): string;
+    abstract protected function setResponseAsObject(): string;
 
     /**
      * Get the response object.
@@ -106,9 +106,9 @@ abstract class AceMethodAbstract implements AceMethodInterface
      * @throws NotCompatibleDataType
      * @throws InvalidClassNameException
      */
-     private function getResponseObjectAs(): string
+     private function getResponseAsObject(): string
      {
-        $settedResponseObject = $this->setResponseObjectAs();
+        $settedResponseObject = $this->setResponseAsObject();
         if (!class_exists($settedResponseObject)) { 
             throw new InvalidClassNameException(sprintf('Given class name does not exist. Given class name %s', $settedResponseObject));
         }

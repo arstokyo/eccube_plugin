@@ -35,7 +35,7 @@ trait BaseConfigLoaderTrait
      * 
      * @return ConfigModelInterface|OverridableConfigInterface
      */
-    final public function loadConfig(): ConfigModelInterface|OverridableConfigInterface
+    final protected function loadConfig(): ConfigModelInterface|OverridableConfigInterface
     {
         $configs = $this->parseConfigToArray();
         return $this->denormalizeDTO($configs, $this->getConfigModelClassName());

@@ -13,16 +13,16 @@ use Plugin\AceClient\AceServices\AceMethod\Jyuden\AddCartMethod;
  */
 class JyudenService extends AceServiceAbstract implements AceServiceInterface
 {
-    protected string $servicename = 'Jyuden';
+    protected string $baseServiceName = 'Jyuden';
 
     /**
      * Make AddCartMethod
      * 
      * @return AddCartMethod
      */
-    public function makeCartMethod(): AddCartMethod
+    public function makeAddCartMethod(): AddCartMethod
     {
-        return new AddCartMethod($this->servicename);
+        return new AddCartMethod($this->baseServiceName);
     }
     
 }

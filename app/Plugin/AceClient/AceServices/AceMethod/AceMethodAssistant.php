@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Plugin\AceClient\Utils\HttpClient\HttpClientFactory;
-
+use Plugin\AceClient\Utils\Normalize\NormalizerFactory;
 
 /**
  * Ace Method Assistant
@@ -54,10 +54,9 @@ final class AceMethodAssistant
      */
     private function buildDelegate(): DelegateInterface
     {
-        $normalizer = $this->buildNormalizer();
         return new Delegate($this->buildHttpClient(),
-                            $this->buildSerializer([$normalizer]),
-                            $normalizer,
+                            $this->buildSerializer(),
+                            $this->buildNormalizer(),
                             $this->buildLogger());
     }
 
@@ -97,7 +96,7 @@ final class AceMethodAssistant
     {
         return \array_merge(['headers' => $this->config->getHttpClient()->getHeaders() ?: HttpClientFactory::DEFAULT_HEADER,
                              'base_uri' => $this->config->getHttpClient()->getBaseUri() ?: HttpClientFactory::DEFAULT_BASE_URL,],
-                             $this->config->getHttpClient()->getOptions() ?: HttpClientFactory::DEFAULT_OPTIONS);
+                             $this->config->getHttpClient()->getOptions() ?? HttpClientFactory::DEFAULT_OPTIONS);
     }
 
     /**
@@ -107,11 +106,23 @@ final class AceMethodAssistant
      * 
      * @return SerializerInterface
      */
-    private function buildSerializer(array $normalizers): SerializerInterface
+    private function buildSerializer(): SerializerInterface
     {
+
         return ApiClientFactory::makeSerializer($this->config->getSerializer()->getClassName() ?: ApiClientFactory::DEFAULT_SERIALIZER,
-                                                $normalizers,
+                                                $this->buildNormalizersForSerializer(),
                                                 $this->buildEncoders());
+    }
+
+    /**
+     * Build the normalizers for serializer.
+     * 
+     * @return array
+     */
+    private function buildNormalizersForSerializer(): array
+    {
+        $makefunc = sprintf('make%s', $this->config->getSerializer()->getNormalizers() ?: ApiClientFactory::DEFAULT_NORMALIZERS_FOR_SERIALIZER);
+        return NormalizerFactory::{$makefunc}();
     }
 
     /**

@@ -23,7 +23,7 @@ class SoapXMLNormalizer implements NormalizerInterface
      * 
      */
     public function __construct() {
-        $normalizer = NormalizerFactory::makeAnnotationNormalizers();
+       $normalizer = NormalizerFactory::makeAnnotationNormalizers();
     }
 
     /**

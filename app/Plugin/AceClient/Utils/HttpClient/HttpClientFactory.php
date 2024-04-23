@@ -14,7 +14,7 @@ use Plugin\AceClient\Utils\Mapper\OverviewMapper;
 final class HttpClientFactory
 {
     public const DEFAULT_BASE_URL = "http://localhost/";
-    public const DEFAULT_HEADER = ['User-Agent' => OverviewMapper::ACE_CLIENT_FULL_NAME];
+    public const DEFAULT_HEADER = ['User-Agent' => OverviewMapper::USER_CLIENT_HEADER];
     public const DEFAULT_OPTIONS = ['timeout' => 600 , 'verify' => false];
 
     /**
