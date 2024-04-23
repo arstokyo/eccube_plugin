@@ -2,32 +2,35 @@
 
 namespace Plugin\AceClient\ApiClient\Api\Client;
 
-use Plugin\AceClient\ApiClient\Api\Delegate;
+use Plugin\AceClient\ApiClient\Api\DelegateInterface;
 use Plugin\AceClient\ApiClient\Response;
+use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
+use Plugin\AceClient\ApiClient\Response\ResponseInterface;
 use Psr\Http\Message\ResponseInterface as PsrResponse;
 use Plugin\AceClient\Exception;
 
 class AbstractClient implements ClientInterface
 {
+    /** @var string $requestmethod */
     protected string $requestmethod;
 
     /** @var array<string, string[]> */
     protected array $headers = [];
 
-    /** @var \JsonSerializable|array<mixed, mixed> */
-    protected \JsonSerializable|array $request = [];
+    /** @var \JsonSerializable|RequestModelInterface|array<mixed, mixed> */
+    protected \JsonSerializable|RequestModelInterface|array $request = [];
 
     protected ?string $responseObject = null;
 
     /**
      * AbstractClient constructor
      *
-     * @param string   $endpoint Target endpoint.
-     * @param Delegate $delegate Delegate instance.
+     * @param string              $endpoint Target endpoint.
+     * @param DelegateInterface $delegate Delegate instance.
      */
     public function __construct(
         protected string $endpoint,
-        protected Delegate $delegate
+        protected DelegateInterface $delegate
     ) {
     }
 
@@ -57,11 +60,11 @@ class AbstractClient implements ClientInterface
     /**
      * Set Client Request
      *
-     * @param \JsonSerializable|array<int|string, mixed> $request Client request.
+     * @param ResponseInterface|\JsonSerializable|array<int|string, mixed> $request Client request.
      *
      * @return ClientInterface
      */
-    public function withRequest(\JsonSerializable|array $request): ClientInterface
+    public function withRequest(RequestModelInterface|\JsonSerializable|array $request): ClientInterface
     {
         $this->request = $request;
         return $this;
@@ -132,7 +135,6 @@ class AbstractClient implements ClientInterface
     {
         try {
             $responseContent = $psrResponse->getBody()->getContents();
-            /** @psalm-suppress MixedAssignment */
             $response = empty($this->responseObject)
                 ? $responseContent
                 : $this->delegate->getSerializer()->deserialize(

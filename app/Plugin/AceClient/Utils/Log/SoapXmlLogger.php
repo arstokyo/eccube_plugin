@@ -1,10 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\Utils\HttpClient;
+namespace Plugin\AceClient\Utils\Log;
 
 use Psr\Log\LoggerInterface;
 use Psr\Log\AbstractLogger;
-use Psr\Log\LoggerTrait;
 
 class SoapXmlLogger extends AbstractLogger implements LoggerInterface
 {
@@ -13,4 +12,5 @@ class SoapXmlLogger extends AbstractLogger implements LoggerInterface
         $message = sprintf('[%s] %s', $level, $message);
         error_log($message);
     }
+
 }

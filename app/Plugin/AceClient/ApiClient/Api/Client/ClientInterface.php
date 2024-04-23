@@ -3,6 +3,7 @@
 namespace Plugin\AceClient\ApiClient\Api\Client;
 
 use Plugin\AceClient\ApiClient\Api\Client\ClientMetadataInterface;
+use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient\ApiClient\Response\ResponseInterface;
 use Plugin\AceClient\Exception;
 
@@ -27,11 +28,11 @@ interface ClientInterface
     /**
      * Set client request
      *
-     * @param \JsonSerializable|array<int|string, mixed> $request Client request.
+     * @param RequestModelInterface|\JsonSerializable|array<int|string, mixed> $request Client request.
      *
      * @return ClientInterface
      */
-    public function withRequest(\JsonSerializable|array $request): ClientInterface;
+    public function withRequest(RequestModelInterface|\JsonSerializable|array $request): ClientInterface;
 
     /**
      * Set client response as

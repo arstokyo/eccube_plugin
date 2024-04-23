@@ -17,9 +17,9 @@ use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 trait DTODenormalizerTrait
 {
     /**
-     * @var Serializer $serializer
+     * @var Serializer $dtoSerializer
      */
-    private SerializerInterface $serializer;
+    private SerializerInterface $dtoSerializer;
     
     /**
      * Deserializes data into the given type.
@@ -33,13 +33,13 @@ trait DTODenormalizerTrait
      */
     final protected function denormalizeDTO($data, string $type, string $format = null, array $context = []): ConfigModelInterface|OverridableConfigInterface
     {
-        if (!isset($this->serializer)) {
-            $this->serializer = SerializerFactory::makeDTOSerializer();
+        if (!isset($this->dtoSerializer)) {
+            $this->dtoSerializer = SerializerFactory::makeDTOSerializer();
         }
         if (!isset($context[AbstractObjectNormalizer::SKIP_NULL_VALUES])) {
             $context[AbstractObjectNormalizer::SKIP_NULL_VALUES] = true;
         }
-        return $this->serializer->denormalize($data, $type, $format, $context);
+        return $this->dtoSerializer->denormalize($data, $type, $format, $context);
     }
 
     /**
@@ -49,7 +49,7 @@ trait DTODenormalizerTrait
      */
     final protected function setSerializer(SerializerInterface $serializer): void
     {
-        $this->serializer = $serializer;
+        $this->dtoSerializer = $serializer;
     }
 
     /**
@@ -59,7 +59,7 @@ trait DTODenormalizerTrait
      */
     final protected function getSerializer(): ?SerializerInterface
     {
-        return $this->serializer ?? null;
+        return $this->dtoSerializer ?? null;
     }
 
 }
