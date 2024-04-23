@@ -7,10 +7,10 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Serializer;
 use Symfony\Component\Serializer\Normalizer;
 
-class Delegate
+class Delegate implements DelegateInterface
 {
    /**
-     * Delegate constructor
+     * Abstract Delegate constructor
      *
      * @param ClientInterface                $httpClient Http client instance.
      * @param Serializer\SerializerInterface $serializer Serializer instance.

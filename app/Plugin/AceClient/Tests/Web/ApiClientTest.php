@@ -54,7 +54,7 @@ class ApiClientTest extends AbstractAdminWebTestCase
             echo $e->getMessage(),'';
         }
 
-        $postClient = $apiClient->makePostClient("test.com");
+        $postClient = $apiClient->makeClient("test.com",'123');
         $postClient->withHeaders(["test" => "test value"]);
         $this->assertTrue(true);
     }
@@ -220,7 +220,15 @@ class ApiClientTest extends AbstractAdminWebTestCase
 
     public function testLoadPrmDTOFormat() {
         $orderPrm = new TestLoadConfig();
+        $response = new \Plugin\AceClient\ApiClient\Response\Response([],[],200);
+        $res = new \Plugin\AceClient\AceServices\Model\Response\Jyuden\AddCartResponseModel;
+        $res = $response->getResponse();
         $this->assertTrue(true);
+    }
+
+    public function testLoadAceMethod()
+    {
+        $addCartMethod = new \Plugin\AceClient\AceServices\AceMethod\Jyuden\AddCartMethod("Jyuden");
     }
 
 }

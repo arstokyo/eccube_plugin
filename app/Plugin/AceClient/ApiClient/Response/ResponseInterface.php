@@ -2,6 +2,8 @@
 
 namespace Plugin\AceClient\ApiClient\Response;
 
+use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
+
 interface ResponseInterface extends \JsonSerializable, \Stringable
 {
     /**
