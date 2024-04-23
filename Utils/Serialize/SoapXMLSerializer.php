@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\Utils\Serialize;
 
-use Plugin\AceClient\Exception\NotCompatibleArgument;
+use Plugin\AceClient\Exception\NotCompatibleDataType;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Plugin\AceClient\AceServices\Model\Request;
@@ -30,7 +30,6 @@ class SoapXMLSerializer implements SoapXMLSerializerInterface
     
     use SoapXmlSerializerConfigLoaderTrait;
 
-    
     /**
      * Constructor.
      * 
@@ -44,13 +43,17 @@ class SoapXMLSerializer implements SoapXMLSerializerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * Serializes data in the appropriate format.
+     * 
+     * @param mixed $data
+     * @param string|null $format
+     * @param array[] $context
      * 
      */
     public function serialize($data, string $format = EncodeDefineMapper::XML, array $context = [])
     {
         if (!$data instanceof RequestModelInterface) {
-            throw new NotCompatibleArgument(sprintf('Data Object Not Compatible. Respected Object Type "%s"', RequestModelInterface::class));
+            throw new NotCompatibleDataType(sprintf('Data Object Not Compatible. Respected Object Type "%s"', RequestModelInterface::class));
         }
         return $this->compileWithSoapHeader($this->serializeWithOptions($data, $format, $context));
     }

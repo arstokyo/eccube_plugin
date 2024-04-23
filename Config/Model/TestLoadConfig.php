@@ -13,11 +13,11 @@ class TestLoadConfig
     public function __construct()
     {
         $this->config = $this->loadConfig()->getOverridedConfig($this::class);
-        $httpClient = $this->config->getApiClient();
-        echo $httpClient->getBaseUri();
-        echo $httpClient->getClientName();
-        var_dump($httpClient->getHeaders());
-        var_dump($httpClient->getOptions());
+        $httpClient = $this->config->getHttpClient();
+        $serializer = $this->config->getSerializer();
+        $logger = $this->config->getLogger();
+        $normalizer = $this->config->getNormalizer();
+        $apiCLient = $this->config->getApiCLient();
         echo 'ok';
     }
 

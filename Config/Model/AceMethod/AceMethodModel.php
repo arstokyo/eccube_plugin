@@ -49,7 +49,8 @@ class AceMethodModel extends OverridableConfigAbstract implements ConfigModelInt
                 ->setApiClient($this->performOverrideApiClient($targetConfig))
                 ->setNormalizer($this->performOverrideNormalizer($targetConfig))
                 ->setSerializer($this->performOverrideSerializer($targetConfig))
-                ->setLogger($this->performOverrideLogger($targetConfig));
+                ->setLogger($this->performOverrideLogger($targetConfig))
+                ->setHttpClient($this->performOverrideHttpClient($targetConfig));
     }
 
     /**
@@ -57,57 +58,58 @@ class AceMethodModel extends OverridableConfigAbstract implements ConfigModelInt
      * 
      * @param AceMethodDetailModel $targetConfig
      * 
-     * @return ApiClientConfigModel
+     * @return HttpClientConfigModel
      */
-    private function performOverrideApiClient(AceMethodDetailModel $targetConfig): ApiClientConfigModel
+    private function performOverrideHttpClient(AceMethodDetailModel $targetConfig): HttpClientConfigModel
     {
-        $overridedApiClient = $targetConfig->getApiClient();
-        $defaultApiClient = $this->getDefaultConfig()->getApiClient();
+        $overridedHttpClient = $targetConfig->getHttpClient();
+        $defaultHttpClient = $this->getDefaultConfig()->getHttpClient();
 
-        if (!$overridedApiClient) {
-            return $defaultApiClient;
+        if (!$overridedHttpClient) {
+            return $defaultHttpClient;
         }
         
-        $resultApiClient = new ApiClientConfigModel();
-        if ($overridedApiClient) {
+        $resultHttpClient = new HttpClientConfigModel();
+        if ($overridedHttpClient) {
             
             // Valiate and set the value of baseUri
-            if ($overridedApiClient->getBaseUri()) {
-                $resultApiClient->setBaseUri($overridedApiClient->getBaseUri());
+            if ($overridedHttpClient->getBaseUri()) {
+                $resultHttpClient->setBaseUri($overridedHttpClient->getBaseUri());
             } else 
             {
-                $resultApiClient->setBaseUri($defaultApiClient->getBaseUri());
+                $resultHttpClient->setBaseUri($defaultHttpClient->getBaseUri());
             } 
 
             // Valiate and set the value of clientName
-            if ($overridedApiClient->getClientName()) {
-                $resultApiClient->setClientName($overridedApiClient->getClientName());
+            if ($overridedHttpClient->getClassName()) {
+                $resultHttpClient->setClassName($overridedHttpClient->getClassName());
             } else 
             {
-                $resultApiClient->setClientName($defaultApiClient->getClientName());
+                $resultHttpClient->setClassName($defaultHttpClient->getClassName());
             }
 
             // Valiate and set the value of headers
-            if ($overridedApiClient->getHeaders()) {
-                $resultApiClient->setHeaders($overridedApiClient->getHeaders());
+            if ($overridedHttpClient->getHeaders()) {
+                $resultHttpClient->setHeaders($overridedHttpClient->getHeaders());
             } else 
             {
-                $resultApiClient->setHeaders($defaultApiClient->getHeaders());
+                $resultHttpClient->setHeaders($defaultHttpClient->getHeaders());
             }
 
             // Valiate and set the value of options
-            if ($overridedApiClient->getOptions()) {
-                $resultApiClient->setOptions($overridedApiClient->getOptions());
+            if ($overridedHttpClient->getOptions()) {
+                $resultHttpClient->setOptions($overridedHttpClient->getOptions());
             } else 
             {
-                if ($defaultApiClient->getHeaders()['Content-Type'] === ($overridedApiClient->getHeaders()['Content-Type'] ?? ''))
+                if (array_key_exists('Content-Type', $defaultHttpClient->getHeaders()) &&
+                    $defaultHttpClient->getHeaders()['Content-Type'] === ($overridedHttpClient->getHeaders()['Content-Type'] ?? ''))
                 {
-                    $resultApiClient->setOptions($defaultApiClient->getOptions());
+                    $resultHttpClient->setOptions($defaultHttpClient->getOptions());
                 }
             }
 
         } 
-        return $resultApiClient ;
+        return $resultHttpClient ;
     }
 
     /**
@@ -154,6 +156,21 @@ class AceMethodModel extends OverridableConfigAbstract implements ConfigModelInt
         }
         return $targetConfig->getNormalizer();
     }   
+
+    /**
+     * Perform the override http client
+     * 
+     * @param AceMethodDetailModel $targetConfig
+     * 
+     * @return ApiClientConfigModel
+     */
+    private function performOverrideApiClient(AceMethodDetailModel $targetConfig): ApiClientConfigModel
+    {
+        if (empty($targetConfig->getApiClient()) || empty($targetConfig->getApiClient()->getClassName())) {
+            return $this->getDefaultConfig()->getApiClient();
+        }
+        return $targetConfig->getApiClient();
+    }
 
     /**
      * {@inheritDoc}

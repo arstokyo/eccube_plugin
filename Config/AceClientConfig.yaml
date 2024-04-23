@@ -3,40 +3,44 @@ parameters:
     ace_method:
         default:
             serializer: 
-                class_name: 'Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\Serializer'
+                class_name: 'Plugin\AceClient\Utils\Serialize\SoapXMLSerializer'
+                encoder: 'Symfony\Component\Serializer\Encoder\XmlEncoder'
             normalizer: 
-                class_name: 'Plugin\AceClient\AceServices\Model\Response\Jyuden\AddCart\Normalizer'
+                class_name: 'Plugin\AceClient\Utils\Normalize\SoapXMLNormalizer'
             logger: 
-                class_name: 'Plugin\AceClient\AceServices\Model\Logger\AceLogger'
-            api_client:
-                client_name: 'Plugin\AceClient\ApiClient\Api\Client\PostClient'
+                class_name: 'Plugin\AceClient\Utils\Log\SoapXmlLogger'
+            http_client: 
+                class_name: 'Plugin\AceClient\Utils\HttpClient\SoapXmlApiClient'
                 base_uri: 'http://192.168.0.77:20443/ACEXML/'
                 headers:
-                    'Content-Type': 'application/soap+xml; charset=utf-8'
-                    'User-Agent': 'AceClient v1.0'
+                    'User-Agent': '\Plugin\AceClient\Utils\Mapper\OverviewMapper::ACE_CLIENT_FULL_NAME'
                 options:
                     timeout: 600
                     verify: false
+            api_client:
+                class_name: 'Plugin\AceClient\ApiClient\Api\Client\PostSoapXMLClient'
 
         overrides:
             # Change here for overriding default configuration
             # Example:
             # - Plugin\AceClient\Config\Model\TestLoadConfig:
             #     serializer: 
-            #         class_name: 'Test\Serializer'
+            #         class_name: 'Plugin\AceClient\Utils\Serialize\SoapXMLSerializer'
+            #         encoder: 'Symfony\Component\Serializer\Encoder\XmlEncoder'
             #     normalizer: 
-            #         # class_name: 'Test\Normalizer'
+            #         class_name: 'Plugin\AceClient\Utils\Normalize\SoapXMLNormalizer'
             #     logger: 
-            #         class_name: 
-            #     api_client:
-            #         client_name: 'Plugin\AceClient\ApiClient\Api\Client\PostSoapClient'
-            #         base_uri: 'http://192.168.0.77:20443/testACEXML/'
+            #         class_name: 'Plugin\AceClient\Utils\Log\SoapXmlLogger'
+            #     http_client: 
+            #         class_name: 'Plugin\AceClient\Utils\HttpClient\SoapXmlApiClient'
+            #         base_uri: 'http://192.168.0.77:20443/ACEXML/'
             #         headers:
-            #             'Content-Type': 'application/json'
-            #             'User-Agent': 'AceClient v1.2'
+            #             'User-Agent': 'AceClient v1.0'
             #         options:
-            #             timeout: 20
-            #             verify: true
+            #             timeout: 600
+            #             verify: false
+            #     api_client:
+            #         class_name: 'Plugin\AceClient\ApiClient\Api\Client\PostSoapXMLClient'
 
     prm_otd_format:
         default: 

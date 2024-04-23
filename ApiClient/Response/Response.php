@@ -2,6 +2,8 @@
 
 namespace Plugin\AceClient\ApiClient\Response;
 
+use Plugin\AceClient\AceServices\MOdel\Response\ResponseModelInterface;
+
 class Response implements ResponseInterface
 {
 
