@@ -231,4 +231,9 @@ class ApiClientTest extends AbstractAdminWebTestCase
         $addCartMethod = new \Plugin\AceClient\AceServices\AceMethod\Jyuden\AddCartMethod("Jyuden");
     }
 
+    public function testConfigWriter()
+    {
+        $configWriter = new \Plugin\AceClient\Utils\ConfigWriter\ConfigWriterTestor();
+    }
+
 }

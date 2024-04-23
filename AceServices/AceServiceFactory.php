@@ -4,6 +4,11 @@ namespace Plugin\AceClient\AceServices;
 
 use Plugin\AceClient\AceServices\Service;
 
+/**
+ * Factory for AceService
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 class AceServiceFactory {
 
     /**
