@@ -4,6 +4,7 @@ namespace Plugin\AceClient\Utils\HttpClient;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Client;
+use Plugin\AceClient\Utils\Mapper\OverviewMapper;
 
 /**
  * Factory for HttpClient.
@@ -12,6 +13,10 @@ use GuzzleHttp\Client;
  */
 final class HttpClientFactory
 {
+    public const DEFAULT_BASE_URL = "http://localhost/";
+    public const DEFAULT_HEADER = ['User-Agent' => OverviewMapper::ACE_CLIENT_FULL_NAME];
+    public const DEFAULT_OPTIONS = ['timeout' => 600 , 'verify' => false];
+
     /**
      * Make Soap Xml Client
      * 

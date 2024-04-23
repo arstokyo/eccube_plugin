@@ -25,7 +25,11 @@ class AceMethodDetailModel implements ConfigModelInterface
 
     /** @var ?LoggerConfigModel $logger */
     private ?LoggerConfigModel $logger = null;
-    
+
+    /** @var ?HttpClientConfigModel $logger */
+    #[SerializedName("http_client")]
+    private ?HttpClientConfigModel $httpClient = null;
+
     /**
      * Get the value of httpClient
      * 
@@ -115,6 +119,29 @@ class AceMethodDetailModel implements ConfigModelInterface
     public function setLogger(?LoggerConfigModel $logger): AceMethodDetailModel
     {
         $this->logger = $logger;
+        return $this;
+    }
+
+    /**
+     * Get the value of httpClient
+     * 
+     * @return ?HttpClientConfigModel
+     */
+    public function getHttpClient(): ?HttpClientConfigModel
+    {
+        return $this->httpClient;
+    }
+
+    /**
+     * Set the value of httpClient
+     *
+     * @param ?HttpClientConfigModel $httpClient
+     * 
+     * @return AceMethodDetailModel
+     */
+    public function setHttpClient(?HttpClientConfigModel $httpClient): AceMethodDetailModel
+    {
+        $this->httpClient = $httpClient;
         return $this;
     }
 }

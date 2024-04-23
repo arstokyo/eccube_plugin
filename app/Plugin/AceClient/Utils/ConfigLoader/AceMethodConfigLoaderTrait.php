@@ -4,8 +4,6 @@ namespace Plugin\AceClient\Utils\ConfigLoader;
 
 use Plugin\AceClient\Utils\Mapper\ConfigNodeRootNameMapper;
 use Plugin\AceClient\Config\Model\AceMethod\AceMethodModel;
-use Plugin\AceClient\Config\Model\ConfigModelInterface;
-use Plugin\AceClient\Config\Model\OverridableConfigInterface;
 
 trait AceMethodConfigLoaderTrait
 {

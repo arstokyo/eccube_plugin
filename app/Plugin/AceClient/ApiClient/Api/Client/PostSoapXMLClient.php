@@ -3,10 +3,22 @@
 namespace Plugin\AceClient\ApiClient\Api\Client;
 
 use Plugin\AceClient\Exception;
+use Plugin\AceClient\ApiClient\Api\DelegateInterface;
+use Plugin\AceClient\Utils\Mapper\EncodeDefineMapper;
 
-class PostClient extends AbstractClient implements PostClientInterface
+class PostSoapXMLClient extends PostClientAbstract
 {
-    protected string $requestmethod = 'POST';
+    /**
+     * PostSoapXMLClient constructor
+     *
+     * @param string          $endpoint Target endpoint.
+     * @param DelegateInterface $delegate Delegate instance.
+     */
+    public function __construct(
+        protected string $endpoint,
+        protected DelegateInterface $delegate
+    ) {
+    }
 
     /**
      * Build the request JSON body with the specified parameters
@@ -26,7 +38,7 @@ class PostClient extends AbstractClient implements PostClientInterface
             return $baseOptions;
         }
         try {
-            $request = $this->delegate->getSerializer()->serialize($this->request, 'json');
+            $request = $this->delegate->getSerializer()->serialize($this->request, EncodeDefineMapper::XML);
         } catch (\Throwable $t) {
             $this->delegate->getLogger()->error("API Client error: {$t->getMessage()}");
             throw new Exception\RequestBuildException("Cannot build {$this->requestmethod} request body", $t);
@@ -34,7 +46,7 @@ class PostClient extends AbstractClient implements PostClientInterface
         return array_merge_recursive(
             $baseOptions,
             [
-                'headers' => ['Content-Type' => 'application/json'],
+                'headers' => ['Content-Type' => 'application/soap+xml; charset=utf-8'],
                 'body'    => $request,
             ]
         );
