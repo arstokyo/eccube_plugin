@@ -2,19 +2,21 @@
 
 namespace Plugin\AceClient\ApiClient\Api\Client;
 
+use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
+
 class ClientMetadata implements ClientMetadataInterface
 {
      /**
      * ClientMetadata constructor
      *
-     * @param string                                     $requestmethod Client requestmethod to use.
-     * @param string                                     $uri           Client target URI.
-     * @param \JsonSerializable|array<int|string, mixed> $data          Client request data.
+     * @param string                                                           $requestmethod Client requestmethod to use.
+     * @param string                                                           $uri           Client target URI.
+     * @param RequestModelInterface|\JsonSerializable|array<int|string, mixed> $data          Client request data.
      */
     public function __construct(
         private string $requestmethod,
         private string $uri,
-        private \JsonSerializable|array $data
+        private RequestModelInterface|\JsonSerializable|array $data
     ) {
     }
 
@@ -41,9 +43,9 @@ class ClientMetadata implements ClientMetadataInterface
     /**
      * Get Client Request Data
      *
-     * @return \JsonSerializable|array<int|string, mixed>
+     * @return RequestModelInterface|\JsonSerializable|array<int|string, mixed>
      */
-    public function getData(): \JsonSerializable|array
+    public function getData(): RequestModelInterface|\JsonSerializable|array
     {
         return $this->data;
     }
