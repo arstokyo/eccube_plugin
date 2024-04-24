@@ -80,7 +80,7 @@ class SoapXMLSerializer implements SoapXMLSerializerInterface
             throw new NotEncodableValueException(sprintf('Serialization for the format "%s" is not supported.', $format));
         }
         $data = $this->serializer->decode($data, $format, $context);
-        $this->searchArray(self::DESERIALIZE_DATA_ARRAY, $data, $matched);
+        $this->getInnerArray(self::DESERIALIZE_DATA_ARRAY, $data, $matched);
         if (empty($matched)) {
             throw new NotDeserialiableDataException(sprintf('Response Data Not Deserializable. Respected Data Array "%s"', self::DESERIALIZE_DATA_ARRAY));
         }
@@ -88,7 +88,7 @@ class SoapXMLSerializer implements SoapXMLSerializerInterface
     }
 
     /**
-     * Search Array
+     * Get Inner Array
      * 
      * @param string $needle
      * @param array $haystack
@@ -96,7 +96,7 @@ class SoapXMLSerializer implements SoapXMLSerializerInterface
      * 
      * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
      */
-    private function searchArray($needle, $haystack, &$matched = null)
+    private function getInnerArray($needle, $haystack, &$matched = null)
     {
         if (is_array($haystack) && count($haystack) > 0) {
             foreach ($haystack as $key => $value) {
@@ -108,7 +108,7 @@ class SoapXMLSerializer implements SoapXMLSerializerInterface
                     }
                 } else {
                     if (is_array($value) && count($value) > 0) {
-                        self::searchArray($needle, $value, $matched);
+                        self::getInnerArray($needle, $value, $matched);
                     }
                 }
             }
@@ -130,7 +130,7 @@ class SoapXMLSerializer implements SoapXMLSerializerInterface
                                                          ,['#' => $data])
                                             , $format
                                             , $context ?: \array_merge([EncodeDefineMapper::XML_ROOT_NODE_NAME => $data->getXmlNodeName()],
-                                                                       $this->config->getDefaultSerializeOptions() ?: [],)
+                                                                       $this->config->getDefaultSerializeOptions() ?? [],)
                                             ,);
     }
 

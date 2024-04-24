@@ -6,6 +6,11 @@ use Plugin\AceClient\Config\Model\ConfigModelInterface;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Plugin\AceClient\Utils\ConfigLoader\ConvertToConstTrait;
 
+/**
+ * HttpClientConfigModel
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 class HttpClientConfigModel extends InstanceConfigAbstract implements ConfigModelInterface
 {
     use ConvertToConstTrait;

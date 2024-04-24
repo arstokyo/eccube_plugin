@@ -13,7 +13,7 @@ abstract class OrderPrmModelAbstract extends PrmModelRequestAbstract implements 
     protected MemberModelInterface $member;
 
     #[Ignore]
-    protected const XML_ROOT_NOT_NAME = 'order';
+    protected const XML_ROOT_NODE_NAME = 'order';
 
     /**
      * Set 顧客情報
@@ -37,9 +37,10 @@ abstract class OrderPrmModelAbstract extends PrmModelRequestAbstract implements 
         return $this->member;
     }
 
+    #[Ignore]
     protected function setXmlRootNodeName(): string
     {
-        return self::XML_ROOT_NOT_NAME;
+        return self::XML_ROOT_NODE_NAME;
     }
 
 }

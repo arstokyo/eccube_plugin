@@ -4,7 +4,11 @@ namespace Plugin\AceClient\Config\Model\AceMethod;
 
 use Plugin\AceClient\Config\Model\ConfigModelInterface;
 
-
+/**
+ * SerializerConfigModel
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 class SerializerConfigModel extends InstanceConfigAbstract implements ConfigModelInterface
 {
     /**
