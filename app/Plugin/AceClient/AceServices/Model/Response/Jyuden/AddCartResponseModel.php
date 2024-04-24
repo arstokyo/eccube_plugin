@@ -3,17 +3,34 @@
 namespace Plugin\AceClient\AceServices\Model\Response\Jyuden;
 
 use Plugin\AceClient\AceServices\Model\Response\ResponseModelAbtract;
-use Symfony\Component\Serializer\Annotation\Ignore;
+use Plugin\AceClient\AceServices\Model\Response\Depedency\OrderModelResponseAbstract;
 
 class AddCartResponseModel extends ResponseModelAbtract
 {
-    protected array $order;
-    public function getOrder(): array
+    /**
+     * Order
+     * 
+     * @var OrderModelResponseAbstract $order
+     */
+    protected OrderModelResponseAbstract $order;
+
+    /**
+     * Get order
+     * 
+     * @return OrderModelResponseAbstract
+     */
+    public function getOrder(): OrderModelResponseAbstract
     {
         return $this->order;
     }
 
-    public function setOrder(array $order): void
+    /**
+     * Set order
+     * 
+     * @param OrderModelResponseAbstract $order
+     * @return void
+     */
+    public function setOrder(OrderModelResponseAbstract $order): void
     {
         $this->order = $order;
     }

@@ -2,9 +2,25 @@
 
 namespace Plugin\AceClient\AceServices\Model\Response\Message;
 
-class ResponseMessageAbleAbstract implements ResponseMessageAbleInterface
+/**
+ * MessageModel
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
+class MessageModel implements MessageInterface
 {
+    /**
+     * Message 1
+     * 
+     * @var string $message1
+     */
     protected string $message1;
+
+    /**
+     * Message 2
+     * 
+     * @var string $message2
+     */
     protected string $message2;
 
     /**

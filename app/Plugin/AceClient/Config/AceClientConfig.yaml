@@ -4,7 +4,8 @@ parameters:
         default:
             serializer: 
                 class_name: 'Plugin\AceClient\Utils\Serialize\SoapXMLSerializer'
-                normalizers: 'AnnotationNormalizers'
+                # normalizers: 'RecursiveNormalizers'
+                normalizers: 
                 encoder: 'Symfony\Component\Serializer\Encoder\XmlEncoder'
             normalizer: 
                 class_name: 'Plugin\AceClient\Utils\Normalize\SoapXMLNormalizer'

@@ -7,7 +7,7 @@ namespace Plugin\AceClient\AceServices\Model\Response\Message;
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-interface ResponseMessageAbleInterface
+interface MessageInterface
 {
     /**
      * Get the value of message1
