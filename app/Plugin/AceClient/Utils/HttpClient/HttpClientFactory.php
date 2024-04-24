@@ -18,7 +18,7 @@ use Plugin\AceClient\Utils\ClassFactory\ClassFactory;
 final class HttpClientFactory
 {
     public const DEFAULT_BASE_URL = "http://localhost/";
-    public const DEFAULT_HEADER = ['User-Agent' => OverviewMapper::USER_CLIENT_HEADER];
+    public const DEFAULT_HEADER = ['User-Agent' => OverviewMapper::USER_AGENT_HEADER];
     public const DEFAULT_OPTIONS = ['timeout' => 600 , 'verify' => false];
 
     /**

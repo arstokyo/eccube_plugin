@@ -4,7 +4,8 @@ parameters:
         default:
             serializer: 
                 class_name: 'Plugin\AceClient\Utils\Serialize\SoapXMLSerializer'
-                normalizers: 'AnnotationNormalizers'
+                # normalizers: 'RecursiveNormalizers'
+                normalizers: 
                 encoder: 'Symfony\Component\Serializer\Encoder\XmlEncoder'
             normalizer: 
                 class_name: 'Plugin\AceClient\Utils\Normalize\SoapXMLNormalizer'
@@ -14,7 +15,7 @@ parameters:
                 class_name: 'Plugin\AceClient\Utils\HttpClient\SoapXmlApiClient'
                 base_uri: 'http://192.168.0.77:20443/ACEXML/'
                 headers:
-                    'User-Agent': '\Plugin\AceClient\Utils\Mapper\OverviewMapper::USER_CLIENT_HEADER'
+                    'User-Agent': '\Plugin\AceClient\Utils\Mapper\OverviewMapper::USER_AGENT_HEADER'
                 options:
                     timeout: 600
                     verify: false
