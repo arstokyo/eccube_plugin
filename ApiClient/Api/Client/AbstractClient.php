@@ -30,7 +30,7 @@ class AbstractClient implements ClientInterface
     /**
      * AbstractClient constructor
      *
-     * @param string              $endpoint Target endpoint.
+     * @param string            $endpoint Target endpoint.
      * @param DelegateInterface $delegate Delegate instance.
      */
     public function __construct(
@@ -167,13 +167,14 @@ class AbstractClient implements ClientInterface
     {
         $responseContentType    = $psrResponse->getHeaderLine('content-type');
         $contentTypeToFormatMap = [
-            'application/json'    => 'json',
-            'application/x-json'  => 'json',
-            'application/ld+json' => 'json',
-            'text/xml'            => 'xml',
-            'application/xml'     => 'xml',
-            'application/x-xml'   => 'xml',
-            'text/csv'            => 'csv',
+            'application/json'     => 'json',
+            'application/x-json'   => 'json',
+            'application/ld+json'  => 'json',
+            'text/xml'             => 'xml',
+            'application/xml'      => 'xml',
+            'application/x-xml'    => 'xml',
+            'application/soap+xml' => 'xml',
+            'text/csv'             => 'csv',
         ];
         foreach ($contentTypeToFormatMap as $contentType => $format) {
             if (str_contains($responseContentType, $contentType)) {

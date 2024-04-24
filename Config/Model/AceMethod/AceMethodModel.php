@@ -5,8 +5,6 @@ namespace Plugin\AceClient\Config\Model\AceMethod;
 use Plugin\AceClient\Config\Model\ConfigModelInterface;
 use Plugin\AceClient\Config\Model\OverridableConfigAbstract;
 
-use function PHPSTORM_META\override;
-
 /**
  * Ace Method Config Model
  * 
