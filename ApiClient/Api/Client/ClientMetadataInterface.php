@@ -2,6 +2,8 @@
 
 namespace Plugin\AceClient\ApiClient\Api\Client;
 
+use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
+
 interface ClientMetadataInterface
 {
      /**
@@ -21,7 +23,7 @@ interface ClientMetadataInterface
     /**
      * Get client request
      *
-     * @return \JsonSerializable|array<int|string, mixed>
+     * @return RequestModelInterface|\JsonSerializable|array<int|string, mixed>
      */
-    public function getData(): \JsonSerializable|array;
+    public function getData(): RequestModelInterface|\JsonSerializable|array;
 }
