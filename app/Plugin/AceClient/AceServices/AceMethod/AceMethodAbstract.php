@@ -26,7 +26,7 @@ abstract class AceMethodAbstract implements AceMethodInterface
     protected AceMethodAssistant $assistant;
 
     /**
-     * Constructor
+     * AceMethodAbstract Constructor
      *
      * @param string $baseServiceName
      */
