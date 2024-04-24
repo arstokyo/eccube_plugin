@@ -5,11 +5,11 @@ namespace Plugin\AceClient\AceServices\AceMethod;
 use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient\ApiClient\Api\Client\ClientMetadataInterface;
 use Plugin\AceClient\ApiClient\Response\ResponseInterface;
-use Plugin\AceClient\ApiClient\Api\Client\ClientInterface;
 use Plugin\AceClient\Utils\ConfigLoader\AceMethodConfigLoaderTrait;
 use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
 use Plugin\AceClient\Exception\NotCompatibleDataType;
 use Plugin\AceClient\Exception\InvalidClassNameException;
+use Plugin\AceCLient\utils\ClassFactory\ClassFactory;
 
 /**
  * Abstract Class for Ace Method
@@ -26,20 +26,15 @@ abstract class AceMethodAbstract implements AceMethodInterface
     protected AceMethodAssistant $assistant;
 
     /**
-     * @var ClientInterface $apiClient
-     */
-    protected ClientInterface $apiClient;
-
-    /**
      * Constructor
      *
      * @param string $baseServiceName
      */
     public function __construct(string $baseServiceName)
     {
-        $this->assistant = new AceMethodAssistant($this->loadConfig()->getOverridedConfig($this::class));
-        $this->apiClient = $this->assistant->buildApiClient(self::buildEndPoint($baseServiceName), 
-                                                            self::getResponseAsObject());
+        $this->assistant = new AceMethodAssistant($this->loadConfig()->getOverridedConfig($this::class),
+                                                  self::buildEndPoint($baseServiceName));
+        $this->assistant->getApiClient()->withResponseAs(self::getResponseAsObject());
     }
 
     /**
@@ -50,7 +45,7 @@ abstract class AceMethodAbstract implements AceMethodInterface
      */
     public function withRequest(RequestModelInterface $request): self
     {
-        $this->apiClient->withRequest($request);
+        $this->assistant->getApiClient()->withRequest($request);
         return $this;
     }
 
@@ -60,7 +55,7 @@ abstract class AceMethodAbstract implements AceMethodInterface
      */
     public function send(): ResponseInterface
     {
-        return $this->apiClient->send();
+        return $this->assistant->getApiClient()->send();
     }
 
     /**
@@ -69,7 +64,7 @@ abstract class AceMethodAbstract implements AceMethodInterface
      */
     public function getMetadata(): ClientMetadataInterface
     {
-        return $this->apiClient->getMetadata();
+        return $this->assistant->getApiClient()->getMetadata();
     }
 
     /**
@@ -109,14 +104,8 @@ abstract class AceMethodAbstract implements AceMethodInterface
      private function getResponseAsObject(): string
      {
         $settedResponseObject = $this->setResponseAsObject();
-        if (!class_exists($settedResponseObject)) { 
-            throw new InvalidClassNameException(sprintf('Given class name does not exist. Given class name %s', $settedResponseObject));
-        }
-        $interfaces = class_implements($settedResponseObject);
-        if (!($interfaces && in_array(ResponseModelInterface::class, $interfaces, true))) {
-            throw new NotCompatibleDataType(sprintf('Given response object is not compatible with ResponseModelInterface. Given object %s', $settedResponseObject));
-        }
-        return $settedResponseObject;
+        ClassFactory::validateClassExists($settedResponseObject);
+        return ClassFactory::validateCompatible($settedResponseObject, ResponseModelInterface::class);
      }
 
 }

@@ -47,7 +47,7 @@ trait DTODenormalizerTrait
      * 
      * @param SerializerInterface $serializer
      */
-    final protected function setSerializer(SerializerInterface $serializer): void
+    final protected function setSerializerForDTO(SerializerInterface $serializer): void
     {
         $this->dtoSerializer = $serializer;
     }
@@ -57,7 +57,7 @@ trait DTODenormalizerTrait
      * 
      * @return ?SerializerInterface
      */
-    final protected function getSerializer(): ?SerializerInterface
+    final protected function getSerializerForDTO(): ?SerializerInterface
     {
         return $this->dtoSerializer ?? null;
     }
