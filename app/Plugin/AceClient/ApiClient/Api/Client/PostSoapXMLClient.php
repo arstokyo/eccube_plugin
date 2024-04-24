@@ -48,7 +48,6 @@ class PostSoapXMLClient extends PostClientAbstract
             $this->delegate->getLogger()->error("API Client error: {$t->getMessage()}");
             throw new Exception\RequestBuildException("Cannot build {$this->requestmethod} request body", $t);
         }
-        $this->delegate->getHttpClient()->getConfig();
         return array_merge_recursive(
             $baseOptions,
             [

@@ -4,7 +4,11 @@ namespace Plugin\AceClient\Config\Model\AceMethod;
 
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
-
+/**
+ * InstanceConfigAbstract
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 class InstanceConfigAbstract
 {
     /**

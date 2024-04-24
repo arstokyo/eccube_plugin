@@ -9,7 +9,6 @@ use Plugin\AceClient\Exception\InvalidClassNameException;
 use Plugin\AceClient\Exception\NotCompatibleDataType;
 use Plugin\AceClient\Utils\ClassFactory\ClassFactory;
 
-
 /**
  * Factory for HttpClient.
  * 
