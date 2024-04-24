@@ -5,6 +5,7 @@ namespace Plugin\AceClient\AceServices\AceMethod;
 use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient\ApiClient\Api\Client\ClientMetadataInterface;
 use Plugin\AceClient\ApiClient\Response\ResponseInterface;
+use Plugin\AceClient\ApiClient;
 
 /**
  * Interface for Ace Method
@@ -23,14 +24,14 @@ interface AceMethodInterface
     /**
      * Send the Request.
      *
-     * @return ResponseInterface
+     * @return ApiClient\Response\ResponseInterface
      */
     public function send(): ResponseInterface;
 
     /**
      * Get the Metadata.
      *
-     * @return ClientMetadataInterface
+     * @return ApiClient\Api\Client\ClientMetadataInterface
      */
     public function getMetadata(): ClientMetadataInterface;
 
