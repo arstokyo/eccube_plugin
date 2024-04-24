@@ -6,7 +6,6 @@ use Plugin\AceClient\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient\AceServices\Model\Response\Jyuden\AddCartResponseModel;
 use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient\AceServices\Model\Request;
-use Plugin\AceClient\AceServices\AceMethod;
 
 /**
  * Add Cart Method
@@ -16,7 +15,7 @@ use Plugin\AceClient\AceServices\AceMethod;
  */
 class AddCartMethod extends AceMethodAbstract
 {
-
+    
     /**
      * The End Point of Service.
      */
@@ -44,7 +43,6 @@ class AddCartMethod extends AceMethodAbstract
      * Set the Request.
      *
      * @param Request\Jyuden\AddCart\AddCartRequestModel $request
-     * @return AceMethod\Jyuden\AddCartMethod
      */
     public function withRequest(RequestModelInterface $request): AddCartMethod
     {

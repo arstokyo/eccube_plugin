@@ -9,6 +9,7 @@ use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
 use Plugin\AceClient\Exception\NotCompatibleDataType;
 use Plugin\AceClient\Exception\InvalidClassNameException;
 use Plugin\AceCLient\Utils\ClassFactory\ClassFactory;
+use Plugin\AceClient\Exception\RequestParameterNullException;
 
 /**
  * Abstract Class for Ace Method
@@ -38,9 +39,13 @@ abstract class AceMethodAbstract implements AceMethodInterface
      *
      * @param RequestModelInterface
      * @return AceMethodAbstract
+     * @throws RequestParameterNullException
      */
     public function withRequest(RequestModelInterface $request): self
     {
+        if (!$request->ensureValidParameters()) {
+            throw new RequestParameterNullException(sprintf('Not nullable parameters are null. Request Object: %s', get_class($request)));
+        };
         $this->assistant->getApiClient()->withRequest($request);
         return $this;
     }
