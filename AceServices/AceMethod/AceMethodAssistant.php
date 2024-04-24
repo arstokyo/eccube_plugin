@@ -2,13 +2,11 @@
 
 namespace Plugin\AceClient\AceServices\AceMethod;
 
-use Eccube\Doctrine\ORM\Query\Normalize;
 use Plugin\AceClient\Config\Model\AceMethod\AceMethodDetailModel;
 use Plugin\AceClient\ApiClient\Api\DelegateInterface;
 use Plugin\AceClient\ApiClient\Api\Delegate;
 use Plugin\AceClient\ApiClient\Api\Client\ClientInterface;
 use Plugin\AceClient\ApiClient\ApiClientFactory;
-use Plugin\AceClient\Utils\ClassFactory\ClassFactory;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Psr\Log\LoggerInterface;
