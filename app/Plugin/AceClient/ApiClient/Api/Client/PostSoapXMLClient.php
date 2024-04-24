@@ -6,6 +6,11 @@ use Plugin\AceClient\Exception;
 use Plugin\AceClient\ApiClient\Api\DelegateInterface;
 use Plugin\AceClient\Utils\Mapper\EncodeDefineMapper;
 
+/**
+ * PostSoapXMLClient
+ *
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 class PostSoapXMLClient extends PostClientAbstract
 {
     /**
@@ -43,6 +48,7 @@ class PostSoapXMLClient extends PostClientAbstract
             $this->delegate->getLogger()->error("API Client error: {$t->getMessage()}");
             throw new Exception\RequestBuildException("Cannot build {$this->requestmethod} request body", $t);
         }
+        $this->delegate->getHttpClient()->getConfig();
         return array_merge_recursive(
             $baseOptions,
             [
@@ -51,4 +57,5 @@ class PostSoapXMLClient extends PostClientAbstract
             ]
         );
     }
+
 }

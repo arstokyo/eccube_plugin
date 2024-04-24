@@ -35,21 +35,12 @@ trait BaseConfigLoaderTrait
      * 
      * @return ConfigModelInterface|OverridableConfigInterface
      */
-    final public function loadConfig(): ConfigModelInterface|OverridableConfigInterface
+    final protected function loadConfig(): ConfigModelInterface|OverridableConfigInterface
     {
-        $configs = $this->parseConfigToArray();
+        // Parses the configuration to an array.
+        $configs = ContainerBuilderFactory::makeAceExtensionContainer()
+                                            ->getParameter($this->getConfigRootNodeName());
         return $this->denormalizeDTO($configs, $this->getConfigModelClassName());
-    }
-
-    /**
-     * Parses the configuration to an array.
-     * 
-     * @return array
-     */
-    private function parseConfigToArray(): array
-    {
-        return ContainerBuilderFactory::makeAceExtensionContainer()
-                                       ->getParameter($this->getConfigRootNodeName());
     }
 
 }

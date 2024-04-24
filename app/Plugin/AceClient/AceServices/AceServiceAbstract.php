@@ -2,14 +2,12 @@
 
 namespace Plugin\AceClient\AceServices;
 
+/**
+ * Abstract class for AceService
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 class AceServiceAbstract implements AceServiceInterface {
-
-    protected string $servicename;
-    protected string $baseuri;
-
-    public function __construct() {
-        // read config 
-        // $baseuri = configReader->Read();
-    }
+    protected string $baseServiceName;
 
 }

@@ -9,6 +9,11 @@ use Plugin\AceClient\ApiClient\Response\ResponseInterface;
 use Psr\Http\Message\ResponseInterface as PsrResponse;
 use Plugin\AceClient\Exception;
 
+/**
+ * AbstractClient
+ *
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 class AbstractClient implements ClientInterface
 {
     /** @var string $requestmethod */
