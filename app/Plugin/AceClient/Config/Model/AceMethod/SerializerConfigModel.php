@@ -13,6 +13,11 @@ class SerializerConfigModel extends InstanceConfigAbstract implements ConfigMode
     private ?string $encoder = null;
 
     /**
+     * @var ?string $normalizers
+     */
+    private ?string $normalizers = null;
+
+    /**
      * Get encode.
      * 
      * @return ?string
@@ -31,4 +36,25 @@ class SerializerConfigModel extends InstanceConfigAbstract implements ConfigMode
     {
         $this->encoder = $encoder;
     }
+
+    /**
+     * Get normalizers.
+     * 
+     * @return ?string
+     */
+    public function getNormalizers(): ?string
+    {
+        return $this->normalizers;
+    }
+
+    /**
+     * Set normalizers.
+     * 
+     * @param ?string $normalizers
+     */
+    public function setNormalizers(?string $normalizers): void
+    {
+        $this->normalizers = $normalizers;
+    }
+
 }
