@@ -4,7 +4,6 @@ namespace Plugin\AceClient\Tests\AceRequestTest\Jyuden;
 
 use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Plugin\AceClient\AceServices\Model\Request;
-use Plugin\AceClient\AceServices\Model\Response;
 use Plugin\AceClient\AceServices\Model\Response\Jyuden\AddCartResponseModel;
 use Plugin\AceClient\AceClient;
 use GuzzleHttp\Exception\ClientException;
@@ -22,7 +21,7 @@ class AddCartTest extends AbstractAdminWebTestCase
 
         $addCartModel = (new Request\Jyuden\AddCart\AddCartRequestModel())
                              ->setId(7)
-                             ->setSessid(1)
+                            //  ->setSessid(1)
                              ->setPrm($prm);
 
         return $addCartModel;
