@@ -229,4 +229,10 @@ class ApiClientTest extends AbstractAdminWebTestCase
         $this->assertTrue(true);
     }
 
+    public function testClassFactory()
+    {
+        $classFactory = new \Plugin\AceClient\Utils\ClassFactory\ClassFactory();
+        $classFactory->makeClass('Plugin\AceClient\AceClient', \Plugin\AceClient\AceServices\AceMethod\AceMethodAssistantInterface::class);
+    }
+
 }

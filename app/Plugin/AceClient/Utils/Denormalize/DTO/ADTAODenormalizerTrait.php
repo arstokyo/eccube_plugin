@@ -24,8 +24,8 @@ trait ADTAODenormalizerTrait
     final public function denormalizeADTAO(array $data,string $type, string $format = null, array $context = []): array
     {
         $result = $data;
-        if (!$this->getSerializer()) {
-            $this->setSerializer(SerializerFactory::makeDTOSerializer());
+        if (!$this->getSerializerForDTO()) {
+            $this->setSerializerForDTO(SerializerFactory::makeDTOSerializer());
         };
         foreach ($result as $key => $value) {
             if (is_array($value)) {

@@ -15,6 +15,10 @@ use Symfony\Component\Serializer\Mapping\ClassDiscriminatorResolverInterface;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactoryInterface;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
+use Plugin\AceClient\Exception\InvalidClassNameException;
+use Plugin\AceClient\Exception\InvalidFuncNameException;
+use Plugin\AceClient\Exception\NotCompatibleDataType;
+use Plugin\AceClient\Utils\ClassFactory\ClassFactory;
 
 /**
  * Factory for Normalizer.
@@ -28,7 +32,7 @@ final class NormalizerFactory
      * 
      * @return NormalizerInterface[]
      */
-    final public static function makeAnnotationNormalizers() : array {
+    public static function makeAnnotationNormalizers() : array {
         $classMetadataFactory = self::makeAnnotationMetaFacetory();
         return self::makeNormalizers($classMetadataFactory,nameConverter: new MetadataAwareNameConverter($classMetadataFactory, new CamelCaseToSnakeCaseNameConverter));
     }
@@ -38,7 +42,7 @@ final class NormalizerFactory
      * 
      * @return NormalizerInterface[]
      */
-    final public static function makeRecursiveNormalizers() : array {
+    public static function makeRecursiveNormalizers() : array {
         $classMetadataFactory = self::makeAnnotationMetaFacetory();
         return self::makeNormalizers($classMetadataFactory, new MetadataAwareNameConverter($classMetadataFactory, new CamelCaseToSnakeCaseNameConverter), null,new ReflectionExtractor);
     }
@@ -76,6 +80,40 @@ final class NormalizerFactory
      */
     private static function makeAnnotationMetaFacetory(): ClassMetadataFactoryInterface {
         return new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader));
+    }
+
+    /**
+     * Make Normalizer by class name
+     * 
+     * @param string $className
+     * 
+     * @return NormalizerInterface
+     * 
+     * @throws InvalidClassNameException
+     * @throws NotCompatibleDataType
+     */
+    public static function makeNormalizerByClassName($className): NormalizerInterface
+    {
+        return ClassFactory::makeClass($className ,NormalizerInterface::class);
+    }
+
+    /**
+     * Make Normalizer by function name suffix
+     * 
+     * @param string $funcSuffixName
+     * @example make{$funcSuffixName} $funcSuffixName = "AnnotationNormalizers" => makeAnnotationNormalizers
+     * 
+     * @return NormalizerInterface|NormalizerInterface[]
+     * 
+     * @throws InvalidFuncNameException
+     */
+    public static function makeNormalizerByFuncNameSuffix($funcSuffixName): NormalizerInterface|array
+    {
+        $callMethod = 'make'.$funcSuffixName;
+        if (!method_exists(self::class, $callMethod)) {
+            throw new InvalidFuncNameException(sprintf('Given function name does not exist. Given function suffix name %s', $funcSuffixName));
+        }
+        return self::{$callMethod}();
     }
 
 }

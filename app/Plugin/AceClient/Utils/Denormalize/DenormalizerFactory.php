@@ -18,7 +18,7 @@ final class DenormalizerFactory
      * 
      * @return DenormalizerInterface
      */
-    final public static function makeArrayDenormalizer(): DenormalizerInterface
+    public static function makeArrayDenormalizer(): DenormalizerInterface
     {
         return new ArrayDenormalizer();
     }
