@@ -19,6 +19,7 @@ use Plugin\AceClient\Utils\Normalize\NormalizerFactory;
 use Plugin\AceClient\Exception\InvalidClassNameException;
 use Plugin\AceClient\Exception\InvalidFuncNameException;
 use Plugin\AceClient\Exception\NotCompatibleDataType;
+use Plugin\AceClient\Utils\ConfigLoader\AceMethodConfigLoaderTrait;
 
 /**
  * Ace Method Assistant
@@ -27,6 +28,8 @@ use Plugin\AceClient\Exception\NotCompatibleDataType;
  */
 final class AceMethodAssistant implements AceMethodAssistantInterface
 {
+    use AceMethodConfigLoaderTrait;
+
     /**
      * @var AceMethodDetailModel $config
      */
@@ -40,12 +43,12 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
     /**
      * Ace Method Assistant Constructor.
      *
-     * @param AceMethodDetailModel $config
+     * @param string $currentClassName
      * @param string $endPoint
      */
-    public function __construct(AceMethodDetailModel $config, string $endPoint) 
+    public function __construct(string $currentClassName, string $endPoint) 
     {
-        $this->config = $config;
+        $this->config = $this->loadConfig()->getOverridedConfig($currentClassName);
         $this->apiClient = $this->buildApiClient($endPoint);
     }
 

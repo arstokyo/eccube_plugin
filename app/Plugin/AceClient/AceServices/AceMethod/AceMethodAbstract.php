@@ -5,11 +5,10 @@ namespace Plugin\AceClient\AceServices\AceMethod;
 use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient\ApiClient\Api\Client\ClientMetadataInterface;
 use Plugin\AceClient\ApiClient\Response\ResponseInterface;
-use Plugin\AceClient\Utils\ConfigLoader\AceMethodConfigLoaderTrait;
 use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
 use Plugin\AceClient\Exception\NotCompatibleDataType;
 use Plugin\AceClient\Exception\InvalidClassNameException;
-use Plugin\AceCLient\utils\ClassFactory\ClassFactory;
+use Plugin\AceCLient\Utils\ClassFactory\ClassFactory;
 
 /**
  * Abstract Class for Ace Method
@@ -18,8 +17,6 @@ use Plugin\AceCLient\utils\ClassFactory\ClassFactory;
  */
 abstract class AceMethodAbstract implements AceMethodInterface
 {
-    use AceMethodConfigLoaderTrait;
-
     /**
      * @var AceMethodAssistant $assistant
      */
@@ -32,8 +29,7 @@ abstract class AceMethodAbstract implements AceMethodInterface
      */
     public function __construct(string $baseServiceName)
     {
-        $this->assistant = new AceMethodAssistant($this->loadConfig()->getOverridedConfig($this::class),
-                                                  self::buildEndPoint($baseServiceName));
+        $this->assistant = new AceMethodAssistant($this::class, self::buildEndPoint($baseServiceName));
         $this->assistant->getApiClient()->withResponseAs(self::getResponseAsObject());
     }
 

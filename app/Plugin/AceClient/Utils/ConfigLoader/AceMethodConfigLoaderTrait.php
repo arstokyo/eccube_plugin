@@ -5,6 +5,11 @@ namespace Plugin\AceClient\Utils\ConfigLoader;
 use Plugin\AceClient\Utils\Mapper\ConfigNodeRootNameMapper;
 use Plugin\AceClient\Config\Model\AceMethod\AceMethodModel;
 
+/**
+ * Trait for AceMethod Config Loader.
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 trait AceMethodConfigLoaderTrait
 {
     use BaseConfigLoaderTrait;
