@@ -14,7 +14,7 @@ parameters:
                 class_name: 'Plugin\AceClient\Utils\HttpClient\SoapXmlApiClient'
                 base_uri: 'http://192.168.0.77:20443/ACEXML/'
                 headers:
-                    'User-Agent': '\Plugin\AceClient\Utils\Mapper\OverviewMapper::USER_CLIENT_HEADER'
+                    'User-Agent': '\Plugin\AceClient\Utils\Mapper\OverviewMapper::USER_AGENT_HEADER'
                 options:
                     timeout: 600
                     verify: false
