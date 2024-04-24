@@ -16,7 +16,7 @@ class AceServiceFactory {
      * 
      * @return Service\JyudenService
      */
-    public static function MakeJyudenService() : Service\JyudenService
+    public static function makeJyudenService() : Service\JyudenService
     {
         return new Service\JyudenService();
     }

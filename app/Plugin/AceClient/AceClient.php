@@ -14,7 +14,7 @@ class AceClient {
      */
     public function makeJyudenService() : JyudenService
     {
-        return AceServiceFactory::MakeJyudenService();
+        return AceServiceFactory::makeJyudenService();
     }
 
 }

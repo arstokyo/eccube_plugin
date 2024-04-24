@@ -8,6 +8,7 @@ use Plugin\AceClient\Config\Model\OverridableConfigInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 /**
  * Trait for denormalizing Data to Object.
