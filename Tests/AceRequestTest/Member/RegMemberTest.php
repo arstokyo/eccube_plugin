@@ -10,7 +10,7 @@ use Plugin\AceClient\AceServices\Model\Response\Member\RegMemResponseModel;
 use Plugin\AceClient\AceClient;
 use GuzzleHttp\Exception\ClientException;
 
-class AddCartTest extends AbstractAdminWebTestCase
+class RegMemberTest extends AbstractAdminWebTestCase
 {
     public function regMmberModel(): Request\RequestModelInterface
     {

@@ -91,9 +91,8 @@ class AddCartRequestModel extends JyudenRequestAbstract implements AddCartReques
     }
 
     /**
-     * Ensure Input Parameters are valid
-     * 
-     * @return bool
+     * {@inheritDoc}
+     *
      */
     public function ensureValidParameters(): bool
     {
