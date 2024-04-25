@@ -21,7 +21,7 @@ class AddCartTest extends AbstractAdminWebTestCase
 
         $addCartModel = (new Request\Jyuden\AddCart\AddCartRequestModel())
                              ->setId(7)
-                            //  ->setSessid(1)
+                             ->setSessid(1)
                              ->setPrm($prm);
 
         return $addCartModel;
