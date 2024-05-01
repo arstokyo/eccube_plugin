@@ -24,10 +24,9 @@ interface HasBaitaiNameInterface
      * Set 媒体名
      * 
      * @param ?string $baitaiName
-     * @return self
      */
     #[SerializedName('baitai_name')]
-    public function setBaitaiName(?string $baitaiName): self;
+    public function setBaitaiName(?string $baitaiName);
 
     /**
      * Get 管理番号名
@@ -41,9 +40,8 @@ interface HasBaitaiNameInterface
      * Set 管理番号名
      * 
      * @param ?string $baifileName
-     * @return self
      */
     #[SerializedName('baifile_name')]
-    public function setBaifileName(?string $baifileName): self;
+    public function setBaifileName(?string $baifileName);
 
 }
