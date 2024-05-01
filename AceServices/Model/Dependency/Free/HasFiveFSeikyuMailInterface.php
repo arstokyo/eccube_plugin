@@ -5,10 +5,9 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
 /**
  * Interface For Five Free Seikyu Mail
  * 
- * @target : Plugin\AceClient\AceServices\Model\Dependency\Person
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-interface HasFiveFSeikyuMailInterface
+interface HasFiveFseikyuMailInterface
 {
 
     /**
@@ -21,9 +20,9 @@ interface HasFiveFSeikyuMailInterface
     /**
      * Set 請求明細ﾒｰﾙｱﾄﾞﾚｽ1
      * 
-     * @param ?string $fSeikyuMail1
+     * @param ?string $fseikyumail1
      */
-    public function setFSeikyuMail1(?string $fSeikyuMail1);
+    public function setFSeikyuMail1(?string $fseikyumail1);
 
     /**
      * Get 請求明細ﾒｰﾙｱﾄﾞﾚｽ2
@@ -35,9 +34,9 @@ interface HasFiveFSeikyuMailInterface
     /**
      * Set 請求明細ﾒｰﾙｱﾄﾞﾚｽ2
      * 
-     * @param ?string $fSeikyuMail2
+     * @param ?string $fseikyumail2
      */
-    public function setFSeikyuMail2(?string $fSeikyuMail2);
+    public function setFSeikyuMail2(?string $fseikyumail2);
 
     /**
      * Get 請求明細ﾒｰﾙｱﾄﾞﾚｽ3
@@ -49,9 +48,9 @@ interface HasFiveFSeikyuMailInterface
     /**
      * Set 請求明細ﾒｰﾙｱﾄﾞﾚｽ3
      * 
-     * @param ?string $fSeikyuMail3
+     * @param ?string $fseikyumail3
      */
-    public function setFSeikyuMail3(?string $fSeikyuMail3);
+    public function setFSeikyuMail3(?string $fseikyumail3);
 
     /**
      * Get 請求明細ﾒｰﾙｱﾄﾞﾚｽ4
@@ -63,9 +62,9 @@ interface HasFiveFSeikyuMailInterface
     /**
      * Set 請求明細ﾒｰﾙｱﾄﾞﾚｽ4
      * 
-     * @param ?string $fSeikyuMail4
+     * @param ?string $fseikyumail4
      */
-    public function setFSeikyuMail4(?string $fSeikyuMail4);
+    public function setFSeikyuMail4(?string $fseikyumail4);
 
     /**
      * Get 請求明細ﾒｰﾙｱﾄﾞﾚｽ5
@@ -77,8 +76,8 @@ interface HasFiveFSeikyuMailInterface
     /**
      * Set 請求明細ﾒｰﾙｱﾄﾞﾚｽ5
      * 
-     * @param ?string $fSeikyuMail5
+     * @param ?string $fseikyumail5
      */
-    public function setFSeikyuMail5(?string $fSeikyuMail5);
+    public function setFSeikyuMail5(?string $fseikyumail5);
 
 }

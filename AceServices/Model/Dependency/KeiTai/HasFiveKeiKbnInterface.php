@@ -20,9 +20,9 @@ interface HasFiveKeiKbnInterface
     /**
      * Set 携帯電話区分1
      * 
-     * @param ?int $keiKbn1
+     * @param ?int $keikbn1
      */
-    public function setKeiKbn1(?int $keiKbn1);
+    public function setKeiKbn1(?int $keikbn1);
 
     /**
      * Get 携帯電話区分2
@@ -34,9 +34,9 @@ interface HasFiveKeiKbnInterface
     /**
      * Set 携帯電話区分2
      * 
-     * @param ?int $keiKbn2
+     * @param ?int $keikbn2
      */
-    public function setKeiKbn2(?int $keiKbn2);
+    public function setKeiKbn2(?int $keikbn2);
 
     /**
      * Get 携帯電話区分3
@@ -48,9 +48,9 @@ interface HasFiveKeiKbnInterface
     /**
      * Set 携帯電話区分3
      * 
-     * @param ?int $keiKbn3
+     * @param ?int $keikbn3
      */
-    public function setKeiKbn3(?int $keiKbn3);
+    public function setKeiKbn3(?int $keikbn3);
 
     /**
      * Get 携帯電話区分4
@@ -62,9 +62,9 @@ interface HasFiveKeiKbnInterface
     /**
      * Set 携帯電話区分4
      * 
-     * @param ?int $keiKbn4
+     * @param ?int $keikbn4
      */
-    public function setKeiKbn4(?int $keiKbn4);
+    public function setKeiKbn4(?int $keikbn4);
 
     /**
      * Get 携帯電話区分5
@@ -76,7 +76,7 @@ interface HasFiveKeiKbnInterface
     /**
      * Set 携帯電話区分5
      * 
-     * @param ?int $keiKbn5
+     * @param ?int $keikbn5
      */
-    public function setKeiKbn5(?int $keiKbn5);
+    public function setKeiKbn5(?int $keikbn5);
 }

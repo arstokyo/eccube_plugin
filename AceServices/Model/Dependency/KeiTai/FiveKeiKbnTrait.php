@@ -7,21 +7,21 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\KeiTai;
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait FiveKeiKbnTrait 
+trait FiveKeiKbnTrait
 {
-    /** @var ?int $keiKbn1 携帯電話区分1 */
+    /** @var ?int $keikbn1 携帯電話区分1 */
     protected ?int $keikbn1 = null;
 
-    /** @var ?int $keiKbn2 携帯電話区分2 */
+    /** @var ?int $keikbn2 携帯電話区分2 */
     protected ?int $keikbn2 = null;
 
-    /** @var ?int $keiKbn3 携帯電話区分3 */
+    /** @var ?int $keikbn3 携帯電話区分3 */
     protected ?int $keikbn3 = null;
 
-    /** @var ?int $keiKbn4 携帯電話区分4 */
+    /** @var ?int $keikbn4 携帯電話区分4 */
     protected ?int $keikbn4 = null;
 
-    /** @var ?int $keiKbn5 携帯電話区分5 */
+    /** @var ?int $keikbn5 携帯電話区分5 */
     protected ?int $keikbn5 = null;
 
     /**

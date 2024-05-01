@@ -2,48 +2,53 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Bikou;
 
-trait ThreeAdrBikouTrait 
+/**
+ * Trait For 3つ住所備考
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-sytem.co.jp>
+ */
+trait ThreeAdrBikouTrait
 {
-    /** @var string|null $bikou1 住所備考1 */
-    protected ?string $bikou1 = null;
+    /** @var string|null $adrbikou1 住所備考1 */
+    protected ?string $adrbikou1 = null;
 
-    /** @var ?string $bikou2 住所備考2 */
-    protected ?string $bikou2 = null;
+    /** @var ?string $adrbikou2 住所備考2 */
+    protected ?string $adrbikou2 = null;
 
-    /** @var ?string $bikou3 住所備考3 */
-    protected ?string $bikou3 = null;
+    /** @var ?string $adrbikou3 住所備考3 */
+    protected ?string $adrbikou3 = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getBikou1(): ?string
+    public function getAdrBikou1(): ?string
     {
-        return $this->bikou1;
+        return $this->adrbikou1;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setBikou1(?string $bikou1): parent
+    public function setAdrBikou1(?string $adrbikou1): parent
     {
-        $this->bikou1 = $bikou1;
+        $this->adrbikou1 = $adrbikou1;
         return $this;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getBikou2(): ?string
+    public function getAdrBikou2(): ?string
     {
-        return $this->bikou2;
+        return $this->adrbikou2;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setBikou2(?string $bikou2): parent
+    public function setAdrBikou2(?string $adrbikou2): parent
     {
-        $this->bikou2 = $bikou2;
+        $this->adrbikou2 = $adrbikou2;
         return $this;
     }
 
@@ -51,17 +56,17 @@ trait ThreeAdrBikouTrait
     /**
      * {@inheritDoc}
      */
-    public function getBikou3(): ?string
+    public function getAdrBikou3(): ?string
     {
-        return $this->bikou3;
+        return $this->adrbikou3;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setBikou3(?string $bikou3): parent
+    public function setAdrBikou3(?string $adrbikou3): parent
     {
-        $this->bikou3 = $bikou3;
+        $this->adrbikou3 = $adrbikou3;
         return $this;
     }
 

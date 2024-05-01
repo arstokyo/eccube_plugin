@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Bikou;
 
 /**
- * Trait For Three Bikou
+ * Trait For 3つ備考
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */

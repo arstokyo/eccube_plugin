@@ -3,19 +3,19 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
 
 /**
- * Trait for 3つフリーフリーコード
+ * Trait for 3つフリーコード
  * 
  * @author: Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 trait ThreeFcodeTrait 
 {
-    /** @var string|null $fcode1 住所備考1 */
+    /** @var string|null $fcode1 フリーコード1 */
     protected ?string $fcode1 = null;
 
-    /** @var ?string $fcode2 住所備考2 */
+    /** @var ?string $fcode2 フリーコード2 */
     protected ?string $fcode2 = null;
 
-    /** @var ?string $fcode3 住所備考3 */
+    /** @var ?string $fcode3 フリーコード3 */
     protected ?string $fcode3 = null;
 
     /**

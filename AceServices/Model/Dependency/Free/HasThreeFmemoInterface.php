@@ -19,9 +19,9 @@ interface HasThreeFmemoInterface
     /**
      * Set メモ1
      * 
-     * @param ?string $memo1
+     * @param ?string $fmemo1
      */
-    public function setFMemo1(?string $memo1);
+    public function setFMemo1(?string $fmemo1);
 
     /**
      * Get メモ2
@@ -33,9 +33,9 @@ interface HasThreeFmemoInterface
     /**
      * Set メモ2
      * 
-     * @param ?string $memo2
+     * @param ?string $fmemo2
      */
-    public function setFMemo2(?string $memo2);
+    public function setFMemo2(?string $fmemo2);
 
     /**
      * Get メモ3
@@ -47,7 +47,7 @@ interface HasThreeFmemoInterface
     /**
      * Set メモ3
      * 
-     * @param ?string $memo3
+     * @param ?string $fmemo3
      */
-    public function setFMemo3(?string $memo3);
+    public function setFMemo3(?string $fmemo3);
 }
