@@ -2,7 +2,6 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
 
-
 /**
  * Interface Additional Mem Free Interface
  * 
@@ -172,7 +171,7 @@ interface AdditionalMemFreeInterface
      * 
      * @param ?string $fSeikyuMail1
      */
-    public function setFreeSeikyuMail1(?string $fSeikyuMail1);
+    public function setFreeSeikyuMail1(?string $fSeikyuMail1): self;
 
     /**
      * Get 請求明細ﾒｰﾙｱﾄﾞﾚｽ2
@@ -186,7 +185,7 @@ interface AdditionalMemFreeInterface
      * 
      * @param ?string $fSeikyuMail2
      */
-    public function setFreeSeikyuMail2(?string $fSeikyuMail2);
+    public function setFreeSeikyuMail2(?string $fSeikyuMail2): self;
 
     /**
      * Get 請求明細ﾒｰﾙｱﾄﾞﾚｽ3
@@ -200,7 +199,7 @@ interface AdditionalMemFreeInterface
      * 
      * @param ?string $fSeikyuMail3
      */
-    public function setFreeSeikyuMail3(?string $fSeikyuMail3);
+    public function setFreeSeikyuMail3(?string $fSeikyuMail3): self;
 
     /**
      * Get 請求明細ﾒｰﾙｱﾄﾞﾚｽ4
@@ -214,7 +213,7 @@ interface AdditionalMemFreeInterface
      * 
      * @param ?string $fSeikyuMail4
      */
-    public function setFreeSeikyuMail4(?string $fSeikyuMail4);
+    public function setFreeSeikyuMail4(?string $fSeikyuMail4): self;
 
     /**
      * Get 請求明細ﾒｰﾙｱﾄﾞﾚｽ5
@@ -227,8 +226,9 @@ interface AdditionalMemFreeInterface
      * Set 請求明細ﾒｰﾙｱﾄﾞﾚｽ5
      * 
      * @param ?string $fSeikyuMail5
+     * @return self
      */
-    public function setFreeSeikyuMail5(?string $fSeikyuMail5);
+    public function setFreeSeikyuMail5(?string $fSeikyuMail5): self;
 
      /**
      * Get 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ1
