@@ -3,11 +3,11 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
 
 /**
- * Abstract class for PersonLevel3 Group 1
+ * Trait for PersonLevel3
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class PersonLevel3G1Abstract extends PersonLevel2G1Abstract implements PersonLevel3G1Interface
+trait PersonLevel3Trait
 {
     /** @var ?string $area 地域コード */
     protected ?string $area = null;
@@ -28,7 +28,7 @@ class PersonLevel3G1Abstract extends PersonLevel2G1Abstract implements PersonLev
      * {@inheritDoc}
      * 
      */
-    public function setArea(?string $area): self
+    public function setArea(?string $area): parent
     {
         $this->area = $area;
         return $this;
@@ -47,7 +47,7 @@ class PersonLevel3G1Abstract extends PersonLevel2G1Abstract implements PersonLev
      * {@inheritDoc}
      * 
      */
-    public function setCbar(?string $cbar): self
+    public function setCbar(?string $cbar): parent
     {
         $this->cbar = $cbar;
         return $this;

@@ -7,7 +7,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait FiveFseikyumailTrait
+trait FiveFseikyuMailTrait
 {
     /** @var ?string $fseikyumail1 請求明細ﾒｰﾙｱﾄﾞﾚｽ1 */
     protected ?string $fseikyumail1 = null;

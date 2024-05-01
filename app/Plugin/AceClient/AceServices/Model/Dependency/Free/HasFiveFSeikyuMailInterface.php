@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
 
 /**
- * Interface For 請求明細ﾒｰﾙｱﾄﾞﾚｽ
+ * Interface For 5つ請求明細ﾒｰﾙｱﾄﾞﾚｽ
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */

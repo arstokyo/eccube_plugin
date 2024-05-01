@@ -9,6 +9,6 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
  */
 class PersonLevel2Extract
 {
-    use PersonLevel1Trait;
-    use PersonLevel2Trait;
+    use PersonLevel1Trait, 
+        PersonLevel2Trait;
 }
