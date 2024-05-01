@@ -2,8 +2,7 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
 
-class TestPersonConcept implements TestPersonConceptInterface
+class TestPersonConcept extends PersonLevel2Extract implements TestPersonConceptInterface
 {
-    use PersonLevel1Trait;
-    use PersonLevel2Trait;
+
 }

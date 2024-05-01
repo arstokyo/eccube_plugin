@@ -8,18 +8,16 @@ use Plugin\AceClient\AceServices\Model\Dependency\Free\HasThreeFMemoInterface;
 use Plugin\AceClient\AceServices\Model\Dependency\Free\HasThreeFCodeInterface;
 use Plugin\AceClient\AceServices\Model\Dependency\Baitai\HasBaitaiCodeInterface;
 use Plugin\AceClient\AceServices\Model\Dependency\Mail\HasMemmailInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Free\HasThreeFNameInterface;
 
 /**
  * Interface for PersonLevel4 Group 1
  * 
- * @target : /Member/Service2.asmx/regMember|smember
+ * @target : /Member/Service2.asmx/regMember|request-smember|request-jmem
  * @author Ars-Thong <v.t.nguyen@ar-sytem.co.jp>
  */
 interface PersonLevel4G1Interface extends HasThreeFreeInterface, HasBaitaiCodeInterface, 
                                           HasThreeFDayInterface, HasThreeFMemoInterface,
-                                          HasThreeFCodeInterface, HasMemmailInterface,
-                                          HasThreeFNameInterface
+                                          HasThreeFCodeInterface, HasMemmailInterface
 {
     /**
      * Get fax.

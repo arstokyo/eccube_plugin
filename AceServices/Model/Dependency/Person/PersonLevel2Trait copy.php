@@ -7,7 +7,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait PersonLevel2Trait 
+trait PersonLevel2TraitCopy
 {
     /** @var ?string $email メール */
     protected ?string $email = null;

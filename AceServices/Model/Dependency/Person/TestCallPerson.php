@@ -6,7 +6,7 @@ class TestCallPerson
 {
     public function testCallPerson()
     {
-        $person = new TestPersonConcept();
-        $person->setAdr4('adr4');
+        $person = new PersonTestTrait();
+        $person->setBikou1('bikou1')->setBikou2('bikou2')->setBikou3('bikou3');
     }
 }
