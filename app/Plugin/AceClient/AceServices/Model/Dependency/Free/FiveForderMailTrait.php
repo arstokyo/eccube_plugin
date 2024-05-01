@@ -5,7 +5,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
 /**
  * Trait For 5つ注文確認ﾒｰﾙｱﾄﾞﾚｽ
  * 
- * @author Ars-Phuoc <>
+ * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
 trait FiveForderMailTrait 
 {

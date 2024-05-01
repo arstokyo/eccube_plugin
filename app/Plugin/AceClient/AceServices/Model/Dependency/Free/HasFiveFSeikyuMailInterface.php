@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
 
 /**
- * Interface For Five Free Seikyu Mail
+ * Interface For 請求明細ﾒｰﾙｱﾄﾞﾚｽ
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
