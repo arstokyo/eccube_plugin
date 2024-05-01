@@ -1,0 +1,71 @@
+<?php
+
+namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
+
+/**
+ * Trait for 3つフリーフリーコード
+ * 
+ * @author: Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
+trait ThreeFcodeTrait 
+{
+    /** @var string|null $fcode1 住所備考1 */
+    protected ?string $fcode1 = null;
+
+    /** @var ?string $fcode2 住所備考2 */
+    protected ?string $fcode2 = null;
+
+    /** @var ?string $fcode3 住所備考3 */
+    protected ?string $fcode3 = null;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getFcode1(): ?string
+    {
+        return $this->fcode1;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setFcode1(?string $fcode1): parent
+    {
+        $this->fcode1 = $fcode1;
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getFcode2(): ?string
+    {
+        return $this->fcode2;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setFcode2(?string $fcode2): parent
+    {
+        $this->fcode2 = $fcode2;
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getFcode3(): ?string
+    {
+        return $this->fcode3;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setFcode3(?string $fcode3): parent
+    {
+        $this->fcode3 = $fcode3;
+        return $this;
+    }
+}
