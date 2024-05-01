@@ -5,10 +5,9 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
 /**
  * Interface HasFiveFShouHinMailInterface
  * 
- * @Target : Plugin\AceClient\AceServices\Model\Dependency\Person
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-interface HasFiveFShouHinMailInterface
+interface HasFiveFshouhinMailInterface
 {
 
     /**
@@ -21,10 +20,9 @@ interface HasFiveFShouHinMailInterface
     /**
      * Set 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ1
      * 
-     * @param ?string $fShouHinMail1
-     * @return self
+     * @param ?string $fshouhinmail1
      */
-    public function setFShouHinMail1(?string $fShouHinMail1): self;
+    public function setFShouHinMail1(?string $fshouhinmail1);
 
     /**
      * Get 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ2
@@ -36,10 +34,9 @@ interface HasFiveFShouHinMailInterface
     /**
      * Set 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ2
      * 
-     * @param ?string $fShouHinMail2
-     * @return self
+     * @param ?string $fshouhinmail2
      */
-    public function setFShouHinMail2(?string $fShouHinMail2): self;
+    public function setFShouHinMail2(?string $fshouhinmail2);
 
     /**
      * Get 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ3
@@ -51,10 +48,9 @@ interface HasFiveFShouHinMailInterface
     /**
      * Set 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ3
      * 
-     * @param ?string $fShouHinMail3
-     * @return self
+     * @param ?string $fshouhinmail3
      */
-    public function setFShouHinMail3(?string $fShouHinMail3): self;
+    public function setFShouHinMail3(?string $fshouhinmail3);
 
     /**
      * Get 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ4
@@ -66,10 +62,9 @@ interface HasFiveFShouHinMailInterface
     /**
      * Set 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ4
      * 
-     * @param ?string $fShouHinMail4
-     * @return self
+     * @param ?string $fshouhinmail4
      */
-    public function setFShouHinMail4(?string $fShouHinMail4): self;
+    public function setFShouHinMail4(?string $fshouhinmail4);
 
     /**
      * Get 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ5
@@ -81,9 +76,8 @@ interface HasFiveFShouHinMailInterface
     /**
      * Set 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ5
      * 
-     * @param ?string $fShouHinMail5
-     * @return self
+     * @param ?string $fshouhinmail5
      */
-    public function setFShouHinMail5(?string $fShouHinMail5): self;
+    public function setFShouHinMail5(?string $fshouhinmail5);
     
 }

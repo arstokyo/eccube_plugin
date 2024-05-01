@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
 
 /**
- * Interface For フリー日付
+ * Interface For 3つフリー日付
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */

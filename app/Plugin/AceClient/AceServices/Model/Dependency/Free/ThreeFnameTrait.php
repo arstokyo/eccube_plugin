@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
 
 /**
- * Trait for 3つフリー名称
+ * Trait for 3つフリーコード 名称
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
@@ -27,9 +27,9 @@ trait ThreeFnameTrait
         return $this->fname1;
     }
 
-    public function setFName1(?string $FName1): parent
+    public function setFName1(?string $fname1): parent
     {
-        $this->fname1 = $FName1;
+        $this->fname1 = $fname1;
         return $this;
     }
 

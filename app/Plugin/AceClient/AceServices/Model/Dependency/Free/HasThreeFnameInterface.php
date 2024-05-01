@@ -3,52 +3,52 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
 
 /**
- * Interface For フリーコード 名称
+ * Interface For 3つフリーコード 名称
  * 
  * @author Ars-Thong <v.t.nguyen@ar-sytem.co.jp>
  */
 interface HasThreeFnameInterface
 {
     /**
-     * Get Free Code Name 1
+     * Get フリーコード 名称 1
      * 
      * @return ?string
      */
     public function getFName1(): ?string;
 
     /**
-     * Set Free Code Name 1
+     * Set フリーコード 名称 1
      * 
-     * @param ?string $FName1
+     * @param ?string $fname1
      */
-    public function setFName1(?string $FName1);
+    public function setFName1(?string $fname1);
 
     /**
-     * Get Free Code Name 2
+     * Get フリーコード 名称 2
      * 
      * @return ?string
      */
     public function getFName2(): ?string;
 
     /**
-     * Set Free Code Name 2
+     * Set フリーコード 名称 2
      * 
-     * @param ?string $FName2
+     * @param ?string $fname2
      */
-    public function setFName2(?string $FName2);
+    public function setFName2(?string $fname2);
 
     /**
-     * Get Free Code Name 3
+     * Get フリーコード 名称 3
      * 
      * @return ?string
      */
     public function getFName3(): ?string;
 
     /**
-     * Set Free Code Name 3
+     * Set フリーコード 名称 3
      * 
-     * @param ?string $FName3
+     * @param ?string $fname3
      */
-    public function setFName3(?string $FName3);
+    public function setFName3(?string $fname3);
 
 }

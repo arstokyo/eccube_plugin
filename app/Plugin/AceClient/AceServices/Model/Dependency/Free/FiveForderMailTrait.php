@@ -53,9 +53,9 @@ trait FiveForderMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFreeOrderMail2(?string $freeOrderMail2): parent
+    public function setFreeOrderMail2(?string $freeordermail2): parent
     {
-        $this->freeordermail2 = $freeOrderMail2;
+        $this->freeordermail2 = $freeordermail2;
         return $this;
     }
 
@@ -70,9 +70,9 @@ trait FiveForderMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFreeOrderMail3(?string $freeOrderMail3): parent
+    public function setFreeOrderMail3(?string $freeordermail3): parent
     {
-        $this->freeordermail3 = $freeOrderMail3;
+        $this->freeordermail3 = $freeordermail3;
         return $this;
     }
 
@@ -87,9 +87,9 @@ trait FiveForderMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFreeOrderMail4(?string $freeOrderMail4): parent
+    public function setFreeOrderMail4(?string $freeordermail4): parent
     {
-        $this->freeordermail4 = $freeOrderMail4;
+        $this->freeordermail4 = $freeordermail4;
         return $this;
     }
 
@@ -104,9 +104,9 @@ trait FiveForderMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFreeOrderMail5(?string $freeOrderMail5): parent
+    public function setFreeOrderMail5(?string $freeordermail5): parent
     {
-        $this->freeordermail5 = $freeOrderMail5;
+        $this->freeordermail5 = $freeordermail5;
         return $this;
     }
 }

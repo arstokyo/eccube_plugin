@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Bikou;
 
 /**
- * Interface For Three Bikou
+ * Interface For 3つ備考
  * 
  * @author : Ars-Thong <v.t.nguyen@ar-sytem.co.jp>
  */
