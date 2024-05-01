@@ -21,9 +21,8 @@ interface HasBaitaiCodeInterface
      * Set 媒体
      * 
      * @param ?string $baitai
-     * @return self
      */
-    public function setBaitai(?string $baitai): self;
+    public function setBaitai(?string $baitai);
 
    
     /**
@@ -37,8 +36,7 @@ interface HasBaitaiCodeInterface
      * Set 管理番号
      * 
      * @param ?string $baifile
-     * @return self
      */
-    public function setBaifile(?string $baifile): self;
+    public function setBaifile(?string $baifile);
 
 }

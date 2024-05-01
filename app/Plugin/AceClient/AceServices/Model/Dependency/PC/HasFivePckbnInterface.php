@@ -8,7 +8,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\PC;
  * @Target : Plugin\AceClient\AceServices\Model\Dependency\Person
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-interface HasFivePckbnInterface
+interface HasFivePCKbnInterface
 {
     /**
      * Get PC区分 1
@@ -21,9 +21,8 @@ interface HasFivePckbnInterface
      * Set PC区分 1
      * 
      * @param ?int $pckbn1
-     * @return self
      */
-    public function setPckbn1(?int $pckbn1): self;
+    public function setPckbn1(?int $pckbn1);
 
     /**
      * Get PC区分 2
@@ -36,9 +35,8 @@ interface HasFivePckbnInterface
      * Set PC区分 2
      * 
      * @param ?int $pckbn2
-     * @return self
      */
-    public function setPckbn2(?int $pckbn2): self;
+    public function setPckbn2(?int $pckbn2);
 
     /**
      * Get PC区分 3
@@ -51,9 +49,8 @@ interface HasFivePckbnInterface
      * Set PC区分 3
      * 
      * @param ?int $pckbn3
-     * @return self
      */
-    public function setPckbn3(?int $pckbn3): self;
+    public function setPckbn3(?int $pckbn3);
 
     /**
      * Get PC区分 4
@@ -66,9 +63,8 @@ interface HasFivePckbnInterface
      * Set PC区分 4
      * 
      * @param ?int $pckbn4
-     * @return self
      */
-    public function setPckbn4(?int $pckbn4): self;
+    public function setPckbn4(?int $pckbn4);
 
     /**
      * Get PC区分 5
@@ -81,8 +77,7 @@ interface HasFivePckbnInterface
      * Set PC区分 5
      * 
      * @param ?int $pckbn5
-     * @return self
      */
-    public function setPckbn5(?int $pckbn5): self;
+    public function setPckbn5(?int $pckbn5);
 
 }
