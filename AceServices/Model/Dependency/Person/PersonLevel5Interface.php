@@ -3,16 +3,17 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
 
 use Plugin\AceClient\AceServices\Model\Dependency\Baitai\HasBaitaiNameInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Free\HasThreeFNameInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Pc\HasFivePckbnInterface;
+use Plugin\AceClient\AceServices\Model\Dependency\Free\HasThreeFnameInterface;
+use Plugin\AceClient\AceServices\Model\Dependency\Pc\HasFivePCKbnInterface;
 use Plugin\AceClient\AceServices\Model\Dependency\KeiTai\HasFiveKeiKbnInterface;
 
 /**
- * Interface for Person Level5 Group 1
+ * Interface for Person Level 5
  *
  * @target : /Member/Service2.asmx/regMember|response-smember
  */
-interface PersonLevel5G1Interface extends PersonLevel4G1Interface, HasBaitaiNameInterface, HasThreeFNameInterface, HasFiveKeiKbnInterface, HasFivePckbnInterface
+interface PersonLevel5Interface extends HasBaitaiNameInterface, HasThreeFnameInterface, 
+                                        HasFiveKeiKbnInterface, HasFivePCKbnInterface
 {
 
     /**
@@ -27,9 +28,8 @@ interface PersonLevel5G1Interface extends PersonLevel4G1Interface, HasBaitaiName
      * Set 滞納者フラグ.
      *
      * @param int|null $blkbn 
-     * @return self
      */
-    public function setBlkbn(?int $blkbn): self;
+    public function setBlkbn(?int $blkbn);
 
     /**
      * Get 滞納者日付.
@@ -42,9 +42,8 @@ interface PersonLevel5G1Interface extends PersonLevel4G1Interface, HasBaitaiName
      * Set 滞納者日付.
      *
      * @param int|null $blday 
-     * @return self
      */
-    public function setBlday(?int $blday): self;
+    public function setBlday(?int $blday);
 
     /**
      * Get ポイント.
@@ -57,9 +56,8 @@ interface PersonLevel5G1Interface extends PersonLevel4G1Interface, HasBaitaiName
      * Set ポイント.
      *
      * @param int|null $point 
-     * @return self
      */
-    public function setPoint(?int $point): self;
+    public function setPoint(?int $point);
 
     /**
      * Get DM送付先フラグ.
@@ -74,9 +72,8 @@ interface PersonLevel5G1Interface extends PersonLevel4G1Interface, HasBaitaiName
      * 0:自宅 1:勤務先
      *
      * @param int|null $dadr 
-     * @return self
      */
-    public function setDadr(?int $dadr): self;
+    public function setDadr(?int $dadr);
 
     /**
      * Get 商品送付先フラグ.
@@ -91,9 +88,8 @@ interface PersonLevel5G1Interface extends PersonLevel4G1Interface, HasBaitaiName
      * 0:自宅 1:勤務先
      *
      * @param int|null $gadr 
-     * @return self
      */
-    public function setGadr(?int $gadr): self;
+    public function setGadr(?int $gadr);
 
         /**
      * Get 年齢.
@@ -106,9 +102,8 @@ interface PersonLevel5G1Interface extends PersonLevel4G1Interface, HasBaitaiName
      * Set 年齢.
      *
      * @param int|null $age 
-     * @return self
      */
-    public function setAge(?int $age): self;
+    public function setAge(?int $age);
 
     /**
      * Get 紹介者 氏名.
@@ -121,8 +116,7 @@ interface PersonLevel5G1Interface extends PersonLevel4G1Interface, HasBaitaiName
      * Set 紹介者 氏名.
      *
      * @param string|null $upcodeSimei 
-     * @return self
      */
-    public function setUpcodeSimei(?string $upcodeSimei): self;
+    public function setUpcodeSimei(?string $upcodeSimei);
 
 }
