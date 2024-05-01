@@ -3,11 +3,11 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
 
 /**
- * Interface HasFiveFShouHinMailInterface
+ * Interface For 5つ商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-interface HasFiveFshouhinMailInterface
+interface HasFiveFshouHinMailInterface
 {
 
     /**

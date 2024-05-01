@@ -3,9 +3,9 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
 
 /**
- * Interface For Has Five Free Shuka Mail 
+ * Interface For 5つ注文確認ﾒｰﾙｱﾄﾞﾚｽ
  * 
- * @author Ars-Phuoc <>
+ * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
 interface HasFiveForderMailInterface
 {
