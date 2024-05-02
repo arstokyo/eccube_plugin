@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
 
-interface TestPersonConceptInterface extends PersonLevel2ExtractInterface
+interface TestPersonConceptInterface extends PersonLevel5ExtractInterface
 {
 
 
