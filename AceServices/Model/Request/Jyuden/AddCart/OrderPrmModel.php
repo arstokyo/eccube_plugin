@@ -22,4 +22,12 @@ class OrderPrmModel extends OrderPrmModelAbstract implements OrderPrmModelInterf
         return $this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function ensureValidParameters(): bool
+    {
+        return true;
+    }
+
 }
