@@ -10,13 +10,13 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
 trait PersonLevel1Trait
 {
 
-    /** @var string $code 顧客コード  */
-    protected string $code;
+    /** @var ?string $code 顧客コード  */
+    protected ?string $code = null;
     
     /**
      * {@inheritDoc}
      */
-    public function getCode(): string
+    public function getCode(): ?string
     {
         return $this->code;
     }
@@ -24,7 +24,7 @@ trait PersonLevel1Trait
     /**
      * {@inheritDoc}
      */
-    public function setCode(string $code)
+    public function setCode(?string $code)
     {
         $this->code = $code;
         return $this;
