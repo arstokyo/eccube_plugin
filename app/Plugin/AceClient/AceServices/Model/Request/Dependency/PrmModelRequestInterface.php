@@ -2,6 +2,7 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request\Dependency;
 
+use Plugin\AceClient\AceServices\Model\Dependency\EnsureValidParametersInterface;
 use Plugin\AceClient\AceServices\Model\Dependency\OTDableInterface;
 
 /**
@@ -9,7 +10,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\OTDableInterface;
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-interface PrmModelRequestInterface extends OTDableInterface
+interface PrmModelRequestInterface extends OTDableInterface, EnsureValidParametersInterface
 {
     
 }

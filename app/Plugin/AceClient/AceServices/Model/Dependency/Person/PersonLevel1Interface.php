@@ -14,13 +14,13 @@ interface PersonLevel1Interface
      * 
      * @return string
      */
-    public function getCode(): string;
+    public function getCode(): ?string;
 
     /**
      * Set 顧客コード
      * 
      * @param string $code
      */
-    public function setCode(string $code);
+    public function setCode(?string $code);
 }
 
