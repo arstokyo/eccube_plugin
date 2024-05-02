@@ -35,7 +35,7 @@ trait FiveKeiKbnTrait
     /**
      * {@inheritDoc}
      */
-    public function setKeiKbn1(?int $keikbn1): parent
+    public function setKeiKbn1(?int $keikbn1)
     {
         $this->keikbn1 = $keikbn1;
         return $this;
@@ -52,7 +52,7 @@ trait FiveKeiKbnTrait
     /**
      * {@inheritDoc}
      */
-    public function setKeiKbn2(?int $keikbn2): parent
+    public function setKeiKbn2(?int $keikbn2)
     {
         $this->keikbn2 = $keikbn2;
         return $this;
@@ -69,7 +69,7 @@ trait FiveKeiKbnTrait
     /**
      * {@inheritDoc}
      */
-    public function setKeiKbn3(?int $keikbn3): parent
+    public function setKeiKbn3(?int $keikbn3)
     {
         $this->keikbn3 = $keikbn3;
         return $this;
@@ -86,7 +86,7 @@ trait FiveKeiKbnTrait
     /**
      * {@inheritDoc}
      */
-    public function setKeiKbn4(?int $keikbn4): parent
+    public function setKeiKbn4(?int $keikbn4)
     {
         $this->keikbn4 = $keikbn4;
         return $this;
@@ -103,7 +103,7 @@ trait FiveKeiKbnTrait
     /**
      * {@inheritDoc}
      */
-    public function setKeiKbn5(?int $keikbn5): parent
+    public function setKeiKbn5(?int $keikbn5)
     {
         $this->keikbn5 = $keikbn5;
         return $this;

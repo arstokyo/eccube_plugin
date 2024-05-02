@@ -95,7 +95,7 @@ trait PersonLevel5Trait
      * {@inheritDoc}
      * 
      */
-    public function setAge(?int $age): parent
+    public function setAge(?int $age)
     {
         $this->age = $age;
         return $this;
@@ -105,7 +105,7 @@ trait PersonLevel5Trait
      * {@inheritDoc}
      * 
      */
-    public function setBlday(?int $blday): parent
+    public function setBlday(?int $blday)
     {
         $this->blday = $blday;
         return $this;
@@ -115,7 +115,7 @@ trait PersonLevel5Trait
      * {@inheritDoc}
      * 
      */
-    public function setBlkbn(?int $blkbn): parent
+    public function setBlkbn(?int $blkbn)
     {
         $this->blkbn = $blkbn;
         return $this;
@@ -125,7 +125,7 @@ trait PersonLevel5Trait
      * {@inheritDoc}
      * 
      */
-    public function setDadr(?int $dadr): parent
+    public function setDadr(?int $dadr)
     {
         $this->dadr = $dadr;
         return $this;
@@ -135,7 +135,7 @@ trait PersonLevel5Trait
      * {@inheritDoc}
      * 
      */
-    public function setGadr(?int $gadr): parent
+    public function setGadr(?int $gadr)
     {
         $this->gadr = $gadr;
         return $this;
@@ -145,7 +145,7 @@ trait PersonLevel5Trait
      * {@inheritDoc}
      * 
      */
-    public function setPoint(?int $point): parent
+    public function setPoint(?int $point)
     {
         $this->point = $point;
         return $this;
@@ -164,7 +164,7 @@ trait PersonLevel5Trait
      * {@inheritDoc}
      * 
      */
-    public function setUpcodeSimei(?string $upcodeSimei): parent
+    public function setUpcodeSimei(?string $upcodeSimei)
     {
         $this->upcodeSimei = $upcodeSimei;
         return $this;

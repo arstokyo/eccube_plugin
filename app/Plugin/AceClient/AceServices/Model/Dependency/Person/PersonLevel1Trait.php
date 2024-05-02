@@ -24,7 +24,7 @@ trait PersonLevel1Trait
     /**
      * {@inheritDoc}
      */
-    public function setCode(string $code): parent
+    public function setCode(string $code)
     {
         $this->code = $code;
         return $this;

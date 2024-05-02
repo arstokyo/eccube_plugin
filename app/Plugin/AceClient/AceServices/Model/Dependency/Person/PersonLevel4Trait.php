@@ -78,7 +78,7 @@ trait PersonLevel4Trait
      * {@inheritDoc}
      * 
      */
-    public function setBirthday(?int $birthday): parent
+    public function setBirthday(?int $birthday)
     {
         $this->birthday = $birthday;
         return $this;
@@ -97,7 +97,7 @@ trait PersonLevel4Trait
      * {@inheritDoc}
      * 
      */
-    public function setTel2(?string $tel2): parent
+    public function setTel2(?string $tel2)
     {
         $this->tel2 = $tel2;
         return $this;
@@ -116,7 +116,7 @@ trait PersonLevel4Trait
      * {@inheritDoc}
      * 
      */
-    public function setTorikbn(?int $torikbn): parent
+    public function setTorikbn(?int $torikbn)
     {
         $this->torikbn = $torikbn;
         return $this;
@@ -135,7 +135,7 @@ trait PersonLevel4Trait
      * {@inheritDoc}
      * 
      */
-    public function setUpcode(?string $upcode): parent
+    public function setUpcode(?string $upcode)
     {
         $this->upcode = $upcode;
         return $this;
@@ -154,7 +154,7 @@ trait PersonLevel4Trait
      * {@inheritDoc}
      * 
      */
-    public function setDmkb(?int $dmkb): parent
+    public function setDmkb(?int $dmkb)
     {
         $this->dmkb = $dmkb;
         return $this;
@@ -173,7 +173,7 @@ trait PersonLevel4Trait
      * {@inheritDoc}
      * 
      */
-    public function setFax(?string $fax): parent
+    public function setFax(?string $fax)
     {
         $this->fax = $fax;
         return $this;
@@ -192,7 +192,7 @@ trait PersonLevel4Trait
      * {@inheritDoc}
      * 
      */
-    public function setInday(?int $inday): parent
+    public function setInday(?int $inday)
     {
         $this->inday = $inday;
         return $this;
@@ -211,7 +211,7 @@ trait PersonLevel4Trait
      * {@inheritDoc}
      * 
      */
-    public function setKhasuu(?int $khasuu): parent
+    public function setKhasuu(?int $khasuu)
     {
         $this->khasuu = $khasuu;
         return $this;
@@ -230,7 +230,7 @@ trait PersonLevel4Trait
      * {@inheritDoc}
      * 
      */
-    public function setRitu(?float $ritu): parent
+    public function setRitu(?float $ritu)
     {
         $this->ritu = $ritu;
         return $this;
@@ -249,7 +249,7 @@ trait PersonLevel4Trait
      * {@inheritDoc}
      * 
      */
-    public function setSex(?int $sex): parent
+    public function setSex(?int $sex)
     {
         $this->sex = $sex;
         return $this;
@@ -268,7 +268,7 @@ trait PersonLevel4Trait
      * {@inheritDoc}
      * 
      */
-    public function setSime(?int $sime): parent
+    public function setSime(?int $sime)
     {
         $this->sime = $sime;
         return $this;
@@ -287,7 +287,7 @@ trait PersonLevel4Trait
      * {@inheritDoc}
      * 
      */
-    public function setSite(?int $site): parent
+    public function setSite(?int $site)
     {
         $this->site = $site;
         return $this;
@@ -306,7 +306,7 @@ trait PersonLevel4Trait
      * {@inheritDoc}
      * 
      */
-    public function setTankakbn(?int $tankakbn): parent
+    public function setTankakbn(?int $tankakbn)
     {
         $this->tankakbn = $tankakbn;
         return $this;
@@ -325,7 +325,7 @@ trait PersonLevel4Trait
      * {@inheritDoc}
      * 
      */
-    public function setCode2(?string $code2): parent
+    public function setCode2(?string $code2)
     {
         $this->code2 = $code2;
         return $this;

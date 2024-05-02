@@ -30,7 +30,7 @@ trait BaitaiNameTrait
     /**
      * {@inheritDoc}
      */
-    public function setBaitaiName(?string $baitaiName): parent
+    public function setBaitaiName(?string $baitaiName)
     {
         $this->baitaiName = $baitaiName;
         return $this;
@@ -47,7 +47,7 @@ trait BaitaiNameTrait
     /**
      * {@inheritDoc}
      */
-    public function setBaifileName(?string $baifileName): parent
+    public function setBaifileName(?string $baifileName)
     {
         $this->baifileName = $baifileName;
         return $this;

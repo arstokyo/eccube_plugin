@@ -37,7 +37,7 @@ trait FiveMailTrait
      * {@inheritDoc}
      * 
      */
-    public function setMail1(?string $mail1): parent
+    public function setMail1(?string $mail1)
     {
         $this->mail1 = $mail1;
         return $this;
@@ -56,7 +56,7 @@ trait FiveMailTrait
      * {@inheritDoc}
      * 
      */
-    public function setMail2(?string $mail2): parent
+    public function setMail2(?string $mail2)
     {
         $this->mail2 = $mail2;
         return $this;
@@ -75,7 +75,7 @@ trait FiveMailTrait
      * {@inheritDoc}
      * 
      */
-    public function setMail3(?string $mail3): parent
+    public function setMail3(?string $mail3)
     {
         $this->mail3 = $mail3;
         return $this;
@@ -94,7 +94,7 @@ trait FiveMailTrait
      * {@inheritDoc}
      * 
      */
-    public function setMail4(?string $mail4): parent
+    public function setMail4(?string $mail4)
     {
         $this->mail4 = $mail4;
         return $this;
@@ -113,7 +113,7 @@ trait FiveMailTrait
      * {@inheritDoc}
      * 
      */
-    public function setMail5(?string $mail5): parent
+    public function setMail5(?string $mail5)
     {
         $this->mail5 = $mail5;
         return $this;

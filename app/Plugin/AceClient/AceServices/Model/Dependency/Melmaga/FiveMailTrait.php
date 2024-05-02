@@ -35,7 +35,7 @@ trait FiveMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setMelmaga1(?int $melmaga1): parent
+    public function setMelmaga1(?int $melmaga1)
     {
         $this->melmaga1 = $melmaga1;
         return $this;
@@ -52,7 +52,7 @@ trait FiveMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setMelmaga2(?int $melmaga2): parent
+    public function setMelmaga2(?int $melmaga2)
     {
         $this->melmaga2 = $melmaga2;
         return $this;
@@ -69,7 +69,7 @@ trait FiveMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setMelmaga3(?int $melmaga3): parent
+    public function setMelmaga3(?int $melmaga3)
     {
         $this->melmaga3 = $melmaga3;
         return $this;
@@ -86,7 +86,7 @@ trait FiveMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setMelmaga4(?int $melmaga4): parent
+    public function setMelmaga4(?int $melmaga4)
     {
         $this->melmaga4 = $melmaga4;
         return $this;
@@ -103,7 +103,7 @@ trait FiveMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setMelmaga5(?int $melmaga5): parent
+    public function setMelmaga5(?int $melmaga5)
     {
         $this->melmaga5 = $melmaga5;
         return $this;
