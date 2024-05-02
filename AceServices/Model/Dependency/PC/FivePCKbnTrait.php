@@ -35,7 +35,7 @@ trait FivePCKbnTrait
     /**
      * {@inheritDoc}
      */
-    public function setPckbn1(?int $pckbn1): parent
+    public function setPckbn1(?int $pckbn1)
     {
         $this->pckbn1 = $pckbn1;
         return $this;
@@ -52,7 +52,7 @@ trait FivePCKbnTrait
     /**
      * {@inheritDoc}
      */
-    public function setPckbn2(?int $pckbn2): parent
+    public function setPckbn2(?int $pckbn2)
     {
         $this->pckbn2 = $pckbn2;
         return $this;
@@ -69,7 +69,7 @@ trait FivePCKbnTrait
     /**
      * {@inheritDoc}
      */
-    public function setPckbn3(?int $pckbn3): parent
+    public function setPckbn3(?int $pckbn3)
     {
         $this->pckbn3 = $pckbn3;
         return $this;
@@ -86,7 +86,7 @@ trait FivePCKbnTrait
     /**
      * {@inheritDoc}
      */
-    public function setPckbn4(?int $pckbn4): parent
+    public function setPckbn4(?int $pckbn4)
     {
         $this->pckbn4 = $pckbn4;
         return $this;
@@ -103,7 +103,7 @@ trait FivePCKbnTrait
     /**
      * {@inheritDoc}
      */
-    public function setPckbn5(?int $pckbn5): parent
+    public function setPckbn5(?int $pckbn5)
     {
         $this->pckbn5 = $pckbn5;
         return $this;

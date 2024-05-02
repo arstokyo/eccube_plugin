@@ -35,7 +35,7 @@ trait FiveFseikyuMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFSeikyuMail1(?string $fseikyumail1): parent
+    public function setFSeikyuMail1(?string $fseikyumail1)
     {
         $this->fseikyumail1 = $fseikyumail1;
         return $this;
@@ -52,7 +52,7 @@ trait FiveFseikyuMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFSeikyuMail2(?string $fseikyumail2): parent
+    public function setFSeikyuMail2(?string $fseikyumail2)
     {
         $this->fseikyumail2 = $fseikyumail2;
         return $this;
@@ -69,7 +69,7 @@ trait FiveFseikyuMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFSeikyuMail3(?string $fseikyumail3): parent
+    public function setFSeikyuMail3(?string $fseikyumail3)
     {
         $this->fseikyumail3 = $fseikyumail3;
         return $this;
@@ -86,7 +86,7 @@ trait FiveFseikyuMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFSeikyuMail4(?string $fseikyumail4): parent
+    public function setFSeikyuMail4(?string $fseikyumail4)
     {
         $this->fseikyumail4 = $fseikyumail4;
         return $this;
@@ -103,7 +103,7 @@ trait FiveFseikyuMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFSeikyuMail5(?string $fseikyumail5): parent
+    public function setFSeikyuMail5(?string $fseikyumail5)
     {
         $this->fseikyumail5 = $fseikyumail5;
         return $this;

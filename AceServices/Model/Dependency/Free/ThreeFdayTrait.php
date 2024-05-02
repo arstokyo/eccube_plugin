@@ -29,7 +29,7 @@ trait ThreeFdayTrait
     /**
      * {@inheritDoc}
      */
-    public function setFday1(?int $fday1): parent
+    public function setFday1(?int $fday1)
     {
         $this->fday1 = $fday1;
         return $this;
@@ -46,7 +46,7 @@ trait ThreeFdayTrait
     /**
      * {@inheritDoc}
      */
-    public function setFday2(?int $fday2): parent
+    public function setFday2(?int $fday2)
     {
         $this->fday2 = $fday2;
         return $this;
@@ -63,7 +63,7 @@ trait ThreeFdayTrait
     /**
      * {@inheritDoc}
      */
-    public function setFday3(?int $fday3): parent
+    public function setFday3(?int $fday3)
     {
         $this->fday3 = $fday3;
         return $this;

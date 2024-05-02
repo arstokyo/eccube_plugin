@@ -65,20 +65,18 @@ trait PersonLevel2Trait
 
     /**
      * {@inheritDoc} 
-     * 
      */
-    public function setKana(?string $kana): parent
+    public function setKana(?string $kana)
     {
         $this->kana = $kana;
         return $this;
-    
     }
 
     /**
      * {@inheritDoc} 
      * 
      */
-    public function setSimei(?string $simei): parent
+    public function setSimei(?string $simei)
     {
         $this->simei = $simei;
         return $this;
@@ -89,7 +87,7 @@ trait PersonLevel2Trait
      * {@inheritDoc} 
      * 
      */
-    public function setTel(?string $tel): parent
+    public function setTel(?string $tel)
     {
         $this->tel = $tel;
         return $this;
@@ -99,7 +97,7 @@ trait PersonLevel2Trait
      * {@inheritDoc} 
      * 
      */
-    public function setZip(?string $zip): parent
+    public function setZip(?string $zip)
     {
         $this->zip = $zip;
         return $this;
