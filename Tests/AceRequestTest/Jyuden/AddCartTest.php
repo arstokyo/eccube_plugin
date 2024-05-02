@@ -53,6 +53,7 @@ class AddCartTest extends AbstractAdminWebTestCase
 
     public function testCallPerson()
     {
+
         $person = new TestPersonConcept();
         $person->setAdr4('abc')
                 ->setZip('1234567')
@@ -60,7 +61,9 @@ class AddCartTest extends AbstractAdminWebTestCase
                 ->setTel('1234567890')
                 ->setCode('123')
                 ->setKana('abc')
-                ->setAdr2('adr2');
+                ->setAdr2('adr2')
+                ->setCbar('cbar');
+
         $this->assertEquals('123', $person->getCode());
     }
 
