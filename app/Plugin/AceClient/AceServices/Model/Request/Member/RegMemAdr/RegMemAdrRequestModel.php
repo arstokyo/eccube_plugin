@@ -2,7 +2,6 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr;
 
-use Plugin\AceClient\AceServices\Model\Request\Dependency\PrmModelRequestInterface;
 use Plugin\AceClient\AceServices\Model\Request;
 
 /**

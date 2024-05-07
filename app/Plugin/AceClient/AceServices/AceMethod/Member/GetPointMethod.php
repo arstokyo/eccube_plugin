@@ -14,7 +14,7 @@ use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
  */
 class GetPointMethod extends AceMethodAbstract
 {
- /**
+    /**
      * The End Point of Service.
      */
     private const END_POINT_SERVICE = 'service2.asmx';

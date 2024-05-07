@@ -6,6 +6,9 @@ use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr\RegMemAdrRequestModel;
 use Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr\MemberPrmModel;
 use Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr\NmemberModel;
+use Plugin\AceClient\AceServices\Model\Response\Member\RegMemAdr\RegMemAdrResponseModel;;
+use Plugin\AceClient\AceClient;
+use GuzzleHttp\Exception\ClientException;
 
 class RegMemberAdrTest extends AbstractAdminWebTestCase
 {
@@ -50,6 +53,83 @@ class RegMemberAdrTest extends AbstractAdminWebTestCase
         $prmData = preg_replace('/\s+/', '',$regMemAdr->getPrm());
         $this->assertEquals($expectedPrmData, $prmData);
 
+    }
+
+    public function testRequestRegMemberAdrNG()
+    {
+        try {
+            $getPointRequest = $this->getRegmemberRequestModelNG();
+            $response = (new AceClient)->makeMemberService()
+                                       ->makeRegMemAdrMethod()
+                                       ->withRequest($getPointRequest)
+                                       ->send();
+            if ($response->getStatusCode() === 200) {
+                /** @var RegMemAdrResponseModel $responseObj */
+                $responseObj = $response->getResponse();
+                $nmem = $responseObj->getMember()->getNmember();
+                $message1 = $responseObj->getMember()->getMessage()->getMessage1() ?? null;
+                $message2 = $responseObj->getMember()->getMessage()->getMessage2() ?? null;
+            }
+        } catch(ClientException $e) {
+            $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
+        } catch(\Throwable $e) {
+            $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
+        }
+        $this->assertEquals('[Nmember]:氏名(simei):未記入', $message1);
+        $this->assertEquals('', $message2);
+    }
+
+    public function getRegmemberRequestModelNG(): RegMemAdrRequestModel
+    {
+        $memberPrm = new MemberPrmModel();
+        $memberPrm->setNmember((new NmemberModel())->setEda(1)
+                                                   ->setFax('1234567890')
+                                                   ->setTel('9876543210')
+                                                   ->setZip('1234567')
+                                                   ->setAdr1('address1')
+                                                   ->setAdr2('address2')
+                                                   ->setCode('1'));
+        $regMemAdr = new RegMemAdrRequestModel();
+        return $regMemAdr->setId(7)->setPrm($memberPrm);
+    }
+
+    public function getRegmemberRequestModelOK(): RegMemAdrRequestModel
+    {
+        $memberPrm = new MemberPrmModel();
+        $memberPrm->setNmember((new NmemberModel())->setEda(1)
+                                                   ->setFax('1234567890')
+                                                   ->setTel('9876543210')
+                                                   ->setZip('1234567')
+                                                   ->setAdr1('address1')
+                                                   ->setAdr2('address2')
+                                                   ->setCode('1')
+                                                   ->setSimei('Thong'));
+        $regMemAdr = new RegMemAdrRequestModel();
+        return $regMemAdr->setId(7)->setPrm($memberPrm);
+    }
+
+    public function testRequestRegMemberAdrOK()
+    {
+        try {
+            $getPointRequest = $this->getRegmemberRequestModelOK();
+            $response = (new AceClient)->makeMemberService()
+                                       ->makeRegMemAdrMethod()
+                                       ->withRequest($getPointRequest)
+                                       ->send();
+            if ($response->getStatusCode() === 200) {
+                /** @var RegMemAdrResponseModel $responseObj */
+                $responseObj = $response->getResponse();
+                $nmem = $responseObj->getMember()->getNmember();
+                $message1 = $responseObj->getMember()->getMessage()->getMessage1() ?? null;
+                $message2 = $responseObj->getMember()->getMessage()->getMessage2() ?? null;
+            }
+        } catch(ClientException $e) {
+            $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
+        } catch(\Throwable $e) {
+            $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
+        }
+        $this->assertEquals('[Nmember]:氏名(simei):未記入', $message1);
+        $this->assertEquals('', $message2);
     }
 
 }
