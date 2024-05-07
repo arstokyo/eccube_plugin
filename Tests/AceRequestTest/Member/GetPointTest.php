@@ -55,6 +55,8 @@ class GetPointRequestModelTest extends AbstractAdminWebTestCase
                 /** @var GetPointReponseModel $responseObj */
                 $responseObj = $response->getResponse();
                 $point = $responseObj->getMember()->getPoint() ? $responseObj->getMember()->getPoint()->getPoint() : null;
+                $message1 = $responseObj->getMember()->getMessage()->getMessage1() ?? null;
+                $message2 = $responseObj->getMember()->getMessage()->getMessage2() ?? null;
             }
         } catch(ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
@@ -62,6 +64,8 @@ class GetPointRequestModelTest extends AbstractAdminWebTestCase
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
         $this->assertEquals(null, $point);
+        $this->assertEquals(null, $message1);
+        $this->assertEquals('', $message2);
     }
 
     public function getGetPointRequestModelOK()
