@@ -7,7 +7,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-trait HasFiveFdenwaBangoTrait
+trait FiveFdenwaBangoTrait
 {
     /** @var ?string $freedenwabango1 代表者電話番号1 */
     protected ?string $freedenwabango1 = null;

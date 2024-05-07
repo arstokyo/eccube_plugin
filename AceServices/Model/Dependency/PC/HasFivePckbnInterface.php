@@ -8,7 +8,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\PC;
  * @Target : Plugin\AceClient\AceServices\Model\Dependency\Person
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-interface HasFivePCKbnInterface
+interface HasFivePckbnInterface
 {
     /**
      * Get PC区分 1
