@@ -12,22 +12,21 @@ class MessageModel implements MessageInterface
     /**
      * Message 1
      * 
-     * @var string $message1
+     * @var ?string $message1
      */
-    protected string $message1;
+    protected ?string $message1 = null;
 
     /**
      * Message 2
      * 
-     * @var string $message2
+     * @var ?string $message2
      */
-    protected string $message2;
+    protected ?string $message2 = null;
 
     /**
      * {@inheritDoc}
-     * 
      */
-    public function getMessage1(): string
+    public function getMessage1(): ?string
     {
         return $this->message1;
     }
@@ -36,25 +35,23 @@ class MessageModel implements MessageInterface
      * {@inheritDoc}
      * 
      */
-    public function setMessage1($message1)
+    public function setMessage1(?string $message1)
     {
         $this->message1 = $message1;
     }
 
     /**
      * {@inheritDoc}
-     * 
      */
-    public function getMessage2(): string
+    public function getMessage2(): ?string
     {
         return $this->message2;
     }
 
     /**
      * {@inheritDoc}
-     * 
      */
-    public function setMessage2($message2)
+    public function setMessage2(?string $message2)
     {
         $this->message2 = $message2;
     }

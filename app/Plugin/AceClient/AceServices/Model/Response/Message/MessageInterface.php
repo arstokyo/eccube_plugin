@@ -12,28 +12,28 @@ interface MessageInterface
     /**
      * Get the value of message1
      */ 
-    public function getMessage1(): string;
+    public function getMessage1(): ?string;
 
     /**
      * Set the value of message1
      *
-     * @param string $message1
+     * @param ?string $message1
      * @return void
      */ 
-    public function setMessage1($message1);
+    public function setMessage1(?string $message1);
 
 
     /**
      * Get the value of message2
      */ 
-    public function getMessage2(): string;
+    public function getMessage2(): ?string;
 
     /**
      * Set the value of message2
      *
-     * @param string $message2
+     * @param ?string $message2
      * @return void
      */ 
-    public function setMessage2($message2);
+    public function setMessage2(?string $message2);
 
 }
