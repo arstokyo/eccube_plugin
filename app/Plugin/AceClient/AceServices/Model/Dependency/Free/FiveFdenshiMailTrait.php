@@ -7,7 +7,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-class HasFiveFdenshiMailTrait implements HasFiveFDenshiMailInterface
+trait FiveFdenshiMailTrait
 {
     /** @var ?string $freedenshimail1 電子契約送付ﾒｰﾙｱﾄﾞﾚｽ1 */
     protected ?string $freedenshimail1 = null;

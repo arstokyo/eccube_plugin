@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\AceServices\Model\Response\Message;
 
-interface MessageNodeInterface
+interface HasMessageResponseInterface
 {
     /**
      * Get message

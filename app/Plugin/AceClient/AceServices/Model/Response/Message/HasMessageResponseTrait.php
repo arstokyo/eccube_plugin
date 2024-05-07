@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\AceServices\Model\Response\Message;
 
-class MessageNodeModel implements MessageNodeInterface
+trait HasMessageResponseTrait
 {
     /**
      * Message
@@ -12,9 +12,7 @@ class MessageNodeModel implements MessageNodeInterface
     protected MessageModel $Message;
 
     /**
-     * Get message
-     * 
-     * @return MessageModel
+     * {@inheritDoc}
      */
     public function getMessage(): MessageInterface
     {
@@ -22,10 +20,7 @@ class MessageNodeModel implements MessageNodeInterface
     }
 
     /**
-     * Set message
-     * 
-     * @param MessageModel $message
-     * @return void
+     * {@inheritDoc}
      */
     public function setMessage(MessageModel $message)
     {
