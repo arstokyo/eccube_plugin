@@ -2,28 +2,15 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request\Member\Dependency;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person\PersonLevel1;
+use Plugin\AceClient\AceServices\Model\Dependency\Person\NmemberAbstract;
+use Plugin\AceClient\AceServices\Model\Dependency\Person\PersonLevel1Trait;
 
-class NmemberModel extends PersonLevel1 implements NmemberModelInterface
+/**
+ * Class for NmemberModel
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
+class NmemberModel extends NmemberAbstract implements NmemberModelInterface
 {
-    /** @var int|null $eda 納品先枝番号 */
-    protected ?int $eda = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getEda(): int|null
-    {
-        return $this->eda;
-    
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setEda(int|null $eda)
-    {
-        $this->eda = $eda;
-        return $this;
-    }
+   use PersonLevel1Trait;
 }

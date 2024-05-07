@@ -8,7 +8,6 @@ use Plugin\AceClient\AceServices\Model\Dependency\Bikou\HasThreeBikouInterface;
 
 interface NmemberModelInterface extends ParentModelInterface, PersonLevel2Interface, HasThreeBikouInterface
 {
-   
     /**
      * Get 住所区分
      * 

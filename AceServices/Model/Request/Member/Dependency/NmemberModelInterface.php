@@ -3,19 +3,9 @@
 namespace  Plugin\AceClient\AceServices\Model\Request\Member\Dependency;
 
 use Plugin\AceClient\AceServices\Model\Dependency\Person\NmemberInterface;
+use Plugin\AceClient\AceServices\Model\Dependency\Person\PersonLevel1Interface;
 
-interface NmemberModelInterface extends NmemberInterface
+interface NmemberModelInterface extends NmemberInterface, PersonLevel1Interface
 {
-    /**
-     * Get 納品先枝番号
-     * 
-     */
-    public function getEda(): ?int;
-
-    /**
-     * Set 納品先枝番号
-     * 
-     */
-    public function setEda(?int $eda);
     
 }

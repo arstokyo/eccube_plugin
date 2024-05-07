@@ -9,6 +9,7 @@ use Plugin\AceClient\AceServices\Model\Request\Member\Dependency\NmemberModel as
 /**
  * Class for 納品先Model
  * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 class NmemberModel extends ParentModel implements NmemberModelInterface
 {
