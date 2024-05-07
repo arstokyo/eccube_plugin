@@ -15,9 +15,7 @@ class PointModel implements PointModelInterface{
     /** @var string $point 会員番号 */
     private ?string $point = null;
     /**
-     * Get POINT
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function getPoint(): string
     {
@@ -25,10 +23,7 @@ class PointModel implements PointModelInterface{
     }
 
     /**
-     * Set POINT
-     *
-     * @param ?string $point
-     * @return void
+     * {@inheritDoc}
      */
     public function setPoint(?string $point): void
     {
