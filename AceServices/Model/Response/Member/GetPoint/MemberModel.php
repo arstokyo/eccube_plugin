@@ -18,12 +18,12 @@ class MemberModel extends MemberModelResponseAbstract implements MemberModelInte
      *
      * @var PointModel $point
      */
-    protected PointModel $point;
+    protected ?PointModel $point  = null;
 
     /**
      * {@inheritDoc}
      */
-    function getPoint(): PointModel
+    function getPoint(): ?PointModel
     {
         return $this->point;
     }
@@ -31,7 +31,7 @@ class MemberModel extends MemberModelResponseAbstract implements MemberModelInte
     /**
     * {@inheritDoc}
     */
-    function setPoint(PointModel $point): void
+    function setPoint(?PointModel $point): void
     {
         $this->point = $point;
     }

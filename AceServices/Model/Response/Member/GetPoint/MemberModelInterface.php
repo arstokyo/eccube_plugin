@@ -18,15 +18,15 @@ interface MemberModelInterface extends ParentMemberModelResponseInterface
     /**
     * Get Point
     *
-    * @return Response\Member\GetPoint\PointModel
+    * @return ?Response\Member\GetPoint\PointModel
     */
-    public function getPoint(): PointModel;
+    public function getPoint(): ?PointModel;
 
     /**
      * Set Point
      *
-     * @param Response\Member\GetPoint\PointModel $point
+     * @param ?Response\Member\GetPoint\PointModel $point
      * @return void
      */
-    public function setPoint(PointModel $point): void;
+    public function setPoint(?PointModel $point): void;
 }
