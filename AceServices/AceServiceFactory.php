@@ -21,4 +21,14 @@ class AceServiceFactory {
         return new Service\JyudenService();
     }
 
+    /**
+     * Make new MemberService
+     * 
+     * @return Service\MemberService
+     */
+    public static function makeMemberService() : Service\MemberService
+    {
+        return new Service\MemberService();
+    }
+
 }

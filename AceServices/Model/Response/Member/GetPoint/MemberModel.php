@@ -4,7 +4,6 @@ namespace Plugin\AceClient\AceServices\Model\Response\Member\GetPoint;
 
 use Plugin\AceClient\AceServices\Model\Response\Depedency\MemberModelResponseAbstract;
 use Plugin\AceClient\AceServices\Model\Response\Member\GetPoint\PointModel;
-use Plugin\AceClient\AceServices\Model\Response;
 
 /**
  * Class MemberModel

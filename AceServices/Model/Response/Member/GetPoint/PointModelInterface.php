@@ -1,7 +1,6 @@
 <?php
 
 namespace Plugin\AceClient\AceServices\Model\Response\Member\GetPoint;
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
 
 /**
  * Interface PointModelInterface
@@ -9,7 +8,7 @@ use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
 
-interface PointModelInterface extends ResponseModelInterface
+interface PointModelInterface
 {
     /**
     * Get 会員番号

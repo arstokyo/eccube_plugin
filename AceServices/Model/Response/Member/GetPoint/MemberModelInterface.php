@@ -1,7 +1,8 @@
 <?php
 
 namespace Plugin\AceClient\AceServices\Model\Response\Member\GetPoint;
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
+
+use Plugin\AceClient\AceServices\Model\Response\Depedency\MemberModelResponseInterface as ParentMemberModelResponseInterface;
 use Plugin\AceClient\AceServices\Model\Response\Member\GetPoint\PointModel;
 use Plugin\AceClient\AceServices\Model\Response;
 
@@ -12,7 +13,7 @@ use Plugin\AceClient\AceServices\Model\Response;
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
 
-interface MemberModelInterface extends ResponseModelInterface
+interface MemberModelInterface extends ParentMemberModelResponseInterface
 {
     /**
     * Get Point
