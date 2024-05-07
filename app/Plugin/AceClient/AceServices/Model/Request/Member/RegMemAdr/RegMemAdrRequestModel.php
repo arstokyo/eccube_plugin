@@ -3,6 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr;
 
 use Plugin\AceClient\AceServices\Model\Request\Dependency\PrmModelRequestInterface;
+use Plugin\AceClient\AceServices\Model\Request;
 
 /**
  * Class RegMemAdrRequestModel
@@ -16,8 +17,8 @@ class RegMemAdrRequestModel implements RegMemAdrRequestInterface
     /** @var int $id SystemId */
     private int $id;
 
-    /** @var PrmModelRequestInterface $prm Prm */
-    private PrmModelRequestInterface $prm;
+    /** @var MemberPrmInterface $prm Prm */
+    private MemberPrmModel $prm;
 
     /**
      * {@inheritDoc}
@@ -30,7 +31,7 @@ class RegMemAdrRequestModel implements RegMemAdrRequestInterface
     /**
      * {@inheritDoc}
      */
-    public function setId(int $id): RegMemAdrRequestInterface
+    public function setId(int $id): self
     {
         $this->id = $id;
         return $this;
@@ -39,15 +40,15 @@ class RegMemAdrRequestModel implements RegMemAdrRequestInterface
     /**
      * {@inheritDoc}
      */
-    public function getPrm(): PrmModelRequestInterface
+    public function getPrm(): string|null|object
     {
-        return $this->prm;
+        return $this->prm->toData();
     }
 
     /**
-     * {@inheritDoc}
+     * @param Request\Member\RegMemAdr\MemberPrmModel $prm
      */
-    public function setPrm(PrmModelRequestInterface $prm): self
+    public function setPrm(MemberPrmInterface $prm): self
     {
         $this->prm = $prm;
         return $this;

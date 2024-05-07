@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr;
 
 use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient\AceServices\Model\Request\Dependency\PrmModelRequestInterface;
+use Plugin\AceClient\AceServices\Model\Request;
 
 /**
  * Interface RegMemAdrRequestInterface
@@ -23,23 +23,23 @@ interface RegMemAdrRequestInterface extends RequestModelInterface
      * Set SystemID
      *
      * @param int $id
-     * @return RegMemAdrRequestInterface
+     * @return self
      */
-    public function setId(int $id): RegMemAdrRequestInterface;
+    public function setId(int $id): self;
 
     /**
-     * Get Prm
+     * Get 顧客住所　情報
      *
-     * @return PrmModelRequestInterface
+     * @return string|null|object
      */
-    public function getPrm(): PrmModelRequestInterface;
+    public function getPrm(): string|null|object;
 
     /**
-     * Set Prm
+     * Set 顧客住所　情報
      *
-     * @param PrmModelRequestInterface $prm
-     * @return RegMemAdrRequestInterface
+     * @param Request\Member\RegMemAdr\MemberPrmInterface $prm
+     * @return self
      */
-    public function setPrm(PrmModelRequestInterface $prm): RegMemAdrRequestInterface;
+    public function setPrm(MemberPrmInterface $prm): self;
 
 }

@@ -7,7 +7,7 @@ use Plugin\AceClient\AceServices\Model\Request\Member\Dependency\MemberPrmAbstra
 
 class MemberPrmModel extends MemberPrmAbstract implements MemberPrmInterface
 {
-    /** @var NmemberModelInterface $nmember 納品先 */
+    /** @var NmemberModel $nmember 納品先 */
     private NmemberModelInterface $nmember;
 
     /**
