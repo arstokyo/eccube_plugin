@@ -5,8 +5,8 @@ namespace Plugin\AceClient\AceServices\Model\Response\Message;
 trait HasMessageResponseTrait
 {
     /**
-     * Message
-     * 
+     * エラーメッセージ
+     *
      * @var MessageModel $Message
      */
     protected MessageModel $Message;
@@ -14,7 +14,7 @@ trait HasMessageResponseTrait
     /**
      * {@inheritDoc}
      */
-    public function getMessage(): MessageInterface
+    public function getMessage(): MessageModelInterface
     {
         return $this->Message;
     }

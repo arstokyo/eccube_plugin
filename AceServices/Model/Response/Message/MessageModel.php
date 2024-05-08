@@ -4,21 +4,21 @@ namespace Plugin\AceClient\AceServices\Model\Response\Message;
 
 /**
  * MessageModel
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class MessageModel implements MessageInterface
+class MessageModel implements MessageModelInterface
 {
     /**
-     * Message 1
-     * 
+     * エラーメッセージ 1
+     *
      * @var ?string $message1
      */
     protected ?string $message1 = null;
 
     /**
-     * Message 2
-     * 
+     * エラーメッセージ 2
+     *
      * @var ?string $message2
      */
     protected ?string $message2 = null;
@@ -33,7 +33,7 @@ class MessageModel implements MessageInterface
 
     /**
      * {@inheritDoc}
-     * 
+     *
      */
     public function setMessage1(?string $message1)
     {

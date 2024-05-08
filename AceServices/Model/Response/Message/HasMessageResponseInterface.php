@@ -5,15 +5,15 @@ namespace Plugin\AceClient\AceServices\Model\Response\Message;
 interface HasMessageResponseInterface
 {
     /**
-     * Get message
-     * 
-     * @return MessageInterface
+     * Get エラーメッセージ
+     *
+     * @return MessageModelInterface
      */
-    public function getMessage(): MessageInterface;
+    public function getMessage(): MessageModelInterface;
 
     /**
-     * Set message
-     * 
+     * Set エラーメッセージ
+     *
      * @param MessageModel $message
      * @return void
      */

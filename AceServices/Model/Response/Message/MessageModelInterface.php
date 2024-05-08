@@ -7,33 +7,33 @@ namespace Plugin\AceClient\AceServices\Model\Response\Message;
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-interface MessageInterface
+interface MessageModelInterface
 {
     /**
-     * Get the value of message1
-     */ 
+     * Get エラーメッセージ1
+     */
     public function getMessage1(): ?string;
 
     /**
-     * Set the value of message1
+     * Set エラーメッセージ1
      *
      * @param ?string $message1
      * @return void
-     */ 
+     */
     public function setMessage1(?string $message1);
 
 
     /**
-     * Get the value of message2
-     */ 
+     * Get エラーメッセージ2
+     */
     public function getMessage2(): ?string;
 
     /**
-     * Set the value of message2
+     * Set エラーメッセージ2
      *
      * @param ?string $message2
      * @return void
-     */ 
+     */
     public function setMessage2(?string $message2);
 
 }
