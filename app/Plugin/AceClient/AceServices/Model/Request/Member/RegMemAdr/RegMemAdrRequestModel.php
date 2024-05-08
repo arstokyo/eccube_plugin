@@ -3,6 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr;
 
 use Plugin\AceClient\AceServices\Model\Request;
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\IdTrait;
 
 /**
  * Class RegMemAdrRequestModel
@@ -13,28 +14,11 @@ class RegMemAdrRequestModel implements RegMemAdrRequestInterface
 {
 
     const XML_NODE_NAME = 'regMemAdr';
-    /** @var int $id SystemId */
-    private int $id;
+
+    use IdTrait;   
 
     /** @var MemberPrmInterface $prm Prm */
     private MemberPrmModel $prm;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setId(int $id): self
-    {
-        $this->id = $id;
-        return $this;
-    }
 
     /**
      * {@inheritDoc}

@@ -1,7 +1,6 @@
 <?php
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\HasMailAdressInterface;
 
 /**
  * Trait for MailAdress
