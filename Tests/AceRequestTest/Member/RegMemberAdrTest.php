@@ -29,7 +29,7 @@ class RegMemberAdrTest extends AbstractAdminWebTestCase
         $expectedPrmData = 
         preg_replace('/\s+/', '',
         <<<'XML'
-        <?xml version="1.0" encoding="Shift_JIS"?>
+        <?xml version="1.0" encoding="UTF-8"?>
         <member>
         <nmember>
             <betu/>
