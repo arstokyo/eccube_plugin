@@ -12,15 +12,15 @@ interface MessageModelExtend1Interface extends MessageModelInterface
     /**
      * Get メールアドレス
      */
-    public function getAddress(): ?string;
+    public function getAdress(): ?string;
 
     /**
      * Set メールアドレス
      *
-     * @param ?string $address
+     * @param ?string $adress
      * @return void
      */
-    public function setAddress(?string $address);
+    public function setAdress(?string $adress);
 
     /**
      * Get 結果

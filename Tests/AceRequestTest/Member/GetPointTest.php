@@ -4,7 +4,7 @@ namespace Plugin\AceClient\Tests\AceRequestTest\Member;
 
 use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Plugin\AceClient\AceServices\Model\Request\Member\GetPoint\GetPointRequestModel;
-use Plugin\AceClient\AceServices\Model\Response\Member\GetPoint\GetPointReponseModel;
+use Plugin\AceClient\AceServices\Model\Response\Member\GetPoint\GetPointResponseModel;
 use Plugin\AceClient\AceClient;
 use GuzzleHttp\Exception\ClientException;
 
@@ -28,7 +28,7 @@ class GetPointRequestModelTest extends AbstractAdminWebTestCase
                                        ->withRequest($getPointRequest)
                                        ->send();
             if ($response->getStatusCode() === 200) {
-                /** @var GetPointReponseModel $responseObj */
+                /** @var GetPointResponseModel $responseObj */
                 $responseObj = $response->getResponse();
                 $point = $responseObj->getMember()
                                         ->getPoint()
@@ -56,7 +56,7 @@ class GetPointRequestModelTest extends AbstractAdminWebTestCase
                                        ->withRequest($getPointRequest)
                                        ->send();
             if ($response->getStatusCode() === 200) {
-                /** @var GetPointReponseModel $responseObj */
+                /** @var GetPointResponseModel $responseObj */
                 $responseObj = $response->getResponse();
                 $point = $responseObj->getMember()->getPoint() ? $responseObj->getMember()->getPoint()->getPoint() : null;
                 $message1 = $responseObj->getMember()->getMessage()->getMessage1() ?? null;

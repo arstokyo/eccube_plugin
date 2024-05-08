@@ -12,9 +12,9 @@ class MessageModelExtend1 extends MessageModel implements MessageModelExtend1Int
     /**
      * Address
      *
-     * @var ?string $address
+     * @var ?string $adress
      */
-    protected ?string $address = null;
+    protected ?string $adress = null;
 
     /**
      * Result
@@ -39,17 +39,17 @@ class MessageModelExtend1 extends MessageModel implements MessageModelExtend1Int
     /**
      * {@inheritDoc}
      */
-    public function getAddress(): ?string
+    public function getAdress(): ?string
     {
-        return $this->address;
+        return $this->adress;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setAddress(?string $address)
+    public function setAdress(?string $adress)
     {
-        $this->address = $address;
+        $this->adress = $adress;
     }
 
     /**
