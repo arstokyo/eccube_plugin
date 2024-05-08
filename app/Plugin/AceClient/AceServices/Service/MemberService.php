@@ -8,7 +8,7 @@ use Plugin\AceClient\AceServices\AceMethod;
 
 /**
  * Member Service
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 class MemberService extends AceServiceAbstract implements AceServiceInterface
@@ -18,7 +18,7 @@ class MemberService extends AceServiceAbstract implements AceServiceInterface
 
     /**
      * Make GetPointMethod
-     * 
+     *
      * @return AceMethod\Member\GetPointMethod
      */
     public function makeGetPointMethod(): AceMethod\Member\GetPointMethod
@@ -28,7 +28,7 @@ class MemberService extends AceServiceAbstract implements AceServiceInterface
 
     /**
      * Make RegmemAdrMethod
-     * 
+     *
      * @return AceMethod\Member\RegMemAdrMethod
      */
     public function makeRegMemAdrMethod(): AceMethod\Member\RegMemAdrMethod
@@ -36,4 +36,13 @@ class MemberService extends AceServiceAbstract implements AceServiceInterface
         return new AceMethod\Member\RegMemAdrMethod($this->baseServiceName);
     }
 
+    /**
+     * Make CheckMailAdressMethod
+     *
+     * @return AceMethod\Member\CheckMailAdressMethod
+     */
+    public function makeCheckMailAdressMethod(): AceMethod\Member\CheckMailAdressMethod
+    {
+        return new AceMethod\Member\CheckMailAdressMethod($this->baseServiceName);
+    }
 }
