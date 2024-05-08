@@ -8,6 +8,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\Free\ThreeFdayTrait;
 use Plugin\AceClient\AceServices\Model\Dependency\Free\ThreeFmemoTrait;
 use Plugin\AceClient\AceServices\Model\Dependency\Free\ThreeFcodeTrait;
 use Plugin\AceClient\AceServices\Model\Dependency\Baitai\BaitaiCodeTrait;
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Trait for Person Level 4
@@ -16,12 +17,13 @@ use Plugin\AceClient\AceServices\Model\Dependency\Baitai\BaitaiCodeTrait;
  */
 trait PersonLevel4Trait
 {
-    use MemMailTrait;
-    use ThreeFreeTrait;
-    use ThreeFdayTrait;
-    use ThreeFmemoTrait;
-    use ThreeFcodeTrait;
-    use BaitaiCodeTrait;
+    use MemMailTrait,
+        ThreeFreeTrait,
+        ThreeFdayTrait,
+        ThreeFmemoTrait,
+        ThreeFcodeTrait,
+        BaitaiCodeTrait,
+        NoCategory\FaxTrait;
 
     /** @var ?int $birthday 生年月日 */
     protected ?int $birthday = null;
@@ -37,9 +39,6 @@ trait PersonLevel4Trait
 
     /** @var ?int $dmkb DM区分 */
     protected ?int $dmkb = null;
-
-    /** @var ?string $fax FAX */
-    protected ?string $fax = null;
 
     /** @var ?int $inday 入会日 */
     protected ?int $inday = null;
@@ -157,25 +156,6 @@ trait PersonLevel4Trait
     public function setDmkb(?int $dmkb)
     {
         $this->dmkb = $dmkb;
-        return $this;
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     */
-    public function getFax(): ?string
-    {
-        return $this->fax;
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     */
-    public function setFax(?string $fax)
-    {
-        $this->fax = $fax;
         return $this;
     }
 
