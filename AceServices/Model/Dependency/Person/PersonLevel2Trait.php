@@ -10,7 +10,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class PersonLevel2Trait implements PersonLevel2Interface
+trait PersonLevel2Trait 
 {
     use FourAdrTrait,
         NoCategory\SimeiTrait,
