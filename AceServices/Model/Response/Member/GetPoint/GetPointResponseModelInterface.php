@@ -12,7 +12,7 @@ use Plugin\AceClient\AceServices\Model\Response;
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
 
-interface GetPointReponseModelInterface extends ResponseModelInterface
+interface GetPointResponseModelInterface extends ResponseModelInterface
 {
     /**
     * Get Member

@@ -4,7 +4,7 @@ namespace Plugin\AceClient\AceServices\AceMethod\Member;
 
 use Plugin\AceClient\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient\AceServices\Model\Request;
-use Plugin\AceClient\AceServices\Model\Response\Member\GetPoint\GetPointReponseModel;
+use Plugin\AceClient\AceServices\Model\Response\Member\GetPoint\GetPointResponseModel;
 use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
 
 /**
@@ -32,7 +32,7 @@ class GetPointMethod extends AceMethodAbstract
      */
     protected function setResponseAsObject(): string
     {
-        return GetPointReponseModel::class;
+        return GetPointResponseModel::class;
     }
 
     /**

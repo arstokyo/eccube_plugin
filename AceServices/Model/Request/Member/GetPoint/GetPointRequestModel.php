@@ -2,7 +2,6 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request\Member\GetPoint;
 
-use Plugin\AceClient\AceServices\Model\Request;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 
@@ -15,12 +14,6 @@ class GetPointRequestModel implements GetPointRequestInterface
 {
     const XML_NODE_NAME = 'getPoint';
 
-
-    // /** @var int $id SystemId */
-    // private int $id;
-
-    // /** @var string $mcode 顧客コード */
-    // private string $mcode;
     use NoCategory\IdTrait,NoCategory\McodeTrait;
     /**
      * {@inheritDoc}
