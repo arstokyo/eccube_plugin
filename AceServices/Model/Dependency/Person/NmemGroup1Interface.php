@@ -6,6 +6,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\Person\NmemberInterface;
 use Plugin\AceClient\AceServices\Model\Dependency\Person\PersonLevel1Interface;
 use Plugin\AceClient\AceServices\Model\Dependency\Address\HasFourAdrInterface;
 use Plugin\AceClient\AceServices\Model\Dependency\Bikou\HasThreeAdrBikouInterface;
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Interface for NmemGroup1
@@ -13,7 +14,9 @@ use Plugin\AceClient\AceServices\Model\Dependency\Bikou\HasThreeAdrBikouInterfac
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 interface NmemGroup1Interface extends NmemberInterface, PersonLevel1Interface, 
-                                      HasFourAdrInterface, HasThreeAdrBikouInterface
+                                      HasFourAdrInterface, HasThreeAdrBikouInterface,
+                                      NoCategory\HasTelInterface, NoCategory\HasFaxInterface,
+                                      NoCategory\HasZipInterface
 {
 
     /**
@@ -29,47 +32,5 @@ interface NmemGroup1Interface extends NmemberInterface, PersonLevel1Interface,
      * @param string|null $adrName
      */
     public function setAdrName(?string $adrName);
-
-    /**
-     * Get 郵便番号
-     * 
-     * @return string|null
-     */
-    public function getZip(): ?string;
-
-    /**
-     * Set 郵便番号
-     * 
-     * @param string|null $zip
-     */
-    public function setZip(?string $zip);
-
-    /**
-     * Get 電話
-     * 
-     * @return string|null
-     */
-    public function getTel(): ?string;
-
-    /**
-     * Set 電話
-     * 
-     * @param string|null $tel
-     */
-    public function setTel(?string $tel);
-
-    /**
-     * Get Fax
-     * 
-     * @return string|null
-     */
-    public function getFax(): ?string;
-
-    /**
-     * Set Fax
-     * 
-     * @param string|null $fax
-     */
-    public function setFax(?string $fax);
 
 }

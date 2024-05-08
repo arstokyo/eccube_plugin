@@ -8,6 +8,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\Free\HasThreeFmemoInterface;
 use Plugin\AceClient\AceServices\Model\Dependency\Free\HasThreeFcodeInterface;
 use Plugin\AceClient\AceServices\Model\Dependency\Baitai\HasBaitaiCodeInterface;
 use Plugin\AceClient\AceServices\Model\Dependency\Mail\HasMemmailInterface;
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Interface for Person Level 4
@@ -17,21 +18,9 @@ use Plugin\AceClient\AceServices\Model\Dependency\Mail\HasMemmailInterface;
  */
 interface PersonLevel4Interface extends HasThreeFreeInterface, HasBaitaiCodeInterface, 
                                         HasThreeFdayInterface, HasThreeFmemoInterface,
-                                        HasThreeFcodeInterface, HasMemmailInterface
+                                        HasThreeFcodeInterface, HasMemmailInterface,
+                                        NoCategory\HasFaxInterface
 {
-    /**
-     * Get fax.
-     *
-     * @return ?string 
-     */
-    public function getFax(): ?string;
-
-    /**
-     * Set fax.
-     *
-     * @param string|null $fax 
-     */
-    public function setFax(?string $fax);
 
     /**
      * Get その他電話.
