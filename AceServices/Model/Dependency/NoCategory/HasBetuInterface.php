@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
- * Interface for Has Betu
+ * Interface for Has Betu 住所区分
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */

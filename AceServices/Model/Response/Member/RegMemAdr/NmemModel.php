@@ -3,6 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Response\Member\RegMemAdr;
 
 use Plugin\AceClient\AceServices\Model\Dependency\Person\NmemGroup1;
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\BetuTrait;
 
 /**
  * Nmem Model
@@ -11,24 +12,5 @@ use Plugin\AceClient\AceServices\Model\Dependency\Person\NmemGroup1;
  */
 class NmemModel extends NmemGroup1 implements NmemModelInterface
 {
-    /** @var ?int $betu 住所区分 */
-    private ?int $betu = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getBetu(): ?int
-    {
-        return $this->betu;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setBetu(int|null $betu): self
-    {
-        $this->betu = $betu;
-        return $this;
-    }
-    
+    use BetuTrait;
 }
