@@ -9,6 +9,7 @@ use Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr\NmemberModel;
 use Plugin\AceClient\AceServices\Model\Response\Member\RegMemAdr\RegMemAdrResponseModel;;
 use Plugin\AceClient\AceClient;
 use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient\Utils\Mapper\OverviewMapper;
 
 class RegMemberAdrTest extends AbstractAdminWebTestCase
 {
@@ -23,7 +24,7 @@ class RegMemberAdrTest extends AbstractAdminWebTestCase
                                                    ->setAdr1('address1')
                                                    ->setAdr2('address2'));
         $regMemAdr = new RegMemAdrRequestModel();
-        $regMemAdr->setId(1)->setPrm($memberPrm);
+        $regMemAdr->setId(OverviewMapper::ACE_TEST_SYID)->setPrm($memberPrm);
         $this->assertEquals(1, $regMemAdr->getId());
 
         $expectedPrmData = 
@@ -90,7 +91,7 @@ class RegMemberAdrTest extends AbstractAdminWebTestCase
                                                    ->setAdr2('address2')
                                                    ->setCode('1'));
         $regMemAdr = new RegMemAdrRequestModel();
-        return $regMemAdr->setId(7)->setPrm($memberPrm);
+        return $regMemAdr->setId(OverviewMapper::ACE_TEST_SYID)->setPrm($memberPrm);
     }
 
     public function getRegmemberRequestModelOK(): RegMemAdrRequestModel
@@ -104,12 +105,12 @@ class RegMemberAdrTest extends AbstractAdminWebTestCase
                                                    ->setAdr2('住所2')
                                                    ->setAdr3('住所3')
                                                    ->setAdr4('住所4')
-                                                   ->setCode('1')
+                                                   ->setCode(100)
                                                    ->setSimei('テスト')
                                                    ->setKana('トン')
                                                    ->setBikou1('備考1'));
         $regMemAdr = new RegMemAdrRequestModel();
-        return $regMemAdr->setId(7)->setPrm($memberPrm);
+        return $regMemAdr->setId(OverviewMapper::ACE_TEST_SYID)->setPrm($memberPrm);
     }
 
     public function testRequestRegMemberAdrOK()
