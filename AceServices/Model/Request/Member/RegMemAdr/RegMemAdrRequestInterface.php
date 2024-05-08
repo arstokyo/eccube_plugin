@@ -4,28 +4,15 @@ namespace Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr;
 
 use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient\AceServices\Model\Request;
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\HasIdInterface;
 
 /**
  * Interface RegMemAdrRequestInterface
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-interface RegMemAdrRequestInterface extends RequestModelInterface
+interface RegMemAdrRequestInterface extends RequestModelInterface, HasIdInterface
 {
-   /**
-    * Get SystemID
-    *
-    * @return int
-    */
-    public function getId(): int;
-
-    /**
-     * Set SystemID
-     *
-     * @param int $id
-     * @return self
-     */
-    public function setId(int $id): self;
 
     /**
      * Get 顧客住所　情報
