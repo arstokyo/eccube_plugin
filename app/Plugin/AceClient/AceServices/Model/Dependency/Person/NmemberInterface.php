@@ -2,24 +2,14 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
 
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\HasEdaInterface;
+
 /**
  * Interface for Nmember
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-interface NmemberInterface 
+interface NmemberInterface extends HasEdaInterface
 {
-
-    /**
-     * Get 納品先枝番号
-     * 
-     */
-    public function getEda(): ?int;
-
-    /**
-     * Set 納品先枝番号
-     * 
-     */
-    public function setEda(?int $eda);
 
 }
