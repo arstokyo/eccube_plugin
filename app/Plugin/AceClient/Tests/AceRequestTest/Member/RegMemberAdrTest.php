@@ -100,10 +100,14 @@ class RegMemberAdrTest extends AbstractAdminWebTestCase
                                                    ->setFax('1234567890')
                                                    ->setTel('9876543210')
                                                    ->setZip('1234567')
-                                                   ->setAdr1('address1')
-                                                   ->setAdr2('address2')
+                                                   ->setAdr1('住所1')
+                                                   ->setAdr2('住所2')
+                                                   ->setAdr3('住所3')
+                                                   ->setAdr4('住所4')
                                                    ->setCode('1')
-                                                   ->setSimei('Thong'));
+                                                   ->setSimei('テスト')
+                                                   ->setKana('トン')
+                                                   ->setBikou1('備考1'));
         $regMemAdr = new RegMemAdrRequestModel();
         return $regMemAdr->setId(7)->setPrm($memberPrm);
     }

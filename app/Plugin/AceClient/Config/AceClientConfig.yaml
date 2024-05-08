@@ -48,7 +48,7 @@ parameters:
             format: 'xml'
             options: 
                 xml_format_output: true
-                xml_encoding: 'Shift_JIS'
+                xml_encoding: 'UTF-8'
 
         overrides:
             # Change here for overriding default configuration
