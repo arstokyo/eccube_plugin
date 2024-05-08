@@ -7,9 +7,9 @@ trait HasMessageResponseExtend1Trait
     /**
      * エラーメッセージ
      *
-     * @var MesageModelExtend1 $Message
+     * @var MessageModelExtend1 $Message
      */
-    protected MesageModelExtend1 $Message;
+    protected MessageModelExtend1 $Message;
 
     /**
      * {@inheritDoc}
@@ -22,7 +22,7 @@ trait HasMessageResponseExtend1Trait
     /**
      * {@inheritDoc}
      */
-    public function setMessage(MesageModelExtend1 $message)
+    public function setMessage(MessageModelExtend1 $message)
     {
         $this->Message = $message;
     }
