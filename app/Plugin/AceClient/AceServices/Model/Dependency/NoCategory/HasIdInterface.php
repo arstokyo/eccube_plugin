@@ -12,14 +12,14 @@ interface HasIdInterface
     /**
     * Get 通販プロID
     *
-    * @return int
+    * @return ?int
     */
-    public function getId():int;
+    public function getId(): ?int;
     /**
      * Set 通販プロID
      *
-     * @param int $id
+     * @param ?int $id
      */
-    public function setId(int $id);
+    public function setId(?int $id);
 
 }

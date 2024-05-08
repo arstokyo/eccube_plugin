@@ -9,13 +9,13 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
  */
 trait IdTrait
 {
-    /** @var int $id 通販プロID */
-    protected int $id;
+    /** @var ?int $id 通販プロID */
+    protected ?int $id = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -23,7 +23,7 @@ trait IdTrait
     /**
      * {@inheritDoc}
      */
-    public function setId(int $id)
+    public function setId(?int $id)
     {
         $this->id = $id;
         return $this;
