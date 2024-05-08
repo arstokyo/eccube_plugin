@@ -3,11 +3,11 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
 
 /**
- * Extract Class For Person Level 2
+ * Trait for For Person Level 2 Extract
  * 
  * @author Ars-Thong <v.t.nguyen@ar-sytem.co.jp>
  */
-class PersonLevel2Extract
+trait PersonLevel2ExtractTrait
 {
     use PersonLevel1Trait, 
         PersonLevel2Trait;

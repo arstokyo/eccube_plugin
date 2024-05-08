@@ -3,14 +3,14 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
 
 /**
- * Class Person Level 4 Extract
+ * Trait for Person Level 3 Extract
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class PersonLevel4Extract 
+trait PersonLevel3ExtractTrait
 {
     use PersonLevel1Trait, 
         PersonLevel2Trait, 
-        PersonLevel3Trait, 
-        PersonLevel4Trait;
+        PersonLevel3Trait;
+
 }
