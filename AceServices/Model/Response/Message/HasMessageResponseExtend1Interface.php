@@ -14,8 +14,8 @@ interface HasMessageResponseExtend1Interface
     /**
      * Set エラーメッセージ
      *
-     * @param MesageModelExtend1 $message
+     * @param MessageModelExtend1 $message
      * @return void
      */
-    public function setMessage(MesageModelExtend1 $message);
+    public function setMessage(MessageModelExtend1 $message);
 }
