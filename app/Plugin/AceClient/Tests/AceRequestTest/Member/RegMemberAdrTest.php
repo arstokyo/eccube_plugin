@@ -206,12 +206,15 @@ class RegMemberAdrTest extends AbstractAdminWebTestCase
         $serializer = Serialize\SerializerFactory::makeSoapSerializerForTest();
         $serializedData = $serializer->serialize($regMemAdrRequestModel);
 
+        $xmlns = $serializer->getConfig()->getXmlns() ?
+                 $serializer->getConfig()->getXmlns()['@xmlns'] : 
+                 Serialize\SoapXMLSerializer::DEFAULT_XMLNS['@xmlns'];
+        $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_HEAD;
+        $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_END;
         $expectedData = 
-        <<<'XML'
-        <?xml version="1.0" encoding="utf-8"?> 
-        <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope"> 
-        <soap12:Body>
-            <regMemAdr xmlns="http://ar-system-api.co.jp/">
+        <<<XML
+        {$soapHead}
+            <regMemAdr xmlns="{$xmlns}">
                 <prm><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
                 <member>
                 <nmember>
@@ -235,10 +238,8 @@ class RegMemberAdrTest extends AbstractAdminWebTestCase
                 ]]></prm>
                 <id>13</id>
             </regMemAdr>
-        </soap12:Body> 
-        </soap12:Envelope>
+        {$soapEnd}
         XML;
-
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData)); 
     }
 
@@ -263,6 +264,5 @@ class RegMemberAdrTest extends AbstractAdminWebTestCase
                                                    ->setBetu(0));
         return (new RegMemAdrRequestModel())->setId(OverviewMapper::ACE_TEST_SYID)->setPrm($memberPrm);
     }
-
 
 }
