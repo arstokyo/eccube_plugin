@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
- * Interface for Has Kana
+ * Interface for Has フリガナ
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */

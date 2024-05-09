@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
- * Interface for Has Mcode
+ * Interface for Has 顧客コード
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */

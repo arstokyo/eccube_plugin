@@ -1,13 +1,17 @@
 <?php
 
 namespace Plugin\AceClient\AceServices\Model\Response\Message;
+
 use Plugin\AceClient\AceServices\Model\Response\Message\MessageModelInterface;
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+
 /**
  * Interface for Message ModelExtend1
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface MessageModelExtend1Interface extends MessageModelInterface
+interface MessageModelExtend1Interface extends MessageModelInterface, NoCategory\HasTaikaiInterface,
+                                               NoCategory\HasCodeInterface
 {
     /**
      * Get メールアドレス
@@ -34,27 +38,5 @@ interface MessageModelExtend1Interface extends MessageModelInterface
      * @return void
      */
     public function setResult(?string $result);
-    /**
-     * Get 顧客コード
-     */
-    public function getCode(): ?string;
-    /**
-     * Set 顧客コード
-     *
-     * @param ?string $code
-     * @return void
-     */
-    public function setCode(?string $code);
-    /**
-     * Get 退会フラグ
-     */
-    public function getTaikai(): ?string;
 
-    /**
-     * Set 退会フラグ
-     *
-     * @param ?string $taikai
-     * @return void
-     */
-    public function setTaikai(?string $taikai);
 }

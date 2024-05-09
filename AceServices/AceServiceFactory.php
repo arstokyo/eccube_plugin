@@ -9,7 +9,8 @@ use Plugin\AceClient\AceServices\Service;
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class AceServiceFactory {
+class AceServiceFactory 
+{
 
     /**
      * Make new JyudenService

@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
- * Interface for Has MailAdress
+ * Interface for Has メールアドレス
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */

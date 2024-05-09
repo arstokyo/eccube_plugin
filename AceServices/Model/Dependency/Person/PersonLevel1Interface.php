@@ -2,25 +2,15 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
 
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\HasCodeInterface;
+
 /**
  * Interface For Person Level 1
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-interface PersonLevel1Interface 
+interface PersonLevel1Interface extends HasCodeInterface
 {
-    /**
-     * Get 顧客コード
-     * 
-     * @return string
-     */
-    public function getCode(): ?string;
-
-    /**
-     * Set 顧客コード
-     * 
-     * @param string $code
-     */
-    public function setCode(?string $code);
+   
 }
 

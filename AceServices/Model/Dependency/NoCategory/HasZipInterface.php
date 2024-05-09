@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
- * Interface for Has Zip
+ * Interface for Has 郵便番号
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
