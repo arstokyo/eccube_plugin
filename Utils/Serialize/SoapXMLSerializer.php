@@ -20,6 +20,13 @@ use Plugin\AceClient\Exception\NotDeserialiableDataException;
  */
 class SoapXMLSerializer implements SoapXMLSerializerInterface
 {
+
+    public const DEFAULT_REQUEST_SOAP_HEAD = '<?xml version="1.0" encoding="utf-8"?>
+    <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+    <soap12:Body>';
+
+    public const DEFAULT_REQUEST_SOAP_END = '</soap12:Body></soap12:Envelope>';
+
     /**
      * @var Serializer $serializer
      */
@@ -141,7 +148,19 @@ class SoapXMLSerializer implements SoapXMLSerializerInterface
      */
     private function compileWithSoapHeader(string $data): string
     {
-        return $this->config->getRequestSoapHead() . $data . $this->config->getRequestSoapEnd();
+        return   ($this->config->getRequestSoapHead() ?: self::DEFAULT_REQUEST_SOAP_HEAD)
+               . $data 
+               . ($this->config->getRequestSoapEnd() ?: self::DEFAULT_REQUEST_SOAP_END);
+    }
+
+    /**
+     * Get Config
+     * 
+     * @return SoapXmlSerializerModel
+     */
+    public function getConfig(): SoapXmlSerializerModel
+    {
+        return $this->config;
     }
 
 }

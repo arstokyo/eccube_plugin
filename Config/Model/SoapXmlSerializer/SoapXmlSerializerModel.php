@@ -24,10 +24,10 @@ class SoapXmlSerializerModel implements ConfigModelInterface
     private array $defaultSerializeOptions;
 
     #[SerializedName("request_soap_head")]
-    private string $requestSoapHead;
+    private ?string $requestSoapHead = null;
     
     #[SerializedName("request_soap_end")]
-    private string $requestSoapEnd;
+    private ?string $requestSoapEnd = null;
 
     /**
      * Get the value of xmlns
@@ -72,9 +72,9 @@ class SoapXmlSerializerModel implements ConfigModelInterface
     /**
      * Get the value of requestSoapHeader
      * 
-     * @return string
+     * @return ?string
      */
-    public function getRequestSoapHead(): string
+    public function getRequestSoapHead(): ?string
     {
         return $this->requestSoapHead;
     }
@@ -84,7 +84,7 @@ class SoapXmlSerializerModel implements ConfigModelInterface
      *
      * @return void
      */
-    public function setRequestSoapHead(string $requestSoapHead): void
+    public function setRequestSoapHead(?string $requestSoapHead): void
     {
         $this->requestSoapHead = $requestSoapHead;
     }
@@ -92,9 +92,9 @@ class SoapXmlSerializerModel implements ConfigModelInterface
     /**
      * Get the value of requestSoapEnd
      * 
-     * @return string
+     * @return ?string
      */
-    public function getRequestSoapEnd(): string
+    public function getRequestSoapEnd(): ?string
     {
         return $this->requestSoapEnd;
     }
@@ -104,7 +104,7 @@ class SoapXmlSerializerModel implements ConfigModelInterface
      *
      * @return void
      */
-    public function setRequestSoapEnd(string $requestSoapEnd): void
+    public function setRequestSoapEnd(?string $requestSoapEnd): void
     {
         $this->requestSoapEnd = $requestSoapEnd;
     }
