@@ -45,4 +45,14 @@ class MemberService extends AceServiceAbstract implements AceServiceInterface
     {
         return new AceMethod\Member\CheckMailAdressMethod($this->baseServiceName);
     }
+
+    /**
+     * Make DeleteHaisoAdrsMethod
+     *
+     * @return AceMethod\Member\DeleteHaisoAdrsMethod
+     */
+    public function makeDeleteHaisoAdrsMethod(): AceMethod\Member\DeleteHaisoAdrsMethod
+    {
+        return new AceMethod\Member\DeleteHaisoAdrsMethod($this->baseServiceName);
+    }
 }
