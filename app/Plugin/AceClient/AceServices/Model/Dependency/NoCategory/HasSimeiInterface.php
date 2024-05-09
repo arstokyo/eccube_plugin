@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
- * Interface for Simei
+ * Interface for 氏名
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */

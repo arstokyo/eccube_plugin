@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
- * Interface for Has Tel
+ * Interface for Has 電話
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */

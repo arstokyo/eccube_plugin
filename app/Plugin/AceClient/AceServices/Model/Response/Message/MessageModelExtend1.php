@@ -2,6 +2,8 @@
 
 namespace Plugin\AceClient\AceServices\Model\Response\Message;
 
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+
 /**
  * MessageModelExtend1
  *
@@ -9,6 +11,9 @@ namespace Plugin\AceClient\AceServices\Model\Response\Message;
  */
 class MessageModelExtend1 extends MessageModel implements MessageModelExtend1Interface
 {
+    use NoCategory\CodeTrait, 
+        NoCategory\TaikaiTrait;
+
     /**
      * Address
      *
@@ -23,22 +28,6 @@ class MessageModelExtend1 extends MessageModel implements MessageModelExtend1Int
      */
     protected ?string $result = null;
 
-    /**
-     * Code
-     *
-     * @var ?string $code
-     */
-    protected ?string $code = null;
-
-    /**
-     * Taikai
-     *
-     * @var ?string $taikai
-     */
-    protected ?string $taikai = null;
-    /**
-     * {@inheritDoc}
-     */
     public function getAdress(): ?string
     {
         return $this->adress;
@@ -68,35 +57,4 @@ class MessageModelExtend1 extends MessageModel implements MessageModelExtend1Int
         $this->result = $result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getCode(): ?string
-    {
-        return $this->code;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setCode(?string $code)
-    {
-        $this->code = $code;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getTaikai(): ?string
-    {
-        return $this->taikai;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setTaikai(?string $taikai)
-    {
-        $this->taikai = $taikai;
-    }
 }
