@@ -4,13 +4,13 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 trait EdaTrait
 {
-     /** @var int|null $eda 納品先枝番号 */
-     protected ?int $eda = null;
+     /** @var string|null $eda 納品先枝番号 */
+     protected ?string $eda = null;
 
     /**
       * {@inheritDoc}
       */
-     public function getEda(): int|null
+     public function getEda(): string|null
      {
          return $this->eda;
      }
@@ -18,7 +18,7 @@ trait EdaTrait
      /**
       * {@inheritDoc}
       */
-     public function setEda(int|null $eda)
+     public function setEda(string|null $eda)
      {
          $this->eda = $eda;
          return $this;

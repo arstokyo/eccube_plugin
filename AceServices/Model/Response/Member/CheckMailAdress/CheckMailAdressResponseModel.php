@@ -4,6 +4,7 @@ namespace Plugin\AceClient\AceServices\Model\Response\Member\CheckMailAdress;
 
 use Plugin\AceClient\AceServices\Model\Response\Member\CheckMailAdress\CheckMailAdressResponseModelInterface;
 use Plugin\AceClient\AceServices\Model\Response\Member\CheckMailAdress\MemberModel;
+use Plugin\AceClient\AceServices\Model\Response\ResponseModelAbtract;
 use Plugin\AceClient\AceServices\Model\Response;
 
 /**
@@ -12,7 +13,7 @@ use Plugin\AceClient\AceServices\Model\Response;
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
 
-class CheckMailAdressResponseModel implements CheckMailAdressResponseModelInterface
+class CheckMailAdressResponseModel extends ResponseModelAbtract implements CheckMailAdressResponseModelInterface
 {
     /**
      * Member

@@ -23,7 +23,7 @@ interface GetHaisoAdrsResponseModelInterface extends ResponseModelInterface
     /**
     * Set Member
     *
-    * @return void
+    * @return self
     */
-    public function setMember(MemberModel $member): void;
+    public function setMember(MemberModel $member): self;
 }

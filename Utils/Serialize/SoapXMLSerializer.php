@@ -12,6 +12,7 @@ use Plugin\AceClient\Utils\ConfigLoader\SoapXmlSerializerConfigLoaderTrait;
 use Plugin\AceClient\Utils\Mapper\EncodeDefineMapper;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Plugin\AceClient\Exception\NotDeserialiableDataException;
+use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
 
 /**
  * Serializer for SOAP XML API.
@@ -91,12 +92,19 @@ class SoapXMLSerializer implements SoapXMLSerializerInterface
         if (!$this->serializer->supportsEncoding($format, $context)) {
             throw new NotEncodableValueException(sprintf('Serialization for the format "%s" is not supported.', $format));
         }
+
         $data = $this->serializer->decode($data, $format, $context);
         $this->getInnerArray(self::DESERIALIZE_DATA_ARRAY, $data, $matched);
         if (empty($matched)) {
             throw new NotDeserialiableDataException(sprintf('Response Data Not Deserializable. Respected Data Array "%s"', self::DESERIALIZE_DATA_ARRAY));
         }
-        return $this->serializer->denormalize($matched, $type, $format, $context);
+
+        $object = $this->serializer->denormalize($matched, $type, $format, $context);
+        if ($object instanceof ResponseModelInterface) {
+           return $object->denomarlizeInnerData($this->serializer);
+        }
+
+        return $object ;
     }
 
     /**

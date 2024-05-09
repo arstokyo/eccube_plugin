@@ -13,11 +13,11 @@ interface HasEdaInterface
      * Get 納品先枝番号
      * 
      */
-    public function getEda(): ?int;
+    public function getEda(): ?string;
 
     /**
      * Set 納品先枝番号
      * 
      */
-    public function setEda(?int $eda);
+    public function setEda(?string $eda);
 }
