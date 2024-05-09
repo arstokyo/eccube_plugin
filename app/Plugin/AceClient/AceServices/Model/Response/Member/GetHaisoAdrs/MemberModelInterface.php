@@ -18,15 +18,15 @@ interface MemberModelInterface extends ParentMemberModelResponseInterface
     /**
     * Get Point
     *
-    * @return ?Response\Member\GetHaisoAdrs\GetHaisouAdrsModel
+    * @return Response\Member\GetHaisoAdrs\GetHaisouAdrsModel[]|null
     */
-    public function getGetHaisouAdrs(): ?GetHaisouAdrsModel;
+    public function getGetHaisouAdrs(): ?array;
 
     /**
      * Set Point
      *
-     * @param ?Response\Member\GetHaisoAdrs\GetHaisouAdrsModel $getHaisouAdrs
-     * @return void
+     * @param Response\Member\GetHaisoAdrs\GetHaisouAdrsModel[]|null $getHaisouAdrs
+     * @return self
      */
-    public function setGetHaisouAdrs(?GetHaisouAdrsModel $getHaisouAdrs): void;
+    public function setGetHaisouAdrs(array|null $getHaisouAdrs): self;
 }

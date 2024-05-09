@@ -4,6 +4,7 @@ namespace Plugin\AceClient\AceServices\Model\Response\Member\GetHaisoAdrs;
 
 use Plugin\AceClient\AceServices\Model\Response\Depedency\MemberModelResponseAbstract;
 use Plugin\AceClient\AceServices\Model\Response\Member\GetHaisoAdrs\GetHaisouAdrsModel;
+use Plugin\AceClient\Utils\Denormalize\DTO\DTODenormalizerTrait;
 
 /**
  * Class MemberModel
@@ -16,15 +17,15 @@ class MemberModel extends MemberModelResponseAbstract implements MemberModelInte
     /**
      * Point
      *
-     * @var GetHaisouAdrsModel $getHaisouAdrs
+     * @var GetHaisouAdrsModel[]|null $getHaisouAdrs
      */
-    protected ?GetHaisouAdrsModel $getHaisouAdrs = null;
+    protected ?array $getHaisouAdrs = null;
 
 
     /**
      * {@inheritDoc}
      */
-    function getGetHaisouAdrs(): ?GetHaisouAdrsModel
+    public function getGetHaisouAdrs(): ?array
     {
         return $this->getHaisouAdrs;
     }
@@ -32,8 +33,13 @@ class MemberModel extends MemberModelResponseAbstract implements MemberModelInte
     /**
     * {@inheritDoc}
     */
-    function setGetHaisouAdrs(?GetHaisouAdrsModel $getHaisouAdrs): void
+    public function setGetHaisouAdrs(array|null $getHaisouAdrs): self
     {
+        if ($getHaisouAdrs && \array_key_exists('@diffgr:id', $getHaisouAdrs) && !\current($getHaisouAdrs) instanceof GetHaisouAdrsModel) {
+            $getHaisouAdrs = [$getHaisouAdrs];
+        }
         $this->getHaisouAdrs = $getHaisouAdrs;
+        return $this;
     }
+
 }

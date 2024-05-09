@@ -5,6 +5,7 @@ namespace Plugin\AceClient\AceServices\Model\Response\Member\DeleteHaisoAdrs;
 use Plugin\AceClient\AceServices\Model\Response\Member\DeleteHaisoAdrs\DeleteHaisoAdrsReponseModelInterface;
 use Plugin\AceClient\AceServices\Model\Response\Member\DeleteHaisoAdrs\MemberModel;
 use Plugin\AceClient\AceServices\Model\Response;
+use Plugin\AceClient\AceServices\Model\Response\ResponseModelAbtract;
 
 /**
  * Class DeleteHaisoAdrsRequestModel
@@ -12,7 +13,7 @@ use Plugin\AceClient\AceServices\Model\Response;
  * @author kmorino
  */
 
-class DeleteHaisoAdrsResponseModel implements DeleteHaisoAdrsResponseModelInterface
+class DeleteHaisoAdrsResponseModel extends ResponseModelAbtract implements DeleteHaisoAdrsResponseModelInterface
 {
     /**
      * Member

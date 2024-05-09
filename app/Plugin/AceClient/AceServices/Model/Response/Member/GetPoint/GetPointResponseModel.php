@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\AceServices\Model\Response\Member\GetPoint;
 
-use Plugin\AceClient\AceServices\Model\Response\Member\GetPoint\GetPointReponseModelInterface;
+use Plugin\AceClient\AceServices\Model\Response\ResponseModelAbtract;
 use Plugin\AceClient\AceServices\Model\Response\Member\GetPoint\MemberModel;
 use Plugin\AceClient\AceServices\Model\Response;
 
@@ -12,7 +12,7 @@ use Plugin\AceClient\AceServices\Model\Response;
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
 
-class GetPointResponseModel implements GetPointResponseModelInterface
+class GetPointResponseModel extends ResponseModelAbtract implements GetPointResponseModelInterface
 {
     /**
      * Member

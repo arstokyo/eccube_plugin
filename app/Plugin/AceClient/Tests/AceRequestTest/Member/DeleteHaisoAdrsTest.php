@@ -31,7 +31,7 @@ class DeleteHaisoAdrsRequestModelTest extends AbstractAdminWebTestCase
         return $adrs;
     }
 
-    public function testCallRegMemAdrRequestModel($mcode, ?int $eda)
+    public function callRegMemAdrRequestModel($mcode, ?int $eda)
     {
         $memberPrm = new MemberPrmModel();
         $nmember = new NmemberModel();
@@ -62,7 +62,7 @@ class DeleteHaisoAdrsRequestModelTest extends AbstractAdminWebTestCase
     public function testRequestDeleteHaisoAdrsCase1($mcode, $eda)
     {
         try {
-            $regMemAdrRequest = $this->testCallRegMemAdrRequestModel($mcode, $eda);
+            $regMemAdrRequest = $this->callRegMemAdrRequestModel($mcode, $eda);
             $response = (new AceClient)->makeMemberService()
                                        ->makeRegMemAdrMethod()
                                        ->withRequest($regMemAdrRequest)
@@ -106,7 +106,7 @@ class DeleteHaisoAdrsRequestModelTest extends AbstractAdminWebTestCase
     {
         try {
 
-            $regMemAdrRequest = $this->testCallRegMemAdrRequestModel($mcode, $eda);
+            $regMemAdrRequest = $this->callRegMemAdrRequestModel($mcode, $eda);
             $response = (new AceClient)->makeMemberService()
                                        ->makeRegMemAdrMethod()
                                        ->withRequest($regMemAdrRequest)

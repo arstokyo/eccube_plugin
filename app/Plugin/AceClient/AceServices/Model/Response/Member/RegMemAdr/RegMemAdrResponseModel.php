@@ -2,12 +2,14 @@
 
 namespace Plugin\AceClient\AceServices\Model\Response\Member\RegMemAdr;
 
+use Plugin\AceClient\AceServices\Model\Response\ResponseModelAbtract;
+
 /*
  * Class for RegMemAdrResponseModel
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class RegMemAdrResponseModel implements RegMemAdrResponseModelInterface
+class RegMemAdrResponseModel extends ResponseModelAbtract implements RegMemAdrResponseModelInterface
 {
     /** @var MemberModel $member */
     private MemberModel $member;

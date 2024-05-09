@@ -19,6 +19,7 @@ use Plugin\AceClient\Exception\InvalidClassNameException;
 use Plugin\AceClient\Exception\InvalidFuncNameException;
 use Plugin\AceClient\Exception\NotCompatibleDataType;
 use Plugin\AceClient\Utils\ClassFactory\ClassFactory;
+use Plugin\AceClient\Utils\Denormalize\DenormalizerFactory;
 
 /**
  * Factory for Normalizer.
@@ -45,6 +46,16 @@ final class NormalizerFactory
     public static function makeRecursiveNormalizers() : array {
         $classMetadataFactory = self::makeAnnotationMetaFacetory();
         return self::makeNormalizers($classMetadataFactory, new MetadataAwareNameConverter($classMetadataFactory), null,new ReflectionExtractor);
+    }
+
+    /**
+     * Make Array Normalizers
+     * 
+     * @return NormalizerInterface[]
+     */
+    public static function makeArrayNormalizers() : array {
+        $classMetadataFactory = self::makeAnnotationMetaFacetory();
+        return \array_merge([DenormalizerFactory::makeArrayDenormalizer()], self::makeRecursiveNormalizers());
     }
 
     /**

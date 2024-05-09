@@ -22,6 +22,11 @@ parameters:
                 class_name: 'Plugin\AceClient\ApiClient\Api\Client\PostSoapXMLClient'
 
         overrides:
+            - Plugin\AceClient\AceServices\AceMethod\Member\GetHaisoAdrsMethod:
+                serializer: 
+                    class_name: 'Plugin\AceClient\Utils\Serialize\SoapXMLSerializer'
+                    normalizers: 'ArrayNormalizers'
+                    encoder: 'Symfony\Component\Serializer\Encoder\XmlEncoder'
             # Change here for overriding default configuration
             # Example:
             # - Plugin\AceClient\Config\Model\TestLoadConfig:
