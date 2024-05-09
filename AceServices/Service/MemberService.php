@@ -45,4 +45,14 @@ class MemberService extends AceServiceAbstract implements AceServiceInterface
     {
         return new AceMethod\Member\CheckMailAdressMethod($this->baseServiceName);
     }
+    /**
+     * Make GetHaisoAdrsMethod
+     * 
+     * @return AceMethod\Member\GetHaisoAdrsMethod
+     */
+    public function makeGetHaisoAdrsMethod(): AceMethod\Member\GetHaisoAdrsMethod
+    {
+        return new AceMethod\Member\GetHaisoAdrsMethod($this->baseServiceName);
+    }
+
 }
