@@ -10,60 +10,11 @@ use Plugin\AceClient\AceServices\Model\Response\Member\RegMemAdr\RegMemAdrRespon
 use Plugin\AceClient\AceClient;
 use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient\Utils\Mapper\OverviewMapper;
+use Plugin\AceClient\utils\Serialize;
 
 class RegMemberAdrTest extends AbstractAdminWebTestCase
 {
     private ?string $testMbid = '102';
-    public function testCallRegmemberAdr()
-    {
-        $memberPrm = new MemberPrmModel();
-        $memberPrm->setNmember((new NmemberModel())->setEda(1)
-                                                   ->setFax('1234567890')
-                                                   ->setTel('09876543210')
-                                                   ->setZip('123-567')
-                                                   ->setAdr1('address1')
-                                                   ->setAdr2('address2')
-                                                   ->setAdr3('address3')
-                                                   ->setAdr4('address4')
-                                                   ->setCode($this->testMbid)
-                                                   ->setSimei('Shimei')
-                                                   ->setKana('カナ')
-                                                   ->setBikou1('bikou1')
-                                                   ->setBikou2('bikou2')
-                                                   ->setBikou3('bikou3')
-                                                   ->setBetu(0));
-        $regMemAdr = new RegMemAdrRequestModel();
-        $regMemAdr->setId(OverviewMapper::ACE_TEST_SYID)->setPrm($memberPrm);
-        $this->assertEquals(OverviewMapper::ACE_TEST_SYID, $regMemAdr->getId());
-
-        $expectedPrmData = 
-        preg_replace('/\s+/', '',
-        <<<'XML'
-        <?xml version="1.0" encoding="UTF-8"?>
-        <member>
-        <nmember>
-            <eda>1</eda>
-            <code>102</code>
-            <adr1>address1</adr1>
-            <adr2>address2</adr2>
-            <adr3>address3</adr3>
-            <adr4>address4</adr4>
-            <simei>Shimei</simei>
-            <kana>カナ</kana>
-            <zip>123-567</zip>
-            <tel>09876543210</tel>
-            <bikou1>bikou1</bikou1>
-            <bikou2>bikou2</bikou2>
-            <bikou3>bikou3</bikou3>
-            <betu>0</betu>
-            <fax>1234567890</fax>
-        </nmember>
-        </member>
-        XML);
-        $prmData = preg_replace('/\s+/', '',$regMemAdr->getPrm());
-        $this->assertEquals($expectedPrmData, $prmData);
-
-    }
 
     public function testRequestRegMemberAdrNG()
     {
@@ -121,7 +72,8 @@ class RegMemberAdrTest extends AbstractAdminWebTestCase
                                                    ->setKana('トン')
                                                    ->setBikou1('備考1')
                                                    ->setBikou2('備考2')
-                                                   ->setBikou3('備考3'));
+                                                   ->setBikou3('備考3')
+                                                   ->setBetu(0));
         return (new RegMemAdrRequestModel())->setId(OverviewMapper::ACE_TEST_SYID)->setPrm($memberPrm);
     }
 
@@ -245,6 +197,70 @@ class RegMemberAdrTest extends AbstractAdminWebTestCase
                                                    ->setBikou1('備考1')
                                                    ->setBikou2('備考2')
                                                    ->setBikou3('備考3'));
+        return (new RegMemAdrRequestModel())->setId(OverviewMapper::ACE_TEST_SYID)->setPrm($memberPrm);
+    }
+
+    public function testSearializeRegMemberAdr()
+    {
+        $regMemAdrRequestModel = $this->getRegmemberRequestForSerialize();
+        $serializer = Serialize\SerializerFactory::makeSoapSerializerForTest();
+        $serializedData = $serializer->serialize($regMemAdrRequestModel);
+
+        $expectedData = 
+        <<<'XML'
+        <?xml version="1.0" encoding="utf-8"?> 
+        <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope"> 
+        <soap12:Body>
+            <regMemAdr xmlns="http://ar-system-api.co.jp/">
+                <prm><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+                <member>
+                <nmember>
+                    <eda>1</eda>
+                    <code>102</code>
+                    <adr1>長野県</adr1>
+                    <adr2>住所2</adr2>
+                    <adr3>住所3</adr3>
+                    <adr4>住所4</adr4>
+                    <simei>test</simei>
+                    <kana>テスト</kana>
+                    <zip>399-3802</zip>
+                    <tel>09876543210</tel>
+                    <bikou1>備考1</bikou1>
+                    <bikou2>備考2</bikou2>
+                    <bikou3>備考3</bikou3>
+                    <betu>0</betu>
+                    <fax>1234567890</fax>
+                </nmember>
+                </member>
+                ]]></prm>
+                <id>13</id>
+            </regMemAdr>
+        </soap12:Body> 
+        </soap12:Envelope>
+        XML;
+
+        $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData)); 
+    }
+
+
+    public function getRegmemberRequestForSerialize(): RegMemAdrRequestModel
+    {
+        $memberPrm = new MemberPrmModel();
+        $memberPrm->setNmember((new NmemberModel())->setEda(1)
+                                                   ->setFax('1234567890')
+                                                   ->setTel('09876543210')
+                                                   ->setZip('399-3802')
+                                                   ->setAdr1('長野県')
+                                                   ->setAdr2('住所2')
+                                                   ->setAdr3('住所3')
+                                                   ->setAdr4('住所4')
+                                                   ->setCode($this->testMbid)
+                                                   ->setSimei('test')
+                                                   ->setKana('テスト')
+                                                   ->setBikou1('備考1')
+                                                   ->setBikou2('備考2')
+                                                   ->setBikou3('備考3')
+                                                   ->setBetu(0));
         return (new RegMemAdrRequestModel())->setId(OverviewMapper::ACE_TEST_SYID)->setPrm($memberPrm);
     }
 

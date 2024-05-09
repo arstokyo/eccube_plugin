@@ -12,6 +12,7 @@ use Plugin\AceClient\Utils\Normalize\NormalizerFactory;
 use Plugin\AceClient\Utils\Denormalize\DenormalizerFactory;
 use Plugin\AceClient\Exception\InvalidClassNameException;
 use Plugin\AceClient\Exception\NotCompatibleDataType;
+use Plugin\AceClient\Utils\Serialize;
 use Plugin\AceClient\Utils\ClassFactory\ClassFactory;
 
 /**
@@ -28,6 +29,15 @@ final class SerializerFactory
      */
     public static function makeXmlSerializer(): SerializerInterface {
         return self::makeSerializer(NormalizerFactory::makeAnnotationNormalizers(), [new XmlEncoder()]);
+    }
+
+    /**
+     * Make Soap Serializer For Test
+     * 
+     * @return Serialize\SoapXMLSerializer
+     */
+    public static function makeSoapSerializerForTest(): Serialize\SoapXMLSerializer {
+        return new Serialize\SoapXMLSerializer(NormalizerFactory::makeRecursiveNormalizers(), [new XmlEncoder()]);
     }
 
     /**
