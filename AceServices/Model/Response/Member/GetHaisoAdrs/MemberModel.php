@@ -4,7 +4,6 @@ namespace Plugin\AceClient\AceServices\Model\Response\Member\GetHaisoAdrs;
 
 use Plugin\AceClient\AceServices\Model\Response\Depedency\MemberModelResponseAbstract;
 use Plugin\AceClient\AceServices\Model\Response\Member\GetHaisoAdrs\GetHaisouAdrsModel;
-use Plugin\AceClient\Utils\Denormalize\DTO\DTODenormalizerTrait;
 
 /**
  * Class MemberModel

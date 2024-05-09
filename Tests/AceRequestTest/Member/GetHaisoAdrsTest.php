@@ -7,6 +7,7 @@ use Plugin\AceClient\AceServices\Model\Request\Member\GetHaisoAdrs\GetHaisoAdrsR
 use Plugin\AceClient\AceServices\Model\Response\Member\GetHaisoAdrs\GetHaisoAdrsResponseModel;
 use Plugin\AceClient\AceClient;
 use GuzzleHttp\Exception\ClientException;
+
 use Plugin\AceClient\Utils\Mapper\OverviewMapper;
 
 class GetHaisoAdrsRequestModelTest extends AbstractAdminWebTestCase
@@ -15,15 +16,14 @@ class GetHaisoAdrsRequestModelTest extends AbstractAdminWebTestCase
     {
         $memberPrm = new GetHaisoAdrsRequestModel();
         $memberPrm->setId(OverviewMapper::ACE_TEST_SYID)->setMcode($c);
-
         return $memberPrm;
     }
+
 
     public function getHaisoAdrsRequestModelNG(?string $c)
     {
         $memberPrm = new GetHaisoAdrsRequestModel();
         $memberPrm->setId(OverviewMapper::ACE_TEST_SYID)->setMcode($c);
-
         return $memberPrm;
     }
 
@@ -31,7 +31,9 @@ class GetHaisoAdrsRequestModelTest extends AbstractAdminWebTestCase
     {
     try {
         $code = 103;
+
         $getHaisoAdrsRequest = $this->getHaisoAdrsRequestModelOK($code);
+
         $response = (new AceClient)->makeMemberService()
                                    ->makeGetHaisoAdrsMethod()
                                    ->withRequest($getHaisoAdrsRequest)
@@ -83,7 +85,6 @@ class GetHaisoAdrsRequestModelTest extends AbstractAdminWebTestCase
     $this->assertNotEquals('', $message2);
     
     }
-
     public function testRequestGetHaisoAdrsMethodMultiple()
     {
     try {

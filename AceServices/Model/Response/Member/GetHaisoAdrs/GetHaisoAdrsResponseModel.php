@@ -7,6 +7,7 @@ use Plugin\AceClient\AceServices\Model\Response\ResponseModelAbtract;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Serializer;
 
+
 /**
  * Class GetHaisoAdrsRequestModel
  *
