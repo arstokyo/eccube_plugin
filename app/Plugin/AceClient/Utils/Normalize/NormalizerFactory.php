@@ -44,7 +44,7 @@ final class NormalizerFactory
      */
     public static function makeRecursiveNormalizers() : array {
         $classMetadataFactory = self::makeAnnotationMetaFacetory();
-        return self::makeNormalizers($classMetadataFactory, new MetadataAwareNameConverter($classMetadataFactory, new CamelCaseToSnakeCaseNameConverter), null,new ReflectionExtractor);
+        return self::makeNormalizers($classMetadataFactory, new MetadataAwareNameConverter($classMetadataFactory), null,new ReflectionExtractor);
     }
 
     /**
