@@ -4,13 +4,14 @@ namespace Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr;
 
 use Plugin\AceClient\AceServices\Model\Request;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\IdTrait;
+use Plugin\AceClient\AceServices\Model\Request\RequestModelAbstract;
 
 /**
  * Class RegMemAdrRequestModel
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class RegMemAdrRequestModel implements RegMemAdrRequestInterface
+class RegMemAdrRequestModel extends RequestModelAbstract implements RegMemAdrRequestInterface
 {
 
     const XML_NODE_NAME = 'regMemAdr';

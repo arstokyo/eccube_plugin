@@ -3,6 +3,8 @@
 namespace Plugin\AceClient\AceServices\Model\Request\Member\GetPoint;
 
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient\AceServices\Model\Request\RequestModelAbstract;
+
 
 
 /**
@@ -10,7 +12,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-class GetPointRequestModel implements GetPointRequestInterface
+class GetPointRequestModel extends RequestModelAbstract implements GetPointRequestInterface
 {
     const XML_NODE_NAME = 'getPoint';
 

@@ -4,13 +4,14 @@ namespace Plugin\AceClient\AceServices\Model\Request\Member\GetHaisoAdrs;
 
 use Plugin\AceClient\AceServices\Model\Request;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient\AceServices\Model\Request\RequestModelAbstract;
 
 /**
  * Class GetHaisoAdrsRequestModel
  *
  * @author k-morino
  */
-class GetHaisoAdrsRequestModel implements GetHaisoAdrsRequestInterface
+class GetHaisoAdrsRequestModel extends RequestModelAbstract implements GetHaisoAdrsRequestInterface
 {
     const XML_NODE_NAME = 'getHaisouAdrs';
 

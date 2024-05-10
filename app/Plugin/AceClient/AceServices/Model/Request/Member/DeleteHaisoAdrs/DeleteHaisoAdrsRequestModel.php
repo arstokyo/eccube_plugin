@@ -3,6 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Request\Member\DeleteHaisoAdrs;
 
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient\AceServices\Model\Request\RequestModelAbstract;
 
 
 /**
@@ -10,7 +11,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
  *
  * @author kmorino
  */
-class DeleteHaisoAdrsRequestModel implements DeleteHaisoAdrsRequestInterface
+class DeleteHaisoAdrsRequestModel extends RequestModelAbstract implements DeleteHaisoAdrsRequestInterface
 {
     const XML_NODE_NAME = 'deleteHaisoAdrs';
 
