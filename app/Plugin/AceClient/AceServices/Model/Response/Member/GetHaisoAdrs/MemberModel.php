@@ -4,6 +4,7 @@ namespace Plugin\AceClient\AceServices\Model\Response\Member\GetHaisoAdrs;
 
 use Plugin\AceClient\AceServices\Model\Response\Depedency\MemberModelResponseAbstract;
 use Plugin\AceClient\AceServices\Model\Response\Member\GetHaisoAdrs\GetHaisouAdrsModel;
+use Plugin\AceClient\AceServices\Model\Response\HandleResponseAsListTrait;
 
 /**
  * Class MemberModel
@@ -13,12 +14,14 @@ use Plugin\AceClient\AceServices\Model\Response\Member\GetHaisoAdrs\GetHaisouAdr
 
 class MemberModel extends MemberModelResponseAbstract implements MemberModelInterface
 {
+    use HandleResponseAsListTrait;
+
     /**
-     * Point
+     * GetHaisouAdrs
      *
      * @var GetHaisouAdrsModel[]|null $getHaisouAdrs
      */
-    protected ?array $getHaisouAdrs = null;
+    private ?array $getHaisouAdrs = null;
 
 
     /**
@@ -34,10 +37,7 @@ class MemberModel extends MemberModelResponseAbstract implements MemberModelInte
     */
     public function setGetHaisouAdrs(array|null $getHaisouAdrs): self
     {
-        if ($getHaisouAdrs && \array_key_exists('@diffgr:id', $getHaisouAdrs) && !\current($getHaisouAdrs) instanceof GetHaisouAdrsModel) {
-            $getHaisouAdrs = [$getHaisouAdrs];
-        }
-        $this->getHaisouAdrs = $getHaisouAdrs;
+        $this->getHaisouAdrs = $this->handleResponseAsList($getHaisouAdrs, GetHaisouAdrsModel::class);
         return $this;
     }
 

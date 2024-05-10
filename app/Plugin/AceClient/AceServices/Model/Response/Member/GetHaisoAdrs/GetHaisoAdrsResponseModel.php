@@ -5,7 +5,7 @@ namespace Plugin\AceClient\AceServices\Model\Response\Member\GetHaisoAdrs;
 use Plugin\AceClient\AceServices\Model\Response;
 use Plugin\AceClient\AceServices\Model\Response\ResponseModelAbtract;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Serializer\Serializer;
+use Plugin\AceClient\AceServices\Model\Response\HandleResponseAsListTrait;
 
 
 /**
@@ -16,6 +16,7 @@ use Symfony\Component\Serializer\Serializer;
 
 class GetHaisoAdrsResponseModel extends ResponseModelAbtract implements GetHaisoAdrsResponseModelInterface
 {
+    use HandleResponseAsListTrait;
 
     /**
      * Member
@@ -46,7 +47,7 @@ class GetHaisoAdrsResponseModel extends ResponseModelAbtract implements GetHaiso
      */
     public function denomarlizeInnerData(SerializerInterface $serializer): self
     {
-        if (($this->getMember()->getGetHaisouAdrs()) && \method_exists($serializer, 'denormalize')) {
+        if (!empty($this->getMember()->getGetHaisouAdrs()) && \method_exists($serializer, 'denormalize')) {
             return $this->setMember($this->denormalizeMemberModel($serializer));
         }
         return $this;
@@ -56,14 +57,17 @@ class GetHaisoAdrsResponseModel extends ResponseModelAbtract implements GetHaiso
     /**
      * Denormalize member model
      *
-     * @param Serializer $serializer
+     * @param SerializerInterface $serializer
      *
      * @return MemberModel
      */
     private function denormalizeMemberModel(SerializerInterface $serializer): MemberModel
     {
         return $this->getMember()->setGetHaisouAdrs(
-                                    $serializer->denormalize($this->getMember()->getGetHaisouAdrs(), GetHaisouAdrsModel::class . '[]')
+                                    $this->denormalizeResponseAsList($this->getMember()->getGetHaisouAdrs(), 
+                                                                     GetHaisouAdrsModel::class, 
+                                                                     $serializer
+                                    )
                                   );
     }
 

@@ -15,14 +15,14 @@ use Plugin\AceClient\AceServices\Model\Response;
 interface MemberModelInterface extends ParentMemberModelResponseInterface
 {
     /**
-    * Get Point
+    * Get GetHaisouAdrs
     *
     * @return Response\Member\GetHaisoAdrs\GetHaisouAdrsModel[]|null
     */
     public function getGetHaisouAdrs(): ?array;
 
     /**
-     * Set Point
+     * Set GetHaisouAdrs
      *
      * @param Response\Member\GetHaisoAdrs\GetHaisouAdrsModel[]|null $getHaisouAdrs
      * @return self
