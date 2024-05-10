@@ -12,12 +12,14 @@ interface HasEdaInterface
     /**
      * Get 納品先枝番号
      * 
+     * @return int|string|null
      */
-    public function getEda(): ?string;
+    public function getEda(): int|string|null;
 
     /**
      * Set 納品先枝番号
      * 
+     * @param int|string|null $name
      */
-    public function setEda(?string $eda);
+    public function setEda(int|string|null $eda);
 }
