@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Request\Member\CheckMailAdress;
 
 use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\HasMailAdressInterface;
+use Plugin\AceClient\AceServices\Model\Dependency\Mail\HasMailAdressInterface;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\HasIdInterface;
 
 /**
