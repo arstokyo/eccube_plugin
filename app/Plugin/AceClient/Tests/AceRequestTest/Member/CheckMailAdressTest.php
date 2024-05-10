@@ -8,6 +8,7 @@ use Plugin\AceClient\AceServices\Model\Response\Member\CheckMailAdress\CheckMail
 use Plugin\AceClient\AceClient;
 use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient\Utils\Mapper\OverviewMapper;
+use Plugin\AceClient\Utils\Serialize;
 
 class CheckMailAdressRequestModelTest extends AbstractAdminWebTestCase
 {
@@ -93,4 +94,35 @@ class CheckMailAdressRequestModelTest extends AbstractAdminWebTestCase
         $mail->setId(OverviewMapper::ACE_TEST_SYID)->setMailAdress('do-not-exist-this-email@AceClient.v.1.0');
         return $mail;
     }
+    public function testSerializeCheckMailAdress()
+    {
+        $getReminderRequestModel = $this->checkMailAdressRequestForSerialize();
+        $serializer = Serialize\SerializerFactory::makeSoapSerializerForTest();
+        $serializedData = $serializer->serialize($getReminderRequestModel);
+
+        $xmlns = $serializer->getConfig()->getXmlns() ?
+                 $serializer->getConfig()->getXmlns()['@xmlns'] :
+                 Serialize\SoapXMLSerializer::DEFAULT_XMLNS['@xmlns'];
+        $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_HEAD;
+        $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_END;
+        $expectedData =
+        <<<XML
+        {$soapHead}
+            <getReminder xmlns="{$xmlns}">
+                <id>13</id>
+                <mailadress>GetReminderTest@AceClient.v.1.0</mailadress>
+            </getReminder>
+        {$soapEnd}
+        XML;
+        $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
+    }
+
+
+    public function checkMailAdressRequestForSerialize(): CheckMailAdressRequestModel
+    {
+        $mail = new CheckMailAdressRequestModel();
+        $checkMail = $mail->setId(OverviewMapper::ACE_TEST_SYID)->setMailAdress($this->checkMail);
+        return $checkMail;
+    }
+
 }

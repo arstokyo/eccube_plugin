@@ -4,6 +4,8 @@ namespace Plugin\AceClient\AceServices\Model\Request\Member\CheckMailAdress;
 
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient\AceServices\Model\Request\RequestModelAbstract;
+use Plugin\AceClient\AceServices\Model\Dependency\Mail;
+
 
 
 /**
@@ -15,7 +17,7 @@ class CheckMailAdressRequestModel extends RequestModelAbstract implements CheckM
 {
     const XML_NODE_NAME = 'checkMailAdress';
 
-    use NoCategory\IdTrait,NoCategory\MailAdressTrait;
+    use NoCategory\IdTrait,Mail\MailAdressTrait;
     /**
      * {@inheritDoc}
      */
