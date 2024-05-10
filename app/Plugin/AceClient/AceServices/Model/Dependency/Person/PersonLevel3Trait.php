@@ -9,6 +9,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
  */
 trait PersonLevel3Trait
 {
+    
     /** @var ?string $area 地域コード */
     protected ?string $area = null;
 
