@@ -6,6 +6,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\Baitai\HasBaitaiNameInterface;
 use Plugin\AceClient\AceServices\Model\Dependency\Free\HasThreeFnameInterface;
 use Plugin\AceClient\AceServices\Model\Dependency\Pc\HasFivePCKbnInterface;
 use Plugin\AceClient\AceServices\Model\Dependency\KeiTai\HasFiveKeiKbnInterface;
+use Plugin\AceClient\AceServices\Model\Dependency\Mail\HasFiveMailInterface;
 
 /**
  * Interface for Person Level 5
@@ -13,7 +14,8 @@ use Plugin\AceClient\AceServices\Model\Dependency\KeiTai\HasFiveKeiKbnInterface;
  * @target : /Member/Service2.asmx/regMember|response-smember
  */
 interface PersonLevel5Interface extends HasBaitaiNameInterface, HasThreeFnameInterface, 
-                                        HasFiveKeiKbnInterface, HasFivePCKbnInterface
+                                        HasFiveKeiKbnInterface, HasFivePCKbnInterface, 
+                                        HasFiveMailInterface
 {
 
     /**

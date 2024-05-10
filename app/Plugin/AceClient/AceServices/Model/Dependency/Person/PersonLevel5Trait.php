@@ -6,6 +6,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\Baitai\BaitaiNameTrait;
 use Plugin\AceClient\AceServices\Model\Dependency\Free\ThreeFnameTrait;
 use Plugin\AceClient\AceServices\Model\Dependency\PC\FivePCKbnTrait;
 use Plugin\AceClient\AceServices\Model\Dependency\KeiTai\FiveKeiKbnTrait;
+use Plugin\AceClient\AceServices\Model\Dependency\Mail\FiveMailTrait;
 
 /**
  * Trait For Person Level 5
@@ -14,7 +15,11 @@ use Plugin\AceClient\AceServices\Model\Dependency\KeiTai\FiveKeiKbnTrait;
  */
 trait PersonLevel5Trait
 {
-    use FivePCKbnTrait, FiveKeiKbnTrait, BaitaiNameTrait, ThreeFnameTrait;
+    use FivePCKbnTrait, 
+        FiveKeiKbnTrait, 
+        FiveMailTrait,
+        BaitaiNameTrait, 
+        ThreeFnameTrait;
 
     /** @var ?int $age 年齢 */
     protected ?int $age = null;
