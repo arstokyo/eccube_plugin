@@ -108,10 +108,10 @@ class CheckMailAdressRequestModelTest extends AbstractAdminWebTestCase
         $expectedData =
         <<<XML
         {$soapHead}
-            <getReminder xmlns="{$xmlns}">
+            <checkMailAdress xmlns="{$xmlns}">
                 <id>13</id>
-                <mailadress>GetReminderTest@AceClient.v.1.0</mailadress>
-            </getReminder>
+                <mailadress>CheckMailAdressTest@AceClient.v.1.0</mailadress>
+            </checkMailAdress>
         {$soapEnd}
         XML;
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
