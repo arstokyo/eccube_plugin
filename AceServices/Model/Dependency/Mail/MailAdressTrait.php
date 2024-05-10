@@ -1,13 +1,15 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+namespace Plugin\AceClient\AceServices\Model\Dependency\Mail;
+
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * Trait for MailAdress
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-trait MailAdressTrait
+trait MailAdressTrait 
 {
     /** @var ?string $mailadress メールアドレス */
     protected ?string $mailadress = null;

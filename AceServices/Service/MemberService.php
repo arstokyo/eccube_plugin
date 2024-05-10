@@ -66,4 +66,13 @@ class MemberService extends AceServiceAbstract implements AceServiceInterface
         return new AceMethod\Member\GetHaisoAdrsMethod($this->baseServiceName);
     }
 
+    /**
+     * Make GetReminderMethod
+     *
+     * @return AceMethod\Member\GetReminderMethod
+     */
+    public function makeGetReminderMethod(): AceMethod\Member\GetReminderMethod
+    {
+        return new AceMethod\Member\GetReminderMethod($this->baseServiceName);
+    }
 }
