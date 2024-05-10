@@ -3,6 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Request\Member\CheckMailAdress;
 
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient\AceServices\Model\Request\RequestModelAbstract;
 
 
 /**
@@ -10,7 +11,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-class CheckMailAdressRequestModel implements CheckMailAdressRequestInterface
+class CheckMailAdressRequestModel extends RequestModelAbstract implements CheckMailAdressRequestInterface
 {
     const XML_NODE_NAME = 'checkMailAdress';
 
