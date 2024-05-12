@@ -5,20 +5,21 @@ namespace Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr;
 use Plugin\AceClient\AceServices\Model\Request;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\IdTrait;
 use Plugin\AceClient\AceServices\Model\Request\RequestModelAbstract;
+use Plugin\AceClient\Exception\MissingRequestParameterException;
 
 /**
  * Class RegMemAdrRequestModel
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class RegMemAdrRequestModel extends RequestModelAbstract implements RegMemAdrRequestInterface
+class RegMemAdrRequestModel extends RequestModelAbstract implements RegMemAdrRequestModelInterface
 {
 
     const XML_NODE_NAME = 'regMemAdr';
 
     use IdTrait;   
 
-    /** @var MemberPrmInterface $prm Prm */
+    /** @var MemberPrmModelInterface $prm Prm */
     private MemberPrmModel $prm;
 
     /**
@@ -30,9 +31,9 @@ class RegMemAdrRequestModel extends RequestModelAbstract implements RegMemAdrReq
     }
 
     /**
-     * @param Request\Member\RegMemAdr\MemberPrmModel $prm
+     * {@inheritDoc}
      */
-    public function setPrm(MemberPrmInterface $prm): self
+    public function setPrm(MemberPrmModelInterface $prm): self
     {
         $this->prm = $prm;
         return $this;
@@ -41,17 +42,17 @@ class RegMemAdrRequestModel extends RequestModelAbstract implements RegMemAdrReq
     /**
      * {@inheritDoc}
      */
-    public function ensureValidParameters(): bool
+    public function ensureParameterNotMissing(): void
     {
-        if (!$this->id) return false;
-        if ((!$this->prm) or (!$this->prm->ensureValidParameters())) return false;
-        return true;
+        if (!$this->id) { throw new MissingRequestParameterException($this->compilePropertyName('id')); };
+        if ((!$this->prm)) { throw new MissingRequestParameterException($this->compilePropertyName('prm')); };
+        $this->prm->ensureParameterNotMissing();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getXmlNodeName(): string
+    public function fetchRequestNodeName(): string
     {
         return self::XML_NODE_NAME;
     }

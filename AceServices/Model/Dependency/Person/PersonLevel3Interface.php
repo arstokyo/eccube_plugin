@@ -5,7 +5,6 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
 /**
  * Interface for Person Level 3
  * 
- * @Target : /Member/Service2.asmx/deleteHaisoAdrs
  * @author Ars-Thong <v.t.nguyen@ar-sytem.co.jp>
  */
 interface PersonLevel3Interface 

@@ -2,24 +2,23 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Free\HasThreeFreeInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Free\HasThreeFdayInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Free\HasThreeFmemoInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Free\HasThreeFcodeInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Baitai\HasBaitaiCodeInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Mail\HasMemmailInterface;
+use Plugin\AceClient\AceServices\Model\Dependency\Free;
+use Plugin\AceClient\AceServices\Model\Dependency\Baitai;
+use Plugin\AceClient\AceServices\Model\Dependency\Mail;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient\AceServices\Model\Dependency\Bikou;
+use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
 
 /**
  * Interface for Person Level 4
  * 
- * @target : /Member/Service2.asmx/regMember|request-smember|request-jmem
  * @author Ars-Thong <v.t.nguyen@ar-sytem.co.jp>
  */
-interface PersonLevel4Interface extends HasThreeFreeInterface, HasBaitaiCodeInterface, 
-                                        HasThreeFdayInterface, HasThreeFmemoInterface,
-                                        HasThreeFcodeInterface, HasMemmailInterface,
-                                        NoCategory\HasFaxInterface
+interface PersonLevel4Interface extends Free\HasThreeFreeInterface, Baitai\HasBaitaiCodeInterface, 
+                                        Free\HasThreeFdayInterface, Free\HasThreeFmemoInterface,
+                                        Free\HasThreeFcodeInterface, Mail\HasMailInterface,
+                                        PhoneAndPC\HasFaxInterface, Bikou\HasThreeBikouInterface,
+                                        NoCategory\HasDmKbnInterface
 {
 
     /**
@@ -35,20 +34,6 @@ interface PersonLevel4Interface extends HasThreeFreeInterface, HasBaitaiCodeInte
      * @param string|null $tel2 
      */
     public function setTel2(?string $tel2);
-
-    /**
-     * Get DM対象区分.
-     *
-     * @return int|null 
-     */
-    public function getDmkb(): ?int;
-
-    /**
-     * Set DM対象区分.
-     *
-     * @param int|null $dmkb 
-     */
-    public function setDmkb(?int $dmkb);
 
     /**
      * Get リスト番号.

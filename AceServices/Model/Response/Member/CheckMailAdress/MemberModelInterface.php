@@ -2,8 +2,7 @@
 
 namespace Plugin\AceClient\AceServices\Model\Response\Member\CheckMailAdress;
 
-use Plugin\AceClient\AceServices\Model\Response\Message\HasMessageResponseExtend1Interface;
-
+use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelExtend2Interface;
 
 /**
  * Interface MemberModelInterface
@@ -11,6 +10,6 @@ use Plugin\AceClient\AceServices\Model\Response\Message\HasMessageResponseExtend
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
 
-interface MemberModelInterface extends HasMessageResponseExtend1Interface
+interface MemberModelInterface extends HasMessageModelExtend2Interface
 {
 }

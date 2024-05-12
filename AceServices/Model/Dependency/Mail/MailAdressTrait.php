@@ -17,7 +17,7 @@ trait MailAdressTrait
     /**
      * {@inheritDoc}
      */
-    public function getMailAdress(): ?string
+    public function getMailadress(): ?string
     {
         return $this->mailadress;
     }
@@ -25,7 +25,7 @@ trait MailAdressTrait
     /**
      * {@inheritDoc}
      */
-    public function setMailAdress(?string $mailadress)
+    public function setMailadress(?string $mailadress)
     {
         $this->mailadress = $mailadress;
         return $this;

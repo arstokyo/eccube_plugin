@@ -7,10 +7,8 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait PersonLevel4ExtractTrait
+trait PersonLevel4ExtractTrait 
 {
-    use PersonLevel1Trait, 
-        PersonLevel2Trait, 
-        PersonLevel3Trait, 
+    use PersonLevel3ExtractTrait,
         PersonLevel4Trait;
 }

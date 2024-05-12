@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\AceServices\Model\Response\Member\GetReminder;
 
-use Plugin\AceClient\AceServices\Model\Response\Depedency\MemberModelResponseAbstract;
+use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelTrait;
 use Plugin\AceClient\AceServices\Model\Dependency\Reminder\ReminderModel;
 use Plugin\AceClient\AceServices\Model;
 
@@ -12,8 +12,9 @@ use Plugin\AceClient\AceServices\Model;
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
 
-class MemberModel extends MemberModelResponseAbstract implements MemberModelInterface
+class MemberModel implements MemberModelInterface
 {
+    use HasMessageModelTrait;
     /**
      * Reminder
      *

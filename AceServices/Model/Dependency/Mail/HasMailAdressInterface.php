@@ -2,8 +2,6 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Mail;
 
-use Symfony\Component\Serializer\Annotation\SerializedName;
-
 /**
  * Interface for Has メールアドレス
  *
@@ -16,13 +14,14 @@ interface HasMailAdressInterface
     *
     * @return ?string
     */
-    #[SerializedName('mailadress')]
-    public function getMailAdress(): ?string;
+    public function getMailadress(): ?string;
+
     /**
      * Set メールアドレス
      *
      * @param ?string $mailadress
+     * @return $this
      */
-    public function setMailAdress(?string $mailadress);
+    public function setMailadress(?string $mailadress);
 
 }

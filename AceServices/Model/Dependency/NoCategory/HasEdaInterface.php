@@ -19,7 +19,7 @@ interface HasEdaInterface
     /**
      * Set 納品先枝番号
      * 
-     * @param int|string|null $name
+     * @param int|string|null $eda
      */
     public function setEda(int|string|null $eda);
 }

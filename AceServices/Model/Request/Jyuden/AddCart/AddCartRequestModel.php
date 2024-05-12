@@ -3,36 +3,25 @@
 namespace Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart;
 
 use Plugin\AceClient\AceServices\Model\Request;
-use Plugin\AceClient\AceServices\Model\Request\Jyuden\JyudenRequestAbstract;
 use Symfony\Component\Serializer\Annotation\Ignore;
-use Symfony\Component\Serializer\Annotation\SerializedName;
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient\Exception\MissingRequestParameterException;
 
-class AddCartRequestModel extends JyudenRequestAbstract implements AddCartRequestModelInterface
+/**
+ * Class Add Cart Request Model
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
+class AddCartRequestModel extends Request\RequestModelAbstract implements AddCartRequestModelInterface
 {
-    /** @var int $id Ace System ID  */
-    private ?int $id;
 
-    #[SerializedName("sessId")]
-    /** @var string $sessId Session ID */
-    private string $sessId;
+    use NoCategory\IdTrait, 
+        NoCategory\SessIdTrait;
 
     /** @var ?OrderPrmModel $prm Order Info */
     private ?OrderPrmModel $prm;
 
-    #[Ignore]
-    private const XML_NODE_NAME = 'addCart';
-
-    /**
-     * Set SystemID
-     * 
-     * @param int $id
-     * @return Request\Jyuden\AddCart\AddCartRequestModel
-     */
-    public function setId(int $id): self
-    {
-        $this->id = $id;
-        return $this;
-    }
+    const XML_NODE_NAME = 'addCart';
 
     /**
      * Set オーダー情報
@@ -45,41 +34,7 @@ class AddCartRequestModel extends JyudenRequestAbstract implements AddCartReques
         $this->prm = $prm;
         return $this;
     }
-
-    /**
-     * Set セッションID
-     * 
-     * @param string $sessId
-     * @return Request\Jyuden\AddCart\AddCartRequestModel
-     */
-    #[SerializedName("sessId")]
-    public function setSessId(string $sessId): self
-    {
-        $this->sessId = $sessId;
-        return $this;
-    }
-
-    /**
-     * Get Id
-     * 
-     * @return ?int
-     */
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    /**
-     * Get セッションID
-     * 
-     * @return string
-     */
-    public function getSessId(): string
-    {
-        return $this->sessId;
-    }
-
+   
     /**
      * Get オーダー情報
      * 
@@ -92,22 +47,19 @@ class AddCartRequestModel extends JyudenRequestAbstract implements AddCartReques
 
     /**
      * {@inheritDoc}
-     *
      */
-    public function ensureValidParameters(): bool
+    public function ensureParameterNotMissing(): void
     {
-        if (empty($this->id)) { return false; }
-        if (empty($this->sessId)) { return false; }
-        if (empty($this->prm)) { return false; }
-        return true;
+        if (empty($this->id)) { throw new MissingRequestParameterException($this->compilePropertyName('id')); };
+        if (empty($this->sessId)) { throw new MissingRequestParameterException($this->compilePropertyName('sessId')); };
+        if (empty($this->prm))  { throw new MissingRequestParameterException($this->compilePropertyName('prm')); };
+        $this->prm->ensureParameterNotMissing();
     }
 
     /**
-     * Get Xml Node Name
-     * 
-     * @return string
+     * {@inheritDoc}
      */
-    public function getXmlNodeName(): string
+    public function fetchRequestNodeName(): string
     {
         return self::XML_NODE_NAME;
     }

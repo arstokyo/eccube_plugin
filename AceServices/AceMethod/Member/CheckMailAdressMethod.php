@@ -36,10 +36,10 @@ class CheckMailAdressMethod extends AceMethodAbstract
     }
 
     /**
-     * @param Request\Member\CheckMailAdress\CheckMailAdressRequestModel $request
+     * @param Request\Member\CheckMailAdress\CheckMailAdressRequestModel $requestModel
      */
-    public function withRequest(RequestModelInterface $request): self
+    public function withRequest(RequestModelInterface $requestModel): self
     {
-        return parent::withRequest($request);
+        return parent::withRequest($requestModel);
     }
 }

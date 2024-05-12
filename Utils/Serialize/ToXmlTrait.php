@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\Utils\Serialize;
 
-use Plugin\AceClient\Exception\SerializeException;
+use Plugin\AceClient\Exception\NotSerializableException;
 use Plugin\AceClient\Utils\Serialize\SerializerFactory;
 use Plugin\AceClient\Utils\Mapper\EncodeDefineMapper;
 
@@ -18,15 +18,16 @@ trait ToXmlTrait
      * 
      * @return string
      * 
-     * @throws SerializeException
+     * @throws NotSerializableException
      */
     public function toXML($object = null) : string {
         $serializer = SerializerFactory::makeXmlSerializer();
         try {
             $context = $serializer->serialize($object ?? $this, EncodeDefineMapper::XML, $this->setXmlSerializeOptions() ?? []);
         } catch(\Throwable $e) {
-            throw new SerializeException(sprintf('Could not serialize class "%s" to XML '."\n".'Detail Error Message: "%s"',self::class ,$e->getMessage()));
+            throw new NotSerializableException(sprintf('Could not serialize class "%s" to XML', self::class), $e);
         };
+        unset($serializer);
         return $context;
     }
 

@@ -5,7 +5,6 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Mail;
 /**
  * Interface For Mail 
  * 
- * @Target : Plugin\AceClient\AceServices\Model\Dependency\Person
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 interface HasFiveMailInterface

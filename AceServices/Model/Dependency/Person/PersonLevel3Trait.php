@@ -18,7 +18,6 @@ trait PersonLevel3Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function getArea(): ?string
     {
@@ -27,7 +26,6 @@ trait PersonLevel3Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function setArea(?string $area)
     {
@@ -37,7 +35,6 @@ trait PersonLevel3Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function getCbar(): ?string
     {
@@ -46,7 +43,6 @@ trait PersonLevel3Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function setCbar(?string $cbar)
     {

@@ -2,28 +2,29 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
 
-use \Plugin\AceClient\AceServices\Model\Dependency\Mail\MemMailTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Free\ThreeFreeTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Free\ThreeFdayTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Free\ThreeFmemoTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Free\ThreeFcodeTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Baitai\BaitaiCodeTrait;
+use \Plugin\AceClient\AceServices\Model\Dependency\Mail;
+use Plugin\AceClient\AceServices\Model\Dependency\Free;
+use Plugin\AceClient\AceServices\Model\Dependency\Baitai;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient\AceServices\Model\Dependency\Bikou;
+use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
 
 /**
  * Trait for Person Level 4
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait PersonLevel4Trait
+trait PersonLevel4Trait 
 {
-    use MemMailTrait,
-        ThreeFreeTrait,
-        ThreeFdayTrait,
-        ThreeFmemoTrait,
-        ThreeFcodeTrait,
-        BaitaiCodeTrait,
-        NoCategory\FaxTrait;
+    use Mail\MailTrait,
+        Free\ThreeFreeTrait,
+        Free\ThreeFdayTrait,
+        Free\ThreeFmemoTrait,
+        Free\ThreeFcodeTrait,
+        Bikou\ThreeBikouTrait,
+        Baitai\BaitaiCodeTrait,
+        PhoneAndPC\FaxTrait,
+        NoCategory\DmKbnTrait;
 
     /** @var ?int $birthday 生年月日 */
     protected ?int $birthday = null;
@@ -36,9 +37,6 @@ trait PersonLevel4Trait
 
     /** @var ?string $upcode 紹介者 */
     protected ?string $upcode = null;
-
-    /** @var ?int $dmkb DM区分 */
-    protected ?int $dmkb = null;
 
     /** @var ?int $inday 入会日 */
     protected ?int $inday = null;
@@ -66,7 +64,6 @@ trait PersonLevel4Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function getBirthday(): ?int
     {
@@ -75,7 +72,6 @@ trait PersonLevel4Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function setBirthday(?int $birthday)
     {
@@ -85,7 +81,6 @@ trait PersonLevel4Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function getTel2(): ?string
     {
@@ -94,7 +89,6 @@ trait PersonLevel4Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function setTel2(?string $tel2)
     {
@@ -104,7 +98,6 @@ trait PersonLevel4Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function getTorikbn(): ?int
     {
@@ -113,7 +106,6 @@ trait PersonLevel4Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function setTorikbn(?int $torikbn)
     {
@@ -123,7 +115,6 @@ trait PersonLevel4Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function getUpcode(): ?string
     {
@@ -132,7 +123,6 @@ trait PersonLevel4Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function setUpcode(?string $upcode)
     {
@@ -142,26 +132,6 @@ trait PersonLevel4Trait
 
     /**
      * {@inheritDoc}
-     * 
-     */
-    public function getDmkb(): ?int
-    {
-        return $this->dmkb;
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     */
-    public function setDmkb(?int $dmkb)
-    {
-        $this->dmkb = $dmkb;
-        return $this;
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
      */
     public function getInday(): ?int
     {
@@ -170,7 +140,6 @@ trait PersonLevel4Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function setInday(?int $inday)
     {
@@ -180,7 +149,6 @@ trait PersonLevel4Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function getKhasuu(): ?int
     {
@@ -189,7 +157,6 @@ trait PersonLevel4Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function setKhasuu(?int $khasuu)
     {
@@ -199,7 +166,6 @@ trait PersonLevel4Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function getRitu(): ?float
     {
@@ -208,7 +174,6 @@ trait PersonLevel4Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function setRitu(?float $ritu)
     {
@@ -218,7 +183,6 @@ trait PersonLevel4Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function getSex(): ?int
     {
@@ -227,7 +191,6 @@ trait PersonLevel4Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function setSex(?int $sex)
     {
@@ -237,7 +200,6 @@ trait PersonLevel4Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function getSime(): ?int
     {
@@ -246,7 +208,6 @@ trait PersonLevel4Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function setSime(?int $sime)
     {
@@ -256,7 +217,6 @@ trait PersonLevel4Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function getSite(): ?int
     {
@@ -265,7 +225,6 @@ trait PersonLevel4Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function setSite(?int $site)
     {
@@ -275,7 +234,6 @@ trait PersonLevel4Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function getTankakbn(): ?int
     {
@@ -284,7 +242,6 @@ trait PersonLevel4Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function setTankakbn(?int $tankakbn)
     {
@@ -294,7 +251,6 @@ trait PersonLevel4Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function getCode2(): ?string
     {
@@ -303,7 +259,6 @@ trait PersonLevel4Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function setCode2(?string $code2)
     {

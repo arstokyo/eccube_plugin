@@ -2,8 +2,9 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Address\FourAdrTrait;
+use Plugin\AceClient\AceServices\Model\Dependency\Address;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
 
 /**
  * Trait for Person Level 2
@@ -12,10 +13,10 @@ use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
  */
 trait PersonLevel2Trait 
 {
-    use FourAdrTrait,
+    use Address\FourAdrTrait,
         NoCategory\SimeiTrait,
         NoCategory\KanaTrait,
-        NoCategory\ZipTrait,
-        NoCategory\TelTrait;
+        Address\ZipTrait,
+        PhoneAndPC\TelTrait;
 
 }

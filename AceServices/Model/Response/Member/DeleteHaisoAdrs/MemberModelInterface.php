@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\AceServices\Model\Response\Member\DeleteHaisoAdrs;
 
-use Plugin\AceClient\AceServices\Model\Response\Depedency\MemberModelResponseInterface as ParentMemberModelResponseInterface;
+use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelInterface;
 use Plugin\AceClient\AceServices\Model\Response\Member\DeleteHaisoAdrs\NmemberModel;
 use Plugin\AceClient\AceServices\Model\Response;
 
@@ -13,7 +13,7 @@ use Plugin\AceClient\AceServices\Model\Response;
  * @author kmorino
  */
 
-interface MemberModelInterface extends ParentMemberModelResponseInterface
+interface MemberModelInterface extends HasMessageModelInterface
 {
     /**
     * Get Point

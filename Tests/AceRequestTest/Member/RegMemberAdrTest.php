@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\Tests\AceRequestTest\Jyuden;
+namespace Plugin\AceClient\Tests\AceRequestTest\Member;
 
 use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr\RegMemAdrRequestModel;
@@ -11,6 +11,7 @@ use Plugin\AceClient\AceClient;
 use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient\Utils\Mapper\OverviewMapper;
 use Plugin\AceClient\utils\Serialize;
+use Plugin\AceClient\Exception\MissingRequestParameterException;
 
 class RegMemberAdrTest extends AbstractAdminWebTestCase
 {
@@ -117,25 +118,12 @@ class RegMemberAdrTest extends AbstractAdminWebTestCase
 
     public function testNotAllowNullParameterCase1()
     {
-        try {
             $getPointRequest = $this->getNotAllowParameterCase1();
-            $response = (new AceClient)->makeMemberService()
-                                       ->makeRegMemAdrMethod()
-                                       ->withRequest($getPointRequest)
-                                       ->send();
-            if ($response->getStatusCode() === 200) {
-                /** @var RegMemAdrResponseModel $responseObj */
-                $responseObj = $response->getResponse();
-                $nmem = $responseObj->getMember()->getNmember();
-                $message1 = $responseObj->getMember()->getMessage()->getMessage1() ?? null;
-                $message2 = $responseObj->getMember()->getMessage()->getMessage2() ?? null;
-            }
-        } catch(ClientException $e) {
-            $errMsg = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
-            $errMsg = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        }
-        $this->assertStringStartsWith('Not nullable parameters are null.', $errMsg);
+            $this->expectException(MissingRequestParameterException::class);
+            (new AceClient)->makeMemberService()
+                           ->makeRegMemAdrMethod()
+                           ->withRequest($getPointRequest);
+
     }
 
     private function getNotAllowParameterCase1() : RegMemAdrRequestModel
@@ -160,25 +148,11 @@ class RegMemberAdrTest extends AbstractAdminWebTestCase
 
     public function testNotAllowNullParameterCase2()
     {
-        try {
-            $getPointRequest = $this->getNotAllowParameterCase2();
-            $response = (new AceClient)->makeMemberService()
-                                       ->makeRegMemAdrMethod()
-                                       ->withRequest($getPointRequest)
-                                       ->send();
-            if ($response->getStatusCode() === 200) {
-                /** @var RegMemAdrResponseModel $responseObj */
-                $responseObj = $response->getResponse();
-                $nmem = $responseObj->getMember()->getNmember();
-                $message1 = $responseObj->getMember()->getMessage()->getMessage1() ?? null;
-                $message2 = $responseObj->getMember()->getMessage()->getMessage2() ?? null;
-            }
-        } catch(ClientException $e) {
-            $errMsg = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
-            $errMsg = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        }
-        $this->assertStringStartsWith('Not nullable parameters are null.', $errMsg);
+        $getPointRequest = $this->getNotAllowParameterCase2();
+        $this->expectException(MissingRequestParameterException::class);
+        (new AceClient)->makeMemberService()
+                        ->makeRegMemAdrMethod()
+                        ->withRequest($getPointRequest);
     }
 
     private function getNotAllowParameterCase2() : RegMemAdrRequestModel

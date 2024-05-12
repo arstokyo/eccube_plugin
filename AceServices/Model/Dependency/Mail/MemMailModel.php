@@ -4,33 +4,13 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Mail;
 
 class MemMailModel implements MemMailModelInterface
 {
-    /** @var ?string $mail */
-    protected ?string $mail;
+    use MailTrait;
     
     /** @var ?int $dmailkbn */
     protected ?int $dmailkbn;
 
     /** @var ?int $idx */
     protected ?int $idx;
-
-    /**
-     * {@inheritDoc}
-     * 
-     */
-    public function getMail(): ?string
-    {
-        return $this->mail;
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     */
-    public function setMail(?string $mail): self
-    {
-        $this->mail = $mail;
-        return $this;
-    }
 
     /**
      * {@inheritDoc}

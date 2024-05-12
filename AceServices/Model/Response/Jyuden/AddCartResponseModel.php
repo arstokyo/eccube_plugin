@@ -5,33 +5,31 @@ namespace Plugin\AceClient\AceServices\Model\Response\Jyuden;
 use Plugin\AceClient\AceServices\Model\Response\ResponseModelAbtract;
 use Plugin\AceClient\AceServices\Model\Response\Depedency\OrderModelResponseAbstract;
 
-class AddCartResponseModel extends ResponseModelAbtract
+/**
+ * Model for AddCartResponse.
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
+class AddCartResponseModel extends ResponseModelAbtract implements AddCartResponseModelInterface
 {
-    /**
-     * Order
-     * 
-     * @var OrderModelResponseAbstract $order
-     */
-    protected OrderModelResponseAbstract $order;
+
+    /** @var  OrderModelInterface $order*/
+    private OrderModelInterface $order;
 
     /**
-     * Get order
-     * 
-     * @return OrderModelResponseAbstract
+     * {@inheritDoc} 
      */
-    public function getOrder(): OrderModelResponseAbstract
+    public function getOrder(): OrderModelInterface
     {
         return $this->order;
     }
 
     /**
-     * Set order
-     * 
-     * @param OrderModelResponseAbstract $order
-     * @return void
+     * {@inheritDoc} 
      */
-    public function setOrder(OrderModelResponseAbstract $order): void
+    public function setOrder(OrderModel $order): void
     {
         $this->order = $order;
     }
+
 }

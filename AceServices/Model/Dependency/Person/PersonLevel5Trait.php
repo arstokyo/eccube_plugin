@@ -4,9 +4,10 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
 
 use Plugin\AceClient\AceServices\Model\Dependency\Baitai\BaitaiNameTrait;
 use Plugin\AceClient\AceServices\Model\Dependency\Free\ThreeFnameTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\PC\FivePCKbnTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\KeiTai\FiveKeiKbnTrait;
+use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC\FivePCKbnTrait;
+use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC\FiveKeiKbnTrait;
 use Plugin\AceClient\AceServices\Model\Dependency\Mail\FiveMailTrait;
+use Plugin\AceClient\AceServices\Model\Dependency\Point\PointTrait;
 
 /**
  * Trait For Person Level 5
@@ -19,6 +20,7 @@ trait PersonLevel5Trait
         FiveKeiKbnTrait, 
         FiveMailTrait,
         BaitaiNameTrait, 
+        PointTrait,
         ThreeFnameTrait;
 
     /** @var ?int $age 年齢 */
@@ -36,15 +38,11 @@ trait PersonLevel5Trait
     /** @var ?int $gadr 商品送付先フラグ */
     protected ?int $gadr = null;
 
-    /** @var ?int $point ポイント */
-    protected ?int $point = null;
-
     /** @var ?string $upcodeSimei 紹介者 氏名 */
     protected ?string $upcodeSimei = null;
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function getAge(): ?int
     {
@@ -53,7 +51,6 @@ trait PersonLevel5Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function getBlday(): ?int
     {
@@ -62,7 +59,6 @@ trait PersonLevel5Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function getBlkbn(): ?int
     {
@@ -71,7 +67,6 @@ trait PersonLevel5Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function getDadr(): ?int
     {
@@ -80,7 +75,6 @@ trait PersonLevel5Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function getGadr(): ?int
     {
@@ -89,16 +83,6 @@ trait PersonLevel5Trait
 
     /**
      * {@inheritDoc}
-     * 
-     */
-    public function getPoint(): ?int
-    {
-        return $this->point;
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
      */
     public function setAge(?int $age)
     {
@@ -108,7 +92,6 @@ trait PersonLevel5Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function setBlday(?int $blday)
     {
@@ -118,7 +101,6 @@ trait PersonLevel5Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function setBlkbn(?int $blkbn)
     {
@@ -128,7 +110,6 @@ trait PersonLevel5Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function setDadr(?int $dadr)
     {
@@ -138,7 +119,6 @@ trait PersonLevel5Trait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function setGadr(?int $gadr)
     {
@@ -148,17 +128,6 @@ trait PersonLevel5Trait
 
     /**
      * {@inheritDoc}
-     * 
-     */
-    public function setPoint(?int $point)
-    {
-        $this->point = $point;
-        return $this;
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
      */
     public function getUpcodeSimei(): ?string
     {
@@ -167,7 +136,6 @@ trait PersonLevel5Trait
     
     /**
      * {@inheritDoc}
-     * 
      */
     public function setUpcodeSimei(?string $upcodeSimei)
     {

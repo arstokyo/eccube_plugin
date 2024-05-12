@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\AceServices\Model\Response\Member\GetHaisoAdrs;
 
-use Plugin\AceClient\AceServices\Model\Response\Depedency\MemberModelResponseAbstract;
+use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelTrait;
 use Plugin\AceClient\AceServices\Model\Response\Member\GetHaisoAdrs\GetHaisouAdrsModel;
 use Plugin\AceClient\AceServices\Model\Response\HandleResponseAsListTrait;
 
@@ -12,9 +12,10 @@ use Plugin\AceClient\AceServices\Model\Response\HandleResponseAsListTrait;
  * @author kmorino
  */
 
-class MemberModel extends MemberModelResponseAbstract implements MemberModelInterface
+class MemberModel implements MemberModelInterface
 {
-    use HandleResponseAsListTrait;
+    use HandleResponseAsListTrait,
+        HasMessageModelTrait;
 
     /**
      * GetHaisouAdrs
@@ -22,7 +23,6 @@ class MemberModel extends MemberModelResponseAbstract implements MemberModelInte
      * @var GetHaisouAdrsModel[]|null $getHaisouAdrs
      */
     private ?array $getHaisouAdrs = null;
-
 
     /**
      * {@inheritDoc}

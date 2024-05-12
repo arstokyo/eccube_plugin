@@ -4,18 +4,19 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
 
 use Plugin\AceClient\AceServices\Model\Dependency\Baitai\HasBaitaiNameInterface;
 use Plugin\AceClient\AceServices\Model\Dependency\Free\HasThreeFnameInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Pc\HasFivePCKbnInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\KeiTai\HasFiveKeiKbnInterface;
+use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC\HasFivePCKbnInterface;
+use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC\HasFiveKeiKbnInterface;
 use Plugin\AceClient\AceServices\Model\Dependency\Mail\HasFiveMailInterface;
+use Plugin\AceClient\AceServices\Model\Dependency\Point\HasPointInterface;
 
 /**
  * Interface for Person Level 5
  *
- * @target : /Member/Service2.asmx/regMember|response-smember
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 interface PersonLevel5Interface extends HasBaitaiNameInterface, HasThreeFnameInterface, 
                                         HasFiveKeiKbnInterface, HasFivePCKbnInterface, 
-                                        HasFiveMailInterface
+                                        HasFiveMailInterface, HasPointInterface
 {
 
     /**
@@ -24,7 +25,6 @@ interface PersonLevel5Interface extends HasBaitaiNameInterface, HasThreeFnameInt
      * @return int|null 
      */
     public function getBlkbn(): ?int;
-
 
     /**
      * Set 滞納者フラグ.
@@ -46,20 +46,6 @@ interface PersonLevel5Interface extends HasBaitaiNameInterface, HasThreeFnameInt
      * @param int|null $blday 
      */
     public function setBlday(?int $blday);
-
-    /**
-     * Get ポイント.
-     *
-     * @return int|null 
-     */
-    public function getPoint(): ?int;
-
-    /**
-     * Set ポイント.
-     *
-     * @param int|null $point 
-     */
-    public function setPoint(?int $point);
 
     /**
      * Get DM送付先フラグ.

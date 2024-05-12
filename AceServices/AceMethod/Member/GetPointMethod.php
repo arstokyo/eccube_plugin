@@ -36,10 +36,10 @@ class GetPointMethod extends AceMethodAbstract
     }
 
     /**
-     * @param Request\Member\GetPoint\GetPointRequestModel $request
+     * @param Request\Member\GetPoint\GetPointRequestModel $requestModel
      */
-    public function withRequest(RequestModelInterface $request): self
+    public function withRequest(RequestModelInterface $requestModel): self
     {
-        return parent::withRequest($request);
+        return parent::withRequest($requestModel);
     }
 }

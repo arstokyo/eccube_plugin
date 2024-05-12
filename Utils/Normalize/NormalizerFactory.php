@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Plugin\AceClient\Exception\InvalidClassNameException;
 use Plugin\AceClient\Exception\InvalidFuncNameException;
-use Plugin\AceClient\Exception\NotCompatibleDataType;
+use Plugin\AceClient\Exception\DataTypeMissMatchException;
 use Plugin\AceClient\Utils\ClassFactory\ClassFactory;
 use Plugin\AceClient\Utils\Denormalize\DenormalizerFactory;
 
@@ -101,7 +101,7 @@ final class NormalizerFactory
      * @return NormalizerInterface
      * 
      * @throws InvalidClassNameException
-     * @throws NotCompatibleDataType
+     * @throws DataTypeMissMatchException
      */
     public static function makeNormalizerByClassName($className): NormalizerInterface
     {
