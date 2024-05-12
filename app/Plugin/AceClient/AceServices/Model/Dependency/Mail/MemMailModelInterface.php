@@ -5,10 +5,9 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Mail;
 /**
  * Interface For Member Mail
  * 
- * @Target : Plugin\AceClient\AceServices\Model\Dependency\Person
  * @author : Ars-Thong <v.t.nguyen@ar-sytem.co.jp>
  */
-interface MemMailModelInterface
+interface MemMailModelInterface extends HasMailInterface
 {
 
     /**
@@ -40,20 +39,5 @@ interface MemMailModelInterface
      * @return self
      */
     public function setDmailkbn(?int $dmailkbn): self;
-
-    /**
-     * Get メールアドレス
-     *
-     * @return string|null
-     */
-    public function getMail(): ?string;
-
-    /**
-     * Set メールアドレス
-     *
-     * @param string|null $mail
-     * @return self
-     */
-    public function setMail(?string $mail): self;
 
 }

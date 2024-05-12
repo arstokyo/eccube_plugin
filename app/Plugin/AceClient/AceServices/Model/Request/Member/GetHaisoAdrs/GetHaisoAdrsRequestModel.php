@@ -2,16 +2,16 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request\Member\GetHaisoAdrs;
 
-use Plugin\AceClient\AceServices\Model\Request;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient\AceServices\Model\Request\RequestModelAbstract;
+use Plugin\AceClient\Exception\MissingRequestParameterException;
 
 /**
  * Class GetHaisoAdrsRequestModel
  *
  * @author k-morino
  */
-class GetHaisoAdrsRequestModel extends RequestModelAbstract implements GetHaisoAdrsRequestInterface
+class GetHaisoAdrsRequestModel extends RequestModelAbstract implements GetHaisoAdrsRequestModelInterface
 {
     const XML_NODE_NAME = 'getHaisouAdrs';
 
@@ -20,17 +20,16 @@ class GetHaisoAdrsRequestModel extends RequestModelAbstract implements GetHaisoA
     /**
      * {@inheritDoc}
      */
-    public function ensureValidParameters(): bool
+    public function ensureParameterNotMissing(): void
     {
-        if (!$this->id) return false;
-        if (!$this->mcode) return false;
-        return true;
+        if (!$this->id) { throw new MissingRequestParameterException($this->compilePropertyName('id')); };
+        if (!$this->mcode) { throw new MissingRequestParameterException($this->compilePropertyName('mcode')); };
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getXmlNodeName(): string
+    public function fetchRequestNodeName(): string
     {
         return self::XML_NODE_NAME;
     }

@@ -13,6 +13,7 @@ parameters:
             http_client: 
                 class_name: 'Plugin\AceClient\Utils\HttpClient\SoapXmlApiClient'
                 base_uri: 'http://192.168.0.77:20443/ACEXML/'
+                # base_uri: 'http://192.168.0.81:60804/'
                 headers:
                     'User-Agent': '\Plugin\AceClient\Utils\Mapper\OverviewMapper::USER_AGENT_HEADER'
                 options:
@@ -24,9 +25,8 @@ parameters:
         overrides:
             - Plugin\AceClient\AceServices\AceMethod\Member\GetHaisoAdrsMethod:
                 serializer: 
-                    class_name: 'Plugin\AceClient\Utils\Serialize\SoapXMLSerializer'
                     normalizers: 'ArrayNormalizers'
-                    encoder: 'Symfony\Component\Serializer\Encoder\XmlEncoder'
+                    
             # Change here for overriding default configuration
             # Example:
             # - Plugin\AceClient\Config\Model\TestLoadConfig:

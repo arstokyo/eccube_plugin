@@ -36,10 +36,10 @@ class DeleteHaisoAdrsMethod extends AceMethodAbstract
     }
 
     /**
-     * @param Request\Member\DeleteHaisoAdrs\DeleteHaisoAdrsRequestModel $request
+     * @param Request\Member\DeleteHaisoAdrs\DeleteHaisoAdrsRequestModel $requestModel
      */
-    public function withRequest(RequestModelInterface $request): self
+    public function withRequest(RequestModelInterface $requestModel): self
     {
-        return parent::withRequest($request);
+        return parent::withRequest($requestModel);
     }
 }

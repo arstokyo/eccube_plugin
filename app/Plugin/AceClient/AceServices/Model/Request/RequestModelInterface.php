@@ -2,10 +2,9 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request;
 
-use Plugin\AceClient\AceServices\Model\Request\Dependency\SoapRequestAbleInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\EnsureValidParametersInterface;
+use Plugin\AceClient\AceServices\Model\Request\Dependency;
 
-interface RequestModelInterface extends SoapRequestAbleInterface, EnsureValidParametersInterface
+interface RequestModelInterface extends Dependency\SoapRequestAbleInterface, Dependency\EnsureParameterNotMissingInterface
 {
 
 }

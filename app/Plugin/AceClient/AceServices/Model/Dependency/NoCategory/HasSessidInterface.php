@@ -7,20 +7,20 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-interface HasSessidInterface
+interface HasSessIdInterface
 {
     /**
      * Get セッションID
      * 
      * @return ?string セッションID
      */
-    public function getSessid(): ?string;
+    public function getSessId(): ?string;
 
     /**
      * Set セッションID
      * 
-     * @param ?string $sessid セッションID
+     * @param ?string $sessId セッションID
      * @return $this
      */
-    public function setSessid(?string $sessid);
+    public function setSessId(?string $sessId);
 }

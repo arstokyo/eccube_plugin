@@ -7,25 +7,25 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait SessidTrait
+trait SessIdTrait
 {
-    /** @var string $sessid セッションID */
-    protected ?string $sessid = null;
+    /** @var string $sessId セッションID */
+    protected ?string $sessId = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getSessid(): ?string
+    public function getSessId(): ?string
     {
-        return $this->sessid;
+        return $this->sessId;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setSessid(?string $sessid)
+    public function setSessId(?string $sessId)
     {
-        $this->sessid = $sessid;
+        $this->sessId = $sessId;
         return $this;
     }
 }

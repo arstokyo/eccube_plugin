@@ -12,10 +12,9 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 interface SoapRequestAbleInterface
 {
     /**
-     * Get Node Name
+     * Fetch Request Node Name when decode to XML
      * 
      * @return string
      */
-    #[Ignore]
-    public function getXmlNodeName(): string;
+    public function fetchRequestNodeName(): string;
 }

@@ -5,7 +5,6 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Baitai;
 /**
  * Interface For Baitai has two values
  * 
- * @Target : Plugin\AceClient\AceServices\Model\Dependency\Person
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 interface HasBaitaiCodeInterface

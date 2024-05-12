@@ -75,4 +75,14 @@ class MemberService extends AceServiceAbstract implements AceServiceInterface
     {
         return new AceMethod\Member\GetReminderMethod($this->baseServiceName);
     }
+
+    /**
+     * Make GetMemberMethod
+     *
+     * @return AceMethod\Member\GetMemberMethod
+     */
+    public function makeGetMemberMethod(): AceMethod\Member\GetMemberMethod
+    {
+        return new AceMethod\Member\GetMemberMethod($this->baseServiceName);
+    }
 }

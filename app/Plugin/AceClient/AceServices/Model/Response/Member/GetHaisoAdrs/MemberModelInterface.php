@@ -2,9 +2,8 @@
 
 namespace Plugin\AceClient\AceServices\Model\Response\Member\GetHaisoAdrs;
 
-use Plugin\AceClient\AceServices\Model\Response\Depedency\MemberModelResponseInterface as ParentMemberModelResponseInterface;
+use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelInterface;
 use Plugin\AceClient\AceServices\Model\Response;
-
 
 /**
  * Interface MemberModelInterface
@@ -12,7 +11,7 @@ use Plugin\AceClient\AceServices\Model\Response;
  * @author kmorino
  */
 
-interface MemberModelInterface extends ParentMemberModelResponseInterface
+interface MemberModelInterface extends HasMessageModelInterface
 {
     /**
     * Get GetHaisouAdrs

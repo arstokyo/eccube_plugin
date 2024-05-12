@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\Utils\Serialize;
 
-use Plugin\AceClient\Exception\NotCompatibleDataType;
+use Plugin\AceClient\Exception\DataTypeMissMatchException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
@@ -11,7 +11,7 @@ use Plugin\AceClient\Config\Model\SoapXmlSerializer\SoapXmlSerializerModel;
 use Plugin\AceClient\Utils\ConfigLoader\SoapXmlSerializerConfigLoaderTrait;
 use Plugin\AceClient\Utils\Mapper\EncodeDefineMapper;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
-use Plugin\AceClient\Exception\NotDeserialiableDataException;
+use Plugin\AceClient\Exception\NotDeserializableException;
 use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
 
 /**
@@ -30,8 +30,8 @@ class SoapXMLSerializer implements SoapXMLSerializerInterface
     public const DEFAULT_REQUEST_SOAP_END = '</soap12:Body></soap12:Envelope>';
 
     public const DEFAULT_SERIAlIZE_OPTIONS = ['xml_format_output' => true,
-                                             'xml_encoding' => 'utf-8',
-                                             'encoder_ignored_node_types' => [7]];
+                                              'xml_encoding' => 'utf-8',
+                                              'encoder_ignored_node_types' => [7]];
 
     /**
      * @var Serializer $serializer
@@ -66,11 +66,14 @@ class SoapXMLSerializer implements SoapXMLSerializerInterface
      * @param string|null $format
      * @param array[] $context
      * 
+     * @throws DataTypeMissMatchException
+     * 
+     * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
      */
     public function serialize($data, string $format = EncodeDefineMapper::XML, array $context = [])
     {
         if (!$data instanceof RequestModelInterface) {
-            throw new NotCompatibleDataType(sprintf('Data Object Not Compatible. Respected Object Type "%s"', RequestModelInterface::class));
+            throw new DataTypeMissMatchException(sprintf('Given data is not serializable. Respected object type "%s"', RequestModelInterface::class));
         }
         return $this->compileWithSoapHeader($this->serializeWithOptions($data, $format, $context));
     }
@@ -96,7 +99,7 @@ class SoapXMLSerializer implements SoapXMLSerializerInterface
         $data = $this->serializer->decode($data, $format, $context);
         $this->getInnerArray(self::DESERIALIZE_DATA_ARRAY, $data, $matched);
         if (empty($matched)) {
-            throw new NotDeserialiableDataException(sprintf('Response Data Not Deserializable. Respected Data Array "%s"', self::DESERIALIZE_DATA_ARRAY));
+            throw new NotDeserializableException(sprintf('Response data not deserializable. The data must contain "%s"', self::DESERIALIZE_DATA_ARRAY));
         }
 
         $object = $this->serializer->denormalize($matched, $type, $format, $context);
@@ -139,7 +142,7 @@ class SoapXMLSerializer implements SoapXMLSerializerInterface
     /**
      * Serialize With Options
      * 
-     * @param mixed $data
+     * @param array|RequestModelInterface|null $data
      * @param string $format
      * @param array $context
      * 
@@ -149,7 +152,7 @@ class SoapXMLSerializer implements SoapXMLSerializerInterface
         return $this->serializer->serialize( \array_merge($this->config->getXmlns() ?: self::DEFAULT_XMLNS
                                                          ,['#' => $data])
                                             , $format
-                                            , $context ?: \array_merge([EncodeDefineMapper::XML_ROOT_NODE_NAME => $data->getXmlNodeName()],
+                                            , $context ?: \array_merge([EncodeDefineMapper::XML_ROOT_NODE_NAME => $data->fetchRequestNodeName()],
                                                                        $this->config->getDefaultSerializeOptions() ?: self::DEFAULT_SERIAlIZE_OPTIONS,)
                                             ,);
     }

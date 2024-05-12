@@ -7,7 +7,6 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 /**
  * Interface For BaitaiName has two values
  * 
- * @Target : Plugin\AceClient\AceServices\Model\Dependency\Person
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 interface HasBaitaiNameInterface

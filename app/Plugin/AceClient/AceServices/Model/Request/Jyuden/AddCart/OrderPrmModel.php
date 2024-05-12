@@ -2,21 +2,22 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart;
 
+use Plugin\AceClient\AceServices\Model\Request\Dependency\Prm\PrmModelAbstract;
 use Plugin\AceClient\AceServices\Model\Request;
-use Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency\MemberModelInterface;
-use Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency\OrderPrmModelAbstract;
-use Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency\OrderPrmModelInterface;
 
-class OrderPrmModel extends OrderPrmModelAbstract implements OrderPrmModelInterface
+class OrderPrmModel extends PrmModelAbstract implements OrderPrmModelInterface
 {
+    const PRM_NODE_NAME = 'order';
 
     /**
-     * Set 顧客情報
-     * 
-     * @param Request\Jyuden\AddCart\MemberOrderModel $member
-     * @return Request\Jyuden\AddCart\OrderPrmModel
+     * @var ?MemberOrderModelInterface $member
      */
-    public function setMember(MemberModelInterface $member): self
+    private ?MemberOrderModelInterface $member = null;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setMember(MemberOrderModelInterface $member): self
     {
         $this->member = $member;
         return $this;
@@ -25,9 +26,25 @@ class OrderPrmModel extends OrderPrmModelAbstract implements OrderPrmModelInterf
     /**
      * {@inheritDoc}
      */
-    public function ensureValidParameters(): bool
+    public function getMember(): MemberOrderModelInterface
     {
-        return true;
+        return $this->member;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function ensureParameterNotMissing(): void
+    {
+       // not implemented yet
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function fetchPrmNodeName(): string
+    {
+        return self::PRM_NODE_NAME;
     }
 
 }

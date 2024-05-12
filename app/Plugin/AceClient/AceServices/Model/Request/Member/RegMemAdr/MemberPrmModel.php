@@ -2,18 +2,21 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person\NmemberInterface;
-use Plugin\AceClient\AceServices\Model\Request\Member\Dependency\MemberPrmAbstract;
+use Plugin\AceClient\AceServices\Model\Dependency\Person\Nmember\NmemberModelInterface;
+use Plugin\AceClient\AceServices\Model\Request\Dependency\Prm\PrmModelAbstract;
+use Plugin\AceClient\Exception\MissingRequestParameterException;
 
-class MemberPrmModel extends MemberPrmAbstract implements MemberPrmInterface
+class MemberPrmModel extends PrmModelAbstract implements MemberPrmModelInterface
 {
-    /** @var NmemberModel $nmember 納品先 */
-    private NmemberModelInterface $nmember;
+    const PRM_NODE_NAME = 'member';
+
+    /** @var NmemberModel|null $nmember 納品先 */
+    private ?NmemberModelInterface $nmember = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getNmember(): NmemberInterface
+    public function getNmember(): ?NmemberModelInterface
     {
         return $this->nmember;
     
@@ -22,7 +25,7 @@ class MemberPrmModel extends MemberPrmAbstract implements MemberPrmInterface
     /**
      * {@inheritDoc}
      */
-    public function setNmember(NmemberInterface $nmember): self
+    public function setNmember(?NmemberModelInterface $nmember): self
     {
         $this->nmember = $nmember;
         return $this;
@@ -31,9 +34,17 @@ class MemberPrmModel extends MemberPrmAbstract implements MemberPrmInterface
     /**
      * {@inheritDoc}
      */
-    public function ensureValidParameters(): bool
+    public function ensureParameterNotMissing(): void
     {
-        if (!$this->nmember->getCode()) return false;
-        return true;
+        if (!$this->nmember) { throw new MissingRequestParameterException($this->compilePropertyName('nmember')) ;};
+        if (!$this->nmember->getCode()) { throw new MissingRequestParameterException($this->compilePropertyName('nmember.code')) ;};
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function fetchPrmNodeName(): string
+    {
+        return self::PRM_NODE_NAME;
     }
 }

@@ -1,7 +1,8 @@
 <?php
 
 namespace Plugin\AceClient\AceServices\Model\Response\Member\CheckMailAdress;
-use Plugin\AceClient\AceServices\Model\Response\Message\HasMessageResponseExtend1Trait;
+
+use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelExtend2Trait;
 
 /**
  * Class MemberModel
@@ -11,5 +12,5 @@ use Plugin\AceClient\AceServices\Model\Response\Message\HasMessageResponseExtend
 
 class MemberModel implements MemberModelInterface
 {
-    use HasMessageResponseExtend1Trait;
+    use HasMessageModelExtend2Trait;
 }

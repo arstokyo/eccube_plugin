@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\AceServices\Model\Response\Member\DeleteHaisoAdrs;
 
-use Plugin\AceClient\AceServices\Model\Response\Depedency\MemberModelResponseAbstract;
+use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelTrait;
 use Plugin\AceClient\AceServices\Model\Response\Member\DeleteHaisoAdrs\NmemberModel;
 
 /**
@@ -11,8 +11,10 @@ use Plugin\AceClient\AceServices\Model\Response\Member\DeleteHaisoAdrs\NmemberMo
  * @author kmorino
  */
 
-class MemberModel extends MemberModelResponseAbstract implements MemberModelInterface
+class MemberModel implements MemberModelInterface
 {
+    use HasMessageModelTrait;
+    
     /**
      * Point
      *

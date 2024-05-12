@@ -9,23 +9,23 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
  */
 trait PassWdTrait
 {
-    /** @var string $passWd パスワード */
-    protected ?string $passWd = null;
+    /** @var string $passwd パスワード */
+    protected ?string $passwd = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getPassWd(): ?string
+    public function getPasswd(): ?string
     {
-        return $this->passWd;
+        return $this->passwd;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setPassWd(?string $passWd)
+    public function setPasswd(?string $passwd)
     {
-        $this->passWd = $passWd;
+        $this->passwd = $passwd;
         return $this;
     }
 }

@@ -13,21 +13,21 @@ class AddCartTest extends AbstractAdminWebTestCase
     public function getAddCartModel(): Request\RequestModelInterface
     {
         $member = (new Request\Jyuden\AddCart\MemberOrderModel)
-                        ->setJmember((new Request\Jyuden\AddCart\PersonModel())->setCode('456'))
-                        ->setSmember((new Request\Jyuden\AddCart\PersonModel())->setCode('123'))
-                        ->setNmember((new Request\Jyuden\AddCart\NmemModel())->setEda(1));
+                        ->setJmember((new Request\Jyuden\AddCart\JmemberModel())->setCode('456'))
+                        ->setSmember((new Request\Jyuden\AddCart\SmemberModel())->setCode('123'))
+                        ->setNmember((new Request\Jyuden\AddCart\NmemberModel())->setEda(1));
 
         $prm = (new Request\Jyuden\AddCart\OrderPrmModel())->setMember($member);
 
         $addCartModel = (new Request\Jyuden\AddCart\AddCartRequestModel())
                              ->setId(7)
-                             ->setSessid(1)
+                             ->setSessId(1)
                              ->setPrm($prm);
 
         return $addCartModel;
     }
 
-    public function testRequestAddCartMethod()
+    public function testRequestAddCart()
     {
         try {
             $addCartRequest = $this->getAddCartModel();

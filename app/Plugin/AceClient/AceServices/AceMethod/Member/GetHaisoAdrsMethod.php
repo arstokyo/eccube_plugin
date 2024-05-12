@@ -32,11 +32,11 @@ class GetHaisoAdrsMethod extends AceMethodAbstract
     }
 
     /**
-     * @param Request\Member\GetHaisoAdrs\GetHaisoAdrsRequestModel $request
+     * @param Request\Member\GetHaisoAdrs\GetHaisoAdrsRequestModel $requestModel
      */
-    public function withRequest(RequestModelInterface $request): self
+    public function withRequest(RequestModelInterface $requestModel): self
     {
-        return parent::withRequest($request);
+        return parent::withRequest($requestModel);
     }
 
 }

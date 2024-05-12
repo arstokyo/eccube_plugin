@@ -2,15 +2,16 @@
 
 namespace Plugin\AceClient\AceServices\Model\Response\Member\RegMemAdr;
 
-use Plugin\AceClient\AceServices\Model\Response\Depedency\MemberModelResponseAbstract;
+use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelTrait;
 
 /**
  * Class for Member Model
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class MemberModel extends MemberModelResponseAbstract implements MemberModelInterface
+class MemberModel implements MemberModelInterface
 {
+    use HasMessageModelTrait;
 
     /** @var NmemModel|null $nmember Nmem */
     private ?NmemModel $nmember = null;

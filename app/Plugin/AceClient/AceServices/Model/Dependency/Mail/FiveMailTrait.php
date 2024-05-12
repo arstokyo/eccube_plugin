@@ -26,7 +26,6 @@ trait FiveMailTrait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function getMail1(): ?string
     {
@@ -35,7 +34,6 @@ trait FiveMailTrait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function setMail1(?string $mail1)
     {
@@ -45,7 +43,6 @@ trait FiveMailTrait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function getMail2(): ?string
     {
@@ -54,7 +51,6 @@ trait FiveMailTrait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function setMail2(?string $mail2)
     {
@@ -64,7 +60,6 @@ trait FiveMailTrait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function getMail3(): ?string
     {
@@ -73,7 +68,6 @@ trait FiveMailTrait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function setMail3(?string $mail3)
     {
@@ -83,7 +77,6 @@ trait FiveMailTrait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function getMail4(): ?string
     {
@@ -92,7 +85,6 @@ trait FiveMailTrait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function setMail4(?string $mail4)
     {
@@ -102,7 +94,6 @@ trait FiveMailTrait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function getMail5(): ?string
     {
@@ -111,7 +102,6 @@ trait FiveMailTrait
 
     /**
      * {@inheritDoc}
-     * 
      */
     public function setMail5(?string $mail5)
     {

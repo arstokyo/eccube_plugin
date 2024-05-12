@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\AceServices\Model\Response\Member\RegMemAdr;
 
-use Plugin\AceClient\AceServices\Model\Response\Depedency\MemberModelResponseInterface;
+use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelInterface;
 use Plugin\AceClient\AceServices\Model\Response;
 
 /*
@@ -10,7 +10,7 @@ use Plugin\AceClient\AceServices\Model\Response;
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-interface MemberModelInterface extends MemberModelResponseInterface
+interface MemberModelInterface extends HasMessageModelInterface
 {
     /**
      * Get Nmem

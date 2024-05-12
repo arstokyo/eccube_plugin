@@ -5,8 +5,6 @@ namespace Plugin\AceClient\Exception;
 class AceClientBaseException extends \Exception
 {
     /**
-     * BaseException constructor
-     *
      * @param string     $message  Exception message.
      * @param \Throwable $previous Previous exception.
      */

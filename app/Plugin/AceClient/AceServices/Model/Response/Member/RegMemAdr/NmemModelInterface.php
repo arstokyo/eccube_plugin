@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\AceServices\Model\Response\Member\RegMemAdr;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person\NmemGroup1Interface;
+use Plugin\AceClient\AceServices\Model\Dependency\Person\Nmember\NmemberModelGroup1Interface;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\HasBetuInterface;
 
 /**
@@ -10,7 +10,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\HasBetuInterface;
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-interface NmemModelInterface extends NmemGroup1Interface, HasBetuInterface
+interface NmemModelInterface extends NmemberModelGroup1Interface, HasBetuInterface
 {
 
 }

@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\Utils\Encoder;
 
 use Plugin\AceClient\Exception\InvalidClassNameException;
-use Plugin\AceClient\Exception\NotCompatibleDataType;
+use Plugin\AceClient\Exception\DataTypeMissMatchException;
 use Plugin\AceClient\Utils\ClassFactory\ClassFactory;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 
@@ -22,7 +22,7 @@ final class EncoderFactory
      * @return EncoderInterface
      * 
      * @throws InvalidClassNameException
-     * @throws NotCompatibleDataType
+     * @throws DataTypeMissMatchException
      * 
      */
     final public static function makeEncoderByClassName(string $className): EncoderInterface

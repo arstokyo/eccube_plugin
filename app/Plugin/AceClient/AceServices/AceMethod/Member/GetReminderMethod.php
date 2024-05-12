@@ -36,10 +36,10 @@ class GetReminderMethod extends AceMethodAbstract
     }
 
     /**
-     * @param Request\Member\GetReminder\GetReminderRequestModel $request
+     * @param Request\Member\GetReminder\GetReminderRequestModel $requestModel
      */
-    public function withRequest(RequestModelInterface $request): self
+    public function withRequest(RequestModelInterface $requestModel): self
     {
-        return parent::withRequest($request);
+        return parent::withRequest($requestModel);
     }
 }

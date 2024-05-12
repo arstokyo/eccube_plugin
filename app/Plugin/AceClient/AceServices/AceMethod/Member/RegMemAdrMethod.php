@@ -36,10 +36,10 @@ class RegMemAdrMethod extends AceMethodAbstract
     }
 
     /**
-     * @param Request\Member\RegMemAdr\RegMemAdrRequestModel $request
+     * @param Request\Member\RegMemAdr\RegMemAdrRequestModel $requestModel
      */
-    public function withRequest(RequestModelInterface $request): self
+    public function withRequest(RequestModelInterface $requestModel): self
     {
-        return parent::withRequest($request);
+        return parent::withRequest($requestModel);
     }
 }

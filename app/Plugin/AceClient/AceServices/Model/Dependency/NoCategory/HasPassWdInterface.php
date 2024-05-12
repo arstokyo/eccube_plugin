@@ -14,13 +14,13 @@ interface HasPassWdInterface
      * 
      * @return ?string パスワード
      */
-    public function getPassWd(): ?string;
+    public function getPasswd(): ?string;
 
     /**
      * Set パスワード
      * 
-     * @param ?string $passWd パスワード
+     * @param ?string $passwd パスワード
      * @return $this
      */
-    public function setPassWd(?string $passWd);
+    public function setPasswd(?string $passwd);
 }
