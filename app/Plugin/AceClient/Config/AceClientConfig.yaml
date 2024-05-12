@@ -13,7 +13,6 @@ parameters:
             http_client: 
                 class_name: 'Plugin\AceClient\Utils\HttpClient\SoapXmlApiClient'
                 base_uri: 'http://192.168.0.77:20443/ACEXML/'
-                # base_uri: 'http://192.168.0.81:60804/'
                 headers:
                     'User-Agent': '\Plugin\AceClient\Utils\Mapper\OverviewMapper::USER_AGENT_HEADER'
                 options:

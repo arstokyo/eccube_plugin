@@ -38,7 +38,7 @@ class SoapXMLSerializer implements SoapXMLSerializerInterface
      */
     private SerializerInterface $serializer;
 
-    private const DESERIALIZE_DATA_ARRAY = 'diffgr:diffgram';
+    private const EXPECT_DATA_ARRAY = 'diffgr:diffgram';
 
     /**
      * @var SoapXmlSerializerModel $config
@@ -62,7 +62,7 @@ class SoapXMLSerializer implements SoapXMLSerializerInterface
     /**
      * Serializes data in the appropriate format.
      * 
-     * @param mixed $data
+     * @param RequestModelInterface $data
      * @param string|null $format
      * @param array[] $context
      * 
@@ -97,9 +97,9 @@ class SoapXMLSerializer implements SoapXMLSerializerInterface
         }
 
         $data = $this->serializer->decode($data, $format, $context);
-        $this->getInnerArray(self::DESERIALIZE_DATA_ARRAY, $data, $matched);
+        $this->getInnerArray(self::EXPECT_DATA_ARRAY, $data, $matched);
         if (empty($matched)) {
-            throw new NotDeserializableException(sprintf('Response data not deserializable. The data must contain "%s"', self::DESERIALIZE_DATA_ARRAY));
+            throw new NotDeserializableException(sprintf('Response data not deserializable. The data must contain "%s"', self::EXPECT_DATA_ARRAY));
         }
 
         $object = $this->serializer->denormalize($matched, $type, $format, $context);
