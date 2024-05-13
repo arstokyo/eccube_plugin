@@ -2,70 +2,135 @@
 
 namespace Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
 
+use DateTime;
+
 /**
  * Class for AceDateTime
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class AceDateTime implements AceDateTimeInterface
+class AceDateTime  implements AceDateTimeInterface
 {
 
     public const ACE_DATE_FORMAT     = "Ymd";
     public const EC_DATE_FORMAT       = "Y-m-d";
 
     /**
-     * @var \DateTime
+     * @var Datetime $dateTime
      */
-    private $dateTime;
+    private Datetime $dateTime;
 
     /**
-     * Constructor
-     * 
-     * @param \DateTime $dateTime
+     * @var string $format
      */
-    public function __construct(int $dateTime)
+    private string $format;
+
+    /**
+     * Constructor for AceDateTime
+     * 
+     * @param string|int|Datetime $dateTime
+     * @param string $format
+     */
+    public function __construct(string|int|Datetime $dateTime, $format = self::ACE_DATE_FORMAT)
     {
         $this->dateTime = $dateTime;
+        $this->format = $format;
     }
 
     /**
-     * Get the DateTime
-     * 
-     * @return \DateTime
+     * {@inheritDoc}
      */
-    public function getDateTime()
+    public function year(): string
     {
-        return $this->dateTime;
+        return $this->dateTime->format('Y');
     }
 
     /**
-     * Set the DateTime
-     * 
-     * @param \DateTime $dateTime
+     * {@inheritDoc}
      */
-    public function setDateTime(\DateTime $dateTime)
+    public function month(): string
     {
-        $this->dateTime = $dateTime;
+        return $this->dateTime->format('m');
     }
 
     /**
-     * Get the string representation of the object
-     * 
-     * @return string
+     * {@inheritDoc}
      */
-    public function __toString()
+    public function day(): string
     {
-        return $this->dateTime->format('Y-m-d H:i:s');
+        return $this->dateTime->format('d');
     }
 
     /**
-     * Specify data which should be serialized to JSON
-     * 
-     * @return mixed
+     * {@inheritDoc}
      */
-    public function jsonSerialize()
+    public function age(): int
     {
-        return $this->dateTime->format('Y-m-d H:i:s');
+        return (int) $this->dateTime->diff(new DateTime())->format('%y');
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTimeStamp(): int
+    {
+        return $this->dateTime->getTimestamp();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function toEccubeDateTime(): string
+    {
+        return $this->dateTime->format(self::EC_DATE_FORMAT);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function toJapaneseLongDate(): string
+    {
+        return $this->dateTime->format('Y年m月d日');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function toJapaneseShortDate(): string
+    {
+        return $this->dateTime->format('Y年m月d日');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function toLongDate(): string
+    {
+        return $this->dateTime->format('Y-m-d');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function toShortDate(): string
+    {
+        return $this->dateTime->format('Y-m-d');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function toSpecificFormat(string $format): string
+    {
+        return $this->dateTime->format($format);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function toApiDateTime(): string
+    {
+        return $this->dateTime->format($this->format);
+    }
+
 }
