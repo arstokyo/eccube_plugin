@@ -14,14 +14,14 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 class OrderInfoModel implements OrderInfoModelInterface
 {
     /** @var ?int $nomoneyFlg 未入金フラグ */
-    #[SerializedName('nomoney_flg')]
     protected ?int $nomoneyFlg = null;
+
     /** @var ?int $orderCnt 購入回数 */
-    #[SerializedName('order_cnt')]
     protected ?int $orderCnt = null;
+
     /** @var int|string|null $orderMaxday 最新購入日 */
-    #[SerializedName('order_maxday')]
     protected string|int|null $orderMaxday = null;
+    
     /**
      * {@inheritDoc}
      */
