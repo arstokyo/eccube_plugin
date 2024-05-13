@@ -21,7 +21,6 @@ class STPointModel implements STPointModelInterface
     protected string|int|null $iday = null;
 
     /** @var string|int|null $inppointMaxday 最新購入日 */
-    #[SerializedName('inppoint_maxday')]
     protected string|int|null $inppointMaxday = null;
 
     /**
