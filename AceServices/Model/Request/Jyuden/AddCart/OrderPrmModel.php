@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart;
 
-use Plugin\AceClient\AceServices\Model\Request\Dependency\Prm\PrmModelAbstract;
+use Plugin\AceClient\AceServices\Model\Request\Prm\PrmModelAbstract;
 use Plugin\AceClient\AceServices\Model\Request;
 
 class OrderPrmModel extends PrmModelAbstract implements OrderPrmModelInterface

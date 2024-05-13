@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Dependency\Prm;
+namespace Plugin\AceClient\AceServices\Model\Request\Prm;
 
 use Plugin\AceClient\Utils\Denormalize\OTD;
 use Plugin\AceClient\Utils\Mapper\EncodeDefineMapper;

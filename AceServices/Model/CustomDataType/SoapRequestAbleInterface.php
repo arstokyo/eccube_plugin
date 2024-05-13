@@ -1,8 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Dependency;
-
-use Symfony\Component\Serializer\Annotation\Ignore;
+namespace Plugin\AceClient\AceServices\Model\CustomDataType;
 
 /**
  * Interface SoapRequestAbleInterface
