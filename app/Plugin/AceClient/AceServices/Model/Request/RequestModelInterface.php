@@ -2,9 +2,9 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request;
 
-use Plugin\AceClient\AceServices\Model\Request\Dependency;
+use Plugin\AceClient\AceServices\Model\CustomDataType;
 
-interface RequestModelInterface extends Dependency\SoapRequestAbleInterface, Dependency\EnsureParameterNotMissingInterface
+interface RequestModelInterface extends CustomDataType\SoapRequestAbleInterface, CustomDataType\EnsureParameterNotMissingInterface
 {
 
 }

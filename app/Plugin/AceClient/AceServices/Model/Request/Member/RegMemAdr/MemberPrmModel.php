@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr;
 
 use Plugin\AceClient\AceServices\Model\Dependency\Person\Nmember\NmemberModelInterface;
-use Plugin\AceClient\AceServices\Model\Request\Dependency\Prm\PrmModelAbstract;
+use Plugin\AceClient\AceServices\Model\Request\Prm\PrmModelAbstract;
 use Plugin\AceClient\Exception\MissingRequestParameterException;
 
 class MemberPrmModel extends PrmModelAbstract implements MemberPrmModelInterface

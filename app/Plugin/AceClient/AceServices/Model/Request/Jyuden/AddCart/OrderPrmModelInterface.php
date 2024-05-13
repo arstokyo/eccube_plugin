@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart;
 
-use Plugin\AceClient\AceServices\Model\Request\Dependency\Prm\PrmModelInterface;
+use Plugin\AceClient\AceServices\Model\Request\Prm\PrmModelInterface;
 use Plugin\AceClient\AceServices\Model\Request;
 
 /**

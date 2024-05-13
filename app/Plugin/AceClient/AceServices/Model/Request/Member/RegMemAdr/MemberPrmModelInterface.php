@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr;
 
 use Plugin\AceClient\AceServices\Model\Dependency\Person\Nmember\NmemberModelInterface;
-use Plugin\AceClient\AceServices\Model\Request\Dependency\Prm\PrmModelInterface;
+use Plugin\AceClient\AceServices\Model\Request\Prm\PrmModelInterface;
 use Plugin\AceClient\AceServices\Model\Request;
 
 interface MemberPrmModelInterface extends PrmModelInterface

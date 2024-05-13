@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Dependency;
+namespace Plugin\AceClient\AceServices\Model\CustomDataType;
 
 /**
  * Interface Object To DataAble Interface
