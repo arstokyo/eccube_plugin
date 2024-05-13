@@ -22,11 +22,11 @@ class GetMemberTest extends AbstractAdminWebTestCase
         $serializedData = $serializer->serialize($getMemberRequestModel);
 
         $xmlns = $serializer->getConfig()->getXmlns() ?
-                 $serializer->getConfig()->getXmlns()['@xmlns'] : 
+                 $serializer->getConfig()->getXmlns()['@xmlns'] :
                  Serialize\SoapXMLSerializer::DEFAULT_XMLNS['@xmlns'];
         $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_HEAD;
         $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_END;
-        $expectedData = 
+        $expectedData =
         <<<XML
         {$soapHead}
             <getMember xmlns="{$xmlns}">
@@ -36,7 +36,7 @@ class GetMemberTest extends AbstractAdminWebTestCase
             </getMember>
         {$soapEnd}
         XML;
-        $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData)); 
+        $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
     public function getModelRequest()
@@ -60,7 +60,9 @@ class GetMemberTest extends AbstractAdminWebTestCase
                 $responseObj = $response->getResponse();
                 $member = $responseObj->getLoginMember()->getMember();
                 $reminder = $responseObj->getLoginMember()->getReminder();
-                $result = $responseObj->getLoginMember()->getMessage()->getResult();
+                $stpoint = $responseObj->getLoginMember()->getSTPoint();
+                $orderinfo = $responseObj->getLoginMember()->getOrderInfo();
+                $message = $responseObj->getLoginMember()->getMessage();
                 $message1 = $responseObj->getLoginMember()->getMessage()->getMessage1();
             }
         } catch(ClientException $e) {
@@ -69,7 +71,10 @@ class GetMemberTest extends AbstractAdminWebTestCase
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
-        $this->assertEquals('OK', $result);
+        $this->assertEquals('OK', $message->getResult());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
+
 
         $this->assertEquals('107', $member->getCode());
         $this->assertEquals('GetMemberTest', $member->getSimei());
@@ -164,6 +169,15 @@ class GetMemberTest extends AbstractAdminWebTestCase
         $this->assertEquals('answer_06', $reminder->getAnswer6());
         $this->assertEquals('question_07', $reminder->getQuestion7());
         $this->assertEquals('answer_07', $reminder->getAnswer7());
+
+        $this->assertEquals(null, $stpoint->getIday());
+        $this->assertEquals('', $stpoint->getInppointMaxday());
+        $this->assertEquals('0', $stpoint->getPoint());
+
+        $this->assertEquals('0', $orderinfo->getNomoneyFlg());
+        $this->assertEquals('0', $orderinfo->getOrderCnt());
+        $this->assertEquals('', $orderinfo->getOrderMaxday());
+
     }
 
     public function testGetMemberWrongPassWd()
