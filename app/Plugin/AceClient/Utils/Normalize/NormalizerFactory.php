@@ -45,7 +45,8 @@ final class NormalizerFactory
      */
     public static function makeRecursiveNormalizers() : array {
         $classMetadataFactory = self::makeAnnotationMetaFacetory();
-        return self::makeNormalizers($classMetadataFactory, new MetadataAwareNameConverter($classMetadataFactory), null,new ReflectionExtractor);
+        return \array_merge([new AceDateTimeNormalizer()],
+                            self::makeNormalizers($classMetadataFactory, new MetadataAwareNameConverter($classMetadataFactory), null,new ReflectionExtractor));
     }
 
     /**
@@ -54,7 +55,6 @@ final class NormalizerFactory
      * @return NormalizerInterface[]
      */
     public static function makeArrayNormalizers() : array {
-        $classMetadataFactory = self::makeAnnotationMetaFacetory();
         return \array_merge([DenormalizerFactory::makeArrayDenormalizer()], self::makeRecursiveNormalizers());
     }
 
