@@ -56,7 +56,7 @@ class AceDateTime  implements AceDateTimeInterface
         } 
         $result = DateTime::createFromFormat($format, $dateTime);
         if ($result === false) {
-            throw new AceDateTimeCreateFailedException();
+            throw new AceDateTimeCreateFailedException($dateTime, $format);
         }
         return $result;
     }
