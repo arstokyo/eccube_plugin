@@ -3,6 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
 
 use DateTime;
+use Plugin\AceClient\Exception\AceDateTimeCreateFailedException;
 
 /**
  * Class for AceDateTime
@@ -30,11 +31,34 @@ class AceDateTime  implements AceDateTimeInterface
      * 
      * @param string|int|Datetime $dateTime
      * @param string $format
+     * 
+     * @throws AceDateTimeCreateFailedException
      */
     public function __construct(string|int|Datetime $dateTime, $format = self::ACE_DATE_FORMAT)
     {
-        $this->dateTime = $dateTime;
+        $this->dateTime = $this->createNewDateTime($dateTime, $format);
         $this->format = $format;
+    }
+
+    /**
+     * Create new DateTime object
+     * 
+     * @param string|int|Datetime $dateTime
+     * @param string $format
+     * 
+     * @throws AceDateTimeCreateFailedException
+     * @return Datetime
+     */
+    private function createNewDateTime(string|int|Datetime $dateTime, $format): Datetime
+    {
+        if ($dateTime instanceof Datetime) {
+            return $dateTime;
+        } 
+        $result = DateTime::createFromFormat($format, $dateTime);
+        if ($result === false) {
+            throw new AceDateTimeCreateFailedException();
+        }
+        return $result;
     }
 
     /**
