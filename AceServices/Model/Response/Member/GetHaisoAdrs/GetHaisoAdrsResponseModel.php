@@ -5,8 +5,6 @@ namespace Plugin\AceClient\AceServices\Model\Response\Member\GetHaisoAdrs;
 use Plugin\AceClient\AceServices\Model\Response;
 use Plugin\AceClient\AceServices\Model\Response\ResponseModelAbtract;
 use Symfony\Component\Serializer\SerializerInterface;
-use Plugin\AceClient\AceServices\Model\Response\HandleResponseAsListTrait;
-
 
 /**
  * Class GetHaisoAdrsRequestModel
@@ -16,7 +14,6 @@ use Plugin\AceClient\AceServices\Model\Response\HandleResponseAsListTrait;
 
 class GetHaisoAdrsResponseModel extends ResponseModelAbtract implements GetHaisoAdrsResponseModelInterface
 {
-    use HandleResponseAsListTrait;
 
     /**
      * Member
@@ -40,35 +37,6 @@ class GetHaisoAdrsResponseModel extends ResponseModelAbtract implements GetHaiso
     {
         $this->member = $member;
         return $this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function denomarlizeInnerData(SerializerInterface $serializer): self
-    {
-        if (!empty($this->getMember()->getGetHaisouAdrs()) && \method_exists($serializer, 'denormalize')) {
-            return $this->setMember($this->denormalizeMemberModel($serializer));
-        }
-        return $this;
-    }
-
-
-    /**
-     * Denormalize member model
-     *
-     * @param SerializerInterface $serializer
-     *
-     * @return MemberModel
-     */
-    private function denormalizeMemberModel(SerializerInterface $serializer): MemberModel
-    {
-        return $this->getMember()->setGetHaisouAdrs(
-                                    $this->denormalizeResponseAsList($this->getMember()->getGetHaisouAdrs(), 
-                                                                     GetHaisouAdrsModel::class, 
-                                                                     $serializer
-                                    )
-                                  );
     }
 
 }

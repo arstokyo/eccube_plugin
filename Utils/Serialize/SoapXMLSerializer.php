@@ -103,10 +103,6 @@ class SoapXMLSerializer implements SoapXMLSerializerInterface
         }
 
         $object = $this->serializer->denormalize($matched, $type, $format, $context);
-        if ($object instanceof ResponseModelInterface) {
-           return $object->denomarlizeInnerData($this->serializer);
-        }
-
         return $object ;
     }
 

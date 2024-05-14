@@ -3,7 +3,6 @@
 namespace Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart;
 
 use Plugin\AceClient\AceServices\Model\Request;
-use Symfony\Component\Serializer\Annotation\Ignore;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient\Exception\MissingRequestParameterException;
 
@@ -24,10 +23,7 @@ class AddCartRequestModel extends Request\RequestModelAbstract implements AddCar
     const XML_NODE_NAME = 'addCart';
 
     /**
-     * Set オーダー情報
-     * 
-     * @param Request\Jyuden\AddCart\OrderPrmModel $prm
-     * @return Request\Jyuden\AddCart\AddCartRequestModel
+     * {@inheritDoc}
      */
     public function setPrm(OrderPrmModel $prm): self
     {
@@ -36,13 +32,11 @@ class AddCartRequestModel extends Request\RequestModelAbstract implements AddCar
     }
    
     /**
-     * Get オーダー情報
-     * 
-     * @return string|null|object
+     * {@inheritDoc}
      */
-    public function getPrm(): string|null|object
+    public function getPrm(): OrderPrmModelInterface
     {
-        return $this->prm->toData();
+        return $this->prm;
     }
 
     /**

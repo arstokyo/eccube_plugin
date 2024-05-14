@@ -6,11 +6,5 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 abstract class ResponseModelAbtract implements ResponseModelInterface
 {
-    /**
-     * {@inheritDoc}
-     */
-    public function denomarlizeInnerData(SerializerInterface $serializer): self
-    {
-        return $this;
-    }
+
 }

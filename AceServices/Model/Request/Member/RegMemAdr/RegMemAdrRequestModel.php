@@ -25,9 +25,9 @@ class RegMemAdrRequestModel extends RequestModelAbstract implements RegMemAdrReq
     /**
      * {@inheritDoc}
      */
-    public function getPrm(): string|null|object
+    public function getPrm(): MemberPrmModelInterface
     {
-        return $this->prm->toData();
+        return $this->prm;
     }
 
     /**

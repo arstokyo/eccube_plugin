@@ -2,14 +2,12 @@
 
 namespace Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
 
-use \Traversable;
-
 /**
  * Interface AceDateTimeInterface
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-interface AceDateTimeInterface
+interface AceDateTimeInterface extends \Stringable
 {
     /**
      * Get the year
@@ -84,6 +82,7 @@ interface AceDateTimeInterface
 
     /**
      * Convert to Eccube DateTime
+     * Format: Y-m-d
      * 
      * @return string
      */
@@ -95,5 +94,12 @@ interface AceDateTimeInterface
      * @return string
      */
     public function toApiDateTime(): string;
+
+    /**
+     * Convert to DateTimes
+     * 
+     * @return \DateTime
+     */
+    public function toDateTime(): \DateTime;
 
 }

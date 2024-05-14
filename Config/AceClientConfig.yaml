@@ -4,7 +4,7 @@ parameters:
         default:
             serializer: 
                 class_name: 'Plugin\AceClient\Utils\Serialize\SoapXMLSerializer'
-                normalizers: 'RecursiveNormalizers'
+                normalizers: 'DefaultSoapNormalizers'
                 encoder: 'Symfony\Component\Serializer\Encoder\XmlEncoder'
             normalizer: 
                 class_name: 'Plugin\AceClient\Utils\Normalize\SoapXMLNormalizer'
@@ -22,10 +22,6 @@ parameters:
                 class_name: 'Plugin\AceClient\ApiClient\Api\Client\PostSoapXMLClient'
 
         overrides:
-            - Plugin\AceClient\AceServices\AceMethod\Member\GetHaisoAdrsMethod:
-                serializer: 
-                    normalizers: 'ArrayNormalizers'
-                    
             # Change here for overriding default configuration
             # Example:
             # - Plugin\AceClient\Config\Model\TestLoadConfig:

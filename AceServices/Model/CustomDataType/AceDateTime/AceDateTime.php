@@ -3,6 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
 
 use DateTime;
+use DateTimeZone;
 use Plugin\AceClient\Exception\AceDateTimeCreateFailedException;
 
 /**
@@ -15,6 +16,7 @@ class AceDateTime  implements AceDateTimeInterface
 
     public const ACE_DATE_FORMAT     = "Ymd";
     public const EC_DATE_FORMAT       = "Y-m-d";
+    public const ASIAN_TOKYO_TIMEZONE = 'Asia/Tokyo';
 
     /**
      * @var Datetime $dateTime
@@ -26,6 +28,8 @@ class AceDateTime  implements AceDateTimeInterface
      */
     private string $format;
 
+    private string $defaultTimezone = self::ASIAN_TOKYO_TIMEZONE;
+
     /**
      * Constructor for AceDateTime
      * 
@@ -36,8 +40,8 @@ class AceDateTime  implements AceDateTimeInterface
      */
     public function __construct(string|int|Datetime $dateTime, $format = self::ACE_DATE_FORMAT)
     {
-        $this->dateTime = $this->createNewDateTime($dateTime, $format);
         $this->format = $format;
+        $this->dateTime = $this->createNewDateTime($dateTime, $format);
     }
 
     /**
@@ -54,11 +58,17 @@ class AceDateTime  implements AceDateTimeInterface
         if ($dateTime instanceof Datetime) {
             return $dateTime;
         } 
+
         $result = DateTime::createFromFormat($format, $dateTime);
         if ($result === false) {
-            throw new AceDateTimeCreateFailedException($dateTime, $format);
+            try {
+                $result = new DateTime($dateTime);
+            } catch (\Throwable $e) {
+                throw new AceDateTimeCreateFailedException($dateTime, $e);
+            }
         }
-        return $result;
+
+        return $result->setTimezone(new DateTimeZone($this->defaultTimezone));
     }
 
     /**
@@ -155,6 +165,22 @@ class AceDateTime  implements AceDateTimeInterface
     public function toApiDateTime(): string
     {
         return $this->dateTime->format($this->format);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function __toString(): string
+    {
+        return $this->toEccubeDateTime();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function toDateTime(): DateTime
+    {
+        return $this->dateTime;
     }
 
 }

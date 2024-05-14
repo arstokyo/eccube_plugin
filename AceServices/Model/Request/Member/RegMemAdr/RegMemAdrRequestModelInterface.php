@@ -17,9 +17,9 @@ interface RegMemAdrRequestModelInterface extends RequestModelInterface, HasIdInt
     /**
      * Get 顧客住所　情報
      *
-     * @return string|null|object
+     * @return Request\Member\RegMemAdr\MemberPrmModel
      */
-    public function getPrm(): string|null|object;
+    public function getPrm(): MemberPrmModelInterface;
 
     /**
      * Set 顧客住所　情報

@@ -8,13 +8,14 @@ use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC\FivePCKbnTrait;
 use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC\FiveKeiKbnTrait;
 use Plugin\AceClient\AceServices\Model\Dependency\Mail\FiveMailTrait;
 use Plugin\AceClient\AceServices\Model\Dependency\Point\PointTrait;
+use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
 
 /**
  * Trait For Person Level 5
  * 
  * @author Ars-Thong <v.t.nguyen@ar-sytem.co.jp>
  */
-trait PersonLevel5Trait
+trait PersonLevel5Trait 
 {
     use FivePCKbnTrait, 
         FiveKeiKbnTrait, 
@@ -26,8 +27,8 @@ trait PersonLevel5Trait
     /** @var ?int $age 年齢 */
     protected ?int $age = null;
 
-    /** @var ?int $blday 滞納者日付 */
-    protected ?int $blday = null;
+    /** @var ?AceDateTime\AceDateTime $blday 滞納者日付 */
+    protected ?AceDateTime\AceDateTime $blday = null;
 
     /** @var ?int $blkbn 滞納者フラグ */
     protected ?int $blkbn = null;
@@ -52,7 +53,7 @@ trait PersonLevel5Trait
     /**
      * {@inheritDoc}
      */
-    public function getBlday(): ?int
+    public function getBlday(): ?AceDateTime\AceDateTimeInterface
     {
         return $this->blday;
     }
@@ -93,9 +94,9 @@ trait PersonLevel5Trait
     /**
      * {@inheritDoc}
      */
-    public function setBlday(?int $blday)
+    public function setBlday(\DateTime|string|null $blday)
     {
-        $this->blday = $blday;
+        $this->blday = AceDateTime\AceDateTimeFactory::makeAceDateTime($blday);
         return $this;
     }
 

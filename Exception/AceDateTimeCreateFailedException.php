@@ -11,8 +11,8 @@ class AceDateTimeCreateFailedException extends AceClientBaseException
      * @param int $code
      * @param \Throwable $previous
      */
-    public function __construct(string|int $dateTime , string $format, \Throwable $previous = null)
+    public function __construct(string|int $dateTime , \Throwable $previous = null)
     {
-        parent::__construct(sprintf('Could not create AceDateTime with given Date "%s" from format "%s"', $dateTime, $format), $previous);
+        parent::__construct(sprintf('Could not create AceDateTime from given Date (%s)', $dateTime), $previous);
     }
 }

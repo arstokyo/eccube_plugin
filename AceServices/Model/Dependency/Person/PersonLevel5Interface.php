@@ -8,6 +8,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC\HasFivePCKbnInterfa
 use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC\HasFiveKeiKbnInterface;
 use Plugin\AceClient\AceServices\Model\Dependency\Mail\HasFiveMailInterface;
 use Plugin\AceClient\AceServices\Model\Dependency\Point\HasPointInterface;
+use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime\AceDateTimeInterface;
 
 /**
  * Interface for Person Level 5
@@ -36,16 +37,16 @@ interface PersonLevel5Interface extends HasBaitaiNameInterface, HasThreeFnameInt
     /**
      * Get 滞納者日付.
      *
-     * @return int|null 
+     * @return AceDateTimeInterface|null 
      */
-    public function getBlday(): ?int;
+    public function getBlday(): ?AceDateTimeInterface;
 
     /**
      * Set 滞納者日付.
      *
-     * @param int|null $blday 
+     * @param \DateTime|string|null $blday 
      */
-    public function setBlday(?int $blday);
+    public function setBlday(\DateTime|string|null $blday);
 
     /**
      * Get DM送付先フラグ.
