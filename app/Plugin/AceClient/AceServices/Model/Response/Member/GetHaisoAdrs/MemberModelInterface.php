@@ -4,14 +4,15 @@ namespace Plugin\AceClient\AceServices\Model\Response\Member\GetHaisoAdrs;
 
 use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelInterface;
 use Plugin\AceClient\AceServices\Model\Response;
+use Plugin\AceClient\AceServices\Model\Response\AsListDenormalizableInterface;
 
 /**
  * Interface MemberModelInterface
  *
- * @author kmorino
+ * @author kmorinos
  */
 
-interface MemberModelInterface extends HasMessageModelInterface
+interface MemberModelInterface extends HasMessageModelInterface, AsListDenormalizableInterface
 {
     /**
     * Get GetHaisouAdrs

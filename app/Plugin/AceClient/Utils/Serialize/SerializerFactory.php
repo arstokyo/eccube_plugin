@@ -37,7 +37,7 @@ final class SerializerFactory
      * @return Serialize\SoapXMLSerializer
      */
     public static function makeSoapSerializerForTest(): Serialize\SoapXMLSerializer {
-        return new Serialize\SoapXMLSerializer(NormalizerFactory::makeRecursiveNormalizers(), [new XmlEncoder()]);
+        return new Serialize\SoapXMLSerializer(NormalizerFactory::makeDefaultSoapNormalizers(), [new XmlEncoder()]);
     }
 
     /**
@@ -50,7 +50,7 @@ final class SerializerFactory
     }
 
     public static function makeDTOSerializer(): SerializerInterface {
-        return self::makeSerializer(array_merge(NormalizerFactory::makeRecursiveNormalizers(),[DenormalizerFactory::makeArrayDenormalizer()]), [new JsonEncoder()]);
+        return self::makeSerializer(array_merge(NormalizerFactory::makeDTONormalizers(),[DenormalizerFactory::makeArrayDenormalizer()]), [new JsonEncoder()]);
     }
 
     /**

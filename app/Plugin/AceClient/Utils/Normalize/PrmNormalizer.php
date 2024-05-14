@@ -3,19 +3,19 @@
 namespace Plugin\AceClient\Utils\Normalize;
 
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime\AceDateTime;
+use Plugin\AceClient\AceServices\Model\Request\Prm\PrmModelInterface;
 
 /**
- * Normalizer for AceDateTime
+ * Normalizer for Prm
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class AceDateTimeNormalizer implements NormalizerInterface
+class PrmNormalizer implements NormalizerInterface
 {
     /**
-     * Normalize AceDateTime object
+     * Normalize Prm object
      * 
-     * @param AceDateTime $object
+     * @param PrmModelInterface $object
      * @param string $format
      * @param array $context
      * 
@@ -23,11 +23,11 @@ class AceDateTimeNormalizer implements NormalizerInterface
      */
     public function normalize($object, string $format = null, array $context = [])
     {
-        return $object->toApiDateTime();
+        return $object->toData();
     }
 
     public function supportsNormalization($data, string $format = null)
     {
-        return $data instanceof AceDateTime;
+        return $data instanceof PrmModelInterface;
     }
 }

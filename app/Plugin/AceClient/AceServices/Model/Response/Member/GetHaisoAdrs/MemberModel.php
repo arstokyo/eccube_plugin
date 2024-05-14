@@ -4,7 +4,6 @@ namespace Plugin\AceClient\AceServices\Model\Response\Member\GetHaisoAdrs;
 
 use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelTrait;
 use Plugin\AceClient\AceServices\Model\Response\Member\GetHaisoAdrs\GetHaisouAdrsModel;
-use Plugin\AceClient\AceServices\Model\Response\HandleResponseAsListTrait;
 
 /**
  * Class MemberModel
@@ -14,8 +13,7 @@ use Plugin\AceClient\AceServices\Model\Response\HandleResponseAsListTrait;
 
 class MemberModel implements MemberModelInterface
 {
-    use HandleResponseAsListTrait,
-        HasMessageModelTrait;
+    use HasMessageModelTrait;
 
     /**
      * GetHaisouAdrs
@@ -33,12 +31,20 @@ class MemberModel implements MemberModelInterface
     }
 
     /**
-    * {@inheritDoc}
+    * {@inheritDoc}s
     */
-    public function setGetHaisouAdrs(array|null $getHaisouAdrs): self
+    public function setGetHaisouAdrs(array|null $haisouAdrs): self
     {
-        $this->getHaisouAdrs = $this->handleResponseAsList($getHaisouAdrs, GetHaisouAdrsModel::class);
+        $this->getHaisouAdrs = $haisouAdrs;
         return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function fetchAsListProperty(): array
+    {
+        return ['getHaisouAdrs' => GetHaisouAdrsModel::class];
     }
 
 }

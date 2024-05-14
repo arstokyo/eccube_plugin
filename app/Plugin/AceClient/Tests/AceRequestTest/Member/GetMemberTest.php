@@ -95,10 +95,10 @@ class GetMemberTest extends AbstractAdminWebTestCase
         $this->assertEquals(null, $member->getCode2());
         $this->assertEquals('1', $member->getTankakbn());
         $this->assertEquals('0', $member->getSex());
-        $this->assertEquals('19320401', $member->getBirthday());
+        $this->assertEquals('1932-04-01', $member->getBirthday()->toEccubeDateTime());
         $this->assertEquals(null, $member->getAge());
         $this->assertEquals('1', $member->getBlkbn());
-        $this->assertEquals('20240510', $member->getBlday());
+        $this->assertEquals('2024-05-10', $member->getBlday()->toEccubeDateTime());
         $this->assertEquals('100', $member->getBaitai());
         $this->assertEquals('媒体１００番', $member->getBaitaiName());
         $this->assertEquals('100', $member->getBaifile());

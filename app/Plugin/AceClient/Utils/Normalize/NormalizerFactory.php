@@ -34,7 +34,7 @@ final class NormalizerFactory
      * @return NormalizerInterface[]
      */
     public static function makeAnnotationNormalizers() : array {
-        $classMetadataFactory = self::makeAnnotationMetaFacetory();
+        $classMetadataFactory = self::makeAnnotationMetaFactory();
         return self::makeNormalizers($classMetadataFactory,nameConverter: new MetadataAwareNameConverter($classMetadataFactory, new CamelCaseToSnakeCaseNameConverter));
     }
 
@@ -43,19 +43,15 @@ final class NormalizerFactory
      * 
      * @return NormalizerInterface[]
      */
-    public static function makeRecursiveNormalizers() : array {
-        $classMetadataFactory = self::makeAnnotationMetaFacetory();
-        return \array_merge([new AceDateTimeNormalizer()],
-                            self::makeNormalizers($classMetadataFactory, new MetadataAwareNameConverter($classMetadataFactory), null,new ReflectionExtractor));
+    public static function makeDTONormalizers() : array {
+        $classMetadataFactory = self::makeAnnotationMetaFactory();
+        return \array_merge(self::makeNormalizers($classMetadataFactory, new MetadataAwareNameConverter($classMetadataFactory), null,new ReflectionExtractor));
     }
 
-    /**
-     * Make Array Normalizers
-     * 
-     * @return NormalizerInterface[]
-     */
-    public static function makeArrayNormalizers() : array {
-        return \array_merge([DenormalizerFactory::makeArrayDenormalizer()], self::makeRecursiveNormalizers());
+    public static function makeDefaultSoapNormalizers() : array {
+        $classMetadataFactory = self::makeAnnotationMetaFactory();
+        return \array_merge([new AceDateTimeNormalizer(), new PrmNormalizer(), DenormalizerFactory::makeArrayDenormalizer(), DenormalizerFactory::makeAsListDenormalizer()],
+                             self::makeNormalizers($classMetadataFactory, new MetadataAwareNameConverter($classMetadataFactory), null, new SoapReflectionExtractor()));
     }
 
     /**
@@ -89,7 +85,7 @@ final class NormalizerFactory
      * 
      * @return ClassMetadataFactoryInterface
      */
-    private static function makeAnnotationMetaFacetory(): ClassMetadataFactoryInterface {
+    private static function makeAnnotationMetaFactory(): ClassMetadataFactoryInterface {
         return new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader));
     }
 

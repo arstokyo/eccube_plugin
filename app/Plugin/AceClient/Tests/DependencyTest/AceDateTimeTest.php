@@ -8,7 +8,7 @@ use Plugin\AceClient\Exception\AceDateTimeCreateFailedException;
 
 class AceDateTimeTest extends AbstractAdminWebTestCase
 {
-    public function testCreateDateTimeCase1()
+    public function testCreateDateTime()
     {
         $datetime = new AceDateTime(new \DateTime('2021-10-10'));
         $this->assertEquals('2021', $datetime->year());
@@ -40,9 +40,10 @@ class AceDateTimeTest extends AbstractAdminWebTestCase
         $this->assertEquals('2021年10月10日', $datetime->toJapaneseShortDate());
     }
 
-    public function testFailCreateDateTime()
+    public function testCreateDateTimeFailed()
     {
         $this->expectException(AceDateTimeCreateFailedException::class);
-        $datetime = new AceDateTime('2021-10-10', 'yyffssaahh');
+        $datetime = new AceDateTime('2024/13/26');
     }
+
 }

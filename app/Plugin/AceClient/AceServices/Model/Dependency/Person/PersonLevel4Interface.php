@@ -8,6 +8,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\Mail;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient\AceServices\Model\Dependency\Bikou;
 use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
+use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime\AceDateTimeInterface;  
 
 /**
  * Interface for Person Level 4
@@ -82,16 +83,16 @@ interface PersonLevel4Interface extends Free\HasThreeFreeInterface, Baitai\HasBa
     /**
      * Get 生年月日.
      *
-     * @return int|null
+     * @return AceDateTimeInterface|null
      */
-    public function getBirthday(): ?int;
+    public function getBirthday(): ?AceDateTimeInterface;
 
     /**
      * Set 生年月日.
      *
-     * @param int|null $birthday
+     * @param \DateTime|string|null $birthday
      */
-    public function setBirthday(?int $birthday);
+    public function setBirthday(\DateTime|string|null $birthday);
 
     /**
      * Get 紹介者.

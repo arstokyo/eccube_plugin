@@ -8,13 +8,14 @@ use Plugin\AceClient\AceServices\Model\Dependency\Baitai;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient\AceServices\Model\Dependency\Bikou;
 use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
+use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
 
 /**
  * Trait for Person Level 4
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait PersonLevel4Trait 
+trait PersonLevel4Trait
 {
     use Mail\MailTrait,
         Free\ThreeFreeTrait,
@@ -26,8 +27,8 @@ trait PersonLevel4Trait
         PhoneAndPC\FaxTrait,
         NoCategory\DmKbnTrait;
 
-    /** @var ?int $birthday 生年月日 */
-    protected ?int $birthday = null;
+    /** @var ?AceDateTime\AceDateTime $birthday 生年月日 */
+    protected ?AceDateTime\AceDateTime $birthday = null;
 
     /** @var ?string $tel2 電話番号 */
     protected ?string $tel2 = null;
@@ -65,7 +66,7 @@ trait PersonLevel4Trait
     /**
      * {@inheritDoc}
      */
-    public function getBirthday(): ?int
+    public function getBirthday(): ?AceDateTime\AceDateTimeInterface
     {
         return $this->birthday;
     }
@@ -73,9 +74,9 @@ trait PersonLevel4Trait
     /**
      * {@inheritDoc}
      */
-    public function setBirthday(?int $birthday)
+    public function setBirthday(\DateTime|string|null $birthday)
     {
-        $this->birthday = $birthday;
+        $this->birthday = AceDateTime\AceDateTimeFactory::makeAceDateTime($birthday);
         return $this;
     }
 
