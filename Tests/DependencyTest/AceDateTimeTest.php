@@ -4,6 +4,7 @@ namespace Plugin\AceClient\Tests\AceRequestTest;
 
 use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime\AceDateTime;
+use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime\AceDateTimeFactory;
 use Plugin\AceClient\Exception\AceDateTimeCreateFailedException;
 
 class AceDateTimeTest extends AbstractAdminWebTestCase
@@ -49,6 +50,14 @@ class AceDateTimeTest extends AbstractAdminWebTestCase
         $this->assertEquals('2006-02-27', $datetime->toShortDate());
     }
 
-    
+    public function testAceDateTimeFactoryNull()
+    {
+        $datetime = AceDateTimeFactory::makeAceDateTime('');
+        $this->assertNull($datetime);
+
+        $datetime = AceDateTimeFactory::makeAceDateTime(null);
+        $this->assertNull($datetime);
+
+    }
 
 }
