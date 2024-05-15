@@ -4,6 +4,7 @@ namespace Plugin\AceClient\Utils\Normalize;
 
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime\AceDateTime;
+use Plugin\AceClient\Exception\DataTypeMissMatchException;
 
 /**
  * Normalizer for AceDateTime
@@ -23,6 +24,9 @@ class AceDateTimeNormalizer implements NormalizerInterface
      */
     public function normalize($object, string $format = null, array $context = [])
     {
+        if (!$object instanceof AceDateTime) {
+            throw new DataTypeMissMatchException('AceDateTime normalize Error: Expected AceDateTime object');
+        }
         return $object->toApiDateTime();
     }
 

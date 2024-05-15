@@ -11,6 +11,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Serializer;
 use Plugin\AceClient\AceServices\Model\Response\AsListDenormalizableInterface;
 use Plugin\AceClient\Exception\NotDeserializableException;
+use Plugin\AceClient\Exception\DataTypeMissMatchException;
 
 /**
  * Denormalizer for AsList Response
@@ -30,6 +31,10 @@ class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareI
      */
     public function denormalize($data, string $type, string $format = null, array $context = []): mixed
     {
+        if (!\in_array(AsListDenormalizableInterface::class, class_implements($type), true)) {
+            throw new DataTypeMissMatchException('AsListDenormalizer Error: Expected AsListDenormalizableInterface object');
+        }
+
         $this->cachePath[] = $context['deserialization_path'];
         $asListProperty = $type::fetchAsListProperty();
 
