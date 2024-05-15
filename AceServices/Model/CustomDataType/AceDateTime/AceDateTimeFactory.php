@@ -12,10 +12,10 @@ class AceDateTimeFactory
     /**
      * Make new AceDateTime object
      * 
-     * @param string|int|\Datetime|null $dateTime
+     * @param \Datetime|string|null $dateTime
      * @return AceDateTimeInterface
      */
-    public static function makeAceDateTime(string|int|\Datetime|null $dateTime, string $format = AceDateTime::ACE_DATE_FORMAT): AceDateTimeInterface|null
+    public static function makeAceDateTime(\Datetime|string|null $dateTime, string $format = AceDateTime::ACE_DATE_FORMAT): AceDateTimeInterface|null
     {
         if (empty($dateTime)) {
             return null;
