@@ -2,11 +2,8 @@
 
 namespace Plugin\AceClient\AceServices\Model\Response;
 
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Serializer\Serializer;
-
 /**
- * Interface for Denormalize As ListAble
+ * Interface for Denormalizable As List
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */

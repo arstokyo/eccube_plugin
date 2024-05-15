@@ -23,7 +23,7 @@ trait SimeiTrait
     /**
      * {@inheritDoc}
      */
-    public function setSimei(?string $simei)
+    public function setSimei(?string $simei): static
     {
         $this->simei = $simei;
         return $this;

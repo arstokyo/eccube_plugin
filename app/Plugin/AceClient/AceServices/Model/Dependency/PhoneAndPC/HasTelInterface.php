@@ -21,6 +21,7 @@ interface HasTelInterface
      * Set 電話
      * 
      * @param string|null $tel
+     * @return $this
      */
-    public function setTel(?string $tel);
+    public function setTel(?string $tel): static;
 }

@@ -23,7 +23,7 @@ trait ZipTrait
     /**
      * {@inheritDoc}
      */
-    public function setZip(?string $zip)
+    public function setZip(?string $zip): static
     {
         $this->zip = $zip;
         return $this;
