@@ -81,14 +81,6 @@ interface AceDateTimeInterface extends \Stringable
     public function getTimeStamp(): int;
 
     /**
-     * Convert to Eccube DateTime
-     * Format: Y-m-d
-     * 
-     * @return string
-     */
-    public function toEccubeDateTime(): string;
-
-    /**
      * Convert to API DateTime
      * 
      * @return string

@@ -14,8 +14,8 @@ use Plugin\AceClient\Exception\AceDateTimeCreateFailedException;
 class AceDateTime  implements AceDateTimeInterface
 {
 
-    public const ACE_DATE_FORMAT     = "Ymd";
-    public const EC_DATE_FORMAT       = "Y-m-d";
+    public const ACE_DATE_FORMAT      = "Ymd";
+    public const ECCUBE_DATE_FORMAT   = "Y-m-d";
     public const ASIAN_TOKYO_TIMEZONE = 'Asia/Tokyo';
 
     /**
@@ -114,17 +114,9 @@ class AceDateTime  implements AceDateTimeInterface
     /**
      * {@inheritDoc}
      */
-    public function toEccubeDateTime(): string
-    {
-        return $this->dateTime->format(self::EC_DATE_FORMAT);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function toJapaneseLongDate(): string
     {
-        return $this->dateTime->format('Y年m月d日');
+        return $this->dateTime->format('Y年m月d日 H時i分s秒');
     }
 
     /**
@@ -140,7 +132,7 @@ class AceDateTime  implements AceDateTimeInterface
      */
     public function toLongDate(): string
     {
-        return $this->dateTime->format('Y-m-d');
+        return $this->dateTime->format('Y-m-d H:i:s');
     }
 
     /**
@@ -172,7 +164,7 @@ class AceDateTime  implements AceDateTimeInterface
      */
     public function __toString(): string
     {
-        return $this->toEccubeDateTime();
+        return $this->toLongDate();
     }
 
     /**

@@ -20,11 +20,6 @@ class PrmModelAssistant implements PrmModelAssistantInterface
     private OTD\OTDDenormalizerInterface $OTDDenomarlizer;
 
     /**
-     * @var OTD\OTDDelegate $OTDDelegate
-     */
-    private OTD\OTDDelegate $OTDDelegate;
-
-    /**
      * @var PrmDetailFormatModel $config
      */
     private PrmDetailFormatModel $config;
@@ -54,29 +49,11 @@ class PrmModelAssistant implements PrmModelAssistantInterface
      * {@inheritDoc}
      * 
      */
-    public function getOTDDelegate(): OTD\OTDDelegateInterface
-    {
-        return $this->OTDDelegate;
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     */
     public function getOTDDenormarlizer(): OTD\OTDDenormalizerInterface
     {
         return $this->OTDDenomarlizer;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     */
-    public function setOTDDelegate(OTD\OTDDelegateInterface $delegate): void
-    {
-        $this->OTDDelegate = $delegate;
-    }
-    
     /**
      * {@inheritDoc}
      * 

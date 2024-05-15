@@ -3,6 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Request\Prm;
 
 use Plugin\AceClient\AceServices\Model\CustomDataType;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Interface for PrmModelRequest.
@@ -12,4 +13,11 @@ use Plugin\AceClient\AceServices\Model\CustomDataType;
 interface PrmModelInterface extends CustomDataType\OTDableInterface, CustomDataType\EnsureParameterNotMissingInterface
 {
     
+    /**
+     * Parse Serializer
+     * 
+     * @param SerializerInterface $serializer
+     */
+    public function parseSerializer(SerializerInterface $serializer): void;
+
 }

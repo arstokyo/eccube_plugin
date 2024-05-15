@@ -21,7 +21,7 @@ class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareI
 {
     use DenormalizerAwareTrait;
 
-    private array $cachedPath = [];
+    private array $cachePath = [];
 
     /**
      * {@inheritdoc}
@@ -30,7 +30,7 @@ class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareI
      */
     public function denormalize($data, string $type, string $format = null, array $context = []): mixed
     {
-        $this->cachedPath[] = $context['deserialization_path'];
+        $this->cachePath[] = $context['deserialization_path'];
         $asListProperty = $type::fetchAsListProperty();
 
         try
@@ -50,11 +50,11 @@ class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareI
         }
         catch (\Throwable $e)
         {
-            $this->unsetCachedPath($context['deserialization_path']);
+            $this->unsetCachePath($context['deserialization_path']);
             throw new NotDeserializableException(sprintf('Could not deserialize as list response.'), $e);
         }
 
-        $this->unsetCachedPath($context['deserialization_path']);
+        $this->unsetCachePath($context['deserialization_path']);
         return $result;
     }
 
@@ -64,10 +64,10 @@ class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareI
      * @param string $path
      * @return void
      */
-    private function unsetCachedPath($path): void
+    private function unsetCachePath($path): void
     {
-        if (($key = array_search($path, $this->cachedPath)) !== false) {
-            unset($this->cachedPath[$key]);
+        if (($key = array_search($path, $this->cachePath)) !== false) {
+            unset($this->cachePath[$key]);
         }
     }
 
@@ -78,7 +78,7 @@ class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareI
      */
     public function supportsDenormalization($data, string $type, string $format = null, array $context = []): bool
     {
-        return \in_array(AsListDenormalizableInterface::class, class_implements($type), true) && (!in_array($context['deserialization_path'] , $this->cachedPath));
+        return \in_array(AsListDenormalizableInterface::class, class_implements($type), true) && (!in_array($context['deserialization_path'] , $this->cachePath));
     }
 
     /**

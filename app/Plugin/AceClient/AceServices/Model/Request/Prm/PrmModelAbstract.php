@@ -5,6 +5,7 @@ namespace Plugin\AceClient\AceServices\Model\Request\Prm;
 use Plugin\AceClient\Utils\Denormalize\OTD;
 use Plugin\AceClient\Utils\Mapper\EncodeDefineMapper;
 use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Abstract class for Prm Model
@@ -39,20 +40,22 @@ abstract class PrmModelAbstract implements PrmModelInterface
      */
     private function initializeDenormalizer(): void
     {
-        $denomalizeOptions = [];
         switch ($this->assistant->getConfig()->getFormat()) {
             case self::XML_FORMAT_NAME:
-                $this->assistant->setOTDDenormalizer(OTD\OTDDenormalizerFactory::makeOTDXmlDenormalizer());
-                $denomalizeOptions = $this->buildXMlDenormalizeOptions();
+                $this->assistant->setOTDDenormalizer(OTD\OTDDenormalizerFactory::makeOTDXmlDenormalizer(
+                                                        new OTD\OTDDelegate($this, $this->buildXMlDenormalizeOptions())       
+                                                    ));
                 break;
             case self::JSON_FORMAT_NAME:
-                $this->assistant->setOTDDenormalizer(OTD\OTDDenormalizerFactory::makeOTDJsonDenormalizer());
-                $denomalizeOptions = $this->buildJsonDenormalizeOptions();
+                $this->assistant->setOTDDenormalizer(OTD\OTDDenormalizerFactory::makeOTDJsonDenormalizer(
+                                                        new OTD\OTDDelegate($this, $this->buildJsonDenormalizeOptions())
+                                                    ));
                 break;
             default:
-            $this->assistant->setOTDDenormalizer(OTD\OTDDenormalizerFactory::makeOTDObjectDenormalizer());
+            $this->assistant->setOTDDenormalizer(OTD\OTDDenormalizerFactory::makeOTDObjectDenormalizer(
+                                                    new OTD\OTDDelegate($this)
+                                                ));
         }
-        $this->assistant->setOTDDelegate(new OTD\OTDDelegate($this, $denomalizeOptions));
     }
 
     /**
@@ -88,7 +91,7 @@ abstract class PrmModelAbstract implements PrmModelInterface
      */
     public function toData(): string|null|object
     {
-        return $this->assistant->getOTDDenormarlizer()->denormalizeOTD($this->assistant->getOTDDelegate());
+        return $this->assistant->getOTDDenormarlizer()->denormalizeOTD();
     }
 
     /**
@@ -100,6 +103,14 @@ abstract class PrmModelAbstract implements PrmModelInterface
     protected function compilePropertyName(string $propertyName): string
     {
         return $this::class . '.' . $propertyName;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function parseSerializer(SerializerInterface $serializer): void
+    {
+        $this->assistant->getOTDDenormarlizer()->getDelegate()->setSerializer($serializer);
     }
 
 }
