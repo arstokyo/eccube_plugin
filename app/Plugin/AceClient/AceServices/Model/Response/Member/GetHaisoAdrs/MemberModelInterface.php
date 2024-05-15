@@ -25,7 +25,7 @@ interface MemberModelInterface extends HasMessageModelInterface, AsListDenormali
      * Set GetHaisouAdrs
      *
      * @param Response\Member\GetHaisoAdrs\GetHaisouAdrsModel[]|null $getHaisouAdrs
-     * @return self
+     * @return void
      */
-    public function setGetHaisouAdrs(array|null $getHaisouAdrs): self;
+    public function setGetHaisouAdrs(array|null $getHaisouAdrs): void;
 }
