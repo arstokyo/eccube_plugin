@@ -11,7 +11,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
 *
 * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
 */
-interface HaisoGroup1Interface extends NoCategory\HasSimeiInterface,
+interface HaisoModelGroup1Interface extends NoCategory\HasSimeiInterface,
                                             Address\HasAdrInterface,
                                             PhoneAndPC\HasTelInterface,
                                             Address\HasZipInterface,

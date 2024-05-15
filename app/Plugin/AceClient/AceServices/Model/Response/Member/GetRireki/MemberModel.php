@@ -15,7 +15,7 @@ class MemberModel implements MemberModelInterface
     use HasMessageModelTrait;
 
     /**
-     * @var ?Rireki\RirekiLevel1ModelInterface[]|null $Rireki Rireki
+     * @var ?Rireki\RirekiModelLevel1Interface[]|null $Rireki Rireki
      */
     private ?array $Rireki = null;
 
@@ -40,7 +40,7 @@ class MemberModel implements MemberModelInterface
      */
     public static function fetchAsListProperty(): array
     {
-        return ['Rireki' => Rireki\RirekiLevel1Model::class];
+        return ['Rireki' => Rireki\RirekiModelLevel1::class];
     }
     
 }

@@ -19,7 +19,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\Free;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface RirekiLevel2ModelInterface extends Good\HasGcodeInterface,
+interface RirekiModelLevel2Interface extends Good\HasGcodeInterface,
                                         Good\HasTankaInterface,
                                         Denpyo\Jyuden\HasJdayInterface,
                                         Payment\HasPcodeInterface,
