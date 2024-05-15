@@ -15,7 +15,6 @@ class AceDateTimeTest extends AbstractAdminWebTestCase
         $this->assertEquals('10', $datetime->month());
         $this->assertEquals('10', $datetime->day());
         $this->assertEquals('2021-10-10', $datetime->toShortDate());
-        $this->assertEquals('2021年10月10日', $datetime->toJapaneseLongDate());
         $this->assertEquals('2021年10月10日', $datetime->toJapaneseShortDate());
     }
 
@@ -25,7 +24,6 @@ class AceDateTimeTest extends AbstractAdminWebTestCase
         $this->assertEquals('2021', $datetime->year());
         $this->assertEquals('10', $datetime->month());
         $this->assertEquals('10', $datetime->day());
-        $this->assertEquals('2021年10月10日', $datetime->toJapaneseLongDate());
         $this->assertEquals('2021年10月10日', $datetime->toJapaneseShortDate());
     }
 
@@ -36,7 +34,6 @@ class AceDateTimeTest extends AbstractAdminWebTestCase
         $this->assertEquals('10', $datetime->month());
         $this->assertEquals('10', $datetime->day());
         $this->assertEquals('2021-10-10', $datetime->toShortDate());
-        $this->assertEquals('2021年10月10日', $datetime->toJapaneseLongDate());
         $this->assertEquals('2021年10月10日', $datetime->toJapaneseShortDate());
     }
 

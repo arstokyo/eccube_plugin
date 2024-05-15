@@ -15,7 +15,7 @@ interface AsListDenormalizableInterface
     /**
      * fetch response as list property
      * 
-     * @return array<><>
+     * @return array<string><string>
      */
     public static function fetchAsListProperty(): array;
 }

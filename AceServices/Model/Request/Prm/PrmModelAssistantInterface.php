@@ -27,21 +27,6 @@ interface PrmModelAssistantInterface
     public function getOTDDenormarlizer(): OTD\OTDDenormalizerInterface;
 
     /**
-     * Get OTD Delegate
-     * 
-     * @return OTD\OTDDelegateInterface
-     */
-    public function getOTDDelegate(): OTD\OTDDelegateInterface;
-
-    /**
-     * Set OTD Delegate
-     * 
-     * @param OTD\OTDDelegateInterface $delegate
-     * @return void
-     */
-    public function setOTDDelegate(OTD\OTDDelegateInterface $delegate): void;
-
-    /**
      * Set OTD Denormalizer
      * 
      * @param OTD\OTDDenormalizerInterface $denormalizer
