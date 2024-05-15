@@ -21,6 +21,7 @@ interface HasZipInterface
      * Set 郵便番号
      * 
      * @param string|null $zip
+     * @return $this
      */
-    public function setZip(?string $zip);
+    public function setZip(?string $zip): static;
 }
