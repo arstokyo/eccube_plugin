@@ -41,12 +41,12 @@ class AceDateTime  implements AceDateTimeInterface
     /**
      * Constructor for AceDateTime
      * 
-     * @param string|int|Datetime $dateTime
+     * @param Datetime|string $dateTime
      * @param string $format
      * 
      * @throws AceDateTimeCreateFailedException
      */
-    public function __construct(string|int|Datetime $dateTime, $format = self::ACE_DATE_FORMAT)
+    public function __construct(Datetime|string $dateTime, $format = self::ACE_DATE_FORMAT)
     {
         $this->format = $format;
         $this->dateTime = $this->createNewDateTime($dateTime, $format);
