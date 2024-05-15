@@ -7,6 +7,7 @@ use Plugin\AceClient\AceServices\Model\Request\Prm\PrmModelInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\SerializerAwareInterface;
 use Plugin\AceClient\Exception\NotSerializableException;
+use Plugin\AceClient\Exception\DataTypeMissMatchException;
 
 /**
  * Normalizer for Prm
@@ -30,6 +31,10 @@ class PrmNormalizer implements NormalizerInterface, SerializerAwareInterface
      */
     public function normalize($object, string $format = null, array $context = [])
     {
+        if (!$object instanceof PrmModelInterface) {
+            throw new DataTypeMissMatchException('Prm normalize Error: Expected PrmModelInterface object');
+        }
+        
         $object->parseSerializer($this->serializer);
         $this->cacheObj[] = $object::class;
 
