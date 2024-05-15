@@ -20,7 +20,7 @@ class SoapReflectionExtractor extends ReflectionExtractor
         $types = parent::getTypes($class, $property, $context);
         if ($types !== null) {
             foreach($types as $key => $type) {
-                if ($type->getClassName() === 'DateTime') {
+                if (strcasecmp($type->getClassName(), \Datetime::class ) === 0){
                     $types = $this->pushToLast($types, $key);
                     break;
                 }

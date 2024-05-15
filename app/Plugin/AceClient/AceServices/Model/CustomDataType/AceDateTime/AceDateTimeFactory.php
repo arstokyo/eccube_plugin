@@ -17,7 +17,7 @@ class AceDateTimeFactory
      */
     public static function makeAceDateTime(string|int|\Datetime|null $dateTime, string $format = AceDateTime::ACE_DATE_FORMAT): AceDateTimeInterface|null
     {
-        if (is_null($dateTime)) {
+        if (empty($dateTime)) {
             return null;
         }
         return new AceDateTime($dateTime, $format);
