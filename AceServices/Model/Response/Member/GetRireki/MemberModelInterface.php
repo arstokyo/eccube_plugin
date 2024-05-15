@@ -17,14 +17,14 @@ interface MemberModelInterface extends HasMessageModelInterface,
     /**
      * Get Rireki
      *
-     * @return Rireki\RirekiLevel1Model[]|null
+     * @return Rireki\RirekiModelLevel1[]|null
      */
     public function getRireki(): ?array;
 
     /**
      * Set Rireki
      *
-     * @param Rireki\RirekiLevel1Model[]|null $rireki
+     * @param Rireki\RirekiModelLevel1[]|null $rireki
      * @return void
      */
     public function setRireki(array|null $rireki): void;

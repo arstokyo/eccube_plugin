@@ -19,12 +19,13 @@ use Plugin\AceClient\Utils\Converter\NumberConverter;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-class RirekiLevel1Model extends Haiso\HaisoGroupModel1 implements RirekiLevel1ModelInterface
+class RirekiModelLevel1 extends Haiso\HaisoModelGroup1 implements RirekiModelLevel1Interface
 {
     use Denpyo\Jyuden\DayTrait,
         Denpyo\DennoTrait,
         Payment\PnameTrait,
         Denpyo\DenkuTrait,
+        Denpyo\DenKbnTrait,
         Okuri\OkurinoTrait,
         NoCategory\SdateTrait,
         Good\GtotalTrait,
@@ -50,9 +51,6 @@ class RirekiLevel1Model extends Haiso\HaisoGroupModel1 implements RirekiLevel1Mo
 
     /** @var ?int $total 伝票合計額 */
     protected ?int $total = null;
-
-    /** @var ?string $denkbn 伝票区分 */
-    protected ?string $denkbn = null;
 
     /** @var ?string $url URL */
     protected ?string $url = null;
@@ -146,24 +144,6 @@ class RirekiLevel1Model extends Haiso\HaisoGroupModel1 implements RirekiLevel1Mo
         $this->total = $total;
         return $this;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getDenkbn(): ?string
-    {
-        return $this->denkbn;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setDenkbn(?string $denkbn)
-    {
-        $this->denkbn = $denkbn;
-        return $this;
-    }
-
 
     /**
      * {@inheritDoc}

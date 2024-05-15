@@ -17,24 +17,25 @@ use Plugin\AceClient\AceServices\Model\Dependency\Point;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface RirekiLevel1ModelInterface extends Denpyo\Jyuden\HasDayInterface,
-                                        Denpyo\HasDennoInterface,
-                                        Payment\HasPnameInterface,
-                                        Denpyo\HasDenkuInterface,
-                                        Haiso\HaisoGroup1Interface,
-                                        Okuri\HasOkurinoInterface,
-                                        NoCategory\HasSdateInterface,
-                                        Good\HasGtotalInterface,
-                                        Haiso\HasSouRyouInterface,
-                                        Cost\HasTesuuInterface,
-                                        Good\HasNebikiInterface,
-                                        Point\HasPointPInterface,
-                                        Point\HasPointMInterface,
-                                        Denpyo\Jyuden\HasSdayInterface,
-                                        Denpyo\Jyuden\HasUdayInterface,
-                                        Denpyo\Jyuden\HasNdayInterface,
-                                        Denpyo\Jyuden\HasZandakaInterface,
-                                        Haiso\HasHdayInterface
+interface RirekiModelLevel1Interface extends Denpyo\Jyuden\HasDayInterface,
+                                            Denpyo\HasDennoInterface,
+                                            Payment\HasPnameInterface,
+                                            Denpyo\HasDenkuInterface,
+                                            Denpyo\HasDenKbnInterface,
+                                            Haiso\HaisoModelGroup1Interface,
+                                            Okuri\HasOkurinoInterface,
+                                            NoCategory\HasSdateInterface,
+                                            Good\HasGtotalInterface,
+                                            Haiso\HasSouRyouInterface,
+                                            Cost\HasTesuuInterface,
+                                            Good\HasNebikiInterface,
+                                            Point\HasPointPInterface,
+                                            Point\HasPointMInterface,
+                                            Denpyo\Jyuden\HasSdayInterface,
+                                            Denpyo\Jyuden\HasUdayInterface,
+                                            Denpyo\Jyuden\HasNdayInterface,
+                                            Denpyo\Jyuden\HasZandakaInterface,
+                                            Haiso\HasHdayInterface
 {
     /**
      * Get 行番号
@@ -91,20 +92,6 @@ interface RirekiLevel1ModelInterface extends Denpyo\Jyuden\HasDayInterface,
      * @param ?int $total
      */
     public function setTotal(?int $total);
-
-    /**
-     * Get 伝票区分
-     *
-     * @return ?string
-     */
-    public function getDenkbn(): ?string;
-
-    /**
-     * Set 伝票区分
-     *
-     * @param ?string $denkbn
-     */
-    public function setDenkbn(?string $denkbn);
 
     /**
      * Get URL

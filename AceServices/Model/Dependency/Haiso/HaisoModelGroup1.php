@@ -11,7 +11,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
 *
 * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
 */
-class HaisoGroupModel1 implements HaisoGroup1Interface
+class HaisoModelGroup1 implements HaisoModelGroup1Interface
 {
     use NoCategory\SimeiTrait,
         Address\AdrTrait,
