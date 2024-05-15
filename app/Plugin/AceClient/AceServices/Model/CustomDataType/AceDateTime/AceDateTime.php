@@ -18,6 +18,14 @@ class AceDateTime  implements AceDateTimeInterface
     public const ECCUBE_DATE_FORMAT   = "Y-m-d";
     public const ASIAN_TOKYO_TIMEZONE = 'Asia/Tokyo';
 
+    public array $japaneseStartYear = [
+        '明治' => 1867,
+        '大正' => 1911,
+        '昭和' => 1925,
+        '平成' => 1988,
+        '令和' => 2018,
+    ];
+
     /**
      * @var Datetime $dateTime
      */
@@ -59,6 +67,7 @@ class AceDateTime  implements AceDateTimeInterface
             return $dateTime;
         } 
 
+        $dateTime = $this->convertToWesternFormat($dateTime);
         $result = DateTime::createFromFormat($format, $dateTime);
         if ($result === false) {
             try {
@@ -173,6 +182,23 @@ class AceDateTime  implements AceDateTimeInterface
     public function toDateTime(): DateTime
     {
         return $this->dateTime;
+    }
+
+
+    /**
+     * Convert to Western format
+     * 
+     * @param string|int $dateTime
+     * 
+     * @return string
+     */
+    private function convertToWesternFormat(string|int $dateTime): string
+    {
+        if (preg_match('/^(明治|大正|昭和|平成|令和)([0-9]+)\/?/', $dateTime, $matches)) {
+            $yearAsInt = intval($this->japaneseStartYear[$matches[1]]) + intval($matches[2]);
+            return str_replace($matches[1].$matches[2], $yearAsInt, $dateTime);
+        }
+        return $dateTime;
     }
 
 }

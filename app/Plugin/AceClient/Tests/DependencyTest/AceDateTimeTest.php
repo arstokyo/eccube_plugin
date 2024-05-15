@@ -43,4 +43,12 @@ class AceDateTimeTest extends AbstractAdminWebTestCase
         $datetime = new AceDateTime('2024/13/26');
     }
 
+    public function testConvertToWesternDate()
+    {
+        $datetime = new AceDateTime('平成18/02/27 00:00:00');
+        $this->assertEquals('2006-02-27', $datetime->toShortDate());
+    }
+
+    
+
 }
