@@ -31,12 +31,11 @@ class MemberModel implements MemberModelInterface
     }
 
     /**
-    * {@inheritDoc}s
+    * {@inheritDoc}
     */
-    public function setGetHaisouAdrs(array|null $haisouAdrs): self
+    public function setGetHaisouAdrs(array|null $haisouAdrs): void
     {
         $this->getHaisouAdrs = $haisouAdrs;
-        return $this;
     }
 
     /**
