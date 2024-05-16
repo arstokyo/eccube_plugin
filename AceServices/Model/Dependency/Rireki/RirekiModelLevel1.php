@@ -27,7 +27,7 @@ class RirekiModelLevel1 extends Haiso\HaisoModelGroup1 implements RirekiModelLev
         OkuriAndNouhin\OkuriNoTrait,
         NoCategory\SdateTrait,
         Good\GtotalTrait,
-        Haiso\SouRyouTrait,
+        Cost\Souryou\SouRyouTrait,
         Cost\Tesuu\TesuuTrait,
         Cost\NeBiki\NebikiTrait,
         Point\PointPTrait,
