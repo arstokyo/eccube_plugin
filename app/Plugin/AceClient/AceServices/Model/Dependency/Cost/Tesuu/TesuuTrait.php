@@ -9,7 +9,7 @@ use Plugin\AceClient\Utils\Converter\NumberConverter;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-class TesuuTrait
+trait TesuuTrait
 {
     /** @var ?float $tesuu 手数料 */
     protected ?float $tesuu = null;
