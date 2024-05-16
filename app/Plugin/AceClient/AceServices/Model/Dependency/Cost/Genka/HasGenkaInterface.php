@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Cost;
+namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Genka;
 
 /**
  * Interface for Has 原価
