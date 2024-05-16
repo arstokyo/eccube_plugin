@@ -56,7 +56,7 @@ class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareI
         catch (\Throwable $e)
         {
             $this->unsetCachePath($context['deserialization_path']);
-            throw new NotDeserializableException(sprintf('Could not deserialize as list response.'), $e);
+            throw new NotDeserializableException(sprintf('Could not deserialize as list response. Error: %s', $e->getMessage()), $e);
         }
 
         $this->unsetCachePath($context['deserialization_path']);
