@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Cost;
+namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Money;
 
 use Plugin\AceClient\Utils\Converter\NumberConverter;
 
