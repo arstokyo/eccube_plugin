@@ -2,26 +2,60 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Card;
 
+use Plugin\AceClient\AceServices\Model\Dependency\Card\GMo\HasGMOStatusInterface;
+
 /**
- * Interface for カード枝番レベル3
+ * Interface for Card Level 3
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-interface CardModelLevel3Interface extends CardModelLevel2Interface
+interface CardModelLevel3Interface extends CardModelLevel2Interface, HasGMOStatusInterface
 {
 
     /**
      * Get SPSステータス
      * 
-     * @return string|null
+     * @return int|null
      */
-    public function getSpsstatus(): ?string;
+    public function getSpsstatus(): ?int;
 
     /**
      * Set SPSステータス
      * 
-     * @param string|null $spsstatus
+     * @param int|null $spsstatus
      * @return $this
      */
-    public function setSpsstatus(string|null $spsstatus): static;
+    public function setSpsstatus(int|null $spsstatus): static;
+
+    /**
+     * Get ペイジェント決済ID
+     * 
+     * @return string|null
+     */
+    public function getPgtkid(): ?string;
+
+    /**
+     * Set ペイジェント決済ID
+     * 
+     * @param string|null $pgtkid
+     * @return $this
+     */
+    public function setPgtkid(string|null $pgtkid): static;
+
+    /**
+     * Get ペイジェント決済ステータス
+     * 
+     * @return int|null
+     */
+    public function getPgtstatus(): ?int;
+
+    /**
+     * Set ペイジェント決済ステータス
+     * 
+     * @param int|null $pgtstatus
+     * @return $this
+     */
+    public function setPgtstatus(?int $pgtstatus): static;
+
+    
 }

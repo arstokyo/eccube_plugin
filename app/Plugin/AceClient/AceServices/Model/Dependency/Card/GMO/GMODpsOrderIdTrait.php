@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Card;
+namespace Plugin\AceClient\AceServices\Model\Dependency\Card\GMO;
 
 /**
  * Trait for GMODps Order ID

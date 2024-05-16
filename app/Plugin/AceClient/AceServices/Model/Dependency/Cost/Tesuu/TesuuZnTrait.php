@@ -1,8 +1,6 @@
 <?php
 
-namespace Plguin\AceClient\AceServices\Model\Dependency\Cost\Tesuu;
-
-use Plugin\AceClient\AceServices\Model\Dependency\Cost\Tesuu\HasTesuuZnInterface;
+namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Tesuu;
 
 /**
  * Trait for 手数料合計
