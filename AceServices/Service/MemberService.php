@@ -87,6 +87,16 @@ class MemberService extends AceServiceAbstract implements AceServiceInterface
     }
 
     /**
+     * Make RegMemberMethod
+     *
+     * @return AceMethod\Member\RegMemberMethod
+     */
+    public function makeRegMemberMethod(): AceMethod\Member\RegMemberMethod
+    {
+        return new AceMethod\Member\RegMemberMethod($this->baseServiceName);
+    }
+
+    /**
      * Make GetRirekiMethod
      *
      * @return AceMethod\Member\GetRirekiMethod
