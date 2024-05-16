@@ -10,13 +10,13 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Cost;
 trait MoneyTrait
 {
 
-    /** @var ?int $money 金額 */
-    protected ?int $money = null;
+    /** @var ?float $money 金額 */
+    protected ?float $money = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getMoney(): ?int
+    public function getMoney(): ?float
     {
         return $this->money;
     }
@@ -24,7 +24,7 @@ trait MoneyTrait
     /**
      * {@inheritDoc}
      */
-    public function setMoney(?int $money): static
+    public function setMoney(?float $money): static
     {
         $this->money = $money;
         return $this;

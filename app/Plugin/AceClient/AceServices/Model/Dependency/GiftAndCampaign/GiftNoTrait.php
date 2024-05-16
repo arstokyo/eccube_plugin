@@ -9,13 +9,13 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\GiftAndCampaign;
  */
 trait GiftNoTrait
 {
-    /** @var ?string $giftno ギフトNo */
-    protected ?string $giftno = null;
+    /** @var ?int $giftno ギフトNo */
+    protected ?int $giftno = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getGiftNo(): ?string
+    public function getGiftNo(): ?int
     {
         return $this->giftno;
     }
@@ -23,7 +23,7 @@ trait GiftNoTrait
     /**
      * {@inheritDoc}
      */
-    public function setGiftNo(?string $giftno)
+    public function setGiftNo(?int $giftno)
     {
         $this->giftno = $giftno;
         return $this;

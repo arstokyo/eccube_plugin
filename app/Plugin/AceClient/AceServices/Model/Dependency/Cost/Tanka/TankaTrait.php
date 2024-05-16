@@ -9,13 +9,13 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Tanka;
  */
 trait TankaTrait 
 {
-    /** @var int $tanka 単価 */
-    protected ?int $tanka = null;
+    /** @var float $tanka 単価 */
+    protected ?float $tanka = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getTanka(): ?int
+    public function getTanka(): ?float
     {
         return $this->tanka;
     }
@@ -23,7 +23,7 @@ trait TankaTrait
     /**
      * {@inheritDoc}
      */
-    public function setTanka(?int $tanka)
+    public function setTanka(?float $tanka)
     {
         $this->tanka = $tanka;
         return $this;

@@ -12,15 +12,15 @@ interface HasTankaInterface
     /**
      * Get 単価
      * 
-     * @return ?int 単価
+     * @return ?float 単価
      */
-    public function getTanka(): ?int;
+    public function getTanka(): ?float;
 
     /**
      * Set 単価
      * 
-     * @param ?int $tanka 単価
+     * @param ?float $tanka 単価
      * @return $this
      */
-    public function setTanka(?int $tanka);
+    public function setTanka(?float $tanka);
 }

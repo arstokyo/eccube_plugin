@@ -13,16 +13,16 @@ interface HasMoneyInterface
     /**
     * Get 金額
     * 
-    * @return int|null
+    * @return float|null
     */
-    public function getMoney(): ?int;
+    public function getMoney(): ?float;
 
     /**
     * Set 金額
     * 
-    * @param int|null $money
+    * @param float|null $money
     * @return $this
     */
-    public function setMoney(?int $money): static;
+    public function setMoney(?float $money): static;
     
 }
