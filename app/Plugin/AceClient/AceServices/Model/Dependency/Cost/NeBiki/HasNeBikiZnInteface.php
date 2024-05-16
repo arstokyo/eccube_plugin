@@ -13,16 +13,16 @@ interface HasNeBikiZnInteface
     /**
     * Get 値引合計
     * 
-    * @return int|null
+    * @return float|null
     */
-    public function getNebikizn(): ?int;
+    public function getNebikizn(): ?float;
 
     /**
     * Set 値引合計
     * 
-    * @param int|null $nebikizn
+    * @param string|null $nebikizn
     * @return $this
     */
-    public function setNebikizn(?int $nebikizn): static;
+    public function setNebikizn(?string $nebikizn): static;
     
 }

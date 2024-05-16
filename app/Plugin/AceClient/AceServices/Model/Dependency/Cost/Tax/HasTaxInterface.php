@@ -13,16 +13,16 @@ interface HasTaxInterface
     /**
     * Get 外税消費税
     * 
-    * @return int|null
+    * @return float|null
     */
-    public function getTax(): ?int;
+    public function getTax(): ?float;
 
     /**
     * Set 外税消費税
     * 
-    * @param int|null $tax
+    * @param string|null $tax
     * @return $this
     */
-    public function setTax(?int $tax): static;
+    public function setTax(?string $tax): static;
     
 }

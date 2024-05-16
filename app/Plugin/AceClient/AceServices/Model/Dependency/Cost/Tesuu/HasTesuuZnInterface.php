@@ -13,16 +13,16 @@ interface HasTesuuZnInterface
     /**
     * Get 手数料合計
     * 
-    * @return int|null
+    * @return float|null
     */
-    public function getTesuuzn(): ?int;
+    public function getTesuuzn(): ?float;
 
     /**
     * Set 手数料合計
     * 
-    * @param int|null $tesuuzn
+    * @param string|null $tesuuzn
     * @return $this
     */
-    public function setTesuuzn(?int $tesuuzn): static;
+    public function setTesuuzn(?string $tesuuzn): static;
 
 }

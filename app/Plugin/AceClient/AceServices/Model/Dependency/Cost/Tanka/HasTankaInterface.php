@@ -19,8 +19,8 @@ interface HasTankaInterface
     /**
      * Set 単価
      * 
-     * @param ?float $tanka 単価
+     * @param ?string $tanka 単価
      * @return $this
      */
-    public function setTanka(?float $tanka);
+    public function setTanka(?string $tanka);
 }

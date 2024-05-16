@@ -20,9 +20,9 @@ interface HasPointRituInterface
     /**
      * Set ポイント掛率
      * 
-     * @param float|null $pointRitu
+     * @param string|null $pointRitu
      * @return $this
      */
-    public function setPointRitu(?float $pointRitu): static;
+    public function setPointRitu(?string $pointRitu): static;
 
 }

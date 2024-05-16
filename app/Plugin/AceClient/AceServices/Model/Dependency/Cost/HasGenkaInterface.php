@@ -12,16 +12,16 @@ interface HasGenkaInterface
     /**
      * Get 原価
      * 
-     * @return int|null
+     * @return float|null
      */
-    public function getGenka(): ?int;
+    public function getGenka(): ?float;
 
     /**
      * Set 原価
      * 
-     * @param int|null $genka
+     * @param string|null $genka
      * @return $this
      */
-    public function setGenka(?int $genka): static;
+    public function setGenka(?string $genka): static;
     
 }

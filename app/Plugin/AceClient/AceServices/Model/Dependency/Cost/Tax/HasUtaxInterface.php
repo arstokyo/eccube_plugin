@@ -12,14 +12,14 @@ interface HasUtaxInterface
     /**
      * Get 内消費税
      *
-     * @return ?int
+     * @return ?float
      */
-    public function getUtax(): ?int;
+    public function getUtax(): ?float;
 
     /**
      * Set 内消費税
      *
-     * @param ?int $utax
+     * @param ?string $utax
      */
-    public function setUtax(?int $utax);
+    public function setUtax(?string $utax);
 }

@@ -2,6 +2,8 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\NeBiki;
 
+use Plugin\AceClient\Utils\Converter\NumberConverter;
+
 /**
  * Trait for NebikiTrait
  *
@@ -9,13 +11,13 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\NeBiki;
  */
 trait NebikiTrait
 {
-    /** @var ?int $nebiki 値引額 */
-    protected ?int $nebiki = null;
+    /** @var ?float $nebiki 値引額 */
+    protected ?float $nebiki = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getNebiki(): ?int
+    public function getNebiki(): ?float
     {
         return $this->nebiki;
     }
@@ -23,9 +25,9 @@ trait NebikiTrait
     /**
      * {@inheritDoc}
      */
-    public function setNebiki(?int $nebiki)
+    public function setNebiki(?string $nebiki)
     {
-        $this->nebiki = $nebiki;
+        $this->nebiki = NumberConverter::stringWithCommaToFloat($nebiki);
         return $this;
     }
 }

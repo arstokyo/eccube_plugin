@@ -2,6 +2,8 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Tax;
 
+use Plugin\AceClient\Utils\Converter\NumberConverter;
+
 /**
  * Trait for 非課税対象額
  * 
@@ -10,13 +12,13 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Tax;
 trait HtTotalTrait
 {
                 
-    /** @var ?int $httotal 非課税対象額 */
-    protected ?int $httotal = null;
+    /** @var ?float $httotal 非課税対象額 */
+    protected ?float $httotal = null;
 
     /**
     * {@inheritDoc}
     */
-    public function getHttotal(): ?int
+    public function getHttotal(): ?float
     {
         return $this->httotal;
     }
@@ -24,9 +26,9 @@ trait HtTotalTrait
     /**
     * {@inheritDoc}
     */
-    public function setHttotal(?int $httotal): static
+    public function setHttotal(?string $httotal): static
     {
-        $this->httotal = $httotal;
+        $this->httotal = NumberConverter::stringWithCommaToFloat($httotal);
         return $this;
     }
 

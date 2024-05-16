@@ -2,6 +2,8 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Tanka;
 
+use Plugin\AceClient\Utils\Converter\NumberConverter;
+
 /**
  * Trait for 9段単価
  * 
@@ -9,37 +11,37 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Tanka;
  */
 trait NineTankaTrait 
 {
-    /** @var ?int $tanka1 1段目単価 */
-    protected ?int $tanka1 = null;
+    /** @var ?float $tanka1 1段目単価 */
+    protected ?float $tanka1 = null;
     
-    /** @var ?int $tanka2 2段目単価 */
-    protected ?int $tanka2 = null;
+    /** @var ?float $tanka2 2段目単価 */
+    protected ?float $tanka2 = null;
     
-    /** @var ?int $tanka3 3段目単価 */
-    protected ?int $tanka3 = null;
+    /** @var ?float $tanka3 3段目単価 */
+    protected ?float $tanka3 = null;
     
-    /** @var ?int $tanka4 4段目単価 */
-    protected ?int $tanka4 = null;
+    /** @var ?float $tanka4 4段目単価 */
+    protected ?float $tanka4 = null;
     
-    /** @var ?int $tanka5 5段目単価 */
-    protected ?int $tanka5 = null;
+    /** @var ?float $tanka5 5段目単価 */
+    protected ?float $tanka5 = null;
     
-    /** @var ?int $tanka6 6段目単価 */
-    protected ?int $tanka6 = null;
+    /** @var ?float $tanka6 6段目単価 */
+    protected ?float $tanka6 = null;
     
-    /** @var ?int $tanka7 7段目単価 */
-    protected ?int $tanka7 = null;
+    /** @var ?float $tanka7 7段目単価 */
+    protected ?float $tanka7 = null;
     
-    /** @var ?int $tanka8 8段目単価 */
-    protected ?int $tanka8 = null;
+    /** @var ?float $tanka8 8段目単価 */
+    protected ?float $tanka8 = null;
     
-    /** @var ?int $tanka9 9段目単価 */
-    protected ?int $tanka9 = null;
+    /** @var ?float $tanka9 9段目単価 */
+    protected ?float $tanka9 = null;
     
     /**
      * {@inheritDoc}
      */
-    public function getTanka1(): ?int
+    public function getTanka1(): ?float
     {
         return $this->tanka1;
     }
@@ -47,16 +49,16 @@ trait NineTankaTrait
     /**
      * {@inheritDoc}
      */
-    public function setTanka1(?int $tanka1): static
+    public function setTanka1(?string $tanka1): static
     {
-        $this->tanka1 = $tanka1;
+        $this->tanka1 = NumberConverter::stringWithCommaToFloat($tanka1);
         return $this;
     }
     
     /**
      * {@inheritDoc}
      */
-    public function getTanka2(): ?int
+    public function getTanka2(): ?float
     {
         return $this->tanka2;
     }
@@ -64,16 +66,16 @@ trait NineTankaTrait
     /**
      * {@inheritDoc}
      */
-    public function setTanka2(?int $tanka2): static
+    public function setTanka2(?string $tanka2): static
     {
-        $this->tanka2 = $tanka2;
+        $this->tanka2 = NumberConverter::stringWithCommaToFloat($tanka2);
         return $this;
     }
     
     /**
      * {@inheritDoc}
      */
-    public function getTanka3(): ?int
+    public function getTanka3(): ?float
     {
         return $this->tanka3;
     }
@@ -81,16 +83,16 @@ trait NineTankaTrait
     /**
      * {@inheritDoc}
      */
-    public function setTanka3(?int $tanka3): static
+    public function setTanka3(?string $tanka3): static
     {
-        $this->tanka3 = $tanka3;
+        $this->tanka3 = NumberConverter::stringWithCommaToFloat($tanka3);
         return $this;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getTanka4(): ?int
+    public function getTanka4(): ?float
     {
         return $this->tanka4;
     }
@@ -98,16 +100,16 @@ trait NineTankaTrait
     /**
      * {@inheritDoc}
      */
-    public function setTanka4(?int $tanka4): static
+    public function setTanka4(?string $tanka4): static
     {
-        $this->tanka4 = $tanka4;
+        $this->tanka4 = NumberConverter::stringWithCommaToFloat($tanka4);
         return $this;
     }
     
     /**
      * {@inheritDoc}
      */
-    public function getTanka5(): ?int
+    public function getTanka5(): ?float
     {
         return $this->tanka5;
     }
@@ -115,16 +117,16 @@ trait NineTankaTrait
     /**
      * {@inheritDoc}
      */
-    public function setTanka5(?int $tanka5): static
+    public function setTanka5(?string $tanka5): static
     {
-        $this->tanka5 = $tanka5;
+        $this->tanka5 = NumberConverter::stringWithCommaToFloat($tanka5);
         return $this;
     }
     
     /**
      * {@inheritDoc}
      */
-    public function getTanka6(): ?int
+    public function getTanka6(): ?float
     {
         return $this->tanka6;
     }
@@ -132,16 +134,16 @@ trait NineTankaTrait
     /**
      * {@inheritDoc}
      */
-    public function setTanka6(?int $tanka6): static
+    public function setTanka6(?string $tanka6): static
     {
-        $this->tanka6 = $tanka6;
+        $this->tanka6 = NumberConverter::stringWithCommaToFloat($tanka6);
         return $this;
     }
     
     /**
      * {@inheritDoc}
      */
-    public function getTanka7(): ?int
+    public function getTanka7(): ?float
     {
         return $this->tanka7;
     }
@@ -149,16 +151,16 @@ trait NineTankaTrait
     /**
      * {@inheritDoc}
      */
-    public function setTanka7(?int $tanka7): static
+    public function setTanka7(?string $tanka7): static
     {
-        $this->tanka7 = $tanka7;
+        $this->tanka7 = NumberConverter::stringWithCommaToFloat($tanka7);
         return $this;
     }
     
     /**
      * {@inheritDoc}
      */
-    public function getTanka8(): ?int
+    public function getTanka8(): ?float
     {
         return $this->tanka8;
     }
@@ -166,16 +168,16 @@ trait NineTankaTrait
     /**
      * {@inheritDoc}
      */
-    public function setTanka8(?int $tanka8): static
+    public function setTanka8(?string $tanka8): static
     {
-        $this->tanka8 = $tanka8;
+        $this->tanka8 = NumberConverter::stringWithCommaToFloat($tanka8);
         return $this;
     }
     
     /**
      * {@inheritDoc}
      */
-    public function getTanka9(): ?int
+    public function getTanka9(): ?float
     {
         return $this->tanka9;
     }
@@ -183,9 +185,9 @@ trait NineTankaTrait
     /**
      * {@inheritDoc}
      */
-    public function setTanka9(?int $tanka9): static
+    public function setTanka9(?string $tanka9): static
     {
-        $this->tanka9 = $tanka9;
+        $this->tanka9 = NumberConverter::stringWithCommaToFloat($tanka9);
         return $this;
     }
 
