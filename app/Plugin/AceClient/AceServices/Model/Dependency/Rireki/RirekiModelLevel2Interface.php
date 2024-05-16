@@ -8,7 +8,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\Payment;
 use Plugin\AceClient\AceServices\Model\Dependency\Haiso;
 use Plugin\AceClient\AceServices\Model\Dependency\Point;
 use Plugin\AceClient\AceServices\Model\Dependency\Cost;
-use Plugin\AceClient\AceServices\Model\Dependency\Okuri;
+use Plugin\AceClient\AceServices\Model\Dependency\OkuriAndNouhin;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient\AceServices\Model\Dependency\GiftAndCampaign;
 use Plugin\AceClient\AceServices\Model\Dependency\Free;
@@ -29,7 +29,7 @@ interface RirekiModelLevel2Interface extends Good\HasGcodeInterface,
                                         Point\HasPointPInterface,
                                         Cost\Tax\HasUtaxInterface,
                                         Cost\Tax\HasStaxInterface,
-                                        Okuri\HasOkurinoInterface,
+                                        OkuriAndNouhin\HasOkuriNoInterface,
                                         Haiso\HasHnameInterface,
                                         NoCategory\HasSdateInterface,
                                         Haiso\HasHdayInterface,

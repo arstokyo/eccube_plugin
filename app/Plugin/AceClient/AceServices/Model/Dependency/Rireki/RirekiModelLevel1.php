@@ -4,15 +4,13 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Rireki;
 
 use Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
 use Plugin\AceClient\AceServices\Model\Dependency\Payment;
-use Plugin\AceClient\AceServices\Model\Dependency\Okuri;
+use Plugin\AceClient\AceServices\Model\Dependency\OkuriAndNouhin;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient\AceServices\Model\Dependency\Good;
 use Plugin\AceClient\AceServices\Model\Dependency\Haiso;
 use Plugin\AceClient\AceServices\Model\Dependency\Cost;
 use Plugin\AceClient\AceServices\Model\Dependency\Point;
 use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
-use Plugin\AceClient\Utils\Converter\NumberConverter;
-
 
 /**
  * Model for RirekiLevel1
@@ -26,7 +24,7 @@ class RirekiModelLevel1 extends Haiso\HaisoModelGroup1 implements RirekiModelLev
         Payment\PnameTrait,
         Denpyo\DenkuTrait,
         Denpyo\DenKbnTrait,
-        Okuri\OkurinoTrait,
+        OkuriAndNouhin\OkuriNoTrait,
         NoCategory\SdateTrait,
         Good\GtotalTrait,
         Haiso\SouRyouTrait,
