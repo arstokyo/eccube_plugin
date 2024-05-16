@@ -9,6 +9,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient\AceServices\Model\Dependency\Bikou;
 use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
 use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
+use Plugin\AceClient\AceServices\Model\Dependency\Cost;  
 
 /**
  * Trait for Person Level 4
@@ -25,7 +26,9 @@ trait PersonLevel4Trait
         Bikou\ThreeBikouTrait,
         Baitai\BaitaiCodeTrait,
         PhoneAndPC\FaxTrait,
-        NoCategory\DmKbnTrait;
+        NoCategory\DmKbnTrait,
+        Cost\RituTrait,
+        Cost\Tanka\TankaKbnTrait;
 
     /** @var ?AceDateTime\AceDateTime $birthday 生年月日 */
     protected ?AceDateTime\AceDateTime $birthday = null;
@@ -45,9 +48,6 @@ trait PersonLevel4Trait
     /** @var ?int $khasuu 掛率端数処理区分 */
     protected ?int $khasuu = null;
 
-    /** @var ?float $ritu 掛け率 */
-    protected ?float $ritu = null;
-
     /** @var ?int $sex 性別 */
     protected ?int $sex = null;
 
@@ -56,9 +56,6 @@ trait PersonLevel4Trait
 
     /** @var ?int $site 入金サイト */
     protected ?int $site = null;
-
-    /** @var ?int $tankakbn 単価区分 */
-    protected ?int $tankakbn = null;
 
     /** @var ?string $code2 リスト番号 */
     protected ?string $code2 = null;
@@ -168,23 +165,6 @@ trait PersonLevel4Trait
     /**
      * {@inheritDoc}
      */
-    public function getRitu(): ?float
-    {
-        return $this->ritu;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setRitu(?float $ritu)
-    {
-        $this->ritu = $ritu;
-        return $this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getSex(): ?int
     {
         return $this->sex;
@@ -230,23 +210,6 @@ trait PersonLevel4Trait
     public function setSite(?int $site)
     {
         $this->site = $site;
-        return $this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getTankakbn(): ?int
-    {
-        return $this->tankakbn;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setTankakbn(?int $tankakbn)
-    {
-        $this->tankakbn = $tankakbn;
         return $this;
     }
 

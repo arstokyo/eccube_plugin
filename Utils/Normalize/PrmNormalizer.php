@@ -44,7 +44,7 @@ class PrmNormalizer implements NormalizerInterface, SerializerAwareInterface
         } catch (\Throwable $e)
         {
             $this->unsetCacheObj($object::class);
-            throw new NotSerializableException(sprintf('Could not normalize object "%s".', $object::class), $e);
+            throw new NotSerializableException(sprintf('Could not normalize object "%s". %s', $object::class, $e->getMessage()), $e);
         }
 
         $this->unsetCacheObj($object::class);

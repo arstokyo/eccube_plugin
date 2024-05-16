@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Card;
+namespace Plugin\AceClient\AceServices\Model\Dependency\Card\GMO;
 
 /**
  * Interface for Has GMODps 取引ID

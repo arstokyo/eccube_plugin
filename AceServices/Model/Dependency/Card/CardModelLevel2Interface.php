@@ -2,6 +2,8 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Card;
 
+use Plugin\AceClient\AceServices\Model\Dependency\Card\GMO\GMOModelGroup1Interface;
+
 /**
  * Interface for Card Level 2
  * 
