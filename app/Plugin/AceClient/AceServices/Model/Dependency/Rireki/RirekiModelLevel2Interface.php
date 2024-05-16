@@ -12,6 +12,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\OkuriAndNouhin;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient\AceServices\Model\Dependency\GiftAndCampaign;
 use Plugin\AceClient\AceServices\Model\Dependency\Free;
+use Plugin\AceClient\AceServices\Model\Dependency\Cost\Tanka;
 
 
 /**
@@ -20,7 +21,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\Free;
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
 interface RirekiModelLevel2Interface extends Good\HasGcodeInterface,
-                                        Good\HasTankaInterface,
+                                        Tanka\HasTankaInterface,
                                         Denpyo\Jyuden\HasJdayInterface,
                                         Payment\HasPcodeInterface,
                                         Payment\HasPnameInterface,
