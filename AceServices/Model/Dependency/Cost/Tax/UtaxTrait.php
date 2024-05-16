@@ -9,13 +9,13 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Tax;
  */
 trait UtaxTrait
 {
-    /** @var ?string $utax 内消費税 */
-    protected ?string $utax = null;
+    /** @var ?int $utax 内消費税 */
+    protected ?int $utax = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getUtax(): ?string
+    public function getUtax(): ?int
     {
         return $this->utax;
     }
@@ -23,7 +23,7 @@ trait UtaxTrait
     /**
      * {@inheritDoc}
      */
-    public function setUtax(?string $utax)
+    public function setUtax(?int $utax)
     {
         $this->utax = $utax;
         return $this;
