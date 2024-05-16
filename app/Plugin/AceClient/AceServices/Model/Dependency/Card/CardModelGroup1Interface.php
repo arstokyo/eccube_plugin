@@ -3,6 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Card;
 
 use Symfony\Component\Serializer\Annotation\SerializedName;
+use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
 
 /**
  * Interface for CardModelGroup1
@@ -16,7 +17,19 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * {@inheritDoc}
      */
     #[SerializedName('card_code')]
+    public function getCcode(): ?string;
+
+    /**
+     * {@inheritDoc}
+     */
+    #[SerializedName('card_code')]
     public function setCcode(string|null $ccode): static;
+
+    /**
+     * {@inheritDoc}
+     */
+    #[SerializedName('card_no')]
+    public function getCno(): ?string;
 
     /**
      * {@inheritDoc}
@@ -28,7 +41,19 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * {@inheritDoc}
      */
     #[SerializedName('card_kigen')]
+    public function getCkigen(): AceDateTime\AceDateTimeInterface|null;
+
+    /**
+     * {@inheritDoc}
+     */
+    #[SerializedName('card_kigen')]
     public function setCkigen(\Datetime|string|null $ckigen): static;
+
+    /**
+     * {@inheritDoc}
+     */
+    #[SerializedName('card_pay')]
+    public function getCpay(): ?int;
 
     /**
      * {@inheritDoc}
@@ -40,7 +65,19 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * {@inheritDoc}
      */
     #[SerializedName('card_syonin')]
+    public function getSyounin(): ?string;
+
+    /**
+     * {@inheritDoc}
+     */
+    #[SerializedName('card_syonin')]
     public function setSyounin(string|null $syounin): static;
+
+    /**
+     * {@inheritDoc}
+     */
+    #[SerializedName('sps_memid')]
+    public function getSpscustomerid(): ?string;
 
     /**
      * {@inheritDoc}
@@ -52,7 +89,19 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * {@inheritDoc}
      */
     #[SerializedName('sps_tracid')]
+    public function getSpstid(): ?string;
+
+    /**
+     * {@inheritDoc}
+     */
+    #[SerializedName('sps_tracid')]
     public function setSpstid(string|null $spstid): static;
+
+    /**
+     * {@inheritDoc}
+     */
+    #[SerializedName('orderid')]
+    public function getVeriorderid(): ?string;
 
     /**
      * {@inheritDoc}
@@ -65,6 +114,7 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * 
      * @return string|null
      */
+    #[SerializedName('in_kokyaku_id')]
     public function getInKokyakuId(): ?string;
 
     /**
@@ -81,6 +131,7 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * 
      * @return string|null
      */
+    #[SerializedName('in_chumon_id')]
     public function getInChumonId(): ?string;
 
     /**
@@ -97,6 +148,7 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * 
      * @return string|null
      */
+    #[SerializedName('in_tokushu1')]
     public function getInTokushu1(): ?string;
 
     /**
@@ -113,6 +165,7 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * 
      * @return string|null
      */
+    #[SerializedName('in_tokushu2')]
     public function getInTokushu2(): ?string;
 
     /**
@@ -129,6 +182,7 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * 
      * @return string|null
      */
+    #[SerializedName('uke_no')]
     public function getUkeNo(): ?string;
 
     /**
@@ -145,6 +199,7 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * 
      * @return string|null
      */
+    #[SerializedName('pgt_memid')]
     public function getPgtMemid(): ?string;
 
     /**
@@ -161,6 +216,7 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * 
      * @return string|null
      */
+    #[SerializedName('pgt_memcdid')]
     public function getPgtMemcdid(): ?string;
 
     /**
@@ -177,6 +233,7 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * 
      * @return string|null
      */
+    #[SerializedName('pgt_tid')]
     public function getPgtTid(): ?string;
 
     /**
@@ -193,6 +250,7 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * 
      * @return string|null
      */
+    #[SerializedName('pgt_id')]
     public function getPgtId(): ?string;
 
     /**
@@ -209,6 +267,7 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * 
      * @return string|null
      */
+    #[SerializedName('pgt_icls')]
     public function getPgtIcls(): ?string;
 
     /**
@@ -225,6 +284,7 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * 
      * @return string|null
      */
+    #[SerializedName('gmocardeda')]
     public function getGmocardeda(): ?string;
 
     /**
