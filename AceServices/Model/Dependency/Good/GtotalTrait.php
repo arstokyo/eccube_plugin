@@ -9,7 +9,7 @@ use Plugin\AceClient\Utils\Converter\NumberConverter;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-class GtotalTrait implements HasGtotalInterface
+trait GtotalTrait 
 {
     /** @var ?float $gtotal 商品合計額 */
     protected ?float $gtotal = null;
