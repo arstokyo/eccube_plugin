@@ -2,24 +2,26 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Cost;
 
+use Plugin\AceClient\Utils\Converter\NumberConverter;
+
 /**
  * Trait for 原価
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait GenkaTrait
+trait GenkaTrait 
 {
     /**
      * 原価
      * 
-     * @var ?int
+     * @var ?float
      */
-    protected ?int $genka = null;
+    protected ?float $genka = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getGenka(): ?int
+    public function getGenka(): ?float
     {
         return $this->genka;
     }
@@ -27,9 +29,9 @@ trait GenkaTrait
     /**
      * {@inheritDoc}
      */
-    public function setGenka(?int $genka): static
+    public function setGenka(?string $genka): static
     {
-        $this->genka = $genka;
+        $this->genka = NumberConverter::stringWithCommaToFloat($genka);
         return $this;
     }
 }

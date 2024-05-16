@@ -2,21 +2,23 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Tax;
 
+use Plugin\AceClient\Utils\Converter\NumberConverter;
+
 /**
  * Trait for 内税対象額（税込）
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait UTTotalTrait
+trait UTTotalTrait 
 {
             
-    /** @var ?int $uttotal 内税対象額（税込） */
-    protected ?int $uttotal = null;
+    /** @var ?float $uttotal 内税対象額（税込） */
+    protected ?float $uttotal = null;
 
     /**
     * {@inheritDoc}
     */
-    public function getUttotal(): ?int
+    public function getUttotal(): ?float
     {
         return $this->uttotal;
     }
@@ -24,9 +26,9 @@ trait UTTotalTrait
     /**
     * {@inheritDoc}
     */
-    public function setUttotal(?int $uttotal): static
+    public function setUttotal(?string $uttotal): static
     {
-        $this->uttotal = $uttotal;
+        $this->uttotal = NumberConverter::stringWithCommaToFloat($uttotal);
         return $this;
     }
     

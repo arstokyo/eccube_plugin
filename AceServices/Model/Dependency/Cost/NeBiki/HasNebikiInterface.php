@@ -12,14 +12,14 @@ interface HasNebikiInterface
     /**
      * Get 値引額
      *
-     * @return ?int
+     * @return ?float
      */
-    public function getNebiki(): ?int;
+    public function getNebiki(): ?float;
 
     /**
      * Set 値引額
      *
-     * @param ?int $nebiki
+     * @param ?string $nebiki
      */
-    public function setNebiki(?int $nebiki);
+    public function setNebiki(?string $nebiki);
 }

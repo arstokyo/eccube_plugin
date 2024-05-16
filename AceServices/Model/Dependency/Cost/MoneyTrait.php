@@ -2,6 +2,8 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Cost;
 
+use Plugin\AceClient\Utils\Converter\NumberConverter;
+
 /**
  * Trait for 金額
  * 
@@ -24,9 +26,9 @@ trait MoneyTrait
     /**
      * {@inheritDoc}
      */
-    public function setMoney(?float $money): static
+    public function setMoney(?string $money): static
     {
-        $this->money = $money;
+        $this->money = NumberConverter::stringWithCommaToFloat($money);
         return $this;
     }
 

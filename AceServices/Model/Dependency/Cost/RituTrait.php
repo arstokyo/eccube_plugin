@@ -2,12 +2,14 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Cost;
 
+use Plugin\AceClient\Utils\Converter\NumberConverter;
+
 /**
  * Trait for 掛け率
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait RituTrait 
+trait RituTrait
 {
 
     /** @var float|null $ritu 掛け率 */
@@ -24,9 +26,9 @@ trait RituTrait
     /**
      * {@inheritDoc}
      */
-    public function setRitu(?float $ritu): static
+    public function setRitu(?string $ritu): static
     {
-        $this->ritu = $ritu;
+        $this->ritu = NumberConverter::stringWithCommaToFloat($ritu);
         return $this;
     }
 

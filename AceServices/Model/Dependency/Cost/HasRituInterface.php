@@ -20,9 +20,9 @@ interface HasRituInterface
     /**
     * Set 掛け率
     * 
-    * @param float|null $ritu
+    * @param string|null $ritu
     * @return $this
     */
-    public function setRitu(?float $ritu): static;
+    public function setRitu(?string $ritu): static;
 
 }

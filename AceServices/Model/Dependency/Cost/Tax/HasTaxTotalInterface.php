@@ -13,16 +13,16 @@ interface HasTaxTotalInterface
     /**
      * Get 消費税合計
      * 
-     * @return int|null
+     * @return float|null
      */
-    public function getTaxtotal(): ?int;
+    public function getTaxtotal(): ?float;
 
     /**
      * Set 消費税合計
      * 
-     * @param int|null $taxtotal
+     * @param string|null $taxtotal
      * @return $this
      */
-    public function setTaxtotal(?int $taxtotal): static;
+    public function setTaxtotal(?string $taxtotal): static;
     
 }

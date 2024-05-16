@@ -12,14 +12,14 @@ interface HasTesuuInterface
     /**
      * Get 手数料
      *
-     * @return ?int
+     * @return ?float
      */
-    public function getTesuu(): ?int;
+    public function getTesuu(): ?float;
 
     /**
      * Set 手数料
      *
-     * @param ?int $tesuu
+     * @param ?string $tesuu
      */
-    public function setTesuu(?int $tesuu);
+    public function setTesuu(?string $tesuu);
 }

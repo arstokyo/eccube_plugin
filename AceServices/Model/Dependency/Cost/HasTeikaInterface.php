@@ -13,16 +13,16 @@ interface HasTeikaInterface
     /**
      * Get 定価
      * 
-     * @return int|null
+     * @return float|null
      */
-    public function getTeika(): ?int;
+    public function getTeika(): ?float;
 
     /**
      * Set 定価
      * 
-     * @param int|null $teika
+     * @param string|null $teika
      * @return $this
      */
-    public function setTeika(?int $teika): static;
+    public function setTeika(?string $teika): static;
 
 }

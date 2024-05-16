@@ -20,9 +20,9 @@ interface HasMoneyInterface
     /**
     * Set 金額
     * 
-    * @param float|null $money
+    * @param string|null $money
     * @return $this
     */
-    public function setMoney(?float $money): static;
+    public function setMoney(?string $money): static;
     
 }

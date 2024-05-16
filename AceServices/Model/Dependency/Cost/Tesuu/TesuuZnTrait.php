@@ -2,20 +2,22 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Tesuu;
 
+use Plugin\AceClient\Utils\Converter\NumberConverter;
+
 /**
  * Trait for 手数料合計
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait TesuuZnTrait 
+class TesuuZnTrait 
 {
-    /** @var ?int $tesuuzn 手数料合計 */
-    protected ?int $tesuuzn = null;
+    /** @var ?float $tesuuzn 手数料合計 */
+    protected ?float $tesuuzn = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getTesuuzn(): ?int
+    public function getTesuuzn(): ?float
     {
         return $this->tesuuzn;
     }
@@ -23,9 +25,9 @@ trait TesuuZnTrait
     /**
      * {@inheritDoc}
      */
-    public function setTesuuzn(?int $tesuuzn): static
+    public function setTesuuzn(?string $tesuuzn): static
     {
-        $this->tesuuzn = $tesuuzn;
+        $this->tesuuzn = NumberConverter::stringWithCommaToFloat($tesuuzn);
         return $this;
     }
 }

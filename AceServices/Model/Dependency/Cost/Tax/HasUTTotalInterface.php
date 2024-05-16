@@ -13,16 +13,16 @@ interface HasUTTotalInterface
     /**
     * Get 内税対象額（税込）
     * 
-    * @return int|null
+    * @return float|null
     */
-    public function getUttotal(): ?int;
+    public function getUttotal(): ?float;
 
     /**
     * Set 内税対象額（税込）
     * 
-    * @param int|null $uttotal
+    * @param string|null $uttotal
     * @return $this
     */
-    public function setUttotal(?int $uttotal): static;
+    public function setUttotal(?string $uttotal): static;
     
 }

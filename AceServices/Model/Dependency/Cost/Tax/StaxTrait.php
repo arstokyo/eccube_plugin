@@ -2,20 +2,22 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Tax;
 
+use Plugin\AceClient\Utils\Converter\NumberConverter;
+
 /**
  * Trait for Stax
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-trait StaxTrait
+trait StaxTrait 
 {
-    /** @var ?int $stax 消費税額(外税) */
-    protected ?int $stax = null;
+    /** @var ?float $stax 消費税額(外税) */
+    protected ?float $stax = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getStax(): ?int
+    public function getStax(): ?float
     {
         return $this->stax;
     }
@@ -23,9 +25,9 @@ trait StaxTrait
     /**
      * {@inheritDoc}
      */
-    public function setStax(?int $stax)
+    public function setStax(?string $stax)
     {
-        $this->stax = $stax;
+        $this->stax = NumberConverter::stringWithCommaToFloat($stax);
         return $this;
     }
 }

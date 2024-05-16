@@ -13,16 +13,16 @@ interface HasHTTotalInterface
     /**
     * Get 非課税対象額
     * 
-    * @return int|null
+    * @return float|null
     */
-    public function getHttotal(): ?int;
+    public function getHttotal(): ?float;
 
     /**
     * Set 非課税対象額
     * 
-    * @param int|null $httotal
+    * @param string|null $httotal
     * @return $this
     */
-    public function setHttotal(?int $httotal): static;
+    public function setHttotal(?string $httotal): static;
     
 }

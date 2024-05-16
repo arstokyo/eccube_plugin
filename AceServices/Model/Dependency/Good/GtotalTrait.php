@@ -2,20 +2,22 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Good;
 
+use Plugin\AceClient\Utils\Converter\NumberConverter;
+
 /**
  * Trait for Gtotal
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-trait GtotalTrait
+class GtotalTrait implements HasGtotalInterface
 {
-    /** @var ?int $gtotal 商品合計額 */
-    protected ?int $gtotal = null;
+    /** @var ?float $gtotal 商品合計額 */
+    protected ?float $gtotal = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getGtotal(): ?int
+    public function getGtotal(): ?float
     {
         return $this->gtotal;
     }
@@ -23,9 +25,9 @@ trait GtotalTrait
     /**
      * {@inheritDoc}
      */
-    public function setGtotal(?int $gtotal)
+    public function setGtotal(?string $gtotal)
     {
-        $this->gtotal = $gtotal;
+        $this->gtotal = NumberConverter::stringWithCommaToFloat($gtotal);
         return $this;
     }
 }

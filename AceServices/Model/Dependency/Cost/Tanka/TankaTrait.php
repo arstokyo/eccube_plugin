@@ -2,12 +2,14 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Tanka;
 
+use Plugin\AceClient\Utils\Converter\NumberConverter;
+
 /**
  * Trait for 単価
  * 
  * @author Ars-Thong <v.t.nguyen@ar-sytem.co.jp>
  */
-trait TankaTrait 
+trait TankaTrait
 {
     /** @var float $tanka 単価 */
     protected ?float $tanka = null;
@@ -23,9 +25,9 @@ trait TankaTrait
     /**
      * {@inheritDoc}
      */
-    public function setTanka(?float $tanka)
+    public function setTanka(?string $tanka)
     {
-        $this->tanka = $tanka;
+        $this->tanka = NumberConverter::stringWithCommaToFloat($tanka);
         return $this;
     }
 }

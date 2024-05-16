@@ -2,12 +2,14 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Point;
 
+use Plugin\AceClient\Utils\Converter\NumberConverter;
+
 /**
  * Trait for ポイント掛率
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait PointRituTrait
+trait PointRituTrait 
 {
    
     /** @var ?float $pointRitu ポイント掛率 */
@@ -24,9 +26,9 @@ trait PointRituTrait
     /**
      * {@inheritDoc}
      */
-    public function setPointRitu(?float $pointRitu): static
+    public function setPointRitu(?string $pointRitu): static
     {
-        $this->pointRitu = $pointRitu;
+        $this->pointRitu = NumberConverter::stringWithCommaToFloat($pointRitu);
         return $this;
     }
 

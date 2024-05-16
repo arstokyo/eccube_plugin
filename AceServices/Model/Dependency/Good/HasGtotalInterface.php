@@ -12,15 +12,15 @@ interface HasGtotalInterface
     /**
      * Get the 商品合計額.
      *
-     * @return ?int The 商品合計額.
+     * @return ?float The 商品合計額.
      */
-    public function getGtotal(): ?int;
+    public function getGtotal(): ?float;
 
     /**
      * Set the 商品合計額.
      *
-     * @param ?int $gtotal The 商品合計額.
+     * @param ?string $gtotal The 商品合計額.
      * @return $this
      */
-    public function setGtotal(?int $gtotal);
+    public function setGtotal(?string $gtotal);
 }

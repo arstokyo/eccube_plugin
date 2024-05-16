@@ -12,14 +12,14 @@ interface HasStaxInterface
     /**
      * Get 消費税額(外税)
      *
-     * @return ?int
+     * @return ?float
      */
-    public function getStax(): ?int;
+    public function getStax(): ?float;
 
     /**
      * Set 消費税額(外税)
      *
-     * @param ?int $stax
+     * @param ?string $stax
      */
-    public function setStax(?int $stax);
+    public function setStax(?string $stax);
 }
