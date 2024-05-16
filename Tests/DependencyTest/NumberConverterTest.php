@@ -36,4 +36,11 @@ class NumberConverterTest extends AbstractAdminWebTestCase
         $this->assertEquals($int, 1555222);
     }
 
+    public function testConvertNullStringToFloat()
+    {
+        $input = '';
+        $float = NumberConverter::stringWithCommaToFloat($input);
+        $this->assertEquals($float, 0);
+    }
+
 }

@@ -4,13 +4,12 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Rireki;
 
 use Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
 use Plugin\AceClient\AceServices\Model\Dependency\Payment;
-use Plugin\AceClient\AceServices\Model\Dependency\Okuri;
+use Plugin\AceClient\AceServices\Model\Dependency\OkuriAndNouhin;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient\AceServices\Model\Dependency\Good;
 use Plugin\AceClient\AceServices\Model\Dependency\Haiso;
 use Plugin\AceClient\AceServices\Model\Dependency\Cost;
 use Plugin\AceClient\AceServices\Model\Dependency\Point;
-
 
 /**
  * Interface for RirekiLevel1
@@ -23,7 +22,7 @@ interface RirekiModelLevel1Interface extends Denpyo\Jyuden\HasDayInterface,
                                             Denpyo\HasDenkuInterface,
                                             Denpyo\HasDenKbnInterface,
                                             Haiso\HaisoModelGroup1Interface,
-                                            Okuri\HasOkurinoInterface,
+                                            OkuriAndNouhin\HasOkuriNoInterface,
                                             NoCategory\HasSdateInterface,
                                             Good\HasGtotalInterface,
                                             Haiso\HasSouRyouInterface,
