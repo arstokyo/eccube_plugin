@@ -19,7 +19,7 @@ class AceDateTimeFactory
      * @param \Datetime|string|null $dateTime
      * @param string $targetNormalizeFormat
      * 
-     * @return AceDateTimeInterface
+     * @return AceDateTimeInterface|null
      */
     public static function makeAceDateTime(\Datetime|string|null $dateTime, string $targetNormalizeFormat = self::ACE_DEFAULT_DATE_FORMAT): AceDateTimeInterface|null
     {
