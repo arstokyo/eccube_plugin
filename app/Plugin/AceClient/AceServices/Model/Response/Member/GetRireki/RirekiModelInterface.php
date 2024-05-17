@@ -25,7 +25,8 @@ interface RirekiModelInterface extends Rireki\RirekiModelLevel1Interface,
                                        Day\HasSdayInterface,
                                        Day\HasUdayInterface,
                                        Day\HasNdayInterface,
-                                       Denpyo\HasZandakaInterface
+                                       Denpyo\HasZandakaInterface,
+                                       Cost\HasSyoukeiInterface
 {
     /**
      * Get 行番号
@@ -82,19 +83,5 @@ interface RirekiModelInterface extends Rireki\RirekiModelLevel1Interface,
      * @param ?string $url
      */
     public function setUrl(?string $url);
-
-    /**
-     * Get 小計
-     *
-     * @return ?int
-     */
-    public function getSyoukei(): ?int;
-
-    /**
-     * Set 小計
-     *
-     * @param ?int $syoukei
-     */
-    public function setSyoukei(?int $syoukei);
 
 }
