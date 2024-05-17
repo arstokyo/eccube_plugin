@@ -4,15 +4,15 @@ namespace Plugin\AceClient\AceServices\AceMethod\Member;
 
 use Plugin\AceClient\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient\AceServices\Model\Request;
-use Plugin\AceClient\AceServices\Model\Response\Member\GetRireki\GetRirekiResponseModel;
+use Plugin\AceClient\AceServices\Model\Response\Member\GetRirekiDetail\GetRirekiDetailResponseModel;
 use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
 
 /**
- * Method for GetRireki
+ * Method for GetRirekiDetail
  *
  * @author Ars-Phuoc <minh.phuoc.le@ar-system.co.jp>
  */
-class GetRirekiMethod extends AceMethodAbstract
+class GetRirekiDetailMethod extends AceMethodAbstract
 {
     /**
      * The End Point of Service.
@@ -32,11 +32,11 @@ class GetRirekiMethod extends AceMethodAbstract
      */
     protected function setResponseAsObject(): string
     {
-        return GetRirekiResponseModel::class;
+        return GetRirekiDetailResponseModel::class;
     }
 
     /**
-     * @param Request\Member\GetRireki\GetRirekiRequestModel $requestModel
+     * @param Request\Member\GetRirekiDetail\GetRirekiDetailRequestModel $requestModel
      */
     public function withRequest(RequestModelInterface $requestModel): self
     {
