@@ -4,11 +4,7 @@ namespace Plugin\AceClient\AceServices\Model\Request\Member\RegMember;
 
 use Plugin\AceClient\AceServices\Model\Dependency\Person\Smember\SmemberModel as ParentModel;
 use Plugin\AceClient\AceServices\Model\Dependency\Bikou\ThreeBikouTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Person\PersonLevel2ExtractTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Person\PersonLevel4ExtractTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Person\PersonLevel5ExtractTrait;
 use Plugin\AceClient\AceServices\Model\Dependency\Person\PersonLevel6ExtractTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient\AceServices\Model\Dependency\Mail;
 use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
 
@@ -19,10 +15,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
  */
 class SmemberModel extends ParentModel implements SmemberModelInterface
 {
-  use PersonLevel2ExtractTrait,
-      PersonLevel4ExtractTrait,
-      PersonLevel5ExtractTrait,
-      PersonLevel6ExtractTrait,
+  use PersonLevel6ExtractTrait,
       ThreeBikouTrait,
       Mail\MemMailTrait,
       PhoneAndPC\FaxTrait;
