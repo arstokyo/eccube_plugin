@@ -25,7 +25,7 @@ interface RirekiModelInterface extends Rireki\RirekiModelLevel1Interface,
                                        Day\HasSdayInterface,
                                        Day\HasUdayInterface,
                                        Day\HasNdayInterface,
-                                       Denpyo\Jyuden\HasZandakaInterface
+                                       Denpyo\HasZandakaInterface
 {
     /**
      * Get 行番号

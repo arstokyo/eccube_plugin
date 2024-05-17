@@ -41,12 +41,12 @@ class RirekiModelLevel2 extends RirekiModelLevel1 implements RirekiModelLevel2In
         Bikou\MBikouTrait,
         GiftAndCampaign\GiftNoTrait,
         Denpyo\DenkuNumTrait,
-        Denpyo\Jyuden\LineTrait,
+        Denpyo\LineTrait,
         Free\ThreeFcodeTrait,
         Bikou\ThreeDenBikouTrait,
         Bikou\TwoNBikouTrait,
         Bikou\TwoOBikouTrait,
         Free\ThreeFmemoTrait,
         Haiso\HaisoModelGroup1Trait,
-        Denpyo\Jyuden\JnameTrait;
+        Denpyo\JnameTrait;
 }
