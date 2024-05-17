@@ -5,7 +5,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\OkuriAndNouhin;
 /**
  * Interface for Has のし
  *
- * @author Ars-Phuoc <v.t.nguyen@ar-system.co.jp>
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 interface HasNosiInterface
 {

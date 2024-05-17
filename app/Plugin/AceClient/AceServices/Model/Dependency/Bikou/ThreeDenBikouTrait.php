@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
+namespace Plugin\AceClient\AceServices\Model\Dependency\Bikou;
 
 /**
  * Trait for ThreeDenBikou

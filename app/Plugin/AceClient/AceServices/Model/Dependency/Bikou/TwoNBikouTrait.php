@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\OkuriAndNouhin;
+namespace Plugin\AceClient\AceServices\Model\Dependency\Bikou;
 
 /**
  * Trait for Two 納品書備考

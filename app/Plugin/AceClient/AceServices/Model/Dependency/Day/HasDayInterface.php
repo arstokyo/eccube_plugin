@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Denpyo\Jyuden;
+namespace Plugin\AceClient\AceServices\Model\Dependency\Day;
 
 use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
 
@@ -9,20 +9,20 @@ use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface HasJdayInterface
+interface HasDayInterface
 {
     /**
     * Get 受注日
     *
     * @return ?AceDateTime\AceDateTimeInterface
     */
-    public function getJday(): ?AceDateTime\AceDateTimeInterface;
+    public function getDay(): ?AceDateTime\AceDateTimeInterface;
 
     /**
      * Set 受注日
      *
-     * @param \DateTime|string|null $jday
+     * @param \DateTime|string|null $day
      */
-    public function setJday(\DateTime|string|null $jday);
+    public function setDay(\DateTime|string|null $day);
 
 }

@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Denpyo\Jyuden;
 
 /**
- * Trait for Line
+ * Trait for 行番号
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */

@@ -1,11 +1,11 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Haiso;
+namespace Plugin\AceClient\AceServices\Model\Dependency\Day;
 
 use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
 
 /**
- * Trait for Hday
+ * Trait for 配送希望日
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */

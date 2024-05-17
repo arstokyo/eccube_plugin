@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\OkuriAndNouhin;
+namespace Plugin\AceClient\AceServices\Model\Dependency\Bikou;
 
 /**
  * Interface for Has 2送り状備考
