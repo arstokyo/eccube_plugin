@@ -6,12 +6,13 @@ use Plugin\AceClient\AceServices\Model\Dependency\Haiso;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient\AceServices\Model\Dependency\Address;
 use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
+
 /**
-* Class for HaisoGroupModel
+* Trait for HaisoModelGroup1
 *
 * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
 */
-class HaisoModelGroup1 implements HaisoModelGroup1Interface
+trait HaisoModelGroup1Trait
 {
     use NoCategory\SimeiTrait,
         Address\AdrTrait,

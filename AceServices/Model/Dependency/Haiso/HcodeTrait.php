@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Haiso;
 
 /**
- * Trait for Hcode
+ * Trait for 配送方法コード
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */

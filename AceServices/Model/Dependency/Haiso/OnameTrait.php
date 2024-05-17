@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Haiso;
 
 /**
- * Trait for Oname
+ * Trait for 配送会社名称
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */

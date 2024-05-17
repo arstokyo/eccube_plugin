@@ -1,12 +1,12 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Denpyo\Jyuden;
+namespace Plugin\AceClient\AceServices\Model\Dependency\Day;
 
 use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
 
 
 /**
- * Trait for Sday
+ * Trait for 出荷日
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */

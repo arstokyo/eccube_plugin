@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+namespace Plugin\AceClient\AceServices\Model\Dependency\Day;
 
 use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
 

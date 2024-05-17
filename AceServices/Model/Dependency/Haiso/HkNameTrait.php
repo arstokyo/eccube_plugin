@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Haiso;
 
 /**
- * Trait for Hkname
+ * Trait for 時間指定名称
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */

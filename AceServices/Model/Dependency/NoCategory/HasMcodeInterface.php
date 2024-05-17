@@ -19,7 +19,7 @@ interface HasMcodeInterface
     /**
      * Set 顧客コード
      *
-     * @param ?string $mcode
+     * @param ?string $mcode    
      */
     public function setMcode(?string $mcode);
 

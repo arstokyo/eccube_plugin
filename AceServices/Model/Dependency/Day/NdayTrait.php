@@ -1,11 +1,11 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Denpyo\Jyuden;
+namespace Plugin\AceClient\AceServices\Model\Dependency\Day;
 
 use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
 
 /**
- * Trait for Nday
+ * Trait for 入金予定日
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */

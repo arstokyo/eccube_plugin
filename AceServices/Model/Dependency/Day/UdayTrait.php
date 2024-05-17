@@ -1,12 +1,12 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Denpyo\Jyuden;
+namespace Plugin\AceClient\AceServices\Model\Dependency\Day;
 
 use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
 
 
 /**
- * Trait for Uday
+ * Trait for 売上日
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
