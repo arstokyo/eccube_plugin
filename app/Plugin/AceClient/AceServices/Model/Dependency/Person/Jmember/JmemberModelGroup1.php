@@ -15,16 +15,11 @@ use Plugin\AceClient\AceServices\Model\Dependency\Reminder;
  */
 class JmemberModelGroup1 extends JmemberModel implements JmemberModelGroup1Interface
 {
-    use Person\PersonLevel1Trait,
-        Person\PersonLevel2Trait,
-        Person\PersonLevel4Trait,
-        Person\PersonLevel5Trait,
-        Person\PersonLevel6Trait,
+    use Person\PersonLevel6ExtractTrait,
         Address\FourAdrTrait,
         ThreeAdrBikouTrait,
         Address\ZipTrait,
-        NoCategory\PassWdTrait,
-        Reminder\SevenRemindersTrait;
+        NoCategory\PassWdTrait;
 
     /** @var ?string $adrName 氏名 */
     protected ?string $adrName = null;
