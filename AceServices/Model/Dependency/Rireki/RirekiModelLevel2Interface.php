@@ -42,14 +42,14 @@ interface RirekiModelLevel2Interface extends RirekiModelLevel1Interface,
                                             Bikou\HasMBikouInterface,
                                             GiftAndCampaign\HasGiftNoInterface,
                                             Denpyo\HasDenkuNumInterface,
-                                            Denpyo\Jyuden\HasLineInterface,
+                                            Denpyo\HasLineInterface,
                                             Free\HasThreeFcodeInterface,
                                             Bikou\HasThreeDenBikouInterface,
                                             Bikou\HasTwoNBikouInterface,
                                             Bikou\HasTwoOBikouInterface,
                                             Free\HasThreeFmemoInterface,
                                             Haiso\HaisoModelGroup1Interface,
-                                            Denpyo\Jyuden\HasJnameInterface
+                                            Denpyo\HasJnameInterface
 {
     /**
      * {@inheritDoc}

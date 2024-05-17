@@ -27,7 +27,7 @@ class RirekiModel extends Rireki\RirekiModelLevel1 implements RirekiModelInterfa
         Day\SdayTrait,
         Day\UdayTrait,
         Day\NdayTrait,
-        Denpyo\Jyuden\ZandakaTrait,
+        Denpyo\ZandakaTrait,
         Haiso\HaisoModelGroup1Trait;
 
     /** @var ?int $rno 行番号 */
