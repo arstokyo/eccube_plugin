@@ -20,7 +20,6 @@ class AceDateTime  implements AceDateTimeInterface
         '平成' => 1988,
         '令和' => 2018,
     ];
-
     private array $aceDateTimeFormats = ['!Ymd', 'YmdHis', '!Ym', '!Y'];
 
     /**
@@ -64,7 +63,7 @@ class AceDateTime  implements AceDateTimeInterface
             return $dateTime;
         } 
 
-        $dateTime = $this->convertToWesternFormat($dateTime);
+        $dateTime = $this->handleWarekiDateTime($dateTime);
         $result = $this->tryParseToAceFormat($dateTime, $targetNormalizeFormat);
         if ($result === false) {
             try {
@@ -183,13 +182,13 @@ class AceDateTime  implements AceDateTimeInterface
 
 
     /**
-     * Convert to Western format
+     * handle Wareki DateTime
      * 
      * @param string|int $dateTime
      * 
      * @return string
      */
-    private function convertToWesternFormat(string|int $dateTime): string
+    private function handleWarekiDateTime(string|int $dateTime): string
     {
         if (preg_match('/^(明治|大正|昭和|平成|令和)([0-9]+)\/?/', $dateTime, $matches)) {
             $yearAsInt = intval($this->japaneseStartYear[$matches[1]]) + intval($matches[2]);
@@ -199,7 +198,7 @@ class AceDateTime  implements AceDateTimeInterface
     }
 
     /**
-     * Try to parse to Ace format
+     * Try parse to Ace format
      * 
      * @param string $dateTime
      * @param string $targetNormalizeFormat
@@ -208,7 +207,9 @@ class AceDateTime  implements AceDateTimeInterface
      */
     private function tryParseToAceFormat(string $dateTime, $targetNormalizeFormat): DateTime|false
     {
-        $prepareFormats = \in_array($targetNormalizeFormat, $this->aceDateTimeFormats) ? $this->aceDateTimeFormats : array_merge($this->aceDateTimeFormats, [$targetNormalizeFormat]);
+        $prepareFormats = \in_array($targetNormalizeFormat, $this->aceDateTimeFormats) 
+                           ? $this->aceDateTimeFormats 
+                           : array_merge([$targetNormalizeFormat], $this->aceDateTimeFormats);
 
         foreach ($prepareFormats as $format) {
             $result = DateTime::createFromFormat($format, $dateTime);

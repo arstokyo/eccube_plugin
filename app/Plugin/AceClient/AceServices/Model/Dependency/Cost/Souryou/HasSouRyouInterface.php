@@ -12,14 +12,14 @@ interface HasSouRyouInterface
     /**
      * Get 送料
      *
-     * @return ?int
+     * @return ?float
      */
-    public function getSouRyou(): ?int;
+    public function getSouRyou(): ?float;
 
     /**
      * Set 送料
      *
-     * @param ?int $souryou
+     * @param ?string $souryou
      */
-    public function setSouRyou(?int $souryou);
+    public function setSouRyou(?string $souryou);
 }
