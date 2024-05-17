@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Jyuden\Jyumei;
+namespace Plugin\AceClient\AceServices\Model\Dependency\Jyudens\Jyumei;
 
 /**
  * Model for Jyumei Group1
