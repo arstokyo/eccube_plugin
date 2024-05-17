@@ -28,7 +28,8 @@ class RirekiModel extends Rireki\RirekiModelLevel1 implements RirekiModelInterfa
         Day\UdayTrait,
         Day\NdayTrait,
         Denpyo\ZandakaTrait,
-        Haiso\HaisoModelGroup1Trait;
+        Haiso\HaisoModelGroup1Trait,
+        Cost\SyoukeiTrait;
 
     /** @var ?int $rno 行番号 */
     protected ?int $rno = null;
@@ -41,10 +42,6 @@ class RirekiModel extends Rireki\RirekiModelLevel1 implements RirekiModelInterfa
 
     /** @var ?string $url URL */
     protected ?string $url = null;
-
-    /** @var ?int $syoukei 小計 */
-    protected ?int $syoukei = null;
-
 
     /**
      * {@inheritDoc}
@@ -122,22 +119,4 @@ class RirekiModel extends Rireki\RirekiModelLevel1 implements RirekiModelInterfa
         $this->url = $url;
         return $this;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getSyoukei(): ?int
-    {
-        return $this->syoukei;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setSyoukei(?int $syoukei)
-    {
-        $this->syoukei = $syoukei;
-        return $this;
-    }
-
 }
