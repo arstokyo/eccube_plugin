@@ -13,12 +13,7 @@ use Plugin\AceClient\Exception\AceDateTimeCreateFailedException;
  */
 class AceDateTime  implements AceDateTimeInterface
 {
-
-    public const ACE_DATE_FORMAT      = "Ymd";
-    public const ECCUBE_DATE_FORMAT   = "Y-m-d";
-    public const ASIAN_TOKYO_TIMEZONE = 'Asia/Tokyo';
-
-    public array $japaneseStartYear = [
+    private array $japaneseStartYear = [
         '明治' => 1867,
         '大正' => 1911,
         '昭和' => 1925,
@@ -26,49 +21,51 @@ class AceDateTime  implements AceDateTimeInterface
         '令和' => 2018,
     ];
 
+    private array $aceDateTimeFormats = ['!Ymd', 'YmdHis', '!Ym', '!Y'];
+
     /**
      * @var Datetime $dateTime
      */
     private Datetime $dateTime;
 
     /**
-     * @var string $format
+     * @var string $targetNormalizeFormat
      */
-    private string $format;
+    private string $targetNormalizeFormat;
 
-    private string $defaultTimezone = self::ASIAN_TOKYO_TIMEZONE;
+    private string $defaultTimezone = AceDateTimeFactory::ASIAN_TOKYO_TIMEZONE;
 
     /**
      * Constructor for AceDateTime
      * 
      * @param Datetime|string $dateTime
-     * @param string $format
+     * @param string $targetNormalizeFormat
      * 
      * @throws AceDateTimeCreateFailedException
      */
-    public function __construct(Datetime|string $dateTime, $format = self::ACE_DATE_FORMAT)
+    public function __construct(Datetime|string $dateTime, $targetNormalizeFormat = AceDateTimeFactory::ACE_DEFAULT_DATE_FORMAT)
     {
-        $this->format = $format;
-        $this->dateTime = $this->createNewDateTime($dateTime, $format);
+        $this->targetNormalizeFormat = $targetNormalizeFormat;
+        $this->dateTime = $this->createNewDateTime($dateTime, $targetNormalizeFormat);
     }
 
     /**
      * Create new DateTime object
      * 
      * @param string|int|Datetime $dateTime
-     * @param string $format
+     * @param string $targetNormalizeFormat
      * 
      * @throws AceDateTimeCreateFailedException
      * @return Datetime
      */
-    private function createNewDateTime(string|int|Datetime $dateTime, $format): Datetime
+    private function createNewDateTime(string|int|Datetime $dateTime, $targetNormalizeFormat): Datetime
     {
         if ($dateTime instanceof Datetime) {
             return $dateTime;
         } 
 
         $dateTime = $this->convertToWesternFormat($dateTime);
-        $result = DateTime::createFromFormat($format, $dateTime);
+        $result = $this->tryParseToAceFormat($dateTime, $targetNormalizeFormat);
         if ($result === false) {
             try {
                 $result = new DateTime($dateTime);
@@ -155,9 +152,9 @@ class AceDateTime  implements AceDateTimeInterface
     /**
      * {@inheritDoc}
      */
-    public function toSpecificFormat(string $format): string
+    public function toSpecificFormat(string $targetNormalizeFormat): string
     {
-        return $this->dateTime->format($format);
+        return $this->dateTime->format($targetNormalizeFormat);
     }
 
     /**
@@ -165,7 +162,7 @@ class AceDateTime  implements AceDateTimeInterface
      */
     public function toApiDateTime(): string
     {
-        return $this->dateTime->format($this->format);
+        return $this->dateTime->format($this->targetNormalizeFormat);
     }
 
     /**
@@ -199,6 +196,27 @@ class AceDateTime  implements AceDateTimeInterface
             return str_replace($matches[1].$matches[2], $yearAsInt, $dateTime);
         }
         return $dateTime;
+    }
+
+    /**
+     * Try to parse to Ace format
+     * 
+     * @param string $dateTime
+     * @param string $targetNormalizeFormat
+     * 
+     * @return DateTime|false
+     */
+    private function tryParseToAceFormat(string $dateTime, $targetNormalizeFormat): DateTime|false
+    {
+        $prepareFormats = \in_array($targetNormalizeFormat, $this->aceDateTimeFormats) ? $this->aceDateTimeFormats : array_merge($this->aceDateTimeFormats, [$targetNormalizeFormat]);
+
+        foreach ($prepareFormats as $format) {
+            $result = DateTime::createFromFormat($format, $dateTime);
+            if ($result !== false) {
+                return $result;
+            }
+        }
+        return $result;
     }
 
 }

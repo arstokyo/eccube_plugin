@@ -102,8 +102,7 @@ class SoapXMLSerializer implements SoapXMLSerializerInterface
             throw new NotDeserializableException(sprintf('Response data not deserializable. The data must contain "%s"', self::EXPECT_DATA_ARRAY));
         }
 
-        $object = $this->serializer->denormalize($matched, $type, $format, $context);
-        return $object ;
+        return $this->serializer->denormalize($matched, $type, $format, $context);
     }
 
     /**

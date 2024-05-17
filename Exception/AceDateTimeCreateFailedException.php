@@ -13,6 +13,6 @@ class AceDateTimeCreateFailedException extends AceClientBaseException
      */
     public function __construct(string|int $dateTime , \Throwable $previous = null)
     {
-        parent::__construct(sprintf('Could not create AceDateTime from given Date (%s)', $dateTime), $previous);
+        parent::__construct(sprintf('Could not create AceDateTime from given string (%s)', $dateTime), $previous);
     }
 }
