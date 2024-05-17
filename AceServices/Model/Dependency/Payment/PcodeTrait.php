@@ -9,13 +9,13 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Payment;
  */
 trait PcodeTrait
 {
-    /** @var ?string $pcode 支払予定方法コード */
-    protected ?string $pcode = null;
+    /** @var ?int $pcode 支払予定方法コード */
+    protected ?int $pcode = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getPcode(): ?string
+    public function getPcode(): ?int
     {
         return $this->pcode;
     }
@@ -23,7 +23,7 @@ trait PcodeTrait
     /**
      * {@inheritDoc}
      */
-    public function setPcode(?string $pcode)
+    public function setPcode(?int $pcode)
     {
         $this->pcode = $pcode;
         return $this;
