@@ -152,9 +152,9 @@ class AceDateTime  implements AceDateTimeInterface
     /**
      * {@inheritDoc}
      */
-    public function toSpecificFormat(string $targetNormalizeFormat): string
+    public function toSpecificFormat(string $format): string
     {
-        return $this->dateTime->format($targetNormalizeFormat);
+        return $this->dateTime->format($format);
     }
 
     /**
@@ -178,7 +178,7 @@ class AceDateTime  implements AceDateTimeInterface
      */
     public function toDateTime(): DateTime
     {
-        return $this->dateTime;
+        return clone $this->dateTime;
     }
 
 
