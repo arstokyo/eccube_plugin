@@ -9,7 +9,7 @@ use Plugin\AceClient\Utils\Converter\NumberConverter;
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait TaxtankaTrait 
+trait TaxTankaTrait 
 {
 
     /** @var ?float $taxtanka 消費税単価 */
