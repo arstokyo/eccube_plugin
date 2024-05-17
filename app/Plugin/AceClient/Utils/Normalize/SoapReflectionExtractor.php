@@ -21,8 +21,7 @@ class SoapReflectionExtractor extends ReflectionExtractor
         if ($types !== null) {
             foreach($types as $key => $type) {
                 if (strcasecmp($type->getClassName(), \Datetime::class ) === 0){
-                    $types = $this->pushToLast($types, $key);
-                    break;
+                    return $this->pushElementToLast($types, $key);
                 }
             }
         }
@@ -36,7 +35,7 @@ class SoapReflectionExtractor extends ReflectionExtractor
      * @param mixed $value
      * @return array
      */
-    private function pushToLast(array $array, $value): array
+    private function pushElementToLast(array $array, $value): array
     {
         $save = $array[$value];
         unset($array[$value]);
