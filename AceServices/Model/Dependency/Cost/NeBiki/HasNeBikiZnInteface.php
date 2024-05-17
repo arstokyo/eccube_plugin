@@ -9,7 +9,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\NeBiki;
  */
 interface HasNeBikiZnInteface
 {
-            
+
     /**
     * Get 値引合計
     * 

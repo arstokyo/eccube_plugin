@@ -15,7 +15,8 @@ use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
 interface JmemberModelInterface extends ParentInterface, PersonLevel2ExtractInterface, PersonLevel4ExtractInterface, PersonLevel5ExtractInterface, PersonLevel6ExtractInterface, 
                                         HasThreeBikouInterface,
                                         Mail\HasMailInterface,
-                                        PhoneAndPC\HasFaxInterface
+                                        PhoneAndPC\HasFaxInterface,
+                                        NoCategory\HasPassWdInterface
 {
    
 }
