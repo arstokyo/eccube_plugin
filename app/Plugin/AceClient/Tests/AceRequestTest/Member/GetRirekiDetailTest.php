@@ -59,6 +59,42 @@ class GetRirekiDetailRequestModelTest extends AbstractAdminWebTestCase
         return $getRirekiDetail;
     }
 
+    public function getRirekiDetailRequestNG(): GetRirekiDetailRequestModel
+    {
+        $rirekiDetail = new GetRirekiDetailRequestModel();
+        $getRirekiDetail = $rirekiDetail->setId(OverviewMapper::ACE_TEST_SYID)
+                            ->setMcode(-999999999)
+                            ->setDenno(-999999999)
+                            ->setDenku(0);
+        return $getRirekiDetail;
+    }
+    public function testRequestGetRirekiDetailNG()
+    {
+        try {
+            $getRirekiDetailRequest = $this->getRirekiDetailRequestNG();
+            $response = (new AceClient)->makeMemberService()
+                                       ->makeGetRirekiDetailMethod()
+                                       ->withRequest($getRirekiDetailRequest)
+                                       ->send();
+            if ($response->getStatusCode() === 200) {
+                /** @var GetRirekiDetailResponseModel $responseObj */
+                $responseObj = $response->getResponse();
+                $message1 = $responseObj->getMember()->getMessage()->getMessage1();
+                $rirekiDetail = $responseObj->getMember()->getRirekiDetail();
+                $mailJyuden = $responseObj->getMember()->getMailJyuden();
+                $message = $responseObj->getMember()->getMessage();
+            }
+        } catch(ClientException $e) {
+            $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
+        } catch(\Throwable $e) {
+            $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
+        }
+        $this->assertEquals(null, $rirekiDetail);
+        $this->assertEquals(null, $mailJyuden);
+        $this->assertEquals("伝票明細が存在しません", $message->getMessage1());
+        $this->assertEquals("select jm.gdid gcode,gd.name name,decode(jd.denku,20,-suu,suu) suu,tanka,decode(jd.denku,20,-suu,suu)*tanka money,to_char(jm.jday,'yyyymmdd') jday,jd.ksid pcode, (select name from bunrui where syid=jd.syid and brid=jd.jtid and kubun=2) payname,jd.ouid hcode, decode(jd.denku,20,-jyudenpoint(:xid,jd.denno,jd.nouno,jd.edano,1),jyudenpoint(:xid,jd.denno,jd.nouno,jd.edano,1)) pointm, decode(jd.denku,20,-jyudenpoint(:xid,jd.denno,jd.nouno,jd.edano,0),jyudenpoint(:xid,jd.denno,jd.nouno,jd.edano,0)) pointp, decode(jd.denku,20,-decode(jm.taxkbn,1,jm.tax,0),decode(jm.taxkbn,1,jm.tax,0)) utax, decode(jd.denku,20,-decode(jm.taxkbn,0,jm.tax,0),decode(jm.taxkbn,0,jm.tax,0)) stax, jd.nname simei,(jd.nadr1||jd.nadr2||jd.nadr3||jd.nadr4||jd.nbuild) adr,ntel tel,nzip zip, (select toino from jyuoku where syid=jd.syid and denno=jd.denno and nouno=jd.nouno and edano=jd.edano and syuno=(select min(syuno) from jyuoku where syid=jd.syid and denno=jd.denno and nouno=jd.nouno and edano=jd.edano)) okurino, (select subnm from okuri where syid=jd.syid and ouid=jd.ouid) oname,(select name from haisou where syid=jd.syid and hsid=jd.hsid) hname,jd.udate sdate,decode(hdenno,0,'受注','頒布') denkbn, to_char(jd.hday,'yyyymmdd') hday,(select name from haisoutime where syid=jd.syid and hsid=jd.hsid and htid=jd.htid) hkname,decode(jd.denku,20,'返品','受注') denku,nvl(spid,0) ckbn, decode(gd.gkbn,10,1,20,2,30,3,0) gkbn,jd.jmemid mcode,null mbikou,jm.denno,0 giftno,decode(jd.denku,20,2,0) denku_num,to_char(jm.jday,'yyyymmdd') day,jm.line, null fcode1,null fcode2,null fcode3,null dbikou1,null dbikou2,null dbikou3,null nbikou1,null nbikou2,null obikou1,null obikou2,null fmemo1,null fmemo2,null fmemo3, (select name from bunrui where syid=jd.syid and brid=jd.jtid and kubun=0) jname,decode(jm.teiki,0,null,jd.hdenno) hdenno,hcnt nowcnt from jyumei jm left join jyuden jd on jd.syid=jm.syid and jd.denno=jm.denno and jd.nouno=jm.nouno and jd.denku=jm.denku left join goods gd on gd.syid=jm.syid and gd.gdid=jm.gdid where jm.syid=:xid and jmemid=:xmbid and jm.denno=:xdenno and jd.denku<=:xdenku order by jm.line", $message->getMessage2());
+
+    }
 
     public function testRequestGetRirekiDetailOK()
     {
