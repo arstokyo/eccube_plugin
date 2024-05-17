@@ -9,7 +9,8 @@ use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient\AceServices\Model\Dependency\Bikou;
 use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
 use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
-use Plugin\AceClient\AceServices\Model\Dependency\Cost;  
+use Plugin\AceClient\AceServices\Model\Dependency\Cost; 
+use Plugin\AceClient\AceServices\Model\Dependency\Denpyo; 
 
 /**
  * Trait for Person Level 4
@@ -28,16 +29,14 @@ trait PersonLevel4Trait
         PhoneAndPC\FaxTrait,
         NoCategory\DmKbnTrait,
         Cost\RituTrait,
-        Cost\Tanka\TankaKbnTrait;
+        Cost\Tanka\TankaKbnTrait,
+        Denpyo\ToriKbnTrait;
 
     /** @var ?AceDateTime\AceDateTime $birthday 生年月日 */
     protected ?AceDateTime\AceDateTime $birthday = null;
 
     /** @var ?string $tel2 電話番号 */
     protected ?string $tel2 = null;
-
-    /** @var ?int $torikbn 取引区分 */
-    protected ?int $torikbn = null;
 
     /** @var ?string $upcode 紹介者 */
     protected ?string $upcode = null;
@@ -91,23 +90,6 @@ trait PersonLevel4Trait
     public function setTel2(?string $tel2)
     {
         $this->tel2 = $tel2;
-        return $this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getTorikbn(): ?int
-    {
-        return $this->torikbn;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setTorikbn(?int $torikbn)
-    {
-        $this->torikbn = $torikbn;
         return $this;
     }
 

@@ -10,6 +10,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\Bikou;
 use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
 use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime\AceDateTimeInterface;
 use Plugin\AceClient\AceServices\Model\Dependency\Cost;  
+use Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
 
 /**
  * Interface for Person Level 4
@@ -21,7 +22,7 @@ interface PersonLevel4Interface extends Free\HasThreeFreeInterface, Baitai\HasBa
                                         Free\HasThreeFcodeInterface, Mail\HasMailInterface,
                                         PhoneAndPC\HasFaxInterface, Bikou\HasThreeBikouInterface,
                                         NoCategory\HasDmKbnInterface, Cost\HasRituInterface,
-                                        Cost\Tanka\HasTankaKbnInterface
+                                        Cost\Tanka\HasTankaKbnInterface, Denpyo\HasToriKbnInterface
 {
 
     /**
@@ -95,20 +96,6 @@ interface PersonLevel4Interface extends Free\HasThreeFreeInterface, Baitai\HasBa
      * @param string|null $upcode 
      */
     public function setUpcode(?string $upcode);
-
-    /**
-     * Get 取引区分.
-     *
-     * @return int|null 
-     */
-    public function getTorikbn(): ?int;
-
-    /**
-     * Set 取引区分.
-     *
-     * @param int|null $torikbn 
-     */
-    public function setTorikbn(?int $torikbn);
 
     /**
      * Get 締め日.
