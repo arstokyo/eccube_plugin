@@ -85,8 +85,6 @@ class GetRirekiRequestModel extends RequestModelAbstract implements GetRirekiReq
         if (!$this->mcode) { throw new MissingRequestParameterException($this->compilePropertyName('mcode')); };
         if (!$this->dispRow) { throw new MissingRequestParameterException($this->compilePropertyName('dispRow')); };
         if (!$this->dispPage) { throw new MissingRequestParameterException($this->compilePropertyName('dispPage')); };
-        if (!$this->sort) { throw new MissingRequestParameterException($this->compilePropertyName('sort')); };
-
     }
 
     /**

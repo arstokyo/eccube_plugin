@@ -105,5 +105,14 @@ class MemberService extends AceServiceAbstract implements AceServiceInterface
     {
         return new AceMethod\Member\GetRirekiMethod($this->baseServiceName);
     }
-    
+
+    /**
+     * Make GetRirekiDetailMethod
+     *
+     * @return AceMethod\Member\GetRirekiDetailMethod
+     */
+    public function makeGetRirekiDetailMethod(): AceMethod\Member\GetRirekiDetailMethod
+    {
+        return new AceMethod\Member\GetRirekiDetailMethod($this->baseServiceName);
+    }
 }

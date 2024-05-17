@@ -3,7 +3,6 @@
 namespace Plugin\AceClient\AceServices\Model\Response\Member\GetRireki;
 
 use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Rireki;
 
 /**
  * Class for MemberModel
@@ -15,7 +14,7 @@ class MemberModel implements MemberModelInterface
     use HasMessageModelTrait;
 
     /**
-     * @var ?Rireki\RirekiModelLevel1Interface[]|null $Rireki Rireki
+     * @var RirekiModelInterface[]|null $Rireki Rireki
      */
     private ?array $Rireki = null;
 
@@ -40,7 +39,7 @@ class MemberModel implements MemberModelInterface
      */
     public static function fetchAsListProperty(): array
     {
-        return ['Rireki' => Rireki\RirekiModelLevel1::class];
+        return ['Rireki' => RirekiModel::class];
     }
     
 }

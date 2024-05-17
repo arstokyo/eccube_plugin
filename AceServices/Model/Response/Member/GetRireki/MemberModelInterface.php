@@ -3,7 +3,6 @@
 namespace Plugin\AceClient\AceServices\Model\Response\Member\GetRireki;
 
 use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Rireki;
 use Plugin\AceClient\AceServices\Model\Response\AsListDenormalizableInterface;
 
 /**
@@ -17,14 +16,14 @@ interface MemberModelInterface extends HasMessageModelInterface,
     /**
      * Get Rireki
      *
-     * @return Rireki\RirekiModelLevel1[]|null
+     * @return RirekiModel[]|null
      */
     public function getRireki(): ?array;
 
     /**
      * Set Rireki
      *
-     * @param Rireki\RirekiModelLevel1[]|null $rireki
+     * @param RirekiModel[]|null $rireki
      * @return void
      */
     public function setRireki(array|null $rireki): void;
