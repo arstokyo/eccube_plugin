@@ -23,7 +23,7 @@ class RirekiModel extends Rireki\RirekiModelLevel1 implements RirekiModelInterfa
         Good\GtotalTrait,
         Cost\Souryou\SouryouTrait,
         Cost\Tesuu\TesuuTrait,
-        Cost\NeBiki\NebikiTrait,
+        Cost\Nebiki\NebikiTrait,
         Cost\TotalTrait,
         Day\SdayTrait,
         Day\UdayTrait,

@@ -29,7 +29,7 @@ interface JyudenModelBaseInterface extends Souko\HasSoukoInterface,
                                            Bikou\HasThreeDenBikouInterface,
                                            Free\HasThreeFmemoInterface,
                                            Cost\Souryou\HasSouryouInterface,
-                                           Cost\NeBiki\HasNebikiInterface,
+                                           Cost\Nebiki\HasNebikiInterface,
                                            Cost\Tesuu\HasTesuuInterface,
                                            Shukka\HasSKbnInterface
 {

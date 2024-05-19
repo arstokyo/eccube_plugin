@@ -31,7 +31,7 @@ trait JyudenModelBaseTrait
         Bikou\ThreeDenBikouTrait,
         Free\ThreeFmemoTrait,
         Cost\Souryou\SouryouTrait,
-        Cost\NeBiki\NebikiTrait,
+        Cost\Nebiki\NebikiTrait,
         Cost\Tesuu\TesuuTrait,
         Shukka\SKbnTrait;
 

@@ -41,7 +41,7 @@ class JyudenModelGroup2 implements JyudenModelGroup2Interface
         Cost\Tax\TaxTotalTrait,
         Cost\Souryou\SouryouZnTrait,
         Cost\Tesuu\TesuuZnTrait,
-        Cost\NeBiki\NeBikiZnTrait;  
+        Cost\Nebiki\NebikiZnTrait;  
 
         /** @var ?float $gtotalzn  税抜き商品合計 */
         protected ?float $gtotalzn = null;

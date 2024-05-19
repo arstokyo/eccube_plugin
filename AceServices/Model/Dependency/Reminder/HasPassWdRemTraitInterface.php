@@ -7,7 +7,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Reminder;
  *
  * @author kmorino
  */
-interface HasPassWdRemTraitInterfaceextends extends HasQuestionInterface, HasAnswerInterface
+interface HasPassWdRemTraitInterface extends HasQuestionInterface, HasAnswerInterface
 {
 
 }

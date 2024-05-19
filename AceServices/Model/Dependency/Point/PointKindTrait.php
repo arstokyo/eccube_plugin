@@ -7,7 +7,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Point;
  * 
  * @author kmorino
  */
-trait PointTrait
+trait PointKindTrait
 {
         
     /** @var ?int $point ポイント */
