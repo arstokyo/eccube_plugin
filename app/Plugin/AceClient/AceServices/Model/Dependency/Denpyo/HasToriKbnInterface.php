@@ -20,6 +20,7 @@ interface HasToriKbnInterface
      * Set 取引区分
      * 
      * @param ?int $torikbn
+     * @return $this
      */
-    public function setTorikbn(?int $torikbn);
+    public function setTorikbn(?int $torikbn): static;
 }

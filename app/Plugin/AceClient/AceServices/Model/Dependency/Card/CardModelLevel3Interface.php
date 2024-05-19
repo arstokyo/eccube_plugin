@@ -2,14 +2,14 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Card;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Card\GMo\HasGMOStatusInterface;
+use Plugin\AceClient\AceServices\Model\Dependency\Card\GMO\HasGMOStatusInterface;
 
 /**
  * Interface for Card Level 3
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-interface CardModelLevel3Interface extends CardModelLevel2Interface, HasGMOStatusInterface
+interface CardModelLevel3Interface extends HasGMOStatusInterface
 {
 
     /**

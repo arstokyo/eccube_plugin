@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\AceMethod\Jyuden;
 
 use Plugin\AceClient\AceServices\AceMethod\AceMethodAbstract;
-use Plugin\AceClient\AceServices\Model\Response\Jyuden\AddCartResponseModel;
+use Plugin\AceClient\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModel;
 use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient\AceServices\Model\Request;
 

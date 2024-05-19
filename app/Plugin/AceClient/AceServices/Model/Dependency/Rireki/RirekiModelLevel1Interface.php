@@ -16,25 +16,12 @@ interface RirekiModelLevel1Interface extends Day\HasDayInterface,
                                              Denpyo\HasDennoInterface,
                                              Denpyo\HasDenkuInterface,
                                              Denpyo\HasDenKbnInterface,
+                                             Denpyo\HasJnameInterface,
                                              OkuriAndNouhin\HasOkuriNoInterface,
                                              Day\HasSdateInterface,
                                              Point\HasPointPInterface,
                                              Point\HasPointMInterface,
                                              Day\HasHdayInterface
 {
-
-    /**
-     * Get 受注方法
-     *
-     * @return ?string
-     */
-    public function getJname(): ?string;
-
-    /**
-     * Set 受注方法
-     *
-     * @param ?string $jname
-     */
-    public function setJname(?string $jname);
 
 }

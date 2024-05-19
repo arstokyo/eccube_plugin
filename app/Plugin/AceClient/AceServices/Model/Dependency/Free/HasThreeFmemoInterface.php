@@ -14,40 +14,40 @@ interface HasThreeFmemoInterface
      * 
      * @return ?string
      */
-    public function getFMemo1(): ?string;
+    public function getFmemo1(): ?string;
 
     /**
      * Set メモ1
      * 
      * @param ?string $fmemo1
      */
-    public function setFMemo1(?string $fmemo1);
+    public function setFmemo1(?string $fmemo1);
 
     /**
      * Get メモ2
      * 
      * @return ?string
      */
-    public function getFMemo2(): ?string;
+    public function getFmemo2(): ?string;
 
     /**
      * Set メモ2
      * 
      * @param ?string $fmemo2
      */
-    public function setFMemo2(?string $fmemo2);
+    public function setFmemo2(?string $fmemo2);
 
     /**
      * Get メモ3
      * 
      * @return ?string
      */
-    public function getFMemo3(): ?string;
+    public function getFmemo3(): ?string;
 
     /**
      * Set メモ3
      * 
      * @param ?string $fmemo3
      */
-    public function setFMemo3(?string $fmemo3);
+    public function setFmemo3(?string $fmemo3);
 }

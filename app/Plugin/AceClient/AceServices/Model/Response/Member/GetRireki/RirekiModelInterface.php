@@ -19,9 +19,10 @@ interface RirekiModelInterface extends Rireki\RirekiModelLevel1Interface,
                                        Payment\HasPnameInterface,
                                        Haiso\HaisoModelGroup1Interface,
                                        Good\HasGtotalInterface,
-                                       Cost\Souryou\HasSouRyouInterface,
+                                       Cost\Souryou\HasSouryouInterface,
                                        Cost\Tesuu\HasTesuuInterface,
                                        Cost\NeBiki\HasNebikiInterface,
+                                       Cost\HasTotalInterface,
                                        Day\HasSdayInterface,
                                        Day\HasUdayInterface,
                                        Day\HasNdayInterface,
@@ -58,17 +59,13 @@ interface RirekiModelInterface extends Rireki\RirekiModelLevel1Interface,
 
     /**
      * Get 伝票合計額
-     *
-     * @return ?int
      */
-    public function getTotal(): ?int;
+    public function getTotal(): ?float;
 
     /**
      * Set 伝票合計額
-     *
-     * @param ?int $total
      */
-    public function setTotal(?int $total);
+    public function setTotal(?string $total): static;
 
     /**
      * Get URL

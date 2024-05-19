@@ -7,25 +7,25 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-trait WebOrdernoTrait
+trait WebOrderNoTrait
 {
-    /** @var ?string $webOrderno Web上での注文番号 */
-    protected ?string $webOrderno = null;
+    /** @var ?string $weborderno Web上での注文番号 */
+    protected ?string $weborderno = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getWebOrderno(): ?string
+    public function getWeborderno(): ?string
     {
-        return $this->webOrderno;
+        return $this->weborderno;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setWebOrderno(?string $webOrderno)
+    public function setWeborderno(?string $weborderno)
     {
-        $this->webOrderno = $webOrderno;
+        $this->weborderno = $weborderno;
         return $this;
     }
 }

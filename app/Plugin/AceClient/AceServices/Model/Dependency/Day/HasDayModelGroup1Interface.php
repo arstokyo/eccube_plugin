@@ -12,7 +12,6 @@ interface HasDayModelGroup1Interface extends HasDayInterface,
                                              HasYdayInterface,
                                              HasSdayInterface,
                                              HasUdayInterface,
-                                             HasNdayInterface,
-                                             HasHdayInterface
+                                             HasNdayInterface
 {
 }

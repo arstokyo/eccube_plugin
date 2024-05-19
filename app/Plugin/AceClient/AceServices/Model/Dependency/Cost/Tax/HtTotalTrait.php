@@ -9,7 +9,7 @@ use Plugin\AceClient\Utils\Converter\NumberConverter;
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait HtTotalTrait
+trait HTTotalTrait
 {
                 
     /** @var ?float $httotal 非課税対象額 */

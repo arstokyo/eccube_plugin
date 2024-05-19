@@ -10,19 +10,20 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Point;
 interface HasPointMaxInterface
 {
         
-        /**
-        * Get ポイント使用上限金額
-        * 
-        * @return int|null
-        */
-        public function getPointmax(): ?int;
+    /**
+    * Get ポイント使用上限金額
+    * 
+    * @return int|null
+    */
+    public function getPointmax(): ?int;
+
+    /**
+    * Set ポイント使用上限金額
+    * 
+    * @param int|null $pointmax
+    * @return $this
+    */
+    public function setPointmax(?int $pointmax): static;
     
-        /**
-        * Set ポイント使用上限金額
-        * 
-        * @param int|null $pointmax
-        * @return $this
-        */
-        public function setPointmax(?int $pointmax): static;
 }
 

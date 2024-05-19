@@ -9,7 +9,7 @@ use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class CardModelLevel1 implements CardModelLevel1Interface
+trait CardModelLevel1Trait
 {
     use CnameTrait;
 
@@ -78,7 +78,7 @@ class CardModelLevel1 implements CardModelLevel1Interface
      */
     public function setCkigen(\DateTime|string|null $ckigen): static
     {
-        $this->ckigen = AceDateTime\AceDateTimeFactory::makeAceDateTime($ckigen, 'Y-m');
+        $this->ckigen = AceDateTime\AceDateTimeFactory::makeAceDateTime($ckigen, 'Ym');
         return $this;
     }
 

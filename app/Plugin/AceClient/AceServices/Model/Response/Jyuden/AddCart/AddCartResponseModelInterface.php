@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Jyuden;
+namespace Plugin\AceClient\AceServices\Model\Response\Jyuden\AddCart;
 
 use Plugin\AceClient\AceServices\Model\Response;
 
@@ -15,14 +15,14 @@ interface AddCartResponseModelInterface extends Response\ResponseModelInterface
     /**
      * Get order
      * 
-     * @return Response\Jyuden\OrderModel
+     * @return Response\Jyuden\AddCart\OrderModel
      */
     public function getOrder(): OrderModelInterface;
 
     /**
      * Set order
      * 
-     * @param Response\Jyuden\OrderModel $order
+     * @param Response\Jyuden\AddCart\OrderModel $order
      * @return void
      */
     public function setOrder(OrderModel $order): void;

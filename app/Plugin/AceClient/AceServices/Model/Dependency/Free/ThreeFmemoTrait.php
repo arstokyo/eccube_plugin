@@ -21,7 +21,7 @@ trait ThreeFmemoTrait
     /**
      * {@inheritDoc}
      */
-    public function getFMemo1(): ?string
+    public function getFmemo1(): ?string
     {
         return $this->fmemo1;
     }
@@ -29,7 +29,7 @@ trait ThreeFmemoTrait
     /**
      * {@inheritDoc}
      */
-    public function setFMemo1(?string $fmemo1)
+    public function setFmemo1(?string $fmemo1)
     {
         $this->fmemo1 = $fmemo1;
         return $this;
@@ -38,7 +38,7 @@ trait ThreeFmemoTrait
     /**
      * {@inheritDoc}
      */
-    public function getFMemo2(): ?string
+    public function getFmemo2(): ?string
     {
         return $this->fmemo2;
     }
@@ -46,7 +46,7 @@ trait ThreeFmemoTrait
     /**
      * {@inheritDoc}
      */
-    public function setFMemo2(?string $fmemo2)
+    public function setFmemo2(?string $fmemo2)
     {
         $this->fmemo2 = $fmemo2;
         return $this;
@@ -55,7 +55,7 @@ trait ThreeFmemoTrait
     /**
      * {@inheritDoc}
      */
-    public function getFMemo3(): ?string
+    public function getFmemo3(): ?string
     {
         return $this->fmemo3;
     }
@@ -63,7 +63,7 @@ trait ThreeFmemoTrait
     /**
      * {@inheritDoc}
      */
-    public function setFMemo3(?string $fmemo3)
+    public function setFmemo3(?string $fmemo3)
     {
         $this->fmemo3 = $fmemo3;
         return $this;

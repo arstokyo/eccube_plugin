@@ -22,12 +22,12 @@ trait ThreeFnameTrait
     /**
      * {@inheritDoc}
      */
-    public function getFName1(): ?string
+    public function getFname1(): ?string
     {
         return $this->fname1;
     }
 
-    public function setFName1(?string $fname1)
+    public function setFname1(?string $fname1)
     {
         $this->fname1 = $fname1;
         return $this;
@@ -36,7 +36,7 @@ trait ThreeFnameTrait
     /**
      * {@inheritDoc}
      */
-    public function getFName2(): ?string
+    public function getFname2(): ?string
     {
         return $this->fname2;
     }
@@ -44,7 +44,7 @@ trait ThreeFnameTrait
     /**
      * {@inheritDoc}
      */
-    public function setFName2(?string $fname2)
+    public function setFname2(?string $fname2)
     {
         $this->fname2 = $fname2;
         return $this;
@@ -53,7 +53,7 @@ trait ThreeFnameTrait
     /**
      * {@inheritDoc}
      */
-    public function getFName3(): ?string
+    public function getFname3(): ?string
     {
         return $this->fname3;
     }
@@ -61,7 +61,7 @@ trait ThreeFnameTrait
     /**
      * {@inheritDoc}
      */
-    public function setFName3(?string $fname3)
+    public function setFname3(?string $fname3)
     {
         $this->fname3 = $fname3;
         return $this;

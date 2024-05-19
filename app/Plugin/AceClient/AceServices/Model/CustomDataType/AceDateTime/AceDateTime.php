@@ -20,7 +20,7 @@ class AceDateTime  implements AceDateTimeInterface
         '平成' => 1988,
         '令和' => 2018,
     ];
-    private array $aceDateTimeFormats = ['!Ymd', 'YmdHis', '!Ym', '!Y'];
+    private array $aceDateTimeFormats = ['!Ymd', 'YmdHis', '!Ym'];
 
     /**
      * @var Datetime $dateTime
@@ -45,26 +45,25 @@ class AceDateTime  implements AceDateTimeInterface
     public function __construct(Datetime|string $dateTime, $targetNormalizeFormat = AceDateTimeFactory::ACE_DEFAULT_DATE_FORMAT)
     {
         $this->targetNormalizeFormat = $targetNormalizeFormat;
-        $this->dateTime = $this->createNewDateTime($dateTime, $targetNormalizeFormat);
+        $this->dateTime = $this->createNewDateTime($dateTime);
     }
 
     /**
      * Create new DateTime object
      * 
-     * @param string|int|Datetime $dateTime
-     * @param string $targetNormalizeFormat
+     * @param string|Datetime $dateTime
      * 
      * @throws AceDateTimeCreateFailedException
      * @return Datetime
      */
-    private function createNewDateTime(string|int|Datetime $dateTime, $targetNormalizeFormat): Datetime
+    private function createNewDateTime(string|Datetime $dateTime): Datetime
     {
         if ($dateTime instanceof Datetime) {
             return $dateTime;
         } 
 
         $dateTime = $this->handleWarekiDateTime($dateTime);
-        $result = $this->tryParseToAceFormat($dateTime, $targetNormalizeFormat);
+        $result = $this->tryParseToAceFormat($dateTime);
         if ($result === false) {
             try {
                 $result = new DateTime($dateTime);
@@ -201,23 +200,19 @@ class AceDateTime  implements AceDateTimeInterface
      * Try parse to Ace format
      * 
      * @param string $dateTime
-     * @param string $targetNormalizeFormat
      * 
      * @return DateTime|false
      */
-    private function tryParseToAceFormat(string $dateTime, $targetNormalizeFormat): DateTime|false
+    private function tryParseToAceFormat(string $dateTime): DateTime|false
     {
-        $prepareFormats = \in_array($targetNormalizeFormat, $this->aceDateTimeFormats) 
-                           ? $this->aceDateTimeFormats 
-                           : array_merge([$targetNormalizeFormat], $this->aceDateTimeFormats);
 
-        foreach ($prepareFormats as $format) {
+        foreach ($this->aceDateTimeFormats as $format) {
             $result = DateTime::createFromFormat($format, $dateTime);
             if ($result !== false) {
                 return $result;
             }
         }
-        return $result;
+        return false;
     }
 
 }

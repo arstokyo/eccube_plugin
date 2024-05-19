@@ -10,7 +10,7 @@ namespace Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
 class AceDateTimeFactory
 {
 
-    public const ACE_DEFAULT_DATE_FORMAT = "!Ymd";
+    public const ACE_DEFAULT_DATE_FORMAT = "Ymd";
     public const ASIAN_TOKYO_TIMEZONE = 'Asia/Tokyo';
 
     /**

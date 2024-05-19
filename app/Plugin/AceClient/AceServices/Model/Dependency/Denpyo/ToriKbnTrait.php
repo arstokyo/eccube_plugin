@@ -27,7 +27,7 @@ trait ToriKbnTrait
     /**
      * {@inheritDoc}
      */
-    public function setTorikbn(?int $torikbn)
+    public function setTorikbn(?int $torikbn): static
     {
         $this->torikbn = $torikbn;
         return $this;
