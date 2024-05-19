@@ -13,6 +13,7 @@ use Plugin\AceClient\AceClient;
 use Plugin\AceClient\AceServices\Model\Request;
 use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient\AceServices\Model\Dependency\Mail\MemMailModel;
+use Plugin\AceClient\AceServices\Model\Dependency\Reminder\PassWdRemModel;
 use Plugin\AceClient\Utils\Mapper\OverviewMapper;
 
 class RegMemberTest extends AbstractAdminWebTestCase
@@ -86,6 +87,11 @@ class RegMemberTest extends AbstractAdminWebTestCase
                             )
                             ->setUserid($this->testMbid)
                             ->setPasswd('password')
+                            // ->setPasswdRem(
+                            //     (new PassWdRemModel())
+                            //     ->setQuestion('質問')
+                            //     ->setAnswer('答え')
+                            // )
                         );
         $member = new MemberModel();
         $member->setMember($memberPrm);

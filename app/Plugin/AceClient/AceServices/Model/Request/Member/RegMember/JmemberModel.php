@@ -10,7 +10,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\Person\PersonLevel5ExtractTrai
 use Plugin\AceClient\AceServices\Model\Dependency\Person\PersonLevel6ExtractTrait;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient\AceServices\Model\Dependency\Mail;
-use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
+use Plugin\AceClient\AceServices\Model\Dependency\Reminder;
 
 /**
  * Class for 納品先Model
@@ -19,12 +19,9 @@ use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
  */
 class JmemberModel extends ParentModel implements JmemberModelInterface
 {
-  use PersonLevel2ExtractTrait,
-      PersonLevel4ExtractTrait,
-      PersonLevel5ExtractTrait,
-      PersonLevel6ExtractTrait,
+  use PersonLevel6ExtractTrait,
       ThreeBikouTrait,
       Mail\MemMailTrait,
-      PhoneAndPC\FaxTrait,
-      NoCategory\PassWdTrait;
+      NoCategory\PassWdTrait,
+      Reminder\PassWdRemModelTrait;
 }
