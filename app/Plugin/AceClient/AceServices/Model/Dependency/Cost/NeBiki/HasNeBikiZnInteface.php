@@ -1,13 +1,13 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\NeBiki;
+namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Nebiki;
 
 /**
  * Interface for Has 値引合計
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-interface HasNeBikiZnInteface
+interface HasNebikiZnInteface
 {
 
     /**

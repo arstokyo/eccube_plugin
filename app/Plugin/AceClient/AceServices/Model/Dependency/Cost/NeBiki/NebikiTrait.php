@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\NeBiki;
+namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Nebiki;
 
 use Plugin\AceClient\Utils\Converter\NumberConverter;
 

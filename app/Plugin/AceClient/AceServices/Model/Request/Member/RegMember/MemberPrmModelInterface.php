@@ -17,7 +17,7 @@ interface MemberPrmModelInterface
     /**
      * Get 受注先
      * 
-     * @return Request\Member\RegMember\JmemberModeldInterface|null
+     * @return Request\Member\RegMember\JmemberModel|null
      */
     public function getJmember(): ?JmemberModelInterface;
 

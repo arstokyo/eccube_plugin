@@ -38,7 +38,7 @@ interface JyudenModelGroup2Interface extends JyudenModelBaseInterface,
                                              Cost\Tax\HasTaxTotalInterface,
                                              Cost\Souryou\HasSouryouZnInterface,
                                              Cost\Tesuu\HasTesuuZnInterface,
-                                             Cost\NeBiki\HasNeBikiZnInteface
+                                             Cost\Nebiki\HasNebikiZnInteface
 
 {
 

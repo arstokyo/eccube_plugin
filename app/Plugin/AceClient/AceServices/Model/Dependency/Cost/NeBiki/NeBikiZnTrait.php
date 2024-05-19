@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\NeBiki;
+namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Nebiki;
 
 use Plugin\AceClient\Utils\Converter\NumberConverter;
 
@@ -9,7 +9,7 @@ use Plugin\AceClient\Utils\Converter\NumberConverter;
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait NeBikiZnTrait 
+trait NebikiZnTrait 
 {
     /** @var ?float $nebikizn 値引合計 */
     protected ?float $nebikizn = null;
