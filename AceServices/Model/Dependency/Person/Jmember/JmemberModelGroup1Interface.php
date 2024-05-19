@@ -14,11 +14,10 @@ use Plugin\AceClient\AceServices\Model\Dependency\Reminder;
  * @author kmorino
  */
 interface JmemberModelGroup1Interface extends JmemberModelInterface, 
-                                              Person\PersonLevel1Interface, Person\PersonLevel2Interface, Person\PersonLevel4Interface, Person\PersonLevel5Interface, Person\PersonLevel6Interface, 
+                                              Person\PersonLevel6ExtractInterface, 
                                               Address\HasFourAdrInterface, HasThreeAdrBikouInterface,
                                               Address\HasZipInterface,
-                                              NoCategory\HasPassWdInterface,
-                                              Reminder\HasSevenRemindersInterface
+                                              NoCategory\HasPassWdInterface
 {
 
     /**
