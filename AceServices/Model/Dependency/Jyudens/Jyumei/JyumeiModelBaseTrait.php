@@ -2,10 +2,10 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Jyudens\Jyumei;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Good;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient\AceServices\Model\Dependency\Cost;
 use Plugin\AceClient\AceServices\Model\Dependency\Bikou;
+use Plugin\AceClient\AceServices\Model\Dependency\Good;
 
 /**
  * Model for Jyumei Base
@@ -15,11 +15,8 @@ use Plugin\AceClient\AceServices\Model\Dependency\Bikou;
 trait JyumeiModelBaseTrait
 {
     use NoCategory\SuuTrait,
-        Cost\Teika\TeikaTrait,
-        Cost\RituTrait,
         Cost\Tanka\TankaTrait,
         Cost\Money\MoneyTrait,
         Bikou\MBikouTrait,
-        Cost\Genka\GenkaTrait,
-        Good\KpKbnTrait;
+        Good\GcodeTrait;
 }

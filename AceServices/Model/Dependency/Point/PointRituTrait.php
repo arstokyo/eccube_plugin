@@ -12,13 +12,13 @@ use Plugin\AceClient\Utils\Converter\NumberConverter;
 trait PointRituTrait 
 {
    
-    /** @var ?float $pointRitu ポイント掛率 */
-    protected ?float $pointRitu = null;
+    /** @var ?float $pointritu ポイント掛率 */
+    protected ?float $pointritu = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getPointRitu(): ?float
+    public function getPointritu(): ?float
     {
         return $this->pointRitu;
     }
@@ -26,9 +26,9 @@ trait PointRituTrait
     /**
      * {@inheritDoc}
      */
-    public function setPointRitu(?string $pointRitu): static
+    public function setPointritu(?string $pointritu): static
     {
-        $this->pointRitu = NumberConverter::stringWithCommaToFloat($pointRitu);
+        $this->pointRitu = NumberConverter::stringWithCommaToFloat($pointritu);
         return $this;
     }
 

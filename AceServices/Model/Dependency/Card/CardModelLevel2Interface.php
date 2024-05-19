@@ -9,7 +9,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\Card\GMO\GMOModelGroup1Interfa
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-interface CardModelLevel2Interface extends CardModelLevel1Interface, GMOModelGroup1Interface
+interface CardModelLevel2Interface extends GMOModelGroup1Interface
 {
 
     /**

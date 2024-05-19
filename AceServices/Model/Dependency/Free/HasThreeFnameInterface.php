@@ -14,41 +14,41 @@ interface HasThreeFnameInterface
      * 
      * @return ?string
      */
-    public function getFName1(): ?string;
+    public function getFname1(): ?string;
 
     /**
      * Set フリーコード 名称 1
      * 
      * @param ?string $fname1
      */
-    public function setFName1(?string $fname1);
+    public function setFname1(?string $fname1);
 
     /**
      * Get フリーコード 名称 2
      * 
      * @return ?string
      */
-    public function getFName2(): ?string;
+    public function getFname2(): ?string;
 
     /**
      * Set フリーコード 名称 2
      * 
      * @param ?string $fname2
      */
-    public function setFName2(?string $fname2);
+    public function setFname2(?string $fname2);
 
     /**
      * Get フリーコード 名称 3
      * 
      * @return ?string
      */
-    public function getFName3(): ?string;
+    public function getFname3(): ?string;
 
     /**
      * Set フリーコード 名称 3
      * 
      * @param ?string $fname3
      */
-    public function setFName3(?string $fname3);
+    public function setFname3(?string $fname3);
 
 }

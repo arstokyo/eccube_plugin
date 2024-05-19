@@ -7,19 +7,19 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Souryou;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface HasSouRyouInterface
+interface HasSouryouInterface
 {
     /**
      * Get 送料
      *
      * @return ?float
      */
-    public function getSouRyou(): ?float;
+    public function getSouryou(): ?float;
 
     /**
      * Set 送料
      *
      * @param ?string $souryou
      */
-    public function setSouRyou(?string $souryou);
+    public function setSouryou(?string $souryou);
 }

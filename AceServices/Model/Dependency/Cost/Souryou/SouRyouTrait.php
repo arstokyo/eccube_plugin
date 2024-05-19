@@ -9,7 +9,7 @@ use Plugin\AceClient\Utils\Converter\NumberConverter;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-trait SouRyouTrait 
+trait SouryouTrait 
 {
     /** @var ?float $souryou 送料 */
     protected ?float $souryou = null;
@@ -17,7 +17,7 @@ trait SouRyouTrait
     /**
      * {@inheritDoc}
      */
-    public function getSouRyou(): ?float
+    public function getSouryou(): ?float
     {
         return $this->souryou;
     }
@@ -25,7 +25,7 @@ trait SouRyouTrait
     /**
      * {@inheritDoc}
      */
-    public function setSouRyou(?string $souryou)
+    public function setSouryou(?string $souryou)
     {
         $this->souryou = NumberConverter::stringWithCommaToFloat($souryou);
         return $this;

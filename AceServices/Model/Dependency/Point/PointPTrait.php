@@ -9,23 +9,23 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Point;
  */
 trait PointPTrait
 {
-    /** @var ?int $pointP 加算ポイント */
-    protected ?int $pointP = null;
+    /** @var ?int $pointp 加算ポイント */
+    protected ?int $pointp = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getPointP(): ?int
+    public function getPointp(): ?int
     {
-        return $this->pointP;
+        return $this->pointp;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setPointP(?int $pointP)
+    public function setPointp(?int $pointp)
     {
-        $this->pointP = $pointP;
+        $this->pointp = $pointp;
         return $this;
     }
 }

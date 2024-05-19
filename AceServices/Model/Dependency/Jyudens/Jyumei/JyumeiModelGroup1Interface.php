@@ -5,7 +5,6 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Jyudens\Jyumei;
 use Plugin\AceClient\AceServices\Model\Dependency\Cost;
 use Plugin\AceClient\AceServices\Model\Dependency\Zaiko;
 
-
 /**
  * Interface for JyumeiModelGroup1
  *
@@ -14,6 +13,9 @@ use Plugin\AceClient\AceServices\Model\Dependency\Zaiko;
 interface JyumeiModelGroup1Interface extends JyumeiModelBaseInterface,
                                              Zaiko\HasIgnoreZaikoInterface,
                                              Zaiko\HasChoseiZaikoInterface,
-                                             Cost\Tax\HasTaxKbnInterface
+                                             Cost\Tax\HasTaxKbnInterface,
+                                             Cost\Teika\HasTeikaInterface,
+                                             Cost\HasRituInterface,
+                                             Cost\Genka\HasGenkaInterface
 {
 }

@@ -15,14 +15,14 @@ interface HasPointRituInterface
      * 
      * @return float|null
      */
-    public function getPointRitu(): ?float;
+    public function getPointritu(): ?float;
 
     /**
      * Set ポイント掛率
      * 
-     * @param string|null $pointRitu
+     * @param string|null $pointritu
      * @return $this
      */
-    public function setPointRitu(?string $pointRitu): static;
+    public function setPointritu(?string $pointritu): static;
 
 }

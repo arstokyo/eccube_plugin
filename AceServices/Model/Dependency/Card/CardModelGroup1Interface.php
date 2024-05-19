@@ -3,7 +3,6 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Card;
 
 use Symfony\Component\Serializer\Annotation\SerializedName;
-use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
 
 /**
  * Interface for CardModelGroup1
@@ -17,19 +16,7 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * {@inheritDoc}
      */
     #[SerializedName('card_code')]
-    public function getCcode(): ?string;
-
-    /**
-     * {@inheritDoc}
-     */
-    #[SerializedName('card_code')]
     public function setCcode(string|null $ccode): static;
-
-    /**
-     * {@inheritDoc}
-     */
-    #[SerializedName('card_no')]
-    public function getCno(): ?string;
 
     /**
      * {@inheritDoc}
@@ -41,19 +28,7 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * {@inheritDoc}
      */
     #[SerializedName('card_kigen')]
-    public function getCkigen(): AceDateTime\AceDateTimeInterface|null;
-
-    /**
-     * {@inheritDoc}
-     */
-    #[SerializedName('card_kigen')]
     public function setCkigen(\Datetime|string|null $ckigen): static;
-
-    /**
-     * {@inheritDoc}
-     */
-    #[SerializedName('card_pay')]
-    public function getCpay(): ?int;
 
     /**
      * {@inheritDoc}
@@ -65,19 +40,7 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * {@inheritDoc}
      */
     #[SerializedName('card_syonin')]
-    public function getSyounin(): ?string;
-
-    /**
-     * {@inheritDoc}
-     */
-    #[SerializedName('card_syonin')]
     public function setSyounin(string|null $syounin): static;
-
-    /**
-     * {@inheritDoc}
-     */
-    #[SerializedName('sps_memid')]
-    public function getSpscustomerid(): ?string;
 
     /**
      * {@inheritDoc}
@@ -89,19 +52,7 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * {@inheritDoc}
      */
     #[SerializedName('sps_tracid')]
-    public function getSpstid(): ?string;
-
-    /**
-     * {@inheritDoc}
-     */
-    #[SerializedName('sps_tracid')]
     public function setSpstid(string|null $spstid): static;
-
-    /**
-     * {@inheritDoc}
-     */
-    #[SerializedName('orderid')]
-    public function getVeriorderid(): ?string;
 
     /**
      * {@inheritDoc}
@@ -114,42 +65,39 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * 
      * @return string|null
      */
-    #[SerializedName('in_kokyaku_id')]
-    public function getInKokyakuId(): ?string;
+    public function getInkokyakuid(): ?string;
 
     /**
      * Set 通販AceSyID
      * 
-     * @param string|null $inkokyakuId
+     * @param string|null $inkokyakuid
      * @return $this
      */
     #[SerializedName('in_kokyaku_id')]
-    public function setInKokyakuId(string|null $inkokyakuId): static;
+    public function setInkokyakuid(string|null $inkokyakuid): static;
 
     /**
      * Get 顧客コード
      * 
      * @return string|null
      */
-    #[SerializedName('in_chumon_id')]
-    public function getInChumonId(): ?string;
+    public function getInchumonid(): ?string;
 
     /**
      * Set 顧客コード
      * 
-     * @param string|null $inchumonId
+     * @param string|null $inchumonid
      * @return $this
      */
     #[SerializedName('in_chumon_id')]
-    public function setInChumonId(string|null $inchumonId): static;
+    public function setInchumonid(string|null $inchumonid): static;
 
     /**
      * Get セッションID
      * 
      * @return string|null
      */
-    #[SerializedName('in_tokushu1')]
-    public function getInTokushu1(): ?string;
+    public function getIntokushu1(): ?string;
 
     /**
      * Set セッションID
@@ -158,15 +106,14 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * @return $this
      */
     #[SerializedName('in_tokushu1')]
-    public function setInTokushu1(string|null $intokushu1): static;
+    public function setIntokushu1(string|null $intokushu1): static;
 
     /**
      * Get 枝番号
      * 
      * @return string|null
      */
-    #[SerializedName('in_tokushu2')]
-    public function getInTokushu2(): ?string;
+    public function getIntokushu2(): ?string;
 
     /**
      * Set 枝番号
@@ -175,7 +122,7 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * @return $this
      */
     #[SerializedName('in_tokushu2')]
-    public function setInTokushu2(string|null $intokushu2): static;
+    public function setIntokushu2(string|null $intokushu2): static;
 
     /**
      * Get EC受付番号
@@ -183,7 +130,7 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * @return string|null
      */
     #[SerializedName('uke_no')]
-    public function getUkeNo(): ?string;
+    public function getUkeno(): ?string;
 
     /**
      * Set EC受付番号
@@ -192,15 +139,14 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * @return $this
      */
     #[SerializedName('uke_no')]
-    public function setUkeNo(string|null $ukeno): static;
+    public function setUkeno(string|null $ukeno): static;
 
     /**
      * Get PGT顧客ID
      * 
      * @return string|null
      */
-    #[SerializedName('pgt_memid')]
-    public function getPgtMemid(): ?string;
+    public function getPgtmemid(): ?string;
 
     /**
      * Set PGT顧客ID
@@ -209,15 +155,14 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * @return $this
      */
     #[SerializedName('pgt_memid')]
-    public function setPgtMemid(string|null $pgtmemid): static;
+    public function setPgtmemid(string|null $pgtmemid): static;
 
     /**
      * Get PGT顧客カードID
      * 
      * @return string|null
      */
-    #[SerializedName('pgt_memcdid')]
-    public function getPgtMemcdid(): ?string;
+    public function getPgtmemcdid(): ?string;
 
     /**
      * Set PGT顧客カードID
@@ -226,15 +171,14 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * @return $this
      */
     #[SerializedName('pgt_memcdid')]
-    public function setPgtMemcdid(string|null $pgtmemcdid): static;
+    public function setPgtmemcdid(string|null $pgtmemcdid): static;
 
     /**
      * Get PGT取引ID
      * 
      * @return string|null
      */
-    #[SerializedName('pgt_tid')]
-    public function getPgtTid(): ?string;
+    public function getPgttid(): ?string;
 
     /**
      * Set PGT取引ID
@@ -243,15 +187,14 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * @return $this
      */
     #[SerializedName('pgt_tid')]
-    public function setPgtTid(string|null $pgttid): static;
+    public function setPgttid(string|null $pgttid): static;
 
     /**
      * Get PGT決済ID
      * 
      * @return string|null
      */
-    #[SerializedName('pgt_id')]
-    public function getPgtId(): ?string;
+    public function getPgtid(): ?string;
 
     /**
      * Set PGT決済ID
@@ -260,15 +203,14 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * @return $this
      */
     #[SerializedName('pgt_id')]
-    public function setPgtId(string|null $pgtid): static;
+    public function setPgtid(string|null $pgtid): static;
 
     /**
      * Get PGTイシュア区分
      * 
      * @return string|null
      */
-    #[SerializedName('pgt_icls')]
-    public function getPgtIcls(): ?string;
+    public function getPgticls(): ?string;
 
     /**
      * Set PGTイシュア区分
@@ -277,14 +219,13 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * @return $this
      */
     #[SerializedName('pgt_icls')]
-    public function setPgtIcls(string|null $pgticls): static;
+    public function setPgticls(string|null $pgticls): static;
 
     /**
      * Get GMOカード登録連番
      * 
      * @return string|null
      */
-    #[SerializedName('gmocardeda')]
     public function getGmocardeda(): ?string;
 
     /**

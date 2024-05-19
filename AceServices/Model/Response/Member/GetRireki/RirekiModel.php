@@ -21,9 +21,10 @@ class RirekiModel extends Rireki\RirekiModelLevel1 implements RirekiModelInterfa
 {
     use Payment\PnameTrait,
         Good\GtotalTrait,
-        Cost\Souryou\SouRyouTrait,
+        Cost\Souryou\SouryouTrait,
         Cost\Tesuu\TesuuTrait,
         Cost\NeBiki\NebikiTrait,
+        Cost\TotalTrait,
         Day\SdayTrait,
         Day\UdayTrait,
         Day\NdayTrait,
@@ -36,9 +37,6 @@ class RirekiModel extends Rireki\RirekiModelLevel1 implements RirekiModelInterfa
 
     /** @var ?int $maxrow 行数 */
     protected ?int $maxrow = null;
-
-    /** @var ?int $total 伝票合計額 */
-    protected ?int $total = null;
 
     /** @var ?string $url URL */
     protected ?string $url = null;
@@ -83,23 +81,6 @@ class RirekiModel extends Rireki\RirekiModelLevel1 implements RirekiModelInterfa
     public function setMaxrow(?int $maxrow)
     {
         $this->maxrow = $maxrow;
-        return $this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getTotal(): ?int
-    {
-        return $this->total;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setTotal(?int $total)
-    {
-        $this->total = $total;
         return $this;
     }
 

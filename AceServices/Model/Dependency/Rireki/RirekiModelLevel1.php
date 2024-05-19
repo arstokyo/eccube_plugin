@@ -8,7 +8,6 @@ use Plugin\AceClient\AceServices\Model\Dependency\Point;
 use Plugin\AceClient\AceServices\Model\Dependency\Day;
 use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
 
-
 /**
  * Model for RirekiLevel1
  *
@@ -20,15 +19,12 @@ class RirekiModelLevel1 implements RirekiModelLevel1Interface
         Denpyo\DennoTrait,
         Denpyo\DenkuTrait,
         Denpyo\DenKbnTrait,
+        Denpyo\JnameTrait,
         OkuriAndNouhin\OkuriNoTrait,
         Day\SdateTrait,
         Point\PointPTrait,
         Point\PointMTrait,
         Day\HdayTrait;
-
-    /** @var ?string $jname 受注方法 */
-    protected ?string $jname = null;
-
 
     /**
      * {@inheritDoc}
@@ -38,24 +34,5 @@ class RirekiModelLevel1 implements RirekiModelLevel1Interface
         $this->day = AceDateTime\AceDateTimeFactory::makeAceDateTime($day,"YmdHis");
         return $this;
     }
-
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getJname(): ?string
-    {
-        return $this->jname;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setJname(?string $jname)
-    {
-        $this->jname = $jname;
-        return $this;
-    }
-
 
 }

@@ -44,10 +44,16 @@ class AceDateTimeTest extends AbstractAdminWebTestCase
         $datetime = new AceDateTime('2024/13/26');
     }
 
-    public function testConvertToWesternDate()
+    public function testConvertToWesternDateCase1()
     {
         $datetime = new AceDateTime('平成18/02/27 00:00:00');
         $this->assertEquals('2006-02-27', $datetime->toShortDate());
+    }
+
+    public function testConvertToWesternDateCase2()
+    {
+        $datetime = new AceDateTime('令和6/02/27 00:00:00');
+        $this->assertEquals('2024-02-27', $datetime->toShortDate());
     }
 
     public function testConvertFromAceFormatCase1()
@@ -60,6 +66,24 @@ class AceDateTimeTest extends AbstractAdminWebTestCase
     {
         $datetime = new AceDateTime('200602', 'Ym');
         $this->assertEquals('200602', $datetime->toApiDateTime());
+    }
+
+    public function testConvertFromAceFormatCase3()
+    {
+        $datetime = new AceDateTime('2006/02/01', 'Ym');
+        $this->assertEquals('200602', $datetime->toApiDateTime());
+    }
+
+    public function testConvertFromAceFormatCase4()
+    {
+        $datetime = new AceDateTime('2006-02-01', 'Ym');
+        $this->assertEquals('200602', $datetime->toApiDateTime());
+    }
+
+    public function testConvertFromAceFormatCase5()
+    {
+        $datetime = new AceDateTime('2006-02-01', 'Y/m/d');
+        $this->assertEquals('2006/02/01', $datetime->toApiDateTime());
     }
 
     public function testAceDateTimeFactoryNull()

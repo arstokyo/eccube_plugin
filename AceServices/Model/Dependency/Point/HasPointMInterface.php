@@ -14,12 +14,12 @@ interface HasPointMInterface
      *
      * @return ?int
      */
-    public function getPointM(): ?int;
+    public function getPointm(): ?int;
 
     /**
      * Set 使用ポイント
      *
-     * @param ?int $pointM
+     * @param ?int $pointm
      */
-    public function setPointM(?int $pointM);
+    public function setPointm(?int $pointm);
 }

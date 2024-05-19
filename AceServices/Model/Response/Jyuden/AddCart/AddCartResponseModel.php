@@ -1,9 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Jyuden;
+namespace Plugin\AceClient\AceServices\Model\Response\Jyuden\AddCart;
 
 use Plugin\AceClient\AceServices\Model\Response\ResponseModelAbtract;
-use Plugin\AceClient\AceServices\Model\Response\Depedency\OrderModelResponseAbstract;
 
 /**
  * Model for AddCartResponse.

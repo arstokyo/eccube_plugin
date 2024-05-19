@@ -14,41 +14,41 @@ interface HasThreeFcodeInterface
      * 
      * @return ?string
      */
-    public function getFCode1(): ?string;
+    public function getFcode1(): ?string;
 
     /**
      * Set フリーコード 1
      * 
      * @param ?string $fcode1
      */
-    public function setFCode1(?string $fcode1);
+    public function setFcode1(?string $fcode1);
 
     /**
      * Get フリーコード 2
      * 
      * @return ?string
      */
-    public function getFCode2(): ?string;
+    public function getFcode2(): ?string;
 
     /**
      * Set フリーコード 2
      * 
      * @param ?string $fcode2
      */
-    public function setFCode2(?string $fcode2);
+    public function setFcode2(?string $fcode2);
 
     /**
      * Get フリーコード 3
      * 
      * @return ?string
      */
-    public function getFCode3(): ?string;
+    public function getFcode3(): ?string;
 
     /**
      * Set フリーコード 3
      * 
      * @param ?string $fcode3
      */
-    public function setFCode3(?string $fcode3);
+    public function setFcode3(?string $fcode3);
 
 }

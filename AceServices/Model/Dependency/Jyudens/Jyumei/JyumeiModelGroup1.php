@@ -15,5 +15,8 @@ class JyumeiModelGroup1 implements JyumeiModelGroup1Interface
     use JyumeiModelBaseTrait,
         Zaiko\IgnoreZaikoTrait,
         Zaiko\ChoseiZaikoTrait,
-        Cost\Tax\TaxKbnTrait;
+        Cost\Tax\TaxKbnTrait,
+        Cost\Teika\TeikaTrait,
+        Cost\RituTrait,
+        Cost\Genka\GenkaTrait;
 }

@@ -7,19 +7,19 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface HasWebOrdernoInterface
+interface HasWebOrderNoInterface
 {
     /**
      * Get Web上での注文番号
      *
      * @return ?string
      */
-    public function getWebOrderno(): ?string;
+    public function getWeborderno(): ?string;
 
     /**
      * Set Web上での注文番号
      *
-     * @param ?string $webOrderno
+     * @param ?string $weborderno
      */
-    public function setWebOrderno(?string $webOrderno);
+    public function setWeborderno(?string $weborderno);
 }
