@@ -3,6 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Response\Jyuden\DecisionCart;
 
 use Plugin\AceClient\AceServices\Model\Dependency\Jyudens\Jyumei\JyumeiModelGroup4;
+use Plugin\AceClient\AceServices\Model\Dependency\Cost;
 
 /**
  * Model for Jyumei
@@ -11,4 +12,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\Jyudens\Jyumei\JyumeiModelGrou
  */
 class JyumeiModel extends JyumeiModelGroup4 implements JyumeiModelInterface
 {
+    use Cost\Teika\TeikaTrait,
+        Cost\Genka\GenkaTrait,
+        Cost\RituTrait;
 }

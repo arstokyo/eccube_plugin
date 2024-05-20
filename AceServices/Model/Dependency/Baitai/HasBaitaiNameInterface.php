@@ -16,7 +16,6 @@ interface HasBaitaiNameInterface
      *
      * @return ?string
      */
-    #[SerializedName('baitai_name')]
     public function getBaitaiName(): ?string;
 
     /**
@@ -33,7 +32,6 @@ interface HasBaitaiNameInterface
      *
      * @return ?string
      */
-    #[SerializedName('baifile_name')]
     public function getBaifileName(): ?string;
 
     /**

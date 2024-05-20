@@ -3,11 +3,11 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Point;
 
 /**
- * Interface for PointModel Group1
+ * Inteface for PointModelGroup2
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-interface PointModelGroup1Interface extends HasPointMInterface, HasPointPInterface
+interface PointModelGroup2Interface extends PointModelGroup1Interface, HasPointMaxInterface
 {
-
+    
 }

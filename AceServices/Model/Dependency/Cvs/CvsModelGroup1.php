@@ -5,7 +5,6 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Cvs;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\OrderIdTrait;
 use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC\TelTrait;
 use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
-use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime\AceDateTimeInterface;
 
 /**
  * Model for CVS Group 1
