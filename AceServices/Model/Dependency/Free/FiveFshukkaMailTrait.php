@@ -4,7 +4,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
 
 /**
  * Trait for 5つ出荷報告ﾒｰﾙｱﾄﾞﾚｽ
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 trait FiveFshukkaMailTrait
@@ -35,7 +35,7 @@ trait FiveFshukkaMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFShukkaMail1(?string $fshukkamail1)
+    public function setFShukkaMail1(?string $fshukkamail1): static
     {
         $this->fshukkamail1 = $fshukkamail1;
         return $this;
@@ -52,7 +52,7 @@ trait FiveFshukkaMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFShukkaMail2(?string $fshukkamail2)
+    public function setFShukkaMail2(?string $fshukkamail2): static
     {
         $this->fshukkamail2 = $fshukkamail2;
         return $this;
@@ -69,7 +69,7 @@ trait FiveFshukkaMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFShukkaMail3(?string $fshukkamail3)
+    public function setFShukkaMail3(?string $fshukkamail3): static
     {
         $this->fshukkamail3 = $fshukkamail3;
         return $this;
@@ -86,7 +86,7 @@ trait FiveFshukkaMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFShukkaMail4(?string $fshukkamail4)
+    public function setFShukkaMail4(?string $fshukkamail4): static
     {
         $this->fshukkamail4 = $fshukkamail4;
         return $this;
@@ -103,7 +103,7 @@ trait FiveFshukkaMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFShukkaMail5(?string $fshukkamail5)
+    public function setFShukkaMail5(?string $fshukkamail5): static
     {
         $this->fshukkamail5 = $fshukkamail5;
         return $this;

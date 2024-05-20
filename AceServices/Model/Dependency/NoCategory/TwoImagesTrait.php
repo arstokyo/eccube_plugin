@@ -34,7 +34,7 @@ trait TwoImagesTrait
     /**
      * {@inheritDoc}
      */
-    public function setImage1(?string $image1)
+    public function setImage1(?string $image1): static
     {
         $this->image1 = $image1;
         return $this;
@@ -50,7 +50,7 @@ trait TwoImagesTrait
     /**
      * {@inheritDoc}
      */
-    public function setImage2(?string $image2)
+    public function setImage2(?string $image2): static
     {
         $this->image2 = $image2;
         return $this;

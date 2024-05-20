@@ -20,6 +20,7 @@ interface HasStaxInterface
      * Set 消費税額(外税)
      *
      * @param ?string $stax
+     * @return $this
      */
-    public function setStax(?string $stax);
+    public function setStax(?string $stax): static;
 }

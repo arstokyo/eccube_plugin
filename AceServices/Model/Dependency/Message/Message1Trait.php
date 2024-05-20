@@ -3,13 +3,13 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Message;
 
 /**
- * Trait for Message1
+ * Trait for エラーメッセージ1
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 trait Message1Trait
 {
-     /**
+    /**
      * エラーメッセージ 1
      *
      * @var ?string $message1
@@ -28,7 +28,7 @@ trait Message1Trait
      * {@inheritDoc}
      *
      */
-    public function setMessage1(?string $message1)
+    public function setMessage1(?string $message1): static
     {
         $this->message1 = $message1;
         return $this;

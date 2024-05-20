@@ -18,7 +18,7 @@ trait UserIdTrait
     /**
      * {@inheritDoc}
      */
-    public function setUserid(?string $userid)
+    public function setUserid(?string $userid): static
     {
         $this->userid = $userid;
         return $this;

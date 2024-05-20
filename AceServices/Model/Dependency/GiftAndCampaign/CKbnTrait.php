@@ -23,7 +23,7 @@ trait CKbnTrait
     /**
      * {@inheritDoc}
      */
-    public function setCKbn(?int $ckbn)
+    public function setCKbn(?int $ckbn): static
     {
         $this->ckbn = $ckbn;
         return $this;

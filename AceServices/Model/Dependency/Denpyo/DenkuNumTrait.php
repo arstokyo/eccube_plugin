@@ -23,7 +23,7 @@ trait DenkuNumTrait
     /**
      * {@inheritDoc}
      */
-    public function setDenkuNum(?int $denkuNum)
+    public function setDenkuNum(?int $denkuNum): static
     {
         $this->denkuNum = $denkuNum;
         return $this;

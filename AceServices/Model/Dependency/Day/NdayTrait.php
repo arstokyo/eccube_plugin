@@ -25,7 +25,7 @@ trait NdayTrait
     /**
      * {@inheritDoc}
      */
-    public function setNday(\DateTime|string|null $nday)
+    public function setNday(\DateTime|string|null $nday): static
     {
         $this->nday = AceDateTime\AceDateTimeFactory::makeAceDateTime($nday);
         return $this;

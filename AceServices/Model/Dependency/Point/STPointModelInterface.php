@@ -1,8 +1,8 @@
 <?php
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Point;
-use Symfony\Component\Serializer\Annotation\SerializedName;
 
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * Interface for Has STPointModel
@@ -22,8 +22,9 @@ interface STPointModelInterface extends HasPointInterface
      * Set ポイント算出日付
      *
      * @param string|int|null $iday
+     * @return $this
      */
-    public function setIday(string|int|null $iday);
+    public function setIday(string|int|null $iday): static;
 
     /**
      * Get 最新購入日
@@ -37,7 +38,8 @@ interface STPointModelInterface extends HasPointInterface
      * Set 最新購入日
      *
      * @param string|int|null $inppointMaxday
+     * @return $this
      */
     #[SerializedName('inppoint_maxday')]
-    public function setInppointMaxday(string|int|null $inppointMaxday);
+    public function setInppointMaxday(string|int|null $inppointMaxday): static;
 }

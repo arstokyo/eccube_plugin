@@ -20,6 +20,7 @@ interface HasGiftNoInterface
      * Set ギフトNo
      *
      * @param ?int $giftno
+     * @return $this
      */
-    public function setGiftNo(?int $giftno);
+    public function setGiftNo(?int $giftno): static;
 }

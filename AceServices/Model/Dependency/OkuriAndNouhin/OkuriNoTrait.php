@@ -7,7 +7,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\OkuriAndNouhin;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-trait OkuriNoTrait 
+trait OkuriNoTrait
 {
     /** @var ?string $okurino 送り状番号 */
     protected ?string $okurino = null;
@@ -23,7 +23,7 @@ trait OkuriNoTrait
     /**
      * {@inheritDoc}
      */
-    public function setOkurino(?string $okurino)
+    public function setOkurino(?string $okurino): static
     {
         $this->okurino = $okurino;
         return $this;

@@ -4,12 +4,12 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
 
 /**
  * Trait for 携帯固有ID
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait MobileIdTrait 
+trait MobileIdTrait
 {
-    
+
     /** @var ?string $mobileid 携帯固有ID */
     protected ?string $mobileid = null;
 
@@ -24,7 +24,7 @@ trait MobileIdTrait
     /**
     * {@inheritDoc}
     */
-    public function setMobileId(?string $mobileid)
+    public function setMobileId(?string $mobileid): static
     {
         $this->mobileid = $mobileid;
         return $this;

@@ -4,7 +4,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Mail;
 
 /**
  * Interface For Member Mail
- * 
+ *
  * @author : Ars-Thong <v.t.nguyen@ar-sytem.co.jp>
  */
 interface MemMailModelInterface extends HasMailInterface
@@ -21,9 +21,9 @@ interface MemMailModelInterface extends HasMailInterface
      * Set メールアドレス枝番号
      *
      * @param int|null $idx
-     * @return self
+     * @return $this
      */
-    public function setIdx(?int $idx): self;
+    public function setIdx(?int $idx): static;
 
     /**
      * Get DMメール配信区分
@@ -36,8 +36,8 @@ interface MemMailModelInterface extends HasMailInterface
      * Set DMメール配信区分
      *
      * @param int|null $dmailkbn
-     * @return self
+     * @return $this
      */
-    public function setDmailkbn(?int $dmailkbn): self;
+    public function setDmailkbn(?int $dmailkbn): static;
 
 }

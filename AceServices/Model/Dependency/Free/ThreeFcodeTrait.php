@@ -4,10 +4,10 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
 
 /**
  * Trait for 3つフリーコード
- * 
+ *
  * @author: Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait ThreeFcodeTrait 
+trait ThreeFcodeTrait
 {
     /** @var string|null $fcode1 フリーコード1 */
     protected ?string $fcode1 = null;
@@ -29,7 +29,7 @@ trait ThreeFcodeTrait
     /**
      * {@inheritDoc}
      */
-    public function setFcode1(?string $fcode1)
+    public function setFcode1(?string $fcode1): static
     {
         $this->fcode1 = $fcode1;
         return $this;
@@ -46,7 +46,7 @@ trait ThreeFcodeTrait
     /**
      * {@inheritDoc}
      */
-    public function setFcode2(?string $fcode2)
+    public function setFcode2(?string $fcode2): static
     {
         $this->fcode2 = $fcode2;
         return $this;
@@ -63,7 +63,7 @@ trait ThreeFcodeTrait
     /**
      * {@inheritDoc}
      */
-    public function setFcode3(?string $fcode3)
+    public function setFcode3(?string $fcode3): static
     {
         $this->fcode3 = $fcode3;
         return $this;

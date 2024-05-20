@@ -25,7 +25,7 @@ trait HdayTrait
     /**
      * {@inheritDoc}
      */
-    public function setHday(\Datetime|string|null $hday)
+    public function setHday(\Datetime|string|null $hday): static
     {
         $this->hday = AceDateTime\AceDateTimeFactory::makeAceDateTime($hday);
         return $this;

@@ -20,6 +20,7 @@ interface HasDenkuNumInterface
      * Set 伝票フラグ
      *
      * @param ?int $denkuNum
+     * @return $this
      */
-    public function setDenkuNum(?int $denkuNum);
+    public function setDenkuNum(?int $denkuNum): static;
 }

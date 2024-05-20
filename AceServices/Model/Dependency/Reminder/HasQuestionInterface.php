@@ -3,8 +3,8 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Reminder;
 
 /**
- * Interface for Has Qustion
- * 
+ * Interface for Has 質問
+ *
  * @author kmorino
  */
 interface HasQuestionInterface
@@ -20,6 +20,7 @@ interface HasQuestionInterface
      * Set 質問
      *
      * @param ?string $question1
+     * @return $this
      */
-    public function setQuestion(?string $question);
+    public function setQuestion(?string $question): static;
 }

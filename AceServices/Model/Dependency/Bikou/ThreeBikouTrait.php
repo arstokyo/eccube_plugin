@@ -4,7 +4,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Bikou;
 
 /**
  * Trait For 3つ備考
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 trait ThreeBikouTrait
@@ -21,7 +21,7 @@ trait ThreeBikouTrait
      * @var ?string $bikou3 備考3
      */
     protected ?string $bikou3 = null;
-    
+
     /**
      * {@inheritDoc}
      */
@@ -33,7 +33,7 @@ trait ThreeBikouTrait
     /**
      * {@inheritDoc}
      */
-    public function setBikou1(?string $bikou1)
+    public function setBikou1(?string $bikou1): static
     {
         $this->bikou1 = $bikou1;
         return $this;
@@ -50,15 +50,7 @@ trait ThreeBikouTrait
     /**
      * {@inheritDoc}
      */
-    public function getBikou3(): ?string
-    {
-        return $this->bikou3;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setBikou2(?string $bikou2)
+    public function setBikou2(?string $bikou2): static
     {
         $this->bikou2 = $bikou2;
         return $this;
@@ -67,7 +59,15 @@ trait ThreeBikouTrait
     /**
      * {@inheritDoc}
      */
-    public function setBikou3(?string $bikou3)
+    public function getBikou3(): ?string
+    {
+        return $this->bikou3;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setBikou3(?string $bikou3): static
     {
         $this->bikou3 = $bikou3;
         return $this;

@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Message;
 
-trait HasMessageModelExtend1Trait 
+trait HasMessageModelExtend1Trait
 {
     /**
      * エラーメッセージ
@@ -22,7 +22,7 @@ trait HasMessageModelExtend1Trait
     /**
      * {@inheritDoc}
      */
-    public function setMessage(MessageModelExtend1 $message)
+    public function setMessage(MessageModelExtend1 $message): static
     {
         $this->Message = $message;
         return $this;

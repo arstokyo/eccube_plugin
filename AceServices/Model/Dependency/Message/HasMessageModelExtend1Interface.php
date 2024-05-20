@@ -17,5 +17,5 @@ interface HasMessageModelExtend1Interface
      * @param MessageModelExtend1 $message
      * @return $this
      */
-    public function setMessage(MessageModelExtend1 $message);
+    public function setMessage(MessageModelExtend1 $message): static;
 }

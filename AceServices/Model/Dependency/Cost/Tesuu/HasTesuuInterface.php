@@ -20,6 +20,7 @@ interface HasTesuuInterface
      * Set 手数料
      *
      * @param ?string $tesuu
+     * @return $this
      */
-    public function setTesuu(?string $tesuu);
+    public function setTesuu(?string $tesuu): static;
 }

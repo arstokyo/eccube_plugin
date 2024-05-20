@@ -4,7 +4,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
 
 /**
  * Trait for 5つ商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 trait FiveFshouhinMailTrait
@@ -35,7 +35,7 @@ trait FiveFshouhinMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFShouhinMail1(?string $fshouhinmail1)
+    public function setFShouhinMail1(?string $fshouhinmail1): static
     {
         $this->fshouhinmail1 = $fshouhinmail1;
         return $this;
@@ -52,7 +52,7 @@ trait FiveFshouhinMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFShouhinMail2(?string $fshouhinmail2)
+    public function setFShouhinMail2(?string $fshouhinmail2): static
     {
         $this->fshouhinmail2 = $fshouhinmail2;
         return $this;
@@ -69,7 +69,7 @@ trait FiveFshouhinMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFShouhinMail3(?string $fshouhinmail3)
+    public function setFShouhinMail3(?string $fshouhinmail3): static
     {
         $this->fshouhinmail3 = $fshouhinmail3;
         return $this;
@@ -86,7 +86,7 @@ trait FiveFshouhinMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFShouhinMail4(?string $fshouhinmail4)
+    public function setFShouhinMail4(?string $fshouhinmail4): static
     {
         $this->fshouhinmail4 = $fshouhinmail4;
         return $this;
@@ -103,7 +103,7 @@ trait FiveFshouhinMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFShouhinMail5(?string $fshouhinmail5)
+    public function setFShouhinMail5(?string $fshouhinmail5): static
     {
         $this->fshouhinmail5 = $fshouhinmail5;
         return $this;

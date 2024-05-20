@@ -23,7 +23,7 @@ trait WebOrderNoTrait
     /**
      * {@inheritDoc}
      */
-    public function setWeborderno(?string $weborderno)
+    public function setWeborderno(?string $weborderno): static
     {
         $this->weborderno = $weborderno;
         return $this;

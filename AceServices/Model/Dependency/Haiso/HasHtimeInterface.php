@@ -20,6 +20,7 @@ interface HasHtimeInterface
      * Set 配送希望時間コード
      *
      * @param ?int $htime
+     * @return $this
      */
-    public function setHtime(?int $htime);
+    public function setHtime(?int $htime): static;
 }

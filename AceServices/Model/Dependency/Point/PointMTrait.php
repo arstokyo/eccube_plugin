@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Point;
 
 /**
- * Trait for PointM
+ * Trait for 使用ポイント
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
@@ -23,7 +23,7 @@ trait PointMTrait
     /**
      * {@inheritDoc}
      */
-    public function setPointm(?int $pointm)
+    public function setPointm(?int $pointm): static
     {
         $this->pointm = $pointm;
         return $this;

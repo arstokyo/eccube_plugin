@@ -4,10 +4,10 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Message;
 
 /**
  * Trait for Result
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait ResultTrait 
+trait ResultTrait
 {
 
     /**
@@ -17,7 +17,7 @@ trait ResultTrait
      */
     protected ?string $result = null;
 
-      /**
+    /**
      * {@inheritDoc}
      */
     public function getResult(): ?string
@@ -28,7 +28,7 @@ trait ResultTrait
     /**
      * {@inheritDoc}
      */
-    public function setResult(?string $result)
+    public function setResult(?string $result): static
     {
         $this->result = $result;
         return $this;

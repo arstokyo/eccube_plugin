@@ -4,12 +4,12 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
 
 /**
  * Trait for PersonLevel3
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 trait PersonLevel3Trait
 {
-    
+
     /** @var ?string $area 地域コード */
     protected ?string $area = null;
 
@@ -27,7 +27,7 @@ trait PersonLevel3Trait
     /**
      * {@inheritDoc}
      */
-    public function setArea(?string $area)
+    public function setArea(?string $area): static
     {
         $this->area = $area;
         return $this;
@@ -44,7 +44,7 @@ trait PersonLevel3Trait
     /**
      * {@inheritDoc}
      */
-    public function setCbar(?string $cbar)
+    public function setCbar(?string $cbar): static
     {
         $this->cbar = $cbar;
         return $this;

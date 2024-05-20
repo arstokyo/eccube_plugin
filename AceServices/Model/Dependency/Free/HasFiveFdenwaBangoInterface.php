@@ -20,8 +20,9 @@ interface HasFiveFdenwaBangoInterface
      * Set 代表者電話番号1
      *
      * @param ?string $freedenwabango1
+     * @return $this
      */
-    public function setFreeDenwaBango1(?string $freedenwabango1);
+    public function setFreeDenwaBango1(?string $freedenwabango1): static;
 
     /**
      * Get 代表者電話番号2
@@ -34,8 +35,9 @@ interface HasFiveFdenwaBangoInterface
      * Set 代表者電話番号2
      *
      * @param ?string $freedenwabango2
+     * @return $this
      */
-    public function setFreeDenwaBango2(?string $freedenwabango2);
+    public function setFreeDenwaBango2(?string $freedenwabango2): static;
 
     /**
      * Get 代表者電話番号3
@@ -48,6 +50,7 @@ interface HasFiveFdenwaBangoInterface
      * Set 代表者電話番号3
      *
      * @param ?string $freedenwabango3
+     * @return $this
      */
-    public function setFreeDenwaBango3(?string $freedenwabango3);
+    public function setFreeDenwaBango3(?string $freedenwabango3): static;
 }

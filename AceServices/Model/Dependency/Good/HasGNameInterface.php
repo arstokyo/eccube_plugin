@@ -20,6 +20,7 @@ interface HasGNameInterface
      * Set 商品名
      *
      * @param ?string $gname
+     * @return $this
      */
-    public function setGname(?string $gname);
+    public function setGname(?string $gname): static;
 }

@@ -20,6 +20,7 @@ interface HasSouryouInterface
      * Set 送料
      *
      * @param ?string $souryou
+     * @return $this
      */
-    public function setSouryou(?string $souryou);
+    public function setSouryou(?string $souryou): static;
 }

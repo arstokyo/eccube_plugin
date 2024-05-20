@@ -3,8 +3,8 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Reminder;
 
 /**
- * Trait for Question
- * 
+ * Trait for 質問
+ *
  * @author kmorino
  */
 trait QuestionTrait
@@ -24,7 +24,7 @@ trait QuestionTrait
     /**
      * {@inheritDoc}
      */
-    public function setQuestion(?string $question)
+    public function setQuestion(?string $question): static
     {
         $this->question = $question;
         return $this;

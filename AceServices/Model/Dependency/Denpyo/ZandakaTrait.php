@@ -6,16 +6,15 @@ use Plugin\AceClient\Utils\Converter\NumberConverter;
 
 /**
  * Trait for 伝票残高
- * 
- * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>  
+ *
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait ZandakaTrait 
+trait ZandakaTrait
 {
-    
     /** @var ?float $zandaka 伝票残高 */
     protected ?float $zandaka = null;
 
-     /**
+    /**
      * {@inheritDoc}
      */
     public function getZandaka(): ?float
@@ -26,10 +25,9 @@ trait ZandakaTrait
     /**
      * {@inheritDoc}
      */
-    public function setZandaka(string|null $zandaka)
+    public function setZandaka(string|null $zandaka): static
     {
         $this->zandaka = NumberConverter::stringWithCommaToFloat($zandaka);
         return $this;
     }
-
 }

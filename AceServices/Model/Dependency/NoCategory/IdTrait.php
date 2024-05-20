@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
- * Trait for Id
+ * Trait for 通販プロID
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
@@ -23,7 +23,7 @@ trait IdTrait
     /**
      * {@inheritDoc}
      */
-    public function setId(?int $id)
+    public function setId(?int $id): static
     {
         $this->id = $id;
         return $this;

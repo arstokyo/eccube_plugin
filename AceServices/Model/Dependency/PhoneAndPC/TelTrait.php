@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
 
 /**
- * Trait for Tel
+ * Trait for 電話番号
  * 
  * @author Ars-Thong <v.t.nguyen@ar-sytem.co.jp>
  */

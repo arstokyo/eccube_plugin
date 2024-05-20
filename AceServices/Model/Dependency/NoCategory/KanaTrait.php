@@ -3,8 +3,8 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
- * Trait for Kana
- * 
+ * Trait for フリガナ
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 trait KanaTrait
@@ -23,7 +23,7 @@ trait KanaTrait
     /**
      * {@inheritDoc}
      */
-    public function setKana(?string $kana)
+    public function setKana(?string $kana): static
     {
         $this->kana = $kana;
         return $this;

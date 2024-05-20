@@ -4,7 +4,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Mail;
 
 /**
  * Trait for メール
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 trait MailTrait
@@ -24,7 +24,7 @@ trait MailTrait
     /**
      * {@inheritDoc}
      */
-    public function setMail(?string $mail)
+    public function setMail(?string $mail): static
     {
         $this->mail = $mail;
         return $this;

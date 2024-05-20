@@ -24,7 +24,7 @@ trait GcodeTrait
     /**
      * {@inheritDoc}
      */
-    public function setGcode(?string $gcode)
+    public function setGcode(?string $gcode): static
     {
         $this->gcode = $gcode;
         return $this;

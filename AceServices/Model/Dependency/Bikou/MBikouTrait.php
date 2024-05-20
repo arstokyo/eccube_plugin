@@ -4,12 +4,11 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Bikou;
 
 /**
  * Trait for 明細備考
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait MBikouTrait 
+trait MBikouTrait
 {
-
     /** @var ?string $mbikou 明細備考 */
     protected ?string $mbikou = null;
 
@@ -29,5 +28,4 @@ trait MBikouTrait
         $this->mbikou = $mbikou;
         return $this;
     }
-
 }

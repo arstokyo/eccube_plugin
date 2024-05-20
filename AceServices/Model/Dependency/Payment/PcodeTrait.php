@@ -23,7 +23,7 @@ trait PcodeTrait
     /**
      * {@inheritDoc}
      */
-    public function setPcode(?int $pcode)
+    public function setPcode(?int $pcode): static
     {
         $this->pcode = $pcode;
         return $this;

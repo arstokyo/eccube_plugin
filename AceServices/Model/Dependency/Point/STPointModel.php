@@ -34,7 +34,7 @@ class STPointModel implements STPointModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setIday(string|int|null $iday)
+    public function setIday(string|int|null $iday): static
     {
         $this->iday = $iday;
         return $this;
@@ -51,7 +51,7 @@ class STPointModel implements STPointModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setInppointMaxday(string|int|null $inppointMaxday)
+    public function setInppointMaxday(string|int|null $inppointMaxday): static
     {
         $this->inppointMaxday = $inppointMaxday;
         return $this;

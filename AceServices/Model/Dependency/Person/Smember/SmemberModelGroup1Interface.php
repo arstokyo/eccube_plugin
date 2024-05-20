@@ -9,7 +9,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
 
 /**
  * Interface for SmemberModelGroup1
- * 
+ *
  * @author kmorino
  */
 interface SmemberModelGroup1Interface extends SmemberModelInterface,
@@ -21,16 +21,17 @@ interface SmemberModelGroup1Interface extends SmemberModelInterface,
 
     /**
      * Get 氏名
-     * 
+     *
      * @return string|null
      */
     public function getAdrName(): ?string;
 
     /**
      * Set 氏名
-     * 
+     *
      * @param string|null $adrName
+     * @return $this
      */
-    public function setAdrName(?string $adrName);
+    public function setAdrName(?string $adrName): static;
 
 }

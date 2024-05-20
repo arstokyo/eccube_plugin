@@ -20,6 +20,7 @@ interface HasSubNameInterface
      * Set 商品 略名
      *
      * @param ?string $subName
+     * @return $this
      */
-    public function setSubName(?string $subName);
+    public function setSubName(?string $subName): static;
 }

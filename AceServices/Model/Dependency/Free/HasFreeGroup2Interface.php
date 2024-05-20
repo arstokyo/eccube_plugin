@@ -4,7 +4,6 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
 
 use Plugin\AceClient\AceServices\Model\Dependency\Free\HasFreeGroup1Interface;
 
-
 /**
  * Interface For HasFreeGroup2
  *
@@ -23,8 +22,10 @@ interface HasFreeGroup2Interface extends HasFreeGroup1Interface
      * Set 決済種別種類
      *
      * @param ?int $kessaishubetsu
+     * @return $this
      */
-    public function setKessaishubetsu(?int $kessaishubetsu);
+    public function setKessaishubetsu(?int $kessaishubetsu): static;
+
     /**
      * Get 送料区分
      *
@@ -36,8 +37,9 @@ interface HasFreeGroup2Interface extends HasFreeGroup1Interface
      * Set 送料区分
      *
      * @param ?int $freesouryoukubun
+     * @return $this
      */
-    public function setFreesouryoukubun(?int $freesouryoukubun);
+    public function setFreesouryoukubun(?int $freesouryoukubun): static;
 
     /**
      * Get 表示区分ID
@@ -50,8 +52,9 @@ interface HasFreeGroup2Interface extends HasFreeGroup1Interface
      * Set 表示区分ID
      *
      * @param ?string $freedispkbnid
+     * @return $this
      */
-    public function setFreedispkbnid(?string $freedispkbnid);
+    public function setFreedispkbnid(?string $freedispkbnid): static;
 
     /**
      * Get 表示区分名
@@ -64,6 +67,7 @@ interface HasFreeGroup2Interface extends HasFreeGroup1Interface
      * Set 表示区分名
      *
      * @param ?string $freedispkbnname
+     * @return $this
      */
-    public function setFreedispkbnname(?string $freedispkbnname);
+    public function setFreedispkbnname(?string $freedispkbnname): static;
 }

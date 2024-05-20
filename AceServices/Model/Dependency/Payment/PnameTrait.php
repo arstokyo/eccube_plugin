@@ -23,7 +23,7 @@ trait PnameTrait
     /**
      * {@inheritDoc}
      */
-    public function setPname(?string $pname)
+    public function setPname(?string $pname): static
     {
         $this->pname = $pname;
         return $this;

@@ -3,8 +3,8 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
- * Trait for PassWd
- * 
+ * Trait for パスワード
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 trait PassWdTrait
@@ -23,7 +23,7 @@ trait PassWdTrait
     /**
      * {@inheritDoc}
      */
-    public function setPasswd(?string $passwd)
+    public function setPasswd(?string $passwd): static
     {
         $this->passwd = $passwd;
         return $this;

@@ -4,10 +4,10 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
 
 /**
  * Trait For 3つフリー
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait ThreeFreeTrait 
+trait ThreeFreeTrait
 {
     /** @var string|null $free1 フリー1 */
     protected ?string $free1 = null;
@@ -29,7 +29,7 @@ trait ThreeFreeTrait
     /**
      * {@inheritDoc}
      */
-    public function setFree1(?string $free1)
+    public function setFree1(?string $free1): static
     {
         $this->free1 = $free1;
         return $this;
@@ -46,7 +46,7 @@ trait ThreeFreeTrait
     /**
      * {@inheritDoc}
      */
-    public function setFree2(?string $free2)
+    public function setFree2(?string $free2): static
     {
         $this->free2 = $free2;
         return $this;
@@ -63,7 +63,7 @@ trait ThreeFreeTrait
     /**
      * {@inheritDoc}
      */
-    public function setFree3(?string $free3)
+    public function setFree3(?string $free3): static
     {
         $this->free3 = $free3;
         return $this;

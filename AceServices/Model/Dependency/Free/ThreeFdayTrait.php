@@ -7,7 +7,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait ThreeFdayTrait 
+trait ThreeFdayTrait
 {
     /** @var int|null $fday1 フリー日付１ */
     protected ?int $fday1 = null;
@@ -29,7 +29,7 @@ trait ThreeFdayTrait
     /**
      * {@inheritDoc}
      */
-    public function setFday1(?int $fday1)
+    public function setFday1(?int $fday1): static
     {
         $this->fday1 = $fday1;
         return $this;
@@ -46,7 +46,7 @@ trait ThreeFdayTrait
     /**
      * {@inheritDoc}
      */
-    public function setFday2(?int $fday2)
+    public function setFday2(?int $fday2): static
     {
         $this->fday2 = $fday2;
         return $this;
@@ -63,7 +63,7 @@ trait ThreeFdayTrait
     /**
      * {@inheritDoc}
      */
-    public function setFday3(?int $fday3)
+    public function setFday3(?int $fday3): static
     {
         $this->fday3 = $fday3;
         return $this;

@@ -10,17 +10,17 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 interface HasMcodeInterface
 {
     /**
-    * Get 顧客コード
-    *
-    * @return ?string
-    */
+     * Get 顧客コード
+     *
+     * @return ?string
+     */
     public function getMcode(): ?string;
 
     /**
      * Set 顧客コード
      *
-     * @param ?string $mcode    
+     * @param ?string $mcode
+     * @return $this
      */
-    public function setMcode(?string $mcode);
-
+    public function setMcode(?string $mcode): static;
 }

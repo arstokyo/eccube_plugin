@@ -20,6 +20,7 @@ interface HasPointPInterface
      * Set 加算ポイント
      *
      * @param ?int $pointp
+     * @return $this
      */
-    public function setPointp(?int $pointp);
+    public function setPointp(?int $pointp): static;
 }

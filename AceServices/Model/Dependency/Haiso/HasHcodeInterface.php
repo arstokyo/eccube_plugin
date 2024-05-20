@@ -20,7 +20,7 @@ interface HasHcodeInterface
      * Set 配送方法コード
      *
      * @param ?int $hcode
+     * @return $this
      */
-    public function setHcode(?int $hcode);
-
+    public function setHcode(?int $hcode): static;
 }

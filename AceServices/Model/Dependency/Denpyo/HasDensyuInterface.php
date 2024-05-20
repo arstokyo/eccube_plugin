@@ -20,6 +20,7 @@ interface HasDensyuInterface
      * Set 伝票種別
      *
      * @param ?int $densyu
+     * @return $this
      */
-    public function setDensyu(?int $densyu);
+    public function setDensyu(?int $densyu): static;
 }

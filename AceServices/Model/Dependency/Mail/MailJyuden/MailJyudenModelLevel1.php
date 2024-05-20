@@ -27,7 +27,7 @@ class MailJyudenModelLevel1 implements MailJyudenModelLevel1Interface
     /**
      * {@inheritDoc}
      */
-    public function setTbikou(?string $tbikou)
+    public function setTbikou(?string $tbikou): static
     {
         $this->tbikou = $tbikou;
         return $this;

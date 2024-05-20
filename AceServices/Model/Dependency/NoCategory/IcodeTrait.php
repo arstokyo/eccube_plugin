@@ -4,10 +4,10 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Trait for Has 請求先コード
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait IcodeTrait 
+trait IcodeTrait
 {
 
     /** @var ?string $icode 請求先コード */
@@ -24,7 +24,7 @@ trait IcodeTrait
     /**
      * {@inheritDoc}
      */
-    public function setIcode(?string $icode)
+    public function setIcode(?string $icode): static
     {
         $this->icode = $icode;
         return $this;

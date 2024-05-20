@@ -3,9 +3,9 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Message;
 
 /**
- * Interface for Has Result
- * 
- * @author Ars-Thong <v.t.nguyen@ar-system.co.jp> 
+ * Interface for Has 結果
+ *
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 interface HasResultInterface
 {
@@ -20,5 +20,5 @@ interface HasResultInterface
      * @param ?string $result
      * @return $this
      */
-    public function setResult(?string $result);
+    public function setResult(?string $result): static;
 }

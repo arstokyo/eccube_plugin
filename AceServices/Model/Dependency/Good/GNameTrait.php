@@ -24,7 +24,7 @@ trait GNameTrait
     /**
      * {@inheritDoc}
      */
-    public function setGname(?string $gname)
+    public function setGname(?string $gname): static
     {
         $this->gname = $gname;
         return $this;

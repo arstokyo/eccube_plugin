@@ -22,7 +22,8 @@ interface HasDayInterface
      * Set 受注日
      *
      * @param \DateTime|string|null $day
+     * @return $this
      */
-    public function setDay(\DateTime|string|null $day);
+    public function setDay(\DateTime|string|null $day): static;
 
 }

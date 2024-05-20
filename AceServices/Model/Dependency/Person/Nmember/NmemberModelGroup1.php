@@ -4,13 +4,12 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Person\Nmember;
 
 use Plugin\AceClient\AceServices\Model\Dependency\Address;
 use Plugin\AceClient\AceServices\Model\Dependency\Bikou\ThreeAdrBikouTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient\AceServices\Model\Dependency\Person;
 use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
 
 /**
  * Class For Nmem Model Group1
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 class NmemberModelGroup1 extends NmemberModel implements NmemberModelGroup1Interface
@@ -36,7 +35,7 @@ class NmemberModelGroup1 extends NmemberModel implements NmemberModelGroup1Inter
     /**
      * {@inheritDoc}
      */
-    public function setAdrName(?string $adrName)
+    public function setAdrName(?string $adrName): static
     {
         $this->adrName = $adrName;
         return $this;

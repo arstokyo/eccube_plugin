@@ -4,7 +4,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Mail;
 
 /**
  * Trait for Has MemMailModel
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 trait MemMailTrait
@@ -23,7 +23,7 @@ trait MemMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setMemmail(?MemMailModel $memmail)
+    public function setMemmail(?MemMailModel $memmail): static
     {
         $this->memmail = $memmail;
         return $this;

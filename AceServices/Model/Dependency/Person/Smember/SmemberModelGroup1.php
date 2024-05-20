@@ -10,7 +10,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
 
 /**
  * Class For Smem Model Group1
- * 
+ *
  * @author kmorino
  */
 class SmemberModelGroup1 extends SmemberModel implements SmemberModelGroup1Interface
@@ -39,7 +39,7 @@ class SmemberModelGroup1 extends SmemberModel implements SmemberModelGroup1Inter
     /**
      * {@inheritDoc}
      */
-    public function setAdrName(?string $adrName)
+    public function setAdrName(?string $adrName): static
     {
         $this->adrName = $adrName;
         return $this;

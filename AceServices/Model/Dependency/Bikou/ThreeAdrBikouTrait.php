@@ -4,7 +4,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Bikou;
 
 /**
  * Trait For 3つ住所備考
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-sytem.co.jp>
  */
 trait ThreeAdrBikouTrait
@@ -29,7 +29,7 @@ trait ThreeAdrBikouTrait
     /**
      * {@inheritDoc}
      */
-    public function setAdrBikou1(?string $adrbikou1)
+    public function setAdrBikou1(?string $adrbikou1): static
     {
         $this->adrbikou1 = $adrbikou1;
         return $this;
@@ -46,7 +46,7 @@ trait ThreeAdrBikouTrait
     /**
      * {@inheritDoc}
      */
-    public function setAdrBikou2(?string $adrbikou2)
+    public function setAdrBikou2(?string $adrbikou2): static
     {
         $this->adrbikou2 = $adrbikou2;
         return $this;
@@ -64,7 +64,7 @@ trait ThreeAdrBikouTrait
     /**
      * {@inheritDoc}
      */
-    public function setAdrBikou3(?string $adrbikou3)
+    public function setAdrBikou3(?string $adrbikou3): static
     {
         $this->adrbikou3 = $adrbikou3;
         return $this;

@@ -29,7 +29,7 @@ class RirekiModelLevel1 implements RirekiModelLevel1Interface
     /**
      * {@inheritDoc}
      */
-    public function setDay(\DateTime|string|null $day)
+    public function setDay(\DateTime|string|null $day): static
     {
         $this->day = AceDateTime\AceDateTimeFactory::makeAceDateTime($day,"YmdHis");
         return $this;

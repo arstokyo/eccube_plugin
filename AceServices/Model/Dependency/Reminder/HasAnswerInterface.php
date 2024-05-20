@@ -3,8 +3,8 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Reminder;
 
 /**
- * Interface for Has Answer
- * 
+ * Interface for Has 答え
+ *
  * @author Ars-Thong kmorino
  */
 interface HasAnswerInterface
@@ -20,6 +20,7 @@ interface HasAnswerInterface
      * Set 答え
      *
      * @param ?string $answer
+     * @return $this
      */
-    public function setAnswer(?string $answer);
+    public function setAnswer(?string $answer): static;
 }

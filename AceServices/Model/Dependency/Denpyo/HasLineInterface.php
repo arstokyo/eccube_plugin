@@ -20,7 +20,7 @@ interface HasLineInterface
      * Set 行番号
      *
      * @param ?int $line
+     * @return $this
      */
-    public function setLine(?int $line);
-
+    public function setLine(?int $line): static;
 }
