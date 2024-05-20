@@ -6,11 +6,10 @@ use Plugin\AceClient\AceServices\Model\Dependency\Address;
 use Plugin\AceClient\AceServices\Model\Dependency\Bikou\ThreeAdrBikouTrait;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient\AceServices\Model\Dependency\Person;
-use Plugin\AceClient\AceServices\Model\Dependency\Reminder;
 
 /**
  * Class For Jmem Model Group1
- * 
+ *
  * @author kmorino
  */
 class JmemberModelGroup1 extends JmemberModel implements JmemberModelGroup1Interface
@@ -35,7 +34,7 @@ class JmemberModelGroup1 extends JmemberModel implements JmemberModelGroup1Inter
     /**
      * {@inheritDoc}
      */
-    public function setAdrName(?string $adrName)
+    public function setAdrName(?string $adrName): static
     {
         $this->adrName = $adrName;
         return $this;

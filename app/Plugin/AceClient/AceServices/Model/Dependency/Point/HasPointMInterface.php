@@ -20,6 +20,7 @@ interface HasPointMInterface
      * Set 使用ポイント
      *
      * @param ?int $pointm
+     * @return $this
      */
-    public function setPointm(?int $pointm);
+    public function setPointm(?int $pointm): static;
 }

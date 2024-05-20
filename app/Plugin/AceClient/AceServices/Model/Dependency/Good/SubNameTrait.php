@@ -24,7 +24,7 @@ trait SubNameTrait
     /**
      * {@inheritDoc}
      */
-    public function setSubName(?string $subName)
+    public function setSubName(?string $subName): static
     {
         $this->subName = $subName;
         return $this;

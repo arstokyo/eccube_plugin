@@ -20,6 +20,7 @@ interface HasCKbnInterface
      * Set キャンペーン区分
      *
      * @param ?int $ckbn
+     * @return $this
      */
-    public function setCKbn(?int $ckbn);
+    public function setCKbn(?int $ckbn): static;
 }

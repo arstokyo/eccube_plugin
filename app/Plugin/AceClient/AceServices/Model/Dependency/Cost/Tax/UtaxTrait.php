@@ -5,11 +5,11 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Tax;
 use Plugin\AceClient\Utils\Converter\NumberConverter;
 
 /**
- * Trait for Utax
+ * Trait for 内消費税
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-trait UtaxTrait 
+trait UtaxTrait
 {
     /** @var ?float $utax 内消費税 */
     protected ?float $utax = null;
@@ -25,7 +25,7 @@ trait UtaxTrait
     /**
      * {@inheritDoc}
      */
-    public function setUtax(?string $utax)
+    public function setUtax(?string $utax): static
     {
         $this->utax = NumberConverter::stringWithCommaToFloat($utax);
         return $this;

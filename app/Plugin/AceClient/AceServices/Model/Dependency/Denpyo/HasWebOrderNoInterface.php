@@ -20,6 +20,7 @@ interface HasWebOrderNoInterface
      * Set Web上での注文番号
      *
      * @param ?string $weborderno
+     * @return $this
      */
-    public function setWeborderno(?string $weborderno);
+    public function setWeborderno(?string $weborderno): static;
 }

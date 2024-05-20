@@ -9,12 +9,12 @@ use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient\AceServices\Model\Dependency\Bikou;
 use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
 use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
-use Plugin\AceClient\AceServices\Model\Dependency\Cost; 
-use Plugin\AceClient\AceServices\Model\Dependency\Denpyo; 
+use Plugin\AceClient\AceServices\Model\Dependency\Cost;
+use Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
 
 /**
  * Trait for Person Level 4
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 trait PersonLevel4Trait
@@ -70,7 +70,7 @@ trait PersonLevel4Trait
     /**
      * {@inheritDoc}
      */
-    public function setBirthday(\DateTime|string|null $birthday)
+    public function setBirthday(\DateTime|string|null $birthday): static
     {
         $this->birthday = AceDateTime\AceDateTimeFactory::makeAceDateTime($birthday);
         return $this;
@@ -87,7 +87,7 @@ trait PersonLevel4Trait
     /**
      * {@inheritDoc}
      */
-    public function setTel2(?string $tel2)
+    public function setTel2(?string $tel2): static
     {
         $this->tel2 = $tel2;
         return $this;
@@ -104,7 +104,7 @@ trait PersonLevel4Trait
     /**
      * {@inheritDoc}
      */
-    public function setUpcode(?string $upcode)
+    public function setUpcode(?string $upcode): static
     {
         $this->upcode = $upcode;
         return $this;
@@ -121,7 +121,7 @@ trait PersonLevel4Trait
     /**
      * {@inheritDoc}
      */
-    public function setInday(?int $inday)
+    public function setInday(?int $inday): static
     {
         $this->inday = $inday;
         return $this;
@@ -138,7 +138,7 @@ trait PersonLevel4Trait
     /**
      * {@inheritDoc}
      */
-    public function setKhasuu(?int $khasuu)
+    public function setKhasuu(?int $khasuu): static
     {
         $this->khasuu = $khasuu;
         return $this;
@@ -155,7 +155,7 @@ trait PersonLevel4Trait
     /**
      * {@inheritDoc}
      */
-    public function setSex(?int $sex)
+    public function setSex(?int $sex): static
     {
         $this->sex = $sex;
         return $this;
@@ -172,7 +172,7 @@ trait PersonLevel4Trait
     /**
      * {@inheritDoc}
      */
-    public function setSime(?int $sime)
+    public function setSime(?int $sime): static
     {
         $this->sime = $sime;
         return $this;
@@ -189,7 +189,7 @@ trait PersonLevel4Trait
     /**
      * {@inheritDoc}
      */
-    public function setSite(?int $site)
+    public function setSite(?int $site): static
     {
         $this->site = $site;
         return $this;
@@ -206,7 +206,7 @@ trait PersonLevel4Trait
     /**
      * {@inheritDoc}
      */
-    public function setCode2(?string $code2)
+    public function setCode2(?string $code2): static
     {
         $this->code2 = $code2;
         return $this;

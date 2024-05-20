@@ -20,7 +20,7 @@ interface HasHkNameInterface
      * Set 時間指定名称
      *
      * @param ?string $hkname
+     * @return $this
      */
-    public function setHkname(?string $hkname);
-
+    public function setHkname(?string $hkname): static;
 }

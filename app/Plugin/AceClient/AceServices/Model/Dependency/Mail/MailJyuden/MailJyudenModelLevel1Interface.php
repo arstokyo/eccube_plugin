@@ -23,6 +23,7 @@ interface MailJyudenModelLevel1Interface extends Mail\HasMailInterface
      * Set 注文コメント(お客様)
      *
      * @param ?string $tbikou
+     * @return $this
      */
-    public function setTbikou(?string $tbikou);
+    public function setTbikou(?string $tbikou): static;
 }

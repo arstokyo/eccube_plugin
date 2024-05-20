@@ -4,7 +4,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
 
 /**
  * Trait for 5つ携帯電話区分
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 trait FiveKeiKbnTrait
@@ -35,7 +35,7 @@ trait FiveKeiKbnTrait
     /**
      * {@inheritDoc}
      */
-    public function setKeiKbn1(?int $keikbn1)
+    public function setKeiKbn1(?int $keikbn1): static
     {
         $this->keikbn1 = $keikbn1;
         return $this;
@@ -52,7 +52,7 @@ trait FiveKeiKbnTrait
     /**
      * {@inheritDoc}
      */
-    public function setKeiKbn2(?int $keikbn2)
+    public function setKeiKbn2(?int $keikbn2): static
     {
         $this->keikbn2 = $keikbn2;
         return $this;
@@ -69,7 +69,7 @@ trait FiveKeiKbnTrait
     /**
      * {@inheritDoc}
      */
-    public function setKeiKbn3(?int $keikbn3)
+    public function setKeiKbn3(?int $keikbn3): static
     {
         $this->keikbn3 = $keikbn3;
         return $this;
@@ -86,7 +86,7 @@ trait FiveKeiKbnTrait
     /**
      * {@inheritDoc}
      */
-    public function setKeiKbn4(?int $keikbn4)
+    public function setKeiKbn4(?int $keikbn4): static
     {
         $this->keikbn4 = $keikbn4;
         return $this;
@@ -103,7 +103,7 @@ trait FiveKeiKbnTrait
     /**
      * {@inheritDoc}
      */
-    public function setKeiKbn5(?int $keikbn5)
+    public function setKeiKbn5(?int $keikbn5): static
     {
         $this->keikbn5 = $keikbn5;
         return $this;

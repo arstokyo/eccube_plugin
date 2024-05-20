@@ -4,7 +4,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Trait for セッションID
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 trait SessIdTrait
@@ -23,7 +23,7 @@ trait SessIdTrait
     /**
      * {@inheritDoc}
      */
-    public function setSessId(?string $sessId)
+    public function setSessId(?string $sessId): static
     {
         $this->sessId = $sessId;
         return $this;

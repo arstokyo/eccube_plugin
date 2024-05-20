@@ -11,7 +11,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
  */
 class MessageModelExtend2 extends MessageModelExtend1 implements MessageModelExtend2Interface
 {
-    use NoCategory\CodeTrait, 
+    use NoCategory\CodeTrait,
         NoCategory\TaikaiTrait;
 
     /**
@@ -29,9 +29,10 @@ class MessageModelExtend2 extends MessageModelExtend1 implements MessageModelExt
     /**
      * {@inheritDoc}
      */
-    public function setAdress(?string $adress)
+    public function setAdress(?string $adress): static
     {
         $this->adress = $adress;
+        return $this;
     }
 
 }

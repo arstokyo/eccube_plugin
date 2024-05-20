@@ -20,6 +20,7 @@ interface HasUtaxInterface
      * Set 内消費税
      *
      * @param ?string $utax
+     * @return $this
      */
-    public function setUtax(?string $utax);
+    public function setUtax(?string $utax): static;
 }

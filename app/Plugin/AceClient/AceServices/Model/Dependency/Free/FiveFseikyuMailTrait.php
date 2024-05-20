@@ -4,7 +4,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
 
 /**
  * Trait for 5つ請求明細ﾒｰﾙｱﾄﾞﾚｽ
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 trait FiveFseikyuMailTrait
@@ -35,7 +35,7 @@ trait FiveFseikyuMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFSeikyuMail1(?string $fseikyumail1)
+    public function setFSeikyuMail1(?string $fseikyumail1): static
     {
         $this->fseikyumail1 = $fseikyumail1;
         return $this;
@@ -52,7 +52,7 @@ trait FiveFseikyuMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFSeikyuMail2(?string $fseikyumail2)
+    public function setFSeikyuMail2(?string $fseikyumail2): static
     {
         $this->fseikyumail2 = $fseikyumail2;
         return $this;
@@ -69,7 +69,7 @@ trait FiveFseikyuMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFSeikyuMail3(?string $fseikyumail3)
+    public function setFSeikyuMail3(?string $fseikyumail3): static
     {
         $this->fseikyumail3 = $fseikyumail3;
         return $this;
@@ -86,7 +86,7 @@ trait FiveFseikyuMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFSeikyuMail4(?string $fseikyumail4)
+    public function setFSeikyuMail4(?string $fseikyumail4): static
     {
         $this->fseikyumail4 = $fseikyumail4;
         return $this;
@@ -103,7 +103,7 @@ trait FiveFseikyuMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFSeikyuMail5(?string $fseikyumail5)
+    public function setFSeikyuMail5(?string $fseikyumail5): static
     {
         $this->fseikyumail5 = $fseikyumail5;
         return $this;

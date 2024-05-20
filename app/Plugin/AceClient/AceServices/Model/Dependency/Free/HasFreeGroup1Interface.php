@@ -8,7 +8,6 @@ use Plugin\AceClient\AceServices\Model\Dependency\Free\HasFiveFseikyuMailInterfa
 use Plugin\AceClient\AceServices\Model\Dependency\Free\HasFiveFshouHinMailInterface;
 use Plugin\AceClient\AceServices\Model\Dependency\Free\HasFiveFdenshiMailInterface;
 
-
 /**
  * Interface For HasFreeGroup1
  *
@@ -31,8 +30,9 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 紹介者顧客メモ
      *
      * @param ?string $freeshokaishamemo
+     * @return $this
      */
-    public function setFreeshokaishamemo(?string $freeshokaishamemo);
+    public function setFreeshokaishamemo(?string $freeshokaishamemo): static;
 
     /**
      * Get 移行元
@@ -45,8 +45,9 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 移行元
      *
      * @param ?int $freeikomoto
+     * @return $this
      */
-    public function setFreeikomoto(?int $freeikomoto);
+    public function setFreeikomoto(?int $freeikomoto): static;
 
     /**
      * Get 代表者姓
@@ -59,8 +60,9 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者姓
      *
      * @param ?string $freedaihyoshasei
+     * @return $this
      */
-    public function setFreedaihyoshasei(?string $freedaihyoshasei);
+    public function setFreedaihyoshasei(?string $freedaihyoshasei): static;
 
     /**
      * Get 代表者名
@@ -73,8 +75,9 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者名
      *
      * @param ?string $freedaihyoshamei
+     * @return $this
      */
-    public function setFreedaihyoshamei(?string $freedaihyoshamei);
+    public function setFreedaihyoshamei(?string $freedaihyoshamei): static;
 
     /**
      * Get 代表者姓カナ
@@ -87,8 +90,9 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者姓カナ
      *
      * @param ?string $freedaihyoshaseifuri
+     * @return $this
      */
-    public function setFreedaihyoshaseifuri(?string $freedaihyoshaseifuri);
+    public function setFreedaihyoshaseifuri(?string $freedaihyoshaseifuri): static;
 
     /**
      * Get 代表者名カナ
@@ -101,8 +105,9 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者名カナ
      *
      * @param ?string $freedaihyoshameifuri
+     * @return $this
      */
-    public function setFreedaihyoshameifuri(?string $freedaihyoshameifuri);
+    public function setFreedaihyoshameifuri(?string $freedaihyoshameifuri): static;
 
     /**
      * Get 代表者郵便番号
@@ -115,8 +120,9 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者郵便番号
      *
      * @param ?string $freeyubinbango
+     * @return $this
      */
-    public function setFreeyubinbango(?string $freeyubinbango);
+    public function setFreeyubinbango(?string $freeyubinbango): static;
 
     /**
      * Get 代表者都道府県
@@ -129,8 +135,9 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者都道府県
      *
      * @param ?string $freetodofuken
+     * @return $this
      */
-    public function setFreetodofuken(?string $freetodofuken);
+    public function setFreetodofuken(?string $freetodofuken): static;
 
     /**
      * Get 代表者市区町村
@@ -143,8 +150,9 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者市区町村
      *
      * @param ?string $freeshikuchouson
+     * @return $this
      */
-    public function setFreeshikuchouson(?string $freeshikuchouson);
+    public function setFreeshikuchouson(?string $freeshikuchouson): static;
 
     /**
      * Get 代表者町名番地
@@ -157,8 +165,9 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者町名番地
      *
      * @param ?string $freechomeibanchi
+     * @return $this
      */
-    public function setFreechomeibanchi(?string $freechomeibanchi);
+    public function setFreechomeibanchi(?string $freechomeibanchi): static;
 
     /**
      * Get 代表者建物名
@@ -171,8 +180,9 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者建物名
      *
      * @param ?string $freetatemonomei
+     * @return $this
      */
-    public function setFreetatemonomei(?string $freetatemonomei);
+    public function setFreetatemonomei(?string $freetatemonomei): static;
 
     /**
      * Get 代表者会社名
@@ -185,8 +195,9 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者会社名
      *
      * @param ?string $freekaishamei
+     * @return $this
      */
-    public function setFreekaishamei(?string $freekaishamei);
+    public function setFreekaishamei(?string $freekaishamei): static;
 
     /**
      * Get 代表者お届先名称
@@ -199,8 +210,9 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者お届先名称
      *
      * @param ?string $freetodokesaki
+     * @return $this
      */
-    public function setFreetodokesaki(?string $freetodokesaki);
+    public function setFreetodokesaki(?string $freetodokesaki): static;
 
     /**
      * Get 代表者電話番号1
@@ -213,8 +225,9 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者電話番号1
      *
      * @param ?string $freedenwabango1
+     * @return $this
      */
-    public function setFreedenwabango1(?string $freedenwabango1);
+    public function setFreedenwabango1(?string $freedenwabango1): static;
 
     /**
      * Get 代表者電話番号2
@@ -227,8 +240,9 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者電話番号2
      *
      * @param ?string $freedenwabango2
+     * @return $this
      */
-    public function setFreedenwabango2(?string $freedenwabango2);
+    public function setFreedenwabango2(?string $freedenwabango2): static;
 
     /**
      * Get 代表者電話番号3
@@ -241,8 +255,9 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者電話番号3
      *
      * @param ?string $freedenwabango3
+     * @return $this
      */
-    public function setFreedenwabango3(?string $freedenwabango3);
+    public function setFreedenwabango3(?string $freedenwabango3): static;
 
     /**
      * Get 代表者FAX番号
@@ -255,8 +270,9 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者FAX番号
      *
      * @param ?string $freefax
+     * @return $this
      */
-    public function setFreefax(?string $freefax);
+    public function setFreefax(?string $freefax): static;
 
     /**
      * Get 定休日
@@ -269,8 +285,9 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 定休日
      *
      * @param ?string $freeteikyubi
+     * @return $this
      */
-    public function setFreeteikyubi(?string $freeteikyubi);
+    public function setFreeteikyubi(?string $freeteikyubi): static;
 
     /**
      * Get DM送付後説明
@@ -283,8 +300,9 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set DM送付後説明
      *
      * @param ?int $freedmsofukbn
+     * @return $this
      */
-    public function setFreedmsofukbn(?int $freedmsofukbn);
+    public function setFreedmsofukbn(?int $freedmsofukbn): static;
 
     /**
      * Get ｴﾝﾄﾞﾕｰｻﾞｰ店舗案内
@@ -297,8 +315,9 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set ｴﾝﾄﾞﾕｰｻﾞｰ店舗案内
      *
      * @param ?int $freeenduserkbn
+     * @return $this
      */
-    public function setFreeenduserkbn(?int $freeenduserkbn);
+    public function setFreeenduserkbn(?int $freeenduserkbn): static;
 
     /**
      * Get 反社チェック
@@ -311,8 +330,9 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 反社チェック
      *
      * @param ?int $freehanshakbn
+     * @return $this
      */
-    public function setFreehanshakbn(?int $freehanshakbn);
+    public function setFreehanshakbn(?int $freehanshakbn): static;
 
     /**
      * Get 取引区分
@@ -325,6 +345,7 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 取引区分
      *
      * @param ?int $thflg
+     * @return $this
      */
-    public function setThflg(?int $thflg);
+    public function setThflg(?int $thflg): static;
 }

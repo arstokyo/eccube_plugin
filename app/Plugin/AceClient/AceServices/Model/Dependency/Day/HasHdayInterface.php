@@ -22,7 +22,7 @@ interface HasHdayInterface
      * Set 配送希望日
      *
      * @param \DateTime|string|null $hday
+     * @return $this
      */
-    public function setHday(\DateTime|string|null $hday);
-
+    public function setHday(\DateTime|string|null $hday): static;
 }

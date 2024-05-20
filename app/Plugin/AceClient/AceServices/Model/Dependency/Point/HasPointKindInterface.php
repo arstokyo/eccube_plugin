@@ -20,6 +20,7 @@ interface HasPointKindInterface
      * Set ポイント種類
      *
      * @param ?int $PointKind
+     * @return $this
      */
-    public function setPointKind(?int $PointKind);
+    public function setPointKind(?int $PointKind): static;
 }

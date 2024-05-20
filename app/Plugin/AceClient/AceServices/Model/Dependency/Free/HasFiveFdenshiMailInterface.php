@@ -20,20 +20,24 @@ interface HasFiveFdenshiMailInterface
      * Set 電子契約送付ﾒｰﾙｱﾄﾞﾚｽ1
      *
      * @param ?string $freedenshimail1
+     * @return $this
      */
-    public function setFreeDenshiMail1(?string $freedenshimail1);
+    public function setFreeDenshiMail1(?string $freedenshimail1): static;
+
     /**
      * Get 電子契約送付ﾒｰﾙｱﾄﾞﾚｽ2
      *
      * @return ?string
      */
     public function getFreeDenshiMail2(): ?string;
+
     /**
      * Set 電子契約送付ﾒｰﾙｱﾄﾞﾚｽ2
      *
      * @param ?string $freedenshimail2
+     * @return $this
      */
-    public function setFreeDenshiMail2(?string $freedenshimail2);
+    public function setFreeDenshiMail2(?string $freedenshimail2): static;
 
     /**
      * Get 電子契約送付ﾒｰﾙｱﾄﾞﾚｽ3
@@ -46,8 +50,9 @@ interface HasFiveFdenshiMailInterface
      * Set 電子契約送付ﾒｰﾙｱﾄﾞﾚｽ3
      *
      * @param ?string $freedenshimail3
+     * @return $this
      */
-    public function setFreeDenshiMail3(?string $freedenshimail3);
+    public function setFreeDenshiMail3(?string $freedenshimail3): static;
 
     /**
      * Get 電子契約送付ﾒｰﾙｱﾄﾞﾚｽ4
@@ -60,8 +65,9 @@ interface HasFiveFdenshiMailInterface
      * Set 電子契約送付ﾒｰﾙｱﾄﾞﾚｽ4
      *
      * @param ?string $freedenshimail4
+     * @return $this
      */
-    public function setFreeDenshiMail4(?string $freedenshimail4);
+    public function setFreeDenshiMail4(?string $freedenshimail4): static;
 
     /**
      * Get 電子契約送付ﾒｰﾙｱﾄﾞﾚｽ5
@@ -74,6 +80,7 @@ interface HasFiveFdenshiMailInterface
      * Set 電子契約送付ﾒｰﾙｱﾄﾞﾚｽ5
      *
      * @param ?string $freedenshimail5
+     * @return $this
      */
-    public function setFreeDenshiMail5(?string $freedenshimail5);
+    public function setFreeDenshiMail5(?string $freedenshimail5): static;
 }

@@ -2,14 +2,13 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Mail;
 
-use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * Trait for MailAdress
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-trait MailAdressTrait 
+trait MailAdressTrait
 {
     /** @var ?string $mailadress メールアドレス */
     protected ?string $mailadress = null;
@@ -25,7 +24,7 @@ trait MailAdressTrait
     /**
      * {@inheritDoc}
      */
-    public function setMailadress(?string $mailadress)
+    public function setMailadress(?string $mailadress): static
     {
         $this->mailadress = $mailadress;
         return $this;

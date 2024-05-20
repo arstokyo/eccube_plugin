@@ -5,7 +5,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Baitai;
 
 /**
  * Trait for 媒体コード
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 trait BaitaiCodeTrait
@@ -27,7 +27,7 @@ trait BaitaiCodeTrait
     /**
      * {@inheritDoc}
      */
-    public function setBaitai(?string $baitai)
+    public function setBaitai(?string $baitai): static
     {
         $this->baitai = $baitai;
         return $this;
@@ -44,7 +44,7 @@ trait BaitaiCodeTrait
     /**
      * {@inheritDoc}
      */
-    public function setBaifile(?string $baifile)
+    public function setBaifile(?string $baifile): static
     {
         $this->baifile = $baifile;
         return $this;

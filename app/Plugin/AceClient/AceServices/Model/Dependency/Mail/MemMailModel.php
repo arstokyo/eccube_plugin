@@ -5,7 +5,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Mail;
 class MemMailModel implements MemMailModelInterface
 {
     use MailTrait;
-    
+
     /** @var ?int $dmailkbn */
     protected ?int $dmailkbn;
 
@@ -14,7 +14,7 @@ class MemMailModel implements MemMailModelInterface
 
     /**
      * {@inheritDoc}
-     * 
+     *
      */
     public function getDmailkbn(): ?int
     {
@@ -23,9 +23,9 @@ class MemMailModel implements MemMailModelInterface
 
     /**
      * {@inheritDoc}
-     * 
+     *
      */
-    public function setDmailkbn(?int $dmailkbn): self
+    public function setDmailkbn(?int $dmailkbn): static
     {
         $this->dmailkbn = $dmailkbn;
         return $this;
@@ -33,7 +33,7 @@ class MemMailModel implements MemMailModelInterface
 
     /**
      * {@inheritDoc}
-     * 
+     *
      */
     public function getIdx(): ?int
     {
@@ -42,12 +42,12 @@ class MemMailModel implements MemMailModelInterface
 
     /**
      * {@inheritDoc}
-     * 
+     *
      */
-    public function setIdx(?int $idx): self
+    public function setIdx(?int $idx): static
     {
         $this->idx = $idx;
         return $this;
     }
-    
+
 }

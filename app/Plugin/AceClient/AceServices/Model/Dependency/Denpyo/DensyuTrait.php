@@ -23,7 +23,7 @@ trait DensyuTrait
     /**
      * {@inheritDoc}
      */
-    public function setDensyu(?int $densyu)
+    public function setDensyu(?int $densyu): static
     {
         $this->densyu = $densyu;
         return $this;

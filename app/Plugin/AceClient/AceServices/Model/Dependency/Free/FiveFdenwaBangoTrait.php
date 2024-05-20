@@ -29,7 +29,7 @@ trait FiveFdenwaBangoTrait
     /**
      * {@inheritDoc}
      */
-    public function setFreeDenwaBango1(?string $freedenwabango1)
+    public function setFreeDenwaBango1(?string $freedenwabango1): static
     {
         $this->freedenwabango1 = $freedenwabango1;
         return $this;
@@ -46,7 +46,7 @@ trait FiveFdenwaBangoTrait
     /**
      * {@inheritDoc}
      */
-    public function setFreeDenwaBango2(?string $freedenwabango2)
+    public function setFreeDenwaBango2(?string $freedenwabango2): static
     {
         $this->freedenwabango2 = $freedenwabango2;
         return $this;
@@ -63,7 +63,7 @@ trait FiveFdenwaBangoTrait
     /**
      * {@inheritDoc}
      */
-    public function setFreeDenwaBango3(?string $freedenwabango3)
+    public function setFreeDenwaBango3(?string $freedenwabango3): static
     {
         $this->freedenwabango3 = $freedenwabango3;
         return $this;

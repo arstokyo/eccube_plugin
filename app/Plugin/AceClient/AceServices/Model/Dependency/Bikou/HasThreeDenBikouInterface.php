@@ -20,8 +20,9 @@ interface HasThreeDenBikouInterface
      * Set 伝票備考1
      *
      * @param ?string $dbikou1
+     * @return $this
      */
-    public function setDbikou1(?string $dbikou1);
+    public function setDbikou1(?string $dbikou1): static;
 
     /**
      * Get 伝票備考2
@@ -34,8 +35,9 @@ interface HasThreeDenBikouInterface
      * Set 伝票備考2
      *
      * @param ?string $dbikou2
+     * @return $this
      */
-    public function setDbikou2(?string $dbikou2);
+    public function setDbikou2(?string $dbikou2): static;
 
     /**
      * Get 伝票備考3
@@ -48,6 +50,7 @@ interface HasThreeDenBikouInterface
      * Set 伝票備考3
      *
      * @param ?string $dbikou3
+     * @return $this
      */
-    public function setDbikou3(?string $dbikou3);
+    public function setDbikou3(?string $dbikou3): static;
 }

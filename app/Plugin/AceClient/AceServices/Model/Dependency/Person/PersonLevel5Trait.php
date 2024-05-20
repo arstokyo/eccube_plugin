@@ -12,15 +12,15 @@ use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
 
 /**
  * Trait For Person Level 5
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-sytem.co.jp>
  */
-trait PersonLevel5Trait 
+trait PersonLevel5Trait
 {
-    use FivePCKbnTrait, 
-        FiveKeiKbnTrait, 
+    use FivePCKbnTrait,
+        FiveKeiKbnTrait,
         FiveMailTrait,
-        BaitaiNameTrait, 
+        BaitaiNameTrait,
         PointTrait,
         ThreeFnameTrait;
 
@@ -85,7 +85,7 @@ trait PersonLevel5Trait
     /**
      * {@inheritDoc}
      */
-    public function setAge(?int $age)
+    public function setAge(?int $age): static
     {
         $this->age = $age;
         return $this;
@@ -94,7 +94,7 @@ trait PersonLevel5Trait
     /**
      * {@inheritDoc}
      */
-    public function setBlday(\DateTime|string|null $blday)
+    public function setBlday(\DateTime|string|null $blday): static
     {
         $this->blday = AceDateTime\AceDateTimeFactory::makeAceDateTime($blday);
         return $this;
@@ -103,7 +103,7 @@ trait PersonLevel5Trait
     /**
      * {@inheritDoc}
      */
-    public function setBlkbn(?int $blkbn)
+    public function setBlkbn(?int $blkbn): static
     {
         $this->blkbn = $blkbn;
         return $this;
@@ -112,7 +112,7 @@ trait PersonLevel5Trait
     /**
      * {@inheritDoc}
      */
-    public function setDadr(?int $dadr)
+    public function setDadr(?int $dadr): static
     {
         $this->dadr = $dadr;
         return $this;
@@ -121,7 +121,7 @@ trait PersonLevel5Trait
     /**
      * {@inheritDoc}
      */
-    public function setGadr(?int $gadr)
+    public function setGadr(?int $gadr): static
     {
         $this->gadr = $gadr;
         return $this;
@@ -134,11 +134,11 @@ trait PersonLevel5Trait
     {
         return $this->upcodeSimei;
     }
-    
+
     /**
      * {@inheritDoc}
      */
-    public function setUpcodeSimei(?string $upcodeSimei)
+    public function setUpcodeSimei(?string $upcodeSimei): static
     {
         $this->upcodeSimei = $upcodeSimei;
         return $this;

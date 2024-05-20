@@ -25,7 +25,7 @@ trait TankaTrait
     /**
      * {@inheritDoc}
      */
-    public function setTanka(?string $tanka)
+    public function setTanka(?string $tanka): static
     {
         $this->tanka = NumberConverter::stringWithCommaToFloat($tanka);
         return $this;

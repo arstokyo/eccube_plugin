@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
- * Trait for Mcode
+ * Trait for 顧客コード
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
@@ -23,7 +23,7 @@ trait McodeTrait
     /**
      * {@inheritDoc}
      */
-    public function setMcode(?string $mcode)
+    public function setMcode(?string $mcode): static
     {
         $this->mcode = $mcode;
         return $this;

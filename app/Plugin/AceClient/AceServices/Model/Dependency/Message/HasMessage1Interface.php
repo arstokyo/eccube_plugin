@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Dependency\Message;
 
 /**
- * Interface for Has Message 1
+ * Interface for Has エラーメッセージ1
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
@@ -20,5 +20,5 @@ interface HasMessage1Interface
      * @param ?string $message1
      * @return $this
      */
-    public function setMessage1(?string $message1);
+    public function setMessage1(?string $message1): static;
 }

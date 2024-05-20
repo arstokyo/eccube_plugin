@@ -25,7 +25,7 @@ trait SdateTrait
     /**
      * {@inheritDoc}
      */
-    public function setSdate(\Datetime|string|null $sdate)
+    public function setSdate(\Datetime|string|null $sdate): static
     {
         $this->sdate = AceDateTime\AceDateTimeFactory::makeAceDateTime($sdate);
         return $this;

@@ -22,5 +22,5 @@ interface HasDennoInterface
      * @param ?int $denno 伝票番号
      * @return $this
      */
-    public function setDenno(?int $denno);
+    public function setDenno(?int $denno): static;
 }

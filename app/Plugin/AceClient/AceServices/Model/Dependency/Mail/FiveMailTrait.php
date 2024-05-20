@@ -4,23 +4,19 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Mail;
 
 /**
  * Trait for 5つメールアドレス
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 trait FiveMailTrait
 {
     /** @var ?string $mail1 メールアドレス1 */
     protected ?string $mail1 = null;
-
     /** @var ?string $mail2 メールアドレス2 */
     protected ?string $mail2 = null;
-
     /** @var ?string $mail3 メールアドレス3 */
     protected ?string $mail3 = null;
-
     /** @var ?string $mail4 メールアドレス4 */
     protected ?string $mail4 = null;
-
     /** @var ?string $mail5 メールアドレス5 */
     protected ?string $mail5 = null;
 
@@ -35,7 +31,7 @@ trait FiveMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setMail1(?string $mail1)
+    public function setMail1(?string $mail1): static
     {
         $this->mail1 = $mail1;
         return $this;
@@ -52,7 +48,7 @@ trait FiveMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setMail2(?string $mail2)
+    public function setMail2(?string $mail2): static
     {
         $this->mail2 = $mail2;
         return $this;
@@ -69,7 +65,7 @@ trait FiveMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setMail3(?string $mail3)
+    public function setMail3(?string $mail3): static
     {
         $this->mail3 = $mail3;
         return $this;
@@ -86,7 +82,7 @@ trait FiveMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setMail4(?string $mail4)
+    public function setMail4(?string $mail4): static
     {
         $this->mail4 = $mail4;
         return $this;
@@ -103,7 +99,7 @@ trait FiveMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setMail5(?string $mail5)
+    public function setMail5(?string $mail5): static
     {
         $this->mail5 = $mail5;
         return $this;

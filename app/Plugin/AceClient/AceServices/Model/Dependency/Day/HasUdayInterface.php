@@ -23,7 +23,8 @@ interface HasUdayInterface
      * Set 売上日
      *
      * @param \DateTime|string|null $uday
+     * @return $this
      */
-    public function setUday(\DateTime|string|null $uday);
+    public function setUday(\DateTime|string|null $uday): static;
 
 }

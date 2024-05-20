@@ -20,7 +20,7 @@ interface HasHnameInterface
      * Set 配送会社名称
      *
      * @param ?string $hname
+     * @return $this
      */
-    public function setHname(?string $hname);
-
+    public function setHname(?string $hname): static;
 }

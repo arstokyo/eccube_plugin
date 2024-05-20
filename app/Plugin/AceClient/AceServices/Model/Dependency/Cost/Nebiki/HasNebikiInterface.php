@@ -20,6 +20,7 @@ interface HasNebikiInterface
      * Set 値引額
      *
      * @param ?string $nebiki
+     * @return $this
      */
-    public function setNebiki(?string $nebiki);
+    public function setNebiki(?string $nebiki): static;
 }

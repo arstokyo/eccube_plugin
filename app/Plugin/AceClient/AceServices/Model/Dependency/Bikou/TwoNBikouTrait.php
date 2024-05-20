@@ -4,15 +4,13 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Bikou;
 
 /**
  * Trait for Two 納品書備考
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait TwoNBikouTrait 
+trait TwoNBikouTrait
 {
-
     /** @var ?string $nbikou1 納品書備考1 */
     protected ?string $nbikou1 = null;
-
     /** @var ?string $nbikou2 納品書備考2 */
     protected ?string $nbikou2 = null;
 
@@ -49,5 +47,4 @@ trait TwoNBikouTrait
         $this->nbikou2 = $nbikou2;
         return $this;
     }
-
 }

@@ -22,7 +22,7 @@ trait HasMessageModelExtend2Trait
     /**
      * {@inheritDoc}
      */
-    public function setMessage(MessageModelExtend2 $message)
+    public function setMessage(MessageModelExtend2 $message): static
     {
         $this->Message = $message;
         return $this;

@@ -21,8 +21,8 @@ interface MessageModelExtend2Interface extends MessageModelExtend1Interface, NoC
      * Set メールアドレス
      *
      * @param ?string $adress
-     * @return void
+     * @return $this
      */
-    public function setAdress(?string $adress);
+    public function setAdress(?string $adress): static;
 
 }

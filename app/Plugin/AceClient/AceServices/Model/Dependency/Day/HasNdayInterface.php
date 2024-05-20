@@ -22,7 +22,7 @@ interface HasNdayInterface
      * Set 入金予定日
      *
      * @param \DateTime|string|null $nday
+     * @return $this
      */
-    public function setNday(\DateTime|string|null $nday);
-
+    public function setNday(\DateTime|string|null $nday): static;
 }

@@ -15,11 +15,12 @@ interface HasIdInterface
     * @return ?int
     */
     public function getId(): ?int;
+
     /**
      * Set 通販AceSystemID
      *
      * @param ?int $id
+     * @return $this
      */
-    public function setId(?int $id);
-
+    public function setId(?int $id): static;
 }

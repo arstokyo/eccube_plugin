@@ -20,6 +20,7 @@ interface HasOnameInterface
      * Set 配送会社名称
      *
      * @param ?string $oname
+     * @return $this
      */
-    public function setOname(?string $oname);
+    public function setOname(?string $oname): static;
 }

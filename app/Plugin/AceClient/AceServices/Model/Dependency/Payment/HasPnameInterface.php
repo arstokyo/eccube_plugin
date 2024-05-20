@@ -20,7 +20,7 @@ interface HasPnameInterface
      * Set 支払予定方法
      *
      * @param ?string $pname
+     * @return $this
      */
-    public function setPname(?string $pname);
-
+    public function setPname(?string $pname): static;
 }

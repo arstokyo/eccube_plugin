@@ -20,7 +20,7 @@ interface HasPcodeInterface
      * Set 支払予定方法コード
      *
      * @param ?int $pcode
+     * @return $this
      */
-    public function setPcode(?int $pcode);
-
+    public function setPcode(?int $pcode): static;
 }

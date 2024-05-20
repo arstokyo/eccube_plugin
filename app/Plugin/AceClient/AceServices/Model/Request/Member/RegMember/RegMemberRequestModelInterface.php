@@ -28,5 +28,5 @@ interface RegMemberRequestModelInterface extends RequestModelInterface, NoCatego
      * {@inheritDoc}
      */
     #[SerializedName('sessid')]
-    public function setSessId(?string $sessId);
+    public function setSessId(?string $sessId): static;
 }

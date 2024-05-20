@@ -20,7 +20,7 @@ interface HasOkuriNoInterface
      * Set 送り状番号
      *
      * @param ?string $okurino
+     * @return $this
      */
-    public function setOkurino(?string $okurino);
-
+    public function setOkurino(?string $okurino): static;
 }

@@ -4,12 +4,11 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Trait for DM区分
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait DmKbnTrait 
+trait DmKbnTrait
 {
-        
     /** @var ?int $dmkbn DM区分 */
     protected ?int $dmkbn = null;
 
@@ -24,7 +23,7 @@ trait DmKbnTrait
     /**
     * {@inheritDoc}
     */
-    public function setDmkbn(?int $dmkbn)
+    public function setDmkbn(?int $dmkbn): static
     {
         $this->dmkbn = $dmkbn;
         return $this;

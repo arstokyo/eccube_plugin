@@ -4,14 +4,14 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Trait for 退会フラグ
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 trait TaikaiTrait
 {
     /**
      * 退会フラグ
-     * 
+     *
      * @var ?int
      */
     protected ?int $taikai = null;
@@ -27,7 +27,7 @@ trait TaikaiTrait
     /**
      * {@inheritDoc}
      */
-    public function setTaikai(?int $taikai)
+    public function setTaikai(?int $taikai): static
     {
         $this->taikai = $taikai;
         return $this;

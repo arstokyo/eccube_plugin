@@ -20,6 +20,7 @@ interface HasScodeInterface
      * Set 請求先顧客コード
      *
      * @param ?string $scode
+     * @return $this
      */
-    public function setScode(?string $scode);
+    public function setScode(?string $scode): static;
 }

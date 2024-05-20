@@ -9,7 +9,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\Free\FreeGroup1Trait;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-trait FreeGroup2Trait
+class FreeGroup2Trait implements HasFreeGroup2Interface
 {
     use FreeGroup1Trait;
     /** @var ?int $kessaishubetsu 決済種別種類 */
@@ -27,7 +27,7 @@ trait FreeGroup2Trait
     /**
     * {@inheritDoc}
     */
-    public function setKessaishubetsu(?int $kessaishubetsu)
+    public function setKessaishubetsu(?int $kessaishubetsu): static
     {
         $this->kessaishubetsu = $kessaishubetsu;
         return $this;
@@ -43,7 +43,7 @@ trait FreeGroup2Trait
     /**
      * {@inheritDoc}
      */
-    public function setFreesouryoukubun(?int $freesouryoukubun)
+    public function setFreesouryoukubun(?int $freesouryoukubun): static
     {
         $this->freesouryoukubun = $freesouryoukubun;
         return $this;
@@ -60,7 +60,7 @@ trait FreeGroup2Trait
     /**
      * {@inheritDoc}
      */
-    public function setFreedispkbnid(?string $freedispkbnid)
+    public function setFreedispkbnid(?string $freedispkbnid): static
     {
         $this->freedispkbnid = $freedispkbnid;
         return $this;
@@ -77,7 +77,7 @@ trait FreeGroup2Trait
     /**
      * {@inheritDoc}
      */
-    public function setFreedispkbnname(?string $freedispkbnname)
+    public function setFreedispkbnname(?string $freedispkbnname): static
     {
         $this->freedispkbnname = $freedispkbnname;
         return $this;

@@ -20,7 +20,7 @@ interface HasJnameInterface
      * Set 受注方法名称
      *
      * @param ?string $jname
+     * @return $this
      */
-    public function setJname(?string $jname);
-
+    public function setJname(?string $jname): static;
 }

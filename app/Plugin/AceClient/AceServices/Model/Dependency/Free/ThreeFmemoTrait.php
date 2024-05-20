@@ -7,7 +7,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait ThreeFmemoTrait 
+trait ThreeFmemoTrait
 {
     /** @var ?string $fmemo1 フリーメモ1 */
     protected ?string $fmemo1 = null;
@@ -29,12 +29,12 @@ trait ThreeFmemoTrait
     /**
      * {@inheritDoc}
      */
-    public function setFmemo1(?string $fmemo1)
+    public function setFmemo1(?string $fmemo1): static
     {
         $this->fmemo1 = $fmemo1;
         return $this;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -46,7 +46,7 @@ trait ThreeFmemoTrait
     /**
      * {@inheritDoc}
      */
-    public function setFmemo2(?string $fmemo2)
+    public function setFmemo2(?string $fmemo2): static
     {
         $this->fmemo2 = $fmemo2;
         return $this;
@@ -63,7 +63,7 @@ trait ThreeFmemoTrait
     /**
      * {@inheritDoc}
      */
-    public function setFmemo3(?string $fmemo3)
+    public function setFmemo3(?string $fmemo3): static
     {
         $this->fmemo3 = $fmemo3;
         return $this;

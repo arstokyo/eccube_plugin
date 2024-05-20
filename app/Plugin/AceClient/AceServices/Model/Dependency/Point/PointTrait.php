@@ -4,12 +4,12 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Point;
 
 /**
  * Trait for ポイント
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 trait PointTrait
 {
-        
+
     /** @var int|string|null $point ポイント */
     protected int|string|null $point = null;
 
@@ -24,7 +24,7 @@ trait PointTrait
     /**
     * {@inheritDoc}
     */
-    public function setPoint(int|string|null $point)
+    public function setPoint(int|string|null $point): static
     {
         $this->point = $point;
         return $this;

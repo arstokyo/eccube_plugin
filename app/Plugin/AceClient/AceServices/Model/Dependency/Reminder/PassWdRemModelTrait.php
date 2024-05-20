@@ -23,7 +23,7 @@ trait PassWdRemModelTrait
     /**
      * {@inheritDoc}
      */
-    public function setPasswdRem(?PassWdRemModel $passwdrem)
+    public function setPasswdRem(?PassWdRemModel $passwdrem): static
     {
         $this->passwdrem = $passwdrem;
         return $this;
