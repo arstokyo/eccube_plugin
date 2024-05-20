@@ -13,7 +13,6 @@ interface HasThreeBikouInterface
      * Get 備考1
      *
      * @return ?string
-     * @return self
      */
     public function getBikou1(): ?string;
 
@@ -29,7 +28,6 @@ interface HasThreeBikouInterface
      * Get 備考2
      *
      * @return ?string
-     * @return self
      */
     public function getBikou2(): ?string;
 
@@ -45,7 +43,6 @@ interface HasThreeBikouInterface
      * Get 備考3
      *
      * @return ?string
-     * @return self
      */
     public function getBikou3(): ?string;
 

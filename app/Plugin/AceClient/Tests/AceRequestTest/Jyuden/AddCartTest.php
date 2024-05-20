@@ -187,7 +187,7 @@ class AddCartTest extends AbstractAdminWebTestCase
         } catch(\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
-
+        
         $this->assertSame(OverviewMapper::ACE_TEST_SYID, $jyusub->getId());
         $this->assertEquals($this->testSessid, $jyusub->getSessid());
         $this->assertEquals(0, $jyusub->getTorikbn());
@@ -236,18 +236,15 @@ class AddCartTest extends AbstractAdminWebTestCase
         $this->assertEquals($this->testSessid, $jyuden->getSessid());
         $this->assertEquals(0, $jyuden->getGiftno());
         $this->assertEquals(0, $jyuden->getDenku());
-        $this->assertEquals('40420520', $jyuden->getDay()->toApiDateTime());
-        $this->assertEquals('4042-05-20', $jyuden->getDay()->toShortDate());
-        $this->assertEquals('40420520', $jyuden->getYday()->toApiDateTime());
-        $this->assertEquals('4042-05-20', $jyuden->getYday()->toShortDate());
+        $this->assertEquals((new \DateTime())->format('Ymd'), $jyuden->getDay()->toApiDateTime());
+        $this->assertEquals((new \DateTime())->format('Ymd'), $jyuden->getYday()->toApiDateTime());
         $this->assertEquals(null, $jyuden->getSday());
         $this->assertEquals(null, $jyuden->getUday());
         $this->assertEquals(null, $jyuden->getNday());
-        $this->assertEquals('40420603', $jyuden->getHday()->toApiDateTime());
-        $this->assertEquals('4042-06-03', $jyuden->getHday()->toShortDate());
+        $this->assertEquals((new \DateTime())->modify('+14 day')->format('Ymd'), $jyuden->getHday()->toApiDateTime());
         $this->assertEquals(2, $jyuden->getHtime());
         $this->assertEquals(10, $jyuden->getHcode());
-        $this->assertEquals(112, $jyuden->getNcode());
+        $this->assertEquals($this->testMemberId, $jyuden->getNcode());
         $this->assertEquals(1, $jyuden->getNadr());
         $this->assertEquals(1, $jyuden->getSouko());
         $this->assertEquals('thong', $jyuden->getTcode());

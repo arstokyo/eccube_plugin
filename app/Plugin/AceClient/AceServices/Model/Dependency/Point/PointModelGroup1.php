@@ -10,6 +10,5 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Point;
 class PointModelGroup1 implements PointModelGroup1Interface
 {
     use PointMTrait,
-        PointPTrait,
-        PointMaxTrait;
+        PointPTrait;
 }
