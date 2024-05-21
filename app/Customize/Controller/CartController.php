@@ -28,6 +28,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Eccube\Controller\AbstractController;
+use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart;
+use Plugin\AceClient\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModel;
+use Plugin\AceClient\AceClient;
 
 class CartController extends AbstractController
 {
@@ -82,6 +85,10 @@ class CartController extends AbstractController
         // カートを取得して明細の正規化を実行
         $Carts = $this->cartService->getCarts();
         $this->execPurchaseFlow($Carts);
+
+        /** @var \Eccube\Entity\Customer $Customer */
+        $Customer = $this->getUser();
+        $this->addNewCartOnAce($Carts, $Customer);
 
         // TODO itemHolderから取得できるように
         $least = [];
@@ -267,4 +274,80 @@ class CartController extends AbstractController
 
         return $this->redirectToRoute('shopping');
     }
+
+    /**
+     * Add new Cart on Ace.
+     * 
+     * @param \Eccube\Entity\Cart[] $Carts 
+     * @param \Eccube\Entity\Customer $customer
+     * 
+     * @return bool
+     */
+    private function addNewCartOnAce($Carts, $customer): bool
+    {
+        if (!empty($Carts)) {
+
+            $addCartRequestModel = (new AddCart\AddCartRequestModel())
+                                    ->setId(7)
+                                    ->setPrm($this->buildPrm($Carts, $customer));
+
+            try {
+                $response = (new AceClient)->makeJyudenService()
+                                           ->makeAddCartMethod()
+                                           ->withRequest($addCartRequestModel)
+                                           ->send();
+                if ($response->getStatusCode() === 200) {
+                    /** @var AddCartResponseModel $responseObj */
+                    $responseObj = $response->getResponse();
+    
+                    $message1 = $responseObj->getOrder()->getMessage()->getMessage1();
+                    $message2 = $responseObj->getOrder()->getMessage()->getMessage2();
+                }
+            } catch(\Throwable $e) {
+                $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
+            }
+            return empty($message1) && empty($message2);
+
+        }
+        return false;
+    }
+
+    /**
+     * Build AddCart\OrderPrmModel.
+     * 
+     * @param \Eccube\Entity\Cart[] $Carts 
+     * @param \Eccube\Entity\Customer $customer
+     * 
+     * @return AddCart\OrderPrmModel
+     */
+    private function buildPrm($Carts, $customer): AddCart\OrderPrmModel
+    {
+        $member = (new AddCart\MemberOrderModel)
+                   ->setJmember((new AddCart\JmemberModel())->setCode($customer->getId()))
+                   ->setSmember((new AddCart\SmemberModel())->setCode($customer->getId()))
+                   ->setNmember((new AddCart\NmemberModel())->setEda(1));
+        
+        $pcode = 1;
+        $jcode = 1;
+
+        $jyuden = (new AddCart\JyudenModel)
+                   ->setJcode($jcode)
+                   ->setPcode($pcode)
+                   ->setDay(new \Datetime('now'));
+
+        $jyumeis = [];
+        foreach ($Carts as $Cart) {
+            $jyumei = (new AddCart\JyumeiModel)
+                       ->setSuu($Cart->getQuantity());
+
+            $jyumeis[] = $jyumei;
+        }
+
+        return (new AddCart\OrderPrmModel())
+               ->setMember($member)
+               ->setJyuden($jyuden)
+               ->setDetail((new AddCart\DetailModel())->setJyumei($jyumeis));
+    }
+
+    
 }
