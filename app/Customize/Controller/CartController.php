@@ -290,6 +290,7 @@ class CartController extends AbstractController
         }
 
         $isNotErr = true;
+        $addCartMethod = (new AceClient)->makeJyudenService()->makeAddCartMethod();
         foreach ($Carts as $Cart) {
 
             $addCartRequestModel = (new AddCart\AddCartRequestModel())
@@ -298,10 +299,8 @@ class CartController extends AbstractController
                                     ->setPrm($this->buildPrm($Cart, $customer));
         
             try {
-                $response = (new AceClient)->makeJyudenService()
-                                            ->makeAddCartMethod()
-                                            ->withRequest($addCartRequestModel)
-                                            ->send();
+                $response = $addCartMethod->withRequest($addCartRequestModel)
+                                          ->send();
                 if ($response->getStatusCode() === 200) {
                     /** @var AddCartResponseModel $responseObj */
                     $responseObj = $response->getResponse();
