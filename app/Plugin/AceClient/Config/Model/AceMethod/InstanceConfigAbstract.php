@@ -15,7 +15,7 @@ class InstanceConfigAbstract
      * @var ?string $className Class Name
      */
     #[SerializedName("class_name")]
-    protected ?string $className;  
+    protected ?string $className = null;  
     
     /**
      * Get the class name.

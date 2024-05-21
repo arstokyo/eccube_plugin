@@ -18,7 +18,7 @@ use Plugin\AceClient\Utils\Serialize\SerializerFactory;
 use Plugin\AceClient\Utils\Normalize\NormalizerFactory;
 use Plugin\AceClient\Exception\InvalidClassNameException;
 use Plugin\AceClient\Exception\InvalidFuncNameException;
-use Plugin\AceClient\Exception\NotCompatibleDataType;
+use Plugin\AceClient\Exception\DataTypeMissMatchException;
 use Plugin\AceClient\Utils\ConfigLoader\AceMethodConfigLoaderTrait;
 
 /**
@@ -107,7 +107,7 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
      * @return \GuzzleHttp\ClientInterface
      * 
      * @throws InvalidClassNameException
-     * @throws NotCompatibleDataType
+     * @throws DataTypeMissMatchException
      * 
      */
     private function buildHttpClient(): \GuzzleHttp\ClientInterface
@@ -162,7 +162,7 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
      * @return EncoderInterface[]
      * 
      * @throws InvalidClassNameException
-     * @throws NotCompatibleDataType
+     * @throws DataTypeMissMatchException
      */
     private function buildEncoders(): array
     {
@@ -175,7 +175,7 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
      * @return NormalizerInterface
      * 
      * @throws InvalidClassNameException
-     * @throws NotCompatibleDataType
+     * @throws DataTypeMissMatchException
      */
     private function buildNormalizer(): NormalizerInterface
     {
@@ -188,7 +188,7 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
      * @return LoggerInterface
      * 
      * @throws InvalidClassNameException
-     * @throws NotCompatibleDataType
+     * @throws DataTypeMissMatchException
      */
     private function buildLogger(): LoggerInterface
     {   

@@ -2,7 +2,9 @@
 
 namespace Plugin\AceClient\AceServices\Model\Response;
 
-class ResponseModelAbtract implements ResponseModelInterface
+use Symfony\Component\Serializer\SerializerInterface;
+
+abstract class ResponseModelAbtract implements ResponseModelInterface
 {
-    
+
 }

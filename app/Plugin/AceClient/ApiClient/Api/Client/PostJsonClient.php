@@ -13,7 +13,7 @@ class PostJsonClient extends PostClientAbstract implements ClientInterface
      * @psalm-suppress InvalidReturnType
      * @psalm-suppress InvalidReturnStatement
      *
-     * @throws Exception\RequestBuildException
+     * @throws Exception\CanNotBuildRequestException
      *
      * @return array<string, array<string, string[]>>
      */
@@ -27,7 +27,7 @@ class PostJsonClient extends PostClientAbstract implements ClientInterface
             $request = $this->delegate->getSerializer()->serialize($this->request, 'json');
         } catch (\Throwable $t) {
             $this->delegate->getLogger()->error("API Client error: {$t->getMessage()}");
-            throw new Exception\RequestBuildException("Cannot build {$this->requestmethod} request body", $t);
+            throw new Exception\CanNotBuildRequestException("Cannot build {$this->requestmethod} request body", $t);
         }
         return array_merge_recursive(
             $baseOptions,

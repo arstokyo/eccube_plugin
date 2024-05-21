@@ -2,51 +2,75 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart;
 
-use Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency\MemberModelAbstract;
-use Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency\MemberModelInterface;
-use Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency\PersonModelInterface;
-use Plugin\AceClient\AceServices\Model\Request\Jyuden\Dependency\NmemModelInterface;
-use Plugin\AceClient\AceServices\Model\Request;
+use Plugin\AceClient\AceServices\Model\Dependency\Person;
 
-class MemberOrderModel extends MemberModelAbstract implements MemberModelInterface
+class MemberOrderModel implements MemberOrderModelInterface
 {
 
     /**
-     * Set 受注先顧客情報
-     * 
-     * @param Request\Jyuden\AddCart\PersonModel $jmember
-     * @return Request\Jyuden\AddCart\MemberOrderModel
+     * @var ?Person\Nmember\NmemberModelInterface $jmember
      */
-    public function setJmember(PersonModelInterface $jmember): self
+    private ?Person\Jmember\JmemberModelInterface $jmember = null;
+
+    /**
+     * @var ?Person\Nmember\NmemberModelInterface $nmember
+     */
+    private ?Person\Nmember\NmemberModelInterface $nmember = null;
+
+    /**
+     * @var ?Person\Smember\SmemberModelInterface $smember
+     */
+    private ?Person\Smember\SmemberModelInterface $smember = null;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setJmember(?Person\Jmember\JmemberModelInterface $jmember): self
     {
         $this->jmember = $jmember;
         return $this;
     }
 
-        /**
-     * Set 納品先顧客情報
-     * 
-     * @param Request\Jyuden\AddCart\NmemModel $nmember
-     * @return Request\Jyuden\AddCart\MemberOrderModel
+    /**
+     * {@inheritDoc}
      */
-    public function setNmember(NmemModelInterface $nmember): self
+    public function setNmember(?Person\Nmember\NmemberModelInterface $nmember): self
     {
         $this->nmember = $nmember;
         return $this;
     }
 
     /**
-     * Set 請求先顧客情報
-     * 
-     * @param Request\Jyuden\AddCart\PersonModel $smember
-     * @return Request\Jyuden\AddCart\MemberOrderModel
+     * {@inheritDoc}
      */
-    public function setSmember(PersonModelInterface $smember): self
+    public function setSmember(?Person\Smember\SmemberModelInterface  $smember): self
     {
         $this->smember = $smember;
         return $this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getJmember(): ?Person\Jmember\JmemberModelInterface
+    {
+        return $this->jmember;
+    }
+    /**
+     * {@inheritDoc}
+     */
+    public function getNmember(): ?Person\Nmember\NmemberModelInterface
+    {
+        return $this->nmember;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getSmember(): ?Person\Smember\SmemberModelInterface
+    {
+        return $this->smember;
+    }
 
 }
 

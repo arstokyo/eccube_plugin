@@ -6,14 +6,21 @@
     </include>
     <exclude>
       <directory suffix=".php">./Tests</directory>
-      <file>./PluginManager.php</file>
+      <directory>./Controller</directory>
+      <directory>./Form</directory>
+      <directory>./Repository</directory>
+      <directory>./Resource</directory>
+      <directory>./Entity</directory>
+      <file>./Nav.php</file>
+      <file>./Event.php</file>
+      <file>./TwigBlock.php</file>
     </exclude>
   </coverage>
   <php>
     <ini name="error_reporting" value="-1"/>
     <env name="KERNEL_CLASS" value="Eccube\Kernel"/>
     <env name="APP_ENV" value="test"/>
-    <env name="APP_DEBUG" value="1"/>
+    <env name="APP_DEBUG" value="0"/>
     <env name="SHELL_VERBOSITY" value="-1"/>
     <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
     <env name="SYMFONY_PHPUNIT_VERSION" value="9.5"/>

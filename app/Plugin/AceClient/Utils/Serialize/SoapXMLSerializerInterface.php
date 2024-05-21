@@ -3,6 +3,7 @@
 namespace Plugin\AceClient\Utils\Serialize;
 
 use Symfony\Component\Serializer\SerializerInterface;
+use Plugin\AceClient\Config\Model\SoapXmlSerializer\SoapXmlSerializerModel;
 
 /**
  * Interface for Soap Serializer.
@@ -11,5 +12,10 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 interface SoapXMLSerializerInterface extends SerializerInterface
 {
-
+    /**
+     * Get the config of the Soap Serializer.
+     * 
+     * @return SoapXmlSerializerModel
+     */
+    public function getConfig(): SoapXmlSerializerModel;
 }

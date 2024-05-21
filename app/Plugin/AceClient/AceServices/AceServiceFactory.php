@@ -9,7 +9,8 @@ use Plugin\AceClient\AceServices\Service;
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class AceServiceFactory {
+class AceServiceFactory 
+{
 
     /**
      * Make new JyudenService
@@ -19,6 +20,16 @@ class AceServiceFactory {
     public static function makeJyudenService() : Service\JyudenService
     {
         return new Service\JyudenService();
+    }
+
+    /**
+     * Make new MemberService
+     * 
+     * @return Service\MemberService
+     */
+    public static function makeMemberService() : Service\MemberService
+    {
+        return new Service\MemberService();
     }
 
 }

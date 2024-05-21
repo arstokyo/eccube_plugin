@@ -11,7 +11,8 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Plugin\AceClient\Utils\Normalize\NormalizerFactory;
 use Plugin\AceClient\Utils\Denormalize\DenormalizerFactory;
 use Plugin\AceClient\Exception\InvalidClassNameException;
-use Plugin\AceClient\Exception\NotCompatibleDataType;
+use Plugin\AceClient\Exception\DataTypeMissMatchException;
+use Plugin\AceClient\Utils\Serialize;
 use Plugin\AceClient\Utils\ClassFactory\ClassFactory;
 
 /**
@@ -31,6 +32,15 @@ final class SerializerFactory
     }
 
     /**
+     * Make Soap Serializer For Test
+     * 
+     * @return Serialize\SoapXMLSerializer
+     */
+    public static function makeSoapSerializerForTest(): Serialize\SoapXMLSerializer {
+        return new Serialize\SoapXMLSerializer(NormalizerFactory::makeDefaultSoapNormalizers(), [new XmlEncoder()]);
+    }
+
+    /**
      * Make Json Serializer
      * 
      * @return Serializer
@@ -40,7 +50,7 @@ final class SerializerFactory
     }
 
     public static function makeDTOSerializer(): SerializerInterface {
-        return self::makeSerializer(array_merge(NormalizerFactory::makeRecursiveNormalizers(),[DenormalizerFactory::makeArrayDenormalizer()]), [new JsonEncoder()]);
+        return self::makeSerializer(array_merge(NormalizerFactory::makeDTONormalizers(),[DenormalizerFactory::makeArrayDenormalizer()]), [new JsonEncoder()]);
     }
 
     /**
@@ -66,7 +76,7 @@ final class SerializerFactory
      * @return SerializerInterface
      * 
      * @throws InvalidClassNameException
-     * @throws NotCompatibleDataType
+     * @throws DataTypeMissMatchException
      */
     public static function makeSerilizerByClassName(string $className, array $normalizers, array $encoders): SerializerInterface
     {

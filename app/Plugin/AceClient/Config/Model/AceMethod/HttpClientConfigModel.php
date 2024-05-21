@@ -69,7 +69,7 @@ class HttpClientConfigModel extends InstanceConfigAbstract implements ConfigMode
      */
     public function setHeaders(?array $headers): void
     {
-        if (\array_key_exists('User-Agent', $headers)) {
+        if (\array_key_exists('User-Agent', $headers) && \defined($headers['User-Agent'])) {
             $headers['User-Agent'] = $this->convertVarToStringConst($headers['User-Agent']);
         }
         $this->headers = $headers;

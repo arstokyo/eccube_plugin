@@ -32,7 +32,7 @@ class PostSoapXMLClient extends PostClientAbstract
      * @psalm-suppress InvalidReturnType
      * @psalm-suppress InvalidReturnStatement
      *
-     * @throws Exception\RequestBuildException
+     * @throws Exception\CanNotBuildRequestException
      *
      * @return array<string, array<string, string[]>>
      */
@@ -46,7 +46,7 @@ class PostSoapXMLClient extends PostClientAbstract
             $request = $this->delegate->getSerializer()->serialize($this->request, EncodeDefineMapper::XML);
         } catch (\Throwable $t) {
             $this->delegate->getLogger()->error("API Client error: {$t->getMessage()}");
-            throw new Exception\RequestBuildException("Cannot build {$this->requestmethod} request body", $t);
+            throw new Exception\CanNotBuildRequestException("Cannot build {$this->requestmethod} request body", $t);
         }
         return array_merge_recursive(
             $baseOptions,

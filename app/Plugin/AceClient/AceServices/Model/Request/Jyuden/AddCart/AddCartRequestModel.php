@@ -3,112 +3,57 @@
 namespace Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart;
 
 use Plugin\AceClient\AceServices\Model\Request;
-use Plugin\AceClient\AceServices\Model\Request\Jyuden\JyudenRequestAbstract;
-use Symfony\Component\Serializer\Annotation\Ignore;
-use Symfony\Component\Serializer\Annotation\SerializedName;
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient\Exception\MissingRequestParameterException;
 
-class AddCartRequestModel extends JyudenRequestAbstract implements AddCartRequestModelInterface
+/**
+ * Class Add Cart Request Model
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
+class AddCartRequestModel extends Request\RequestModelAbstract implements AddCartRequestModelInterface
 {
-    /** @var int $id Ace System ID  */
-    private ?int $id;
 
-    #[SerializedName("sessId")]
-    /** @var string $sessId Session ID */
-    private string $sessId;
+    use NoCategory\IdTrait, 
+        NoCategory\SessIdTrait;
 
     /** @var ?OrderPrmModel $prm Order Info */
     private ?OrderPrmModel $prm;
 
-    #[Ignore]
-    private const XML_NODE_NAME = 'addCart';
+    const XML_NODE_NAME = 'addCart';
 
     /**
-     * Set SystemID
-     * 
-     * @param int $id
-     * @return Request\Jyuden\AddCart\AddCartRequestModel
-     */
-    public function setId(int $id): self
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
-     * Set オーダー情報
-     * 
-     * @param Request\Jyuden\AddCart\OrderPrmModel $prm
-     * @return Request\Jyuden\AddCart\AddCartRequestModel
+     * {@inheritDoc}
      */
     public function setPrm(OrderPrmModel $prm): self
     {
         $this->prm = $prm;
         return $this;
     }
-
+   
     /**
-     * Set セッションID
-     * 
-     * @param string $sessId
-     * @return Request\Jyuden\AddCart\AddCartRequestModel
+     * {@inheritDoc}
      */
-    #[SerializedName("sessId")]
-    public function setSessId(string $sessId): self
+    public function getPrm(): OrderPrmModelInterface
     {
-        $this->sessId = $sessId;
-        return $this;
+        return $this->prm;
     }
 
     /**
-     * Get Id
-     * 
-     * @return ?int
+     * {@inheritDoc}
      */
-
-    public function getId(): ?int
+    public function ensureParameterNotMissing(): void
     {
-        return $this->id;
+        if (empty($this->id)) { throw new MissingRequestParameterException($this->compilePropertyName('id')); };
+        if (empty($this->sessId)) { throw new MissingRequestParameterException($this->compilePropertyName('sessId')); };
+        if (empty($this->prm))  { throw new MissingRequestParameterException($this->compilePropertyName('prm')); };
+        $this->prm->ensureParameterNotMissing();
     }
 
     /**
-     * Get セッションID
-     * 
-     * @return string
+     * {@inheritDoc}
      */
-    public function getSessId(): string
-    {
-        return $this->sessId;
-    }
-
-    /**
-     * Get オーダー情報
-     * 
-     * @return string|null|object
-     */
-    public function getPrm(): string|null|object
-    {
-        return $this->prm->toData();
-    }
-
-    /**
-     * Ensure Input Parameters are valid
-     * 
-     * @return bool
-     */
-    public function ensureValidParameters(): bool
-    {
-        if (empty($this->id)) { return false; }
-        if (empty($this->sessId)) { return false; }
-        if (empty($this->prm)) { return false; }
-        return true;
-    }
-
-    /**
-     * Get Xml Node Name
-     * 
-     * @return string
-     */
-    public function getXmlNodeName(): string
+    public function fetchRequestNodeName(): string
     {
         return self::XML_NODE_NAME;
     }
