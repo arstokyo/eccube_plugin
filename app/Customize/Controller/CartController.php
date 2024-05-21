@@ -289,8 +289,9 @@ class CartController extends AbstractController
 
             $addCartRequestModel = (new AddCart\AddCartRequestModel())
                                     ->setId(7)
+                                    ->setSessId($this->session->getId())
                                     ->setPrm($this->buildPrm($Carts, $customer));
-
+           
             try {
                 $response = (new AceClient)->makeJyudenService()
                                            ->makeAddCartMethod()
