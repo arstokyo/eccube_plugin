@@ -285,37 +285,40 @@ class CartController extends AbstractController
      */
     private function addNewCartOnAce($Carts, $customer): bool
     {
-        if (!empty($Carts)) {
+        if (empty($Carts)) {
+            return false;
+        }
 
-            foreach ($Carts as $Cart) {
+        $isNotErr = true;
+        foreach ($Carts as $Cart) {
 
-                $addCartRequestModel = (new AddCart\AddCartRequestModel())
-                                        ->setId(7)
-                                        ->setSessId($this->session->getId())
-                                        ->setPrm($this->buildPrm($Cart, $customer));
-            
-                try {
-                    $response = (new AceClient)->makeJyudenService()
-                                               ->makeAddCartMethod()
-                                               ->withRequest($addCartRequestModel)
-                                               ->send();
-                    if ($response->getStatusCode() === 200) {
-                        /** @var AddCartResponseModel $responseObj */
-                        $responseObj = $response->getResponse();
-                        $message1 = $responseObj->getOrder()->getMessage()->getMessage1();
-                    }
-                } catch(\Throwable $e) {
-                    $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
+            $addCartRequestModel = (new AddCart\AddCartRequestModel())
+                                    ->setId(7)
+                                    ->setSessId($this->session->getId())
+                                    ->setPrm($this->buildPrm($Cart, $customer));
+        
+            try {
+                $response = (new AceClient)->makeJyudenService()
+                                            ->makeAddCartMethod()
+                                            ->withRequest($addCartRequestModel)
+                                            ->send();
+                if ($response->getStatusCode() === 200) {
+                    /** @var AddCartResponseModel $responseObj */
+                    $responseObj = $response->getResponse();
+                    $message1 = $responseObj->getOrder()->getMessage()->getMessage1();
                 }
+            } catch(\Throwable $e) {
+                $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
+            }
 
-                if (!empty($message1)) {
-                    $this->addRequestError($message1);
-                }
-
+            if (!empty($message1)) {
+                $isNotErr = false;
+                $this->addRequestError($message1);
             }
 
         }
-        return false;
+
+        return $isNotErr;
     }
 
     /**
@@ -344,7 +347,7 @@ class CartController extends AbstractController
         $jyumeis = [];
         foreach ($Cart->getItems() as $Item) {
             $jyumeis[] = (new AddCart\JyumeiModel)
-                          ->setGcode($Item->getProduct()->getId())
+                          ->setGcode($Item->getProductClass()->getId())
                           ->setTanka($Item->getPrice())
                           ->setSuu($Item->getQuantity());
         }
