@@ -321,7 +321,7 @@ class CartController extends AbstractController
     /**
      * Build AddCart\OrderPrmModel.
      * 
-     * @param \Eccube\Entity\Cart $Carts 
+     * @param \Eccube\Entity\Cart $Cart
      * @param \Eccube\Entity\Customer $customer
      * 
      * @return AddCart\OrderPrmModel
@@ -342,7 +342,7 @@ class CartController extends AbstractController
                    ->setDay(new \Datetime('now'));
 
         $jyumeis = [];
-        foreach ($Cart as $Item) {
+        foreach ($Cart->getItems() as $Item) {
             $jyumeis[] = (new AddCart\JyumeiModel)
                           ->setGcode($Item->getProduct()->getId())
                           ->setTanka($Item->getPrice())
