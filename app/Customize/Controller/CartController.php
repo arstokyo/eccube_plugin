@@ -287,27 +287,32 @@ class CartController extends AbstractController
     {
         if (!empty($Carts)) {
 
-            $addCartRequestModel = (new AddCart\AddCartRequestModel())
-                                    ->setId(7)
-                                    ->setSessId($this->session->getId())
-                                    ->setPrm($this->buildPrm($Carts, $customer));
-           
-            try {
-                $response = (new AceClient)->makeJyudenService()
-                                           ->makeAddCartMethod()
-                                           ->withRequest($addCartRequestModel)
-                                           ->send();
-                if ($response->getStatusCode() === 200) {
-                    /** @var AddCartResponseModel $responseObj */
-                    $responseObj = $response->getResponse();
-    
-                    $message1 = $responseObj->getOrder()->getMessage()->getMessage1();
-                    $message2 = $responseObj->getOrder()->getMessage()->getMessage2();
+            foreach ($Carts as $Cart) {
+
+                $addCartRequestModel = (new AddCart\AddCartRequestModel())
+                                        ->setId(7)
+                                        ->setSessId($this->session->getId())
+                                        ->setPrm($this->buildPrm($Cart, $customer));
+            
+                try {
+                    $response = (new AceClient)->makeJyudenService()
+                                               ->makeAddCartMethod()
+                                               ->withRequest($addCartRequestModel)
+                                               ->send();
+                    if ($response->getStatusCode() === 200) {
+                        /** @var AddCartResponseModel $responseObj */
+                        $responseObj = $response->getResponse();
+                        $message1 = $responseObj->getOrder()->getMessage()->getMessage1();
+                    }
+                } catch(\Throwable $e) {
+                    $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
                 }
-            } catch(\Throwable $e) {
-                $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
+
+                if (!empty($message1)) {
+                    $this->addRequestError($message1);
+                }
+
             }
-            return empty($message1) && empty($message2);
 
         }
         return false;
@@ -316,12 +321,12 @@ class CartController extends AbstractController
     /**
      * Build AddCart\OrderPrmModel.
      * 
-     * @param \Eccube\Entity\Cart[] $Carts 
+     * @param \Eccube\Entity\Cart $Carts 
      * @param \Eccube\Entity\Customer $customer
      * 
      * @return AddCart\OrderPrmModel
      */
-    private function buildPrm($Carts, $customer): AddCart\OrderPrmModel
+    private function buildPrm($Cart, $customer): AddCart\OrderPrmModel
     {
         $member = (new AddCart\MemberOrderModel)
                    ->setJmember((new AddCart\JmemberModel())->setCode($customer->getId()))
@@ -337,11 +342,11 @@ class CartController extends AbstractController
                    ->setDay(new \Datetime('now'));
 
         $jyumeis = [];
-        foreach ($Carts as $Cart) {
+        foreach ($Cart as $Item) {
             $jyumeis[] = (new AddCart\JyumeiModel)
-                          ->setGcode(100)
-                          ->setTanka($Cart->getTotalPrice())
-                          ->setSuu($Cart->getQuantity());
+                          ->setGcode($Item->getProduct()->getId())
+                          ->setTanka($Item->getPrice())
+                          ->setSuu($Item->getQuantity());
         }
 
         return (new AddCart\OrderPrmModel())
