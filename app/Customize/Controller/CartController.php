@@ -338,10 +338,10 @@ class CartController extends AbstractController
 
         $jyumeis = [];
         foreach ($Carts as $Cart) {
-            $jyumei = (new AddCart\JyumeiModel)
-                       ->setSuu($Cart->getQuantity());
-
-            $jyumeis[] = $jyumei;
+            $jyumeis[] = (new AddCart\JyumeiModel)
+                          ->setGcode(100)
+                          ->setTanka($Cart->getTotalPrice())
+                          ->setSuu($Cart->getQuantity());
         }
 
         return (new AddCart\OrderPrmModel())
