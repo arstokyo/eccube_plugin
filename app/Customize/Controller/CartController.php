@@ -27,6 +27,7 @@ use Eccube\Service\PurchaseFlow\PurchaseFlowResult;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Eccube\Controller\AbstractController;
 
 class CartController extends AbstractController
 {
