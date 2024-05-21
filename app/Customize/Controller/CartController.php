@@ -346,7 +346,7 @@ class CartController extends AbstractController
         $jyumeis = [];
         foreach ($Cart->getItems() as $Item) {
             $jyumeis[] = (new AddCart\JyumeiModel)
-                          ->setGcode($Item->getProductClass()->getId())
+                          ->setGcode($Item->getProductClass()->getCode())
                           ->setTanka($Item->getPrice())
                           ->setSuu($Item->getQuantity());
         }
