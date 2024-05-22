@@ -88,7 +88,10 @@ class CartController extends AbstractController
 
         /** @var \Eccube\Entity\Customer $Customer */
         $Customer = $this->getUser();
-        $this->addNewCartOnAce($Carts, $Customer);
+        if (!$Customer && count($Carts) > 0){
+            $this->addNewCartOnAce($Carts, $Customer);
+        }
+        
 
         // TODO itemHolderから取得できるように
         $least = [];
