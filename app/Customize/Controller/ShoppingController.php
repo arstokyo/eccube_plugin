@@ -1028,10 +1028,16 @@ class ShoppingController extends AbstractShoppingController
                    ->setNmember((new JyudenRequest\AddCart\NmemberModel())->setEda(1));
         
         $jyuden = (new JyudenRequest\AddCart\JyudenModel)
-                   ->setJcode(1)
                    ->setPcode(10)
+                   ->setJcode(1)
+                   ->setBcode(100)
+                   ->setBkcode(100)
+                   ->setBumon(100)
+                   ->setSouko(1)
                    ->setHcode(10)
-                   ->setHtime(10)
+                   ->setHday((new \Datetime())->modify('+14 day'))
+                   ->setHtime(2)
+                   ->setBunsyo(1)
                    ->setDay(new \Datetime('now'));
 
         $jyumeis = [];
