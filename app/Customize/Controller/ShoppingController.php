@@ -1052,6 +1052,7 @@ class ShoppingController extends AbstractShoppingController
         if ($Order->getDeliveryFeeTotal() > 0) {
             $jyumeis[] = (new JyudenRequest\AddCart\JyumeiModel)
                           ->setGcode('s-1')
+                          ->setSuu(1)
                           ->setMoney($Order->getDeliveryFeeTotal());
         }
 
