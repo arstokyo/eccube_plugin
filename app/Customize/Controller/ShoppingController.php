@@ -1041,11 +1041,18 @@ class ShoppingController extends AbstractShoppingController
                    ->setDay(new \Datetime('now'));
 
         $jyumeis = [];
+        
         foreach ($this->cartService->getCart()->getItems() as $Item) {
             $jyumeis[] = (new JyudenRequest\AddCart\JyumeiModel)
                           ->setGcode($Item->getProductClass()->getCode())
                           ->setTanka($Item->getPrice())
                           ->setSuu($Item->getQuantity());
+        }
+
+        if ($Order->getDeliveryFeeTotal() > 0) {
+            $jyumeis[] = (new JyudenRequest\AddCart\JyumeiModel)
+                          ->setGcode('s-1')
+                          ->setMoney($Order->getDeliveryFeeTotal());
         }
 
         return (new JyudenRequest\AddCart\OrderPrmModel())
