@@ -88,7 +88,7 @@ class CartController extends AbstractController
 
         /** @var \Eccube\Entity\Customer $Customer */
         $Customer = $this->getUser();
-        if (!$Customer && count($Carts) > 0){
+        if (null !== $Customer && count($Carts) > 0){
             $this->addNewCartOnAce($Carts, $Customer);
         }
         
