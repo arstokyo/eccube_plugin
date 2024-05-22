@@ -1053,7 +1053,7 @@ class ShoppingController extends AbstractShoppingController
             $jyumeis[] = (new JyudenRequest\AddCart\JyumeiModel)
                           ->setGcode('s-1')
                           ->setSuu(1)
-                          ->setMoney($Order->getDeliveryFeeTotal());
+                          ->setTanka($Order->getDeliveryFeeTotal());
         }
 
         return (new JyudenRequest\AddCart\OrderPrmModel())
