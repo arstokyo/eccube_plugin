@@ -462,7 +462,7 @@ class ShoppingController extends AbstractShoppingController
                 $paymentMethod = $this->createPaymentMethod($Order, $form);
 
                 // 通販Aceのカート決定処理
-                $decisionCartRusult = $this->decisionCartOnAce();
+                $decisionCartRusult = $this->decisionCartOnAce($Order);
                 if ($decisionCartRusult['iserror'] == true) {
                     throw new ShoppingException(sprintf('通販Aceのエラー発生: %s', $decisionCartRusult['message1']));
                 }
@@ -917,13 +917,15 @@ class ShoppingController extends AbstractShoppingController
     /**
      * Decision Cart On Ace
      * 
+     * @param Order $Shipping
+     * 
      * @return array<string, string>
      */
-    private function decisionCartOnAce(): array
+    private function decisionCartOnAce(Order $Order): array
     {
 
         $jyudenService = (new AceClient\AceClient())->makeJyudenService();
-        $addCartErr = $this->addNewCartOnAce($jyudenService);
+        $addCartErr = $this->addNewCartOnAce($Order, $jyudenService);
         if ($addCartErr['iserror'] === true) {
             return $addCartErr;
         }
@@ -958,18 +960,19 @@ class ShoppingController extends AbstractShoppingController
     /**
      * Add New Cart On Ace
      *
+     * @param Order $Order
      * @param AceClient\AceServices\Service\JyudenService $jyudenService
      * 
      * @return array<string, string>
      */
-    private function addNewCartOnAce($jyudenService): array
+    private function addNewCartOnAce(Order $Order, $jyudenService): array
     {
 
         $addCartMethod = $jyudenService->makeAddCartMethod();
         $addCartRequestModel = (new JyudenRequest\AddCart\AddCartRequestModel())
                                 ->setId(7)
                                 ->setSessId($this->session->getId())
-                                ->setPrm($this->buildPrmForAddCart());
+                                ->setPrm($this->buildPrmForAddCart($Order));
 
         try {
             $response = $addCartMethod->withRequest($addCartRequestModel)
@@ -998,9 +1001,11 @@ class ShoppingController extends AbstractShoppingController
     /**
      * Build Prm For Add Cart
      * 
+     * @param Order $Order
+     * 
      * @return JyudenRequest\AddCart\OrderPrmModel
      */
-    private function buildPrmForAddCart(): JyudenRequest\AddCart\OrderPrmModel
+    private function buildPrmForAddCart(Order $Order): JyudenRequest\AddCart\OrderPrmModel
     {
         /** @var \Eccube\Entity\Customer $Customer */
         $Customer = $this->getUser();
@@ -1015,7 +1020,8 @@ class ShoppingController extends AbstractShoppingController
         $jyuden = (new JyudenRequest\AddCart\JyudenModel)
                    ->setJcode($jcode)
                    ->setPcode($pcode)
-                   ->setDay(new \Datetime('now'));
+                   ->setDay(new \Datetime('now'))
+                   ->setHday($Order->getShippings()->get(0)->getDeliveryDate());
 
         $jyumeis = [];
         foreach ($this->cartService->getCart()->getItems() as $Item) {
@@ -1028,7 +1034,8 @@ class ShoppingController extends AbstractShoppingController
         return (new JyudenRequest\AddCart\OrderPrmModel())
                ->setMember($member)
                ->setJyuden($jyuden)
-               ->setDetail((new JyudenRequest\AddCart\DetailModel())->setJyumei($jyumeis));
+               ->setDetail((new JyudenRequest\AddCart\DetailModel())->setJyumei($jyumeis))
+               ->setMailjyuden((new JyudenRequest\AddCart\MailJyudenModel())->setMail($Customer->getEmail()));
     }
 
 }
