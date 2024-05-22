@@ -981,18 +981,6 @@ class ShoppingController extends AbstractShoppingController
                 /** @var JyudenResponse\AddCart\AddCartResponseModel $responseObj */
                 $responseObj = $response->getResponse();
 
-                foreach ($responseObj->getOrder()->getJyumei() as $jyumei) {
-                    if ($jyumei->getGkbn()===1) {
-                        $Order->setDeliveryFeeTotal($jyumei->getMoney());
-                        break;
-                    }
-
-                    if ($jyumei->getGkbn()===3) {
-                        $Order->setDiscount($jyumei->getMoney());
-                        break;
-                    }
-                }
-
                 $message1 = $responseObj->getOrder()->getMessage()->getMessage1();
                 $message2 = $responseObj->getOrder()->getMessage()->getMessage2();
             }
