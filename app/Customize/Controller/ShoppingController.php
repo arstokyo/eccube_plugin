@@ -932,7 +932,7 @@ class ShoppingController extends AbstractShoppingController
 
         try {
             $decisionCartRequest = (new JyudenRequest\DecisionCart\DecisionCartRequestModel())
-                                    ->setId(7)
+                                    ->setId(13)
                                     ->setSessId($this->session->getId());
             $response = $jyudenService->makeDecisionCartMethod()
                                       ->withRequest($decisionCartRequest)
