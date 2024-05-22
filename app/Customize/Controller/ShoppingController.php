@@ -1021,8 +1021,6 @@ class ShoppingController extends AbstractShoppingController
     {
         /** @var \Eccube\Entity\Customer $Customer */
         $Customer = $this->getUser();
-        $pcode = 1;
-        $jcode = 1;
 
         $member = (new JyudenRequest\AddCart\MemberOrderModel)
                    ->setJmember((new JyudenRequest\AddCart\JmemberModel())->setCode($Customer->getId()))
@@ -1030,8 +1028,10 @@ class ShoppingController extends AbstractShoppingController
                    ->setNmember((new JyudenRequest\AddCart\NmemberModel())->setEda(1));
         
         $jyuden = (new JyudenRequest\AddCart\JyudenModel)
-                   ->setJcode($jcode)
-                   ->setPcode($pcode)
+                   ->setJcode(1)
+                   ->setPcode(10)
+                   ->setHcode(10)
+                   ->setHtime(10)
                    ->setDay(new \Datetime('now'));
 
         $jyumeis = [];
