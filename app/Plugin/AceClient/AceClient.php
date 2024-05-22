@@ -5,6 +5,7 @@ namespace Plugin\AceClient;
 use Plugin\AceClient\AceServices\AceServiceFactory;
 use Plugin\AceClient\AceServices\Service\JyudenService;
 use Plugin\AceClient\AceServices\Service\MemberService;
+use Plugin\AceClient\AceServices\Service\GoodsService;
 
 /**
  * Class for AceClient
@@ -31,6 +32,16 @@ class AceClient {
     public function makeMemberService() : MemberService
     {
         return AceServiceFactory::makeMemberService();
+    }
+
+    /**
+     * Make GoodsService
+     *
+     * @return GoodsService
+     */
+    public function makeGoodsService() : GoodsService
+    {
+        return AceServiceFactory::makeGoodsService();
     }
 
 }
