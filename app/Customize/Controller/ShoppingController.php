@@ -1034,14 +1034,16 @@ class ShoppingController extends AbstractShoppingController
             $jyumeis[] = (new JyudenRequest\AddCart\JyumeiModel)
                           ->setGcode($Item->getProductClass()->getCode())
                           ->setTanka($Item->getPrice())
-                          ->setSuu($Item->getQuantity());
+                          ->setSuu($Item->getQuantity())
+                          ->setTaxkbn(1);
         }
 
         if ($Order->getDeliveryFeeTotal() > 0) {
             $jyumeis[] = (new JyudenRequest\AddCart\JyumeiModel)
                           ->setGcode('s-1')
                           ->setSuu(1)
-                          ->setTanka($Order->getDeliveryFeeTotal());
+                          ->setTanka($Order->getDeliveryFeeTotal())
+                          ->setTaxkbn(1);
         }
 
         return (new JyudenRequest\AddCart\OrderPrmModel())
