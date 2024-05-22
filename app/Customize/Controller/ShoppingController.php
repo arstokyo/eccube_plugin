@@ -926,7 +926,7 @@ class ShoppingController extends AbstractShoppingController
 
         $jyudenService = (new AceClient\AceClient())->makeJyudenService();
         $addCartErr = $this->addNewCartOnAce($Order, $jyudenService);
-        if ($addCartErr['iserror'] === true) {
+        if ($addCartErr['iserror'] == true) {
             return $addCartErr;
         }
 
