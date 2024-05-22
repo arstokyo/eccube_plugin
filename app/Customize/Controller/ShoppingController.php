@@ -940,7 +940,6 @@ class ShoppingController extends AbstractShoppingController
             if ($response->getStatusCode() === 200) {
                 /** @var JyudenResponse\DecisionCart\DecisionCartResponseModel $responseObj */
                 $responseObj = $response->getResponse();
-
                 $message1 = $responseObj->getOrder()->getMessage()->getMessage1();
                 $message2 = $responseObj->getOrder()->getMessage()->getMessage2();
             }
@@ -970,7 +969,7 @@ class ShoppingController extends AbstractShoppingController
 
         $addCartMethod = $jyudenService->makeAddCartMethod();
         $addCartRequestModel = (new JyudenRequest\AddCart\AddCartRequestModel())
-                                ->setId(7)
+                                ->setId(13)
                                 ->setSessId($this->session->getId())
                                 ->setPrm($this->buildPrmForAddCart($Order));
 
@@ -981,6 +980,19 @@ class ShoppingController extends AbstractShoppingController
             if ($response->getStatusCode() === 200) {
                 /** @var JyudenResponse\AddCart\AddCartResponseModel $responseObj */
                 $responseObj = $response->getResponse();
+
+                foreach ($responseObj->getOrder()->getJyumei() as $jyumei) {
+                    if ($jyumei->getGkbn()===1) {
+                        $Order->setDeliveryFeeTotal($jyumei->getMoney());
+                        break;
+                    }
+
+                    if ($jyumei->getGkbn()===3) {
+                        $Order->setDiscount($jyumei->getMoney());
+                        break;
+                    }
+                }
+
                 $message1 = $responseObj->getOrder()->getMessage()->getMessage1();
                 $message2 = $responseObj->getOrder()->getMessage()->getMessage2();
             }
@@ -1020,8 +1032,7 @@ class ShoppingController extends AbstractShoppingController
         $jyuden = (new JyudenRequest\AddCart\JyudenModel)
                    ->setJcode($jcode)
                    ->setPcode($pcode)
-                   ->setDay(new \Datetime('now'))
-                   ->setHday($Order->getShippings()->get(0)->getDeliveryDate());
+                   ->setDay(new \Datetime('now'));
 
         $jyumeis = [];
         foreach ($this->cartService->getCart()->getItems() as $Item) {
