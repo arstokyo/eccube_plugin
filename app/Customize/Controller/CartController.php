@@ -83,12 +83,13 @@ class CartController extends AbstractController
     public function index(Request $request)
     {
         // カートを取得して明細の正規化を実行
+        /** @var \Eccube\Entity\Cart[] $Carts */
         $Carts = $this->cartService->getCarts();
         $this->execPurchaseFlow($Carts);
 
         /** @var \Eccube\Entity\Customer $Customer */
         $Customer = $this->getUser();
-        if (null !== $Customer && count($Carts) > 0){
+        if (null !== $Customer &&  count($Carts) > 0 && count(current($Carts)->getItems()) > 0){
             $this->addNewCartOnAce($Carts, $Customer);
         }
         
