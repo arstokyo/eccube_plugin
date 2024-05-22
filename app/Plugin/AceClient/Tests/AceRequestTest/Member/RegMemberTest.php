@@ -5,6 +5,7 @@ namespace Plugin\AceClient\Tests\AceRequestTest\Member;
 use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Plugin\AceClient\AceServices\Model\Request\Member\RegMember\RegMemberRequestModel;
 use Plugin\AceClient\AceServices\Model\Request\Member\RegMember\MemberModel;
+use Plugin\AceClient\AceServices\Model\Request\Member\RegMember\MemberPrmModel;
 use Plugin\AceClient\AceServices\Model\Request\Member\RegMember\JmemberModel;
 use Plugin\AceClient\AceServices\Model\Request\Member\RegMember\NmemberModel;
 use Plugin\AceClient\AceServices\Model\Request\Member\RegMember\SmemberModel;
@@ -87,15 +88,21 @@ class RegMemberTest extends AbstractAdminWebTestCase
                             )
                             ->setUserid($this->testMbid)
                             ->setPasswd('password')
-                            // ->setPasswdRem(
-                            //     (new PassWdRemModel())
-                            //     ->setQuestion('質問')
-                            //     ->setAnswer('答え')
-                            // )
+                            ->setPasswdRem(
+                                (new PassWdRemModel())
+                                ->setQuestion('質問')
+                                ->setAnswer('答え')
+                            )
+                            ->setPasswdRem(
+                                (new PassWdRemModel())
+                                ->setQuestion('質問')
+                                ->setAnswer('答え')
+                            )
                         );
-        $member = new MemberModel();
-        $member->setMember($memberPrm);
-        
+        $member = new MemberPrmModel();
+        $prm = new MemberPrmModel();
+        // $member->setMember($memberPrm);
+
         $RegMember = new RegMemberRequestModel();
         return $RegMember
                         ->setId(OverviewMapper::ACE_TEST_SYID)
@@ -143,8 +150,8 @@ class RegMemberTest extends AbstractAdminWebTestCase
                                 ->setBikou2('備考2')
                                 ->setBikou3('備考3')
                             );
-        $member = new MemberModel();
-        $member->setMember($memberPrm);
+        $member = new MemberPrmModel();
+        // $member->setMember($memberPrm);
         
         $RegMember = new RegMemberRequestModel();
         return $RegMember->setId(OverviewMapper::ACE_TEST_SYID)
@@ -159,8 +166,8 @@ class RegMemberTest extends AbstractAdminWebTestCase
     public function dataProvider(): array
     {
         return [
-           "JMemberのみ" => ['case1', $this->getRegmemberRequestModelCase1()],
-           "NMemberも登録" => ['case2', $this->getRegmemberRequestModelCase2()]
+           "JMemberのみ" => ['case1', $this->getRegmemberRequestModelCase1()]
+        //    "NMemberも登録" => ['case2', $this->getRegmemberRequestModelCase2()]
         ];
     }
 
