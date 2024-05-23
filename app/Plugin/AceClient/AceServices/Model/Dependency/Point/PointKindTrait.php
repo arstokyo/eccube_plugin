@@ -10,23 +10,23 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Point;
 trait PointKindTrait
 {
 
-    /** @var ?int $point ポイント */
-    protected ?int $pointKind = null;
+    /** @var ?int $pointkind ポイント */
+    protected ?int $pointkind = null;
 
     /**
     * {@inheritDoc}
     */
-    public function getPointKind(): ?int
+    public function getPointkind(): ?int
     {
-        return $this->pointKind;
+        return $this->pointkind;
     }
 
     /**
     * {@inheritDoc}
     */
-    public function setPointKind(?int $pointKind): static
+    public function setPointkind(?int $pointkind): static
     {
-        $this->point = $pointKind;
+        $this->pointkind = $pointkind;
         return $this;
     }
 

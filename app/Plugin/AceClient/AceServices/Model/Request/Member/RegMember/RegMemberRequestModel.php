@@ -13,13 +13,13 @@ class RegMemberRequestModel extends Request\RequestModelAbstract implements RegM
     use NoCategory\IdTrait, 
         NoCategory\SessIdTrait;
 
-    /** @var MemberModelInterface $prm Prm */
-    private MemberModel $prm;
+    /** @var MemberPrmModel $prm Prm */
+    private MemberPrmModel $prm;
 
     /**
      * {@inheritDoc}
      */
-    public function getPrm(): MemberModelInterface
+    public function getPrm(): MemberPrmModel
     {
         return $this->prm;
     }
@@ -27,7 +27,7 @@ class RegMemberRequestModel extends Request\RequestModelAbstract implements RegM
     /**
      * {@inheritDoc}
      */
-    public function setPrm(MemberModelInterface $prm): self
+    public function setPrm(MemberPrmModel $prm): self
     {
         $this->prm = $prm;
         return $this;

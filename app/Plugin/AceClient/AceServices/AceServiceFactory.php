@@ -32,4 +32,13 @@ class AceServiceFactory
         return new Service\MemberService();
     }
 
+    /**
+     * Make new GoodsService
+     *
+     * @return Service\GoodsService
+     */
+    public static function makeGoodsService() : Service\GoodsService
+    {
+        return new Service\GoodsService();
+    }
 }

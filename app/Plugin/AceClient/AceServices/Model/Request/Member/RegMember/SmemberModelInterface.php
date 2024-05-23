@@ -2,16 +2,24 @@
 
 namespace  Plugin\AceClient\AceServices\Model\Request\Member\RegMember;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person\Smember\SmemberModelInterface as ParentInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Bikou\HasThreeBikouInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Person\PersonLevel6ExtractInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Mail;
-use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
+use Plugin\AceClient\AceServices\Model\Dependency\Person;
+use Plugin\AceClient\AceServices\Model\Request;
 
-interface SmemberModelInterface extends ParentInterface, PersonLevel6ExtractInterface, 
-                                        HasThreeBikouInterface,
-                                        Mail\HasMailInterface,
-                                        PhoneAndPC\HasFaxInterface
+interface SmemberModelInterface extends Person\PersonLevel4Interface, Person\PersonLevel2ExtractInterface
 {
-   
+   /**
+     * Get メールアドレス
+     *
+     * @return MemMailModelInterface|null メールアドレス
+     */
+    public function getMemmail(): ?MemMailModelInterface;
+
+    /**
+     * Set メールアドレス
+     *
+     * @param Request\Member\Regmember\MemMailModel|null $memmail メールアドレス
+     * @return self
+     */
+    public function setMemmail(?MemMailModelInterface $memmail): self;
+
 }
