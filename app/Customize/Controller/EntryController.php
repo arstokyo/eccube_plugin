@@ -360,7 +360,7 @@ class EntryController extends AbstractController
                 $message2 = $responseObj->getMember()->getMessage()->getMessage2() ?? null;
             }
 
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage();
         }
         return [
@@ -389,7 +389,7 @@ class EntryController extends AbstractController
                         ->setFmemo1($Customer->getNote())
                         ->setUserid($Customer->getEmail())
                         ->setPasswd($Customer->getPassword())
-                        ->setSex($Customer->getSex())
+                        ->setSex($Customer->getSex()->getId())
                         ->setBirthday($Customer->getBirth())
                         ->setPoint($Customer->getPoint())
                     ;
