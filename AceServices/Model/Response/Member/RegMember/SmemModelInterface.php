@@ -2,14 +2,15 @@
 
 namespace Plugin\AceClient\AceServices\Model\Response\Member\RegMember;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person\Smember\SmemberModelGroup1Interface;
+use Plugin\AceClient\AceServices\Model\Dependency\Person\PersonLevel6ExtractInterface;
+use Plugin\AceClient\AceServices\Model\Dependency\Mail\HasFiveMelmagaInterface;
 
 /**
  * Interface for Smem Model
  * 
  * @author kmorino
  */
-interface SmemModelInterface extends SmemberModelGroup1Interface
+interface SmemModelInterface extends PersonLevel6ExtractInterface, HasFiveMelmagaInterface
 {
 
 }

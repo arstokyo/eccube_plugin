@@ -2,7 +2,6 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
 
-use \Plugin\AceClient\AceServices\Model\Dependency\Mail;
 use Plugin\AceClient\AceServices\Model\Dependency\Free;
 use Plugin\AceClient\AceServices\Model\Dependency\Baitai;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
@@ -17,10 +16,9 @@ use Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait PersonLevel4Trait
+trait PersonLevel4Trait 
 {
-    use Mail\MailTrait,
-        Free\ThreeFreeTrait,
+    use Free\ThreeFreeTrait,
         Free\ThreeFdayTrait,
         Free\ThreeFmemoTrait,
         Free\ThreeFcodeTrait,
