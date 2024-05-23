@@ -138,7 +138,11 @@ class EntryController extends AbstractController
         /** @var $Customer \Eccube\Entity\Customer */
         $Customer = $this->customerRepository->newCustomer();
 
-        /* @var $builder \Symfony\Component\Form\FormBuilderInterface */
+        $member = $this->session->get('member');
+        $haisoAdrs = $this->session->get('haiso_adrs');
+        $sessionId = $this->session->getId();
+
+        /** @var $builder \Symfony\Component\Form\FormBuilderInterface */
         $builder = $this->formFactory->createBuilder(EntryType::class, $Customer);
 
         $event = new EventArgs(
@@ -150,7 +154,7 @@ class EntryController extends AbstractController
         );
         $this->eventDispatcher->dispatch($event, EccubeEvents::FRONT_ENTRY_INDEX_INITIALIZE);
 
-        /* @var $form \Symfony\Component\Form\FormInterface */
+        /** @var $form \Symfony\Component\Form\FormInterface */
         $form = $builder->getForm();
 
         $form->handleRequest($request);
