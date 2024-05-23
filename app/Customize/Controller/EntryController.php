@@ -378,7 +378,6 @@ class EntryController extends AbstractController
     private function buildRegMemberRequest(\Eccube\Entity\Customer $Customer): RegMember\RegMemberRequestModel
     {   
         $jmember = (new RegMember\JmemberModel())
-                        ->setCode($Customer->getId())
                         ->setSimei(mb_convert_kana($Customer->getName01() . ' ' . $Customer->getName02(), 'KV'))
                         ->setKana(mb_convert_kana($Customer->getKana01() . ' ' . $Customer->getKana02(), 'KVA'))
                         ->setZip($Customer->getPostalCode())
