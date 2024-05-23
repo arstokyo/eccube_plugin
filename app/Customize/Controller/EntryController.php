@@ -180,8 +180,10 @@ class EntryController extends AbstractController
                     // 通販Aceのユーザー登録
                     $response = $this->createNewMemberOnAce($Customer);
                     if ($response['iserror'] == true) {
-                        $this->addFlash('entry_error', $response['message1']);
-                        return $this->redirectToRoute('entry');
+                        return $this->render('error.twig', [
+                            'error_title' => trans('通販Aceのユーザー登録に失敗しました。'),
+                            'error_message' => trans($response['message1'] ?? $response['message2'] ?? 'エラーが発生しました。'),
+                        ]);
                     }
 
                     /** @var \Eccube\Entity\Customer $Customer */
@@ -371,7 +373,8 @@ class EntryController extends AbstractController
         }
         return [
             'iserror' => !empty($message1) | !empty($message2),
-            'message' => $message1 ?: $message2 ?? null,
+            'message1' => $message1,
+            'message2' => $message2,
         ];
     }
 
