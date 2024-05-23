@@ -24,4 +24,13 @@ class GoodsService extends AceServiceAbstract implements AceServiceInterface
     {
         return new AceMethod\Goods\GetGoodsMethod($this->baseServiceName);
     }
+    /**
+     * Make GetGoodsManyMethod
+     *
+     * @return AceMethod\Goods\GetGoodsManyMethod
+     */
+    public function makeGetGoodsManyMethod(): AceMethod\Goods\GetGoodsManyMethod
+    {
+        return new AceMethod\Goods\GetGoodsManyMethod($this->baseServiceName);
+    }
 }
