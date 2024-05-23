@@ -13,7 +13,7 @@ interface RegMemberRequestModelInterface extends RequestModelInterface, NoCatego
      * Set オーダー情報
      * 
      * @param Request\Member\RegMember\MemberPrmModel $prm
-     * @return Request\Member\RegMember\RegMemberRequestModel
+     * @return self
      */
     public function setPrm(MemberPrmModel $prm): self;
    

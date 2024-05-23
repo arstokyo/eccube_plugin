@@ -2,6 +2,8 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
 
+use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime\AceDateTimeInterface;
+
 /**
  * Interface For 3つフリー日付
  *
@@ -12,45 +14,45 @@ interface HasThreeFdayInterface
     /**
      * Get フリー日付1
      *
-     * @return int|null
+     * @return AceDateTimeInterface|null
      */
-    public function getFday1(): ?int;
+    public function getFday1(): ?AceDateTimeInterface;
 
     /**
      * Set フリー日付1
      *
-     * @param int|null $fday
+     * @param \DateTime|string|null $fday
      * @return $this
      */
-    public function setFday1(?int $fday): static;
+    public function setFday1(\DateTime|string|null $fday): static;
 
     /**
      * Get フリー日付2
      *
-     * @return int|null
+     * @return AceDateTimeInterface|null
      */
-    public function getFday2(): ?int;
+    public function getFday2(): ?AceDateTimeInterface;
 
     /**
      * Set フリー日付2
      *
-     * @param int|null $fday2
+     * @param \DateTime|string|null $fday2
      * @return $this
      */
-    public function setFday2(?int $fday2): static;
+    public function setFday2(\DateTime|string|null $fday2): static;
 
     /**
      * Get フリー日付3
      *
-     * @return int|null
+     * @return AceDateTimeInterface|null
      */
-    public function getFday3(): ?int;
+    public function getFday3(): ?AceDateTimeInterface;
 
     /**
      * Set フリー日付3
      *
-     * @param int|null $fday3
+     * @param \DateTime|string|null $fday3
      * @return $this
      */
-    public function setFday3(?int $fday3): static;
+    public function setFday3(\DateTime|string|null $fday3): static;
 }
