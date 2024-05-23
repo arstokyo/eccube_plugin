@@ -2,22 +2,36 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request\Member\RegMember;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person\Smember\SmemberModel as ParentModel;
-use Plugin\AceClient\AceServices\Model\Dependency\Bikou\ThreeBikouTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Person\PersonLevel6ExtractTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Mail;
-use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
+use Plugin\AceClient\AceServices\Model\Dependency\Person;
 
 /**
- * Class for 納品先Model
+ * Class for 請求先顧客情報
  * 
  * @author kmorino
  */
-class SmemberModel extends ParentModel implements SmemberModelInterface
+class SmemberModel implements SmemberModelInterface
 {
-  use PersonLevel6ExtractTrait,
-      ThreeBikouTrait,
-      Mail\MemMailTrait,
-      PhoneAndPC\FaxTrait;
-      
+    use Person\PersonLevel4Trait,
+        Person\PersonLevel2ExtractTrait;
+
+       /** @var MemMailModelInterface|null $memmail */
+    private ?MemMailModelInterface $memmail = null;
+
+     /**
+     * {@inheritDoc}
+     */
+    public function getMemmail(): ?MemMailModelInterface
+    {
+        return $this->memmail;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setMemmail(?MemMailModelInterface $memmail): self
+    {
+        $this->memmail = $memmail;
+        return $this;
+    }
+
 }

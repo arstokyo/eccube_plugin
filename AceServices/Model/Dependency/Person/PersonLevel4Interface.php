@@ -4,7 +4,6 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
 
 use Plugin\AceClient\AceServices\Model\Dependency\Free;
 use Plugin\AceClient\AceServices\Model\Dependency\Baitai;
-use Plugin\AceClient\AceServices\Model\Dependency\Mail;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient\AceServices\Model\Dependency\Bikou;
 use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
@@ -19,10 +18,10 @@ use Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
  */
 interface PersonLevel4Interface extends Free\HasThreeFreeInterface, Baitai\HasBaitaiCodeInterface,
                                         Free\HasThreeFdayInterface, Free\HasThreeFmemoInterface,
-                                        Free\HasThreeFcodeInterface, Mail\HasMailInterface,
+                                        Free\HasThreeFcodeInterface, Denpyo\HasToriKbnInterface,
                                         PhoneAndPC\HasFaxInterface, Bikou\HasThreeBikouInterface,
                                         NoCategory\HasDmKbnInterface, Cost\HasRituInterface,
-                                        Cost\Tanka\HasTankaKbnInterface, Denpyo\HasToriKbnInterface
+                                        Cost\Tanka\HasTankaKbnInterface 
 {
     /**
      * Get その他電話.

@@ -10,23 +10,23 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Tanka;
 trait TankaKbnTrait 
 {
 
-    /** @var ?int $tankaKbn 単価区分 */
-    protected ?int $tankaKbn = null;
+    /** @var ?int $tankakbn 単価区分 */
+    protected ?int $tankakbn = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getTankaKbn(): ?int
+    public function getTankakbn(): ?int
     {
-        return $this->tankaKbn;
+        return $this->tankakbn;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setTankaKbn(?int $tankaKbn): static
+    public function setTankakbn(?int $tankakbn): static
     {
-        $this->tankaKbn = $tankaKbn;
+        $this->tankakbn = $tankakbn;
         return $this;
     }
 

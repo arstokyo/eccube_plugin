@@ -2,6 +2,8 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
 
+use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
+
 /**
  * Trait for 3つフリー日付
  *
@@ -9,19 +11,19 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
  */
 trait ThreeFdayTrait
 {
-    /** @var int|null $fday1 フリー日付１ */
-    protected ?int $fday1 = null;
+    /** @var AceDateTime\AceDateTimeInterface|null $fday1 フリー日付１ */
+    protected ?AceDateTime\AceDateTimeInterface $fday1 = null;
 
-    /** @var int|null $fday2 フリー日付２ */
-    protected ?int $fday2 = null;
+    /** @var AceDateTime\AceDateTimeInterface|null $fday2 フリー日付２ */
+    protected ?AceDateTime\AceDateTimeInterface $fday2 = null;
 
-    /** @var int|null $fday3 フリー日付３ */
-    protected ?int $fday3 = null;
+    /** @var AceDateTime\AceDateTimeInterface|null $fday3 フリー日付３ */
+    protected ?AceDateTime\AceDateTimeInterface $fday3 = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getFday1(): ?int
+    public function getFday1(): ?AceDateTime\AceDateTimeInterface
     {
         return $this->fday1;
     }
@@ -29,16 +31,16 @@ trait ThreeFdayTrait
     /**
      * {@inheritDoc}
      */
-    public function setFday1(?int $fday1): static
+    public function setFday1(\DateTime|string|null $fday1): static
     {
-        $this->fday1 = $fday1;
+        $this->fday1 = AceDateTime\AceDateTimeFactory::makeAceDateTime($fday1);
         return $this;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getFday2(): ?int
+    public function getFday2(): ?AceDateTime\AceDateTimeInterface
     {
         return $this->fday2;
     }
@@ -46,16 +48,16 @@ trait ThreeFdayTrait
     /**
      * {@inheritDoc}
      */
-    public function setFday2(?int $fday2): static
+    public function setFday2(\DateTime|string|null $fday2): static
     {
-        $this->fday2 = $fday2;
+        $this->fday2 = AceDateTime\AceDateTimeFactory::makeAceDateTime($fday2);
         return $this;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getFday3(): ?int
+    public function getFday3(): ?AceDateTime\AceDateTimeInterface
     {
         return $this->fday3;
     }
@@ -63,9 +65,9 @@ trait ThreeFdayTrait
     /**
      * {@inheritDoc}
      */
-    public function setFday3(?int $fday3): static
+    public function setFday3(\DateTime|string|null $fday3): static
     {
-        $this->fday3 = $fday3;
+        $this->fday3 = AceDateTime\AceDateTimeFactory::makeAceDateTime($fday3);
         return $this;
     }
 
