@@ -1011,8 +1011,8 @@ class ShoppingController extends AbstractShoppingController
         $Customer = $this->getUser();
 
         $member = (new JyudenRequest\AddCart\MemberOrderModel)
-                   ->setJmember((new JyudenRequest\AddCart\JmemberModel())->setCode($Customer->getId()))
-                   ->setSmember((new JyudenRequest\AddCart\SmemberModel())->setCode($Customer->getId()))
+                   ->setJmember((new JyudenRequest\AddCart\JmemberModel())->setCode($Customer->getMemId()))
+                   ->setSmember((new JyudenRequest\AddCart\SmemberModel())->setCode($Customer->getMemId()))
                    ->setNmember((new JyudenRequest\AddCart\NmemberModel())->setEda(1));
         
         $jyuden = (new JyudenRequest\AddCart\JyudenModel)

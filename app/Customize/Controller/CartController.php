@@ -89,7 +89,7 @@ class CartController extends AbstractController
 
         /** @var \Eccube\Entity\Customer $Customer */
         $Customer = $this->getUser();
-        if (null !== $Customer &&  count($Carts) > 0 && count(current($Carts)->getItems()) > 0){
+        if (null !== $Customer && null !== $Customer->getMemId() &&  count($Carts) > 0 && count(current($Carts)->getItems()) > 0){
             $this->addNewCartOnAce($Carts, $Customer);
         }
         
@@ -335,8 +335,8 @@ class CartController extends AbstractController
     private function buildPrm($Cart, $customer): AddCart\OrderPrmModel
     {
         $member = (new AddCart\MemberOrderModel)
-                   ->setJmember((new AddCart\JmemberModel())->setCode($customer->getId()))
-                   ->setSmember((new AddCart\SmemberModel())->setCode($customer->getId()))
+                   ->setJmember((new AddCart\JmemberModel())->setCode($customer->getMemId()))
+                   ->setSmember((new AddCart\SmemberModel())->setCode($customer->getMemId()))
                    ->setNmember((new AddCart\NmemberModel())->setEda(1));
         
         $pcode = 1;
