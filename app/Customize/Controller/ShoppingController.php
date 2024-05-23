@@ -448,6 +448,7 @@ class ShoppingController extends AbstractShoppingController
                     throw new TooManyRequestsHttpException();
                 }
 
+                /** @var \Eccube\Entity\Customer $Customer */
                 $Customer = $this->getUser();
                 if ($Customer instanceof Customer) {
                     log_info('[注文完了] 会員ベースのスロットリングを実行します.');
@@ -462,9 +463,11 @@ class ShoppingController extends AbstractShoppingController
                 $paymentMethod = $this->createPaymentMethod($Order, $form);
 
                 // 通販Aceのカート決定処理
-                $decisionCartRusult = $this->decisionCartOnAce($Order);
-                if ($decisionCartRusult['iserror'] == true) {
-                    throw new ShoppingException(sprintf('通販Aceのエラー発生: %s', $decisionCartRusult['message1']));
+                if (null !== $Customer && null !== $Customer->getMemId()) {
+                    $decisionCartRusult = $this->decisionCartOnAce($Order);
+                    if ($decisionCartRusult['iserror'] == true) {
+                        throw new ShoppingException(sprintf('通販Aceのエラー発生: %s', $decisionCartRusult['message1']));
+                    }
                 }
 
                 /*
