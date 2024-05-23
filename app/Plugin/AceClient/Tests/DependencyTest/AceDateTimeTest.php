@@ -86,6 +86,12 @@ class AceDateTimeTest extends AbstractAdminWebTestCase
         $this->assertEquals('2006/02/01', $datetime->toApiDateTime());
     }
 
+    public function testConvertFromAceFormatCase6()
+    {
+        $datetime = new AceDateTime('2006-02-01', 'Y/m/d H:i:s');
+        $this->assertEquals('2006/02/01', $datetime->toApiDateTime());
+    }
+
     public function testAceDateTimeFactoryNull()
     {
         $datetime = AceDateTimeFactory::makeAceDateTime('');
