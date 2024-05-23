@@ -17,7 +17,7 @@ trait CustomerTrait
      *
      * @ORM\Column(name="mem_id", type="string", length=255, nullable=true, options={"comment":"ACE顧客ID"}, unique=true)
      */
-    private ?string $mem_id;
+    private ?string $mem_id = null;
 
 
     /**
