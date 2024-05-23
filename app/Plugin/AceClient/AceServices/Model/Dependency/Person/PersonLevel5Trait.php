@@ -7,6 +7,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\Free\ThreeFnameTrait;
 use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC\FivePCKbnTrait;
 use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC\FiveKeiKbnTrait;
 use Plugin\AceClient\AceServices\Model\Dependency\Mail\FiveMailTrait;
+use Plugin\AceClient\AceServices\Model\Dependency\Mail\MailTrait;
 use Plugin\AceClient\AceServices\Model\Dependency\Point\PointTrait;
 use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
 
@@ -15,14 +16,15 @@ use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
  *
  * @author Ars-Thong <v.t.nguyen@ar-sytem.co.jp>
  */
-trait PersonLevel5Trait
+trait PersonLevel5Trait 
 {
     use FivePCKbnTrait,
         FiveKeiKbnTrait,
         FiveMailTrait,
         BaitaiNameTrait,
         PointTrait,
-        ThreeFnameTrait;
+        ThreeFnameTrait,
+        MailTrait;
 
     /** @var ?int $age 年齢 */
     protected ?int $age = null;

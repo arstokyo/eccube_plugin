@@ -2,15 +2,13 @@
 
 namespace Plugin\AceClient\AceServices\Model\Response\Member\RegMember;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person\Nmember\NmemberModelGroup1;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\BetuTrait;
+use Plugin\AceClient\AceServices\Model\Dependency\Person\Nmember\NmemberModelGroup2;
 
 /**
  * Nmem Model
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class NmemModel extends NmemberModelGroup1 implements NmemModelInterface
+class NmemModel extends NmemberModelGroup2 implements NmemModelInterface
 {
-    use BetuTrait;
 }

@@ -2,23 +2,66 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request\Member\RegMember;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person\Jmember\JmemberModel as ParentModel;
-use Plugin\AceClient\AceServices\Model\Dependency\Bikou\ThreeBikouTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Person\PersonLevel6ExtractTrait;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
-use Plugin\AceClient\AceServices\Model\Dependency\Mail;
-use Plugin\AceClient\AceServices\Model\Dependency\Reminder;
+use Plugin\AceClient\AceServices\Model\Dependency\Person;
+use Plugin\AceClient\AceServices\Model\Dependency\Point;
+use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
 
 /**
  * Class for 納品先Model
  * 
  * @author kmorino
  */
-class JmemberModel extends ParentModel implements JmemberModelInterface
+class JmemberModel implements JmemberModelInterface
 {
-  use PersonLevel6ExtractTrait,
-      ThreeBikouTrait,
-      Mail\MemMailTrait,
-      NoCategory\PassWdTrait,
-      Reminder\PassWdRemModelTrait;
+    use Person\PersonLevel2ExtractTrait,
+        Person\PersonLevel4Trait,
+        NoCategory\TaikaiTrait,
+        NoCategory\PassWdTrait,
+        NoCategory\IcodeTrait,
+        Person\User\UserIdTrait,
+        PhoneAndPC\MobileIdTrait,
+        Point\PointTrait,
+        Point\PointKindTrait;
+
+    /** @var MemMailModelInterface|null $memmail */
+    private ?MemMailModelInterface $memmail = null;
+
+    /** @var PassWdRemModelInterface|null $passwdrem */
+    private ?PassWdRemModelInterface $passwdrem = null;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getMemmail(): ?MemMailModelInterface
+    {
+        return $this->memmail;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setMemmail(?MemMailModelInterface $memmail): self
+    {
+        $this->memmail = $memmail;
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPasswdrem(): ?PassWdRemModelInterface
+    {
+        return $this->passwdrem;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setPasswdrem(?PassWdRemModelInterface $passwdrem): self
+    {
+        $this->passwdrem = $passwdrem;
+        return $this;
+    }
+
 }

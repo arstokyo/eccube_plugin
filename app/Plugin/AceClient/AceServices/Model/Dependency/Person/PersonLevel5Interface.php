@@ -7,6 +7,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\Free\HasThreeFnameInterface;
 use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC\HasFivePCKbnInterface;
 use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC\HasFiveKeiKbnInterface;
 use Plugin\AceClient\AceServices\Model\Dependency\Mail\HasFiveMailInterface;
+use Plugin\AceClient\AceServices\Model\Dependency\Mail\HasMailInterface;
 use Plugin\AceClient\AceServices\Model\Dependency\Point\HasPointInterface;
 use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime\AceDateTimeInterface;
 
@@ -17,7 +18,8 @@ use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime\AceDateTimeInt
  */
 interface PersonLevel5Interface extends HasBaitaiNameInterface, HasThreeFnameInterface,
                                         HasFiveKeiKbnInterface, HasFivePCKbnInterface,
-                                        HasFiveMailInterface, HasPointInterface
+                                        HasFiveMailInterface, HasPointInterface,
+                                        HasMailInterface
 {
     /**
      * Get 滞納者フラグ.

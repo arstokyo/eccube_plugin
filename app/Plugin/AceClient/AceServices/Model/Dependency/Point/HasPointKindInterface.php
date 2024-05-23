@@ -14,13 +14,13 @@ interface HasPointKindInterface
      *
      * @return ?int
      */
-    public function getPointKind(): ?int;
+    public function getPointkind(): ?int;
 
     /**
      * Set ポイント種類
      *
-     * @param ?int $PointKind
+     * @param ?int $pointkind
      * @return $this
      */
-    public function setPointKind(?int $PointKind): static;
+    public function setPointkind(?int $pointkind): static;
 }
