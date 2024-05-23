@@ -398,6 +398,11 @@ class EntryController extends AbstractController
                         ->setBirthday($Customer->getBirth())
                         ->setPoint($Customer->getPoint())
                         ->setBikou2($Customer->getCompanyName())
+                        ->setMemmail((new RegMember\MemMailModel())
+                                          ->setMail($Customer->getEmail())
+                                          ->setIdx(1)
+                                    )
+                        ->setPoint($Customer->getPoint())
                     ;
         $prm = (new RegMember\MemberPrmModel())->setJmember($jmember);
         return (new RegMember\RegMemberRequestModel())
