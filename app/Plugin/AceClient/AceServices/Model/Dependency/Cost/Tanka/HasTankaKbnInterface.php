@@ -15,14 +15,14 @@ interface HasTankaKbnInterface
     * 
     * @return int|null
     */
-    public function getTankaKbn(): ?int;
+    public function getTankakbn(): ?int;
 
     /**
     * Set 単価区分
     * 
-    * @param int|null $tankaKbn
+    * @param int|null $tankakbn
     * @return $this
     */
-    public function setTankaKbn(?int $tankaKbn): static;
+    public function setTankakbn(?int $tankakbn): static;
     
 }

@@ -2,10 +2,6 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request\Member\RegMember;
 
-use Plugin\AceClient\AceServices\Model\Request\MEmber\RegMember\MemberPrmModelInterface as ParentModel;
-use Plugin\AceClient\AceServices\Model\Dependency\Person\Jmember\JmemberModelInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Person\Nmember\NmemberModelInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Person\Smember\SmemberModelInterface;
 use Plugin\AceClient\AceServices\Model\Request\Prm\PrmModelAbstract;
 use Plugin\AceClient\Exception\MissingRequestParameterException;
 
@@ -13,13 +9,13 @@ class MemberPrmModel extends PrmModelAbstract implements MemberPrmModelInterface
 {
     const PRM_NODE_NAME = 'member';
 
-    /** @var ?JmemberModel|null $jmember 受注先 */
+    /** @var JmemberModelInterface|null $jmember 受注先 */
     private ?JmemberModelInterface $jmember = null;
 
-    /** @var ?NmemberModel|null $nmember 納品先 */
+    /** @var NmemberModelInterface|null $nmember 納品先 */
     private ?NmemberModelInterface $nmember = null;
 
-    /** @var ?SmemberModel|null $smember 請求先 */
+    /** @var SmemberModelInterface|null $smember 請求先 */
     private ?SmemberModelInterface $smember = null;
 
     /**
@@ -81,7 +77,7 @@ class MemberPrmModel extends PrmModelAbstract implements MemberPrmModelInterface
      */
     public function ensureParameterNotMissing(): void
     {
-        // not implemented yet
+        // ignore
     }
 
     /**

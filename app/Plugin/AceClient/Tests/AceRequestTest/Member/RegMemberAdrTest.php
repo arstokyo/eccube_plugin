@@ -10,7 +10,7 @@ use Plugin\AceClient\AceServices\Model\Response\Member\RegMemAdr\RegMemAdrRespon
 use Plugin\AceClient\AceClient;
 use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient\Utils\Mapper\OverviewMapper;
-use Plugin\AceClient\utils\Serialize;
+use Plugin\AceClient\Utils\Serialize;
 use Plugin\AceClient\Exception\MissingRequestParameterException;
 
 class RegMemberAdrTest extends AbstractAdminWebTestCase
