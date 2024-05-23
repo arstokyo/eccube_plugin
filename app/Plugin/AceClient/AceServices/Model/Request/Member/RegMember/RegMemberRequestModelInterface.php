@@ -12,17 +12,17 @@ interface RegMemberRequestModelInterface extends RequestModelInterface, NoCatego
     /**
      * Set オーダー情報
      * 
-     * @param Request\Member\RegMember\MemberModel $prm
-     * @return Request\Member\RegMember\RegMemberRequestModel
+     * @param Request\Member\RegMember\MemberPrmModel $prm
+     * @return self
      */
-    public function setPrm(MemberModel $prm): self;
+    public function setPrm(MemberPrmModel $prm): self;
    
     /**
      * Get オーダー情報
      * 
-     * @return Request\Member\RegMember\MemberModel
+     * @return Request\Member\RegMember\MemberPrmModel
      */
-    public function getPrm(): MemberModelInterface;
+    public function getPrm(): MemberPrmModelInterface;
 
     /**
      * {@inheritDoc}
