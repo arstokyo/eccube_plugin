@@ -395,7 +395,7 @@ class EntryController extends AbstractController
                     ;
         $prm = (new RegMember\MemberPrmModel())->setJmember($jmember);
         return (new RegMember\RegMemberRequestModel())
-                    ->setId(7)
+                    ->setId(13)
                     ->setSessId($this->session->getId())
                     ->setPrm((new RegMember\MemberPrmModel())->setJmember($jmember));
     }   
