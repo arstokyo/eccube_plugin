@@ -138,10 +138,6 @@ class EntryController extends AbstractController
         /** @var $Customer \Eccube\Entity\Customer */
         $Customer = $this->customerRepository->newCustomer();
 
-        $member = $this->session->get('member');
-        $haisoAdrs = $this->session->get('haiso_adrs');
-        $sessionId = $this->session->getId();
-
         /** @var $builder \Symfony\Component\Form\FormBuilderInterface */
         $builder = $this->formFactory->createBuilder(EntryType::class, $Customer);
 
@@ -192,23 +188,11 @@ class EntryController extends AbstractController
                     $this->entityManager->flush();
 
                     // 通販Aceのユーザー登録
-                    // try {
-                    //     $regMemberRequest = $this->buildRegMemberRequest($Customer);
-                    //     $response = (new AceClient\AceClient)
-                    //                                 ->makeMemberService()
-                    //                                 ->makeRegMemberMethod()
-                    //                                 ->withRequest($regMemberRequest)
-                    //                                 ->send();
-                    //     if ($response->getStatusCode() === 200) {
-                    //         /** @var RegMemberResponseModel $responseObj */
-                    //         $responseObj = $response->getResponse();
-                    //         $message1 = $responseObj->getMember()->getMessage()->getMessage1() ?? null;
-                    //         $message2 = $responseObj->getMember()->getMessage()->getMessage2() ?? null;
-                    //     }
-
-                    // } catch (\Exception $e) {
-                    //     log_error($e->getMessage());
-                    // }
+                    $response = $this->createNewMemberOnAce($Customer);
+                    if ($response['iserror'] == true) {
+                        $this->addFlash('entry_error', $response['message1']);
+                        return $this->redirectToRoute('entry');
+                    }
 
                     log_info('会員登録完了');
 
@@ -355,14 +339,63 @@ class EntryController extends AbstractController
     }
 
     /**
+     * 通販Aceのユーザー登録を行う
+     * 
+     * @param \Eccube\Entity\Customer $Customer
+     * @return array
+     */
+    private function createNewMemberOnAce(\Eccube\Entity\Customer $Customer): array
+    {
+        try {
+            $regMemberRequest = $this->buildRegMemberRequest($Customer);
+            $response = (new AceClient\AceClient)
+                            ->makeMemberService()
+                            ->makeRegMemberMethod()
+                            ->withRequest($regMemberRequest)
+                            ->send();
+            if ($response->getStatusCode() === 200) {
+                /** @var RegMemberResponseModel $responseObj */
+                $responseObj = $response->getResponse();
+                $message1 = $responseObj->getMember()->getMessage()->getMessage1() ?? null;
+                $message2 = $responseObj->getMember()->getMessage()->getMessage2() ?? null;
+            }
+
+        } catch (\Exception $e) {
+            $message1 = $e->getMessage();
+        }
+        return [
+            'iserror' => !empty($message1) | !empty($message2),
+            'message' => $message1 ?: $message2 ?? null,
+        ];
+    }
+
+    /**
      * 通販Aceの会員登録リクエストを作成する
      *
-     * @param \Eccube\Entity\Customer $customer
+     * @param \Eccube\Entity\Customer $Customer
      * @return RegMember\RegMemberRequestModel
      */
-    private function buildRegMemberRequest(\Eccube\Entity\Customer $customer): RegMember\RegMemberRequestModel
+    private function buildRegMemberRequest(\Eccube\Entity\Customer $Customer): RegMember\RegMemberRequestModel
     {   
-        $prm = (new RegMember\MemberModel());
-        return (new RegMember\RegMemberRequestModel())->setId(7)->setPrm($prm);
+        $jmember = (new RegMember\JmemberModel())
+                        ->setCode($Customer->getId())
+                        ->setSimei(mb_convert_kana($Customer->getName01() . ' ' . $Customer->getName02(), 'KV'))
+                        ->setKana(mb_convert_kana($Customer->getKana01() . ' ' . $Customer->getKana02(), 'KVA'))
+                        ->setZip($Customer->getPostalCode())
+                        ->setAdr1($Customer->getPref()->getName())
+                        ->setAdr2($Customer->getAddr01())
+                        ->setAdr3($Customer->getAddr02())
+                        ->setTel($Customer->getPhoneNumber())
+                        ->setFmemo1($Customer->getNote())
+                        ->setUserid($Customer->getEmail())
+                        ->setPasswd($Customer->getPassword())
+                        ->setSex($Customer->getSex())
+                        ->setBirthday($Customer->getBirth())
+                        ->setPoint($Customer->getPoint())
+                    ;
+        $prm = (new RegMember\MemberPrmModel())->setJmember($jmember);
+        return (new RegMember\RegMemberRequestModel())
+                    ->setId(7)
+                    ->setPrm((new RegMember\MemberPrmModel())->setJmember($jmember));
     }   
 }
