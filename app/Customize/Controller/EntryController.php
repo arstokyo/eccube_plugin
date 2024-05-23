@@ -196,8 +196,6 @@ class EntryController extends AbstractController
                     $this->entityManager->persist($Customer);
                     $this->entityManager->flush();
 
-
-
                     log_info('会員登録完了');
 
                     $event = new EventArgs(
