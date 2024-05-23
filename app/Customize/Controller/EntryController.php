@@ -135,7 +135,7 @@ class EntryController extends AbstractController
             return $this->redirectToRoute('mypage');
         }
 
-        /** @var $Customer \Eccube\Entity\Customer */
+        /** @var \Eccube\Entity\Customer $Customer */
         $Customer = $this->customerRepository->newCustomer();
 
         /** @var $builder \Symfony\Component\Form\FormBuilderInterface */
@@ -177,6 +177,13 @@ class EntryController extends AbstractController
                     $password = $encoder->encodePassword($Customer->getPlainPassword(), $salt);
                     $secretKey = $this->customerRepository->getUniqueSecretKey();
 
+                    // 通販Aceのユーザー登録
+                    $response = $this->createNewMemberOnAce($Customer);
+                    if ($response['iserror'] == true) {
+                        $this->addFlash('entry_error', $response['message1']);
+                        return $this->redirectToRoute('entry');
+                    }
+
                     /** @var \Eccube\Entity\Customer $Customer */
                     $Customer
                         ->setSalt($salt)
@@ -187,12 +194,7 @@ class EntryController extends AbstractController
                     $this->entityManager->persist($Customer);
                     $this->entityManager->flush();
 
-                    // 通販Aceのユーザー登録
-                    $response = $this->createNewMemberOnAce($Customer);
-                    if ($response['iserror'] == true) {
-                        $this->addFlash('entry_error', $response['message1']);
-                        return $this->redirectToRoute('entry');
-                    }
+
 
                     log_info('会員登録完了');
 
@@ -356,6 +358,10 @@ class EntryController extends AbstractController
             if ($response->getStatusCode() === 200) {
                 /** @var RegMemberResponseModel $responseObj */
                 $responseObj = $response->getResponse();
+                $jmem = $responseObj->getMember()->getJmember();
+                if (!empty($jmem)) {
+                    $Customer->setMemId($jmem->getCode());
+                }
                 $message1 = $responseObj->getMember()->getMessage()->getMessage1() ?? null;
                 $message2 = $responseObj->getMember()->getMessage()->getMessage2() ?? null;
             }
@@ -378,7 +384,7 @@ class EntryController extends AbstractController
     private function buildRegMemberRequest(\Eccube\Entity\Customer $Customer): RegMember\RegMemberRequestModel
     {   
         $jmember = (new RegMember\JmemberModel())
-                        ->setSimei(mb_convert_kana($Customer->getName01() . ' ' . $Customer->getName02(), 'KV'))
+                        ->setSimei(mb_convert_kana($Customer->getName01() . ' ' . $Customer->getName02(), 'KVA'))
                         ->setKana(mb_convert_kana($Customer->getKana01() . ' ' . $Customer->getKana02(), 'KVA'))
                         ->setZip($Customer->getPostalCode())
                         ->setAdr1($Customer->getPref()->getName())
@@ -391,6 +397,7 @@ class EntryController extends AbstractController
                         ->setSex($Customer->getSex()->getId())
                         ->setBirthday($Customer->getBirth())
                         ->setPoint($Customer->getPoint())
+                        ->setBikou2($Customer->getCompanyName())
                     ;
         $prm = (new RegMember\MemberPrmModel())->setJmember($jmember);
         return (new RegMember\RegMemberRequestModel())
