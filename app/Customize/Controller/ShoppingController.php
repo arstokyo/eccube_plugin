@@ -1026,7 +1026,8 @@ class ShoppingController extends AbstractShoppingController
                    ->setHday((new \Datetime())->modify('+14 day'))
                    ->setHtime(2)
                    ->setBunsyo(1)
-                   ->setDay(new \Datetime('now'));
+                   ->setDay(new \Datetime('now'))
+                   ->setWeborderno($Order->getOrderNo());
 
         $jyumeis = [];
         
