@@ -5,7 +5,7 @@ namespace Plugin\AceClient\ApiClient;
 use Plugin\AceClient\ApiClient\Api\DelegateInterface;
 use Plugin\AceClient\ApiClient\Api\Client\ClientInterface;
 use Plugin\AceClient\Exception\InvalidClassNameException;
-use Plugin\AceClient\Exception\NotCompatibleDataType;
+use Plugin\AceClient\Exception\DataTypeMissMatchException;
 use Plugin\AceClient\Utils\ClassFactory\ClassFactory;
 
 /**
@@ -18,7 +18,7 @@ final class ApiClientFactory
     
     public const DEFAULT_HTTP_CLIENT = 'Plugin\AceClient\Utils\HttpClient\SoapXmlApiClient';
     public const DEFAULT_NORMALIZER = 'Plugin\AceClient\Utils\Normalize\SoapXMLNormalizer';
-    public const DEFAULT_NORMALIZERS_FOR_SERIALIZER = 'RecursiveNormalizers';
+    public const DEFAULT_NORMALIZERS_FOR_SERIALIZER = 'DefaultSoapNormalizers';
     public const DEFAULT_SERIALIZER = 'Plugin\AceClient\Utils\Serialize\SoapXMLSerializer';
     public const DEFAULT_LOGGER = 'Plugin\AceClient\Utils\Log\SoapXmlLogger';
     public const DEFAULT_API_CLIENT = 'Plugin\AceClient\ApiClient\Api\Client\PostSoapXMLClient';
@@ -33,7 +33,7 @@ final class ApiClientFactory
      * @return ClientInterface
      * 
      * @throws InvalidClassNameException
-     * @throws NotCompatibleDataType
+     * @throws DataTypeMissMatchException
      * 
      */
     public static function makeClient(string $className, string $endpoint, DelegateInterface $delegate): ClientInterface

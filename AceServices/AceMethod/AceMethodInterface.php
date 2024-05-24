@@ -2,7 +2,8 @@
 
 namespace Plugin\AceClient\AceServices\AceMethod;
 
-use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
+use Plugin\AceClient;
+use Plugin\AceClient\AceServices\Model\Request;
 use Plugin\AceClient\ApiClient\Api\Client\ClientMetadataInterface;
 use Plugin\AceClient\ApiClient\Response\ResponseInterface;
 use Plugin\AceClient\ApiClient;
@@ -17,9 +18,11 @@ interface AceMethodInterface
     /**
      * Set the Request.
      *
-     * @return AceMethodInterface
+     * @param Request\RequestModelInterface $requestModel
+     * @throws AceClient\Exception\MissingRequestParameterException
+     * @return $this
      */
-    public function withRequest(RequestModelInterface $request): self;
+    public function withRequest(Request\RequestModelInterface $requestModel): self;
 
     /**
      * Send the Request.

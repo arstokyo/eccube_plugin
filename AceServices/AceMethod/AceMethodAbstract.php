@@ -2,14 +2,13 @@
 
 namespace Plugin\AceClient\AceServices\AceMethod;
 
-use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
+use Plugin\AceClient\AceServices\Model\Request;
 use Plugin\AceClient\ApiClient\Api\Client\ClientMetadataInterface;
 use Plugin\AceClient\ApiClient\Response\ResponseInterface;
 use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
-use Plugin\AceClient\Exception\NotCompatibleDataType;
+use Plugin\AceClient\Exception\DataTypeMissMatchException;
 use Plugin\AceClient\Exception\InvalidClassNameException;
 use Plugin\AceCLient\Utils\ClassFactory\ClassFactory;
-use Plugin\AceClient\Exception\RequestParameterNullException;
 
 /**
  * Abstract Class for Ace Method
@@ -35,24 +34,17 @@ abstract class AceMethodAbstract implements AceMethodInterface
     }
 
     /**
-     * Set the Request.
-     *
-     * @param RequestModelInterface
-     * @return AceMethodAbstract
-     * @throws RequestParameterNullException
+     * {@inheritDoc}
      */
-    public function withRequest(RequestModelInterface $request): self
+    public function withRequest(Request\RequestModelInterface $requestModel): self
     {
-        if (!$request->ensureValidParameters()) {
-            throw new RequestParameterNullException(sprintf('Not nullable parameters are null. Request Object: %s', get_class($request)));
-        };
-        $this->assistant->getApiClient()->withRequest($request);
+        $requestModel->ensureParameterNotMissing();
+        $this->assistant->getApiClient()->withRequest($requestModel);
         return $this;
     }
 
     /**
      * {@inheritDoc}
-     *
      */
     public function send(): ResponseInterface
     {
@@ -61,7 +53,6 @@ abstract class AceMethodAbstract implements AceMethodInterface
 
     /**
      * {@inheritDoc}
-     *
      */
     public function getMetadata(): ClientMetadataInterface
     {
@@ -99,7 +90,7 @@ abstract class AceMethodAbstract implements AceMethodInterface
      * 
      * @return string
      * 
-     * @throws NotCompatibleDataType
+     * @throws DataTypeMissMatchException
      * @throws InvalidClassNameException
      */
      private function getResponseAsObject(): string

@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\AceServices\AceMethod\Jyuden;
 
 use Plugin\AceClient\AceServices\AceMethod\AceMethodAbstract;
-use Plugin\AceClient\AceServices\Model\Response\Jyuden\AddCartResponseModel;
+use Plugin\AceClient\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModel;
 use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient\AceServices\Model\Request;
 
@@ -23,7 +23,6 @@ class AddCartMethod extends AceMethodAbstract
 
     /**
      * {@inheritDoc}
-     *
      */
     protected function setEndPointService(): string
     {
@@ -32,7 +31,6 @@ class AddCartMethod extends AceMethodAbstract
 
     /**
      * {@inheritDoc}
-     *
      */
     protected function setResponseAsObject(): string
     {
@@ -40,13 +38,11 @@ class AddCartMethod extends AceMethodAbstract
     }
 
     /**
-     * Set the Request.
-     *
-     * @param Request\Jyuden\AddCart\AddCartRequestModel $request
+     * @param Request\Jyuden\AddCart\AddCartRequestModel $requestModel
      */
-    public function withRequest(RequestModelInterface $request): AddCartMethod
+    public function withRequest(RequestModelInterface $requestModel): AddCartMethod
     {
-        return parent::withRequest($request);
+        return parent::withRequest($requestModel);
     }
 
 }

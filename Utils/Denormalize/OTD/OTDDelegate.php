@@ -2,6 +2,8 @@
 
 namespace Plugin\AceClient\Utils\Denormalize\OTD;
 
+use Symfony\Component\Serializer\SerializerInterface;
+
 /**
  * Delegate for Object To Data.
  * 
@@ -18,6 +20,11 @@ final class OTDDelegate implements OTDDelegateInterface
      * @var ?array $denormalizeOptions
      */
     private ?array $denormalizeOptions = null;
+
+    /**
+     * @var ?SerializerInterface $serializer
+     */
+    private ?SerializerInterface $serializer = null;
 
     /**
      * Constructor.
@@ -49,5 +56,21 @@ final class OTDDelegate implements OTDDelegateInterface
     public function getDenomarlizeOptions(): ?array
     {
         return $this->denormalizeOptions;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getSerializer(): ?SerializerInterface
+    {
+        return $this->serializer;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setSerializer(SerializerInterface $serializer): void
+    {
+        $this->serializer = $serializer;
     }
 }

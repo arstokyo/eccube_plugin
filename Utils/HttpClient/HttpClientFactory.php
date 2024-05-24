@@ -6,7 +6,7 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Client;
 use Plugin\AceClient\Utils\Mapper\OverviewMapper;
 use Plugin\AceClient\Exception\InvalidClassNameException;
-use Plugin\AceClient\Exception\NotCompatibleDataType;
+use Plugin\AceClient\Exception\DataTypeMissMatchException;
 use Plugin\AceClient\Utils\ClassFactory\ClassFactory;
 
 /**
@@ -39,7 +39,7 @@ final class HttpClientFactory
      * @return ClientInterface
      * 
      * @throws InvalidClassNameException
-     * @throws NotCompatibleDataType
+     * @throws DataTypeMissMatchException
      */
     public static function makeHttpClientByClassName(string $className,array $options): ClientInterface
     {
