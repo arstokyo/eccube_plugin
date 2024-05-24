@@ -9,7 +9,14 @@ use Plugin\AceClient\Utils\Mapper\ConfigNodeRootNameMapper;
 class ConfigWriter
 {
 
-    public static function updateBaseUri(string $newUri)
+    /**
+     * Update base_uri in AceClientConfig.yaml
+     *
+     * @param string $newUri
+     * @return void
+     * @author Ars-Charan, Ars-Thong
+     */
+    public static function updateBaseUri(string $newUri): void
     {
         $filePath = FilePathMapper::ROOT_CONFIG_PATH .\DIRECTORY_SEPARATOR. FilePathMapper::ACE_CLIENT_FILE_NAME;
 
