@@ -12,7 +12,7 @@ parameters:
                 class_name: 'Plugin\AceClient\Utils\Log\SoapXmlLogger'
             http_client: 
                 class_name: 'Plugin\AceClient\Utils\HttpClient\SoapXmlApiClient'
-                base_uri: 'http://192.168.0.77:20443/ACEXML/'
+                base_uri: 'http://localhost:8008/ACEXML/'
                 headers:
                     'User-Agent': '\Plugin\AceClient\Utils\Mapper\OverviewMapper::USER_AGENT_HEADER'
                 options:
@@ -34,7 +34,7 @@ parameters:
             #         class_name: 'Plugin\AceClient\Utils\Log\SoapXmlLogger'
             #     http_client: 
             #         class_name: 'Plugin\AceClient\Utils\HttpClient\SoapXmlApiClient'
-            #         base_uri: 'http://192.168.0.77:20443/ACEXML/'
+            #         base_uri: 'http://localhost:8008/ACEXML/'
             #         headers:
             #             'User-Agent': 'AceClient v1.0'
             #         options:
@@ -53,7 +53,7 @@ parameters:
         overrides:
             # Change here for overriding default configuration
             # Example:
-            # - Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\OrderPrmModel:
+            # - Plugin\AceClient\AceServices\Model\Request\SamplePrmModel:
             #     format: 'object'
             #     options:
             #         xml_format_output: true
