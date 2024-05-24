@@ -10,7 +10,7 @@ namespace Plugin\AceClient\AceServices\Model\Response;
 interface AsListDenormalizableInterface
 {
     /**
-     * fetch response as list property
+     * Fetch response as list property
      * 
      * @return array<string><string>
      */
