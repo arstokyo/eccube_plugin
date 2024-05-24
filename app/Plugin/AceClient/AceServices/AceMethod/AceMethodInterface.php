@@ -20,7 +20,7 @@ interface AceMethodInterface
      *
      * @param Request\RequestModelInterface $requestModel
      * @throws AceClient\Exception\MissingRequestParameterException
-     * @return $this
+     * @return self
      */
     public function withRequest(Request\RequestModelInterface $requestModel): self;
 

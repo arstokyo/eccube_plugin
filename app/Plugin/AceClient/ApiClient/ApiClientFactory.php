@@ -29,6 +29,7 @@ final class ApiClientFactory
      *
      * @param string $className
      * @param string $endpoint
+     * @param DelegateInterface $delegate
      * 
      * @return ClientInterface
      * 
