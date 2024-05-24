@@ -18,23 +18,23 @@ class SoapXmlSerializerModel implements ConfigModelInterface
     use ConvertToConstTrait;
 
     #[SerializedName("xmlns")]
-    private array $xmlns;
+    private ?array $xmlns = null;
 
     #[SerializedName("default_serialize_options")]
-    private array $defaultSerializeOptions;
+    private ?array $defaultSerializeOptions = null;
 
     #[SerializedName("request_soap_head")]
-    private string $requestSoapHead;
+    private ?string $requestSoapHead = null;
     
     #[SerializedName("request_soap_end")]
-    private string $requestSoapEnd;
+    private ?string $requestSoapEnd = null;
 
     /**
      * Get the value of xmlns
      * 
-     * @return array
+     * @return ?array
      */
-    public function getXmlns(): array
+    public function getXmlns(): ?array
     {
         return $this->xmlns;
     }
@@ -42,9 +42,9 @@ class SoapXmlSerializerModel implements ConfigModelInterface
     /**
      * Set the value of xmlns
      *
-     * @return  void
+     * @return void
      */
-    public function setXmlns(array $xmlns): void
+    public function setXmlns(?array $xmlns): void
     {
         $this->xmlns = $xmlns;
     }
@@ -52,9 +52,9 @@ class SoapXmlSerializerModel implements ConfigModelInterface
     /**
      * Get the value of defaultSerializeOptions
      * 
-     * @return array
+     * @return ?array
      */
-    public function getDefaultSerializeOptions(): array
+    public function getDefaultSerializeOptions(): ?array
     {
         return $this->defaultSerializeOptions;
     }
@@ -64,17 +64,19 @@ class SoapXmlSerializerModel implements ConfigModelInterface
      *
      * @return void
      */
-    public function setDefaultSerializeOptions(array $defaultSerializeOptions): void
+    public function setDefaultSerializeOptions(?array $defaultSerializeOptions): void
     {
-        $this->defaultSerializeOptions = $this->convertXMLConst($defaultSerializeOptions);
+        if (!empty($defaultSerializeOptions)) {
+            $this->defaultSerializeOptions = $this->convertXMLConst($defaultSerializeOptions);
+        }
     }
     
     /**
      * Get the value of requestSoapHeader
      * 
-     * @return string
+     * @return ?string
      */
-    public function getRequestSoapHead(): string
+    public function getRequestSoapHead(): ?string
     {
         return $this->requestSoapHead;
     }
@@ -84,7 +86,7 @@ class SoapXmlSerializerModel implements ConfigModelInterface
      *
      * @return void
      */
-    public function setRequestSoapHead(string $requestSoapHead): void
+    public function setRequestSoapHead(?string $requestSoapHead): void
     {
         $this->requestSoapHead = $requestSoapHead;
     }
@@ -92,9 +94,9 @@ class SoapXmlSerializerModel implements ConfigModelInterface
     /**
      * Get the value of requestSoapEnd
      * 
-     * @return string
+     * @return ?string
      */
-    public function getRequestSoapEnd(): string
+    public function getRequestSoapEnd(): ?string
     {
         return $this->requestSoapEnd;
     }
@@ -104,7 +106,7 @@ class SoapXmlSerializerModel implements ConfigModelInterface
      *
      * @return void
      */
-    public function setRequestSoapEnd(string $requestSoapEnd): void
+    public function setRequestSoapEnd(?string $requestSoapEnd): void
     {
         $this->requestSoapEnd = $requestSoapEnd;
     }
@@ -120,7 +122,7 @@ class SoapXmlSerializerModel implements ConfigModelInterface
     {
         if (\in_array(XmlEncoder::ENCODER_IGNORED_NODE_TYPES, $defaultSerializeOptions)) {
             foreach($defaultSerializeOptions[XmlEncoder::ENCODER_IGNORED_NODE_TYPES] as $key => $value) {
-                $defaultSerializeOptions[XmlEncoder::ENCODER_IGNORED_NODE_TYPES][$key] = $this->convertVarToIntConst($value);
+                $defaultSerializeOptions[XmlEncoder::ENCODER_IGNORED_NODE_TYPES][$key] = \defined($value) ? $this->convertVarToIntConst($value) : $value;
             }
         }
         return $defaultSerializeOptions;

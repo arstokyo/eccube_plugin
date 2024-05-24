@@ -4,7 +4,7 @@ namespace Plugin\AceClient\Utils\Log;
 
 use Psr\Log\LoggerInterface;
 use Plugin\AceClient\Exception\InvalidClassNameException;
-use Plugin\AceClient\Exception\NotCompatibleDataType;
+use Plugin\AceClient\Exception\DataTypeMissMatchException;
 use Plugin\AceClient\Utils\ClassFactory\ClassFactory;
 
 class LoggerFactory 
@@ -18,7 +18,7 @@ class LoggerFactory
      * @return LoggerInterface
      * 
      * @throws InvalidClassNameException
-     * @throws NotCompatibleDataType
+     * @throws DataTypeMissMatchException
      */
     public static function makeLoggerByClassName(string $className): LoggerInterface
     {

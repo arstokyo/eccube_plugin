@@ -134,7 +134,7 @@ class AbstractClient implements ClientInterface
      *
      * @return Response\ResponseInterface
      *
-     * @throws Exception\ResponseBuildException
+     * @throws Exception\CanNotBuildResponseException
      */
     protected function deserializeResponse(PsrResponse $psrResponse): Response\ResponseInterface
     {
@@ -149,7 +149,7 @@ class AbstractClient implements ClientInterface
                 );
         } catch (\Throwable $t) {
             $this->delegate->getLogger()->error("API Client error: {$t->getMessage()}");
-            throw new Exception\ResponseBuildException('Cannot fetch and deserialize response content', $t);
+            throw new Exception\CanNotBuildResponseException('Cannot fetch and deserialize response content', $t);
         }
         return new Response\Response($psrResponse->getHeaders(), $response, $psrResponse->getStatusCode());
     }

@@ -2,6 +2,8 @@
 
 namespace Plugin\AceClient\Utils\Denormalize\OTD;
 
+use Symfony\Component\Serializer\SerializerInterface;
+
 /**
  * Interface for Object To Data Denormalizer.
  * 
@@ -10,10 +12,16 @@ namespace Plugin\AceClient\Utils\Denormalize\OTD;
 interface OTDDenormalizerInterface
 {
     /**
-     * Denormalizes the given data into the current object.
+     * Denormalizes the given data 
      * 
-     * @param OTDDelegateInterface $delegate
      * @return string|null|object
      */
-    public function denormalizeOTD(OTDDelegateInterface $delegate): string|null|object;
+    public function denormalizeOTD(): string|null|object;
+
+    /**
+     * Get Delegate
+     * 
+     * @return OTDDelegateInterface
+     */
+    public function getDelegate(): OTDDelegateInterface;
 }

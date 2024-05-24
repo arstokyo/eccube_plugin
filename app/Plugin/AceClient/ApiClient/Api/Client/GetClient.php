@@ -11,7 +11,7 @@ class GetClient extends AbstractClient implements GetClientInterface
     /**
      * Build the request url with the specified parameters
      *
-     * @throws Exception\RequestBuildException
+     * @throws Exception\CanNotBuildRequestException
      *
      * @return string
      */
@@ -30,7 +30,7 @@ class GetClient extends AbstractClient implements GetClientInterface
                       : http_build_query($data);
         } catch (\Throwable $t) {
             $this->delegate->getLogger()->error("API Client error: {$t->getMessage()}");
-            throw new Exception\RequestBuildException('Cannot build GET query string', $t);
+            throw new Exception\CanNotBuildRequestException('Cannot build GET query string', $t);
         }
         return "{$baseUri}{$query}";
     }

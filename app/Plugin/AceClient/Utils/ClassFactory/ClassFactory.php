@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\Utils\ClassFactory;
 
 use Plugin\AceClient\Exception\InvalidClassNameException;
-use Plugin\AceClient\Exception\NotCompatibleDataType;
+use Plugin\AceClient\Exception\DataTypeMissMatchException;
 
 /**
  * Class Factory
@@ -21,7 +21,7 @@ final class ClassFactory
      * @return object
      * 
      * @throws InvalidClassNameException
-     * @throws NotCompatibleDataType
+     * @throws DataTypeMissMatchException
      */
     final public static function makeClass(string $className, $targetInterface = null): object
     {
@@ -39,7 +39,7 @@ final class ClassFactory
      * @return object
      * 
      * @throws InvalidClassNameException
-     * @throws NotCompatibleDataType
+     * @throws DataTypeMissMatchException
      */
     final public static function makeClassArgs(string $className,?string $targetInterface = null, ...$args): object
     {
@@ -54,14 +54,14 @@ final class ClassFactory
      * @param ?string $targetInterface
      * 
      * @return string|object
-     * @throws NotCompatibleDataType
+     * @throws DataTypeMissMatchException
      */
     final public static function validateCompatible(string|object $obj, ?string $targetInterface): string|object
     {
         if ($targetInterface) {
             $interfaces = class_implements($obj);
             if (!(in_array($targetInterface, $interfaces, true))){
-                throw new NotCompatibleDataType(sprintf('Given object is not compatible with %s. Given object %s', $targetInterface, self::getNameOfObject($obj)));
+                throw new DataTypeMissMatchException(sprintf('Given object is not compatible with %s. Given object %s', $targetInterface, self::getNameOfObject($obj)));
             };
         };
         return $obj;

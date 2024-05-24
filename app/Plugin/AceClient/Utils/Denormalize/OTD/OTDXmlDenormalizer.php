@@ -2,7 +2,8 @@
 
 namespace Plugin\AceClient\Utils\Denormalize\OTD;
 
-use Plugin\AceClient\Utils\Serialize\ToXmlTrait;
+use Plugin\AceClient\Exception\NotSerializableException;
+use Plugin\AceClient\Utils\Mapper\EncodeDefineMapper;
 
 /**
  * Denormalizer for Object To Data.
@@ -11,33 +12,25 @@ use Plugin\AceClient\Utils\Serialize\ToXmlTrait;
  */
 class OTDXmlDenormalizer extends OTDDenormalizerAbstract
 {
-    use ToXmlTrait;
 
     /**
-     * @var OTDDelegateInterface
+      * {@inheritDoc}
      */
-    private OTDDelegateInterface $delegate;
-
-    /**
-     * Denormalize OTD
-     * 
-     * @param OTDDelegateInterface $delegate
-     * @return string|null|object
-     */
-    public function denormalizeOTD(OTDDelegateInterface $delegate): string|null|object
+    public function denormalizeOTD(): string|null|object
     {
-        $this->delegate = $delegate;    
-        return $this->toXML($delegate->getObject());
-    }
+        if ($this->delegate->getSerializer() === null) {
+            throw new \RuntimeException('OTDXmlDenormalizer Error: Serializer is not set in delegate.');
+        }
 
-    /**
-     * Set options for XML serialization.
-     * 
-     * @return ?array
-     */
-    protected function setXmlSerializeOptions(): ?array
-    {
-        return $this->delegate->getDenomarlizeOptions() ?? [];
+        try {
+            $context = $this->delegate->getSerializer()->serialize($this->getDelegate()->getObject(), 
+                                                                   EncodeDefineMapper::XML, 
+                                                                   $this->getDelegate()->getDenomarlizeOptions() ?? []);
+        } catch(\Throwable $e) {
+            throw new NotSerializableException(sprintf('Could not serialize class "%s" to XML', self::class), $e);
+        };
+        
+        return $context;
     }
 
 }

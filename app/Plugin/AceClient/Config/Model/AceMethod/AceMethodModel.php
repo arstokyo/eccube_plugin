@@ -37,142 +37,165 @@ class AceMethodModel extends OverridableConfigAbstract implements ConfigModelInt
     /**
      * Perform the override config
      * 
-     * @param AceMethodDetailModel $targetConfig
+     * @param AceMethodDetailModel $overrideTarget
      * 
      * @return ConfigModelInterface
      */
-    protected function performOverrideConfig(ConfigModelInterface $targetConfig): ConfigModelInterface
+    protected function performOverrideConfig(ConfigModelInterface $overrideTarget): ConfigModelInterface
     {
         return (new AceMethodDetailModel())
-                ->setApiClient($this->performOverrideApiClient($targetConfig))
-                ->setNormalizer($this->performOverrideNormalizer($targetConfig))
-                ->setSerializer($this->performOverrideSerializer($targetConfig))
-                ->setLogger($this->performOverrideLogger($targetConfig))
-                ->setHttpClient($this->performOverrideHttpClient($targetConfig));
+                ->setApiClient($this->performOverrideApiClient($overrideTarget))
+                ->setNormalizer($this->performOverrideNormalizer($overrideTarget))
+                ->setSerializer($this->performOverrideSerializer($overrideTarget))
+                ->setLogger($this->performOverrideLogger($overrideTarget))
+                ->setHttpClient($this->performOverrideHttpClient($overrideTarget));
     }
 
     /**
      * Perform the override api client
      * 
-     * @param AceMethodDetailModel $targetConfig
+     * @param AceMethodDetailModel $overrideTarget
      * 
      * @return HttpClientConfigModel
      */
-    private function performOverrideHttpClient(AceMethodDetailModel $targetConfig): HttpClientConfigModel
+    private function performOverrideHttpClient(AceMethodDetailModel $overrideTarget): HttpClientConfigModel
     {
-        $overridedHttpClient = $targetConfig->getHttpClient();
+        $overridedHttpClient = $overrideTarget->getHttpClient();
         $defaultHttpClient = $this->getDefaultConfig()->getHttpClient();
 
         if (!$overridedHttpClient) {
             return $defaultHttpClient;
         }
         
-        $resultHttpClient = new HttpClientConfigModel();
+        $finalHttpClient = new HttpClientConfigModel();
         if ($overridedHttpClient) {
             
             // Valiate and set the value of baseUri
             if ($overridedHttpClient->getBaseUri()) {
-                $resultHttpClient->setBaseUri($overridedHttpClient->getBaseUri());
+                $finalHttpClient->setBaseUri($overridedHttpClient->getBaseUri());
             } else 
             {
-                $resultHttpClient->setBaseUri($defaultHttpClient->getBaseUri());
+                $finalHttpClient->setBaseUri($defaultHttpClient->getBaseUri());
             } 
 
             // Valiate and set the value of clientName
             if ($overridedHttpClient->getClassName()) {
-                $resultHttpClient->setClassName($overridedHttpClient->getClassName());
+                $finalHttpClient->setClassName($overridedHttpClient->getClassName());
             } else 
             {
-                $resultHttpClient->setClassName($defaultHttpClient->getClassName());
+                $finalHttpClient->setClassName($defaultHttpClient->getClassName());
             }
 
             // Valiate and set the value of headers
             if ($overridedHttpClient->getHeaders()) {
-                $resultHttpClient->setHeaders($overridedHttpClient->getHeaders());
+                $finalHttpClient->setHeaders($overridedHttpClient->getHeaders());
             } else 
             {
-                $resultHttpClient->setHeaders($defaultHttpClient->getHeaders());
+                $finalHttpClient->setHeaders($defaultHttpClient->getHeaders());
             }
 
             // Valiate and set the value of options
             if ($overridedHttpClient->getOptions()) {
-                $resultHttpClient->setOptions($overridedHttpClient->getOptions());
+                $finalHttpClient->setOptions($overridedHttpClient->getOptions());
             } else 
             {
                 if (array_key_exists('Content-Type', $defaultHttpClient->getHeaders()) &&
                     $defaultHttpClient->getHeaders()['Content-Type'] === ($overridedHttpClient->getHeaders()['Content-Type'] ?? ''))
                 {
-                    $resultHttpClient->setOptions($defaultHttpClient->getOptions());
+                    $finalHttpClient->setOptions($defaultHttpClient->getOptions());
                 }
             }
 
         } 
-        return $resultHttpClient ;
+        return $finalHttpClient ;
     }
 
     /**
      * Perform the override serializer
      * 
-     * @param AceMethodDetailModel $targetConfig
+     * @param AceMethodDetailModel $overrideTarget
      * 
      * @return SerializerConfigModel
      */
-    private function performOverrideSerializer(AceMethodDetailModel $targetConfig): SerializerConfigModel
+    private function performOverrideSerializer(AceMethodDetailModel $overrideTarget): SerializerConfigModel
     {
-        if (empty($targetConfig->getSerializer()) || empty($targetConfig->getSerializer()->getClassName())) {
-            return $this->getDefaultConfig()->getSerializer();
+        $overridedSerializer = $overrideTarget->getSerializer();
+        $defaultSerializer = $this->getDefaultConfig()->getSerializer();
+
+        if (!$overridedSerializer) {
+            return $defaultSerializer;
         }
-        return $targetConfig->getSerializer();
+
+        $finalSerializer = new SerializerConfigModel();
+        if (!$overridedSerializer->getClassName()) {
+            $finalSerializer->setClassName($defaultSerializer->getClassName());
+        } else {
+            $finalSerializer->setClassName($overridedSerializer->getClassName());
+        }
+
+        if (!$overridedSerializer->getNormalizers()) {
+            $finalSerializer->setNormalizers($defaultSerializer->getNormalizers());
+        } else {
+            $finalSerializer->setNormalizers($overridedSerializer->getNormalizers());
+        }
+
+
+        if (!$overridedSerializer->getEncoder()) {
+            $finalSerializer->setEncoder($defaultSerializer->getEncoder());
+        } else {
+            $finalSerializer->setEncoder($overridedSerializer->getEncoder());
+        }
+
+        return $finalSerializer;
     }
 
     /**
      * Perform the override logger
      * 
-     * @param AceMethodDetailModel $targetConfig
+     * @param AceMethodDetailModel $overrideTarget
      * 
      * @return LoggerConfigModel
      */
-    private function performOverrideLogger(AceMethodDetailModel $targetConfig): LoggerConfigModel
+    private function performOverrideLogger(AceMethodDetailModel $overrideTarget): LoggerConfigModel
     {
-        if (empty($targetConfig->getLogger()) || empty($targetConfig->getLogger()->getClassName())) {
+        if (empty($overrideTarget->getLogger()) || empty($overrideTarget->getLogger()->getClassName())) {
             return $this->getDefaultConfig()->getLogger();
         }
-        return $targetConfig->getLogger();
+        return $overrideTarget->getLogger();
     }
 
     /**
      * Perform the override normalizer
      * 
-     * @param AceMethodDetailModel $targetConfig
+     * @param AceMethodDetailModel $overrideTarget
      * 
      * @return NormalizerConfigModel
      */
-    private function performOverrideNormalizer(AceMethodDetailModel $targetConfig): NormalizerConfigModel
+    private function performOverrideNormalizer(AceMethodDetailModel $overrideTarget): NormalizerConfigModel
     {
-        if (empty($targetConfig->getNormalizer()) || empty($targetConfig->getNormalizer()->getClassName())) {
+        if (empty($overrideTarget->getNormalizer()) || empty($overrideTarget->getNormalizer()->getClassName())) {
             return $this->getDefaultConfig()->getNormalizer();
         }
-        return $targetConfig->getNormalizer();
+        return $overrideTarget->getNormalizer();
     }   
 
     /**
      * Perform the override http client
      * 
-     * @param AceMethodDetailModel $targetConfig
+     * @param AceMethodDetailModel $overrideTarget
      * 
      * @return ApiClientConfigModel
      */
-    private function performOverrideApiClient(AceMethodDetailModel $targetConfig): ApiClientConfigModel
+    private function performOverrideApiClient(AceMethodDetailModel $overrideTarget): ApiClientConfigModel
     {
-        if (empty($targetConfig->getApiClient()) || empty($targetConfig->getApiClient()->getClassName())) {
+        if (empty($overrideTarget->getApiClient()) || empty($overrideTarget->getApiClient()->getClassName())) {
             return $this->getDefaultConfig()->getApiClient();
         }
-        return $targetConfig->getApiClient();
+        return $overrideTarget->getApiClient();
     }
 
     /**
      * {@inheritDoc}
-     * 
      */
     protected function setDetailConfigClassName(): string
     {

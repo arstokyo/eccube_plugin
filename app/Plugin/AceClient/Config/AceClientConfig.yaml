@@ -4,7 +4,7 @@ parameters:
         default:
             serializer: 
                 class_name: 'Plugin\AceClient\Utils\Serialize\SoapXMLSerializer'
-                normalizers: 'RecursiveNormalizers'
+                normalizers: 'DefaultSoapNormalizers'
                 encoder: 'Symfony\Component\Serializer\Encoder\XmlEncoder'
             normalizer: 
                 class_name: 'Plugin\AceClient\Utils\Normalize\SoapXMLNormalizer'
@@ -48,7 +48,7 @@ parameters:
             format: 'xml'
             options: 
                 xml_format_output: true
-                xml_encoding: 'Shift_JIS'
+                xml_encoding: 'UTF-8'
 
         overrides:
             # Change here for overriding default configuration
@@ -70,8 +70,8 @@ parameters:
             encoder_ignored_node_types: 
                 - \XML_PI_NODE
         request_soap_head: '<?xml version="1.0" encoding="utf-8"?>
-                                <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
-                                <soap12:Body>'
+                            <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+                            <soap12:Body>'
         request_soap_end: '</soap12:Body>
-                            </soap12:Envelope>'
+                           </soap12:Envelope>'
                             

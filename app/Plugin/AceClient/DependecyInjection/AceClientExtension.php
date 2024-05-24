@@ -19,5 +19,6 @@ final class AceClientExtension extends Extension
     {
         $loader = new YamlFileLoader($container, new FileLocator(FilePathMapper::ROOT_CONFIG_PATH));
         $loader->load(FilePathMapper::ACE_CLIENT_FILE_NAME);
+        unset($loader);
     }
 }
