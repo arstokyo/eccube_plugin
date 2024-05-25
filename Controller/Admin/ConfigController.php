@@ -38,7 +38,9 @@ class ConfigController extends AbstractController
     public function index(Request $request)
     {
         // Test Call Ace Client Helper
-        $aceClientHelper = new AceClientHelper();
+        
+        $aceClientHelper = $this->container->get('Plugin\AceClient\Utils\Helper\AceClientHelper');
+
         $dump = $aceClientHelper->getEntityManager();
 
         $Config = $this->configRepository->get();
