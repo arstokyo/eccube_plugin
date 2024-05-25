@@ -12,7 +12,7 @@ use Plugin\AceClient\Utils\ConfigLoader\SoapXmlSerializerConfigLoaderTrait;
 use Plugin\AceClient\Utils\Mapper\EncodeDefineMapper;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Plugin\AceClient\Exception\NotDeserializableException;
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
+use Plugin\AceClient\AceServices\Model\Response\AsSpecificNodeResponseInterface;
 
 /**
  * Serializer for SOAP XML API.
@@ -38,7 +38,7 @@ class SoapXMLSerializer implements SoapXMLSerializerInterface
      */
     private SerializerInterface $serializer;
 
-    private const EXPECT_DATA_ARRAY = 'diffgr:diffgram';
+    private const DEFAULT_RESPONSE_NODE_NAME = 'diffgr:diffgram';
 
     /**
      * @var SoapXmlSerializerModel $config
@@ -97,9 +97,11 @@ class SoapXMLSerializer implements SoapXMLSerializerInterface
         }
 
         $data = $this->serializer->decode($data, $format, $context);
-        $this->getInnerArray(self::EXPECT_DATA_ARRAY, $data, $matched);
+        $expectedDataArray = \in_array(AsSpecificNodeResponseInterface::class, class_implements($type), true) ? $type::fetchSpecificResponseNodeName() : self::DEFAULT_RESPONSE_NODE_NAME;
+        $this->getInnerArray($expectedDataArray, $data, $matched);
+
         if (empty($matched)) {
-            throw new NotDeserializableException(sprintf('Response data not deserializable. The data must contain "%s"', self::EXPECT_DATA_ARRAY));
+            throw new NotDeserializableException(sprintf('Response data not deserializable. The data must contain "%s"', $expectedDataArray));
         }
 
         return $this->serializer->denormalize($matched, $type, $format, $context);
