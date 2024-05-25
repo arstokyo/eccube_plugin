@@ -1,28 +1,28 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Goods\GetGoods;
+namespace Plugin\AceClient\AceServices\Model\Response\Goods\GetZaiko;
 
 use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
 use Plugin\AceClient\AceServices\Model\Response;
 
 /**
- * Interface for GetGoodsResponseModel
+ * Interface for GetZaikoResponseModel
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface GetGoodsResponseModelInterface extends ResponseModelInterface
+interface GetZaikoResponseModelInterface extends ResponseModelInterface
 {
     /**
      * Get MasterModel
      *
-     * @return Response\Goods\GetGoods\MasterModelInterface
+     * @return Response\Goods\GetZaiko\MasterModelInterface
      */
     public function getMaster(): MasterModelInterface;
 
     /**
      * Set MasterModel
      *
-     * @param Response\Goods\GetGoods\MasterModel $master
+     * @param Response\Goods\GetZaiko\MasterModel $master
      */
     public function setMaster(MasterModel $master): void;
 }

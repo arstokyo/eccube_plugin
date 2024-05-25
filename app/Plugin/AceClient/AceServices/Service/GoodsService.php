@@ -35,4 +35,24 @@ class GoodsService extends AceServiceAbstract implements AceServiceInterface
         return new AceMethod\Goods\GetGoodsManyMethod($this->baseServiceName);
     }
 
+    /**
+     * Make GetZaikoMethod
+     *
+     * @return AceMethod\Goods\GetZaikoMethod
+     */
+    public function makeGetZaikoMethod(): AceMethod\Goods\GetZaikoMethod
+    {
+        return new AceMethod\Goods\GetZaikoMethod($this->baseServiceName);
+    }
+
+    /**
+     * Make GetZaikoAllMethod
+     *
+     * @return AceMethod\Goods\GetZaikoAllMethod
+     */
+    public function makeGetZaikoAllMethod(): AceMethod\Goods\GetZaikoAllMethod
+    {
+        return new AceMethod\Goods\GetZaikoAllMethod($this->baseServiceName);
+    }
+    
 }
