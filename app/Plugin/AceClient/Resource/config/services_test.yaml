@@ -1,0 +1,7 @@
+
+services:
+    Plugin\AceClient\Utils\Helper:
+        calls:
+            - setEntityManager: ['@entityManager']
+
+

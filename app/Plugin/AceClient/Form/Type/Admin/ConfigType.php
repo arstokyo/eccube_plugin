@@ -19,7 +19,8 @@ class ConfigType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('base_uri', TextType::class, [
+        $builder->add('base_uri', TextType::class, 
+                    [
                       'constraints' => [
                        new NotBlank(),
                        new Length(['max' => 255]),

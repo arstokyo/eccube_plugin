@@ -1,77 +1,39 @@
-# Author: Ars-Thong
 parameters:
     ace_method:
         default:
-            serializer: 
-                class_name: 'Plugin\AceClient\Utils\Serialize\SoapXMLSerializer'
-                normalizers: 'DefaultSoapNormalizers'
-                encoder: 'Symfony\Component\Serializer\Encoder\XmlEncoder'
-            normalizer: 
-                class_name: 'Plugin\AceClient\Utils\Normalize\SoapXMLNormalizer'
-            logger: 
-                class_name: 'Plugin\AceClient\Utils\Log\SoapXmlLogger'
-            http_client: 
-                class_name: 'Plugin\AceClient\Utils\HttpClient\SoapXmlApiClient'
+            serializer:
+                class_name: Plugin\AceClient\Utils\Serialize\SoapXMLSerializer
+                normalizers: DefaultSoapNormalizers
+                encoder: Symfony\Component\Serializer\Encoder\XmlEncoder
+            normalizer:
+                class_name: Plugin\AceClient\Utils\Normalize\SoapXMLNormalizer
+            logger:
+                class_name: Plugin\AceClient\Utils\Log\SoapXmlLogger
+            http_client:
+                class_name: Plugin\AceClient\Utils\HttpClient\SoapXmlApiClient
                 base_uri: 'http://192.168.0.77:20443/ACEXML/'
                 headers:
-                    'User-Agent': '\Plugin\AceClient\Utils\Mapper\OverviewMapper::USER_AGENT_HEADER'
+                    User-Agent: '\Plugin\AceClient\Utils\Mapper\OverviewMapper::USER_AGENT_HEADER'
                 options:
                     timeout: 600
                     verify: false
             api_client:
-                class_name: 'Plugin\AceClient\ApiClient\Api\Client\PostSoapXMLClient'
-
-        overrides:
-            # Change here for overriding default configuration
-            # Example:
-            # - Plugin\AceClient\Config\Model\TestLoadConfig:
-            #     serializer: 
-            #         class_name: 'Plugin\AceClient\Utils\Serialize\SoapXMLSerializer'
-            #         encoder: 'Symfony\Component\Serializer\Encoder\XmlEncoder'
-            #     normalizer: 
-            #         class_name: 'Plugin\AceClient\Utils\Normalize\SoapXMLNormalizer'
-            #     logger: 
-            #         class_name: 'Plugin\AceClient\Utils\Log\SoapXmlLogger'
-            #     http_client: 
-            #         class_name: 'Plugin\AceClient\Utils\HttpClient\SoapXmlApiClient'
-            #         base_uri: 'http://192.168.0.77:20443/ACEXML/'
-            #         headers:
-            #             'User-Agent': 'AceClient v1.0'
-            #         options:
-            #             timeout: 600
-            #             verify: false
-            #     api_client:
-            #         class_name: 'Plugin\AceClient\ApiClient\Api\Client\PostSoapXMLClient'
-
+                class_name: Plugin\AceClient\ApiClient\Api\Client\PostSoapXMLClient
+        overrides: null
     prm_otd_format:
-        default: 
-            format: 'xml'
-            options: 
+        default:
+            format: xml
+            options:
                 xml_format_output: true
-                xml_encoding: 'UTF-8'
-
-        overrides:
-            # Change here for overriding default configuration
-            # Example:
-            # - Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\OrderPrmModel:
-            #     format: 'object'
-            #     options:
-            #         xml_format_output: true
-            #         xml_encoding: 'utf-8'
-            #         encoder_ignored_node_types:
-            #             - \XML_PI_NODE
-
+                xml_encoding: UTF-8
+        overrides: null
     soap_xml_serializer:
-        xmlns: 
-            '@xmlns': "http://ar-system-api.co.jp/"
+        xmlns:
+            '@xmlns': 'http://ar-system-api.co.jp/'
         default_serialize_options:
             xml_format_output: true
-            xml_encoding: 'utf-8'
-            encoder_ignored_node_types: 
+            xml_encoding: utf-8
+            encoder_ignored_node_types:
                 - \XML_PI_NODE
-        request_soap_head: '<?xml version="1.0" encoding="utf-8"?>
-                            <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
-                            <soap12:Body>'
-        request_soap_end: '</soap12:Body>
-                           </soap12:Envelope>'
-                            
+        request_soap_head: '<?xml version="1.0" encoding="utf-8"?> <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope"> <soap12:Body>'
+        request_soap_end: '</soap12:Body> </soap12:Envelope>'
