@@ -47,8 +47,11 @@ class ConfigController extends AbstractController
             }
 
             // Update default base_uri in AceClientConfig.yaml
-            ConfigWriter::updateBaseUri($Config->getBaseUri());
-
+            if (false === ConfigWriter::updateBaseUri($Config->getBaseUri())){
+                $this->addError('設定ファイルの書き込みに失敗しました。', 'admin');
+                return $this->redirectToRoute('ace_client_admin_config');
+            }
+            
             $this->entityManager->persist($Config);
             $this->entityManager->flush();
 
