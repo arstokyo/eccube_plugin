@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Plugin\AceClient\Utils\ConfigWriter\ConfigWriter;
 use Plugin\AceClient\Entity\Config;
+use Plugin\AceClient\Utils\Mapper\FilePathMapper;
 
 
 class ConfigController extends AbstractController
@@ -48,10 +49,10 @@ class ConfigController extends AbstractController
 
             // Update default base_uri in AceClientConfig.yaml
             if (false === ConfigWriter::updateBaseUri($Config->getBaseUri())){
-                $this->addError('設定ファイルの書き込みに失敗しました。', 'admin');
+                $this->addError(sprintf('%sファイルの書き込みに失敗しました。ファイルの書き込み権限を確認してください。', FilePathMapper::ACE_CLIENT_FILE_NAME), 'admin');
                 return $this->redirectToRoute('ace_client_admin_config');
             }
-            
+
             $this->entityManager->persist($Config);
             $this->entityManager->flush();
 
