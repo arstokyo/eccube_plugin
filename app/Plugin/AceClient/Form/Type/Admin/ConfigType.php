@@ -5,7 +5,8 @@ namespace Plugin\AceClient\Form\Type\Admin;
 use Plugin\AceClient\Entity\Config;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\component\Form\Extension\Core\Type\RadioType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
@@ -24,16 +25,14 @@ class ConfigType extends AbstractType
                        new Length(['max' => 255]),
                       ],
                     ])
-                ->add('is_log_on', RadioType::class, [
-                      'choices' => [
-                      'Yes' => true,
-                      'No' => false,
-                      ],
-                      'expanded' => true,
-                      'multiple' => false,
-                      'constraints' => [
-                       new NotBlank(),
-                      ],
+                ->add('is_log_on', ChoiceType::class,
+                      [
+                        'choices' => [
+                          'ログ出力する' => true,
+                          'ログ出力しない' => false,
+                        ],
+                        'expanded' => true,
+                        'multiple' => false,
                       ]);
     }
 
