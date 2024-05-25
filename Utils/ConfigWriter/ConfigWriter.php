@@ -12,7 +12,7 @@ class ConfigWriter
 {
 
     /**
-     * Update AceClientConfig.yaml
+     * Update Ace Client Config file
      *
      * @param Config $config
      * @return bool
