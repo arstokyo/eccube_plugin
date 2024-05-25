@@ -187,17 +187,17 @@ interface GoodModelGroup2Interface extends GoodModelBaseInterface,
     /**
      * Get 梱包数
      *
-     * @return ?float
+     * @return ?int
      */
-    public function getKonpo(): ?float;
+    public function getKonpo(): ?int;
 
     /**
      * Set 梱包数
      *
-     * @param string|null $konpo
+     * @param ?int $konpo
      * @return $this
      */
-    public function setKonpo(string|null $konpo): static;
+    public function setKonpo(?int $konpo): static;
 
     /**
      * Get 掛売顧客税

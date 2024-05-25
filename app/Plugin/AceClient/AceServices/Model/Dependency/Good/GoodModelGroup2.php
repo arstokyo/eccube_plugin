@@ -60,8 +60,8 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     /** @var ?int $kakuho 確保数 */
     protected ?int $kakuho = null;
 
-    /** @var ?float $konpo 梱包数 */
-    protected ?float $konpo = null;
+    /** @var ?int $konpo 梱包数 */
+    protected ?int $konpo = null;
 
     /** @var ?int $otaxkbn 掛売顧客税 */
     protected ?int $otaxkbn = null;
@@ -228,7 +228,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     /**
      * {@inheritDoc}
      */
-    public function getKonpo(): ?float
+    public function getKonpo(): ?int
     {
         return $this->konpo;
     }
@@ -236,9 +236,9 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     /**
      * {@inheritDoc}
      */
-    public function setKonpo(string|null $konpo): static
+    public function setKonpo(?int $konpo): static
     {
-        $this->konpo = NumberConverter::stringWithCommaToFloat($konpo);
+        $this->konpo = $konpo;
         return $this;
     }
 
