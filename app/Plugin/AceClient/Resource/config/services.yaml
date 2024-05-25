@@ -5,8 +5,6 @@ services:
         arguments: ['@doctrine.orm.entity_manager', '@Plugin\AceClient\Repository\ConfigRepository']
         public: true
 
-        
-
 
 
 

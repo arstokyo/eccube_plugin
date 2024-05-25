@@ -9,9 +9,7 @@ use Plugin\AceClient\Repository\ConfigRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Plugin\AceClient\Utils\ConfigWriter\ConfigWriter;
-use Plugin\AceClient\Entity\Config;
 use Plugin\AceClient\Utils\Mapper\FilePathMapper;
-
 
 class ConfigController extends AbstractController
 {
