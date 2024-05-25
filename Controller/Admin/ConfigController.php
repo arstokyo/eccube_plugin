@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Plugin\AceClient\Utils\ConfigWriter\ConfigWriter;
 use Plugin\AceClient\Entity\Config;
 use Plugin\AceClient\Utils\Mapper\FilePathMapper;
+use Plugin\AceClient\Utils\Helper\AceClientHelper;
 
 
 class ConfigController extends AbstractController
@@ -36,6 +37,9 @@ class ConfigController extends AbstractController
      */
     public function index(Request $request)
     {
+        // Test Call Ace Client Helper
+        $aceClientHelper = new AceClientHelper();
+
         $Config = $this->configRepository->get();
         $form = $this->createForm(ConfigType::class, $Config);
         $form->handleRequest($request);
