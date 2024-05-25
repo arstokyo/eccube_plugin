@@ -39,6 +39,7 @@ class ConfigController extends AbstractController
     {
         // Test Call Ace Client Helper
         $aceClientHelper = new AceClientHelper();
+        $dump = $aceClientHelper->getEntityManager();
 
         $Config = $this->configRepository->get();
         $form = $this->createForm(ConfigType::class, $Config);
