@@ -25,9 +25,9 @@ if (!class_exists('\Plugin\AceClient\Entity\Config', false)) {
         /**
          * @var string
          *
-         * @ORM\Column(name="name", type="string", length=255)
+         * @ORM\Column(name="base_uri", type="string", length=255)
          */
-        private $name;
+        private $baseUri;
 
         /**
          * @return int
@@ -40,19 +40,19 @@ if (!class_exists('\Plugin\AceClient\Entity\Config', false)) {
         /**
          * @return string
          */
-        public function getName()
+        public function getBaseUri()
         {
-            return $this->name;
+            return $this->baseUri;
         }
 
         /**
-         * @param string $name
+         * @param string $baseUri
          *
          * @return $this;
          */
-        public function setName($name)
+        public function setBaseUri($baseUri)
         {
-            $this->name = $name;
+            $this->baseUri = $baseUri;
 
             return $this;
         }

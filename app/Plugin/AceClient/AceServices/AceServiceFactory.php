@@ -41,4 +41,15 @@ class AceServiceFactory
     {
         return new Service\GoodsService();
     }
+
+    /**
+     * Make new Master2Service
+     * 
+     * @return Service\Master2Service
+     */
+    public static function makeMaster2Service() : Service\Master2Service
+    {
+        return new Service\Master2Service();
+    }
+
 }

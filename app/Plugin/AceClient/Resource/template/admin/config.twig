@@ -2,8 +2,8 @@
 
 {% set menus = ['store', 'plugin', 'plugin_list'] %}
 
-{% block title %}AceClient{% endblock %}
-{% block sub_title %}プラグイン一覧{% endblock %}
+{% block title %}通販AceClient{% endblock %}
+{% block sub_title %}設定画面{% endblock %}
 
 {% form_theme form '@admin/Form/bootstrap_4_horizontal_layout.html.twig' %}
 
@@ -23,11 +23,11 @@
                         <div class="card-header"><span>設定</span></div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-3"><span>名前</span><span
+                                <div class="col-3"><span>API接続URI</span><span
                                             class="badge bg-primary ml-1">必須</span></div>
                                 <div class="col mb-2">
-                                    {{ form_widget(form.name) }}
-                                    {{ form_errors(form.name) }}
+                                    {{ form_widget(form.base_uri) }}
+                                    {{ form_errors(form.base_uri) }}
                                 </div>
                             </div>
                         </div>
