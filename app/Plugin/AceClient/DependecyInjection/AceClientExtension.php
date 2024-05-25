@@ -7,6 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Plugin\AceClient\Repository\ConfigRepository;
 
 /**
  * Extension for AceClient.
@@ -15,6 +16,14 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
  */
 final class AceClientExtension extends Extension
 {
+
+    /**
+     * Load the configuration.
+     * 
+     * @param array $configs
+     * @param ContainerBuilder $container
+     * @return void
+     */
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new YamlFileLoader($container, new FileLocator(FilePathMapper::ROOT_CONFIG_PATH));

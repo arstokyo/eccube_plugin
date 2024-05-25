@@ -10,6 +10,10 @@ use Plugin\AceClient\Utils\ClassFactory\ClassFactory;
 class LoggerFactory 
 {
 
+    const DEFAUT_LOGGER_CLASS = SoapXmlLogger::class;
+
+    const NULL_LOGGER_CLASS = \Psr\Log\NullLogger::class;
+
     /**
      * Make a new logger instance.
      *

@@ -1,0 +1,10 @@
+services:
+
+    service.retrieve.helper:
+        class: Plugin\AceClient\Utils\Helper\ServiceRetrieveHelper
+        arguments: ['@doctrine.orm.entity_manager', '@Plugin\AceClient\Repository\ConfigRepository']
+        public: true
+
+
+
+
