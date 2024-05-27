@@ -12,15 +12,15 @@ interface HasNadrInterface
     /**
      * Get 納品先住所枝番
      *
-     * @return ?int
+     * @return ?string
      */
-    public function getNadr(): ?int;
+    public function getNadr(): ?string;
 
     /**
      * Set 納品先住所枝番
      *
-     * @param int|null $nadr
+     * @param string|null $nadr
      * @return $this
      */
-    public function setNadr(int|null $nadr): static;
+    public function setNadr(string|null $nadr): static;
 }
