@@ -2,15 +2,14 @@
 
 namespace Plugin\AceClient\Tests\AceRequestTest\Member;
 
-use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Plugin\AceClient\AceServices\Model\Request\Member\GetMember\GetMemberRequestModel;
 use Plugin\AceClient\AceServices\Model\Response\Member\GetMember\GetMemberResponseModel;
-use Plugin\AceClient\Utils\Mapper\OverviewMapper;
-use Plugin\AceClient\AceClient;
+use Plugin\AceClient\Util\Mapper\OverviewMapper;
 use GuzzleHttp\Exception\ClientException;
-use Plugin\AceClient\Utils\Serialize;
+use Plugin\AceClient\Util\Serializer;
+use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
 
-class GetMemberTest extends AbstractAdminWebTestCase
+class GetMemberTest extends AceRequestTestAbtract
 {
     private ?string $userId = 'GetMemberTestUser';
     private ?string $passWd = 'GetMemberTestPassword';
@@ -18,14 +17,14 @@ class GetMemberTest extends AbstractAdminWebTestCase
     public function testSearializeGetMember()
     {
         $getMemberRequestModel = $this->getModelRequest();
-        $serializer = Serialize\SerializerFactory::makeSoapSerializerForTest();
+        $serializer = Serializer\SerializerFactory::makeSoapSerializerForTest();
         $serializedData = $serializer->serialize($getMemberRequestModel);
 
         $xmlns = $serializer->getConfig()->getXmlns() ?
                  $serializer->getConfig()->getXmlns()['@xmlns'] :
-                 Serialize\SoapXMLSerializer::DEFAULT_XMLNS['@xmlns'];
-        $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_HEAD;
-        $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_END;
+                 Serializer\SoapXmlSerializer::DEFAULT_XMLNS['@xmlns'];
+        $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_HEAD;
+        $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_END;
         $expectedData =
         <<<XML
         {$soapHead}
@@ -51,10 +50,10 @@ class GetMemberTest extends AbstractAdminWebTestCase
     {
         try {
             $getMemberRequest = $this->getModelRequest();
-            $response = (new AceClient)->makeMemberService()
-                                       ->makeGetMemberMethod()
-                                       ->withRequest($getMemberRequest)
-                                       ->send();
+            $response = $this->aceClient->makeMemberService()
+                                        ->makeGetMemberMethod()
+                                        ->withRequest($getMemberRequest)
+                                        ->send();
             if ($response->getStatusCode() === 200) {
                 /** @var GetMemberResponseModel $responseObj */
                 $responseObj = $response->getResponse();
@@ -185,10 +184,10 @@ class GetMemberTest extends AbstractAdminWebTestCase
         $this->passWd = 'WrongPassWd';
         try {
             $getMemberRequest = $this->getModelRequest();
-            $response = (new AceClient)->makeMemberService()
-                                       ->makeGetMemberMethod()
-                                       ->withRequest($getMemberRequest)
-                                       ->send();
+            $response = $this->aceClient->makeMemberService()
+                                        ->makeGetMemberMethod()
+                                        ->withRequest($getMemberRequest)
+                                        ->send();
             if ($response->getStatusCode() === 200) {
                 /** @var GetMemberResponseModel $responseObj */
                 $responseObj = $response->getResponse();
@@ -212,10 +211,10 @@ class GetMemberTest extends AbstractAdminWebTestCase
         $this->userId = 'thisUserNotExists@AceClient.v.1.0';
         try {
             $getMemberRequest = $this->getModelRequest();
-            $response = (new AceClient)->makeMemberService()
-                                       ->makeGetMemberMethod()
-                                       ->withRequest($getMemberRequest)
-                                       ->send();
+            $response = $this->aceClient->makeMemberService()
+                                        ->makeGetMemberMethod()
+                                        ->withRequest($getMemberRequest)
+                                        ->send();
             if ($response->getStatusCode() === 200) {
                 /** @var GetMemberResponseModel $responseObj */
                 $responseObj = $response->getResponse();

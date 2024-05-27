@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Cost;
 
-use Plugin\AceClient\Utils\Converter\NumberConverter;
+use Plugin\AceClient\Util\Converter\NumberConverter;
 
 /**
  * Trait for 外税対象額

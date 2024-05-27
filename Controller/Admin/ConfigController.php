@@ -8,8 +8,6 @@ use Plugin\AceClient\Form\Type\Admin\ConfigType;
 use Plugin\AceClient\Repository\ConfigRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Plugin\AceClient\Utils\ConfigWriter\ConfigWriter;
-use Plugin\AceClient\Utils\Mapper\FilePathMapper;
 
 class ConfigController extends AbstractController
 {
@@ -42,12 +40,6 @@ class ConfigController extends AbstractController
             $Config = $form->getData();
             if (!\str_ends_with($Config->getBaseUri(), '/')) {
                 $Config->setBaseUri($Config->getBaseUri() . '/');
-            }
-
-            // Update Ace Client Config file
-            if (false === ConfigWriter::updateAceClientConfig($Config)){
-                $this->addError(sprintf('ファイル%sの書き込みに失敗しました。ファイルの書き込み権限を確認してください。', FilePathMapper::ACE_CLIENT_FILE_NAME), 'admin');
-                return $this->redirectToRoute('ace_client_admin_config');
             }
 
             $this->entityManager->persist($Config);

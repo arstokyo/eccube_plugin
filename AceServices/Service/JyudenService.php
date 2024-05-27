@@ -22,7 +22,7 @@ class JyudenService extends AceServiceAbstract implements AceServiceInterface
      */
     public function makeAddCartMethod(): AceMethod\Jyuden\AddCartMethod
     {
-        return new AceMethod\Jyuden\AddCartMethod($this->baseServiceName);
+        return new AceMethod\Jyuden\AddCartMethod($this->baseServiceName, $this->serviceRetriever);
     }
 
     /**
@@ -32,7 +32,7 @@ class JyudenService extends AceServiceAbstract implements AceServiceInterface
      */
     public function makeDecisionCartMethod(): AceMethod\Jyuden\DecisionCartMethod
     {
-        return new AceMethod\Jyuden\DecisionCartMethod($this->baseServiceName);
+        return new AceMethod\Jyuden\DecisionCartMethod($this->baseServiceName, $this->serviceRetriever);
     }
     
 }

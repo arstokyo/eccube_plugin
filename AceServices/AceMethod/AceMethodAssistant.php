@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\AceServices\AceMethod;
 
-use Plugin\AceClient\Config\Model\AceMethod\AceMethodDetailModel;
+use Plugin\AceClient\AceConfig\Model\AceMethod\AceMethodDetailModel;
 use Plugin\AceClient\ApiClient\Api\DelegateInterface;
 use Plugin\AceClient\ApiClient\Api\Delegate;
 use Plugin\AceClient\ApiClient\Api\Client\ClientInterface;
@@ -11,15 +11,17 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
-use Plugin\AceClient\Utils\HttpClient\HttpClientFactory;
-use Plugin\AceClient\Utils\Encoder\EncoderFactory;
-use Plugin\AceClient\Utils\Log\LoggerFactory;
-use Plugin\AceClient\Utils\Serialize\SerializerFactory;
-use Plugin\AceClient\Utils\Normalize\NormalizerFactory;
+use Plugin\AceClient\Util\HttpClient\HttpClientFactory;
+use Plugin\AceClient\Util\Encoder\EncoderFactory;
+use Plugin\AceClient\Util\Logger\LoggerFactory;
+use Plugin\AceClient\Util\Serializer\SerializerFactory;
+use Plugin\AceClient\Util\Normalizer\NormalizerFactory;
 use Plugin\AceClient\Exception\InvalidClassNameException;
 use Plugin\AceClient\Exception\InvalidFuncNameException;
 use Plugin\AceClient\Exception\DataTypeMissMatchException;
-use Plugin\AceClient\Utils\ConfigLoader\AceMethodConfigLoaderTrait;
+use Plugin\AceClient\Util\ConfigLoader\AceMethodConfigLoaderTrait;
+use Plugin\AceClient\Util\ServiceRetriever\ServiceRetrieverInterface;
+use Plugin\AceClient\Util\ConfigBuilder\AceMethodConfigBuilder;
 
 /**
  * Ace Method Assistant
@@ -35,27 +37,33 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
      */
     private AceMethodDetailModel $config;
 
-        /**
+    /**
      * @var ClientInterface $apiClient
      */
-    protected ClientInterface $apiClient;
+    private ClientInterface $apiClient;
+
+    /**
+     * @var ServiceRetrieverInterface $serviceRetriever
+     */
+    private ServiceRetrieverInterface $serviceRetriever;
 
     /**
      * Ace Method Assistant Constructor.
      *
      * @param string $currentClassName
      * @param string $endPoint
+     * @param ServiceRetrieverInterface $serviceRetriever
      */
-    public function __construct(string $currentClassName, string $endPoint) 
+    public function __construct(string $currentClassName, string $endPoint , ServiceRetrieverInterface $serviceRetriever) 
     {
-        $this->config = $this->loadConfig()->getOverridedConfig($currentClassName);
+        $this->serviceRetriever = $serviceRetriever;
+        $this->config = $this->loadConfig($this->serviceRetriever->getAceConfigSerializer(), AceMethodConfigBuilder::class, $this->serviceRetriever->getConfigRepository())
+                             ->getOverridedConfig($currentClassName);
         $this->apiClient = $this->buildApiClient($endPoint);
     }
 
-        /**
-     * Get the Api Client.
-     * 
-     * @return ClientInterface
+    /**
+     * {@inheritdoc}
      */
     public function getApiClient(): ClientInterface
     {
@@ -63,16 +71,22 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
     }
 
     /**
-     * Get the value of config
-     * 
-     * @return AceMethodDetailModel
+     * {@inheritdoc}
      */
     public function getConfig(): AceMethodDetailModel
     {
         return $this->config;
     }
 
-        /**
+    /**
+     * {@inheritdoc}
+     */
+    public function getServiceRetriever(): ServiceRetrieverInterface
+    {
+        return $this->serviceRetriever;
+    }
+
+    /**
      * Build the api client.
      * 
      * @param string $endpoint
@@ -112,7 +126,7 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
      */
     private function buildHttpClient(): \GuzzleHttp\ClientInterface
     {
-        return HttpClientFactory::makeHttpClientByClassName($this->config->getHttpClient()->getClassName() ?: ApiClientFactory::DEFAULT_HTTP_CLIENT,
+        return HttpClientFactory::makeHttpClientByClassName($this->config->getHttpClient()->getClassName() ?: HttpClientFactory::DEFAULT_HTTP_CLIENT,
                                                             $this->buildOptionsForHttpClient());
     }
 
@@ -137,10 +151,17 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
      */
     private function buildSerializer(): SerializerInterface
     {
-
-        return SerializerFactory::makeSerilizerByClassName($this->config->getSerializer()->getClassName() ?: ApiClientFactory::DEFAULT_SERIALIZER,
+        if (SerializerFactory::DEFAULT_SERIALIZER === $this->config->getSerializer()->getClassName() &&
+            EncoderFactory::DEFAULT_ENCODER_FOR_SOAP_SERIALIZER === $this->config->getSerializer()->getEncoder() &&
+            NormalizerFactory::DEFAULT_NORMALIZERS_FOR_SOAP_SERIALIZER === $this->config->getSerializer()->getNormalizers()) 
+        {
+            return $this->serviceRetriever->getSoapXmlProvider()->getSoapXmlSerializer();
+        }
+        return SerializerFactory::makeSerilizerByClassName($this->config->getSerializer()->getClassName() ?: SerializerFactory::DEFAULT_SERIALIZER,
                                                            $this->buildNormalizersForSerializer(),
-                                                           $this->buildEncoders());
+                                                           $this->buildEncoders(),
+                                                           $this->serviceRetriever->getAceConfigSerializer(),
+                                                         );
     }
 
     /**
@@ -152,7 +173,10 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
      */
     private function buildNormalizersForSerializer(): array
     {
-        $callfuncSuffix = $this->config->getSerializer()->getNormalizers() ?: ApiClientFactory::DEFAULT_NORMALIZERS_FOR_SERIALIZER;
+        if (NormalizerFactory::DEFAULT_NORMALIZERS_FOR_SOAP_SERIALIZER === $this->config->getSerializer()->getNormalizers()) {
+            return $this->serviceRetriever->getSoapXmlProvider()->getNormalizers();
+        }
+        $callfuncSuffix = $this->config->getSerializer()->getNormalizers() ?: NormalizerFactory::DEFAULT_NORMALIZERS_FOR_SOAP_SERIALIZER;
         return NormalizerFactory::makeNormalizerByFuncNameSuffix($callfuncSuffix);
     }
 
@@ -166,7 +190,10 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
      */
     private function buildEncoders(): array
     {
-        return [EncoderFactory::makeEncoderByClassName($this->config->getSerializer()->getEncoder() ?: ApiClientFactory::DEFAULT_ENCODER)];
+        if (EncoderFactory::DEFAULT_ENCODER_FOR_SOAP_SERIALIZER === $this->config->getSerializer()->getEncoder()) {
+            return $this->serviceRetriever->getSoapXmlProvider()->getEncoders();
+        }
+        return [EncoderFactory::makeEncoderByClassName($this->config->getSerializer()->getEncoder() ?: EncoderFactory::DEFAULT_ENCODER_FOR_SOAP_SERIALIZER)];
     }
 
     /**
@@ -179,7 +206,10 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
      */
     private function buildNormalizer(): NormalizerInterface
     {
-        return NormalizerFactory::makeNormalizerByClassName($this->config->getNormalizer()->getClassName() ?: ApiClientFactory::DEFAULT_NORMALIZER);
+        if (NormalizerFactory::DEFAULT_NORMALIZER === $this->config->getNormalizer()->getClassName()) {
+            return $this->serviceRetriever->getNormalizer();
+        }
+        return NormalizerFactory::makeNormalizerByClassName($this->config->getNormalizer()->getClassName() ?: NormalizerFactory::DEFAULT_NORMALIZER);
     }
 
     /**
@@ -192,7 +222,11 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
      */
     private function buildLogger(): LoggerInterface
     {   
-        return LoggerFactory::makeLoggerByClassName($this->config->getLogger()->getClassName() ?: ApiClientFactory::DEFAULT_LOGGER);
+        return match($this->config->getLogger()->getClassName()) {
+            LoggerFactory::DEFAUT_LOGGER_CLASS => $this->serviceRetriever->getLoggerProvider()->getLogger(),
+            LoggerFactory::NULL_LOGGER_CLASS => $this->serviceRetriever->getLoggerProvider()->getNullLogger(),
+            default => LoggerFactory::makeLoggerByClassName($this->config->getLogger()->getClassName() ?: LoggerFactory::DEFAUT_LOGGER_CLASS)
+        };  
     }
 
 }

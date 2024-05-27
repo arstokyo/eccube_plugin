@@ -3,7 +3,7 @@
 namespace Plugin\AceClient\Tests\AceRequestTest;
 
 use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
-use Plugin\AceClient\Utils\Converter\NumberConverter;
+use Plugin\AceClient\Util\Converter\NumberConverter;
 
 class NumberConverterTest extends AbstractAdminWebTestCase
 {

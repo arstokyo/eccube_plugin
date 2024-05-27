@@ -2,18 +2,17 @@
 
 namespace Plugin\AceClient\Tests\AceRequestTest\Member;
 
-use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr\RegMemAdrRequestModel;
 use Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr\MemberPrmModel;
 use Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr\NmemberModel;
 use Plugin\AceClient\AceServices\Model\Response\Member\RegMemAdr\RegMemAdrResponseModel;;
-use Plugin\AceClient\AceClient;
 use GuzzleHttp\Exception\ClientException;
-use Plugin\AceClient\Utils\Mapper\OverviewMapper;
-use Plugin\AceClient\Utils\Serialize;
+use Plugin\AceClient\Util\Mapper\OverviewMapper;
+use Plugin\AceClient\Util\Serializer;
 use Plugin\AceClient\Exception\MissingRequestParameterException;
+use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
 
-class RegMemberAdrTest extends AbstractAdminWebTestCase
+class RegMemberAdrTest extends AceRequestTestAbtract
 {
     private ?string $testMbid = '102';
 
@@ -21,10 +20,10 @@ class RegMemberAdrTest extends AbstractAdminWebTestCase
     {
         try {
             $getPointRequest = $this->getRegmemberRequestModelNG();
-            $response = (new AceClient)->makeMemberService()
-                                       ->makeRegMemAdrMethod()
-                                       ->withRequest($getPointRequest)
-                                       ->send();
+            $response = $this->aceClient->makeMemberService()
+                                        ->makeRegMemAdrMethod()
+                                        ->withRequest($getPointRequest)
+                                        ->send();
             if ($response->getStatusCode() === 200) {
                 /** @var RegMemAdrResponseModel $responseObj */
                 $responseObj = $response->getResponse();
@@ -82,10 +81,10 @@ class RegMemberAdrTest extends AbstractAdminWebTestCase
     {
         try {
             $getPointRequest = $this->getRegmemberRequestModelOK();
-            $response = (new AceClient)->makeMemberService()
-                                       ->makeRegMemAdrMethod()
-                                       ->withRequest($getPointRequest)
-                                       ->send();
+            $response = $this->aceClient->makeMemberService()
+                                        ->makeRegMemAdrMethod()
+                                        ->withRequest($getPointRequest)
+                                        ->send();
             if ($response->getStatusCode() === 200) {
                 /** @var RegMemAdrResponseModel $responseObj */
                 $responseObj = $response->getResponse();
@@ -120,9 +119,9 @@ class RegMemberAdrTest extends AbstractAdminWebTestCase
     {
             $getPointRequest = $this->getNotAllowParameterCase1();
             $this->expectException(MissingRequestParameterException::class);
-            (new AceClient)->makeMemberService()
-                           ->makeRegMemAdrMethod()
-                           ->withRequest($getPointRequest);
+            $this->aceClient->makeMemberService()
+                            ->makeRegMemAdrMethod()
+                            ->withRequest($getPointRequest);
 
     }
 
@@ -150,7 +149,7 @@ class RegMemberAdrTest extends AbstractAdminWebTestCase
     {
         $getPointRequest = $this->getNotAllowParameterCase2();
         $this->expectException(MissingRequestParameterException::class);
-        (new AceClient)->makeMemberService()
+        $this->aceClient->makeMemberService()
                         ->makeRegMemAdrMethod()
                         ->withRequest($getPointRequest);
     }
@@ -177,14 +176,14 @@ class RegMemberAdrTest extends AbstractAdminWebTestCase
     public function testSearializeRegMemberAdr()
     {
         $regMemAdrRequestModel = $this->getRegmemberRequestForSerialize();
-        $serializer = Serialize\SerializerFactory::makeSoapSerializerForTest();
+        $serializer = Serializer\SerializerFactory::makeSoapSerializerForTest();
         $serializedData = $serializer->serialize($regMemAdrRequestModel);
 
         $xmlns = $serializer->getConfig()->getXmlns() ?
                  $serializer->getConfig()->getXmlns()['@xmlns'] : 
-                 Serialize\SoapXMLSerializer::DEFAULT_XMLNS['@xmlns'];
-        $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_HEAD;
-        $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_END;
+                 Serializer\SoapXmlSerializer::DEFAULT_XMLNS['@xmlns'];
+        $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_HEAD;
+        $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_END;
         $expectedData = 
         <<<XML
         {$soapHead}

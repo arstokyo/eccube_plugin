@@ -2,16 +2,15 @@
 
 namespace Plugin\AceClient\Tests\AceRequestTest\Jyuden;
 
-use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\DecisionCart;
 use Plugin\AceClient\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModel;
 use Plugin\AceClient\AceServices\Model\Response\Jyuden\DecisionCart\DecisionCartResponseModel;
-use Plugin\AceClient\AceClient;
 use GuzzleHttp\Exception\ClientException;
-use Plugin\AceClient\Utils\Mapper\OverviewMapper;
+use Plugin\AceClient\Util\Mapper\OverviewMapper;
+use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
 
-class DecisionCartTest extends AbstractAdminWebTestCase
+class DecisionCartTest extends AceRequestTestAbtract
 {
     private ?string $testMemberId = '114';
     private ?string $testSessid = '114';
@@ -159,10 +158,10 @@ class DecisionCartTest extends AbstractAdminWebTestCase
     {
         try {
             $addCartRequest = $this->getAddCartModel($sessid);
-            $response = (new AceClient)->makeJyudenService()
-                                       ->makeAddCartMethod()
-                                       ->withRequest($addCartRequest)
-                                       ->send();
+            $response = $this->aceClient->makeJyudenService()
+                                        ->makeAddCartMethod()
+                                        ->withRequest($addCartRequest)
+                                        ->send();
             if ($response->getStatusCode() === 200) {
                 /** @var AddCartResponseModel $responseObj */
                 $responseObj = $response->getResponse();
@@ -185,10 +184,10 @@ class DecisionCartTest extends AbstractAdminWebTestCase
             $decisionCartRequest = (new DecisionCart\DecisionCartRequestModel())
                                         ->setId(OverviewMapper::ACE_TEST_SYID)
                                         ->setSessId($this->testSessid);
-            $response = (new AceClient)->makeJyudenService()
-                                       ->makeDecisionCartMethod()
-                                       ->withRequest($decisionCartRequest)
-                                       ->send();
+            $response = $this->aceClient->makeJyudenService()
+                                        ->makeDecisionCartMethod()
+                                        ->withRequest($decisionCartRequest)
+                                        ->send();
             if ($response->getStatusCode() === 200) {
                 /** @var DecisionCartResponseModel $responseObj */
                 $responseObj = $response->getResponse();
@@ -473,10 +472,10 @@ class DecisionCartTest extends AbstractAdminWebTestCase
             $decisionCartRequest = (new DecisionCart\DecisionCartRequestModel())
                                         ->setId(OverviewMapper::ACE_TEST_SYID)
                                         ->setSessId($this->testSessid);
-            $response = (new AceClient)->makeJyudenService()
-                                       ->makeDecisionCartMethod()
-                                       ->withRequest($decisionCartRequest)
-                                       ->send();
+            $response = $this->aceClient->makeJyudenService()
+                                        ->makeDecisionCartMethod()
+                                        ->withRequest($decisionCartRequest)
+                                        ->send();
             if ($response->getStatusCode() === 200) {
                 /** @var DecisionCartResponseModel $responseObj */
                 $responseObj = $response->getResponse();

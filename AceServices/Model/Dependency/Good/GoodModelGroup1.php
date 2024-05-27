@@ -4,7 +4,7 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Good;
 
 use Plugin\AceClient\AceServices\Model\Dependency\Bikou;
 use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
-use Plugin\AceClient\Utils\Converter\NumberConverter;
+use Plugin\AceClient\Util\Converter\NumberConverter;
 
 /**
  * Class for GoodModelGroup1

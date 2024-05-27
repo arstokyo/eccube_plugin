@@ -3,7 +3,8 @@
 namespace Plugin\AceClient\AceServices\AceMethod;
 
 use Plugin\AceClient\ApiClient\Api\Client\ClientInterface;
-use Plugin\AceClient\Config\Model\AceMethod\AceMethodDetailModel;
+use Plugin\AceClient\AceConfig\Model\AceMethod\AceMethodDetailModel;
+use Plugin\AceClient\Util\ServiceRetriever\ServiceRetrieverInterface;
 
 /**
  * Interface for Ace Method Assistant
@@ -26,5 +27,12 @@ interface AceMethodAssistantInterface
      * @return AceMethodDetailModel
      */
     public function getConfig(): AceMethodDetailModel;
+
+    /**
+     * Get the Service Retriever.
+     * 
+     * @return ServiceRetrieverInterface
+     */
+    public function getServiceRetriever(): ServiceRetrieverInterface;
 
 }

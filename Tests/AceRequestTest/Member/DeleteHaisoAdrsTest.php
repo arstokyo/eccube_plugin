@@ -2,18 +2,16 @@
 
 namespace Plugin\AceClient\Tests\AceRequestTest\Member;
 
-use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr\RegMemAdrRequestModel;
 use Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr\MemberPrmModel;
 use Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr\NmemberModel;
 use Plugin\AceClient\AceServices\Model\Request\Member\DeleteHaisoAdrs\DeleteHaisoAdrsRequestModel;
 use Plugin\AceClient\AceServices\Model\Response\Member\DeleteHaisoAdrs\DeleteHaisoAdrsResponseModel;
-use Plugin\AceClient\AceClient;
 use GuzzleHttp\Exception\ClientException;
-use PHPUnit\Framework\Constraint\IsEmpty;
-use Plugin\AceClient\Utils\Mapper\OverviewMapper;
+use Plugin\AceClient\Util\Mapper\OverviewMapper;
+use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
 
-class DeleteHaisoAdrsRequestModelTest extends AbstractAdminWebTestCase
+class DeleteHaisoAdrsRequestModelTest extends AceRequestTestAbtract
 {
     private ?string $mcode = '105';
     private ?string $eda = '2';
@@ -63,18 +61,18 @@ class DeleteHaisoAdrsRequestModelTest extends AbstractAdminWebTestCase
     {
         try {
             $regMemAdrRequest = $this->callRegMemAdrRequestModel($mcode, $eda);
-            $response = (new AceClient)->makeMemberService()
-                                       ->makeRegMemAdrMethod()
-                                       ->withRequest($regMemAdrRequest)
-                                       ->send();
+            $response = $this->aceClient->makeMemberService()
+                                        ->makeRegMemAdrMethod()
+                                        ->withRequest($regMemAdrRequest)
+                                        ->send();
             if ($response->getStatusCode() === 200){
                 $targetEda = $response->getResponse()->getMember()->getNmember()->getEda();
 
                 $getDeleteHaisoAdrsRequest = $this->CallDeleteHaisoAdrsRequestModel($mcode, $targetEda);
-                $response = (new AceClient)->makeMemberService()
-                                        ->makeDeleteHaisoAdrsMethod()
-                                        ->withRequest($getDeleteHaisoAdrsRequest)
-                                        ->send();
+                $response = $this->aceClient->makeMemberService()
+                                            ->makeDeleteHaisoAdrsMethod()
+                                            ->withRequest($getDeleteHaisoAdrsRequest)
+                                            ->send();
                 if ($response->getStatusCode() === 200) {
                     /** @var DeleteHaisoAdrsResponseModel $responseObj */
                     $responseObj = $response->getResponse();
@@ -107,18 +105,18 @@ class DeleteHaisoAdrsRequestModelTest extends AbstractAdminWebTestCase
         try {
 
             $regMemAdrRequest = $this->callRegMemAdrRequestModel($mcode, $eda);
-            $response = (new AceClient)->makeMemberService()
-                                       ->makeRegMemAdrMethod()
-                                       ->withRequest($regMemAdrRequest)
-                                       ->send();
+            $response = $this->aceClient->makeMemberService()
+                                        ->makeRegMemAdrMethod()
+                                        ->withRequest($regMemAdrRequest)
+                                        ->send();
             if ($response->getStatusCode() === 200){
                 $targetEda = $response->getResponse()->getMember()->getNmember()->getEda();
 
                 $getDeleteHaisoAdrsRequest = $this->CallDeleteHaisoAdrsRequestModel(-999, $targetEda);
-                $response = (new AceClient)->makeMemberService()
-                                        ->makeDeleteHaisoAdrsMethod()
-                                        ->withRequest($getDeleteHaisoAdrsRequest)
-                                        ->send();
+                $response = $this->aceClient->makeMemberService()
+                                            ->makeDeleteHaisoAdrsMethod()
+                                            ->withRequest($getDeleteHaisoAdrsRequest)
+                                            ->send();
                 if ($response->getStatusCode() === 200) {
                     /** @var DeleteHaisoAdrsResponseModel $responseObj */
                     $responseObj = $response->getResponse();

@@ -2,28 +2,26 @@
 
 namespace Plugin\AceClient\Tests\AceRequestTest\Goods;
 
-use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Plugin\AceClient\AceServices\Model\Request\Goods\GetZaikoAll\GetZaikoAllRequestModel;
 use Plugin\AceClient\AceServices\Model\Response\Goods\GetZaikoAll\GetZaikoAllResponseModel;
-use Plugin\AceClient\AceClient;
 use GuzzleHttp\Exception\ClientException;
-use Plugin\AceClient\Utils\Mapper\OverviewMapper;
-use Plugin\AceClient\Utils\Serialize;
+use Plugin\AceClient\Util\Mapper\OverviewMapper;
+use Plugin\AceClient\Util\Serializer;
+use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
 
-
-class GetZaikoAllRequestModelTest extends AbstractAdminWebTestCase
+class GetZaikoAllRequestModelTest extends AceRequestTestAbtract
 {
     public function testSearializeGetZaikoAll()
     {
         $getZaikoAllRequestModel = $this->getZaikoAllRequestForSerialize();
-        $serializer = Serialize\SerializerFactory::makeSoapSerializerForTest();
+        $serializer = Serializer\SerializerFactory::makeSoapSerializerForTest();
         $serializedData = $serializer->serialize($getZaikoAllRequestModel);
 
         $xmlns = $serializer->getConfig()->getXmlns() ?
                  $serializer->getConfig()->getXmlns()['@xmlns'] :
-                 Serialize\SoapXMLSerializer::DEFAULT_XMLNS['@xmlns'];
-        $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_HEAD;
-        $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_END;
+                 Serializer\SoapXmlSerializer::DEFAULT_XMLNS['@xmlns'];
+        $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_HEAD;
+        $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_END;
         $expectedData =
         <<<XML
         {$soapHead}
@@ -68,10 +66,10 @@ class GetZaikoAllRequestModelTest extends AbstractAdminWebTestCase
     {
         try {
             $getZaikoAllRequest = $this->getZaikoAllRequestOK();
-            $response = (new AceClient)->makeGoodsService()
-                                       ->makeGetZaikoAllMethod()
-                                       ->withRequest($getZaikoAllRequest)
-                                       ->send();
+            $response = $this->aceClient->makeGoodsService()
+                                        ->makeGetZaikoAllMethod()
+                                        ->withRequest($getZaikoAllRequest)
+                                        ->send();
             if ($response->getStatusCode() === 200) {
                 /** @var GetZaikoAllResponseModel $responseObj */
                 $responseObj = $response->getResponse();
@@ -107,10 +105,10 @@ class GetZaikoAllRequestModelTest extends AbstractAdminWebTestCase
     {
         try {
             $getZaikoAllRequest = $this->getZaikoAllRequestNG();
-            $response = (new AceClient)->makeGoodsService()
-                                       ->makeGetZaikoAllMethod()
-                                       ->withRequest($getZaikoAllRequest)
-                                       ->send();
+            $response = $this->aceClient->makeGoodsService()
+                                        ->makeGetZaikoAllMethod()
+                                        ->withRequest($getZaikoAllRequest)
+                                        ->send();
             if ($response->getStatusCode() === 200) {
                 /** @var GetZaikoAllResponseModel $responseObj */
                 $responseObj = $response->getResponse();

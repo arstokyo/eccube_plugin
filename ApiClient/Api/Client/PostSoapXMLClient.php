@@ -4,7 +4,7 @@ namespace Plugin\AceClient\ApiClient\Api\Client;
 
 use Plugin\AceClient\Exception;
 use Plugin\AceClient\ApiClient\Api\DelegateInterface;
-use Plugin\AceClient\Utils\Mapper\EncodeDefineMapper;
+use Plugin\AceClient\Util\Mapper\EncodeDefineMapper;
 
 /**
  * PostSoapXMLClient
