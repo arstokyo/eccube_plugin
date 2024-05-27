@@ -7,6 +7,11 @@ use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient\ApiClient\Response\ResponseInterface;
 use Plugin\AceClient\Exception;
 
+/**
+ * Interface for Client
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 interface ClientInterface
 {
      /**

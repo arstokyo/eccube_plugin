@@ -21,7 +21,8 @@ class SoapXmlNormalizer implements NormalizerInterface
      * Constructor
      * 
      */
-    public function __construct() {
+    public function __construct() 
+    {
         // このクラスはまだ使っていないので、今後　編集する予定です。Thong
        $normalizer = NormalizerFactory::makeAnnotationNormalizers();
     }

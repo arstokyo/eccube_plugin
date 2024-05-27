@@ -11,7 +11,8 @@ use Plugin\AceClient\Util\ServiceRetriever\ServiceRetrieverInterface;
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class AceClient {
+class AceClient 
+{
 
     /** @var AceServiceFactory $serviceFactory */
     private AceServiceFactory $serviceFactory;
@@ -21,7 +22,8 @@ class AceClient {
      * 
      * @param ServiceRetrieverInterface $serviceRetriever
      */
-    public function __construct(
+    public function __construct
+    (
         private ServiceRetrieverInterface $serviceRetriever
     )
     {

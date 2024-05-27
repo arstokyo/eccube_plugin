@@ -26,7 +26,8 @@ class ServiceRetriever implements ServiceRetrieverInterface
      * @param AceConfigSerializerRetriever $aceConfigSerializerRetriever
      * @param ApiComponentRetriever $apiComponentRetriever
      */
-    public function __construct(
+    public function __construct
+    (
         private ConfigRepositoryRetriever $configRepositoryRetriever,
         private EccubeConfigRetriever $eccubeConfigRetriever,
         private AceConfigSerializerRetriever $aceConfigSerializerRetriever,

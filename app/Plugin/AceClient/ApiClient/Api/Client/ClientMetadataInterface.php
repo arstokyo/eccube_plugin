@@ -4,6 +4,11 @@ namespace Plugin\AceClient\ApiClient\Api\Client;
 
 use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
 
+/**
+ * Interface for ClientMetadata
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 interface ClientMetadataInterface
 {
      /**

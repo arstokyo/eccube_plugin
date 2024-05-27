@@ -23,8 +23,7 @@ class LoggerProvider
      * LoggerProvider constructor.
      * 
      */
-    public function __construct(
-    )
+    public function __construct()
     {
         $this->logger = LoggerFactory::makeLoggerByClassName(LoggerFactory::DEFAUT_LOGGER_CLASS);
         $this->nullLogger = LoggerFactory::makeLoggerByClassName(LoggerFactory::NULL_LOGGER_CLASS);

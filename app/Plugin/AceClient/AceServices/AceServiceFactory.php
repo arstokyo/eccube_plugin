@@ -18,7 +18,8 @@ class AceServiceFactory
      * 
      * @param ServiceRetrieverInterface $serviceRetriever
      */
-    public function __construct(
+    public function __construct
+    (
         private ServiceRetrieverInterface $serviceRetriever
     )
     {

@@ -19,10 +19,12 @@ class PostSoapXMLClient extends PostClientAbstract
      * @param string          $endpoint Target endpoint.
      * @param DelegateInterface $delegate Delegate instance.
      */
-    public function __construct(
+    public function __construct
+    (
         protected string $endpoint,
         protected DelegateInterface $delegate
-    ) {
+    ) 
+    {
     }
 
     /**

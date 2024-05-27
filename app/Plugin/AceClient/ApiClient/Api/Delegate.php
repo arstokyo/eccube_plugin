@@ -22,12 +22,14 @@ class Delegate implements DelegateInterface
      * @param Normalizer\NormalizerInterface $normalizer Normalizer instance.
      * @param LoggerInterface                $logger     Logger instance.
      */
-    public function __construct(
+    public function __construct
+    (
         protected ClientInterface $httpClient,
         protected Serializer\SerializerInterface $serializer,
         protected Normalizer\NormalizerInterface $normalizer,
         protected LoggerInterface $logger
-    ) {
+    ) 
+    {
     }
 
     /**

@@ -2,23 +2,28 @@
 
 namespace Plugin\AceClient\ApiClient\Response;
 
-use Plugin\AceClient\AceServices\MOdel\Response\ResponseModelInterface;
-
+/**
+ * Class for Api Client Response
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 class Response implements ResponseInterface
 {
 
-     /**
+    /**
      * Response constructor
      *
      * @param array<array-key, array<array-key, string>> $headers    Response headers.
      * @param mixed                                      $response   Response data.
      * @param integer                                    $statusCode Response status code.
      */
-    public function __construct(
+    public function __construct
+    (
         private array $headers,
         private mixed $response,
         private int $statusCode = 200
-    ) {
+    ) 
+    {
     }
 
     /**

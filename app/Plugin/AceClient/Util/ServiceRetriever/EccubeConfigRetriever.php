@@ -17,7 +17,8 @@ class EccubeConfigRetriever
      * 
      * @param EccubeConfig $eccubeConfig
      */
-    public function __construct(
+    public function __construct
+    (
         private EccubeConfig $eccubeConfig
     )
     {
