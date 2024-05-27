@@ -1,19 +1,19 @@
 <?php
+namespace Plugin\AceClient\AceServices\Model\Response\Goods\GetGoodsMany;
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Good;
-
+use Plugin\AceClient\AceServices\Model\Dependency\Good;
 use Plugin\AceClient\AceServices\Model\Dependency\Cost;
 use Plugin\AceClient\AceServices\Model\Dependency\Zaiko;
 
 /**
- * Class for GoodModelGroup3
+ * Class for GoodModel
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-class GoodModelGroup3 implements GoodModelGroup3Interface
+class GoodModel implements GoodModelInterface
 {
-    use GdidTrait,
-    GNameTrait,
+    use Good\GdidTrait,
+    Good\GNameTrait,
     Cost\Tanka\NineTankaTrait,
     Zaiko\ZaikoTrait;
 }

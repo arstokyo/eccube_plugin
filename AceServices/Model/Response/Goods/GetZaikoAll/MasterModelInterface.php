@@ -3,7 +3,6 @@
 namespace Plugin\AceClient\AceServices\Model\Response\Goods\GetZaikoAll;
 
 use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Good\GoodModelGroup5;
 use Plugin\AceClient\AceServices\Model\Response\AsListDenormalizableInterface;
 
 
@@ -18,14 +17,14 @@ interface MasterModelInterface extends HasMessageModelInterface,
     /**
      * Get Goods
      *
-     * @return GoodModelGroup5[]|null
+     * @return GoodModel[]|null
      */
     public function getGoods(): ?array;
 
     /**
      * Set Goods
      *
-     * @param GoodModelGroup5[]|null $goods
+     * @param GoodModel[]|null $goods
      * @return void
      */
     public function setGoods(array|null $goods): void;

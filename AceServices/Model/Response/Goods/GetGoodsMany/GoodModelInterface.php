@@ -1,18 +1,19 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Good;
+namespace Plugin\AceClient\AceServices\Model\Response\Goods\GetGoodsMany;
 
+use Plugin\AceClient\AceServices\Model\Dependency\Good;
 use Plugin\AceClient\AceServices\Model\Dependency\Cost;
 use Plugin\AceClient\AceServices\Model\Dependency\Zaiko;
 
 
 /**
- * Interface for GoodModelGroup3
+ * Interface for GoodModel
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface GoodModelGroup3Interface extends HasGdidInterface,
-                                           HasGNameInterface,
+interface GoodModelInterface extends Good\HasGdidInterface,
+                                           Good\HasGNameInterface,
                                            Cost\Tanka\HasNineTankaInterface,
                                            Zaiko\HasZaikoInterface
 {

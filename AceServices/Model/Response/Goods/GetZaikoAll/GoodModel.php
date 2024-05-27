@@ -1,18 +1,18 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Good;
+namespace Plugin\AceClient\AceServices\Model\Response\Goods\GetZaikoAll;
 
+use Plugin\AceClient\AceServices\Model\Dependency\Good;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
-use Plugin\AceClient\Exception\MissingRequestParameterException;
 
 /**
- * Class for GoodModelGroup5
+ * Class for GoodModel
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-class GoodModelGroup5 implements GoodModelGroup5Interface
+class GoodModel implements GoodModelInterface
 {
-    use GdidTrait,
+    use Good\GdidTrait,
         NoCategory\NameTrait;
 
     /** @var ?int $jsuu 受注可能数 */
