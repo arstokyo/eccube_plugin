@@ -29,8 +29,8 @@ class ConfigType extends AbstractType
                 ->add('is_log_on', ChoiceType::class,
                       [
                         'choices' => [
-                          'ログ出力する' => true,
-                          'ログ出力しない' => false,
+                          '有効' => true,
+                          '無効' => false,
                         ],
                         'expanded' => true,
                         'multiple' => false,
