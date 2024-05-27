@@ -2,28 +2,26 @@
 
 namespace Plugin\AceClient\Tests\AceRequestTest\Member;
 
-use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Plugin\AceClient\AceServices\Model\Request\Member\GetRirekiDetail\GetRirekiDetailRequestModel;
 use Plugin\AceClient\AceServices\Model\Response\Member\GetRirekiDetail\GetRirekiDetailResponseModel;
-use Plugin\AceClient\AceClient;
 use GuzzleHttp\Exception\ClientException;
-use Plugin\AceClient\Utils\Mapper\OverviewMapper;
-use Plugin\AceClient\Utils\Serialize;
+use Plugin\AceClient\Util\Mapper\OverviewMapper;
+use Plugin\AceClient\Util\Serializer;
+use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
 
-
-class GetRirekiDetailRequestModelTest extends AbstractAdminWebTestCase
+class GetRirekiDetailRequestModelTest extends AceRequestTestAbtract
 {
     public function testSearializeGetRirekiDetail()
     {
         $getRirekiDetailRequestModel = $this->getRirekiDetailRequestForSerialize();
-        $serializer = Serialize\SerializerFactory::makeSoapSerializerForTest();
+        $serializer = Serializer\SerializerFactory::makeSoapSerializerForTest();
         $serializedData = $serializer->serialize($getRirekiDetailRequestModel);
 
         $xmlns = $serializer->getConfig()->getXmlns() ?
                  $serializer->getConfig()->getXmlns()['@xmlns'] :
-                 Serialize\SoapXMLSerializer::DEFAULT_XMLNS['@xmlns'];
-        $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_HEAD;
-        $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_END;
+                 Serializer\SoapXmlSerializer::DEFAULT_XMLNS['@xmlns'];
+        $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_HEAD;
+        $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_END;
         $expectedData =
         <<<XML
         {$soapHead}
@@ -72,10 +70,10 @@ class GetRirekiDetailRequestModelTest extends AbstractAdminWebTestCase
     {
         try {
             $getRirekiDetailRequest = $this->getRirekiDetailRequestNG();
-            $response = (new AceClient)->makeMemberService()
-                                       ->makeGetRirekiDetailMethod()
-                                       ->withRequest($getRirekiDetailRequest)
-                                       ->send();
+            $response = $this->aceClient->makeMemberService()
+                                        ->makeGetRirekiDetailMethod()
+                                        ->withRequest($getRirekiDetailRequest)
+                                        ->send();
             if ($response->getStatusCode() === 200) {
                 /** @var GetRirekiDetailResponseModel $responseObj */
                 $responseObj = $response->getResponse();
@@ -100,10 +98,10 @@ class GetRirekiDetailRequestModelTest extends AbstractAdminWebTestCase
     {
         try {
             $getRirekiDetailRequest = $this->getRirekiDetailRequestOK();
-            $response = (new AceClient)->makeMemberService()
-                                       ->makeGetRirekiDetailMethod()
-                                       ->withRequest($getRirekiDetailRequest)
-                                       ->send();
+            $response = $this->aceClient->makeMemberService()
+                                        ->makeGetRirekiDetailMethod()
+                                        ->withRequest($getRirekiDetailRequest)
+                                        ->send();
             if ($response->getStatusCode() === 200) {
                 /** @var GetRirekiDetailResponseModel $responseObj */
                 $responseObj = $response->getResponse();

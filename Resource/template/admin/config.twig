@@ -30,6 +30,14 @@
                                     {{ form_errors(form.base_uri) }}
                                 </div>
                             </div>
+                             <div class="row">
+                                <div class="col-3"><span>ログ有効</span><span
+                                            class="badge bg-primary ml-1">必須</span></div>
+                                <div class="col mb-2">
+                                    {{ form_widget(form.is_log_on) }}
+                                    {{ form_errors(form.is_log_on) }}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

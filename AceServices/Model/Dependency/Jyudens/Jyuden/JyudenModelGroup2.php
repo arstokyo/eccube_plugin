@@ -10,7 +10,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\Person\Nmember;
 use Plugin\AceClient\AceServices\Model\Dependency\OkuriAndNouhin;
 use Plugin\AceClient\AceServices\Model\Dependency\Good;
 use Plugin\AceClient\AceServices\Model\Dependency\Cost;
-use Plugin\AceClient\Utils\Converter\NumberConverter;
+use Plugin\AceClient\Util\Converter\NumberConverter;
 
 /**
  * Model for Jyuden Group2

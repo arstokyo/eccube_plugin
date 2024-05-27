@@ -2,8 +2,8 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request\Prm;
 
-use Plugin\AceClient\Utils\Denormalize\OTD;
-use Plugin\AceClient\Utils\Mapper\EncodeDefineMapper;
+use Plugin\AceClient\Util\Denormalizer\OTD;
+use Plugin\AceClient\Util\Mapper\EncodeDefineMapper;
 use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Serializer\SerializerInterface;
 

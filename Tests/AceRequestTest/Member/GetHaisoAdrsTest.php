@@ -2,15 +2,13 @@
 
 namespace Plugin\AceClient\Tests\AceRequestTest\Member;
 
-use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Plugin\AceClient\AceServices\Model\Request\Member\GetHaisoAdrs\GetHaisoAdrsRequestModel;
 use Plugin\AceClient\AceServices\Model\Response\Member\GetHaisoAdrs\GetHaisoAdrsResponseModel;
-use Plugin\AceClient\AceClient;
 use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
+use Plugin\AceClient\Util\Mapper\OverviewMapper;
 
-use Plugin\AceClient\Utils\Mapper\OverviewMapper;
-
-class GetHaisoAdrsRequestModelTest extends AbstractAdminWebTestCase
+class GetHaisoAdrsRequestModelTest extends AceRequestTestAbtract
 {
     public function getHaisoAdrsRequestModelOK(?string $c)
     {
@@ -33,10 +31,10 @@ class GetHaisoAdrsRequestModelTest extends AbstractAdminWebTestCase
 
         $getHaisoAdrsRequest = $this->getHaisoAdrsRequestModelOK($code);
 
-        $response = (new AceClient)->makeMemberService()
-                                   ->makeGetHaisoAdrsMethod()
-                                   ->withRequest($getHaisoAdrsRequest)
-                                   ->send();
+        $response = $this->aceClient->makeMemberService()
+                                    ->makeGetHaisoAdrsMethod()
+                                    ->withRequest($getHaisoAdrsRequest)
+                                    ->send();
         if ($response->getStatusCode() === 200) {
             /** @var GetHaisoAdrsResponseModel $responseObj */
             $responseObj = $response->getResponse();
@@ -78,10 +76,10 @@ class GetHaisoAdrsRequestModelTest extends AbstractAdminWebTestCase
     try {
         $code = 'nobody';
         $getHaisoAdrsRequest = $this->getHaisoAdrsRequestModelNG($code);
-        $response = (new AceClient)->makeMemberService()
-                                   ->makeGetHaisoAdrsMethod()
-                                   ->withRequest($getHaisoAdrsRequest)
-                                   ->send();
+        $response = $this->aceClient->makeMemberService()
+                                    ->makeGetHaisoAdrsMethod()
+                                    ->withRequest($getHaisoAdrsRequest)
+                                    ->send();
         if ($response->getStatusCode() === 200) {
             /** @var GetHaisoAdrsResponseModel $responseObj */
             $responseObj = $response->getResponse();
@@ -105,10 +103,10 @@ class GetHaisoAdrsRequestModelTest extends AbstractAdminWebTestCase
     try {
         $code = 104;
         $getHaisoAdrsRequest = $this->getHaisoAdrsRequestModelOK($code);
-        $response = (new AceClient)->makeMemberService()
-                                   ->makeGetHaisoAdrsMethod()
-                                   ->withRequest($getHaisoAdrsRequest)
-                                   ->send();
+        $response = $this->aceClient->makeMemberService()
+                                    ->makeGetHaisoAdrsMethod()
+                                    ->withRequest($getHaisoAdrsRequest)
+                                    ->send();
         if ($response->getStatusCode() === 200) {
             /** @var GetHaisoAdrsResponseModel $responseObj */
             $responseObj = $response->getResponse();

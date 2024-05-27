@@ -22,7 +22,7 @@ class GoodsService extends AceServiceAbstract implements AceServiceInterface
      */
     public function makeGetGoodsMethod(): AceMethod\Goods\GetGoodsMethod
     {
-        return new AceMethod\Goods\GetGoodsMethod($this->baseServiceName);
+        return new AceMethod\Goods\GetGoodsMethod($this->baseServiceName, $this->serviceRetriever);
     }
 
     /**
@@ -32,7 +32,7 @@ class GoodsService extends AceServiceAbstract implements AceServiceInterface
      */
     public function makeGetGoodsManyMethod(): AceMethod\Goods\GetGoodsManyMethod
     {
-        return new AceMethod\Goods\GetGoodsManyMethod($this->baseServiceName);
+        return new AceMethod\Goods\GetGoodsManyMethod($this->baseServiceName, $this->serviceRetriever);
     }
 
     /**
@@ -42,7 +42,7 @@ class GoodsService extends AceServiceAbstract implements AceServiceInterface
      */
     public function makeGetZaikoMethod(): AceMethod\Goods\GetZaikoMethod
     {
-        return new AceMethod\Goods\GetZaikoMethod($this->baseServiceName);
+        return new AceMethod\Goods\GetZaikoMethod($this->baseServiceName, $this->serviceRetriever);
     }
 
     /**
@@ -52,7 +52,7 @@ class GoodsService extends AceServiceAbstract implements AceServiceInterface
      */
     public function makeGetZaikoAllMethod(): AceMethod\Goods\GetZaikoAllMethod
     {
-        return new AceMethod\Goods\GetZaikoAllMethod($this->baseServiceName);
+        return new AceMethod\Goods\GetZaikoAllMethod($this->baseServiceName, $this->serviceRetriever);
     }
 
     /**
@@ -62,6 +62,6 @@ class GoodsService extends AceServiceAbstract implements AceServiceInterface
      */
     public function makeGetGtankaMethod(): AceMethod\Goods\GetGtankaMethod
     {
-        return new AceMethod\Goods\GetGtankaMethod($this->baseServiceName);
+        return new AceMethod\Goods\GetGtankaMethod($this->baseServiceName, $this->serviceRetriever);
     }
 }

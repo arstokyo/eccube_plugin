@@ -4,6 +4,7 @@ namespace Plugin\AceClient;
 
 use Plugin\AceClient\AceServices\AceServiceFactory;
 use Plugin\AceClient\AceServices\Service;
+use Plugin\AceClient\Util\ServiceRetriever\ServiceRetrieverInterface;
 
 /**
  * Class for AceClient
@@ -12,6 +13,21 @@ use Plugin\AceClient\AceServices\Service;
  */
 class AceClient {
 
+    /** @var AceServiceFactory $serviceFactory */
+    private AceServiceFactory $serviceFactory;
+
+    /**
+     * AceClient constructor.
+     * 
+     * @param ServiceRetrieverInterface $serviceRetriever
+     */
+    public function __construct(
+        private ServiceRetrieverInterface $serviceRetriever
+    )
+    {
+        $this->serviceFactory = new AceServiceFactory($serviceRetriever);
+    }
+
     /**
      * Make AceJyudenService
      * 
@@ -19,7 +35,7 @@ class AceClient {
      */
     public function makeJyudenService() : Service\JyudenService
     {
-        return AceServiceFactory::makeJyudenService();
+        return $this->serviceFactory->makeJyudenService();
     }
 
     /**
@@ -29,7 +45,7 @@ class AceClient {
      */
     public function makeMemberService() : Service\MemberService
     {
-        return AceServiceFactory::makeMemberService();
+        return $this->serviceFactory->makeMemberService();
     }
 
     /**
@@ -39,7 +55,7 @@ class AceClient {
      */
     public function makeGoodsService() : Service\GoodsService
     {
-        return AceServiceFactory::makeGoodsService();
+        return $this->serviceFactory->makeGoodsService();
     }
 
     /**
@@ -49,7 +65,7 @@ class AceClient {
      */
     public function makeMaster2Service() : Service\Master2Service
     {
-        return AceServiceFactory::makeMaster2Service();
+        return $this->serviceFactory->makeMaster2Service();
     }
 
 }

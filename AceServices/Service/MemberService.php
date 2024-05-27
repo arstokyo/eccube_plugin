@@ -23,7 +23,7 @@ class MemberService extends AceServiceAbstract implements AceServiceInterface
      */
     public function makeGetPointMethod(): AceMethod\Member\GetPointMethod
     {
-        return new AceMethod\Member\GetPointMethod($this->baseServiceName);
+        return new AceMethod\Member\GetPointMethod($this->baseServiceName, $this->serviceRetriever);
     }
 
     /**
@@ -33,7 +33,7 @@ class MemberService extends AceServiceAbstract implements AceServiceInterface
      */
     public function makeRegMemAdrMethod(): AceMethod\Member\RegMemAdrMethod
     {
-        return new AceMethod\Member\RegMemAdrMethod($this->baseServiceName);
+        return new AceMethod\Member\RegMemAdrMethod($this->baseServiceName, $this->serviceRetriever);
     }
 
     /**
@@ -43,7 +43,7 @@ class MemberService extends AceServiceAbstract implements AceServiceInterface
      */
     public function makeCheckMailAdressMethod(): AceMethod\Member\CheckMailAdressMethod
     {
-        return new AceMethod\Member\CheckMailAdressMethod($this->baseServiceName);
+        return new AceMethod\Member\CheckMailAdressMethod($this->baseServiceName, $this->serviceRetriever);
     }
 
     /**
@@ -53,7 +53,7 @@ class MemberService extends AceServiceAbstract implements AceServiceInterface
      */
     public function makeDeleteHaisoAdrsMethod(): AceMethod\Member\DeleteHaisoAdrsMethod
     {
-        return new AceMethod\Member\DeleteHaisoAdrsMethod($this->baseServiceName);
+        return new AceMethod\Member\DeleteHaisoAdrsMethod($this->baseServiceName, $this->serviceRetriever);
     }
 
     /**
@@ -63,7 +63,7 @@ class MemberService extends AceServiceAbstract implements AceServiceInterface
      */
     public function makeGetHaisoAdrsMethod(): AceMethod\Member\GetHaisoAdrsMethod
     {
-        return new AceMethod\Member\GetHaisoAdrsMethod($this->baseServiceName);
+        return new AceMethod\Member\GetHaisoAdrsMethod($this->baseServiceName, $this->serviceRetriever);
     }
 
     /**
@@ -73,7 +73,7 @@ class MemberService extends AceServiceAbstract implements AceServiceInterface
      */
     public function makeGetReminderMethod(): AceMethod\Member\GetReminderMethod
     {
-        return new AceMethod\Member\GetReminderMethod($this->baseServiceName);
+        return new AceMethod\Member\GetReminderMethod($this->baseServiceName, $this->serviceRetriever);
     }
 
     /**
@@ -83,7 +83,7 @@ class MemberService extends AceServiceAbstract implements AceServiceInterface
      */
     public function makeGetMemberMethod(): AceMethod\Member\GetMemberMethod
     {
-        return new AceMethod\Member\GetMemberMethod($this->baseServiceName);
+        return new AceMethod\Member\GetMemberMethod($this->baseServiceName, $this->serviceRetriever);
     }
 
     /**
@@ -93,7 +93,7 @@ class MemberService extends AceServiceAbstract implements AceServiceInterface
      */
     public function makeRegMemberMethod(): AceMethod\Member\RegMemberMethod
     {
-        return new AceMethod\Member\RegMemberMethod($this->baseServiceName);
+        return new AceMethod\Member\RegMemberMethod($this->baseServiceName, $this->serviceRetriever);
     }
 
     /**
@@ -103,7 +103,7 @@ class MemberService extends AceServiceAbstract implements AceServiceInterface
      */
     public function makeGetRirekiMethod(): AceMethod\Member\GetRirekiMethod
     {
-        return new AceMethod\Member\GetRirekiMethod($this->baseServiceName);
+        return new AceMethod\Member\GetRirekiMethod($this->baseServiceName, $this->serviceRetriever);
     }
 
     /**
@@ -113,6 +113,6 @@ class MemberService extends AceServiceAbstract implements AceServiceInterface
      */
     public function makeGetRirekiDetailMethod(): AceMethod\Member\GetRirekiDetailMethod
     {
-        return new AceMethod\Member\GetRirekiDetailMethod($this->baseServiceName);
+        return new AceMethod\Member\GetRirekiDetailMethod($this->baseServiceName, $this->serviceRetriever);
     }
 }
