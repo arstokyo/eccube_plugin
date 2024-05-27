@@ -42,6 +42,6 @@ class JyudenService extends AceServiceAbstract implements AceServiceInterface
      */
     public function makeGetDeliveryInfoMethod(): AceMethod\Jyuden\GetDeliveryInfoMethod
     {
-        return new AceMethod\Jyuden\GetDeliveryInfoMethod($this->baseServiceName);
+        return new AceMethod\Jyuden\GetDeliveryInfoMethod($this->baseServiceName, $this->serviceRetriever);
     }
 }

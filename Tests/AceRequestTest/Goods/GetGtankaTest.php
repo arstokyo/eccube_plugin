@@ -2,28 +2,26 @@
 
 namespace Plugin\AceClient\Tests\AceRequestTest\Goods;
 
-use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Plugin\AceClient\AceServices\Model\Request\Goods\GetGtanka\GetGtankaRequestModel;
 use Plugin\AceClient\AceServices\Model\Response\Goods\GetGtanka\GetGtankaResponseModel;
-use Plugin\AceClient\AceClient;
 use GuzzleHttp\Exception\ClientException;
-use Plugin\AceClient\Utils\Mapper\OverviewMapper;
-use Plugin\AceClient\Utils\Serialize;
+use Plugin\AceClient\Util\Mapper\OverviewMapper;
+use Plugin\AceClient\Util\Serializer;
+use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
 
-
-class GetGtankaRequestModelTest extends AbstractAdminWebTestCase
+class GetGtankaRequestModelTest extends AceRequestTestAbtract
 {
     public function testSearializeGetGtanka()
     {
         $getGtankaRequestModel = $this->getGtankaRequestForSerialize();
-        $serializer = Serialize\SerializerFactory::makeSoapSerializerForTest();
+        $serializer = Serializer\SerializerFactory::makeSoapSerializerForTest();
         $serializedData = $serializer->serialize($getGtankaRequestModel);
 
         $xmlns = $serializer->getConfig()->getXmlns() ?
                  $serializer->getConfig()->getXmlns()['@xmlns'] :
-                 Serialize\SoapXMLSerializer::DEFAULT_XMLNS['@xmlns'];
-        $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_HEAD;
-        $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_END;
+                 Serializer\SoapXmlSerializer::DEFAULT_XMLNS['@xmlns'];
+        $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_HEAD;
+        $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_END;
         $expectedData =
         <<<XML
         {$soapHead}
@@ -65,7 +63,7 @@ class GetGtankaRequestModelTest extends AbstractAdminWebTestCase
     {
         try {
             $getGtankaRequest = $this->getGtankaRequestOK();
-            $response = (new AceClient)->makeGoodsService()
+            $response = $this->aceClient->makeGoodsService()
                                        ->makeGetGtankaMethod()
                                        ->withRequest($getGtankaRequest)
                                        ->send();
@@ -144,7 +142,7 @@ class GetGtankaRequestModelTest extends AbstractAdminWebTestCase
     {
         try {
             $getGtankaRequest = $this->getGtankaRequestNG();
-            $response = (new AceClient)->makeGoodsService()
+            $response = $this->aceClient->makeGoodsService()
                                        ->makeGetGtankaMethod()
                                        ->withRequest($getGtankaRequest)
                                        ->send();

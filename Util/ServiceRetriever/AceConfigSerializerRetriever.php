@@ -16,7 +16,8 @@ class AceConfigSerializerRetriever
      * 
      * @param AceConfigSerializer $aceConfigSerializer
      */
-    public function __construct(
+    public function __construct
+    (
         private AceConfigSerializer $aceConfigSerializer
     )
     {

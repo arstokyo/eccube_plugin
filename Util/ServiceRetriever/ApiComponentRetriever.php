@@ -22,7 +22,8 @@ class ApiComponentRetriever
      * @param LoggerProvider $loggerProvider
      * @param SoapXmlNormalizer $normalizer
      */
-    public function __construct(
+    public function __construct
+    (
         private SoapXmlSerializerProvider $SoapXmlSerializerProvider,
         private LoggerProvider $loggerProvider,
         private SoapXmlNormalizer $normalizer,

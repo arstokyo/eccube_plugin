@@ -31,7 +31,8 @@ final class SerializerFactory
      * 
      * @return Serializer
      */
-    public static function makeXmlSerializer(): SerializerInterface {
+    public static function makeXmlSerializer(): SerializerInterface 
+    {
         return self::makeSerializer(NormalizerFactory::makeAnnotationNormalizers(), [new XmlEncoder()]);
     }
 
@@ -40,7 +41,8 @@ final class SerializerFactory
      * 
      * @return AceSerializer\SoapXmlSerializer
      */
-    public static function makeSoapSerializerForTest(): AceSerializer\SoapXmlSerializer {
+    public static function makeSoapSerializerForTest(): AceSerializer\SoapXmlSerializer 
+    {
         return new AceSerializer\SoapXmlSerializer(NormalizerFactory::makeDefaultSoapNormalizers(), [new XmlEncoder()], new AceConfigSerializer());
     }
 
@@ -49,11 +51,13 @@ final class SerializerFactory
      * 
      * @return Serializer
      */
-    public static function makeJsonSerializer(): SerializerInterface {
+    public static function makeJsonSerializer(): SerializerInterface 
+    {
         return self::makeSerializer(NormalizerFactory::makeAnnotationNormalizers(), [new JsonEncoder()]);
     }
 
-    public static function makeDTOSerializer(): SerializerInterface {
+    public static function makeDTOSerializer(): SerializerInterface 
+    {
         return self::makeSerializer(array_merge(NormalizerFactory::makeDTONormalizers(),[DenormalizerFactory::makeArrayDenormalizer()]), [new JsonEncoder()]);
     }
 

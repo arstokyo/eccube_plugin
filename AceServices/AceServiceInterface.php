@@ -7,6 +7,7 @@ namespace Plugin\AceClient\AceServices;
  * 
  * @author Ars-Thong<v.t.nguyen@ar-sytem.co.jp>
  */
-interface AceServiceInterface {
+interface AceServiceInterface 
+{
     
 }

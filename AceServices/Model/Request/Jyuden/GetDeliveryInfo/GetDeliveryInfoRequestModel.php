@@ -10,7 +10,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\Day;
 /**
  * Class GetDeliveryInfoRequestModel
  *
- * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
 class GetDeliveryInfoRequestModel extends RequestModelAbstract implements GetDeliveryInfoRequestModelInterface
 {

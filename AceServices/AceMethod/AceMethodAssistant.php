@@ -151,9 +151,10 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
      */
     private function buildSerializer(): SerializerInterface
     {
-        if (SerializerFactory::DEFAULT_SERIALIZER === $this->config->getSerializer()->getClassName() &&
-            EncoderFactory::DEFAULT_ENCODER_FOR_SOAP_SERIALIZER === $this->config->getSerializer()->getEncoder() &&
-            NormalizerFactory::DEFAULT_NORMALIZERS_FOR_SOAP_SERIALIZER === $this->config->getSerializer()->getNormalizers()) 
+        if ((empty($this->config->getSerializer()->getClassName()) ? true : SerializerFactory::DEFAULT_SERIALIZER === $this->config->getSerializer()->getClassName()) &&
+            (empty($this->config->getSerializer()->getEncoder()) ? true : EncoderFactory::DEFAULT_ENCODER_FOR_SOAP_SERIALIZER === $this->config->getSerializer()->getEncoder()) &&
+            (empty($this->config->getSerializer()->getNormalizers()) ? true : NormalizerFactory::DEFAULT_NORMALIZERS_FOR_SOAP_SERIALIZER === $this->config->getSerializer()->getNormalizers())
+        ) 
         {
             return $this->serviceRetriever->getSoapXmlProvider()->getSoapXmlSerializer();
         }
@@ -173,10 +174,13 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
      */
     private function buildNormalizersForSerializer(): array
     {
-        if (NormalizerFactory::DEFAULT_NORMALIZERS_FOR_SOAP_SERIALIZER === $this->config->getSerializer()->getNormalizers()) {
+        if (empty($this->config->getSerializer()->getNormalizers()) or
+            NormalizerFactory::DEFAULT_NORMALIZERS_FOR_SOAP_SERIALIZER === $this->config->getSerializer()->getNormalizers()
+        ) 
+        {
             return $this->serviceRetriever->getSoapXmlProvider()->getNormalizers();
         }
-        $callfuncSuffix = $this->config->getSerializer()->getNormalizers() ?: NormalizerFactory::DEFAULT_NORMALIZERS_FOR_SOAP_SERIALIZER;
+        $callfuncSuffix = $this->config->getSerializer()->getNormalizers();
         return NormalizerFactory::makeNormalizerByFuncNameSuffix($callfuncSuffix);
     }
 
@@ -190,10 +194,13 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
      */
     private function buildEncoders(): array
     {
-        if (EncoderFactory::DEFAULT_ENCODER_FOR_SOAP_SERIALIZER === $this->config->getSerializer()->getEncoder()) {
+        if (empty($this->config->getSerializer()->getEncoder()) or
+            EncoderFactory::DEFAULT_ENCODER_FOR_SOAP_SERIALIZER === $this->config->getSerializer()->getEncoder()
+        ) 
+        {
             return $this->serviceRetriever->getSoapXmlProvider()->getEncoders();
         }
-        return [EncoderFactory::makeEncoderByClassName($this->config->getSerializer()->getEncoder() ?: EncoderFactory::DEFAULT_ENCODER_FOR_SOAP_SERIALIZER)];
+        return [EncoderFactory::makeEncoderByClassName($this->config->getSerializer()->getEncoder())];
     }
 
     /**
@@ -206,10 +213,13 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
      */
     private function buildNormalizer(): NormalizerInterface
     {
-        if (NormalizerFactory::DEFAULT_NORMALIZER === $this->config->getNormalizer()->getClassName()) {
+        if (empty($this->config->getNormalizer()->getClassName()) or 
+            NormalizerFactory::DEFAULT_NORMALIZER === $this->config->getNormalizer()->getClassName()
+        )
+        {
             return $this->serviceRetriever->getNormalizer();
         }
-        return NormalizerFactory::makeNormalizerByClassName($this->config->getNormalizer()->getClassName() ?: NormalizerFactory::DEFAULT_NORMALIZER);
+        return NormalizerFactory::makeNormalizerByClassName($this->config->getNormalizer()->getClassName());
     }
 
     /**

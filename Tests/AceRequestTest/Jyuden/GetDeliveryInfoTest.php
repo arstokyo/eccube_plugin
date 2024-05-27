@@ -2,28 +2,27 @@
 
 namespace Plugin\AceClient\Tests\AceRequestTest\Jyuden;
 
-use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\GetDeliveryInfo\GetDeliveryInfoRequestModel;
 use Plugin\AceClient\AceServices\Model\Response\Jyuden\GetDeliveryInfo\GetDeliveryInfoResponseModel;
-use Plugin\AceClient\AceClient;
 use GuzzleHttp\Exception\ClientException;
-use Plugin\AceClient\Utils\Mapper\OverviewMapper;
-use Plugin\AceClient\Utils\Serialize;
+use Plugin\AceClient\Util\Mapper\OverviewMapper;
+use Plugin\AceClient\Util\Serializer;
+use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
 
 
-class GetDeliveryInfoRequestModelTest extends AbstractAdminWebTestCase
+class GetDeliveryInfoRequestModelTest extends AceRequestTestAbtract
 {
     public function testSearializeGetDeliveryInfo()
     {
         $getDeliveryInfoRequestModel = $this->GetDeliveryInfoRequestForSerialize();
-        $serializer = Serialize\SerializerFactory::makeSoapSerializerForTest();
+        $serializer = Serializer\SerializerFactory::makeSoapSerializerForTest();
         $serializedData = $serializer->serialize($getDeliveryInfoRequestModel);
 
         $xmlns = $serializer->getConfig()->getXmlns() ?
                  $serializer->getConfig()->getXmlns()['@xmlns'] :
-                 Serialize\SoapXMLSerializer::DEFAULT_XMLNS['@xmlns'];
-        $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_HEAD;
-        $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_END;
+                 Serializer\SoapXmlSerializer::DEFAULT_XMLNS['@xmlns'];
+        $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_HEAD;
+        $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_END;
         $expectedData =
         <<<XML
         {$soapHead}
@@ -65,7 +64,7 @@ class GetDeliveryInfoRequestModelTest extends AbstractAdminWebTestCase
     {
         try {
             $getDeliveryInfoRequest = $this->GetDeliveryInfoRequestOK();
-            $response = (new AceClient)->makeJyudenService()
+            $response = $this->aceClient->makeJyudenService()
                                        ->makeGetDeliveryInfoMethod()
                                        ->withRequest($getDeliveryInfoRequest)
                                        ->send();
@@ -138,7 +137,7 @@ class GetDeliveryInfoRequestModelTest extends AbstractAdminWebTestCase
     {
         try {
             $getDeliveryInfoRequest = $this->GetDeliveryInfoRequestNG();
-            $response = (new AceClient)->makeJyudenService()
+            $response = $this->aceClient->makeJyudenService()
                                        ->makeGetDeliveryInfoMethod()
                                        ->withRequest($getDeliveryInfoRequest)
                                        ->send();

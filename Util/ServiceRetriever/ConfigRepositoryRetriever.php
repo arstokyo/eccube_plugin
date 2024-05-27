@@ -19,7 +19,8 @@ class ConfigRepositoryRetriever
      * @param EntityManagerInterface $entityManager
      * @param ConfigRepository $configRepository
      */
-    public function __construct(
+    public function __construct
+    (
         private EntityManagerInterface $entityManager,
         private ConfigRepository $configRepository
     )

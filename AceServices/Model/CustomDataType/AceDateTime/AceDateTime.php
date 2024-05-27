@@ -205,7 +205,6 @@ class AceDateTime  implements AceDateTimeInterface
      */
     private function tryParseToAceFormat(string $dateTime): DateTime|false
     {
-
         foreach ($this->aceDateTimeFormats as $format) {
             $result = DateTime::createFromFormat($format, $dateTime);
             if ($result !== false) {
