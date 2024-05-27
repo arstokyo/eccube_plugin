@@ -13,19 +13,19 @@ use Psr\Log\NullLogger;
 class LoggerProvider
 {
 
-    /** @var LoggerInterface $logger */
-    private LoggerInterface $logger;
-
     /** @var NullLogger $nullLogger */
     private NullLogger $nullLogger;
 
     /**
      * LoggerProvider constructor.
      * 
+     * @param LoggerInterface $logger Logger.
      */
-    public function __construct()
+    public function __construct
+    (
+        private LoggerInterface $logger,
+    )
     {
-        $this->logger = LoggerFactory::makeLoggerByClassName(LoggerFactory::DEFAUT_LOGGER_CLASS);
         $this->nullLogger = LoggerFactory::makeLoggerByClassName(LoggerFactory::NULL_LOGGER_CLASS);
     }
 

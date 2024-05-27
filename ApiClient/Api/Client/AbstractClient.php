@@ -99,10 +99,14 @@ class AbstractClient implements ClientInterface
      */
     public function send(): Response\ResponseInterface
     {
+        $options = $this->buildOptions();
+        $uri = $this->buildUri();
+        $this->delegate->getLogger()->debug(sprintf("[AceClient] Request to uri '%s' with content: %s", $uri ?: 'empty', isset($options['body']) ? $options['body'] : 'empty'));
+
         $rawResponse = $this->delegate->getHttpClient()->request(
             $this->requestmethod,
-            $this->buildUri(),
-            $this->buildOptions()
+            $uri ,
+            $options
         );
         return $this->deserializeResponse($rawResponse);
     }
@@ -142,15 +146,17 @@ class AbstractClient implements ClientInterface
     {
         try {
             $responseContent = $psrResponse->getBody()->getContents();
+            $this->delegate->getLogger()->debug(sprintf("[AceClient] Api response with status %s and content: %s", $psrResponse->getStatusCode(), $responseContent ?: 'empty'));
+
             $response = empty($this->responseObject)
-                ? $responseContent
-                : $this->delegate->getSerializer()->deserialize(
-                    $responseContent,
-                    $this->responseObject,
-                    $this->getResponseDeserializationFormat($psrResponse)
-                );
+                        ? $responseContent
+                        : $this->delegate->getSerializer()->deserialize(
+                            $responseContent,
+                            $this->responseObject,
+                            $this->getResponseDeserializationFormat($psrResponse)
+                        );
         } catch (\Throwable $t) {
-            $this->delegate->getLogger()->error("API Client error: {$t->getMessage()}");
+            $this->delegate->getLogger()->error("[AceClient] error: {$t->getMessage()}");
             throw new Exception\CanNotBuildResponseException('Cannot fetch and deserialize response content', $t);
         }
         return new Response\Response($psrResponse->getHeaders(), $response, $psrResponse->getStatusCode());
@@ -169,13 +175,13 @@ class AbstractClient implements ClientInterface
     {
         $responseContentType    = $psrResponse->getHeaderLine('content-type');
         $contentTypeToFormatMap = [
+            'application/soap+xml' => 'xml',
             'application/json'     => 'json',
             'application/x-json'   => 'json',
             'application/ld+json'  => 'json',
             'text/xml'             => 'xml',
             'application/xml'      => 'xml',
             'application/x-xml'    => 'xml',
-            'application/soap+xml' => 'xml',
             'text/csv'             => 'csv',
         ];
         foreach ($contentTypeToFormatMap as $contentType => $format) {
