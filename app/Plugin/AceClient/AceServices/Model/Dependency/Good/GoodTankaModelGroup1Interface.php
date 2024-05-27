@@ -19,7 +19,6 @@ interface GoodTankaModelGroup1Interface extends Cost\Tanka\HasTankaKbnInterface,
                                                 HasGdidInterface
 {
 
-
     /**
      * Get 税率
      *

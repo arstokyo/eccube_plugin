@@ -54,4 +54,14 @@ class GoodsService extends AceServiceAbstract implements AceServiceInterface
     {
         return new AceMethod\Goods\GetZaikoAllMethod($this->baseServiceName);
     }
+
+    /**
+     * Make GetGtankaMethod
+     *
+     * @return AceMethod\Goods\GetGtankaMethod
+     */
+    public function makeGetGtankaMethod(): AceMethod\Goods\GetGtankaMethod
+    {
+        return new AceMethod\Goods\GetGtankaMethod($this->baseServiceName);
+    }
 }
