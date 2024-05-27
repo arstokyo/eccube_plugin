@@ -1,15 +1,16 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Good;
+namespace Plugin\AceClient\AceServices\Model\Response\Goods\GetZaikoAll;
 
+use Plugin\AceClient\AceServices\Model\Dependency\Good;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
- * Interface for GoodModelGroup5
+ * Interface for GoodModel
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface GoodModelGroup5Interface extends HasGdidInterface,
+interface GoodModelInterface extends Good\HasGdidInterface,
                                            NoCategory\HasNameInterface
 {
     /**

@@ -4,7 +4,6 @@ namespace Plugin\AceClient\AceServices\Model\Response\Goods\GetGoodsMany;
 
 use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelTrait;
 use Plugin\AceClient\AceServices\Model;
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelAbtract;
 
 /**
  * Class for GoodsModel
@@ -16,7 +15,7 @@ class GoodsModel implements GoodsModelInterface
     use HasMessageModelTrait;
 
     /**
-     * @var Model\Dependency\Good\GoodModelGroup3Interface[]|null $Good Good
+     * @var GoodModelInterface[]|null $Good Good
      */
     private ?array $Good = null;
 
@@ -41,7 +40,7 @@ class GoodsModel implements GoodsModelInterface
     public static function fetchAsListProperty(): array
     {
         return [
-                'Goods' => Model\Dependency\Good\GoodModelGroup3::class
+                'Goods' => GoodModel::class
                ];
     }
 }

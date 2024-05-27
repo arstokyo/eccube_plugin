@@ -3,7 +3,6 @@
 namespace Plugin\AceClient\AceServices\Model\Response\Goods\GetZaiko;
 
 use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Good\GoodModelGroup4;
 
 /**
  * Class for MasterModel
@@ -14,21 +13,21 @@ class MasterModel implements MasterModelInterface
 {
     use HasMessageModelTrait;
     /**
-     * @var GoodModelGroup4|null $Goods Goods
+     * @var GoodModel|null $Goods Goods
      */
-    private ?GoodModelGroup4 $Goods = null;
+    private ?GoodModel $Goods = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getGoods(): ?GoodModelGroup4{
+    public function getGoods(): ?GoodModel{
         return $this->Goods;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setGoods(GoodModelGroup4|null $goods): void{
+    public function setGoods(GoodModel|null $goods): void{
         $this->Goods = $goods;
     }
 }

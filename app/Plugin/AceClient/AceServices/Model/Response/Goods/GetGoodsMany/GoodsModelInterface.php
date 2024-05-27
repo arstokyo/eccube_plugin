@@ -19,14 +19,14 @@ interface GoodsModelInterface extends HasMessageModelInterface,
     /**
      * Get Goods
      *
-     * @return Model\Dependency\Good\GoodModelGroup3[]|null
+     * @return GoodModel[]|null
      */
     public function getGood(): ?array;
 
     /**
      * Set Goods
      *
-     * @param Model\Dependency\Good\GoodModelGroup3[]|null $good
+     * @param GoodModel[]|null $good
      * @return void
      */
     #[SerializedName('Goods')]

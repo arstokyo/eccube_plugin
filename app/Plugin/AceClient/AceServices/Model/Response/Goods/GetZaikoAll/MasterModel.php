@@ -3,7 +3,6 @@
 namespace Plugin\AceClient\AceServices\Model\Response\Goods\GetZaikoAll;
 
 use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Good\GoodModelGroup5;
 
 /**
  * Class for MasterModel
@@ -14,7 +13,7 @@ class MasterModel implements MasterModelInterface
 {
     use HasMessageModelTrait;
     /**
-     * @var GoodModelGroup5[]|null $Goods Goods
+     * @var GoodModel[]|null $Goods Goods
      */
     private ?array $Goods = null;
 
@@ -40,7 +39,7 @@ class MasterModel implements MasterModelInterface
     public static function fetchAsListProperty(): array
     {
         return [
-                'Goods' =>GoodModelGroup5::class
+                'Goods' =>GoodModel::class
                ];
     }
 }
