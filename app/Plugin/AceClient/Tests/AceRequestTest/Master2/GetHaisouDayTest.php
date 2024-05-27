@@ -2,15 +2,14 @@
 
 namespace Plugin\AceClient\Tests\AceRequestTest\Jyuden;
 
-use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Plugin\AceClient\AceServices\Model\Request\Master2\GetHaisouDay;
 use Plugin\AceClient\AceServices\Model\Response\Master2\GetHaisouDay\GetHaisouDayResponseModel;
-use Plugin\AceClient\AceClient;
 use GuzzleHttp\Exception\ClientException;
-use Plugin\AceClient\Utils\Mapper\OverviewMapper;
-use Plugin\AceClient\Utils\Serialize;
+use Plugin\AceClient\Util\Mapper\OverviewMapper;
+use Plugin\AceClient\Util\Serializer;
+use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
 
-class GetHaisouDayTest extends AbstractAdminWebTestCase
+class GetHaisouDayTest extends AceRequestTestAbtract
 {
 
     public function getHaisouDayRequestModel(): GetHaisouDay\GetHaisouDayRequestModel
@@ -26,10 +25,10 @@ class GetHaisouDayTest extends AbstractAdminWebTestCase
         $message1 = null;
         try {
             $getHaisoDayRequest = $this->getHaisouDayRequestModel();
-            $response = (new AceClient)->makeMaster2Service()
-                                       ->makeGetHaisouDayMethod()
-                                       ->withRequest($getHaisoDayRequest)
-                                       ->send();
+            $response = $this->aceClient->makeMaster2Service()
+                                        ->makeGetHaisouDayMethod()
+                                        ->withRequest($getHaisoDayRequest)
+                                        ->send();
             if ($response->getStatusCode() === 200) {
                 /** @var GetHaisouDayResponseModel $responseObj */
                 $responseObj = $response->getResponse();
@@ -48,14 +47,14 @@ class GetHaisouDayTest extends AbstractAdminWebTestCase
     public function testSerializeGetHaisouDay()
     {
         $getReminderRequestModel = $this->getHaisouDayRequestModel();
-        $serializer = Serialize\SerializerFactory::makeSoapSerializerForTest();
+        $serializer = Serializer\SerializerFactory::makeSoapSerializerForTest();
         $serializedData = $serializer->serialize($getReminderRequestModel);
 
         $xmlns = $serializer->getConfig()->getXmlns() ?
                  $serializer->getConfig()->getXmlns()['@xmlns'] :
-                 Serialize\SoapXMLSerializer::DEFAULT_XMLNS['@xmlns'];
-        $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_HEAD;
-        $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_END;
+                 Serializer\SoapXmlSerializer::DEFAULT_XMLNS['@xmlns'];
+        $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_HEAD;
+        $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_END;
         $expectedData =
         <<<XML
         {$soapHead}

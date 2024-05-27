@@ -2,8 +2,8 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request\Prm;
 
-use Plugin\AceClient\Config\Model\PrmFormat\PrmDetailFormatModel;
-use Plugin\AceClient\Utils\Denormalize\OTD;
+use Plugin\AceClient\AceConfig\Model\PrmFormat\PrmDetailFormatModel;
+use Plugin\AceClient\Util\Denormalizer\OTD;
 
 /**
  * Interface for PrmModelAssistant.

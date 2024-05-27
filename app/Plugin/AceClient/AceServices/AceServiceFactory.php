@@ -3,6 +3,7 @@
 namespace Plugin\AceClient\AceServices;
 
 use Plugin\AceClient\AceServices\Service;
+use Plugin\AceClient\Util\ServiceRetriever\ServiceRetrieverInterface;
 
 /**
  * Factory for AceService
@@ -11,15 +12,26 @@ use Plugin\AceClient\AceServices\Service;
  */
 class AceServiceFactory 
 {
+    
+    /**
+     * AceServiceFactory constructor.
+     * 
+     * @param ServiceRetrieverInterface $serviceRetriever
+     */
+    public function __construct(
+        private ServiceRetrieverInterface $serviceRetriever
+    )
+    {
+    }
 
     /**
      * Make new JyudenService
      * 
      * @return Service\JyudenService
      */
-    public static function makeJyudenService() : Service\JyudenService
+    public function makeJyudenService() : Service\JyudenService
     {
-        return new Service\JyudenService();
+        return new Service\JyudenService($this->serviceRetriever);
     }
 
     /**
@@ -27,9 +39,9 @@ class AceServiceFactory
      * 
      * @return Service\MemberService
      */
-    public static function makeMemberService() : Service\MemberService
+    public function makeMemberService() : Service\MemberService
     {
-        return new Service\MemberService();
+        return new Service\MemberService($this->serviceRetriever);
     }
 
     /**
@@ -37,9 +49,9 @@ class AceServiceFactory
      *
      * @return Service\GoodsService
      */
-    public static function makeGoodsService() : Service\GoodsService
+    public function makeGoodsService() : Service\GoodsService
     {
-        return new Service\GoodsService();
+        return new Service\GoodsService($this->serviceRetriever);
     }
 
     /**
@@ -47,9 +59,9 @@ class AceServiceFactory
      * 
      * @return Service\Master2Service
      */
-    public static function makeMaster2Service() : Service\Master2Service
+    public function makeMaster2Service() : Service\Master2Service
     {
-        return new Service\Master2Service();
+        return new Service\Master2Service($this->serviceRetriever);
     }
 
 }

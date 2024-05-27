@@ -86,6 +86,9 @@ class EntryController extends AbstractController
      */
     protected $pageRepository;
 
+
+    private AceClient\AceClient $aceClient;
+
     /**
      * EntryController constructor.
      *
@@ -97,6 +100,7 @@ class EntryController extends AbstractController
      * @param EncoderFactoryInterface $encoderFactory
      * @param ValidatorInterface $validatorInterface
      * @param TokenStorageInterface $tokenStorage
+     * @param AceClient\AceClient $aceClient
      */
     public function __construct(
         CartService $cartService,
@@ -107,7 +111,8 @@ class EntryController extends AbstractController
         EncoderFactoryInterface $encoderFactory,
         ValidatorInterface $validatorInterface,
         TokenStorageInterface $tokenStorage,
-        PageRepository $pageRepository
+        PageRepository $pageRepository,
+        AceClient\AceClient $aceClient,
     ) {
         $this->customerStatusRepository = $customerStatusRepository;
         $this->mailService = $mailService;
@@ -118,6 +123,7 @@ class EntryController extends AbstractController
         $this->tokenStorage = $tokenStorage;
         $this->cartService = $cartService;
         $this->pageRepository = $pageRepository;
+        $this->aceClient = $aceClient;
     }
 
     /**
@@ -350,11 +356,11 @@ class EntryController extends AbstractController
     {
         try {
             $regMemberRequest = $this->buildRegMemberRequest($Customer);
-            $response = (new AceClient\AceClient)
-                            ->makeMemberService()
-                            ->makeRegMemberMethod()
-                            ->withRequest($regMemberRequest)
-                            ->send();
+            $response = $this->aceClient
+                             ->makeMemberService()
+                             ->makeRegMemberMethod()
+                             ->withRequest($regMemberRequest)
+                             ->send();
             if ($response->getStatusCode() === 200) {
                 /** @var RegMemberResponseModel $responseObj */
                 $responseObj = $response->getResponse();

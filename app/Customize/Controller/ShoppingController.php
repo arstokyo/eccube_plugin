@@ -94,6 +94,8 @@ class ShoppingController extends AbstractShoppingController
 
     protected RateLimiterFactory $shoppingCheckoutCustomerLimiter;
 
+    private AceClient\AceClient $aceClient;
+
     public function __construct(
         CartService $cartService,
         MailService $mailService,
@@ -105,7 +107,8 @@ class ShoppingController extends AbstractShoppingController
         RateLimiterFactory $shoppingConfirmCustomerLimiter,
         RateLimiterFactory $shoppingCheckoutIpLimiter,
         RateLimiterFactory $shoppingCheckoutCustomerLimiter,
-        BaseInfoRepository $baseInfoRepository
+        BaseInfoRepository $baseInfoRepository,
+        AceClient\AceClient $aceClient,
     ) {
         $this->cartService = $cartService;
         $this->mailService = $mailService;
@@ -118,6 +121,7 @@ class ShoppingController extends AbstractShoppingController
         $this->shoppingCheckoutIpLimiter = $shoppingCheckoutIpLimiter;
         $this->shoppingCheckoutCustomerLimiter = $shoppingCheckoutCustomerLimiter;
         $this->baseInfoRepository = $baseInfoRepository;
+        $this->aceClient = $aceClient;
     }
 
     /**
@@ -927,7 +931,7 @@ class ShoppingController extends AbstractShoppingController
     private function decisionCartOnAce(Order $Order): array
     {
 
-        $jyudenService = (new AceClient\AceClient())->makeJyudenService();
+        $jyudenService = $this->aceClient->makeJyudenService();
         $addCartErr = $this->addNewCartOnAce($Order, $jyudenService);
         if ($addCartErr['iserror'] == true) {
             return $addCartErr;

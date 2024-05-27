@@ -54,6 +54,9 @@ class CartController extends AbstractController
      */
     protected $baseInfo;
 
+
+    private AceClient $aceClient;
+
     /**
      * CartController constructor.
      *
@@ -61,17 +64,20 @@ class CartController extends AbstractController
      * @param CartService $cartService
      * @param PurchaseFlow $cartPurchaseFlow
      * @param BaseInfoRepository $baseInfoRepository
+     * @param AceClient $aceClient
      */
     public function __construct(
         ProductClassRepository $productClassRepository,
         CartService $cartService,
         PurchaseFlow $cartPurchaseFlow,
-        BaseInfoRepository $baseInfoRepository
+        BaseInfoRepository $baseInfoRepository,
+        AceClient $aceClient
     ) {
         $this->productClassRepository = $productClassRepository;
         $this->cartService = $cartService;
         $this->purchaseFlow = $cartPurchaseFlow;
         $this->baseInfo = $baseInfoRepository->get();
+        $this->aceClient = $aceClient;
     }
 
     /**
@@ -294,7 +300,7 @@ class CartController extends AbstractController
         }
 
         $isNotErr = true;
-        $addCartMethod = (new AceClient)->makeJyudenService()->makeAddCartMethod();
+        $addCartMethod = $this->aceClient->makeJyudenService()->makeAddCartMethod();
         foreach ($Carts as $Cart) {
 
             $addCartRequestModel = (new AddCart\AddCartRequestModel())

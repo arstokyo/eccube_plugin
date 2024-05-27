@@ -8,7 +8,8 @@ use Plugin\AceClient\ApiClient\Response\ResponseInterface;
 use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
 use Plugin\AceClient\Exception\DataTypeMissMatchException;
 use Plugin\AceClient\Exception\InvalidClassNameException;
-use Plugin\AceCLient\Utils\ClassFactory\ClassFactory;
+use Plugin\AceClient\Util\ClassFactory\ClassFactory;
+use Plugin\AceClient\Util\ServiceRetriever\ServiceRetrieverInterface;
 
 /**
  * Abstract Class for Ace Method
@@ -26,10 +27,24 @@ abstract class AceMethodAbstract implements AceMethodInterface
      * AceMethodAbstract Constructor
      *
      * @param string $baseServiceName
+     * @param ServiceRetrieverInterface $serviceRetriever
      */
-    public function __construct(string $baseServiceName)
+    public function __construct(string $baseServiceName, ServiceRetrieverInterface $serviceRetriever)
     {
-        $this->assistant = new AceMethodAssistant($this::class, self::buildEndPoint($baseServiceName));
+        $this->initializeAssistant($baseServiceName, $serviceRetriever);
+    }
+
+    /**
+     * Initialize Assistant
+     * 
+     * @param string $baseServiceName
+     * @param ServiceRetrieverInterface $serviceRetriever
+     * 
+     * @return void
+     */
+    public function initializeAssistant(string $baseServiceName, ServiceRetrieverInterface $serviceRetriever): void
+    {
+        $this->assistant = new AceMethodAssistant($this::class, self::buildEndPoint($baseServiceName), $serviceRetriever);
         $this->assistant->getApiClient()->withResponseAs(self::getResponseAsObject());
     }
 

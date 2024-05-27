@@ -2,16 +2,14 @@
 
 namespace Plugin\AceClient\Tests\AceRequestTest\Member;
 
-use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Plugin\AceClient\AceServices\Model\Request\Member\GetReminder\GetReminderRequestModel;
 use Plugin\AceClient\AceServices\Model\Response\Member\GetReminder\GetReminderResponseModel;
-use Plugin\AceClient\AceClient;
 use GuzzleHttp\Exception\ClientException;
-use Plugin\AceClient\Utils\Mapper\OverviewMapper;
-use Plugin\AceClient\Utils\Serialize;
+use Plugin\AceClient\Util\Mapper\OverviewMapper;
+use Plugin\AceClient\Util\Serializer;
+use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
 
-
-class GetReminderRequestModelTest extends AbstractAdminWebTestCase
+class GetReminderRequestModelTest extends AceRequestTestAbtract
 {
     private ?string $checkMail = 'GetReminderTest@AceClient.v.1.0';
     public function testCallGetReminderRequestModel()
@@ -25,10 +23,10 @@ class GetReminderRequestModelTest extends AbstractAdminWebTestCase
     {
         try {
             $getGetReminderRequest = $this->getGetReminderRequestModelOK();
-            $response = (new AceClient)->makeMemberService()
-                                       ->makeGetReminderMethod()
-                                       ->withRequest($getGetReminderRequest)
-                                       ->send();
+            $response = $this->aceClient->makeMemberService()
+                                        ->makeGetReminderMethod()
+                                        ->withRequest($getGetReminderRequest)
+                                        ->send();
             if ($response->getStatusCode() === 200) {
                 /** @var GetReminderResponseModel $responseObj */
                 $responseObj = $response->getResponse();
@@ -85,10 +83,10 @@ class GetReminderRequestModelTest extends AbstractAdminWebTestCase
     {
         try {
             $getGetReminderRequest = $this->getGetReminderRequestModelNG();
-            $response = (new AceClient)->makeMemberService()
-                                       ->makeGetReminderMethod()
-                                       ->withRequest($getGetReminderRequest)
-                                       ->send();
+            $response = $this->aceClient->makeMemberService()
+                                        ->makeGetReminderMethod()
+                                        ->withRequest($getGetReminderRequest)
+                                        ->send();
             if ($response->getStatusCode() === 200) {
                 /** @var GetReminderResponseModel $responseObj */
                 $responseObj = $response->getResponse();
@@ -115,14 +113,14 @@ class GetReminderRequestModelTest extends AbstractAdminWebTestCase
     public function testSearializeGetReminder()
     {
         $getReminderRequestModel = $this->getReminderRequestForSerialize();
-        $serializer = Serialize\SerializerFactory::makeSoapSerializerForTest();
+        $serializer = Serializer\SerializerFactory::makeSoapSerializerForTest();
         $serializedData = $serializer->serialize($getReminderRequestModel);
 
         $xmlns = $serializer->getConfig()->getXmlns() ?
                  $serializer->getConfig()->getXmlns()['@xmlns'] :
-                 Serialize\SoapXMLSerializer::DEFAULT_XMLNS['@xmlns'];
-        $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_HEAD;
-        $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_END;
+                 Serializer\SoapXmlSerializer::DEFAULT_XMLNS['@xmlns'];
+        $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_HEAD;
+        $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_END;
         $expectedData =
         <<<XML
         {$soapHead}

@@ -2,16 +2,14 @@
 
 namespace Plugin\AceClient\Tests\AceRequestTest\Member;
 
-use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
+use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient\AceServices\Model\Request\Member\RegMember;
 use Plugin\AceClient\AceServices\Model\Response\Member\RegMember\RegMemberResponseModel;
-use Plugin\AceClient\AceClient;
-use Plugin\AceClient\AceServices\Model\Request;
 use GuzzleHttp\Exception\ClientException;
-use Plugin\AceClient\Utils\Mapper\OverviewMapper;
-use Plugin\AceClient\Utils\Serialize;
+use Plugin\AceClient\Util\Mapper\OverviewMapper;
+use Plugin\AceClient\Util\Serializer;
 
-class RegMemberTest extends AbstractAdminWebTestCase
+class RegMemberTest extends AceRequestTestAbtract
 {
     private ?string $sessionid = '1234';
     private ?string $testJmemid = '111';
@@ -173,14 +171,14 @@ class RegMemberTest extends AbstractAdminWebTestCase
     public function testSerializeRegMember()
     {
         $regMemAdrRequestModel = $this->getRegmemberRequestModelCase3();
-        $serializer = Serialize\SerializerFactory::makeSoapSerializerForTest();
+        $serializer = Serializer\SerializerFactory::makeSoapSerializerForTest();
         $serializedData = $serializer->serialize($regMemAdrRequestModel);
 
         $xmlns = $serializer->getConfig()->getXmlns() ?
                  $serializer->getConfig()->getXmlns()['@xmlns'] : 
-                 Serialize\SoapXMLSerializer::DEFAULT_XMLNS['@xmlns'];
-        $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_HEAD;
-        $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_END;
+                 Serializer\SoapXmlSerializer::DEFAULT_XMLNS['@xmlns'];
+        $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_HEAD;
+        $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_END;
 
         $syid = OverviewMapper::ACE_TEST_SYID;
         $sessionid = $this->sessionid;
@@ -328,7 +326,7 @@ class RegMemberTest extends AbstractAdminWebTestCase
     {
         try {
             $regMemberRequest = $this->getRegmemberRequestModelCase3();
-            $response = (new AceClient)->makeMemberService()
+            $response = $this->aceClient->makeMemberService()
                                        ->makeRegMemberMethod()
                                        ->withRequest($regMemberRequest)
                                        ->send();
