@@ -10,13 +10,13 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Person\Nmember;
 trait NadrTrait 
 {
     
-    /** @var ?int $nadr 納品先住所枝番 */
-    protected ?int $nadr = null;
+    /** @var ?string $nadr 納品先住所枝番 */
+    protected ?string $nadr = null;
 
     /**
     * {@inheritDoc}
     */
-    public function getNadr(): ?int
+    public function getNadr(): ?string
     {
         return $this->nadr;
     }
@@ -24,7 +24,7 @@ trait NadrTrait
     /**
     * {@inheritDoc}
     */
-    public function setNadr(int|null $nadr): static
+    public function setNadr(string|null $nadr): static
     {
         $this->nadr = $nadr;
         return $this;
