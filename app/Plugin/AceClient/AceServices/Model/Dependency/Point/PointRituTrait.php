@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Point;
 
-use Plugin\AceClient\Utils\Converter\NumberConverter;
+use Plugin\AceClient\Util\Converter\NumberConverter;
 
 /**
  * Trait for ポイント掛率

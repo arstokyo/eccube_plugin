@@ -2,15 +2,14 @@
 
 namespace Plugin\AceClient\Tests\AceRequestTest\Jyuden;
 
-use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart;
 use Plugin\AceClient\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModel;
-use Plugin\AceClient\AceClient;
 use GuzzleHttp\Exception\ClientException;
-use Plugin\AceClient\Utils\Serialize;
-use Plugin\AceClient\Utils\Mapper\OverviewMapper;
+use Plugin\AceClient\Util\Serializer;
+use Plugin\AceClient\Util\Mapper\OverviewMapper;
+use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
 
-class AddCartTest extends AbstractAdminWebTestCase
+class AddCartTest extends AceRequestTestAbtract
 {
     private ?string $testMemberId = '112';
     private ?string $testSessid = '112';
@@ -161,10 +160,10 @@ class AddCartTest extends AbstractAdminWebTestCase
         try {
             $addCartRequest = $this->getAddCartModel();
             $addCartRequest->getPrm()->getJyuden()->setTorikbn(null)->setPointm(null);
-            $response = (new AceClient)->makeJyudenService()
-                                       ->makeAddCartMethod()
-                                       ->withRequest($addCartRequest)
-                                       ->send();
+            $response = $this->aceClient->makeJyudenService()
+                                        ->makeAddCartMethod()
+                                        ->withRequest($addCartRequest)
+                                        ->send();
             if ($response->getStatusCode() === 200) {
                 /** @var AddCartResponseModel $responseObj */
                 $responseObj = $response->getResponse();
@@ -482,12 +481,13 @@ class AddCartTest extends AbstractAdminWebTestCase
 
         $this->assertEquals(null, $message1);
         $this->assertEquals(null, $message2);
+
     }
 
     public function testSerializeAddCart()
     {
         $requestModel = $this->getAddCartModel();
-        $serializer = Serialize\SerializerFactory::makeSoapSerializerForTest();
+        $serializer = Serializer\SerializerFactory::makeSoapSerializerForTest();
         $serializedData = $serializer->serialize($requestModel);
 
         $day = (new \Datetime())->format('Ymd');
@@ -497,9 +497,9 @@ class AddCartTest extends AbstractAdminWebTestCase
 
         $xmlns = $serializer->getConfig()->getXmlns() ?
                  $serializer->getConfig()->getXmlns()['@xmlns'] :
-                 Serialize\SoapXMLSerializer::DEFAULT_XMLNS['@xmlns'];
-        $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_HEAD;
-        $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_END;
+                 Serializer\SoapXmlSerializer::DEFAULT_XMLNS['@xmlns'];
+        $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_HEAD;
+        $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_END;
 
         $expectedData =
         <<<XML
@@ -657,10 +657,10 @@ class AddCartTest extends AbstractAdminWebTestCase
     {
         try {
             $addCartRequest = $this->getAddCartModel();
-            $response = (new AceClient)->makeJyudenService()
-                                       ->makeAddCartMethod()
-                                       ->withRequest($addCartRequest)
-                                       ->send();
+            $response = $this->aceClient->makeJyudenService()
+                                        ->makeAddCartMethod()
+                                        ->withRequest($addCartRequest)
+                                        ->send();
             if ($response->getStatusCode() === 200) {
                 /** @var AddCartResponseModel $responseObj */
                 $responseObj = $response->getResponse();

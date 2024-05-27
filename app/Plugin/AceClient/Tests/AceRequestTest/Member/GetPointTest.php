@@ -2,13 +2,12 @@
 
 namespace Plugin\AceClient\Tests\AceRequestTest\Member;
 
-use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Plugin\AceClient\AceServices\Model\Request\Member\GetPoint\GetPointRequestModel;
 use Plugin\AceClient\AceServices\Model\Response\Member\GetPoint\GetPointResponseModel;
-use Plugin\AceClient\AceClient;
 use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
 
-class GetPointRequestModelTest extends AbstractAdminWebTestCase
+class GetPointRequestModelTest extends AceRequestTestAbtract
 {
     public function testCallGetPointRequestModel()
     {
@@ -23,10 +22,10 @@ class GetPointRequestModelTest extends AbstractAdminWebTestCase
     {
         try {
             $getPointRequest = $this->getGetPointRequestModelOK();
-            $response = (new AceClient)->makeMemberService()
-                                       ->makeGetPointMethod()
-                                       ->withRequest($getPointRequest)
-                                       ->send();
+            $response = $this->aceClient->makeMemberService()
+                                        ->makeGetPointMethod()
+                                        ->withRequest($getPointRequest)
+                                        ->send();
             if ($response->getStatusCode() === 200) {
                 /** @var GetPointResponseModel $responseObj */
                 $responseObj = $response->getResponse();
@@ -51,10 +50,10 @@ class GetPointRequestModelTest extends AbstractAdminWebTestCase
     {
         try {
             $getPointRequest = $this->getGetPointRequestModelNG();
-            $response = (new AceClient)->makeMemberService()
-                                       ->makeGetPointMethod()
-                                       ->withRequest($getPointRequest)
-                                       ->send();
+            $response = $this->aceClient->makeMemberService()
+                                        ->makeGetPointMethod()
+                                        ->withRequest($getPointRequest)
+                                        ->send();
             if ($response->getStatusCode() === 200) {
                 /** @var GetPointResponseModel $responseObj */
                 $responseObj = $response->getResponse();

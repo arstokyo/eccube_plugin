@@ -2,28 +2,26 @@
 
 namespace Plugin\AceClient\Tests\AceRequestTest\Goods;
 
-use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Plugin\AceClient\AceServices\Model\Request\Goods\GetGoodsMany\GetGoodsManyRequestModel;
 use Plugin\AceClient\AceServices\Model\Response\Goods\GetGoodsMany\GetGoodsManyResponseModel;
-use Plugin\AceClient\AceClient;
 use GuzzleHttp\Exception\ClientException;
-use Plugin\AceClient\Utils\Mapper\OverviewMapper;
-use Plugin\AceClient\Utils\Serialize;
+use Plugin\AceClient\Util\Mapper\OverviewMapper;
+use Plugin\AceClient\Util\Serializer;
+use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
 
-
-class GetGoodsManyRequestModelTest extends AbstractAdminWebTestCase
+class GetGoodsManyRequestModelTest extends AceRequestTestAbtract
 {
     public function testSearializeGetGoodsMany()
     {
         $getRirekiDetailRequestModel = $this->getGoodsManyRequestForSerialize();
-        $serializer = Serialize\SerializerFactory::makeSoapSerializerForTest();
+        $serializer = Serializer\SerializerFactory::makeSoapSerializerForTest();
         $serializedData = $serializer->serialize($getRirekiDetailRequestModel);
 
         $xmlns = $serializer->getConfig()->getXmlns() ?
                  $serializer->getConfig()->getXmlns()['@xmlns'] :
-                 Serialize\SoapXMLSerializer::DEFAULT_XMLNS['@xmlns'];
-        $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_HEAD;
-        $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serialize\SoapXMLSerializer::DEFAULT_REQUEST_SOAP_END;
+                 Serializer\SoapXmlSerializer::DEFAULT_XMLNS['@xmlns'];
+        $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_HEAD;
+        $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_END;
         $expectedData =
         <<<XML
         {$soapHead}
@@ -66,10 +64,10 @@ class GetGoodsManyRequestModelTest extends AbstractAdminWebTestCase
     {
         try {
             $getGoodsManyRequest = $this->getGoodsManyRequestOK();
-            $response = (new AceClient)->makeGoodsService()
-                                       ->makeGetGoodsManyMethod()
-                                       ->withRequest($getGoodsManyRequest)
-                                       ->send();
+            $response = $this->aceClient->makeGoodsService()
+                                        ->makeGetGoodsManyMethod()
+                                        ->withRequest($getGoodsManyRequest)
+                                        ->send();
             if ($response->getStatusCode() === 200) {
                 /** @var GetGoodsManyResponseModel $responseObj */
                 $responseObj = $response->getResponse();
@@ -118,10 +116,10 @@ class GetGoodsManyRequestModelTest extends AbstractAdminWebTestCase
     {
         try {
             $getGoodsManyRequest = $this->getGoodsManyRequestNG();
-            $response = (new AceClient)->makeGoodsService()
-                                       ->makeGetGoodsManyMethod()
-                                       ->withRequest($getGoodsManyRequest)
-                                       ->send();
+            $response = $this->aceClient->makeGoodsService()
+                                        ->makeGetGoodsManyMethod()
+                                        ->withRequest($getGoodsManyRequest)
+                                        ->send();
             if ($response->getStatusCode() === 200) {
                 /** @var GetGoodsManyResponseModel $responseObj */
                 $responseObj = $response->getResponse();

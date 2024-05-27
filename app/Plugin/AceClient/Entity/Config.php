@@ -30,6 +30,13 @@ if (!class_exists('\Plugin\AceClient\Entity\Config', false)) {
         private $baseUri;
 
         /**
+         * @var bool
+         * 
+         * @ORM\Column(name="is_log_on", type="boolean", options={"default":false})
+         */
+        private bool $isLogOn = false;
+
+        /**
          * @return int
          */
         public function getId()
@@ -56,5 +63,26 @@ if (!class_exists('\Plugin\AceClient\Entity\Config', false)) {
 
             return $this;
         }
+
+        /**
+         * @return bool
+         */
+        public function getIsLogOn()
+        {
+            return $this->isLogOn;
+        }
+
+        /**
+         * @param bool $isLogOn
+         *
+         * @return $this;
+         */
+        public function setIsLogOn($isLogOn)
+        {
+            $this->isLogOn = $isLogOn;
+
+            return $this;
+        }
+
     }
 }

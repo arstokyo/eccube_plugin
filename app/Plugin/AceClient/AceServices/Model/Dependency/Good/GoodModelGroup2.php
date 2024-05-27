@@ -8,7 +8,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\Cost;
 use Plugin\AceClient\AceServices\Model\Dependency\Free;
 use Plugin\AceClient\AceServices\Model\Dependency\Point;
 use Plugin\AceClient\AceServices\Model\Dependency\Zaiko;
-use Plugin\AceClient\Utils\Converter\NumberConverter;
+use Plugin\AceClient\Util\Converter\NumberConverter;
 
 /**
  * Class for GoodModelGroup2
