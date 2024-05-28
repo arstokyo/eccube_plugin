@@ -70,4 +70,15 @@ class AceClient
         return $this->serviceFactory->makeMaster2Service();
     }
 
+    /**
+     * Meke Master Service
+     * 
+     * @return Service\MasterService
+     */
+    public function makeMasterService() : Service\MasterService
+    {
+        return $this->serviceFactory->makeMasterService();
+    }
+
+
 }
