@@ -58,9 +58,9 @@ class PluginManager extends AbstractPluginManager
         $entityManager = $container->get('doctrine')->getManager();
 
         /** @var ConfigRepository $configRepository */
-        $configRepository = $entityManager->getRepository(ConfigRepository::class);
+        $configRepository = $entityManager->getRepository(AceClientConfig::class);
 
-        if (null === $configRepository->get()) {
+        if (\is_null($configRepository->get())) {
             $config = new AceClientConfig();
             $config->setBaseUri(HttpClientFactory::DEFAULT_BASE_URL);
             $config->setIsLogOn(LoggerFactory::DEFAULT_LOG_ON);
@@ -83,10 +83,10 @@ class PluginManager extends AbstractPluginManager
         $entityManager = $container->get('doctrine')->getManager();
 
         /** @var ConfigRepository $configRepository */
-        $configRepository = $entityManager->getRepository(ConfigRepository::class);
+        $configRepository = $entityManager->getRepository(AceClientConfig::class);
 
         $config = $configRepository->get();
-        if (null !== $config) {
+        if (!\is_null($config)) {
             $entityManager->remove($config);
             $entityManager->flush();
         }
