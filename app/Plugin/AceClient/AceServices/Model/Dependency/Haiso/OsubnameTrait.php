@@ -15,15 +15,15 @@ trait OsubnameTrait
     /**
      * {@inheritDoc}
      */
-    public function getOsubname(): ?int
+    public function getOsubname(): ?string
     {
-        return $this->onosubnameame;
+        return $this->osubname;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setOsubname(?int $osubname): static
+    public function setOsubname(?string $osubname): static
     {
         $this->osubname = $osubname;
         return $this;

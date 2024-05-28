@@ -10,22 +10,22 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Haiso;
 trait HkCodeTrait
 {
     /** @var ?string $hkCode 配送時間ID */
-    protected ?string $hkCode = null;
+    protected ?string $hkcode = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getHkCode(): ?int
+    public function getHkcode(): ?int
     {
-        return $this->hkCode;
+        return $this->hkcode;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setHkCode(?int $code): static
+    public function setHkcode(?int $code): static
     {
-        $this->hkCode = $code;
+        $this->hkcode = $code;
         return $this;
     }
 }
