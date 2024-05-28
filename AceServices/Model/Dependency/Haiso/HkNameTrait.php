@@ -9,23 +9,23 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Haiso;
  */
 trait HkNameTrait
 {
-    /** @var ?string $hkName 時間指定名称 */
-    protected ?string $hkName = null;
+    /** @var ?string $hkname 時間指定名称 */
+    protected ?string $hkname = null;
 
     /**
      * {@inheritDoc}
      */
     public function getHkname(): ?string
     {
-        return $this->hkName;
+        return $this->hkname;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setHkname(?string $hkName): static
+    public function setHkname(?string $hkname): static
     {
-        $this->hkName = $hkName;
+        $this->hkname = $hkname;
         return $this;
     }
 }

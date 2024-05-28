@@ -13,5 +13,4 @@ use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
 interface GetOkuriHkTimeRequestModelInterface extends RequestModelInterface, NoCategory\HasIdInterface 
 {
  
-
 }

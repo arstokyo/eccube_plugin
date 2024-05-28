@@ -14,13 +14,13 @@ interface HasHkCodeInterface
      * 
      * @return ?int
      */
-    public function getHkCode(): ?int;
+    public function getHkcode(): ?int;
 
     /**
      * Set 配送時間ID
      * 
-     * @param ?int $hkCode
+     * @param ?int $hkcode
      * @return $this
      */
-    public function setHkCode(?int $hkCode): static;
+    public function setHkcode(?int $hkcode): static;
 }

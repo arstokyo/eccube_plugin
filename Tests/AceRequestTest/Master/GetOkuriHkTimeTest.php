@@ -9,6 +9,13 @@ use Plugin\AceClient\Util\Mapper\OverviewMapper;
 use Plugin\AceClient\Util\Serializer;
 use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
 
+/**
+ * Test serialize getOkuriHkTime 
+ * 
+ * @author Ars-PhuongAnh <a-bui@ar-system.co.jp>
+ */
+
+
 class GetOkuriHkTimeRequestTest extends AceRequestTestAbtract
 {
     public function testSearializeGetOkuriHkTime()
@@ -37,8 +44,7 @@ class GetOkuriHkTimeRequestTest extends AceRequestTestAbtract
 
     public function getOkuriHkTimeRequestForSerialize():GetOkuriHkTimeRequestModel
     {
-        $okuri = new GetOkuriHkTimeRequestModel();
-        return $okuri;
+        return (new GetOkuriHkTimeRequestModel())->setId(OverviewMapper::ACE_TEST_SYID);
     }
 
     public function getOkuriHkTimeRequestOK(): GetOkuriHkTimeRequestModel
@@ -65,12 +71,12 @@ class GetOkuriHkTimeRequestTest extends AceRequestTestAbtract
                                         ->send();
             if ($response->getStatusCode() == 200) {
                 /** @var GetOkuriHkTimeResponseModel $responseObj */ 
-                $resonseObj = $response->getResponse();
-                $message1 = $resonseObj->getMaster()->getMessage()->getMessage1();
-                $okuri1 = $resonseObj->getMaster()->getOkuri()[0];
-                $okuri2 = $resonseObj->getMaster()->getOkuri()[1];
-                $okuri3 = $resonseObj->getMaster()->getOkuri()[2];
-                $message = $resonseObj->getMaster()->getMassage();
+                $responseObj = $response->getResponse();
+                $message1 = $responseObj->getMaster()->getMessage()->getMessage1();
+                $okuri1 = $responseObj->getMaster()->getOkuri()[0];
+                $okuri2 = $responseObj->getMaster()->getOkuri()[1];
+                $okuri3 = $responseObj->getMaster()->getOkuri()[2];
+                $message = $responseObj->getMaster()->getMessage();
             }
         } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
@@ -81,36 +87,36 @@ class GetOkuriHkTimeRequestTest extends AceRequestTestAbtract
         $this->assertEquals('10', $okuri1->getOcode());
         $this->assertEquals("ヤマト運輸", $okuri1->getOname());
         $this->assertEquals("ヤマト", $okuri1->getOsubname());
-        $this->assertEquals('0', $okuri1->getDenkyNum());
+        $this->assertEquals('0', $okuri1->getDenkuNum());
         $this->assertEquals('10', $okuri1->getHcode());
         $this->assertEquals("ヤマト", $okuri1->getHname());
-        $this->assertEquals('0', $okuri1->getHasJyouon());
-        $this->assertEquals('1', $okuri1->getHasReizou());
-        $this->assertEquals('1', $okuri1->getHasReitou());
+        $this->assertEquals('0', $okuri1->getJyouon());
+        $this->assertEquals('1', $okuri1->getReizou());
+        $this->assertEquals('1', $okuri1->getReitou());
         $this->assertEquals('1', $okuri1->getHkCode());
         $this->assertEquals("指定なし", $okuri1->getHkName());
 
         $this->assertEquals('10', $okuri2->getOcode());
         $this->assertEquals("ヤマト運輸", $okuri2->getOname());
         $this->assertEquals("ヤマト", $okuri2->getOsubname());
-        $this->assertEquals('0', $okuri2->getDenkyNum());
+        $this->assertEquals('0', $okuri2->getDenkuNum());
         $this->assertEquals('10', $okuri2->getHcode());
         $this->assertEquals("ヤマト", $okuri2->getHname());
-        $this->assertEquals('0', $okuri2->getHasJyouon());
-        $this->assertEquals('1', $okuri2->getHasReizou());
-        $this->assertEquals('1', $okuri2->getHasReitou());
+        $this->assertEquals('0', $okuri2->getJyouon());
+        $this->assertEquals('1', $okuri2->getReizou());
+        $this->assertEquals('1', $okuri2->getReitou());
         $this->assertEquals('2', $okuri2->getHkCode());
         $this->assertEquals("午前中", $okuri2->getHkName());
 
         $this->assertEquals('10', $okuri3->getOcode());
         $this->assertEquals("ヤマト運輸", $okuri3->getOname());
         $this->assertEquals("ヤマト", $okuri3->getOsubname());
-        $this->assertEquals('0', $okuri3->getDenkyNum());
+        $this->assertEquals('0', $okuri3->getDenkuNum());
         $this->assertEquals('10', $okuri3->getHcode());
         $this->assertEquals("ヤマト", $okuri3->getHname());
-        $this->assertEquals('0', $okuri3->getHasJyouon());
-        $this->assertEquals('1', $okuri3->getHasReizou());
-        $this->assertEquals('1', $okuri3->getHasReitou());
+        $this->assertEquals('0', $okuri3->getJyouon());
+        $this->assertEquals('1', $okuri3->getReizou());
+        $this->assertEquals('1', $okuri3->getReitou());
         $this->assertEquals('3', $okuri3->getHkCode());
         $this->assertEquals("14:00~16:00", $okuri3->getHkName());
 
@@ -122,17 +128,17 @@ class GetOkuriHkTimeRequestTest extends AceRequestTestAbtract
     public function testRequestGetIkuriHkTimeNG()
     {
         try {
-            $getOkurisRequest = $this->getOkuriHkTimeRequestOK();
+            $getOkurisRequest = $this->getOkuriHkTimeRequestNG();
             $response = $this->aceClient->makeMasterService()
                                         ->makeGetOkuriHkTimeMethod()
                                         ->withRequest($getOkurisRequest)
                                         ->send();
             if ($response->getStatusCode() == 200) {
                 /** @var GetOkuriHkTimeResponseModel $responseObj */ 
-                $resonseObj = $response->getResponse();
-                $message1 = $resonseObj->getMaster()->getMessage()->getMessage1();
-                $okuri = $resonseObj->getMaster()->getOkuri();
-                $message = $resonseObj->getMaster()->getMassage();
+                $responseObj = $response->getResponse();
+                $message1 = $responseObj->getMaster()->getMessage()->getMessage1();
+                $okuri = $responseObj->getMaster()->getOkuri();
+                $message = $responseObj->getMaster()->getMessage();
             }
         } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
@@ -141,7 +147,7 @@ class GetOkuriHkTimeRequestTest extends AceRequestTestAbtract
         }
 
         $this->assertEquals(null, $okuri);
-        $this->assertEquals("", $message1);
+        $this->assertEquals("ＷＥＢ初期設定がありません", $message1);
         $this->assertEquals("", $message->getMessage2());
     }
 

@@ -25,21 +25,22 @@ class MasterModel implements MasterModelInterface
     /**
      * {@inheritDoc}
      */
-    public function getOkuri(): array|null {
+    public function getOkuri(): array|null 
+    {
         return $this->Okuri;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setOkuri(array|null $okuri): void {
+    public function setOkuri(array|null $okuri): void 
+    {
         $this->Okuri = $okuri;
     }
     
 
     /**
-     * Fetch response as list property
-     * @return string[] <string>
+     * {@inheritDoc}
      */
     public static function fetchAsListProperty(): array 
     {
