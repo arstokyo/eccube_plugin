@@ -6,11 +6,11 @@ use Plugin\AceClient\Entity\Config;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Eccube\Form\Type\ToggleSwitchType;
 
 class ConfigType extends AbstractType
 {
@@ -26,15 +26,7 @@ class ConfigType extends AbstractType
                        new Length(['max' => 255]),
                       ],
                     ])
-                ->add('is_log_on', ChoiceType::class,
-                      [
-                        'choices' => [
-                          '有効' => true,
-                          '無効' => false,
-                        ],
-                        'expanded' => true,
-                        'multiple' => false,
-                      ]);
+                ->add('is_log_on', ToggleSwitchType::class);
     }
 
     /**
