@@ -53,7 +53,7 @@ class SoapXmlSerializer implements SoapXmlSerializerInterface
      * @param array $encoders
      * @param AceConfigSerializer $aceConfigSerializer
      */
-    public function __construct(array $nomalizer = [], array $encoders = [new XmlEncoder()], AceConfigSerializer $aceConfigSerializer) 
+    public function __construct(array $nomalizer, array $encoders, AceConfigSerializer $aceConfigSerializer) 
     {
         $this->serializer = SerializerFactory::makeSerializer($nomalizer, $encoders);
         $this->config = $this->loadConfig($aceConfigSerializer);
