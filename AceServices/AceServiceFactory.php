@@ -65,4 +65,14 @@ class AceServiceFactory
         return new Service\Master2Service($this->serviceRetriever);
     }
 
+   /**
+     * Make new MasterService
+     * 
+     * @return Service\MasterService
+     */
+    public function makeMasterService() : Service\MasterService
+    {
+        return new Service\MasterService($this->serviceRetriever);
+    }
+
 }
