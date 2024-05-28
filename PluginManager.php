@@ -36,14 +36,6 @@ class PluginManager extends AbstractPluginManager
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function uninstall(array $meta, ContainerInterface $container)
-    {
-        $this->cleanConfig($container);
-    }
-
-    /**
      * Insert default config.
      * 
      * @param ContainerInterface $container
@@ -64,28 +56,6 @@ class PluginManager extends AbstractPluginManager
             $config->setIsLogOn(LoggerFactory::DEFAULT_LOG_ON);
 
             $entityManager->persist($config);
-            $entityManager->flush();
-        }
-    }
-
-    /**
-     * Clean config.
-     * 
-     * @param ContainerInterface $container
-     * 
-     * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
-     */
-    public function cleanConfig(ContainerInterface $container)
-    {
-        /** @var EntityManagerInterface $entityManager */
-        $entityManager = $container->get('doctrine')->getManager();
-
-        /** @var ConfigRepository $configRepository */
-        $configRepository = $entityManager->getRepository(AceClientConfig::class);
-
-        $config = $configRepository->get();
-        if (!\is_null($config)) {
-            $entityManager->remove($config);
             $entityManager->flush();
         }
     }
