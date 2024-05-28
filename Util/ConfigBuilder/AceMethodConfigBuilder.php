@@ -16,11 +16,17 @@ class AceMethodConfigBuilder implements ConfigBuilderInterface
 
     /**
      * @param ConfigRepository|null $options
+     * 
+     * @throws \RuntimeException
      */
     public static function build(mixed $options = null): array
     {
         $srcConfig = DefaultConfigBuilder::build();
         $optionConfig = $options->get();
+
+        if (is_null($optionConfig)) {
+            throw new \RuntimeException('AceClientConfig is not found. Ensure that the AceClientConfig is inserted.');
+        }
 
         $srcConfig[ConfigNodeRootNameMapper::ACE_METHOD]['default']['http_client']['base_uri'] = $optionConfig->getBaseUri();
         $srcConfig[ConfigNodeRootNameMapper::ACE_METHOD]['default']['logger']['class_name'] = $optionConfig->getIsLogOn() ? LoggerFactory::DEFAUT_LOGGER_CLASS : LoggerFactory::NULL_LOGGER_CLASS;

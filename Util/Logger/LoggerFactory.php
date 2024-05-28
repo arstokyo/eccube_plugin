@@ -13,6 +13,8 @@ class LoggerFactory
 
     const NULL_LOGGER_CLASS = \Psr\Log\NullLogger::class;
 
+    const DEFAULT_LOG_ON = false;
+
     /**
      * Make a new logger instance.
      *
