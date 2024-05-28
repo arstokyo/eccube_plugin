@@ -28,19 +28,17 @@ class PluginManager extends AbstractPluginManager
 {
 
     /**
-     * @param array $meta
-     * @param ContainerInterface $container
+     * {@inheritdoc}
      */
-    public function enable(array $meta, ContainerInterface $container)
+    public function install(array $meta, ContainerInterface $container)
     {
         $this->insertDefaultConfig($container);
     }
 
     /**
-     * @param array $meta
-     * @param ContainerInterface $container
+     * {@inheritdoc}
      */
-    public function disable(array $meta, ContainerInterface $container)
+    public function uninstall(array $meta, ContainerInterface $container)
     {
         $this->cleanConfig($container);
     }
