@@ -25,9 +25,9 @@ if (!class_exists('\Plugin\AceClient\Entity\Config', false)) {
         /**
          * @var string
          *
-         * @ORM\Column(name="base_uri", type="string", length=255)
+         * @ORM\Column(name="base_uri", type="string", length=255, options={"default":"http://localhost:8080"})
          */
-        private $baseUri;
+        private $baseUri = 'http://localhost:8080';
 
         /**
          * @var bool
