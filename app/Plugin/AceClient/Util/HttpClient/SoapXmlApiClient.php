@@ -20,7 +20,7 @@ class SoapXmlApiClient implements ClientInterface
     private ClientInterface $httpClient;
 
     /**
-     * {@inheritDoc}
+     * SoapXmlApiClient constructor.
      * 
      */
     public function __construct(array $config = [])
@@ -34,7 +34,7 @@ class SoapXmlApiClient implements ClientInterface
      */
     public function getConfig(string|null $option = null)
     {
-        return $this->httpClient->getConfig($option);
+        throw new \BadMethodCallException('This method is deprecated and will be removed in guzzlehttp/guzzle:8.0');
     }
     
     /**
