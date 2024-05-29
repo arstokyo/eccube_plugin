@@ -25,7 +25,7 @@ class AceMethodConfigBuilder implements ConfigBuilderInterface
         $optionConfig = $options->get();
 
         if (is_null($optionConfig)) {
-            throw new \RuntimeException('AceClientConfig is not found. Ensure that the AceClientConfig is inserted.');
+            throw new \RuntimeException('AceClientConfig is not found. Ensure the AceClientConfig is inserted.');
         }
 
         $srcConfig[ConfigNodeRootNameMapper::ACE_METHOD]['default']['http_client']['base_uri'] = $optionConfig->getBaseUri();
