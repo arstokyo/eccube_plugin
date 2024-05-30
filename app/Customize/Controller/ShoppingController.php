@@ -958,7 +958,7 @@ class ShoppingController extends AbstractShoppingController
             'iserror'   => !empty($message1) | !empty($message2),
             'errortype' => 'decisionCartError',
             'message1'  => $message1,
-            'message2'  => $message2,
+            'message2'  => isset($message2) ? $message2 : '',
         ];
 
     }
@@ -1000,7 +1000,7 @@ class ShoppingController extends AbstractShoppingController
             'iserror'   => !empty($message1) | !empty($message2),
             'errortype' => 'addCartError',
             'message1'  => $message1,
-            'message2'  => $message2,
+            'message2'  => isset($message2) ? $message2 : '',
         ];
     }
      
