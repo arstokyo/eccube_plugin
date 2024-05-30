@@ -27,9 +27,12 @@ class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareI
     /**
      * {@inheritdoc}
      * 
+     * @throws DataTypeMissMatchException
+     * @throws NotDeserializableException
+     * 
      * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
      */
-    public function denormalize($data, string $type, string $format = null, array $context = []): mixed
+    public function denormalize($data, string $type, string $format = null, array $context = [])
     {
         if (!\in_array(AsListDenormalizableInterface::class, class_implements($type), true)) {
             throw new DataTypeMissMatchException('AsListDenormalizer Error: Expected AsListDenormalizableInterface object');
