@@ -115,4 +115,74 @@ class MemberService extends AceServiceAbstract implements AceServiceInterface
     {
         return new AceMethod\Member\GetRirekiDetailMethod($this->baseServiceName, $this->serviceRetriever);
     }
+
+    /**
+     * Make GetPasswordMethod
+     *
+     * @return AceMethod\Member\GetPasswordMethod
+     */
+    public function makeGetPasswordMethod(): AceMethod\Member\GetPasswordMethod
+    {
+        return new AceMethod\Member\GetPasswordMethod($this->baseServiceName, $this->serviceRetriever);
+    }
+
+    /**
+     * Make RegMailMagazineMethod
+     *
+     * @return AceMethod\Member\RegMailMagazineMethod
+     */
+    public function makeRegMailMagazineMethod(): AceMethod\Member\RegMailMagazineMethod
+    {
+        return new AceMethod\Member\RegMailMagazineMethod($this->baseServiceName, $this->serviceRetriever);
+    }
+
+    /**
+     * Make GetMemberNameMethod
+     *
+     * @return AceMethod\Member\GetMemberNameMethod
+     */
+    public function makeGetMemberNameMethod(): AceMethod\Member\GetMemberNameMethod
+    {
+        return new AceMethod\Member\GetMemberNameMethod($this->baseServiceName, $this->serviceRetriever);
+    }
+
+    /**
+     * Make UpdateTaikaiMethod
+     *
+     * @return AceMethod\Member\UpdateTaikaiMethod
+     */
+    public function makeUpdateTaikaiMethod(): AceMethod\Member\UpdateTaikaiMethod
+    {
+        return new AceMethod\Member\UpdateTaikaiMethod($this->baseServiceName, $this->serviceRetriever);
+    }
+
+    /**
+     * Make GetMemberMcodeMethod
+     *
+     * @return AceMethod\Member\GetMemberMcodeMethod
+     */
+    public function makeGetMemberMcodeMethod(): AceMethod\Member\GetMemberMcodeMethod
+    {
+        return new AceMethod\Member\GetMemberMcodeMethod($this->baseServiceName, $this->serviceRetriever);
+    }
+
+    /**
+     * Make RegMemwebEmailMethod
+     *
+     * @return AceMethod\Member\RegMemwebEmailMethod
+     */
+    public function makeRegMemwebEmailMethod(): AceMethod\Member\RegMemwebEmailMethod
+    {
+        return new AceMethod\Member\RegMemwebEmailMethod($this->baseServiceName, $this->serviceRetriever);
+    }
+
+    /**
+     * Make UpdatePasswordMethod
+     *
+     * @return AceMethod\Member\UpdatePasswordMethod
+     */
+    public function makeUpdatePasswordMethod(): AceMethod\Member\UpdatePasswordMethod
+    {
+        return new AceMethod\Member\UpdatePasswordMethod($this->baseServiceName, $this->serviceRetriever);
+    }
 }
