@@ -23,8 +23,7 @@ class ConfigRepositoryRetriever
     (
         private EntityManagerInterface $entityManager,
         private ConfigRepository $configRepository
-    )
-    {
+    ) {
     }
 
     /**

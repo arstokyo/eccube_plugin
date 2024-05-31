@@ -14,7 +14,6 @@ use Plugin\AceClient\Util\Normalizer\NormalizerFactory;
  */
 class SoapXmlSerializerProvider
 {
-
     /** @var SoapXmlSerializer $SoapXmlSerializer */
     private SoapXmlSerializer $SoapXmlSerializer;
 

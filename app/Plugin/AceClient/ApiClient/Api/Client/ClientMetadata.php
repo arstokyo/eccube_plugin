@@ -23,8 +23,7 @@ class ClientMetadata implements ClientMetadataInterface
         private string $requestmethod,
         private string $uri,
         private RequestModelInterface|\JsonSerializable|array $data
-    ) 
-    {
+    ) {
     }
 
     /**

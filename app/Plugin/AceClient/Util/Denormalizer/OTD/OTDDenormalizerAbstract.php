@@ -12,7 +12,7 @@ abstract class OTDDenormalizerAbstract implements OTDDenormalizerInterface
 
     public function __construct(
         protected OTDDelegateInterface $delegate
-    ){
+    ) {
     }
 
     /**
