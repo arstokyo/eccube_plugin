@@ -7,6 +7,7 @@ use Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr\MemberPrmModel;
 use Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr\NmemberModel;
 use Plugin\AceClient\AceServices\Model\Request\Member\DeleteHaisoAdrs\DeleteHaisoAdrsRequestModel;
 use Plugin\AceClient\AceServices\Model\Response\Member\DeleteHaisoAdrs\DeleteHaisoAdrsResponseModel;
+use Plugin\AceClient\AceServices\Model\Response;
 use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient\Util\Mapper\OverviewMapper;
 use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
@@ -55,7 +56,7 @@ class DeleteHaisoAdrsRequestModelTest extends AceRequestTestAbtract
 
     /**
      * @testdox 顧客住所作成後、顧客住所削除のリクエスト送信、返り値に作成した住所が含まれていないことを確認
-     * @testWith [ 105, 0 ]
+     * @testWith [ 105, 6]
     */
     public function testRequestDeleteHaisoAdrsCase1($mcode, $eda)
     {
@@ -76,9 +77,7 @@ class DeleteHaisoAdrsRequestModelTest extends AceRequestTestAbtract
                 if ($response->getStatusCode() === 200) {
                     /** @var DeleteHaisoAdrsResponseModel $responseObj */
                     $responseObj = $response->getResponse();
-                    $eda = $responseObj->getMember()
-                                            ->getNmember()
-                                            ->getEda();
+                    $nmembers = $responseObj->getMember()->getNmember();
                     $message1 = $responseObj->getMember()->getMessage()->getMessage1() ?? null;
                     $message2 = $responseObj->getMember()->getMessage()->getMessage2() ?? null;
                 }
@@ -88,12 +87,26 @@ class DeleteHaisoAdrsRequestModelTest extends AceRequestTestAbtract
         } catch(\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
-        $this->assertNotNull($response);
-        // $targetEda の枝番がレスポンスに含まれていなければテスト成功
-        //$this->assertNotContains($targetEda, $eda);
-        $this->assertEquals('', $message1);
-        $this->assertEquals('', $message2);
-        $this->markTestIncomplete('This test has not been implemented yet.');
+
+        $this->assertEmpty('', $message1);
+        $this->assertEmpty('', $message2);
+        $this->assertFalse($this->isEdaExist($targetEda, $nmembers));
+
+    }
+
+    /**
+     * @param int $eda 
+     * @param Response\Member\DeleteHaisoAdrs\NmemberModel[] $nmembers
+     * @return bool
+     */
+    public function isEdaExist($eda, $nmembers)
+    {
+        foreach ($nmembers as $nmember) {
+            if ($nmember->getEda() === $eda) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -103,28 +116,18 @@ class DeleteHaisoAdrsRequestModelTest extends AceRequestTestAbtract
     public function testRequestDeleteHaisoAdrsCase2($mcode, $eda)
     {
         try {
-
-            $regMemAdrRequest = $this->callRegMemAdrRequestModel($mcode, $eda);
+            $getDeleteHaisoAdrsRequest = $this->CallDeleteHaisoAdrsRequestModel(-999, $eda);
             $response = $this->aceClient->makeMemberService()
-                                        ->makeRegMemAdrMethod()
-                                        ->withRequest($regMemAdrRequest)
+                                        ->makeDeleteHaisoAdrsMethod()
+                                        ->withRequest($getDeleteHaisoAdrsRequest)
                                         ->send();
-            if ($response->getStatusCode() === 200){
-                $targetEda = $response->getResponse()->getMember()->getNmember()->getEda();
-
-                $getDeleteHaisoAdrsRequest = $this->CallDeleteHaisoAdrsRequestModel(-999, $targetEda);
-                $response = $this->aceClient->makeMemberService()
-                                            ->makeDeleteHaisoAdrsMethod()
-                                            ->withRequest($getDeleteHaisoAdrsRequest)
-                                            ->send();
-                if ($response->getStatusCode() === 200) {
-                    /** @var DeleteHaisoAdrsResponseModel $responseObj */
-                    $responseObj = $response->getResponse();
-                    $nmember = $responseObj->getMember()
-                                            ->getNmember();
-                    $message1 = $responseObj->getMember()->getMessage()->getMessage1() ?? null;
-                    $message2 = $responseObj->getMember()->getMessage()->getMessage2() ?? null;
-                }
+            if ($response->getStatusCode() === 200) {
+                /** @var DeleteHaisoAdrsResponseModel $responseObj */
+                $responseObj = $response->getResponse();
+                $nmember = $responseObj->getMember()
+                                        ->getNmember();
+                $message1 = $responseObj->getMember()->getMessage()->getMessage1() ?? null;
+                $message2 = $responseObj->getMember()->getMessage()->getMessage2() ?? null;
             }
         } catch(ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';

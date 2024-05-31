@@ -28,8 +28,7 @@ class Delegate implements DelegateInterface
         protected Serializer\SerializerInterface $serializer,
         protected Normalizer\NormalizerInterface $normalizer,
         protected LoggerInterface $logger
-    ) 
-    {
+    ) {
     }
 
     /**

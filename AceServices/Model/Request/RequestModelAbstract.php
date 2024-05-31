@@ -6,9 +6,8 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 
 abstract class RequestModelAbstract implements RequestModelInterface
 {
-
     /**
-     * Compiles the property name with the class name.
+     * Compile the property name with the class name.
      * 
      * @param string $property
      * @return string

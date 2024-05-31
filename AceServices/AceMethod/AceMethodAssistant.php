@@ -154,8 +154,7 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
         if ((empty($this->config->getSerializer()->getClassName()) ? true : SerializerFactory::DEFAULT_SERIALIZER === $this->config->getSerializer()->getClassName()) &&
             (empty($this->config->getSerializer()->getEncoder()) ? true : EncoderFactory::DEFAULT_ENCODER_FOR_SOAP_SERIALIZER === $this->config->getSerializer()->getEncoder()) &&
             (empty($this->config->getSerializer()->getNormalizers()) ? true : NormalizerFactory::DEFAULT_NORMALIZERS_FOR_SOAP_SERIALIZER === $this->config->getSerializer()->getNormalizers())
-        ) 
-        {
+        ) {
             return $this->serviceRetriever->getSoapXmlProvider()->getSoapXmlSerializer();
         }
         return SerializerFactory::makeSerilizerByClassName($this->config->getSerializer()->getClassName() ?: SerializerFactory::DEFAULT_SERIALIZER,
@@ -176,8 +175,7 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
     {
         if (empty($this->config->getSerializer()->getNormalizers()) or
             NormalizerFactory::DEFAULT_NORMALIZERS_FOR_SOAP_SERIALIZER === $this->config->getSerializer()->getNormalizers()
-        ) 
-        {
+        ) {
             return $this->serviceRetriever->getSoapXmlProvider()->getNormalizers();
         }
         $callfuncSuffix = $this->config->getSerializer()->getNormalizers();
@@ -196,8 +194,7 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
     {
         if (empty($this->config->getSerializer()->getEncoder()) or
             EncoderFactory::DEFAULT_ENCODER_FOR_SOAP_SERIALIZER === $this->config->getSerializer()->getEncoder()
-        ) 
-        {
+        ) {
             return $this->serviceRetriever->getSoapXmlProvider()->getEncoders();
         }
         return [EncoderFactory::makeEncoderByClassName($this->config->getSerializer()->getEncoder())];
@@ -215,8 +212,7 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
     {
         if (empty($this->config->getNormalizer()->getClassName()) or 
             NormalizerFactory::DEFAULT_NORMALIZER === $this->config->getNormalizer()->getClassName()
-        )
-        {
+        ) {
             return $this->serviceRetriever->getNormalizer();
         }
         return NormalizerFactory::makeNormalizerByClassName($this->config->getNormalizer()->getClassName());

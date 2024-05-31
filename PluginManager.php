@@ -26,7 +26,6 @@ use Plugin\AceClient\Util\Logger\LoggerFactory;
  */
 class PluginManager extends AbstractPluginManager
 {
-
     /**
      * {@inheritdoc}
      */

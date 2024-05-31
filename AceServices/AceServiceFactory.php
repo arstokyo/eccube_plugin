@@ -21,8 +21,7 @@ class AceServiceFactory
     public function __construct
     (
         private ServiceRetrieverInterface $serviceRetriever
-    )
-    {
+    ) {
     }
 
     /**

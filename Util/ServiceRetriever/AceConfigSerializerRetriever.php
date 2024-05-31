@@ -19,8 +19,7 @@ class AceConfigSerializerRetriever
     public function __construct
     (
         private AceConfigSerializer $aceConfigSerializer
-    )
-    {
+    ) {
     }
 
     /**
