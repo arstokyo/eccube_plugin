@@ -1,0 +1,36 @@
+<?php
+
+namespace Plugin\AceClient\AceServices\Model\Response\Master\GetId;
+
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+
+/**
+ * Class IdModel
+ *
+ * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
+ */
+
+class IdModel implements IdModelInterface
+{
+    use NoCategory\IdTrait;
+    /** @var ?string $idName ID名 */
+
+    protected ?string $idName = null;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getIdName(): ?string
+    {
+        return $this->idName;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setIdName(?string $idName): static
+    {
+        $this->idName = $idName;
+        return $this;
+    }
+}
