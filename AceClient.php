@@ -13,7 +13,6 @@ use Plugin\AceClient\Util\ServiceRetriever\ServiceRetrieverInterface;
  */
 class AceClient 
 {
-
     /** @var AceServiceFactory $serviceFactory */
     private AceServiceFactory $serviceFactory;
 
@@ -25,8 +24,7 @@ class AceClient
     public function __construct
     (
         private ServiceRetrieverInterface $serviceRetriever
-    )
-    {
+    ) {
         $this->serviceFactory = new AceServiceFactory($serviceRetriever);
     }
 

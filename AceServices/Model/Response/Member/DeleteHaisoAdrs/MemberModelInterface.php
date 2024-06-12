@@ -5,7 +5,7 @@ namespace Plugin\AceClient\AceServices\Model\Response\Member\DeleteHaisoAdrs;
 use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelInterface;
 use Plugin\AceClient\AceServices\Model\Response\Member\DeleteHaisoAdrs\NmemberModel;
 use Plugin\AceClient\AceServices\Model\Response;
-
+use Plugin\AceClient\AceServices\Model\Response\AsListDenormalizableInterface;
 
 /**
  * Interface MemberModelInterface
@@ -13,20 +13,20 @@ use Plugin\AceClient\AceServices\Model\Response;
  * @author kmorino
  */
 
-interface MemberModelInterface extends HasMessageModelInterface
+interface MemberModelInterface extends HasMessageModelInterface, AsListDenormalizableInterface
 {
     /**
-    * Get Point
+    * Get Nmember
     *
-    * @return ?Response\Member\DeleteHaisoAdrs\NmemberModel
+    * @return Response\Member\DeleteHaisoAdrs\NmemberModel[]|null
     */
-    public function getNmember(): ?NmemberModel;
+    public function getNmember(): ?array;
 
     /**
-     * Set Point
+     * Set Nmember
      *
-     * @param ?Response\Member\DeleteHaisoAdrs\NmemberModel $Nmember
+     * @param Response\Member\DeleteHaisoAdrs\NmemberModel[]|null $Nmember
      * @return void
      */
-    public function setNmember(?NmemberModel $Nmember): void;
+    public function setNmember(?array $Nmember): void;
 }

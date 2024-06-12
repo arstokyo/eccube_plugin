@@ -37,8 +37,7 @@ class AbstractClient implements ClientInterface
     (
         protected string $endpoint,
         protected DelegateInterface $delegate
-    ) 
-    {
+    ) {
     }
 
     /**

@@ -21,7 +21,6 @@ class AceRequestTestAbtract extends AbstractAdminWebTestCase
             $container = static::$kernel->getContainer();
             $this->aceClient = $container->get('plugin.ace.client');
         }
-
     }
 
     public function testAceClientInstance()

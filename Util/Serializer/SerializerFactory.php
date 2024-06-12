@@ -23,7 +23,6 @@ use Plugin\AceClient\Util\ClassFactory\ClassFactory;
  */
 final class SerializerFactory
 {
-
     public const DEFAULT_SERIALIZER = SoapXmlSerializerModel::class;
 
     /**

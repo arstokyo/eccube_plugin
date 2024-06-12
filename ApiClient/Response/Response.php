@@ -22,8 +22,7 @@ class Response implements ResponseInterface
         private array $headers,
         private mixed $response,
         private int $statusCode = 200
-    ) 
-    {
+    ) {
     }
 
     /**
