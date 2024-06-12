@@ -185,4 +185,64 @@ class MemberService extends AceServiceAbstract implements AceServiceInterface
     {
         return new AceMethod\Member\UpdatePasswordMethod($this->baseServiceName, $this->serviceRetriever);
     }
+
+    /**
+     * Make GetPointRirekiMethod
+     *
+     * @return AceMethod\Member\GetPointRirekiMethod
+     */
+    public function makeGetPointRirekiMethod(): AceMethod\Member\GetPointRirekiMethod
+    {
+        return new AceMethod\Member\GetPointRirekiMethod($this->baseServiceName, $this->serviceRetriever);
+    }
+
+    /**
+     * Make GetSbpsCustIdMethod
+     *
+     * @return AceMethod\Member\GetSbpsCustIdMethod
+     */
+    public function makeGetSbpsCustIdMethod(): AceMethod\Member\GetSbpsCustIdMethod
+    {
+        return new AceMethod\Member\GetSbpsCustIdMethod($this->baseServiceName, $this->serviceRetriever);
+    }
+
+    /**
+     * Make UpdateSbpsCustIdMethod
+     *
+     * @return AceMethod\Member\UpdateSbpsCustIdMethod
+     */
+    public function makeUpdateSbpsCustIdMethod(): AceMethod\Member\UpdateSbpsCustIdMethod
+    {
+        return new AceMethod\Member\UpdateSbpsCustIdMethod($this->baseServiceName, $this->serviceRetriever);
+    }
+
+    /**
+     * Make DeleteSbpsCustIdMethod
+     *
+     * @return AceMethod\Member\DeleteSbpsCustIdMethod
+     */
+    public function makeDeleteSbpsCustIdMethod(): AceMethod\Member\DeleteSbpsCustIdMethod
+    {
+        return new AceMethod\Member\DeleteSbpsCustIdMethod($this->baseServiceName, $this->serviceRetriever);
+    }
+
+    /**
+     * Make CheckDuplicationMemberMethod
+     *
+     * @return AceMethod\Member\CheckDuplicationMemberMethod
+     */
+    public function makeCheckDuplicationMemberMethod(): AceMethod\Member\CheckDuplicationMemberMethod
+    {
+        return new AceMethod\Member\CheckDuplicationMemberMethod($this->baseServiceName, $this->serviceRetriever);
+    }
+
+    /**
+     * Make GetDurationOrderTotalMethod
+     *
+     * @return AceMethod\Member\GetDurationOrderTotalMethod
+     */
+    public function makeGetDurationOrderTotalMethod(): AceMethod\Member\GetDurationOrderTotalMethod
+    {
+        return new AceMethod\Member\GetDurationOrderTotalMethod($this->baseServiceName, $this->serviceRetriever);
+    }
 }
