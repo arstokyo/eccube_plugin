@@ -12,7 +12,6 @@ use Symfony\Component\PropertyInfo\Type;
  */
 class SoapReflectionExtractor extends ReflectionExtractor
 {
-
     const MAP_TYPES = [
         'integer' => Type::BUILTIN_TYPE_INT,
         'boolean' => Type::BUILTIN_TYPE_BOOL,

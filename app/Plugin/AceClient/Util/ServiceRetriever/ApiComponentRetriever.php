@@ -27,8 +27,7 @@ class ApiComponentRetriever
         private SoapXmlSerializerProvider $SoapXmlSerializerProvider,
         private LoggerProvider $loggerProvider,
         private SoapXmlNormalizer $normalizer,
-    )
-    {
+    ) {
     }
 
     /**

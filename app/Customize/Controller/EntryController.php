@@ -378,7 +378,7 @@ class EntryController extends AbstractController
         return [
             'iserror' => !empty($message1) | !empty($message2),
             'message1' => $message1,
-            'message2' => $message2,
+            'message2' => isset($message2) ? $message2 : null,
         ];
     }
 

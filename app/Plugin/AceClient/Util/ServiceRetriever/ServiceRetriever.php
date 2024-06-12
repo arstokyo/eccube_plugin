@@ -32,8 +32,7 @@ class ServiceRetriever implements ServiceRetrieverInterface
         private EccubeConfigRetriever $eccubeConfigRetriever,
         private AceConfigSerializerRetriever $aceConfigSerializerRetriever,
         private ApiComponentRetriever $apiComponentRetriever
-    )
-    {
+    ) {
     }
 
     /**

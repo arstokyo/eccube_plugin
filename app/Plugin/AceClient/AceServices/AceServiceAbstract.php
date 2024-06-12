@@ -21,8 +21,7 @@ class AceServiceAbstract implements AceServiceInterface
     public function __construct
     (
         protected ServiceRetrieverInterface $serviceRetriever
-    )
-    {
+    ) {
     }
 
 }

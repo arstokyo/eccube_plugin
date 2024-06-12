@@ -23,8 +23,7 @@ class PostSoapXMLClient extends PostClientAbstract
     (
         protected string $endpoint,
         protected DelegateInterface $delegate
-    ) 
-    {
+    ) {
     }
 
     /**

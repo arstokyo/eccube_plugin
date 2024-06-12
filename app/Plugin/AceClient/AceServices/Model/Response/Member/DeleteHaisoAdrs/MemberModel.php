@@ -10,7 +10,6 @@ use Plugin\AceClient\AceServices\Model\Response\Member\DeleteHaisoAdrs\NmemberMo
  *
  * @author kmorino
  */
-
 class MemberModel implements MemberModelInterface
 {
     use HasMessageModelTrait;
@@ -18,14 +17,14 @@ class MemberModel implements MemberModelInterface
     /**
      * Point
      *
-     * @var NmemberModel $Nmember
+     * @var NmemberModel[]|null $Nmember
      */
-    protected ?NmemberModel $Nmember  = null;
+    protected ?array $Nmember  = null;
 
     /**
      * {@inheritDoc}
      */
-    function getNmember(): ?NmemberModel
+    function getNmember(): ?array
     {
         return $this->Nmember;
     }
@@ -33,8 +32,18 @@ class MemberModel implements MemberModelInterface
     /**
     * {@inheritDoc}
     */
-    function setNmember(?NmemberModel $Nmember): void
+    function setNmember(?array $Nmember): void
     {
         $this->Nmember = $Nmember;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function fetchAsListProperty(): array
+    {
+        return [
+            'Nmember' => NmemberModel::class
+        ];
     }
 }

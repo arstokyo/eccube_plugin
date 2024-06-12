@@ -20,8 +20,7 @@ class EccubeConfigRetriever
     public function __construct
     (
         private EccubeConfig $eccubeConfig
-    )
-    {
+    ) {
     }
 
     /**

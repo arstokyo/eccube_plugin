@@ -1,6 +1,4 @@
 services:
-    _defaults:
-        public: true
 
     plugin.ace.client:
         class: Plugin\AceClient\AceClient
