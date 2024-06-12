@@ -275,4 +275,14 @@ class MasterService extends AceServiceAbstract implements AceServiceInterface
     {
         return new AceMethod\Master\GetMemAnkMethod($this->baseServiceName, $this->serviceRetriever);
     }
+
+    /**
+     * Meke GetHoliday Method
+     *
+     * @return AceMethod\Master\GetHolidayMethod
+     */
+    public function makeGetHolidayMethod(): AceMethod\Master\GetHolidayMethod
+    {
+        return new AceMethod\Master\GetHolidayMethod($this->baseServiceName, $this->serviceRetriever);
+    }
 }
