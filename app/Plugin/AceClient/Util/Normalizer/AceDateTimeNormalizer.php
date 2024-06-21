@@ -22,7 +22,7 @@ class AceDateTimeNormalizer implements NormalizerInterface
      * 
      * @return string
      */
-    public function normalize($object, ?string $format = null, array $context = [])
+    public function normalize($object, string|null $format = null, array $context = [])
     {
         if (!$object instanceof AceDateTime) {
             throw new DataTypeMissMatchException('AceDateTime normalize Error: Expected AceDateTime object');
@@ -30,12 +30,12 @@ class AceDateTimeNormalizer implements NormalizerInterface
         return $object->toApiDateTime();
     }
 
-    public function supportsNormalization($data, ?string $format = null)
+    public function supportsNormalization($data, string|null $format = null)
     {
         return $data instanceof AceDateTime;
     }
 
-    public function getSupportedTypes(?string $format)
+    public function getSupportedTypes(string|null $format)
     {
         return [
             AceDateTime::class => false,

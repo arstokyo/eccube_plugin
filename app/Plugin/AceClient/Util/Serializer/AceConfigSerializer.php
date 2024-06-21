@@ -28,7 +28,7 @@ class AceConfigSerializer implements SerializerInterface
     /**
      * {@inheritdoc}
      */
-    public function deserialize($data, string $type, string $format, array $context = [])
+    public function deserialize($data, string $type, string $format, array $context = []): mixed
     {
         return $this->serializer->deserialize($data, $type, $format, $context);
     }
