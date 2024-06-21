@@ -30,11 +30,9 @@ class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareI
      * @throws DataTypeMissMatchException
      * @throws NotDeserializableException
      * 
-     * @return mixed
-     * 
      * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
      */
-    public function denormalize($data, string $type, ?string $format = null, array $context = [])
+    public function denormalize($data, string $type, string|null $format = null, array $context = []): mixed
     {
         if (!\in_array(AsListDenormalizableInterface::class, class_implements($type), true)) {
             throw new DataTypeMissMatchException('AsListDenormalizer Error: Expected AsListDenormalizableInterface object');
@@ -86,7 +84,7 @@ class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareI
      * 
      * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
      */
-    public function supportsDenormalization($data, string $type, ?string $format = null, array $context = []): bool
+    public function supportsDenormalization($data, string $type, string|null $format = null, array $context = []): bool
     {
         return \in_array(AsListDenormalizableInterface::class, class_implements($type), true) && isset($context['deserialization_path']) && !\in_array($context['deserialization_path'] , $this->cachePath);
     }
@@ -103,7 +101,7 @@ class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareI
         $this->setDenormalizer($serializer);
     }
 
-    public function getSupportedTypes(?string $format)
+    public function getSupportedTypes(string|null $format)
     {
         return [
             AsListDenormalizableInterface::class => false,
