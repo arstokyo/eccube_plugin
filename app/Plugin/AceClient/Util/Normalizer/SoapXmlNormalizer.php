@@ -59,7 +59,7 @@ class SoapXmlNormalizer implements NormalizerInterface
     public function getSupportedTypes(?string $format)
     {
         return [
-            RequestModelInterface::class => true,
+            RequestModelInterface::class => false,
         ];
     }
 }

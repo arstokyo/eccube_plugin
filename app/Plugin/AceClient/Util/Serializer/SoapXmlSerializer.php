@@ -70,7 +70,7 @@ class SoapXmlSerializer implements SoapXmlSerializerInterface
      * 
      * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
      */
-    public function serialize($data, string $format = EncodeDefineMapper::XML, array $context = [])
+    public function serialize($data, string $format = EncodeDefineMapper::XML, array $context = []): string
     {
         if (!$data instanceof RequestModelInterface) {
             throw new DataTypeMissMatchException(sprintf('Given data is not serializable. Respected object type "%s"', RequestModelInterface::class));
@@ -90,7 +90,7 @@ class SoapXmlSerializer implements SoapXmlSerializerInterface
      * 
      * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
      */
-    public function deserialize($data, string $type, string $format, array $context = [])
+    public function deserialize($data, string $type, string $format, array $context = []): mixed
     {
         if (!$this->serializer->supportsEncoding($format, $context)) {
             throw new NotEncodableValueException(sprintf('Serialization for the format "%s" is not supported.', $format));
