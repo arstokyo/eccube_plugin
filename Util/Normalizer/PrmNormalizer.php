@@ -16,7 +16,6 @@ use Plugin\AceClient\Exception\DataTypeMissMatchException;
  */
 class PrmNormalizer implements NormalizerInterface, SerializerAwareInterface
 {
-
     /**
      * @var SerializerInterface $serializer
      */
@@ -29,7 +28,7 @@ class PrmNormalizer implements NormalizerInterface, SerializerAwareInterface
      * 
      * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
      */
-    public function normalize($object, string $format = null, array $context = [])
+    public function normalize($object, string|null $format = null, array $context = [])
     {
         if (!$object instanceof PrmModelInterface) {
             throw new DataTypeMissMatchException('Prm normalize Error: Expected PrmModelInterface object');
@@ -54,7 +53,7 @@ class PrmNormalizer implements NormalizerInterface, SerializerAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function supportsNormalization($data, string $format = null)
+    public function supportsNormalization($data, string|null $format = null)
     {
         return ($data instanceof PrmModelInterface) && (!in_array(get_class($data), $this->cacheObj));
     }
@@ -77,6 +76,13 @@ class PrmNormalizer implements NormalizerInterface, SerializerAwareInterface
         if (($key = array_search($class, $this->cacheObj)) !== false) {
             unset($this->cacheObj[$key]);
         }
+    }
+
+    public function getSupportedTypes(string|null $format)
+    {
+        return [
+            PrmModelInterface::class => false,
+        ];
     }
 
 }
