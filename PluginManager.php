@@ -15,7 +15,6 @@ namespace Plugin\AceClient;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Eccube\Plugin\AbstractPluginManager;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Plugin\AceClient\Repository\ConfigRepository;
 use Plugin\AceClient\Entity\Config as AceClientConfig;
 use Plugin\AceClient\Util\HttpClient\HttpClientFactory;
@@ -29,7 +28,7 @@ class PluginManager extends AbstractPluginManager
     /**
      * {@inheritdoc}
      */
-    public function install(array $meta, ContainerInterface $container)
+    public function install(array $meta, $container)
     {
         $this->insertDefaultConfig($container);
     }
@@ -37,11 +36,9 @@ class PluginManager extends AbstractPluginManager
     /**
      * Insert default config.
      * 
-     * @param ContainerInterface $container
-     * 
      * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
      */
-    public function insertDefaultConfig(ContainerInterface $container)
+    public function insertDefaultConfig($container)
     {
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $container->get('doctrine')->getManager();
