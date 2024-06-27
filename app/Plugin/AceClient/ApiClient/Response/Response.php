@@ -9,6 +9,9 @@ namespace Plugin\AceClient\ApiClient\Response;
  */
 class Response implements ResponseInterface
 {
+    private array $headers;
+    private mixed $response;
+    private int $statusCode = 200;
 
     /**
      * Response constructor
@@ -19,10 +22,13 @@ class Response implements ResponseInterface
      */
     public function __construct
     (
-        private array $headers,
-        private mixed $response,
-        private int $statusCode = 200
+        array $headers,
+        mixed $response,
+        int $statusCode = 200
     ) {
+        $this->headers    = $headers;
+        $this->response   = $response;
+        $this->statusCode = $statusCode;
     }
 
     /**

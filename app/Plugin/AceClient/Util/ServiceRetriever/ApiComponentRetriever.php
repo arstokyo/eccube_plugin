@@ -14,6 +14,9 @@ use Plugin\AceClient\Util\Normalizer\SoapXmlNormalizer;
  */
 class ApiComponentRetriever
 {
+    private SoapXmlSerializerProvider $SoapXmlSerializerProvider;
+    private LoggerProvider $loggerProvider;
+    private SoapXmlNormalizer $normalizer;
 
     /**
      * ApiComponentRetriever constructor.
@@ -24,10 +27,13 @@ class ApiComponentRetriever
      */
     public function __construct
     (
-        private SoapXmlSerializerProvider $SoapXmlSerializerProvider,
-        private LoggerProvider $loggerProvider,
-        private SoapXmlNormalizer $normalizer,
+        SoapXmlSerializerProvider $SoapXmlSerializerProvider,
+        LoggerProvider $loggerProvider,
+        SoapXmlNormalizer $normalizer
     ) {
+        $this->SoapXmlSerializerProvider = $SoapXmlSerializerProvider;
+        $this->loggerProvider = $loggerProvider;
+        $this->normalizer = $normalizer;
     }
 
     /**

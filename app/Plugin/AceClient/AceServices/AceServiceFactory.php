@@ -12,16 +12,17 @@ use Plugin\AceClient\Util\ServiceRetriever\ServiceRetrieverInterface;
  */
 class AceServiceFactory 
 {
+
+    private ServiceRetrieverInterface $serviceRetriever;
     
     /**
      * AceServiceFactory constructor.
      * 
      * @param ServiceRetrieverInterface $serviceRetriever
      */
-    public function __construct
-    (
-        private ServiceRetrieverInterface $serviceRetriever
-    ) {
+    public function __construct(ServiceRetrieverInterface $serviceRetriever) 
+    {
+        $this->serviceRetriever = $serviceRetriever;
     }
 
     /**

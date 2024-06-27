@@ -31,6 +31,7 @@ class SoapReflectionExtractor extends ReflectionExtractor
                 }
             }
         }
+        
         return $types;
     }
 

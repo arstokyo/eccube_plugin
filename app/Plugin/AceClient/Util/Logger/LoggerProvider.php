@@ -16,6 +16,8 @@ class LoggerProvider
     /** @var NullLogger $nullLogger */
     private NullLogger $nullLogger;
 
+    private LoggerInterface $logger;
+
     /**
      * LoggerProvider constructor.
      * 
@@ -23,9 +25,10 @@ class LoggerProvider
      */
     public function __construct
     (
-        private LoggerInterface $logger,
+        LoggerInterface $logger
     )
     {
+        $this->logger = $logger;
         $this->nullLogger = LoggerFactory::makeLoggerByClassName(LoggerFactory::NULL_LOGGER_CLASS);
     }
 

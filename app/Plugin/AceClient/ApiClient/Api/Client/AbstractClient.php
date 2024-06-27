@@ -27,6 +27,10 @@ class AbstractClient implements ClientInterface
 
     protected ?string $responseObject = null;
 
+    protected string $endpoint;
+
+    protected DelegateInterface $delegate;
+
     /**
      * AbstractClient constructor
      *
@@ -35,9 +39,11 @@ class AbstractClient implements ClientInterface
      */
     public function __construct
     (
-        protected string $endpoint,
-        protected DelegateInterface $delegate
+        string $endpoint,
+        DelegateInterface $delegate
     ) {
+        $this->endpoint = $endpoint;
+        $this->delegate = $delegate;
     }
 
     /**

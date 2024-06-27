@@ -17,6 +17,10 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class ServiceRetriever implements ServiceRetrieverInterface
 {
+    private ConfigRepositoryRetriever $configRepositoryRetriever;
+    private EccubeConfigRetriever $eccubeConfigRetriever;
+    private AceConfigSerializerRetriever $aceConfigSerializerRetriever;
+    private ApiComponentRetriever $apiComponentRetriever;
 
     /**
      * ServiceRetriveHelper constructor.
@@ -28,11 +32,15 @@ class ServiceRetriever implements ServiceRetrieverInterface
      */
     public function __construct
     (
-        private ConfigRepositoryRetriever $configRepositoryRetriever,
-        private EccubeConfigRetriever $eccubeConfigRetriever,
-        private AceConfigSerializerRetriever $aceConfigSerializerRetriever,
-        private ApiComponentRetriever $apiComponentRetriever
+        ConfigRepositoryRetriever $configRepositoryRetriever,
+        EccubeConfigRetriever $eccubeConfigRetriever,
+        AceConfigSerializerRetriever $aceConfigSerializerRetriever,
+        ApiComponentRetriever $apiComponentRetriever
     ) {
+        $this->configRepositoryRetriever = $configRepositoryRetriever;
+        $this->eccubeConfigRetriever = $eccubeConfigRetriever;
+        $this->aceConfigSerializerRetriever = $aceConfigSerializerRetriever;
+        $this->apiComponentRetriever = $apiComponentRetriever;
     }
 
     /**
