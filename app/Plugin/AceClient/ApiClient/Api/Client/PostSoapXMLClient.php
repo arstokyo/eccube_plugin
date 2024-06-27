@@ -13,18 +13,6 @@ use Plugin\AceClient\Util\Mapper\EncodeDefineMapper;
  */
 class PostSoapXMLClient extends PostClientAbstract
 {
-    /**
-     * PostSoapXMLClient constructor
-     *
-     * @param string          $endpoint Target endpoint.
-     * @param DelegateInterface $delegate Delegate instance.
-     */
-    public function __construct
-    (
-        protected string $endpoint,
-        protected DelegateInterface $delegate
-    ) {
-    }
 
     /**
      * Build the request JSON body with the specified parameters
