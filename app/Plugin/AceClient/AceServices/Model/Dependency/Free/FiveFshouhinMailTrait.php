@@ -35,7 +35,7 @@ trait FiveFshouhinMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFShouhinMail1(?string $fshouhinmail1): static
+    public function setFShouhinMail1(?string $fshouhinmail1)
     {
         $this->fshouhinmail1 = $fshouhinmail1;
         return $this;
@@ -52,7 +52,7 @@ trait FiveFshouhinMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFShouhinMail2(?string $fshouhinmail2): static
+    public function setFShouhinMail2(?string $fshouhinmail2)
     {
         $this->fshouhinmail2 = $fshouhinmail2;
         return $this;
@@ -69,7 +69,7 @@ trait FiveFshouhinMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFShouhinMail3(?string $fshouhinmail3): static
+    public function setFShouhinMail3(?string $fshouhinmail3)
     {
         $this->fshouhinmail3 = $fshouhinmail3;
         return $this;
@@ -86,7 +86,7 @@ trait FiveFshouhinMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFShouhinMail4(?string $fshouhinmail4): static
+    public function setFShouhinMail4(?string $fshouhinmail4)
     {
         $this->fshouhinmail4 = $fshouhinmail4;
         return $this;
@@ -103,7 +103,7 @@ trait FiveFshouhinMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFShouhinMail5(?string $fshouhinmail5): static
+    public function setFShouhinMail5(?string $fshouhinmail5)
     {
         $this->fshouhinmail5 = $fshouhinmail5;
         return $this;

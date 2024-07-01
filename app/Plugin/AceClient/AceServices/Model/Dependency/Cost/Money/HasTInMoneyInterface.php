@@ -23,6 +23,6 @@ interface HasTInMoneyInterface
     * @param string|null $tinmoney
     * @return $this
     */
-    public function setTinmoney(?string $tinmoney): static;
+    public function setTinmoney(?string $tinmoney);
 
 }

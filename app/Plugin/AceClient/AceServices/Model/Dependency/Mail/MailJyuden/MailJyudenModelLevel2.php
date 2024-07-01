@@ -30,7 +30,7 @@ class MailJyudenModelLevel2 extends MailJyudenModelLevel1 implements MailJyudenM
     /**
      * {@inheritDoc}
      */
-    public function setMailkbn(?int $mailkbn): static
+    public function setMailkbn(?int $mailkbn)
     {
         $this->mailkbn = $mailkbn;
         return $this;
@@ -47,7 +47,7 @@ class MailJyudenModelLevel2 extends MailJyudenModelLevel1 implements MailJyudenM
     /**
      * {@inheritDoc}
      */
-    public function setJbikou(?string $jbikou): static
+    public function setJbikou(?string $jbikou)
     {
         $this->jbikou = $jbikou;
         return $this;
@@ -64,7 +64,7 @@ class MailJyudenModelLevel2 extends MailJyudenModelLevel1 implements MailJyudenM
     /**
      * {@inheritDoc}
      */
-    public function setSbikou(?string $sbikou): static
+    public function setSbikou(?string $sbikou)
     {
         $this->sbikou = $sbikou;
         return $this;

@@ -16,7 +16,7 @@ interface STPointModelInterface extends HasPointInterface
      *
      * @return string|int|null
      */
-    public function getIday(): string|int|null;
+    public function getIday(): ?string;
 
     /**
      * Set ポイント算出日付
@@ -24,15 +24,15 @@ interface STPointModelInterface extends HasPointInterface
      * @param string|int|null $iday
      * @return $this
      */
-    public function setIday(string|int|null $iday): static;
+    public function setIday(?string $iday);
 
     /**
      * Get 最新購入日
      *
      * @return string|int|null
      */
-    #[SerializedName('inppoint_maxday')]
-    public function getInppointMaxday(): string|int|null;
+    /** @SerializedName("inppoint_maxday") */
+    public function getInppointMaxday(): ?string;
 
     /**
      * Set 最新購入日
@@ -40,6 +40,6 @@ interface STPointModelInterface extends HasPointInterface
      * @param string|int|null $inppointMaxday
      * @return $this
      */
-    #[SerializedName('inppoint_maxday')]
-    public function setInppointMaxday(string|int|null $inppointMaxday): static;
+    /** @SerializedName("inppoint_maxday") */
+    public function setInppointMaxday(?string $inppointMaxday);
 }

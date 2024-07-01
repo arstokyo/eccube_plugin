@@ -17,5 +17,5 @@ interface HasMemmailInterface
      * @param MemMailModel|null $memmail メールアドレス
      * @return $this
      */
-    public function setMemmail(?MemMailModel $memmail): static;
+    public function setMemmail(?MemMailModel $memmail);
 }

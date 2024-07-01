@@ -24,7 +24,7 @@ trait BumonTrait
     /**
      * {@inheritDoc}
      */
-    public function setBumon(?string $bumon): static
+    public function setBumon(?string $bumon)
     {
         $this->bumon = $bumon;
         return $this;

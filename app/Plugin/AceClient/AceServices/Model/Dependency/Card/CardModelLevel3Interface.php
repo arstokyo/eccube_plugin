@@ -25,7 +25,7 @@ interface CardModelLevel3Interface extends HasGMOStatusInterface
      * @param int|null $spsstatus
      * @return $this
      */
-    public function setSpsstatus(int|null $spsstatus): static;
+    public function setSpsstatus(?int $spsstatus);
 
     /**
      * Get ペイジェント決済ID
@@ -40,7 +40,7 @@ interface CardModelLevel3Interface extends HasGMOStatusInterface
      * @param string|null $pgtkid
      * @return $this
      */
-    public function setPgtkid(string|null $pgtkid): static;
+    public function setPgtkid(?string $pgtkid);
 
     /**
      * Get ペイジェント決済ステータス
@@ -55,7 +55,7 @@ interface CardModelLevel3Interface extends HasGMOStatusInterface
      * @param int|null $pgtstatus
      * @return $this
      */
-    public function setPgtstatus(?int $pgtstatus): static;
+    public function setPgtstatus(?int $pgtstatus);
 
     
 }

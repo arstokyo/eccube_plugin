@@ -23,6 +23,6 @@ interface HasJyouonInterface
      * @param int|null $jyouon
      * @return $this
      */
-    public function setJyouon(?int $jyouon): static;
+    public function setJyouon(?int $jyouon);
 
 }

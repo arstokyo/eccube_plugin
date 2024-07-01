@@ -26,7 +26,7 @@ trait FourCdvAdrTrait
     /**
      * {@inheritDoc}
      */
-    public function setCnvAdr1(?string $cnvadr1): static
+    public function setCnvAdr1(?string $cnvadr1)
     {
         $this->cnvadr1 = $cnvadr1;
         return $this;
@@ -41,7 +41,7 @@ trait FourCdvAdrTrait
     /**
      * {@inheritDoc}
      */
-    public function setCnvAdr2(?string $cnvadr2): static
+    public function setCnvAdr2(?string $cnvadr2)
     {
         $this->cnvadr2 = $cnvadr2;
         return $this;
@@ -56,7 +56,7 @@ trait FourCdvAdrTrait
     /**
      * {@inheritDoc}
      */
-    public function setCnvAdr3(?string $cnvadr3): static
+    public function setCnvAdr3(?string $cnvadr3)
     {
         $this->cnvadr3 = $cnvadr3;
         return $this;
@@ -71,7 +71,7 @@ trait FourCdvAdrTrait
     /**
      * {@inheritDoc}
      */
-    public function setCnvAdr4(?string $cnvadr4): static
+    public function setCnvAdr4(?string $cnvadr4)
     {
         $this->cnvadr4 = $cnvadr4;
         return $this;

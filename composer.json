@@ -36,6 +36,7 @@
         "doctrine/orm": "^2.11",
         "doctrine/persistence": "^2.5",
         "easycorp/easy-log-handler": "^1.0",
+        "ec-cube/aceclient": "^1.0",
         "ec-cube/api42": "^4.2",
         "ec-cube/coupon42": "^4.2",
         "ec-cube/mailmagazine42": "^4.2",
@@ -196,7 +197,7 @@
     },
     "config": {
         "platform": {
-            "php": "8.1.27"
+            "php": "7.4.1"
         },
         "preferred-install": {
             "*": "dist"

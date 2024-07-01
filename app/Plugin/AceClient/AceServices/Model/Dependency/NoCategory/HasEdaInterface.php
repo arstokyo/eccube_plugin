@@ -14,7 +14,7 @@ interface HasEdaInterface
      *
      * @return int|string|null
      */
-    public function getEda(): int|string|null;
+    public function getEda(): ?string;
 
     /**
      * Set 納品先枝番号
@@ -22,5 +22,5 @@ interface HasEdaInterface
      * @param int|string|null $eda
      * @return $this
      */
-    public function setEda(int|string|null $eda): static;
+    public function setEda(?string $eda);
 }

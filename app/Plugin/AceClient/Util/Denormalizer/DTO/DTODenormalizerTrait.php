@@ -31,7 +31,7 @@ trait DTODenormalizerTrait
      * 
      * @return ConfigModelInterface|OverridableConfigInterface
      */
-    final protected function denormalizeDTO($data, string $type, string $format = null, array $context = []): ConfigModelInterface|OverridableConfigInterface
+    final protected function denormalizeDTO($data, string $type, string $format = null, array $context = [])
     {
         if (!isset($this->dtoSerializer)) {
             $this->dtoSerializer = SerializerFactory::makeDTOSerializer();

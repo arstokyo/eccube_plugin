@@ -27,7 +27,7 @@ class MasterModel implements MasterModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setGoods(GoodModel|null $goods): void{
+    public function setGoods(?GoodModel $goods): void{
         $this->Goods = $goods;
     }
 }

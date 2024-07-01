@@ -13,15 +13,16 @@ class AceServiceAbstract implements AceServiceInterface
 {
     protected string $baseServiceName;
 
+    protected ServiceRetrieverInterface $serviceRetriever;
+
     /**
      * AceServiceAbstract constructor.
      * 
      * @param ServiceRetrieverInterface $serviceRetriever
      */
-    public function __construct
-    (
-        protected ServiceRetrieverInterface $serviceRetriever
-    ) {
+    public function __construct(ServiceRetrieverInterface $serviceRetriever) 
+    {
+        $this->serviceRetriever = $serviceRetriever;
     }
 
 }

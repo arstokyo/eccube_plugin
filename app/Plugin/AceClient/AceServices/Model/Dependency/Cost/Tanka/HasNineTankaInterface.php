@@ -22,7 +22,7 @@ interface HasNineTankaInterface
      * @param string|null $tanka1
      * @return $this
      */
-    public function setTanka1(?string $tanka1): static;
+    public function setTanka1(?string $tanka1);
 
     /**
      * Get 単価2
@@ -37,7 +37,7 @@ interface HasNineTankaInterface
      * @param string|null $tanka2
      * @return $this
      */
-    public function setTanka2(?string $tanka2): static;
+    public function setTanka2(?string $tanka2);
 
     /**
      * Get 単価3
@@ -52,7 +52,7 @@ interface HasNineTankaInterface
      * @param string|null $tanka3
      * @return $this
      */
-    public function setTanka3(?string $tanka3): static;
+    public function setTanka3(?string $tanka3);
 
     /**
      * Get 単価4
@@ -67,7 +67,7 @@ interface HasNineTankaInterface
      * @param string|null $tanka4
      * @return $this
      */
-    public function setTanka4(?string $tanka4): static;
+    public function setTanka4(?string $tanka4);
 
     /**
      * Get 単価5
@@ -82,7 +82,7 @@ interface HasNineTankaInterface
      * @param string|null $tanka5
      * @return $this
      */
-    public function setTanka5(?string $tanka5): static;
+    public function setTanka5(?string $tanka5);
 
     /**
      * Get 単価6
@@ -97,7 +97,7 @@ interface HasNineTankaInterface
      * @param string|null $tanka6
      * @return $this
      */
-    public function setTanka6(?string $tanka6): static;
+    public function setTanka6(?string $tanka6);
 
     /**
      * Get 単価7
@@ -112,7 +112,7 @@ interface HasNineTankaInterface
      * @param string|null $tanka7
      * @return $this
      */
-    public function setTanka7(?string $tanka7): static;
+    public function setTanka7(?string $tanka7);
 
     /**
      * Get 単価8
@@ -127,7 +127,7 @@ interface HasNineTankaInterface
      * @param string|null $tanka8
      * @return $this
      */
-    public function setTanka8(?string $tanka8): static;
+    public function setTanka8(?string $tanka8);
 
     /**
      * Get 単価9
@@ -142,6 +142,6 @@ interface HasNineTankaInterface
      * @param string|null $tanka9
      * @return $this
      */
-    public function setTanka9(?string $tanka9): static;
+    public function setTanka9(?string $tanka9);
     
 }

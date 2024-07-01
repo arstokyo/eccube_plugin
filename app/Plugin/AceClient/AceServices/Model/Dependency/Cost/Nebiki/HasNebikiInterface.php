@@ -22,5 +22,5 @@ interface HasNebikiInterface
      * @param ?string $nebiki
      * @return $this
      */
-    public function setNebiki(?string $nebiki): static;
+    public function setNebiki(?string $nebiki);
 }

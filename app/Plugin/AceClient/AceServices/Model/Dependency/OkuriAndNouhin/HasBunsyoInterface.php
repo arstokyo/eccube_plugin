@@ -23,6 +23,6 @@ interface HasBunsyoInterface
      * @param ?int $bunsyo
      * @return $this
      */
-    public function setBunsyo(?int $bunsyo): static;
+    public function setBunsyo(?int $bunsyo);
 
 }

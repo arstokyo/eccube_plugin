@@ -17,7 +17,7 @@ interface HasUdayInterface
     *
     * @return ?AceDateTime\AceDateTimeInterface
     */
-    public function getUday(): ?AceDateTime\AceDateTimeInterface;
+    public function getUday();
 
     /**
      * Set 売上日
@@ -25,6 +25,6 @@ interface HasUdayInterface
      * @param \DateTime|string|null $uday
      * @return $this
      */
-    public function setUday(\DateTime|string|null $uday): static;
+    public function setUday($uday);
 
 }

@@ -16,7 +16,7 @@ interface HasIgnoreZaikoInterface
      * 
      * @return ?int
      */
-    #[SerializedName('ignore_zaiko')]
+    /** @SerializedName("ignore_zaiko") */
     public function getIgnorezaiko(): ?int;
 
     /**
@@ -25,7 +25,7 @@ interface HasIgnoreZaikoInterface
      * @param ?int $ignorezaiko
      * @return $this
      */
-    #[SerializedName('ignore_zaiko')]
-    public function setIgnorezaiko(?int $ignorezaiko): static;
+    /** @SerializedName("ignore_zaiko") */
+    public function setIgnorezaiko(?int $ignorezaiko);
     
 }

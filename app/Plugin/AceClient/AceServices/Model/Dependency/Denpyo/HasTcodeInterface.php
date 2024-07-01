@@ -22,6 +22,6 @@ interface HasTcodeInterface
      * @param ?string $tcode
      * @return $this
      */
-    public function setTcode(?string $tcode): static;
+    public function setTcode(?string $tcode);
     
 }

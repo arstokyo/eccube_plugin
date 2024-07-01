@@ -33,7 +33,7 @@ interface OkuriHkTimeModelInterface extends Haiso\HasOcodeInterface,
      * @param ?int $denkuNum
      * @return $this
      */
-    #[SerializedName('KUBUN')]
-    public function setDenkuNum(?int $denkuNum): static;
+    /** @SerializedName("KUBUN") */
+    public function setDenkuNum(?int $denkuNum);
 
 }

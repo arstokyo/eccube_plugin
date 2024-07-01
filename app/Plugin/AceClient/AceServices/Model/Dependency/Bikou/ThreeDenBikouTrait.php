@@ -29,7 +29,7 @@ trait ThreeDenBikouTrait
     /**
      * {@inheritDoc}
      */
-    public function setDbikou1(?string $dbikou1): static
+    public function setDbikou1(?string $dbikou1)
     {
         $this->dbikou1 = $dbikou1;
         return $this;
@@ -46,7 +46,7 @@ trait ThreeDenBikouTrait
     /**
      * {@inheritDoc}
      */
-    public function setDbikou2(?string $dbikou2): static
+    public function setDbikou2(?string $dbikou2)
     {
         $this->dbikou2 = $dbikou2;
         return $this;
@@ -63,7 +63,7 @@ trait ThreeDenBikouTrait
     /**
      * {@inheritDoc}
      */
-    public function setDbikou3(?string $dbikou3): static
+    public function setDbikou3(?string $dbikou3)
     {
         $this->dbikou3 = $dbikou3;
         return $this;

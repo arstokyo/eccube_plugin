@@ -26,5 +26,5 @@ interface MemberModelInterface extends HasMessageModelInterface,
      * @param RirekiModel[]|null $rireki
      * @return void
      */
-    public function setRireki(array|null $rireki): void;
+    public function setRireki(?array $rireki): void;
 }

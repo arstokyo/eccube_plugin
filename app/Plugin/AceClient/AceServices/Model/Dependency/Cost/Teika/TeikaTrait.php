@@ -26,7 +26,7 @@ trait TeikaTrait
     /**
     * {@inheritDoc}
     */
-    public function setTeika(?string $teika): static
+    public function setTeika(?string $teika)
     {
         $this->teika = NumberConverter::stringWithCommaToFloat($teika);
         return $this;

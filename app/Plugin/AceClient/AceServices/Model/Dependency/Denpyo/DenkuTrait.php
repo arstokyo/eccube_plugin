@@ -9,13 +9,13 @@ namespace Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
  */
 trait DenkuTrait
 {
-    /** @var int $denku 伝票種類 */
-    protected string|int|null $denku = null;
+    /** @var ?string $denku 伝票種類 */
+    protected ?string $denku = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getDenku(): string|int|null
+    public function getDenku(): ?string
     {
         return $this->denku;
     }
@@ -23,7 +23,7 @@ trait DenkuTrait
     /**
      * {@inheritDoc}
      */
-    public function setDenku(string|int|null $denku): static
+    public function setDenku(?string $denku)
     {
         $this->denku = $denku;
         return $this;

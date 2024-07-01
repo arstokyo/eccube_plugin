@@ -35,7 +35,7 @@ trait JyumeiModelGroup3Trait
     /**
      * {@inheritDoc}
      */
-    public function setKbn(?int $kbn): static
+    public function setKbn(?int $kbn)
     {
         $this->kbn = $kbn;
         return $this;
@@ -52,7 +52,7 @@ trait JyumeiModelGroup3Trait
     /**
      * {@inheritDoc}
      */
-    public function setDetailmsg(?string $detailmsg): static
+    public function setDetailmsg(?string $detailmsg)
     {
         $this->detailmsg = $detailmsg;
         return $this;

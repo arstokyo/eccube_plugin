@@ -28,7 +28,7 @@ trait ResultTrait
     /**
      * {@inheritDoc}
      */
-    public function setResult(?string $result): static
+    public function setResult(?string $result)
     {
         $this->result = $result;
         return $this;

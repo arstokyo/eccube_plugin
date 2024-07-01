@@ -38,7 +38,7 @@ trait CardModelLevel2Trait
     /**
      * {@inheritDoc}
      */
-    public function setSpscustomerid(string|null $spscustomerid): static
+    public function setSpscustomerid(?string $spscustomerid)
     {
         $this->spscustomerid = $spscustomerid;
         return $this;
@@ -55,7 +55,7 @@ trait CardModelLevel2Trait
     /**
      * {@inheritDoc}
      */
-    public function setSpstid(string|null $spstid): static
+    public function setSpstid(?string $spstid)
     {
         $this->spstid = $spstid;
         return $this;
@@ -72,7 +72,7 @@ trait CardModelLevel2Trait
     /**
      * {@inheritDoc}
      */
-    public function setVeristatus(string|null $veristatus): static
+    public function setVeristatus(?string $veristatus)
     {
         $this->veristatus = $veristatus;
         return $this;
@@ -89,7 +89,7 @@ trait CardModelLevel2Trait
     /**
      * {@inheritDoc}
      */
-    public function setVeriorderid(string|null $veriorderid): static
+    public function setVeriorderid(?string $veriorderid)
     {
         $this->veriorderid = $veriorderid;
         return $this;

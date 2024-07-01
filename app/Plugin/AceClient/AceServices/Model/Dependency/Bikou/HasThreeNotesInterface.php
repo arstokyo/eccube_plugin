@@ -21,7 +21,7 @@ interface HasThreeNotesInterface
     * @param string|null $note1
     * @return $this
     */
-    public function setNote1(?string $note1): static;
+    public function setNote1(?string $note1);
     /**
     * Get 備考2
     *
@@ -34,7 +34,7 @@ interface HasThreeNotesInterface
     * @param string|null $note2
     * @return $this
     */
-    public function setNote2(?string $note2): static;
+    public function setNote2(?string $note2);
 
     /**
     * Get 備考3
@@ -48,5 +48,5 @@ interface HasThreeNotesInterface
     * @param string|null $note3
     * @return $this
     */
-    public function setNote3(?string $note3): static;
+    public function setNote3(?string $note3);
 }

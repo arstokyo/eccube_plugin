@@ -32,7 +32,7 @@ interface GoodTankaModelGroup1Interface extends Cost\Tanka\HasTankaKbnInterface,
      * @param string|null $taxrate
      * @return $this
      */
-    public function setTaxrate(string|null $taxrate): static;
+    public function setTaxrate(?string $taxrate);
 
     /**
      * Get 税込単価
@@ -47,7 +47,7 @@ interface GoodTankaModelGroup1Interface extends Cost\Tanka\HasTankaKbnInterface,
      * @param string|null $inctanka
      * @return $this
      */
-    public function setInctanka(string|null $inctanka): static;
+    public function setInctanka(?string $inctanka);
 
     /**
      * Get 税抜単価
@@ -62,7 +62,7 @@ interface GoodTankaModelGroup1Interface extends Cost\Tanka\HasTankaKbnInterface,
      * @param string|null $revtanka
      * @return $this
      */
-    public function setRevtanka(string|null $revtanka): static;
+    public function setRevtanka(?string $revtanka);
 
     /**
      * Get 備考
@@ -77,7 +77,7 @@ interface GoodTankaModelGroup1Interface extends Cost\Tanka\HasTankaKbnInterface,
      * @param ?string $note
      * @return $this
      */
-    public function setNote(?string $note): static;
+    public function setNote(?string $note);
 
     /**
      * Get 次回税率
@@ -92,7 +92,7 @@ interface GoodTankaModelGroup1Interface extends Cost\Tanka\HasTankaKbnInterface,
      * @param string|null $ntaxrate
      * @return $this
      */
-    public function setNtaxrate(string|null $ntaxrate): static;
+    public function setNtaxrate(?string $ntaxrate);
 
     /**
      * Get 次回税込単価
@@ -107,7 +107,7 @@ interface GoodTankaModelGroup1Interface extends Cost\Tanka\HasTankaKbnInterface,
      * @param string|null $ninctanka
      * @return $this
      */
-    public function setNinctanka(string|null $ninctanka): static;
+    public function setNinctanka(?string $ninctanka);
 
     /**
      * Get 次回税抜単価
@@ -122,7 +122,7 @@ interface GoodTankaModelGroup1Interface extends Cost\Tanka\HasTankaKbnInterface,
      * @param string|null $nrevtanka
      * @return $this
      */
-    public function setNrevtanka(string|null $nrevtanka): static;
+    public function setNrevtanka(?string $nrevtanka);
 
     /**
      * Get 次回税区分
@@ -137,7 +137,7 @@ interface GoodTankaModelGroup1Interface extends Cost\Tanka\HasTankaKbnInterface,
      * @param ?int $ntaxkbn
      * @return $this
      */
-    public function setNtaxkbn(?int $ntaxkbn): static;
+    public function setNtaxkbn(?int $ntaxkbn);
 
     /**
      * Get 次回ポイント
@@ -152,7 +152,7 @@ interface GoodTankaModelGroup1Interface extends Cost\Tanka\HasTankaKbnInterface,
      * @param ?int $npoint
      * @return $this
      */
-    public function setNpoint(?int $npoint): static;
+    public function setNpoint(?int $npoint);
 
     /**
      * Get 次回備考
@@ -167,5 +167,5 @@ interface GoodTankaModelGroup1Interface extends Cost\Tanka\HasTankaKbnInterface,
      * @param ?string $nnote
      * @return $this
      */
-    public function setNnote(?string $nnote): static;
+    public function setNnote(?string $nnote);
 }

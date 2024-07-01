@@ -11,6 +11,11 @@ use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
  */
 class ClientMetadata implements ClientMetadataInterface
 {
+    private string $requestmethod;
+    private string $uri;
+    /** @var RequestModelInterface|\JsonSerializable|array<int|string, mixed> $data */
+    private $data;
+
      /**
      * ClientMetadata constructor
      *
@@ -20,10 +25,13 @@ class ClientMetadata implements ClientMetadataInterface
      */
     public function __construct
     (
-        private string $requestmethod,
-        private string $uri,
-        private RequestModelInterface|\JsonSerializable|array $data
+        string $requestmethod,
+        string $uri,
+        $data
     ) {
+        $this->requestmethod = $requestmethod;
+        $this->uri           = $uri;
+        $this->data          = $data;
     }
 
     /**
@@ -51,7 +59,7 @@ class ClientMetadata implements ClientMetadataInterface
      *
      * @return RequestModelInterface|\JsonSerializable|array<int|string, mixed>
      */
-    public function getData(): RequestModelInterface|\JsonSerializable|array
+    public function getData()
     {
         return $this->data;
     }

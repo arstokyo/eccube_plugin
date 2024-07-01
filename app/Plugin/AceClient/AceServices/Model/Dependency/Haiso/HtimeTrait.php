@@ -23,7 +23,7 @@ trait HtimeTrait
     /**
      * {@inheritDoc}
      */
-    public function setHtime(?int $htime): static
+    public function setHtime(?int $htime)
     {
         $this->htime = $htime;
         return $this;

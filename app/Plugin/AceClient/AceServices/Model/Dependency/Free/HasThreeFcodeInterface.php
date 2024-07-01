@@ -22,7 +22,7 @@ interface HasThreeFcodeInterface
      * @param ?string $fcode1
      * @return $this
      */
-    public function setFcode1(?string $fcode1): static;
+    public function setFcode1(?string $fcode1);
 
     /**
      * Get フリーコード 2
@@ -37,7 +37,7 @@ interface HasThreeFcodeInterface
      * @param ?string $fcode2
      * @return $this
      */
-    public function setFcode2(?string $fcode2): static;
+    public function setFcode2(?string $fcode2);
 
     /**
      * Get フリーコード 3
@@ -52,5 +52,5 @@ interface HasThreeFcodeInterface
      * @param ?string $fcode3
      * @return $this
      */
-    public function setFcode3(?string $fcode3): static;
+    public function setFcode3(?string $fcode3);
 }

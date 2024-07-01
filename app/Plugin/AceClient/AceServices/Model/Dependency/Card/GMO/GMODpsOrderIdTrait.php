@@ -28,7 +28,7 @@ trait GMODpsOrderIdTrait
     /**
      * {@inheritDoc}
      */
-    public function setGmodpsorderid(string|null $gmodpsorderid): static
+    public function setGmodpsorderid(?string $gmodpsorderid)
     {
         $this->gmodpsorderid = $gmodpsorderid;
         return $this;

@@ -23,6 +23,6 @@ interface HasGkbnInterface
      * @param int|null $gkbn
      * @return $this
      */
-    public function setGkbn(?int $gkbn): static;
+    public function setGkbn(?int $gkbn);
 
 }

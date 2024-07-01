@@ -23,7 +23,7 @@ trait OsubnameTrait
     /**
      * {@inheritDoc}
      */
-    public function setOsubname(?string $osubname): static
+    public function setOsubname(?string $osubname)
     {
         $this->osubname = $osubname;
         return $this;

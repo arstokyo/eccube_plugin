@@ -65,7 +65,7 @@ trait SevenRemindersTrait
     /**
      * {@inheritDoc}
      */
-    public function setQuestion1(?string $question1): static
+    public function setQuestion1(?string $question1)
     {
         $this->question1 = $question1;
         return $this;
@@ -82,7 +82,7 @@ trait SevenRemindersTrait
     /**
      * {@inheritDoc}
      */
-    public function setAnswer1(?string $answer1): static
+    public function setAnswer1(?string $answer1)
     {
         $this->answer1 = $answer1;
         return $this;
@@ -99,7 +99,7 @@ trait SevenRemindersTrait
     /**
      * {@inheritDoc}
      */
-    public function setQuestion2(?string $question2): static
+    public function setQuestion2(?string $question2)
     {
         $this->question2 = $question2;
         return $this;
@@ -116,7 +116,7 @@ trait SevenRemindersTrait
     /**
      * {@inheritDoc}
      */
-    public function setAnswer2(?string $answer2): static
+    public function setAnswer2(?string $answer2)
     {
         $this->answer2 = $answer2;
         return $this;
@@ -133,7 +133,7 @@ trait SevenRemindersTrait
     /**
      * {@inheritDoc}
      */
-    public function setQuestion3(?string $question3): static
+    public function setQuestion3(?string $question3)
     {
         $this->question3 = $question3;
         return $this;
@@ -150,7 +150,7 @@ trait SevenRemindersTrait
     /**
      * {@inheritDoc}
      */
-    public function setAnswer3(?string $answer3): static
+    public function setAnswer3(?string $answer3)
     {
         $this->answer3 = $answer3;
         return $this;
@@ -167,7 +167,7 @@ trait SevenRemindersTrait
     /**
      * {@inheritDoc}
      */
-    public function setQuestion4(?string $question4): static
+    public function setQuestion4(?string $question4)
     {
         $this->question4 = $question4;
         return $this;
@@ -184,7 +184,7 @@ trait SevenRemindersTrait
     /**
      * {@inheritDoc}
      */
-    public function setAnswer4(?string $answer4): static
+    public function setAnswer4(?string $answer4)
     {
         $this->answer4 = $answer4;
         return $this;
@@ -201,7 +201,7 @@ trait SevenRemindersTrait
     /**
      * {@inheritDoc}
      */
-    public function setQuestion5(?string $question5): static
+    public function setQuestion5(?string $question5)
     {
         $this->question5 = $question5;
         return $this;
@@ -218,7 +218,7 @@ trait SevenRemindersTrait
     /**
      * {@inheritDoc}
      */
-    public function setAnswer5(?string $answer5): static
+    public function setAnswer5(?string $answer5)
     {
         $this->answer5 = $answer5;
         return $this;
@@ -235,7 +235,7 @@ trait SevenRemindersTrait
     /**
      * {@inheritDoc}
      */
-    public function setQuestion6(?string $question6): static
+    public function setQuestion6(?string $question6)
     {
         $this->question6 = $question6;
         return $this;
@@ -252,7 +252,7 @@ trait SevenRemindersTrait
     /**
      * {@inheritDoc}
      */
-    public function setAnswer6(?string $answer6): static
+    public function setAnswer6(?string $answer6)
     {
         $this->answer6 = $answer6;
         return $this;
@@ -269,7 +269,7 @@ trait SevenRemindersTrait
     /**
      * {@inheritDoc}
      */
-    public function setQuestion7(?string $question7): static
+    public function setQuestion7(?string $question7)
     {
         $this->question7 = $question7;
         return $this;
@@ -286,7 +286,7 @@ trait SevenRemindersTrait
     /**
      * {@inheritDoc}
      */
-    public function setAnswer7(?string $answer7): static
+    public function setAnswer7(?string $answer7)
     {
         $this->answer7 = $answer7;
         return $this;

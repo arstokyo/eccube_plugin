@@ -23,7 +23,7 @@ trait GdidTrait
     /**
      * {@inheritDoc}
      */
-    public function setGdid(?string $gdid): static
+    public function setGdid(?string $gdid)
     {
         $this->gdid = $gdid;
         return $this;

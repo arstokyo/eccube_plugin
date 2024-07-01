@@ -22,7 +22,7 @@ interface HasThreeFmemoInterface
      * @param ?string $fmemo1
      * @return $this
      */
-    public function setFmemo1(?string $fmemo1): static;
+    public function setFmemo1(?string $fmemo1);
 
     /**
      * Get メモ2
@@ -37,7 +37,7 @@ interface HasThreeFmemoInterface
      * @param ?string $fmemo2
      * @return $this
      */
-    public function setFmemo2(?string $fmemo2): static;
+    public function setFmemo2(?string $fmemo2);
 
     /**
      * Get メモ3
@@ -52,5 +52,5 @@ interface HasThreeFmemoInterface
      * @param ?string $fmemo3
      * @return $this
      */
-    public function setFmemo3(?string $fmemo3): static;
+    public function setFmemo3(?string $fmemo3);
 }

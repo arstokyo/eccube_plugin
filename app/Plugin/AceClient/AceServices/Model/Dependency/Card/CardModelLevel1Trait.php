@@ -42,7 +42,7 @@ trait CardModelLevel1Trait
     /**
      * {@inheritDoc}
      */
-    public function setCcode(string|null $ccode): static
+    public function setCcode(?string $ccode)
     {
         $this->ccode = $ccode;
         return $this;
@@ -59,7 +59,7 @@ trait CardModelLevel1Trait
     /**
      * {@inheritDoc}
      */
-    public function setCno(string|null $cno): static
+    public function setCno(?string $cno)
     {
         $this->cno = $cno;
         return $this;
@@ -68,7 +68,7 @@ trait CardModelLevel1Trait
     /**
      * {@inheritDoc}
      */
-    public function getCkigen(): ?AceDateTime\AceDateTimeInterface
+    public function getCkigen()
     {
         return $this->ckigen;
     }
@@ -76,7 +76,7 @@ trait CardModelLevel1Trait
     /**
      * {@inheritDoc}
      */
-    public function setCkigen(\DateTime|string|null $ckigen): static
+    public function setCkigen($ckigen)
     {
         $this->ckigen = AceDateTime\AceDateTimeFactory::makeAceDateTime($ckigen, 'Ym');
         return $this;
@@ -93,7 +93,7 @@ trait CardModelLevel1Trait
     /**
      * {@inheritDoc}
      */
-    public function setCpay(int|null $cpay): static
+    public function setCpay(?int $cpay)
     {
         $this->cpay = $cpay;
         return $this;
@@ -110,7 +110,7 @@ trait CardModelLevel1Trait
     /**
      * {@inheritDoc}
      */
-    public function setKaisuu(int|null $kaisuu): static
+    public function setKaisuu(?int $kaisuu)
     {
         $this->kaisuu = $kaisuu;
         return $this;
@@ -127,7 +127,7 @@ trait CardModelLevel1Trait
     /**
      * {@inheritDoc}
      */
-    public function setSyounin(string|null $syounin): static
+    public function setSyounin(?string $syounin)
     {
         $this->syounin = $syounin;
         return $this;

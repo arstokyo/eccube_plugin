@@ -9,10 +9,12 @@ namespace Plugin\AceClient\Util\Denormalizer\OTD;
  */
 abstract class OTDDenormalizerAbstract implements OTDDenormalizerInterface
 {
+    protected OTDDelegateInterface $delegate;
 
     public function __construct(
-        protected OTDDelegateInterface $delegate
+        OTDDelegateInterface $delegate
     ) {
+        $this->delegate = $delegate;
     }
 
     /**

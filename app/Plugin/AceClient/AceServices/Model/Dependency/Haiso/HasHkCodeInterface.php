@@ -22,5 +22,5 @@ interface HasHkCodeInterface
      * @param ?int $hkcode
      * @return $this
      */
-    public function setHkcode(?int $hkcode): static;
+    public function setHkcode(?int $hkcode);
 }

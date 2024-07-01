@@ -42,7 +42,7 @@ interface DeliveryModelInterface extends Mail\HasMailInterface,
      * @param ?string $jmemid
      * @return $this
      */
-    public function setJmemid(?string $jmemid): static;
+    public function setJmemid(?string $jmemid);
 
     /**
      * Get 氏名
@@ -57,7 +57,7 @@ interface DeliveryModelInterface extends Mail\HasMailInterface,
      * @param ?string $jname
      * @return $this
      */
-    public function setJname(?string $jname): static;
+    public function setJname(?string $jname);
 
     /**
      * Get カナ
@@ -72,7 +72,7 @@ interface DeliveryModelInterface extends Mail\HasMailInterface,
      * @param ?string $jkana
      * @return $this
      */
-    public function setJkana(?string $jkana): static;
+    public function setJkana(?string $jkana);
 
     /**
      * Get 郵便番号
@@ -87,7 +87,7 @@ interface DeliveryModelInterface extends Mail\HasMailInterface,
      * @param ?string $jzip
      * @return $this
      */
-    public function setJzip(?string $jzip): static;
+    public function setJzip(?string $jzip);
 
     /**
      * Get 住所
@@ -102,7 +102,7 @@ interface DeliveryModelInterface extends Mail\HasMailInterface,
      * @param ?string $jadr
      * @return $this
      */
-    public function setJadr(?string $jadr): static;
+    public function setJadr(?string $jadr);
 
     /**
      * Get 電話番号
@@ -117,7 +117,7 @@ interface DeliveryModelInterface extends Mail\HasMailInterface,
      * @param ?string $jtel
      * @return $this
      */
-    public function setJtel(?string $jtel): static;
+    public function setJtel(?string $jtel);
 
     /**
      * Get お届先顧客ID
@@ -132,7 +132,7 @@ interface DeliveryModelInterface extends Mail\HasMailInterface,
      * @param ?string $nmemid
      * @return $this
      */
-    public function setNmemid(?string $nmemid): static;
+    public function setNmemid(?string $nmemid);
 
     /**
      * Get 氏名
@@ -147,7 +147,7 @@ interface DeliveryModelInterface extends Mail\HasMailInterface,
      * @param ?string $nname
      * @return $this
      */
-    public function setNname(?string $nname): static;
+    public function setNname(?string $nname);
 
     /**
      * Get カナ
@@ -162,7 +162,7 @@ interface DeliveryModelInterface extends Mail\HasMailInterface,
      * @param ?string $nkana
      * @return $this
      */
-    public function setNkana(?string $nkana): static;
+    public function setNkana(?string $nkana);
 
     /**
      * Get 郵便番号
@@ -177,7 +177,7 @@ interface DeliveryModelInterface extends Mail\HasMailInterface,
      * @param ?string $nzip
      * @return $this
      */
-    public function setNzip(?string $nzip): static;
+    public function setNzip(?string $nzip);
 
     /**
      * Get 電話番号
@@ -192,5 +192,5 @@ interface DeliveryModelInterface extends Mail\HasMailInterface,
      * @param ?string $ntel
      * @return $this
      */
-    public function setNtel(?string $ntel): static;
+    public function setNtel(?string $ntel);
 }

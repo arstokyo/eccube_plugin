@@ -24,7 +24,7 @@ trait ChoseiZaikoTrait
     /**
     * {@inheritDoc}
     */
-    public function setChoseizaiko(?int $choseizaiko): static
+    public function setChoseizaiko(?int $choseizaiko)
     {
         $this->choseizaiko = $choseizaiko;
         return $this;

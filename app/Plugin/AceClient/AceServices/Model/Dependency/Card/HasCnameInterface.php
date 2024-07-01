@@ -22,5 +22,5 @@ interface HasCnameInterface
      * @param string|null $cname
      * @return $this
      */
-    public function setCname(string|null $cname): static;
+    public function setCname(?string $cname);
 }

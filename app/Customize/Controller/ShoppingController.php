@@ -108,7 +108,7 @@ class ShoppingController extends AbstractShoppingController
         RateLimiterFactory $shoppingCheckoutIpLimiter,
         RateLimiterFactory $shoppingCheckoutCustomerLimiter,
         BaseInfoRepository $baseInfoRepository,
-        AceClient\AceClient $aceClient,
+        AceClient\AceClient $aceClient
     ) {
         $this->cartService = $cartService;
         $this->mailService = $mailService;

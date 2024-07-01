@@ -21,10 +21,7 @@ class AceClient
      * 
      * @param ServiceRetrieverInterface $serviceRetriever
      */
-    public function __construct
-    (
-        private ServiceRetrieverInterface $serviceRetriever
-    ) {
+    public function __construct(ServiceRetrieverInterface $serviceRetriever) {
         $this->serviceFactory = new AceServiceFactory($serviceRetriever);
     }
 

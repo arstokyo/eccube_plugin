@@ -22,5 +22,5 @@ interface HasHkNameInterface
      * @param ?string $hkname
      * @return $this
      */
-    public function setHkname(?string $hkname): static;
+    public function setHkname(?string $hkname);
 }

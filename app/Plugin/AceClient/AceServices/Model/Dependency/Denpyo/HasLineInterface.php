@@ -22,5 +22,5 @@ interface HasLineInterface
      * @param ?int $line
      * @return $this
      */
-    public function setLine(?int $line): static;
+    public function setLine(?int $line);
 }

@@ -23,7 +23,7 @@ trait TaxKbnTrait
     /**
      * {@inheritDoc}
      */
-    public function setTaxkbn(?int $taxkbn): static
+    public function setTaxkbn(?int $taxkbn)
     {
         $this->taxkbn = $taxkbn;
         return $this;

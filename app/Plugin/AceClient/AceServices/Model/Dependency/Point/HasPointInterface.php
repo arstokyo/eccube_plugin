@@ -12,15 +12,15 @@ interface HasPointInterface
     /**
      * Get ポイント
      *
-     * @return int|string|null
+     * @return int|null
      */
-    public function getPoint(): int|string|null;
+    public function getPoint(): ?int;
 
     /**
      * Set ポイント
      *
-     * @param int|string|null $point
+     * @param int|null $point
      * @return $this
      */
-    public function setPoint(int|string|null $point): static;
+    public function setPoint(?int $point);
 }

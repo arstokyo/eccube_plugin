@@ -22,5 +22,5 @@ interface HasGdidInterface
      * @param ?string $gdid
      * @return $this
      */
-    public function setGdid(?string $gdid): static;
+    public function setGdid(?string $gdid);
 }

@@ -17,8 +17,8 @@ interface UpdatePasswordRequestModelInterface extends RequestModelInterface,
     /**
     * {@inheritDoc}
     */
-    #[SerializedName('password')]
-    public function setPasswd(?string $passwd): static;
+    /** @SerializedName("password") */
+    public function setPasswd(?string $passwd);
 
     /**
      * Get 通販AceシステムID
@@ -33,7 +33,7 @@ interface UpdatePasswordRequestModelInterface extends RequestModelInterface,
      * @param ?int $syid
      * @return $this
      */
-    public function setSyid(?int $syid): static;
+    public function setSyid(?int $syid);
 
     /**
      * Get 顧客ID
@@ -48,5 +48,5 @@ interface UpdatePasswordRequestModelInterface extends RequestModelInterface,
      * @param ?string $mbid
      * @return $this
      */
-    public function setMbid(?string $mbid): static;
+    public function setMbid(?string $mbid);
 }

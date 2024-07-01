@@ -25,7 +25,7 @@ trait TaxTrait
     /**
      * {@inheritDoc}
      */
-    public function setTax(?string $tax): static
+    public function setTax(?string $tax)
     {
         $this->tax = NumberConverter::stringWithCommaToFloat($tax);
         return $this;

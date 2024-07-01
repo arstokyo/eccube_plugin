@@ -23,7 +23,7 @@ trait HkCodeTrait
     /**
      * {@inheritDoc}
      */
-    public function setHkcode(?int $code): static
+    public function setHkcode(?int $code)
     {
         $this->hkcode = $code;
         return $this;

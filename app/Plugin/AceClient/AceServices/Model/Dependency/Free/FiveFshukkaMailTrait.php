@@ -35,7 +35,7 @@ trait FiveFshukkaMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFShukkaMail1(?string $fshukkamail1): static
+    public function setFShukkaMail1(?string $fshukkamail1)
     {
         $this->fshukkamail1 = $fshukkamail1;
         return $this;
@@ -52,7 +52,7 @@ trait FiveFshukkaMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFShukkaMail2(?string $fshukkamail2): static
+    public function setFShukkaMail2(?string $fshukkamail2)
     {
         $this->fshukkamail2 = $fshukkamail2;
         return $this;
@@ -69,7 +69,7 @@ trait FiveFshukkaMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFShukkaMail3(?string $fshukkamail3): static
+    public function setFShukkaMail3(?string $fshukkamail3)
     {
         $this->fshukkamail3 = $fshukkamail3;
         return $this;
@@ -86,7 +86,7 @@ trait FiveFshukkaMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFShukkaMail4(?string $fshukkamail4): static
+    public function setFShukkaMail4(?string $fshukkamail4)
     {
         $this->fshukkamail4 = $fshukkamail4;
         return $this;
@@ -103,7 +103,7 @@ trait FiveFshukkaMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFShukkaMail5(?string $fshukkamail5): static
+    public function setFShukkaMail5(?string $fshukkamail5)
     {
         $this->fshukkamail5 = $fshukkamail5;
         return $this;

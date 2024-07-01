@@ -22,5 +22,5 @@ interface HasCampaignInterface
      * @param int|null $campaign
      * @return $this
      */
-    public function setCampaign(int|null $campaign): static;
+    public function setCampaign(?int $campaign);
 }

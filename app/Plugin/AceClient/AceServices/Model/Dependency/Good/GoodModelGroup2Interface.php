@@ -37,7 +37,7 @@ interface GoodModelGroup2Interface extends GoodModelBaseInterface,
     /**
     * Set 画像ファイル１
     */
-    public function setImage1(?string $image1): static;
+    public function setImage1(?string $image1);
 
     /**
     * Get 画像ファイル２
@@ -47,7 +47,7 @@ interface GoodModelGroup2Interface extends GoodModelBaseInterface,
     /**
     * Set 画像ファイル２
     */
-    public function setImage2(?string $image2): static;
+    public function setImage2(?string $image2);
 
     /**
      * Get 大分類コード
@@ -62,7 +62,7 @@ interface GoodModelGroup2Interface extends GoodModelBaseInterface,
      * @param ?string $dbun
      * @return $this
      */
-    public function setDbun(?string $dbun): static;
+    public function setDbun(?string $dbun);
 
     /**
      * Get 大分類コード名称
@@ -77,7 +77,7 @@ interface GoodModelGroup2Interface extends GoodModelBaseInterface,
      * @param ?string $dbunname
      * @return $this
      */
-    public function setDbunname(?string $dbunname): static;
+    public function setDbunname(?string $dbunname);
 
     /**
      * Get 中分類コード
@@ -92,7 +92,7 @@ interface GoodModelGroup2Interface extends GoodModelBaseInterface,
      * @param ?string $tbun
      * @return $this
      */
-    public function setTbun(?string $tbun): static;
+    public function setTbun(?string $tbun);
 
     /**
      * Get 中分類コード名称
@@ -107,7 +107,7 @@ interface GoodModelGroup2Interface extends GoodModelBaseInterface,
      * @param ?string $tbunname
      * @return $this
      */
-    public function setTbunname(?string $tbunname): static;
+    public function setTbunname(?string $tbunname);
 
     /**
      * Get 小分類コード
@@ -122,7 +122,7 @@ interface GoodModelGroup2Interface extends GoodModelBaseInterface,
      * @param ?string $sbun
      * @return $this
      */
-    public function setSbun(?string $sbun): static;
+    public function setSbun(?string $sbun);
 
     /**
      * Get 小分類コード名称
@@ -137,7 +137,7 @@ interface GoodModelGroup2Interface extends GoodModelBaseInterface,
      * @param ?string $sbunname
      * @return $this
      */
-    public function setSbunname(?string $sbunname): static;
+    public function setSbunname(?string $sbunname);
 
     /**
      * Get 備考
@@ -152,7 +152,7 @@ interface GoodModelGroup2Interface extends GoodModelBaseInterface,
      * @param ?string $bikou
      * @return $this
      */
-    public function setBikou(?string $bikou): static;
+    public function setBikou(?string $bikou);
 
     /**
      * Get 棚番号
@@ -167,7 +167,7 @@ interface GoodModelGroup2Interface extends GoodModelBaseInterface,
      * @param ?string $tanano
      * @return $this
      */
-    public function setTanano(?string $tanano): static;
+    public function setTanano(?string $tanano);
 
     /**
      * Get 確保数
@@ -182,7 +182,7 @@ interface GoodModelGroup2Interface extends GoodModelBaseInterface,
      * @param ?int $kakuho
      * @return $this
      */
-    public function setKakuho(?int $kakuho): static;
+    public function setKakuho(?int $kakuho);
 
     /**
      * Get 梱包数
@@ -197,7 +197,7 @@ interface GoodModelGroup2Interface extends GoodModelBaseInterface,
      * @param ?int $konpo
      * @return $this
      */
-    public function setKonpo(?int $konpo): static;
+    public function setKonpo(?int $konpo);
 
     /**
      * Get 掛売顧客税
@@ -212,7 +212,7 @@ interface GoodModelGroup2Interface extends GoodModelBaseInterface,
      * @param ?int $otaxkbn
      * @return $this
      */
-    public function setOtaxkbn(?int $otaxkbn): static;
+    public function setOtaxkbn(?int $otaxkbn);
 
     /**
      * Get 総額端数
@@ -227,7 +227,7 @@ interface GoodModelGroup2Interface extends GoodModelBaseInterface,
      * @param ?int $sougakuhkbn
      * @return $this
      */
-    public function setSougakuhkbn(?int $sougakuhkbn): static;
+    public function setSougakuhkbn(?int $sougakuhkbn);
 
     /**
      * Get ポイント掛率対象区分
@@ -242,5 +242,5 @@ interface GoodModelGroup2Interface extends GoodModelBaseInterface,
      * @param ?int $pointkake
      * @return $this
      */
-    public function setPointkake(?int $pointkake): static;
+    public function setPointkake(?int $pointkake);
 }

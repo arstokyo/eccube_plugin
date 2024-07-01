@@ -23,7 +23,7 @@ trait McodeTrait
     /**
      * {@inheritDoc}
      */
-    public function setMcode(?string $mcode): static
+    public function setMcode(?string $mcode)
     {
         $this->mcode = $mcode;
         return $this;

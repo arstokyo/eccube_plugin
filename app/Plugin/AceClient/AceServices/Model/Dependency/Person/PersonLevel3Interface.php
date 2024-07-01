@@ -22,7 +22,7 @@ interface PersonLevel3Interface
      * @param ?string $area
      * @return $this
      */
-    public function setArea(?string $area): static;
+    public function setArea(?string $area);
 
     /**
      * Get カスタマーコード.
@@ -37,5 +37,5 @@ interface PersonLevel3Interface
      * @param ?string $cbar
      * @return $this
      */
-    public function setCbar(?string $cbar): static;
+    public function setCbar(?string $cbar);
 }

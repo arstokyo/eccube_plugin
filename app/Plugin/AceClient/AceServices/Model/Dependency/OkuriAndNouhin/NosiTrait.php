@@ -23,7 +23,7 @@ trait NosiTrait
     /**
      * {@inheritDoc}
      */
-    public function setNosi(?string $nosi): static
+    public function setNosi(?string $nosi)
     {
         $this->nosi = $nosi;
         return $this;

@@ -23,6 +23,6 @@ interface HasTOutMoneyInterface
      * @param string|null $toutmoney
      * @return $this
      */
-    public function setToutmoney(?string $toutmoney): static;
+    public function setToutmoney(?string $toutmoney);
 
 }

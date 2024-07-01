@@ -26,7 +26,7 @@ trait SouryouZnTrait
     /**
      * {@inheritDoc}
      */
-    public function setSouryouzn(?string $souryouzn): static
+    public function setSouryouzn(?string $souryouzn)
     {
         $this->souryouzn = NumberConverter::stringWithCommaToFloat($souryouzn);
         return $this;

@@ -22,5 +22,5 @@ interface HasWebOrderNoInterface
      * @param ?string $weborderno
      * @return $this
      */
-    public function setWeborderno(?string $weborderno): static;
+    public function setWeborderno(?string $weborderno);
 }

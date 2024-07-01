@@ -23,6 +23,6 @@ interface HasPointRituInterface
      * @param string|null $pointritu
      * @return $this
      */
-    public function setPointritu(?string $pointritu): static;
+    public function setPointritu(?string $pointritu);
 
 }

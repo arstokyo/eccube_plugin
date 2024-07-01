@@ -11,6 +11,8 @@ use Plugin\AceClient\Util\Serializer\AceConfigSerializer;
  */
 class AceConfigSerializerRetriever
 {
+    private AceConfigSerializer $aceConfigSerializer;
+
     /**
      * AceConfigSerializerRetriever constructor.
      * 
@@ -18,8 +20,9 @@ class AceConfigSerializerRetriever
      */
     public function __construct
     (
-        private AceConfigSerializer $aceConfigSerializer
+        AceConfigSerializer $aceConfigSerializer
     ) {
+        $this->aceConfigSerializer = $aceConfigSerializer;
     }
 
     /**

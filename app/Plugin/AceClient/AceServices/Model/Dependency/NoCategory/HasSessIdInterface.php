@@ -22,5 +22,5 @@ interface HasSessIdInterface
      * @param ?string $sessId セッションID
      * @return $this
      */
-    public function setSessId(?string $sessId): static;
+    public function setSessId(?string $sessId);
 }

@@ -32,7 +32,7 @@ class OrderPrmModel extends PrmModelAbstract implements OrderPrmModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setMember(MemberOrderModelInterface|null $member): self
+    public function setMember(?MemberOrderModelInterface $member): self
     {
         $this->member = $member;
         return $this;
@@ -41,7 +41,7 @@ class OrderPrmModel extends PrmModelAbstract implements OrderPrmModelInterface
     /**
      * {@inheritDoc}
      */
-    public function getMember(): MemberOrderModelInterface|null
+    public function getMember(): ?MemberOrderModelInterface
     {
         return $this->member;
     }
@@ -49,7 +49,7 @@ class OrderPrmModel extends PrmModelAbstract implements OrderPrmModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setJyuden(JyudenModelInterface|null $jyuden): self
+    public function setJyuden(?JyudenModelInterface $jyuden): self
     {
         $this->jyuden = $jyuden;
         return $this;
@@ -58,7 +58,7 @@ class OrderPrmModel extends PrmModelAbstract implements OrderPrmModelInterface
     /**
      * {@inheritDoc}
      */
-    public function getJyuden(): JyudenModelInterface|null
+    public function getJyuden(): ?JyudenModelInterface
     {
         return $this->jyuden;
     }
@@ -66,7 +66,7 @@ class OrderPrmModel extends PrmModelAbstract implements OrderPrmModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setDetail(DetailModelInterface|null $detail): self
+    public function setDetail(?DetailModelInterface $detail): self
     {
         $this->detail = $detail;
         return $this;
@@ -75,7 +75,7 @@ class OrderPrmModel extends PrmModelAbstract implements OrderPrmModelInterface
     /**
      * {@inheritDoc}
      */
-    public function getDetail(): DetailModelInterface|null
+    public function getDetail(): ?DetailModelInterface
     {
         return $this->detail;
     }
@@ -83,7 +83,7 @@ class OrderPrmModel extends PrmModelAbstract implements OrderPrmModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setMailjyuden(MailJyudenModel|null $mailjyuden): self
+    public function setMailjyuden(?MailJyudenModel $mailjyuden): self
     {
         $this->mailjyuden = $mailjyuden;
         return $this;
@@ -92,7 +92,7 @@ class OrderPrmModel extends PrmModelAbstract implements OrderPrmModelInterface
     /**
      * {@inheritDoc}
      */
-    public function getMailjyuden(): MailJyudenModel|null
+    public function getMailjyuden(): ?MailJyudenModel
     {
         return $this->mailjyuden;
     }

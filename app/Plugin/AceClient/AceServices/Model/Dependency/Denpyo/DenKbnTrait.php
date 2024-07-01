@@ -23,7 +23,7 @@ trait DenKbnTrait
     /**
      * {@inheritDoc}
      */
-    public function setDenkbn(?string $denkbn): static
+    public function setDenkbn(?string $denkbn)
     {
         $this->denkbn = $denkbn;
         return $this;

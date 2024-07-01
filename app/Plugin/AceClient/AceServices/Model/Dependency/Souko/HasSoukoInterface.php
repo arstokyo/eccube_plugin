@@ -23,6 +23,6 @@ interface HasSoukoInterface
     * @param string|null $souko
     * @return $this
     */
-    public function setSouko(?string $souko): static;
+    public function setSouko(?string $souko);
     
 }

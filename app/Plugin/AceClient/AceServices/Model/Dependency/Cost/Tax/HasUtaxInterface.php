@@ -22,5 +22,5 @@ interface HasUtaxInterface
      * @param ?string $utax
      * @return $this
      */
-    public function setUtax(?string $utax): static;
+    public function setUtax(?string $utax);
 }

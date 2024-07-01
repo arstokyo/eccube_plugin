@@ -24,7 +24,7 @@ trait BunsyoTrait
     /**
      * {@inheritDoc}
      */
-    public function setBunsyo(?int $bunsyo): static
+    public function setBunsyo(?int $bunsyo)
     {
         $this->bunsyo = $bunsyo;
         return $this;

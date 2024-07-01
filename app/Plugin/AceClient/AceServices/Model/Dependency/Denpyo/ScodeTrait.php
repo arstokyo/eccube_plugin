@@ -23,7 +23,7 @@ trait ScodeTrait
     /**
      * {@inheritDoc}
      */
-    public function setScode(?string $scode): static
+    public function setScode(?string $scode)
     {
         $this->scode = $scode;
         return $this;

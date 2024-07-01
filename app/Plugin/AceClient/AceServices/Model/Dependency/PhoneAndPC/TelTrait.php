@@ -23,7 +23,7 @@ trait TelTrait
     /**
      * {@inheritDoc}
      */
-    public function setTel(?string $tel): static
+    public function setTel(?string $tel)
     {
         $this->tel = $tel;
         return $this;

@@ -35,7 +35,7 @@ class GetZaikoAllRequestModel extends RequestModelAbstract implements GetZaikoAl
     /**
      * {@inheritDoc}
      */
-    public function setRangefrom(?int $rangefrom): static
+    public function setRangefrom(?int $rangefrom)
     {
         $this->rangefrom = $rangefrom;
         return $this;
@@ -52,7 +52,7 @@ class GetZaikoAllRequestModel extends RequestModelAbstract implements GetZaikoAl
     /**
      * {@inheritDoc}
      */
-    public function setRangeto(?int $rangeto): static
+    public function setRangeto(?int $rangeto)
     {
         $this->rangeto = $rangeto;
         return $this;

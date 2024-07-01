@@ -112,7 +112,7 @@ class EntryController extends AbstractController
         ValidatorInterface $validatorInterface,
         TokenStorageInterface $tokenStorage,
         PageRepository $pageRepository,
-        AceClient\AceClient $aceClient,
+        AceClient\AceClient $aceClient
     ) {
         $this->customerStatusRepository = $customerStatusRepository;
         $this->mailService = $mailService;

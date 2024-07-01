@@ -14,6 +14,6 @@ abstract class RequestModelAbstract implements RequestModelInterface
      */
     protected function compilePropertyName(string $property): string
     {
-        return $this::class . '.' . $property;
+        return get_class($this) . '.' . $property;
     }
 }

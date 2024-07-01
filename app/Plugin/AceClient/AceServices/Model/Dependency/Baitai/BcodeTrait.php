@@ -28,7 +28,7 @@ trait BcodeTrait
     * @param ?string $bcode
     * @return $this
     */
-    public function setBcode(?string $bcode): static
+    public function setBcode(?string $bcode)
     {
         $this->bcode = $bcode;
         return $this;

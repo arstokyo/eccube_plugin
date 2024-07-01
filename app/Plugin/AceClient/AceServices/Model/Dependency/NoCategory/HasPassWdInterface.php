@@ -22,5 +22,5 @@ interface HasPassWdInterface
      * @param ?string $passwd パスワード
      * @return $this
      */
-    public function setPasswd(?string $passwd): static;
+    public function setPasswd(?string $passwd);
 }

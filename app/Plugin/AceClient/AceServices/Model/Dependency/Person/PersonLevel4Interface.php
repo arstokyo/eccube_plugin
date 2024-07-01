@@ -35,7 +35,7 @@ interface PersonLevel4Interface extends Free\HasThreeFreeInterface, Baitai\HasBa
      * @param string|null $tel2
      * @return $this
      */
-    public function setTel2(?string $tel2): static;
+    public function setTel2(?string $tel2);
     /**
      * Get リスト番号.
      *
@@ -48,7 +48,7 @@ interface PersonLevel4Interface extends Free\HasThreeFreeInterface, Baitai\HasBa
      * @param string|null $code2
      * @return $this
      */
-    public function setCode2(?string $code2): static;
+    public function setCode2(?string $code2);
 
     /**
      * Get 性別.
@@ -64,20 +64,20 @@ interface PersonLevel4Interface extends Free\HasThreeFreeInterface, Baitai\HasBa
      * @param int|null $sex
      * @return $this
      */
-    public function setSex(?int $sex): static;
+    public function setSex(?int $sex);
     /**
      * Get 生年月日.
      *
      * @return AceDateTimeInterface|null
      */
-    public function getBirthday(): ?AceDateTimeInterface;
+    public function getBirthday();
     /**
      * Set 生年月日.
      *
      * @param \DateTime|string|null $birthday
      * @return $this
      */
-    public function setBirthday(\DateTime|string|null $birthday): static;
+    public function setBirthday($birthday);
     /**
      * Get 紹介者.
      *
@@ -90,7 +90,7 @@ interface PersonLevel4Interface extends Free\HasThreeFreeInterface, Baitai\HasBa
      * @param string|null $upcode
      * @return $this
      */
-    public function setUpcode(?string $upcode): static;
+    public function setUpcode(?string $upcode);
     /**
      * Get 締め日.
      *
@@ -103,7 +103,7 @@ interface PersonLevel4Interface extends Free\HasThreeFreeInterface, Baitai\HasBa
      * @param int|null $sime
      * @return $this
      */
-    public function setSime(?int $sime): static;
+    public function setSime(?int $sime);
     /**
      * Get 入金サイト.
      *
@@ -116,7 +116,7 @@ interface PersonLevel4Interface extends Free\HasThreeFreeInterface, Baitai\HasBa
      * @param int|null $site
      * @return $this
      */
-    public function setSite(?int $site): static;
+    public function setSite(?int $site);
     /**
      * Get 入金日.
      *
@@ -129,7 +129,7 @@ interface PersonLevel4Interface extends Free\HasThreeFreeInterface, Baitai\HasBa
      * @param int|null $inday
      * @return $this
      */
-    public function setInday(?int $inday): static;
+    public function setInday(?int $inday);
     /**
      * Get 掛率端数処理区分.
      *
@@ -142,6 +142,6 @@ interface PersonLevel4Interface extends Free\HasThreeFreeInterface, Baitai\HasBa
      * @param int|null $khasuu
      * @return $this
      */
-    public function setKhasuu(?int $khasuu): static;
+    public function setKhasuu(?int $khasuu);
 
 }

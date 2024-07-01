@@ -22,5 +22,5 @@ interface HasCedaInterface
      * @param string|null $ceda
      * @return $this
      */
-    public function setCeda(string|null $ceda): static;
+    public function setCeda(?string $ceda);
 }

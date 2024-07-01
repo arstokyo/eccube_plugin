@@ -23,6 +23,6 @@ interface HasTankaKbnInterface
     * @param int|null $tankakbn
     * @return $this
     */
-    public function setTankakbn(?int $tankakbn): static;
+    public function setTankakbn(?int $tankakbn);
     
 }

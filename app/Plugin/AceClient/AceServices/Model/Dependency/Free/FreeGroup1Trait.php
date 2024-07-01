@@ -71,7 +71,7 @@ trait FreeGroup1Trait
     /**
     * {@inheritDoc}
     */
-    public function setFreeshokaishamemo(?string $freeshokaishamemo): static
+    public function setFreeshokaishamemo(?string $freeshokaishamemo)
     {
         $this->freeshokaishamemo = $freeshokaishamemo;
         return $this;
@@ -87,7 +87,7 @@ trait FreeGroup1Trait
     /**
      * {@inheritDoc}
      */
-    public function setFreeikomoto(?int $freeikomoto): static
+    public function setFreeikomoto(?int $freeikomoto)
     {
         $this->freeikomoto = $freeikomoto;
         return $this;
@@ -104,7 +104,7 @@ trait FreeGroup1Trait
     /**
      * {@inheritDoc}
      */
-    public function setFreedaihyoshasei(?string $freedaihyoshasei): static
+    public function setFreedaihyoshasei(?string $freedaihyoshasei)
     {
         $this->freedaihyoshasei = $freedaihyoshasei;
         return $this;
@@ -121,7 +121,7 @@ trait FreeGroup1Trait
     /**
      * {@inheritDoc}
      */
-    public function setFreedaihyoshamei(?string $freedaihyoshamei): static
+    public function setFreedaihyoshamei(?string $freedaihyoshamei)
     {
         $this->freedaihyoshamei = $freedaihyoshamei;
         return $this;
@@ -138,7 +138,7 @@ trait FreeGroup1Trait
     /**
      * {@inheritDoc}
      */
-    public function setFreedaihyoshaseifuri(?string $freedaihyoshaseifuri): static
+    public function setFreedaihyoshaseifuri(?string $freedaihyoshaseifuri)
     {
         $this->freedaihyoshaseifuri = $freedaihyoshaseifuri;
         return $this;
@@ -155,7 +155,7 @@ trait FreeGroup1Trait
     /**
      * {@inheritDoc}
      */
-    public function setFreedaihyoshameifuri(?string $freedaihyoshameifuri): static
+    public function setFreedaihyoshameifuri(?string $freedaihyoshameifuri)
     {
         $this->freedaihyoshameifuri = $freedaihyoshameifuri;
         return $this;
@@ -172,7 +172,7 @@ trait FreeGroup1Trait
     /**
      * {@inheritDoc}
      */
-    public function setFreeyubinbango(?string $freeyubinbango): static
+    public function setFreeyubinbango(?string $freeyubinbango)
     {
         $this->freeyubinbango = $freeyubinbango;
         return $this;
@@ -189,7 +189,7 @@ trait FreeGroup1Trait
     /**
      * {@inheritDoc}
      */
-    public function setFreetodofuken(?string $freetodofuken): static
+    public function setFreetodofuken(?string $freetodofuken)
     {
         $this->freetodofuken = $freetodofuken;
         return $this;
@@ -206,7 +206,7 @@ trait FreeGroup1Trait
     /**
      * {@inheritDoc}
      */
-    public function setFreeshikuchouson(?string $freeshikuchouson): static
+    public function setFreeshikuchouson(?string $freeshikuchouson)
     {
         $this->freeshikuchouson = $freeshikuchouson;
         return $this;
@@ -223,7 +223,7 @@ trait FreeGroup1Trait
     /**
      * {@inheritDoc}
      */
-    public function setFreechomeibanchi(?string $freechomeibanchi): static
+    public function setFreechomeibanchi(?string $freechomeibanchi)
     {
         $this->freechomeibanchi = $freechomeibanchi;
         return $this;
@@ -240,7 +240,7 @@ trait FreeGroup1Trait
     /**
      * {@inheritDoc}
      */
-    public function setFreetatemonomei(?string $freetatemonomei): static
+    public function setFreetatemonomei(?string $freetatemonomei)
     {
         $this->freetatemonomei = $freetatemonomei;
         return $this;
@@ -257,7 +257,7 @@ trait FreeGroup1Trait
     /**
      * {@inheritDoc}
      */
-    public function setFreekaishamei(?string $freekaishamei): static
+    public function setFreekaishamei(?string $freekaishamei)
     {
         $this->freekaishamei = $freekaishamei;
         return $this;
@@ -274,7 +274,7 @@ trait FreeGroup1Trait
     /**
      * {@inheritDoc}
      */
-    public function setFreetodokesaki(?string $freetodokesaki): static
+    public function setFreetodokesaki(?string $freetodokesaki)
     {
         $this->freetodokesaki = $freetodokesaki;
         return $this;
@@ -291,7 +291,7 @@ trait FreeGroup1Trait
     /**
      * {@inheritDoc}
      */
-    public function setFreedenwabango1(?string $freedenwabango1): static
+    public function setFreedenwabango1(?string $freedenwabango1)
     {
         $this->freedenwabango1 = $freedenwabango1;
         return $this;
@@ -308,7 +308,7 @@ trait FreeGroup1Trait
     /**
      * {@inheritDoc}
      */
-    public function setFreedenwabango2(?string $freedenwabango2): static
+    public function setFreedenwabango2(?string $freedenwabango2)
     {
         $this->freedenwabango2 = $freedenwabango2;
         return $this;
@@ -325,7 +325,7 @@ trait FreeGroup1Trait
     /**
      * {@inheritDoc}
      */
-    public function setFreedenwabango3(?string $freedenwabango3): static
+    public function setFreedenwabango3(?string $freedenwabango3)
     {
         $this->freedenwabango3 = $freedenwabango3;
         return $this;
@@ -342,7 +342,7 @@ trait FreeGroup1Trait
     /**
      * {@inheritDoc}
      */
-    public function setFreefax(?string $freefax): static
+    public function setFreefax(?string $freefax)
     {
         $this->freefax = $freefax;
         return $this;
@@ -359,7 +359,7 @@ trait FreeGroup1Trait
     /**
      * {@inheritDoc}
      */
-    public function setFreeteikyubi(?string $freeteikyubi): static
+    public function setFreeteikyubi(?string $freeteikyubi)
     {
         $this->freeteikyubi = $freeteikyubi;
         return $this;
@@ -376,7 +376,7 @@ trait FreeGroup1Trait
     /**
      * {@inheritDoc}
      */
-    public function setFreedmsofukbn(?int $freedmsofukbn): static
+    public function setFreedmsofukbn(?int $freedmsofukbn)
     {
         $this->freedmsofukbn = $freedmsofukbn;
         return $this;
@@ -393,7 +393,7 @@ trait FreeGroup1Trait
     /**
      * {@inheritDoc}
      */
-    public function setFreeenduserkbn(?int $freeenduserkbn): static
+    public function setFreeenduserkbn(?int $freeenduserkbn)
     {
         $this->freeenduserkbn = $freeenduserkbn;
         return $this;
@@ -410,7 +410,7 @@ trait FreeGroup1Trait
     /**
      * {@inheritDoc}
      */
-    public function setFreehanshakbn(?int $freehanshakbn): static
+    public function setFreehanshakbn(?int $freehanshakbn)
     {
         $this->freehanshakbn = $freehanshakbn;
         return $this;
@@ -427,7 +427,7 @@ trait FreeGroup1Trait
     /**
      * {@inheritDoc}
      */
-    public function setThflg(?int $thflg): static
+    public function setThflg(?int $thflg)
     {
         $this->thflg = $thflg;
         return $this;

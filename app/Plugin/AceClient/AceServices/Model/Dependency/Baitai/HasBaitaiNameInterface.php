@@ -24,8 +24,8 @@ interface HasBaitaiNameInterface
      * @param ?string $baitaiName
      * @return $this
      */
-    #[SerializedName('baitai_name')]
-    public function setBaitaiName(?string $baitaiName): static;
+    /** @SerializedName("baitai_name") */
+    public function setBaitaiName(?string $baitaiName);
 
     /**
      * Get 管理番号名
@@ -40,6 +40,6 @@ interface HasBaitaiNameInterface
      * @param ?string $baifileName
      * @return $this
      */
-    #[SerializedName('baifile_name')]
-    public function setBaifileName(?string $baifileName): static;
+    /** @SerializedName("baifile_name") */
+    public function setBaifileName(?string $baifileName);
 }

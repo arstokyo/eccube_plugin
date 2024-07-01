@@ -17,16 +17,16 @@ class SoapXmlSerializerModel implements ConfigModelInterface
 
     use ConvertToConstTrait;
 
-    #[SerializedName("xmlns")]
+    /** @SerializedName("xmlns") */
     private ?array $xmlns = null;
 
-    #[SerializedName("default_serialize_options")]
+    /** @SerializedName("default_serialize_options") */
     private ?array $defaultSerializeOptions = null;
 
-    #[SerializedName("request_soap_head")]
+    /** @SerializedName("request_soap_head") */
     private ?string $requestSoapHead = null;
     
-    #[SerializedName("request_soap_end")]
+    /** @SerializedName("request_soap_end") */
     private ?string $requestSoapEnd = null;
 
     /**

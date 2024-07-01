@@ -26,7 +26,7 @@ trait MoneyTrait
     /**
      * {@inheritDoc}
      */
-    public function setMoney(?string $money): static
+    public function setMoney(?string $money)
     {
         $this->money = NumberConverter::stringWithCommaToFloat($money);
         return $this;

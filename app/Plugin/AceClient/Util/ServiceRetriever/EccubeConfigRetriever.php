@@ -11,6 +11,7 @@ use Eccube\Common\EccubeConfig;
  */
 class EccubeConfigRetriever
 {
+    private EccubeConfig $eccubeConfig;
 
     /**
      * ServiceRetriveHelper constructor.
@@ -19,8 +20,9 @@ class EccubeConfigRetriever
      */
     public function __construct
     (
-        private EccubeConfig $eccubeConfig
+        EccubeConfig $eccubeConfig
     ) {
+        $this->eccubeConfig = $eccubeConfig;
     }
 
     /**

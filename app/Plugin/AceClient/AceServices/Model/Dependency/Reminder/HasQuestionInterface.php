@@ -22,5 +22,5 @@ interface HasQuestionInterface
      * @param ?string $question1
      * @return $this
      */
-    public function setQuestion(?string $question): static;
+    public function setQuestion(?string $question);
 }

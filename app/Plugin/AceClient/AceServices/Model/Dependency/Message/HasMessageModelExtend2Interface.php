@@ -17,5 +17,5 @@ interface HasMessageModelExtend2Interface
      * @param MessageModelExtend2 $message
      * @return $this
      */
-    public function setMessage(MessageModelExtend2 $message): static;
+    public function setMessage(MessageModelExtend2 $message);
 }

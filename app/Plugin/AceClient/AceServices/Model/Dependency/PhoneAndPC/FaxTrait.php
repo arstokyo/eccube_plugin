@@ -23,7 +23,7 @@ trait FaxTrait
     /**
      * {@inheritDoc}
      */
-    public function setFax(?string $fax): static
+    public function setFax(?string $fax)
     {
         $this->fax = $fax;
         return $this;

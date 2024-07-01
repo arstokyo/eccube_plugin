@@ -23,6 +23,6 @@ interface HasJcodeInterface
      * @param ?int $jcode
      * @return $this
      */
-    public function setJcode(?int $jcode): static;
+    public function setJcode(?int $jcode);
 
 }

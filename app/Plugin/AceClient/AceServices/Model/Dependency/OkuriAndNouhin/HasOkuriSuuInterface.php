@@ -22,5 +22,5 @@ interface HasOkuriSuuInterface
      * @param ?int $okurisuu
      * @return $this
      */
-    public function setOkurisuu(?int $okurisuu): static;
+    public function setOkurisuu(?int $okurisuu);
 }

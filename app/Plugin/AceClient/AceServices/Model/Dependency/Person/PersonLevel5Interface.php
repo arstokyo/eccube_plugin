@@ -33,20 +33,20 @@ interface PersonLevel5Interface extends HasBaitaiNameInterface, HasThreeFnameInt
      * @param int|null $blkbn
      * @return $this
      */
-    public function setBlkbn(?int $blkbn): static;
+    public function setBlkbn(?int $blkbn);
     /**
      * Get 滞納者日付.
      *
      * @return AceDateTimeInterface|null
      */
-    public function getBlday(): ?AceDateTimeInterface;
+    public function getBlday();
     /**
      * Set 滞納者日付.
      *
      * @param \DateTime|string|null $blday
      * @return $this
      */
-    public function setBlday(\DateTime|string|null $blday): static;
+    public function setBlday($blday);
     /**
      * Get DM送付先フラグ.
      * 0:自宅 1:勤務先
@@ -61,7 +61,7 @@ interface PersonLevel5Interface extends HasBaitaiNameInterface, HasThreeFnameInt
      * @param int|null $dadr
      * @return $this
      */
-    public function setDadr(?int $dadr): static;
+    public function setDadr(?int $dadr);
     /**
      * Get 商品送付先フラグ.
      * 0:自宅 1:勤務先
@@ -76,7 +76,7 @@ interface PersonLevel5Interface extends HasBaitaiNameInterface, HasThreeFnameInt
      * @param int|null $gadr
      * @return $this
      */
-    public function setGadr(?int $gadr): static;
+    public function setGadr(?int $gadr);
         /**
      * Get 年齢.
      *
@@ -89,7 +89,7 @@ interface PersonLevel5Interface extends HasBaitaiNameInterface, HasThreeFnameInt
      * @param int|null $age
      * @return $this
      */
-    public function setAge(?int $age): static;
+    public function setAge(?int $age);
     /**
      * Get 紹介者 氏名.
      *
@@ -102,6 +102,6 @@ interface PersonLevel5Interface extends HasBaitaiNameInterface, HasThreeFnameInt
      * @param string|null $upcodeSimei
      * @return $this
      */
-    public function setUpcodeSimei(?string $upcodeSimei): static;
+    public function setUpcodeSimei(?string $upcodeSimei);
 
 }

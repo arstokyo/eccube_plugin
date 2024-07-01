@@ -22,7 +22,7 @@ interface HasThreeAdrBikouInterface
      * @param ?string $adrbikou1
      * @return $this
      */
-    public function setAdrBikou1(?string $adrbikou1): static;
+    public function setAdrBikou1(?string $adrbikou1);
 
     /**
      * Get 住所備考2
@@ -37,7 +37,7 @@ interface HasThreeAdrBikouInterface
      * @param ?string $adrbikou2
      * @return $this
      */
-    public function setAdrBikou2(?string $adrbikou2): static;
+    public function setAdrBikou2(?string $adrbikou2);
 
     /**
      * Get 住所備考3
@@ -52,6 +52,6 @@ interface HasThreeAdrBikouInterface
      * @param ?string $adrbikou3
      * @return $this
      */
-    public function setAdrBikou3(?string $adrbikou3): static;
+    public function setAdrBikou3(?string $adrbikou3);
 
 }
