@@ -1,0 +1,7 @@
+services:
+
+    plugin.ace.client:
+        class: Plugin\AceClient\AceClient
+        public: true
+        arguments:
+            - '@Plugin\AceClient\Util\ServiceRetriever\ServiceRetriever'
