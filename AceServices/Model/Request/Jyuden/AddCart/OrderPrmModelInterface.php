@@ -19,21 +19,21 @@ interface OrderPrmModelInterface extends PrmModelInterface
      * @param Request\Jyuden\AddCart\MemberOrderModel|null $member
      * @return self
      */
-    public function setMember(MemberOrderModelInterface|null $member): self;
+    public function setMember(?MemberOrderModelInterface $member): self;
 
     /**
      * Get 顧客情報
      * 
      * @return Request\Jyuden\AddCart\MemberOrderModel|null
      */
-    public function getMember(): MemberOrderModelInterface|null;
+    public function getMember(): ?MemberOrderModelInterface;
 
     /**
      * Get オーダー情報
      * 
      * @return Request\Jyuden\AddCart\JyudenModelInterface|null
      */
-    public function getJyuden(): JyudenModelInterface|null;
+    public function getJyuden(): ?JyudenModelInterface;
 
     /**
      * Set オーダー情報
@@ -41,14 +41,14 @@ interface OrderPrmModelInterface extends PrmModelInterface
      * @param Request\Jyuden\AddCart\JyudenModel|null $jyuden
      * @return self
      */
-    public function setJyuden(JyudenModelInterface|null $jyuden): self;
+    public function setJyuden(?JyudenModelInterface $jyuden): self;
 
     /**
      * Get 詳細情報
      * 
      * @return Request\Jyuden\AddCart\DetailModelInterface|null
      */
-    public function getDetail(): DetailModelInterface|null;
+    public function getDetail(): ?DetailModelInterface;
 
     /**
      * Set 詳細情報
@@ -56,14 +56,14 @@ interface OrderPrmModelInterface extends PrmModelInterface
      * @param Request\Jyuden\AddCart\DetailModel|null $detail
      * @return self
      */
-    public function setDetail(DetailModelInterface|null $detail): self;
+    public function setDetail(?DetailModelInterface $detail): self;
 
     /**
      * Get Mail情報
      * 
      * @return Request\Jyuden\AddCart\MailJyudenModel|null
      */
-    public function getMailjyuden(): MailJyudenModel|null;
+    public function getMailjyuden(): ?MailJyudenModel;
 
     /**
      * Set Mail情報
@@ -71,6 +71,6 @@ interface OrderPrmModelInterface extends PrmModelInterface
      * @param Request\Jyuden\AddCart\MailJyudenModel|null $mailjyuden
      * @return self
      */
-    public function setMailjyuden(MailJyudenModel|null $mailjyuden): self;
+    public function setMailjyuden(?MailJyudenModel $mailjyuden): self;
     
 }

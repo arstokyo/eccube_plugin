@@ -30,7 +30,7 @@ class GoodsModel implements GoodsModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setGood(array|null $good): void
+    public function setGood(?array $good): void
     {
         $this->Good = $good;
     }

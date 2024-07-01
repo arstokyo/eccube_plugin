@@ -16,7 +16,7 @@ interface HasDayInterface
     *
     * @return ?AceDateTime\AceDateTimeInterface
     */
-    public function getDay(): ?AceDateTime\AceDateTimeInterface;
+    public function getDay();
 
     /**
      * Set 受注日
@@ -24,6 +24,6 @@ interface HasDayInterface
      * @param \DateTime|string|null $day
      * @return $this
      */
-    public function setDay(\DateTime|string|null $day): static;
+    public function setDay($day);
 
 }

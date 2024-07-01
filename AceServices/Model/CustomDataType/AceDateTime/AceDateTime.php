@@ -42,7 +42,7 @@ class AceDateTime  implements AceDateTimeInterface
      * 
      * @throws AceDateTimeCreateFailedException
      */
-    public function __construct(Datetime|string $dateTime, $targetNormalizeFormat = AceDateTimeFactory::ACE_DEFAULT_DATE_FORMAT)
+    public function __construct($dateTime, $targetNormalizeFormat = AceDateTimeFactory::ACE_DEFAULT_DATE_FORMAT)
     {
         $this->targetNormalizeFormat = $targetNormalizeFormat;
         $this->dateTime = $this->createNewDateTime($dateTime);
@@ -56,7 +56,7 @@ class AceDateTime  implements AceDateTimeInterface
      * @throws AceDateTimeCreateFailedException
      * @return Datetime
      */
-    private function createNewDateTime(string|Datetime $dateTime): Datetime
+    private function createNewDateTime($dateTime): Datetime
     {
         if ($dateTime instanceof Datetime) {
             return $dateTime;
@@ -187,12 +187,13 @@ class AceDateTime  implements AceDateTimeInterface
      * 
      * @return string
      */
-    private function handleWarekiDateTime(string|int $dateTime): string
+    private function handleWarekiDateTime($dateTime): string
     {
         if (preg_match('/^(明治|大正|昭和|平成|令和)([0-9]+)\/?/', $dateTime, $matches)) {
             $yearAsInt = intval($this->japaneseStartYear[$matches[1]]) + intval($matches[2]);
             return str_replace($matches[1].$matches[2], $yearAsInt, $dateTime);
         }
+        
         return $dateTime;
     }
 
@@ -203,7 +204,7 @@ class AceDateTime  implements AceDateTimeInterface
      * 
      * @return DateTime|false
      */
-    private function tryParseToAceFormat(string $dateTime): DateTime|false
+    private function tryParseToAceFormat(string $dateTime)
     {
         foreach ($this->aceDateTimeFormats as $format) {
             $result = DateTime::createFromFormat($format, $dateTime);
@@ -211,6 +212,7 @@ class AceDateTime  implements AceDateTimeInterface
                 return $result;
             }
         }
+
         return false;
     }
 

@@ -24,7 +24,7 @@ trait TcodeTrait
     /**
      * {@inheritDoc}
      */
-    public function setTcode(?string $tcode): static
+    public function setTcode(?string $tcode)
     {
         $this->tcode = $tcode;
         return $this;

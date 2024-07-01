@@ -33,7 +33,7 @@ class MemberModel implements MemberModelInterface
     /**
     * {@inheritDoc}
     */
-    public function setGetHaisouAdrs(array|null $haisouAdrs): void
+    public function setGetHaisouAdrs(?array $haisouAdrs): void
     {
         $this->getHaisouAdrs = $haisouAdrs;
     }

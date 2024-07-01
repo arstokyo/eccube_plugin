@@ -25,7 +25,7 @@ trait TwoNBikouTrait
     /**
      * {@inheritDoc}
      */
-    public function setNbikou1(?string $nbikou1): static
+    public function setNbikou1(?string $nbikou1)
     {
         $this->nbikou1 = $nbikou1;
         return $this;
@@ -42,7 +42,7 @@ trait TwoNBikouTrait
     /**
      * {@inheritDoc}
      */
-    public function setNbikou2(?string $nbikou2): static
+    public function setNbikou2(?string $nbikou2)
     {
         $this->nbikou2 = $nbikou2;
         return $this;

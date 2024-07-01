@@ -12,7 +12,7 @@ class OTDObjectDenormalizer extends OTDDenormalizerAbstract
     /**
      * {@inheritDoc}
      */
-    public function denormalizeOTD(): string|null|object
+    public function denormalizeOTD()
     {
         return $this->delegate->getObject();
     }

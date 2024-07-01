@@ -25,7 +25,7 @@ trait TwoOBikouTrait
     /**
      * {@inheritDoc}
      */
-    public function setObikou1(?string $obikou1): static
+    public function setObikou1(?string $obikou1)
     {
         $this->obikou1 = $obikou1;
         return $this;
@@ -42,7 +42,7 @@ trait TwoOBikouTrait
     /**
      * {@inheritDoc}
      */
-    public function setObikou2(?string $obikou2): static
+    public function setObikou2(?string $obikou2)
     {
         $this->obikou2 = $obikou2;
         return $this;

@@ -24,7 +24,7 @@ trait NadrTrait
     /**
     * {@inheritDoc}
     */
-    public function setNadr(string|null $nadr): static
+    public function setNadr(?string $nadr)
     {
         $this->nadr = $nadr;
         return $this;

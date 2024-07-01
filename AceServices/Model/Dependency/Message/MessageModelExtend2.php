@@ -29,7 +29,7 @@ class MessageModelExtend2 extends MessageModelExtend1 implements MessageModelExt
     /**
      * {@inheritDoc}
      */
-    public function setAdress(?string $adress): static
+    public function setAdress(?string $adress)
     {
         $this->adress = $adress;
         return $this;

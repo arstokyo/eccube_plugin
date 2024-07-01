@@ -16,7 +16,7 @@ interface HasNdayInterface
     *
     * @return ?AceDateTime\AceDateTimeInterface
     */
-    public function getNday(): ?AceDateTime\AceDateTimeInterface;
+    public function getNday();
 
     /**
      * Set 入金予定日
@@ -24,5 +24,5 @@ interface HasNdayInterface
      * @param \DateTime|string|null $nday
      * @return $this
      */
-    public function setNday(\DateTime|string|null $nday): static;
+    public function setNday($nday);
 }

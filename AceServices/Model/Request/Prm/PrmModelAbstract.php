@@ -20,7 +20,7 @@ abstract class PrmModelAbstract implements PrmModelInterface
     /**
      * @var PrmModelAssistantInterface $assistant
      */
-    #[Ignore]
+    /** @Ignore */
     private PrmModelAssistantInterface $assistant;
 
     /**
@@ -29,7 +29,7 @@ abstract class PrmModelAbstract implements PrmModelInterface
      */
     public function __construct()
     {
-        $this->assistant = new PrmModelAssistant($this::class);
+        $this->assistant = new PrmModelAssistant(get_class($this));
         self::initializeDenormalizer();
     }
 
@@ -89,7 +89,7 @@ abstract class PrmModelAbstract implements PrmModelInterface
     /**
      * {@inheritDoc}
      */
-    public function toData(): string|null|object
+    public function toData()
     {
         return $this->assistant->getOTDDenormarlizer()->denormalizeOTD();
     }
@@ -102,7 +102,7 @@ abstract class PrmModelAbstract implements PrmModelInterface
      */
     protected function compilePropertyName(string $propertyName): string
     {
-        return $this::class . '.' . $propertyName;
+        return get_class($this) . '.' . $propertyName;
     }
 
     /**

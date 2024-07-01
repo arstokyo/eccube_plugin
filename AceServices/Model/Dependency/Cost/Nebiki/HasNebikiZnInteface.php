@@ -23,6 +23,6 @@ interface HasNebikiZnInteface
     * @param string|null $nebikizn
     * @return $this
     */
-    public function setNebikizn(?string $nebikizn): static;
+    public function setNebikizn(?string $nebikizn);
     
 }

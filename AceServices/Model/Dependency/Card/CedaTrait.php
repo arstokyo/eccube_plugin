@@ -27,7 +27,7 @@ trait CedaTrait
     /**
      * {@inheritDoc}
      */
-    public function setCeda(string|null $ceda): static
+    public function setCeda(?string $ceda)
     {
         $this->ceda = $ceda;
         return $this;

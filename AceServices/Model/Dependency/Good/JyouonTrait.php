@@ -24,7 +24,7 @@ trait JyouonTrait
     /**
      * {@inheritDoc}
      */
-    public function setJyouon(?int $jyouon): static
+    public function setJyouon(?int $jyouon)
     {
         $this->jyouon = $jyouon;
         return $this;

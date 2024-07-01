@@ -24,7 +24,7 @@ interface GetMemberNameRequestModelInterface extends RequestModelInterface
      * @param ?int $syid
      * @return $this
      */
-    public function setSyid(?int $syid): static;
+    public function setSyid(?int $syid);
 
     /**
      * Get 顧客ID

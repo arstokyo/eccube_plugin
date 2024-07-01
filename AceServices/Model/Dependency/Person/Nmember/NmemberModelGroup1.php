@@ -27,7 +27,7 @@ class NmemberModelGroup1 extends NmemberModel implements NmemberModelGroup1Inter
     /**
      * {@inheritDoc}
      */
-    public function getAdrName(): string|null
+    public function getAdrName(): ?string
     {
         return $this->adrName;
     }
@@ -35,7 +35,7 @@ class NmemberModelGroup1 extends NmemberModel implements NmemberModelGroup1Inter
     /**
      * {@inheritDoc}
      */
-    public function setAdrName(?string $adrName): static
+    public function setAdrName(?string $adrName)
     {
         $this->adrName = $adrName;
         return $this;

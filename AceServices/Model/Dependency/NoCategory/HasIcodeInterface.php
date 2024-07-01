@@ -22,5 +22,5 @@ interface HasIcodeInterface
      * @param ?string $icode
      * @return $this
      */
-    public function setIcode(?string $icode): static;
+    public function setIcode(?string $icode);
 }

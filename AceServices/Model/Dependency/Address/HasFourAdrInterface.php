@@ -22,7 +22,7 @@ interface HasFourAdrInterface
      * @param ?string $adr1
      * @return $this
      */
-    public function setAdr1(?string $adr1): static;
+    public function setAdr1(?string $adr1);
 
     /**
      * Get 住所2
@@ -37,7 +37,7 @@ interface HasFourAdrInterface
      * @param ?string $adr2
      * @return $this
      */
-    public function setAdr2(?string $adr2): static;
+    public function setAdr2(?string $adr2);
 
     /**
      * Get 住所3
@@ -52,7 +52,7 @@ interface HasFourAdrInterface
      * @param ?string $adr3
      * @return $this
      */
-    public function setAdr3(?string $adr3): static;
+    public function setAdr3(?string $adr3);
 
     /**
      * Get 住所4
@@ -67,6 +67,6 @@ interface HasFourAdrInterface
      * @param ?string $adr4
      * @return $this
      */
-    public function setAdr4(?string $adr4): static;
+    public function setAdr4(?string $adr4);
 
 }

@@ -25,7 +25,7 @@ trait TesuuTrait
     /**
      * {@inheritDoc}
      */
-    public function setTesuu(?string $tesuu): static
+    public function setTesuu(?string $tesuu)
     {
         $this->tesuu = NumberConverter::stringWithCommaToFloat($tesuu);
         return $this;

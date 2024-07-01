@@ -22,5 +22,5 @@ interface HasOnameInterface
      * @param ?string $oname
      * @return $this
      */
-    public function setOname(?string $oname): static;
+    public function setOname(?string $oname);
 }

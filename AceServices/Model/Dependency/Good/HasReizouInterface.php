@@ -23,6 +23,6 @@ interface HasReizouInterface
      * @param int|null $reizou
      * @return $this
      */
-    public function setReizou(?int $reizou): static;
+    public function setReizou(?int $reizou);
 
 }

@@ -25,7 +25,7 @@ trait StaxTrait
     /**
      * {@inheritDoc}
      */
-    public function setStax(?string $stax): static
+    public function setStax(?string $stax)
     {
         $this->stax = NumberConverter::stringWithCommaToFloat($stax);
         return $this;

@@ -23,6 +23,6 @@ interface HasTaxInterface
     * @param string|null $tax
     * @return $this
     */
-    public function setTax(?string $tax): static;
+    public function setTax(?string $tax);
     
 }

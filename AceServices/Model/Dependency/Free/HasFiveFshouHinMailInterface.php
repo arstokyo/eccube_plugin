@@ -22,7 +22,7 @@ interface HasFiveFshouHinMailInterface
      * @param ?string $fshouhinmail1
      * @return $this
      */
-    public function setFShouHinMail1(?string $fshouhinmail1): static;
+    public function setFShouHinMail1(?string $fshouhinmail1);
 
     /**
      * Get 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ2
@@ -37,7 +37,7 @@ interface HasFiveFshouHinMailInterface
      * @param ?string $fshouhinmail2
      * @return $this
      */
-    public function setFShouHinMail2(?string $fshouhinmail2): static;
+    public function setFShouHinMail2(?string $fshouhinmail2);
 
     /**
      * Get 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ3
@@ -52,7 +52,7 @@ interface HasFiveFshouHinMailInterface
      * @param ?string $fshouhinmail3
      * @return $this
      */
-    public function setFShouHinMail3(?string $fshouhinmail3): static;
+    public function setFShouHinMail3(?string $fshouhinmail3);
 
     /**
      * Get 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ4
@@ -67,7 +67,7 @@ interface HasFiveFshouHinMailInterface
      * @param ?string $fshouhinmail4
      * @return $this
      */
-    public function setFShouHinMail4(?string $fshouhinmail4): static;
+    public function setFShouHinMail4(?string $fshouhinmail4);
 
     /**
      * Get 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ5
@@ -82,5 +82,5 @@ interface HasFiveFshouHinMailInterface
      * @param ?string $fshouhinmail5
      * @return $this
      */
-    public function setFShouHinMail5(?string $fshouhinmail5): static;
+    public function setFShouHinMail5(?string $fshouhinmail5);
 }

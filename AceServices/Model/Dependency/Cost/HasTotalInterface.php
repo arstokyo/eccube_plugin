@@ -22,6 +22,6 @@ interface HasTotalInterface
      * @param string|null $total
      * @return $this
      */
-    public function setTotal(string|null $total): static;
+    public function setTotal(?string $total);
     
 }

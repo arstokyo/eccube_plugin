@@ -23,7 +23,7 @@ class AbstractClient implements ClientInterface
     protected array $headers = [];
 
     /** @var \JsonSerializable|RequestModelInterface|array<mixed, mixed> */
-    protected \JsonSerializable|RequestModelInterface|array $request = [];
+    protected $request = [];
 
     protected ?string $responseObject = null;
 
@@ -76,7 +76,7 @@ class AbstractClient implements ClientInterface
      *
      * @return ClientInterface
      */
-    public function withRequest(RequestModelInterface|\JsonSerializable|array $request): ClientInterface
+    public function withRequest($request): ClientInterface
     {
         $this->request = $request;
         return $this;

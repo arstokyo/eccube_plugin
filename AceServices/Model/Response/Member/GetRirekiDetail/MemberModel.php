@@ -34,7 +34,7 @@ class MemberModel implements MemberModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setRirekiDetail(array|null $rirekiDetail): void
+    public function setRirekiDetail(?array $rirekiDetail): void
     {
         $this->RirekiDetail = $rirekiDetail;
     }
@@ -50,7 +50,7 @@ class MemberModel implements MemberModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setMailJyuden(array|null $mailJyuden): void
+    public function setMailJyuden(?array $mailJyuden): void
     {
         $this->MailJyuden = $mailJyuden;
     }

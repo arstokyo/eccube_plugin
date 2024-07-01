@@ -55,7 +55,7 @@ trait PersonLevel5Trait
     /**
      * {@inheritDoc}
      */
-    public function getBlday(): ?AceDateTime\AceDateTimeInterface
+    public function getBlday()
     {
         return $this->blday;
     }
@@ -87,7 +87,7 @@ trait PersonLevel5Trait
     /**
      * {@inheritDoc}
      */
-    public function setAge(?int $age): static
+    public function setAge(?int $age)
     {
         $this->age = $age;
         return $this;
@@ -96,7 +96,7 @@ trait PersonLevel5Trait
     /**
      * {@inheritDoc}
      */
-    public function setBlday(\DateTime|string|null $blday): static
+    public function setBlday($blday)
     {
         $this->blday = AceDateTime\AceDateTimeFactory::makeAceDateTime($blday);
         return $this;
@@ -105,7 +105,7 @@ trait PersonLevel5Trait
     /**
      * {@inheritDoc}
      */
-    public function setBlkbn(?int $blkbn): static
+    public function setBlkbn(?int $blkbn)
     {
         $this->blkbn = $blkbn;
         return $this;
@@ -114,7 +114,7 @@ trait PersonLevel5Trait
     /**
      * {@inheritDoc}
      */
-    public function setDadr(?int $dadr): static
+    public function setDadr(?int $dadr)
     {
         $this->dadr = $dadr;
         return $this;
@@ -123,7 +123,7 @@ trait PersonLevel5Trait
     /**
      * {@inheritDoc}
      */
-    public function setGadr(?int $gadr): static
+    public function setGadr(?int $gadr)
     {
         $this->gadr = $gadr;
         return $this;
@@ -140,7 +140,7 @@ trait PersonLevel5Trait
     /**
      * {@inheritDoc}
      */
-    public function setUpcodeSimei(?string $upcodeSimei): static
+    public function setUpcodeSimei(?string $upcodeSimei)
     {
         $this->upcodeSimei = $upcodeSimei;
         return $this;

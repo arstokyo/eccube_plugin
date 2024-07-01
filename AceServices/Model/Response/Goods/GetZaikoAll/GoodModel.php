@@ -29,7 +29,7 @@ class GoodModel implements GoodModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setJsuu(?int $jsuu): static
+    public function setJsuu(?int $jsuu)
     {
         $this->jsuu = $jsuu;
         return $this;

@@ -22,5 +22,5 @@ interface HasCKbnInterface
      * @param ?int $ckbn
      * @return $this
      */
-    public function setCKbn(?int $ckbn): static;
+    public function setCKbn(?int $ckbn);
 }

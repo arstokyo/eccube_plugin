@@ -49,7 +49,7 @@ trait JyusubModelBaseTrait
     /**
      * {@inheritDoc}
      */
-    public function setSmpkbn(?int $smpkbn): static
+    public function setSmpkbn(?int $smpkbn)
     {
         $this->smpkbn = $smpkbn;
         return $this;

@@ -29,6 +29,6 @@ interface MasterModelInterface extends HasMessageModelInterface,
      * @param GoodTankaModelGroup1[]|null $gzai
      * @return void
      */
-    #[SerializedName('Gtanka')]
-    public function setGzai(array|null $gzai): void;
+    /** @SerializedName("Gtanka") */
+    public function setGzai(?array $gzai): void;
 }

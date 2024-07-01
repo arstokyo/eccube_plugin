@@ -16,7 +16,7 @@ interface HasExecDateToInterface
     *
     * @return ?AceDateTime\AceDateTimeInterface
     */
-    public function getExecDateTo(): ?AceDateTime\AceDateTimeInterface;
+    public function getExecDateTo();
 
     /**
      * Set 終了日時
@@ -24,6 +24,6 @@ interface HasExecDateToInterface
      * @param \DateTime|string|null $execDateTo
      * @return $this
      */
-    public function setExecDateTo(\DateTime|string|null $execDateTo): static;
+    public function setExecDateTo($execDateTo);
 
 }

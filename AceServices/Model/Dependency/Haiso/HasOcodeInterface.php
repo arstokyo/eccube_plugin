@@ -24,5 +24,5 @@ interface HasOcodeInterface
      * @param ?int $code
      * @return $this
      */
-    public function setOcode(?int $code): static;
+    public function setOcode(?int $code);
 }

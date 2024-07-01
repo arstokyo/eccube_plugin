@@ -21,7 +21,7 @@ class SoapReflectionExtractor extends ReflectionExtractor
     /**
      * {@inheritDoc}
      */
-    public function getTypes(string $class, string $property, array $context = []): array|null
+    public function getTypes(string $class, string $property, array $context = []): ?array
     {
         $types = parent::getTypes($class, $property, $context);
         if ($types !== null) {

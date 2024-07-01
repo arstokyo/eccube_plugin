@@ -13,7 +13,8 @@ class ClientMetadata implements ClientMetadataInterface
 {
     private string $requestmethod;
     private string $uri;
-    private RequestModelInterface|\JsonSerializable|array $data;
+    /** @var RequestModelInterface|\JsonSerializable|array<int|string, mixed> $data */
+    private $data;
 
      /**
      * ClientMetadata constructor
@@ -26,7 +27,7 @@ class ClientMetadata implements ClientMetadataInterface
     (
         string $requestmethod,
         string $uri,
-        RequestModelInterface|\JsonSerializable|array $data
+        $data
     ) {
         $this->requestmethod = $requestmethod;
         $this->uri           = $uri;
@@ -58,7 +59,7 @@ class ClientMetadata implements ClientMetadataInterface
      *
      * @return RequestModelInterface|\JsonSerializable|array<int|string, mixed>
      */
-    public function getData(): RequestModelInterface|\JsonSerializable|array
+    public function getData()
     {
         return $this->data;
     }

@@ -22,5 +22,5 @@ interface HasGtotalInterface
      * @param ?string $gtotal The 商品合計額.
      * @return $this
      */
-    public function setGtotal(?string $gtotal): static;
+    public function setGtotal(?string $gtotal);
 }

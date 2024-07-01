@@ -25,7 +25,7 @@ trait UtaxTrait
     /**
      * {@inheritDoc}
      */
-    public function setUtax(?string $utax): static
+    public function setUtax(?string $utax)
     {
         $this->utax = NumberConverter::stringWithCommaToFloat($utax);
         return $this;

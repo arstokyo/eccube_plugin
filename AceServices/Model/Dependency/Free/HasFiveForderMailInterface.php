@@ -22,7 +22,7 @@ interface HasFiveForderMailInterface
      * @param ?string $freeordermail1
      * @return $this
      */
-    public function setFreeOrderMail1(?string $freeordermail1): static;
+    public function setFreeOrderMail1(?string $freeordermail1);
 
     /**
      * Get 注文確認ﾒｰﾙｱﾄﾞﾚｽ2
@@ -37,7 +37,7 @@ interface HasFiveForderMailInterface
      * @param ?string $freeordermail2
      * @return $this
      */
-    public function setFreeOrderMail2(?string $freeordermail2): static;
+    public function setFreeOrderMail2(?string $freeordermail2);
 
     /**
      * Get 注文確認ﾒｰﾙｱﾄﾞﾚｽ3
@@ -52,7 +52,7 @@ interface HasFiveForderMailInterface
      * @param ?string $freeordermail3
      * @return $this
      */
-    public function setFreeOrderMail3(?string $freeordermail3): static;
+    public function setFreeOrderMail3(?string $freeordermail3);
 
     /**
      * Get 注文確認ﾒｰﾙｱﾄﾞﾚｽ4
@@ -67,7 +67,7 @@ interface HasFiveForderMailInterface
      * @param ?string $freeordermail4
      * @return $this
      */
-    public function setFreeOrderMail4(?string $freeordermail4): static;
+    public function setFreeOrderMail4(?string $freeordermail4);
 
     /**
      * Get 注文確認ﾒｰﾙｱﾄﾞﾚｽ5
@@ -82,5 +82,5 @@ interface HasFiveForderMailInterface
      * @param ?string $freeordermail5
      * @return $this
      */
-    public function setFreeOrderMail5(?string $freeordermail5): static;
+    public function setFreeOrderMail5(?string $freeordermail5);
 }

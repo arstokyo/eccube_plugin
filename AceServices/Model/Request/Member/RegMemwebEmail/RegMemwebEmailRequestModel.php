@@ -34,7 +34,7 @@ class RegMemwebEmailRequestModel extends RequestModelAbstract implements RegMemw
     /**
      * {@inheritDoc}
      */
-    public function setSyid(?int $syid): static
+    public function setSyid(?int $syid)
     {
         $this->syid = $syid;
         return $this;
@@ -51,7 +51,7 @@ class RegMemwebEmailRequestModel extends RequestModelAbstract implements RegMemw
     /**
      * {@inheritDoc}
      */
-    public function setMbid(?string $mbid): static
+    public function setMbid(?string $mbid)
     {
         $this->mbid = $mbid;
         return $this;

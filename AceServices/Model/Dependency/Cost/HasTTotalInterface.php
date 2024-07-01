@@ -23,6 +23,6 @@ interface HasTTotalInterface
     * @param string|null $ttotal
     * @return $this
     */
-    public function setTtotal(?string $ttotal): static; 
+    public function setTtotal(?string $ttotal); 
 
 }

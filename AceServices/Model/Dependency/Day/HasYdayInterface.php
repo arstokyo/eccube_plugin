@@ -16,7 +16,7 @@ interface HasYdayInterface
     *
     * @return ?AceDateTime\AceDateTimeInterface
     */
-    public function getYday(): ?AceDateTime\AceDateTimeInterface;
+    public function getYday();
 
     /**
      * Set 出荷予定日
@@ -24,5 +24,5 @@ interface HasYdayInterface
      * @param \DateTime|string|null $yday
      * @return $this
      */
-    public function setYday(\DateTime|string|null $yday): static;
+    public function setYday($yday);
 }

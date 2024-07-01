@@ -20,7 +20,7 @@ interface HasThreeFreeInterface
      * @param string|null $free1
      * @return $this
      */
-    public function setFree1(?string $free1): static;
+    public function setFree1(?string $free1);
 
     /**
      * Get フリー2
@@ -33,7 +33,7 @@ interface HasThreeFreeInterface
      * @param string|null $free2
      * @return $this
      */
-    public function setFree2(?string $free2): static;
+    public function setFree2(?string $free2);
 
     /**
      * Get フリー3
@@ -46,6 +46,6 @@ interface HasThreeFreeInterface
      * @param string|null $free3
      * @return $this
      */
-    public function setFree3(?string $free3): static;
+    public function setFree3(?string $free3);
 
 }

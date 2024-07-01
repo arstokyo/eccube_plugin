@@ -23,7 +23,7 @@ trait PassWdTrait
     /**
      * {@inheritDoc}
      */
-    public function setPasswd(?string $passwd): static
+    public function setPasswd(?string $passwd)
     {
         $this->passwd = $passwd;
         return $this;

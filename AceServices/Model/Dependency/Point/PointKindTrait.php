@@ -24,7 +24,7 @@ trait PointKindTrait
     /**
     * {@inheritDoc}
     */
-    public function setPointkind(?int $pointkind): static
+    public function setPointkind(?int $pointkind)
     {
         $this->pointkind = $pointkind;
         return $this;

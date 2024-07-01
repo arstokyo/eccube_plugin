@@ -22,7 +22,7 @@ interface HasFivePCKbnInterface
      * @param ?int $pckbn1
      * @return $this
      */
-    public function setPckbn1(?int $pckbn1): static;
+    public function setPckbn1(?int $pckbn1);
 
     /**
      * Get PC区分 2
@@ -37,7 +37,7 @@ interface HasFivePCKbnInterface
      * @param ?int $pckbn2
      * @return $this
      */
-    public function setPckbn2(?int $pckbn2): static;
+    public function setPckbn2(?int $pckbn2);
 
     /**
      * Get PC区分 3
@@ -52,7 +52,7 @@ interface HasFivePCKbnInterface
      * @param ?int $pckbn3
      * @return $this
      */
-    public function setPckbn3(?int $pckbn3): static;
+    public function setPckbn3(?int $pckbn3);
 
     /**
      * Get PC区分 4
@@ -67,7 +67,7 @@ interface HasFivePCKbnInterface
      * @param ?int $pckbn4
      * @return $this
      */
-    public function setPckbn4(?int $pckbn4): static;
+    public function setPckbn4(?int $pckbn4);
 
     /**
      * Get PC区分 5
@@ -82,5 +82,5 @@ interface HasFivePCKbnInterface
      * @param ?int $pckbn5
      * @return $this
      */
-    public function setPckbn5(?int $pckbn5): static;
+    public function setPckbn5(?int $pckbn5);
 }

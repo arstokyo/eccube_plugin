@@ -22,5 +22,5 @@ interface HasTesuuInterface
      * @param ?string $tesuu
      * @return $this
      */
-    public function setTesuu(?string $tesuu): static;
+    public function setTesuu(?string $tesuu);
 }

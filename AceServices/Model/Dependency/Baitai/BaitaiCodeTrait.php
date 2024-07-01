@@ -27,7 +27,7 @@ trait BaitaiCodeTrait
     /**
      * {@inheritDoc}
      */
-    public function setBaitai(?string $baitai): static
+    public function setBaitai(?string $baitai)
     {
         $this->baitai = $baitai;
         return $this;
@@ -44,7 +44,7 @@ trait BaitaiCodeTrait
     /**
      * {@inheritDoc}
      */
-    public function setBaifile(?string $baifile): static
+    public function setBaifile(?string $baifile)
     {
         $this->baifile = $baifile;
         return $this;

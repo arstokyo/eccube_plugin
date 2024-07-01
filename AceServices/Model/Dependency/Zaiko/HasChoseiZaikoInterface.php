@@ -17,7 +17,7 @@ interface HasChoseiZaikoInterface
      * 
      * @return int|null
      */
-    #[SerializedName('chosei_zaiko')]
+    /** @SerializedName("chosei_zaiko") */
     public function getChoseizaiko(): ?int;
 
     /**
@@ -26,6 +26,6 @@ interface HasChoseiZaikoInterface
      * @param int|null $choseizaiko
      * @return $this
      */
-    #[SerializedName('chosei_zaiko')]
-    public function setChoseizaiko(?int $choseizaiko): static;
+    /** @SerializedName("chosei_zaiko") */
+    public function setChoseizaiko(?int $choseizaiko);
 }

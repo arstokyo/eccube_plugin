@@ -23,6 +23,6 @@ interface HasTaxTankaInterface
      * @param string|null $taxtanka
      * @return $this
      */
-    public function setTaxtanka(?string $taxtanka): static;
+    public function setTaxtanka(?string $taxtanka);
 
 }

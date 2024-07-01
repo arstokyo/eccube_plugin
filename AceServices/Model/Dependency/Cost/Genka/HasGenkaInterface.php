@@ -22,6 +22,6 @@ interface HasGenkaInterface
      * @param string|null $genka
      * @return $this
      */
-    public function setGenka(?string $genka): static;
+    public function setGenka(?string $genka);
     
 }

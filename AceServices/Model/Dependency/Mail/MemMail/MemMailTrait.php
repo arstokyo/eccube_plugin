@@ -23,7 +23,7 @@ trait MemMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setMemmail(?MemMailModel $memmail): static
+    public function setMemmail(?MemMailModel $memmail)
     {
         $this->memmail = $memmail;
         return $this;

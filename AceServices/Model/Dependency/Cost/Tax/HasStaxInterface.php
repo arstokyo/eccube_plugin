@@ -22,5 +22,5 @@ interface HasStaxInterface
      * @param ?string $stax
      * @return $this
      */
-    public function setStax(?string $stax): static;
+    public function setStax(?string $stax);
 }

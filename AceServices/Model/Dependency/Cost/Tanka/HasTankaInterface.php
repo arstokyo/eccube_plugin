@@ -22,5 +22,5 @@ interface HasTankaInterface
      * @param ?string $tanka 単価
      * @return $this
      */
-    public function setTanka(?string $tanka): static;
+    public function setTanka(?string $tanka);
 }

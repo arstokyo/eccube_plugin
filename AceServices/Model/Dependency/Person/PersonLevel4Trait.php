@@ -60,7 +60,7 @@ trait PersonLevel4Trait
     /**
      * {@inheritDoc}
      */
-    public function getBirthday(): ?AceDateTime\AceDateTimeInterface
+    public function getBirthday()
     {
         return $this->birthday;
     }
@@ -68,7 +68,7 @@ trait PersonLevel4Trait
     /**
      * {@inheritDoc}
      */
-    public function setBirthday(\DateTime|string|null $birthday): static
+    public function setBirthday($birthday)
     {
         $this->birthday = AceDateTime\AceDateTimeFactory::makeAceDateTime($birthday);
         return $this;
@@ -85,7 +85,7 @@ trait PersonLevel4Trait
     /**
      * {@inheritDoc}
      */
-    public function setTel2(?string $tel2): static
+    public function setTel2(?string $tel2)
     {
         $this->tel2 = $tel2;
         return $this;
@@ -102,7 +102,7 @@ trait PersonLevel4Trait
     /**
      * {@inheritDoc}
      */
-    public function setUpcode(?string $upcode): static
+    public function setUpcode(?string $upcode)
     {
         $this->upcode = $upcode;
         return $this;
@@ -119,7 +119,7 @@ trait PersonLevel4Trait
     /**
      * {@inheritDoc}
      */
-    public function setInday(?int $inday): static
+    public function setInday(?int $inday)
     {
         $this->inday = $inday;
         return $this;
@@ -136,7 +136,7 @@ trait PersonLevel4Trait
     /**
      * {@inheritDoc}
      */
-    public function setKhasuu(?int $khasuu): static
+    public function setKhasuu(?int $khasuu)
     {
         $this->khasuu = $khasuu;
         return $this;
@@ -153,7 +153,7 @@ trait PersonLevel4Trait
     /**
      * {@inheritDoc}
      */
-    public function setSex(?int $sex): static
+    public function setSex(?int $sex)
     {
         $this->sex = $sex;
         return $this;
@@ -170,7 +170,7 @@ trait PersonLevel4Trait
     /**
      * {@inheritDoc}
      */
-    public function setSime(?int $sime): static
+    public function setSime(?int $sime)
     {
         $this->sime = $sime;
         return $this;
@@ -187,7 +187,7 @@ trait PersonLevel4Trait
     /**
      * {@inheritDoc}
      */
-    public function setSite(?int $site): static
+    public function setSite(?int $site)
     {
         $this->site = $site;
         return $this;
@@ -204,7 +204,7 @@ trait PersonLevel4Trait
     /**
      * {@inheritDoc}
      */
-    public function setCode2(?string $code2): static
+    public function setCode2(?string $code2)
     {
         $this->code2 = $code2;
         return $this;

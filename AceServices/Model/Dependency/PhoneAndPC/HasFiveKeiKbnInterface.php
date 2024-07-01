@@ -22,7 +22,7 @@ interface HasFiveKeiKbnInterface
      * @param ?int $keikbn1
      * @return $this
      */
-    public function setKeiKbn1(?int $keikbn1): static;
+    public function setKeiKbn1(?int $keikbn1);
 
     /**
      * Get 携帯電話区分2
@@ -37,7 +37,7 @@ interface HasFiveKeiKbnInterface
      * @param ?int $keikbn2
      * @return $this
      */
-    public function setKeiKbn2(?int $keikbn2): static;
+    public function setKeiKbn2(?int $keikbn2);
 
     /**
      * Get 携帯電話区分3
@@ -52,7 +52,7 @@ interface HasFiveKeiKbnInterface
      * @param ?int $keikbn3
      * @return $this
      */
-    public function setKeiKbn3(?int $keikbn3): static;
+    public function setKeiKbn3(?int $keikbn3);
 
     /**
      * Get 携帯電話区分4
@@ -67,7 +67,7 @@ interface HasFiveKeiKbnInterface
      * @param ?int $keikbn4
      * @return $this
      */
-    public function setKeiKbn4(?int $keikbn4): static;
+    public function setKeiKbn4(?int $keikbn4);
 
     /**
      * Get 携帯電話区分5
@@ -82,5 +82,5 @@ interface HasFiveKeiKbnInterface
      * @param ?int $keikbn5
      * @return $this
      */
-    public function setKeiKbn5(?int $keikbn5): static;
+    public function setKeiKbn5(?int $keikbn5);
 }

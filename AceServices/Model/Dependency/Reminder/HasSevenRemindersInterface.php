@@ -24,7 +24,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * @param ?string $question1
      * @return $this
      */
-    public function setQuestion1(?string $question1): static;
+    public function setQuestion1(?string $question1);
 
     /**
      * Get 回答1
@@ -39,7 +39,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * @param ?string $answer1
      * @return $this
      */
-    public function setAnswer1(?string $answer1): static;
+    public function setAnswer1(?string $answer1);
 
     /**
      * Get 質問2
@@ -54,7 +54,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * @param ?string $question2
      * @return $this
      */
-    public function setQuestion2(?string $question2): static;
+    public function setQuestion2(?string $question2);
 
     /**
      * Get 回答2
@@ -69,7 +69,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * @param ?string $answer2
      * @return $this
      */
-    public function setAnswer2(?string $answer2): static;
+    public function setAnswer2(?string $answer2);
 
     /**
      * Get 質問3
@@ -84,7 +84,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * @param ?string $question3
      * @return $this
      */
-    public function setQuestion3(?string $question3): static;
+    public function setQuestion3(?string $question3);
 
     /**
      * Get 回答3
@@ -99,7 +99,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * @param ?string $answer3
      * @return $this
      */
-    public function setAnswer3(?string $answer3): static;
+    public function setAnswer3(?string $answer3);
 
     /**
      * Get 質問4
@@ -114,7 +114,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * @param ?string $question4
      * @return $this
      */
-    public function setQuestion4(?string $question4): static;
+    public function setQuestion4(?string $question4);
 
     /**
      * Get 回答4
@@ -129,7 +129,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * @param ?string $answer4
      * @return $this
      */
-    public function setAnswer4(?string $answer4): static;
+    public function setAnswer4(?string $answer4);
 
     /**
      * Get 質問5
@@ -144,7 +144,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * @param ?string $question5
      * @return $this
      */
-    public function setQuestion5(?string $question5): static;
+    public function setQuestion5(?string $question5);
 
     /**
      * Get 回答5
@@ -159,7 +159,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * @param ?string $answer5
      * @return $this
      */
-    public function setAnswer5(?string $answer5): static;
+    public function setAnswer5(?string $answer5);
 
     /**
      * Get 質問6
@@ -174,7 +174,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * @param ?string $question6
      * @return $this
      */
-    public function setQuestion6(?string $question6): static;
+    public function setQuestion6(?string $question6);
 
     /**
      * Get 回答6
@@ -189,7 +189,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * @param ?string $answer6
      * @return $this
      */
-    public function setAnswer6(?string $answer6): static;
+    public function setAnswer6(?string $answer6);
 
     /**
      * Get 質問7
@@ -204,7 +204,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * @param ?string $question7
      * @return $this
      */
-    public function setQuestion7(?string $question7): static;
+    public function setQuestion7(?string $question7);
 
     /**
      * Get 回答7
@@ -219,5 +219,5 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * @param ?string $answer7
      * @return $this
      */
-    public function setAnswer7(?string $answer7): static;
+    public function setAnswer7(?string $answer7);
 }

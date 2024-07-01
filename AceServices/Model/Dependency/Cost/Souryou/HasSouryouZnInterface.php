@@ -22,5 +22,5 @@ interface HasSouryouZnInterface
      * @param ?string $souryouzn
      * @return $this
      */
-    public function setSouryouzn(?string $souryouzn): static;
+    public function setSouryouzn(?string $souryouzn);
 }

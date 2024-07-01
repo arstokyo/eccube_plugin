@@ -22,5 +22,5 @@ interface HasBetuInterface
      * @param ?int $betu
      * @return $this
      */
-    public function setBetu(?int $betu): static;
+    public function setBetu(?int $betu);
 }

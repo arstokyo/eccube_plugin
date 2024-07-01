@@ -22,5 +22,5 @@ interface HasPcodeInterface
      * @param ?int $pcode
      * @return $this
      */
-    public function setPcode(?int $pcode): static;
+    public function setPcode(?int $pcode);
 }

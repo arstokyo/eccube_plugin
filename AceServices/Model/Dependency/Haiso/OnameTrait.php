@@ -23,7 +23,7 @@ trait OnameTrait
     /**
      * {@inheritDoc}
      */
-    public function setOname(?string $oname): static
+    public function setOname(?string $oname)
     {
         $this->oname = $oname;
         return $this;

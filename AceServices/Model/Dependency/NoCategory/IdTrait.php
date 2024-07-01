@@ -23,7 +23,7 @@ trait IdTrait
     /**
      * {@inheritDoc}
      */
-    public function setId(?int $id): static
+    public function setId(?int $id)
     {
         $this->id = $id;
         return $this;

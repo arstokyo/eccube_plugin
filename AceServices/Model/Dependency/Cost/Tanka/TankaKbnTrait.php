@@ -24,7 +24,7 @@ trait TankaKbnTrait
     /**
      * {@inheritDoc}
      */
-    public function setTankakbn(?int $tankakbn): static
+    public function setTankakbn(?int $tankakbn)
     {
         $this->tankakbn = $tankakbn;
         return $this;

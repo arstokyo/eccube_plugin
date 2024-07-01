@@ -22,18 +22,18 @@ interface GetGoodsManyRequestModelInterface extends RequestModelInterface,
     /**
      * {@inheritDoc}
      */
-    #[SerializedName('ID')]
-    public function setId(?int $id): static;
+    /** @SerializedName("ID") */
+    public function setId(?int $id);
 
     /**
      * {@inheritDoc}
      */
-    #[SerializedName('Souko')]
-    public function setSouko(?string $souko): static;
+    /** @SerializedName("Souko") */
+    public function setSouko(?string $souko);
 
     /**
      * {@inheritDoc}
      */
-    #[SerializedName('Gcode')]
-    public function setGcode(?string $gcode): static;
+    /** @SerializedName("Gcode") */
+    public function setGcode(?string $gcode);
 }

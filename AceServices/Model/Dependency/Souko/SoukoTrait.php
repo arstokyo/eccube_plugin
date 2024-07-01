@@ -24,7 +24,7 @@ trait SoukoTrait
     /**
     * {@inheritDoc}
     */
-    public function setSouko(?string $souko): static
+    public function setSouko(?string $souko)
     {
         $this->souko = $souko;
         return $this;

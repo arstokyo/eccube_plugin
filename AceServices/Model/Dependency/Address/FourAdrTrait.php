@@ -32,7 +32,7 @@ trait FourAdrTrait
     /**
      * {@inheritDoc}
      */
-    public function setAdr1(?string $adr1): static
+    public function setAdr1(?string $adr1)
     {
         $this->adr1 = $adr1;
         return $this;
@@ -49,7 +49,7 @@ trait FourAdrTrait
     /**
      * {@inheritDoc}
      */
-    public function setAdr2(?string $adr2): static
+    public function setAdr2(?string $adr2)
     {
         $this->adr2 = $adr2;
         return $this;
@@ -66,7 +66,7 @@ trait FourAdrTrait
     /**
      * {@inheritDoc}
      */
-    public function setAdr3(?string $adr3): static
+    public function setAdr3(?string $adr3)
     {
         $this->adr3 = $adr3;
         return $this;
@@ -83,7 +83,7 @@ trait FourAdrTrait
     /**
      * {@inheritDoc}
      */
-    public function setAdr4(?string $adr4): static
+    public function setAdr4(?string $adr4)
     {
         $this->adr4 = $adr4;
         return $this;

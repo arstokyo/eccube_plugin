@@ -23,7 +23,7 @@ trait PointMTrait
     /**
      * {@inheritDoc}
      */
-    public function setPointm(?int $pointm): static
+    public function setPointm(?int $pointm)
     {
         $this->pointm = $pointm;
         return $this;

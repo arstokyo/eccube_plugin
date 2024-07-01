@@ -22,7 +22,7 @@ interface HasFourCdvAdrInterface
      * @param ?string $cnvAdr1
      * @return $this
      */
-    public function setCnvAdr1(?string $cnvAdr1): static;
+    public function setCnvAdr1(?string $cnvAdr1);
 
     /**
      * Get Cdv住所2
@@ -37,7 +37,7 @@ interface HasFourCdvAdrInterface
      * @param ?string $cnvAdr2
      * @return $this
      */
-    public function setCnvAdr2(?string $cnvAdr2): static;
+    public function setCnvAdr2(?string $cnvAdr2);
 
     /**
      * Get Cdv住所3
@@ -52,7 +52,7 @@ interface HasFourCdvAdrInterface
      * @param ?string $cnvAdr3
      * @return $this
      */
-    public function setCnvAdr3(?string $cnvAdr3): static;
+    public function setCnvAdr3(?string $cnvAdr3);
 
     /**
      * Get Cdv住所4
@@ -67,5 +67,5 @@ interface HasFourCdvAdrInterface
      * @param ?string $cnvAdr4
      * @return $this
      */
-    public function setCnvAdr4(?string $cnvAdr4): static;
+    public function setCnvAdr4(?string $cnvAdr4);
 }

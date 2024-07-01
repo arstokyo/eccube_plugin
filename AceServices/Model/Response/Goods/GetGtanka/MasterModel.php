@@ -30,7 +30,7 @@ class MasterModel implements MasterModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setGzai(array|null $gzai): void
+    public function setGzai(?array $gzai): void
     {
         $this->Gzai = $gzai;
     }

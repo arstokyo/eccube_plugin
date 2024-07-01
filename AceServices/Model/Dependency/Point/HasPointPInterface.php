@@ -22,5 +22,5 @@ interface HasPointPInterface
      * @param ?int $pointp
      * @return $this
      */
-    public function setPointp(?int $pointp): static;
+    public function setPointp(?int $pointp);
 }

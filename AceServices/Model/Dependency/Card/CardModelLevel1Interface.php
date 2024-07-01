@@ -24,7 +24,7 @@ interface CardModelLevel1Interface extends HasCnameInterface
      * @param string|null $cno
      * @return $this
      */
-    public function setCno(string|null $cno): static;
+    public function setCno(?string $cno);
 
     /**
      * Get カード会社コード
@@ -39,14 +39,14 @@ interface CardModelLevel1Interface extends HasCnameInterface
      * @param string|null $ccode
      * @return $this
      */
-    public function setCcode(string|null $ccode): static;
+    public function setCcode(?string $ccode);
 
     /**
      * Get カード有効期限
      * 
      * @return AceDateTime\AceDateTimeInterface|null
      */
-    public function getCkigen(): ?AceDateTime\AceDateTimeInterface;
+    public function getCkigen();
 
     /**
      * Set カード有効期限
@@ -54,7 +54,7 @@ interface CardModelLevel1Interface extends HasCnameInterface
      * @param \Datetime|string|null $ckigen
      * @return $this
      */
-    public function setCkigen(\Datetime|string|null $ckigen): static;
+    public function setCkigen($ckigen);
 
     /**
      * Get カード支払方法
@@ -69,7 +69,7 @@ interface CardModelLevel1Interface extends HasCnameInterface
      * @param int|null $cpay
      * @return $this
      */
-    public function setCpay(int|null $cpay): static;
+    public function setCpay(?int $cpay);
 
     /**
      * Get カード支払回数
@@ -84,7 +84,7 @@ interface CardModelLevel1Interface extends HasCnameInterface
      * @param int|null $kaisuu
      * @return $this
      */
-    public function setKaisuu(int|null $kaisuu): static;
+    public function setKaisuu(?int $kaisuu);
 
     /**
      * Get カード承認番号
@@ -99,5 +99,5 @@ interface CardModelLevel1Interface extends HasCnameInterface
      * @param string|null $syounin
      * @return $this
      */
-    public function setSyounin(string|null $syounin): static;
+    public function setSyounin(?string $syounin);
 }

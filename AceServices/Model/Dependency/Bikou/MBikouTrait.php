@@ -23,7 +23,7 @@ trait MBikouTrait
     /**
      * {@inheritDoc}
      */
-    public function setMbikou(?string $mbikou): static
+    public function setMbikou(?string $mbikou)
     {
         $this->mbikou = $mbikou;
         return $this;

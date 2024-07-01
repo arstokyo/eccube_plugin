@@ -22,7 +22,7 @@ interface HasTwoImagesInterface
     * @param string|null $image1
     * @return $this
     */
-    public function setImage1(?string $image1): static;
+    public function setImage1(?string $image1);
 
     /**
     * Get 商品画像2
@@ -37,5 +37,5 @@ interface HasTwoImagesInterface
     * @param string|null $image2
     * @return $this
     */
-    public function setImage2(?string $image2): static;
+    public function setImage2(?string $image2);
 }

@@ -23,5 +23,5 @@ interface HasZipInterface
      * @param string|null $zip
      * @return $this
      */
-    public function setZip(?string $zip): static;
+    public function setZip(?string $zip);
 }

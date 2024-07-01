@@ -23,7 +23,7 @@ trait OkuriNusiTrait
     /**
      * {@inheritDoc}
      */
-    public function setOkurinusi(?string $okurinusi): static
+    public function setOkurinusi(?string $okurinusi)
     {
         $this->okurinusi = $okurinusi;
         return $this;

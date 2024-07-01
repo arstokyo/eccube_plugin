@@ -27,7 +27,7 @@ trait ThreeNotesTrait
     /**
      * {@inheritDoc}
      */
-    public function setNote1(?string $note1): static
+    public function setNote1(?string $note1)
     {
         $this->note1 = $note1;
         return $this;
@@ -44,7 +44,7 @@ trait ThreeNotesTrait
     /**
      * {@inheritDoc}
      */
-    public function setNote2(?string $note2): static
+    public function setNote2(?string $note2)
     {
         $this->note2 = $note2;
         return $this;
@@ -61,7 +61,7 @@ trait ThreeNotesTrait
     /**
      * {@inheritDoc}
      */
-    public function setNote3(?string $note3): static
+    public function setNote3(?string $note3)
     {
         $this->note3 = $note3;
         return $this;

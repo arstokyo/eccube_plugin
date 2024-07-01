@@ -22,5 +22,5 @@ interface HasOkuriNoInterface
      * @param ?string $okurino
      * @return $this
      */
-    public function setOkurino(?string $okurino): static;
+    public function setOkurino(?string $okurino);
 }

@@ -15,7 +15,7 @@ class DefaultConfigBuilder implements ConfigBuilderInterface
     /**
      * {@inheritDoc}
      */
-    public static function build(mixed $options = null): array
+    public static function build($options = null): array
     {
         $filePath = FilePathMapper::ROOT_CONFIG_PATH .\DIRECTORY_SEPARATOR. FilePathMapper::ACE_CLIENT_FILE_NAME;
 

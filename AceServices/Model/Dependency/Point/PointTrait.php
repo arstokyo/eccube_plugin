@@ -11,12 +11,12 @@ trait PointTrait
 {
 
     /** @var int|string|null $point ポイント */
-    protected int|string|null $point = null;
+    protected ?int $point = null;
 
     /**
     * {@inheritDoc}
     */
-    public function getPoint(): int|string|null
+    public function getPoint(): ?int
     {
         return $this->point;
     }
@@ -24,7 +24,7 @@ trait PointTrait
     /**
     * {@inheritDoc}
     */
-    public function setPoint(int|string|null $point): static
+    public function setPoint(?int $point)
     {
         $this->point = $point;
         return $this;

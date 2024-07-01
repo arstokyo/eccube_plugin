@@ -22,7 +22,7 @@ interface HasFiveMailInterface
      * @param ?string $mail1
      * @return $this
      */
-    public function setMail1(?string $mail1): static;
+    public function setMail1(?string $mail1);
 
     /**
      * Get メールアドレス2
@@ -37,7 +37,7 @@ interface HasFiveMailInterface
      * @param ?string $mail2
      * @return $this
      */
-    public function setMail2(?string $mail2): static;
+    public function setMail2(?string $mail2);
 
     /**
      * Get メールアドレス3
@@ -52,7 +52,7 @@ interface HasFiveMailInterface
      * @param ?string $mail3
      * @return $this
      */
-    public function setMail3(?string $mail3): static;
+    public function setMail3(?string $mail3);
 
     /**
      * Get メールアドレス4
@@ -67,7 +67,7 @@ interface HasFiveMailInterface
      * @param ?string $mail4
      * @return $this
      */
-    public function setMail4(?string $mail4): static;
+    public function setMail4(?string $mail4);
 
     /**
      * Get メールアドレス5
@@ -82,5 +82,5 @@ interface HasFiveMailInterface
      * @param ?string $mail5
      * @return $this
      */
-    public function setMail5(?string $mail5): static;
+    public function setMail5(?string $mail5);
 }

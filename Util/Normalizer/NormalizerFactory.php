@@ -40,7 +40,7 @@ final class NormalizerFactory
     public static function makeAnnotationNormalizers() : array 
     {
         $classMetadataFactory = self::makeAnnotationMetaFactory();
-        return self::makeNormalizers($classMetadataFactory,nameConverter: new MetadataAwareNameConverter($classMetadataFactory, new CamelCaseToSnakeCaseNameConverter));
+        return self::makeNormalizers($classMetadataFactory, new MetadataAwareNameConverter($classMetadataFactory, new CamelCaseToSnakeCaseNameConverter));
     }
 
     /**
@@ -77,13 +77,13 @@ final class NormalizerFactory
     private static function makeNormalizers(ClassMetadataFactoryInterface $classMetadataFactory = null, NameConverterInterface $nameConverter = null, PropertyAccessorInterface $propertyAccessor = null, PropertyTypeExtractorInterface $propertyTypeExtractor = null, ClassDiscriminatorResolverInterface $classDiscriminatorResolver = null, callable $objectClassResolver = null, array $defaultContext = []): array
     {
         return [new ObjectNormalizer(
-                    classMetadataFactory: $classMetadataFactory,
-                    nameConverter: $nameConverter,
-                    propertyAccessor: $propertyAccessor,
-                    propertyTypeExtractor: $propertyTypeExtractor,
-                    classDiscriminatorResolver: $classDiscriminatorResolver,
-                    objectClassResolver: $objectClassResolver,
-                    defaultContext: $defaultContext
+                    $classMetadataFactory,
+                    $nameConverter,
+                    $propertyAccessor,
+                    $propertyTypeExtractor,
+                    $classDiscriminatorResolver,
+                    $objectClassResolver,
+                    $defaultContext
                 ,)];
     }
 
@@ -122,7 +122,7 @@ final class NormalizerFactory
      * 
      * @throws InvalidFuncNameException
      */
-    public static function makeNormalizerByFuncNameSuffix($funcSuffixName): NormalizerInterface|array
+    public static function makeNormalizerByFuncNameSuffix($funcSuffixName)
     {
         $callMethod = 'make'.$funcSuffixName;
         if (!method_exists(self::class, $callMethod)) {

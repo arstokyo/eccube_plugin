@@ -22,5 +22,5 @@ interface HasNosiInterface
      * @param ?string $nosi
      * @return $this
      */
-    public function setNosi(?string $nosi): static;
+    public function setNosi(?string $nosi);
 }

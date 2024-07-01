@@ -23,7 +23,7 @@ trait MemIdTrait
     /**
      * {@inheritDoc}
      */
-    public function setMemid(int|null $memid): static
+    public function setMemid(?int $memid)
     {
         $this->memid = $memid;
         return $this;

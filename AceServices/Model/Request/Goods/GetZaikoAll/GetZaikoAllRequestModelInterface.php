@@ -20,8 +20,8 @@ interface GetZaikoAllRequestModelInterface extends RequestModelInterface,
     /**
      * {@inheritDoc}
      */
-    #[SerializedName('skid')]
-    public function setSouko(?string $souko): static;
+    /** @SerializedName("skid") */
+    public function setSouko(?string $souko);
 
     /**
      * Get 開始行番号
@@ -36,7 +36,7 @@ interface GetZaikoAllRequestModelInterface extends RequestModelInterface,
      * @param ?int $rangefrom
      * @return $this
      */
-    public function setRangefrom(?int $rangefrom): static;
+    public function setRangefrom(?int $rangefrom);
 
     /**
      * Get 終了行番号
@@ -51,5 +51,5 @@ interface GetZaikoAllRequestModelInterface extends RequestModelInterface,
      * @param ?int $rangeto
      * @return $this
      */
-    public function setRangeto(?int $rangeto): static;
+    public function setRangeto(?int $rangeto);
 }

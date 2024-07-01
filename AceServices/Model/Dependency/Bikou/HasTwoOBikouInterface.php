@@ -22,7 +22,7 @@ interface HasTwoOBikouInterface
      * @param ?string $obikou1
      * @return $this
      */
-    public function setObikou1(?string $obikou1): static;
+    public function setObikou1(?string $obikou1);
 
     /**
      * Get 送り状備考2
@@ -37,5 +37,5 @@ interface HasTwoOBikouInterface
      * @param ?string $obikou2
      * @return $this
      */
-    public function setObikou2(?string $obikou2): static;
+    public function setObikou2(?string $obikou2);
 }

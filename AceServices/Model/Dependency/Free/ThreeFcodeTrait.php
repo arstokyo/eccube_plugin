@@ -29,7 +29,7 @@ trait ThreeFcodeTrait
     /**
      * {@inheritDoc}
      */
-    public function setFcode1(?string $fcode1): static
+    public function setFcode1(?string $fcode1)
     {
         $this->fcode1 = $fcode1;
         return $this;
@@ -46,7 +46,7 @@ trait ThreeFcodeTrait
     /**
      * {@inheritDoc}
      */
-    public function setFcode2(?string $fcode2): static
+    public function setFcode2(?string $fcode2)
     {
         $this->fcode2 = $fcode2;
         return $this;
@@ -63,7 +63,7 @@ trait ThreeFcodeTrait
     /**
      * {@inheritDoc}
      */
-    public function setFcode3(?string $fcode3): static
+    public function setFcode3(?string $fcode3)
     {
         $this->fcode3 = $fcode3;
         return $this;

@@ -22,7 +22,7 @@ interface HasBaitaiCodeInterface
      * @param ?string $baitai
      * @return $this
      */
-    public function setBaitai(?string $baitai): static;
+    public function setBaitai(?string $baitai);
 
     /**
      * Get 管理番号
@@ -37,5 +37,5 @@ interface HasBaitaiCodeInterface
      * @param ?string $baifile
      * @return $this
      */
-    public function setBaifile(?string $baifile): static;
+    public function setBaifile(?string $baifile);
 }

@@ -32,7 +32,7 @@ class SoapXmlApiClient implements ClientInterface
      * {@inheritDoc}
      * 
      */
-    public function getConfig(string|null $option = null)
+    public function getConfig(?string $option = null)
     {
         throw new \BadMethodCallException('This method is deprecated and will be removed in guzzlehttp/guzzle:8.0');
     }

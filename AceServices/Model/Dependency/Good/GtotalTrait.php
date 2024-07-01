@@ -25,7 +25,7 @@ trait GtotalTrait
     /**
      * {@inheritDoc}
      */
-    public function setGtotal(?string $gtotal): static
+    public function setGtotal(?string $gtotal)
     {
         $this->gtotal = NumberConverter::stringWithCommaToFloat($gtotal);
         return $this;

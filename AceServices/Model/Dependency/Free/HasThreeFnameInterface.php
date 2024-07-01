@@ -22,7 +22,7 @@ interface HasThreeFnameInterface
      * @param ?string $fname1
      * @return $this
      */
-    public function setFname1(?string $fname1): static;
+    public function setFname1(?string $fname1);
 
     /**
      * Get フリーコード 名称 2
@@ -37,7 +37,7 @@ interface HasThreeFnameInterface
      * @param ?string $fname2
      * @return $this
      */
-    public function setFname2(?string $fname2): static;
+    public function setFname2(?string $fname2);
 
     /**
      * Get フリーコード 名称 3
@@ -52,5 +52,5 @@ interface HasThreeFnameInterface
      * @param ?string $fname3
      * @return $this
      */
-    public function setFname3(?string $fname3): static;
+    public function setFname3(?string $fname3);
 }

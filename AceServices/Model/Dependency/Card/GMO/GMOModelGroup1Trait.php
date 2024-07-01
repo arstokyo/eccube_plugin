@@ -33,7 +33,7 @@ trait GMOModelGroup1Trait
     /**
      * {@inheritDoc}
      */
-    public function setGmomemberid(string|null $gmomemberid): static
+    public function setGmomemberid(?string $gmomemberid)
     {
         $this->gmomemberid = $gmomemberid;
         return $this;
@@ -50,7 +50,7 @@ trait GMOModelGroup1Trait
     /**
      * {@inheritDoc}
      */
-    public function setGmoorderid(string|null $gmoorderid): static
+    public function setGmoorderid(?string $gmoorderid)
     {
         $this->gmoorderid = $gmoorderid;
         return $this;
@@ -67,7 +67,7 @@ trait GMOModelGroup1Trait
     /**
      * {@inheritDoc}
      */
-    public function setGmotorihikiid(string|null $gmotorihikiid): static
+    public function setGmotorihikiid(?string $gmotorihikiid)
     {
         $this->gmotorihikiid = $gmotorihikiid;
         return $this;
@@ -84,7 +84,7 @@ trait GMOModelGroup1Trait
     /**
      * {@inheritDoc}
      */
-    public function setGmotorihikipw(string|null $gmotorihikipw): static
+    public function setGmotorihikipw(?string $gmotorihikipw)
     {
         $this->gmotorihikipw = $gmotorihikipw;
         return $this;

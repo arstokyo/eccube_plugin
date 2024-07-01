@@ -16,8 +16,8 @@ interface MemwebModelInterface extends Mail\HasMailInterface
     /**
      * {@inheritDoc}
      */
-    #[SerializedName('EMAIL')]
-    public function setMail(?string $mail): static;
+    /** @SerializedName("EMAIL") */
+    public function setMail(?string $mail);
 
     /**
      * Get 顧客ID

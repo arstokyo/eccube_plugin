@@ -27,7 +27,7 @@ trait GMODpsTIdTrait
     /**
      * {@inheritDoc}
      */
-    public function setGmodpstid(string|null $gmodpstid): static
+    public function setGmodpstid(?string $gmodpstid)
     {
         $this->gmodpstid = $gmodpstid;
         return $this;

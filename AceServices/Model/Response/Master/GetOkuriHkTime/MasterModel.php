@@ -25,7 +25,7 @@ class MasterModel implements MasterModelInterface
     /**
      * {@inheritDoc}
      */
-    public function getOkuri(): array|null 
+    public function getOkuri(): ?array 
     {
         return $this->Okuri;
     }
@@ -33,7 +33,7 @@ class MasterModel implements MasterModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setOkuri(array|null $okuri): void 
+    public function setOkuri(?array $okuri): void 
     {
         $this->Okuri = $okuri;
     }

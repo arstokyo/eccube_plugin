@@ -22,5 +22,5 @@ interface HasSimeiInterface
     * @param string|null $simei
     * @return $this
     */
-    public function setSimei(?string $simei): static;
+    public function setSimei(?string $simei);
 }

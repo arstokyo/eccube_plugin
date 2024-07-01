@@ -28,7 +28,7 @@ interface JyumeiModelGroup3Interface extends Good\HasSubNameInterface,
      * 
      * @param ?int $kbn
      */
-    public function setKbn(?int $kbn): static;
+    public function setKbn(?int $kbn);
 
     /**
      * Get 詳細メッセージ
@@ -42,6 +42,6 @@ interface JyumeiModelGroup3Interface extends Good\HasSubNameInterface,
      * 
      * @param ?string $detailmsg
      */
-    public function setDetailmsg(?string $detailmsg): static;
+    public function setDetailmsg(?string $detailmsg);
 
 }

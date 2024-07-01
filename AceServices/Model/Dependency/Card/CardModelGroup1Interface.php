@@ -15,50 +15,50 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
     /**
      * {@inheritDoc}
      */
-    #[SerializedName('card_code')]
-    public function setCcode(string|null $ccode): static;
+    /** @SerializedName("card_code") */
+    public function setCcode(?string $ccode);
 
     /**
      * {@inheritDoc}
      */
-    #[SerializedName('card_no')]
-    public function setCno(string|null $cno): static;
+    /** @SerializedName("card_no") */
+    public function setCno(?string $cno);
 
     /**
      * {@inheritDoc}
      */
-    #[SerializedName('card_kigen')]
-    public function setCkigen(\Datetime|string|null $ckigen): static;
+    /** @SerializedName("card_kigen") */
+    public function setCkigen($ckigen);
 
     /**
      * {@inheritDoc}
      */
-    #[SerializedName('card_pay')]
-    public function setCpay(int|null $cpay): static;
+    /** @SerializedName("card_pay") */
+    public function setCpay(?int $cpay);
 
     /**
      * {@inheritDoc}
      */
-    #[SerializedName('card_syonin')]
-    public function setSyounin(string|null $syounin): static;
+    /** @SerializedName("card_syonin") */
+    public function setSyounin(?string $syounin);
 
     /**
      * {@inheritDoc}
      */
-    #[SerializedName('sps_memid')]
-    public function setSpscustomerid(string|null $spscustomerid): static;
+    /** @SerializedName("sps_memid") */
+    public function setSpscustomerid(?string $spscustomerid);
 
     /**
      * {@inheritDoc}
      */
-    #[SerializedName('sps_tracid')]
-    public function setSpstid(string|null $spstid): static;
+    /** @SerializedName("sps_tracid") */
+    public function setSpstid(?string $spstid);
 
     /**
      * {@inheritDoc}
      */
-    #[SerializedName('orderid')]
-    public function setVeriorderid(string|null $veriorderid): static;
+    /** @SerializedName("orderid") */
+    public function setVeriorderid(?string $veriorderid);
 
     /**
      * Get 通販AceSyID
@@ -73,8 +73,8 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * @param string|null $inkokyakuid
      * @return $this
      */
-    #[SerializedName('in_kokyaku_id')]
-    public function setInkokyakuid(string|null $inkokyakuid): static;
+    /** @SerializedName("in_kokyaku_id") */
+    public function setInkokyakuid(?string $inkokyakuid);
 
     /**
      * Get 顧客コード
@@ -89,8 +89,8 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * @param string|null $inchumonid
      * @return $this
      */
-    #[SerializedName('in_chumon_id')]
-    public function setInchumonid(string|null $inchumonid): static;
+    /** @SerializedName("in_chumon_id") */
+    public function setInchumonid(?string $inchumonid);
 
     /**
      * Get セッションID
@@ -105,8 +105,8 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * @param string|null $intokushu1
      * @return $this
      */
-    #[SerializedName('in_tokushu1')]
-    public function setIntokushu1(string|null $intokushu1): static;
+    /** @SerializedName("in_tokushu1") */
+    public function setIntokushu1(?string $intokushu1);
 
     /**
      * Get 枝番号
@@ -121,15 +121,15 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * @param string|null $intokushu2
      * @return $this
      */
-    #[SerializedName('in_tokushu2')]
-    public function setIntokushu2(string|null $intokushu2): static;
+    /** @SerializedName("in_tokushu2") */
+    public function setIntokushu2(?string $intokushu2);
 
     /**
      * Get EC受付番号
      * 
      * @return string|null
      */
-    #[SerializedName('uke_no')]
+    /** @SerializedName("uke_no") */
     public function getUkeno(): ?string;
 
     /**
@@ -138,8 +138,8 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * @param string|null $ukeno
      * @return $this
      */
-    #[SerializedName('uke_no')]
-    public function setUkeno(string|null $ukeno): static;
+    /** @SerializedName("uke_no") */
+    public function setUkeno(?string $ukeno);
 
     /**
      * Get PGT顧客ID
@@ -154,8 +154,8 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * @param string|null $pgtmemid
      * @return $this
      */
-    #[SerializedName('pgt_memid')]
-    public function setPgtmemid(string|null $pgtmemid): static;
+    /** @SerializedName("pgt_memid") */
+    public function setPgtmemid(?string $pgtmemid);
 
     /**
      * Get PGT顧客カードID
@@ -170,8 +170,8 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * @param string|null $pgtmemcdid
      * @return $this
      */
-    #[SerializedName('pgt_memcdid')]
-    public function setPgtmemcdid(string|null $pgtmemcdid): static;
+    /** @SerializedName("pgt_memcdid") */
+    public function setPgtmemcdid(?string $pgtmemcdid);
 
     /**
      * Get PGT取引ID
@@ -186,8 +186,8 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * @param string|null $pgttid
      * @return $this
      */
-    #[SerializedName('pgt_tid')]
-    public function setPgttid(string|null $pgttid): static;
+    /** @SerializedName("pgt_tid") */
+    public function setPgttid(?string $pgttid);
 
     /**
      * Get PGT決済ID
@@ -202,8 +202,8 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * @param string|null $pgtid
      * @return $this
      */
-    #[SerializedName('pgt_id')]
-    public function setPgtid(string|null $pgtid): static;
+    /** @SerializedName("pgt_id") */
+    public function setPgtid(?string $pgtid);
 
     /**
      * Get PGTイシュア区分
@@ -218,8 +218,8 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * @param string|null $pgticls
      * @return $this
      */
-    #[SerializedName('pgt_icls')]
-    public function setPgticls(string|null $pgticls): static;
+    /** @SerializedName("pgt_icls") */
+    public function setPgticls(?string $pgticls);
 
     /**
      * Get GMOカード登録連番
@@ -234,7 +234,7 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
      * @param string|null $gmocardeda
      * @return $this
      */
-    #[SerializedName('gmocardeda')]
-    public function setGmocardeda(string|null $gmocardeda): static;
+    /** @SerializedName("gmocardeda") */
+    public function setGmocardeda(?string $gmocardeda);
 
 }

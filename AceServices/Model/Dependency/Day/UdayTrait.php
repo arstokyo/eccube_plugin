@@ -18,7 +18,7 @@ trait UdayTrait
     /**
      * {@inheritDoc}
      */
-    public function getUday(): ?AceDateTime\AceDateTimeInterface
+    public function getUday()
     {
         return $this->uday;
     }
@@ -26,7 +26,7 @@ trait UdayTrait
     /**
      * {@inheritDoc}
      */
-    public function setUday(\DateTime|string|null $uday): static
+    public function setUday($uday)
     {
         $this->uday = AceDateTime\AceDateTimeFactory::makeAceDateTime($uday);
         return $this;

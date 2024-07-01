@@ -27,7 +27,7 @@ trait OrderIdTrait
     /**
      * {@inheritDoc}
      */
-    public function setOrderid(string|null $orderid): static
+    public function setOrderid(?string $orderid)
     {
         $this->orderid = $orderid;
         return $this;

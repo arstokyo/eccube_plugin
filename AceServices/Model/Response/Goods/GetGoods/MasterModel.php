@@ -33,7 +33,7 @@ class MasterModel implements MasterModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setGoods(array|null $goods): void{
+    public function setGoods(?array $goods): void{
         $this->Goods = $goods;
     }
     /**
@@ -46,7 +46,7 @@ class MasterModel implements MasterModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setGtanka(array|null $gtanka): void{
+    public function setGtanka(?array $gtanka): void{
         $this->Gtanka = $gtanka;
     }
 

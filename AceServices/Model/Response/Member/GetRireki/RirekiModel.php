@@ -44,7 +44,7 @@ class RirekiModel extends Rireki\RirekiModelLevel1 implements RirekiModelInterfa
     /**
      * {@inheritDoc}
      */
-    public function setSday(\DateTime|string|null $sday): static
+    public function setSday($sday)
     {
         $this->sday = AceDateTime\AceDateTimeFactory::makeAceDateTime($sday,"YmdHis");
         return $this;

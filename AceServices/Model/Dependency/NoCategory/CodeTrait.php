@@ -27,7 +27,7 @@ trait CodeTrait
     /**
      * {@inheritDoc}
      */
-    public function setCode(?string $code): static
+    public function setCode(?string $code)
     {
         $this->code = $code;
         return $this;

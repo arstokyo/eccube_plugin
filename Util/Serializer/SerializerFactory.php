@@ -70,7 +70,7 @@ final class SerializerFactory
      */
     public static function makeSerializer(array $normalizers, array $encode): SerializerInterface
     {
-        return new Serializer(normalizers: $normalizers, encoders: $encode);
+        return new Serializer($normalizers, $encode);
     }
 
     /**

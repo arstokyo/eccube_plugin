@@ -23,6 +23,6 @@ interface HasUTTotalInterface
     * @param string|null $uttotal
     * @return $this
     */
-    public function setUttotal(?string $uttotal): static;
+    public function setUttotal(?string $uttotal);
     
 }

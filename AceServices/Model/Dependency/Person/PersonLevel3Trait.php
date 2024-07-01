@@ -27,7 +27,7 @@ trait PersonLevel3Trait
     /**
      * {@inheritDoc}
      */
-    public function setArea(?string $area): static
+    public function setArea(?string $area)
     {
         $this->area = $area;
         return $this;
@@ -44,7 +44,7 @@ trait PersonLevel3Trait
     /**
      * {@inheritDoc}
      */
-    public function setCbar(?string $cbar): static
+    public function setCbar(?string $cbar)
     {
         $this->cbar = $cbar;
         return $this;

@@ -29,7 +29,7 @@ class JyudenModel implements JyudenModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setDelivery(array|null $delivery): void
+    public function setDelivery(?array $delivery): void
     {
         $this->Delivery = $delivery;
     }

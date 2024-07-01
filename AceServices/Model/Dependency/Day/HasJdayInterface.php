@@ -16,7 +16,7 @@ interface HasJdayInterface
     *
     * @return ?AceDateTime\AceDateTimeInterface
     */
-    public function getJday(): ?AceDateTime\AceDateTimeInterface;
+    public function getJday();
 
     /**
      * Set 受注日
@@ -24,5 +24,5 @@ interface HasJdayInterface
      * @param \DateTime|string|null $jday
      * @return $this
      */
-    public function setJday(\DateTime|string|null $jday): static;
+    public function setJday($jday);
 }

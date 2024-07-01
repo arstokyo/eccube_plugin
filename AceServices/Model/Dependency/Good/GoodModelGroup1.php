@@ -77,7 +77,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setGdid(?string $gdid): static
+    public function setGdid(?string $gdid)
     {
         $this->gdid = $gdid;
         return $this;
@@ -94,7 +94,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setNprint(?int $nprint): static
+    public function setNprint(?int $nprint)
     {
         $this->nprint = $nprint;
         return $this;
@@ -111,7 +111,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setKikaku1(?string $kikaku1): static
+    public function setKikaku1(?string $kikaku1)
     {
         $this->kikaku1 = $kikaku1;
         return $this;
@@ -128,7 +128,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setKikaku2(?string $kikaku2): static
+    public function setKikaku2(?string $kikaku2)
     {
         $this->kikaku2 = $kikaku2;
         return $this;
@@ -145,7 +145,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setKonpo(string|null $konpo): static
+    public function setKonpo(?string $konpo)
     {
         $this->konpo = NumberConverter::stringWithCommaToFloat($konpo);
         return $this;
@@ -162,7 +162,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setDelfg(?int $delfg): static
+    public function setDelfg(?int $delfg)
     {
         $this->delfg = $delfg;
         return $this;
@@ -179,7 +179,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setTeiki(?int $teiki): static
+    public function setTeiki(?int $teiki)
     {
         $this->teiki = $teiki;
         return $this;
@@ -196,7 +196,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setTyoku(?int $tyoku): static
+    public function setTyoku(?int $tyoku)
     {
         $this->tyoku = $tyoku;
         return $this;
@@ -213,7 +213,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setKgsuu(?int $kgsuu): static
+    public function setKgsuu(?int $kgsuu)
     {
         $this->kgsuu = $kgsuu;
         return $this;
@@ -230,7 +230,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setZgsuu(?int $zgsuu): static
+    public function setZgsuu(?int $zgsuu)
     {
         $this->zgsuu = $zgsuu;
         return $this;
@@ -239,7 +239,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function getKgdate(): ?AceDateTime\AceDateTimeInterface
+    public function getKgdate()
     {
         return $this->kgdate;
     }
@@ -247,7 +247,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setKgdate(\DateTime|string|null $kgdate): static
+    public function setKgdate($kgdate)
     {
         $this->kgdate = AceDateTime\AceDateTimeFactory::makeAceDateTime($kgdate);
         return $this;
@@ -256,7 +256,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function getZgdate(): ?AceDateTime\AceDateTimeInterface
+    public function getZgdate()
     {
         return $this->zgdate;
     }
@@ -264,7 +264,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setZgdate(\DateTime|string|null $zgdate): static
+    public function setZgdate($zgdate)
     {
         $this->zgdate = AceDateTime\AceDateTimeFactory::makeAceDateTime($zgdate);
         return $this;
@@ -281,7 +281,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setKeepsuu(?int $keepsuu): static
+    public function setKeepsuu(?int $keepsuu)
     {
         $this->keepsuu = $keepsuu;
         return $this;
@@ -298,7 +298,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setGhid(?string $ghid): static
+    public function setGhid(?string $ghid)
     {
         $this->ghid = $ghid;
         return $this;
@@ -315,7 +315,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setKana1(?string $kana1): static
+    public function setKana1(?string $kana1)
     {
         $this->kana1 = $kana1;
         return $this;
@@ -332,7 +332,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setName1(?string $name1): static
+    public function setName1(?string $name1)
     {
         $this->name1 = $name1;
         return $this;
@@ -349,7 +349,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setSubnm1(?string $subnm1): static
+    public function setSubnm1(?string $subnm1)
     {
         $this->subnm1 = $subnm1;
         return $this;

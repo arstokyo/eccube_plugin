@@ -23,6 +23,6 @@ interface HasTesuuZnInterface
     * @param string|null $tesuuzn
     * @return $this
     */
-    public function setTesuuzn(?string $tesuuzn): static;
+    public function setTesuuzn(?string $tesuuzn);
 
 }

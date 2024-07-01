@@ -23,6 +23,6 @@ interface HasHTTotalInterface
     * @param string|null $httotal
     * @return $this
     */
-    public function setHttotal(?string $httotal): static;
+    public function setHttotal(?string $httotal);
     
 }

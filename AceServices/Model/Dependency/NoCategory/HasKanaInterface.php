@@ -21,5 +21,5 @@ interface HasKanaInterface
      * @param ?string $kana
      * @return $this
      */
-    public function setKana(?string $kana): static;
+    public function setKana(?string $kana);
 }

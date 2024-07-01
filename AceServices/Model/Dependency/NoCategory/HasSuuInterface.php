@@ -23,6 +23,6 @@ interface HasSuuInterface
      * @param int|null $suu
      * @return $this
      */
-    public function setSuu(?int $suu): static;
+    public function setSuu(?int $suu);
     
 }

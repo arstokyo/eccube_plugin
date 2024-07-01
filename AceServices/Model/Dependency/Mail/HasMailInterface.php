@@ -22,6 +22,6 @@ interface HasMailInterface
      * @param ?string $mail
      * @return $this
      */
-    public function setMail(?string $mail): static;
+    public function setMail(?string $mail);
 
 }

@@ -49,7 +49,7 @@ trait NineTankaTrait
     /**
      * {@inheritDoc}
      */
-    public function setTanka1(?string $tanka1): static
+    public function setTanka1(?string $tanka1)
     {
         $this->tanka1 = NumberConverter::stringWithCommaToFloat($tanka1);
         return $this;
@@ -66,7 +66,7 @@ trait NineTankaTrait
     /**
      * {@inheritDoc}
      */
-    public function setTanka2(?string $tanka2): static
+    public function setTanka2(?string $tanka2)
     {
         $this->tanka2 = NumberConverter::stringWithCommaToFloat($tanka2);
         return $this;
@@ -83,7 +83,7 @@ trait NineTankaTrait
     /**
      * {@inheritDoc}
      */
-    public function setTanka3(?string $tanka3): static
+    public function setTanka3(?string $tanka3)
     {
         $this->tanka3 = NumberConverter::stringWithCommaToFloat($tanka3);
         return $this;
@@ -100,7 +100,7 @@ trait NineTankaTrait
     /**
      * {@inheritDoc}
      */
-    public function setTanka4(?string $tanka4): static
+    public function setTanka4(?string $tanka4)
     {
         $this->tanka4 = NumberConverter::stringWithCommaToFloat($tanka4);
         return $this;
@@ -117,7 +117,7 @@ trait NineTankaTrait
     /**
      * {@inheritDoc}
      */
-    public function setTanka5(?string $tanka5): static
+    public function setTanka5(?string $tanka5)
     {
         $this->tanka5 = NumberConverter::stringWithCommaToFloat($tanka5);
         return $this;
@@ -134,7 +134,7 @@ trait NineTankaTrait
     /**
      * {@inheritDoc}
      */
-    public function setTanka6(?string $tanka6): static
+    public function setTanka6(?string $tanka6)
     {
         $this->tanka6 = NumberConverter::stringWithCommaToFloat($tanka6);
         return $this;
@@ -151,7 +151,7 @@ trait NineTankaTrait
     /**
      * {@inheritDoc}
      */
-    public function setTanka7(?string $tanka7): static
+    public function setTanka7(?string $tanka7)
     {
         $this->tanka7 = NumberConverter::stringWithCommaToFloat($tanka7);
         return $this;
@@ -168,7 +168,7 @@ trait NineTankaTrait
     /**
      * {@inheritDoc}
      */
-    public function setTanka8(?string $tanka8): static
+    public function setTanka8(?string $tanka8)
     {
         $this->tanka8 = NumberConverter::stringWithCommaToFloat($tanka8);
         return $this;
@@ -185,7 +185,7 @@ trait NineTankaTrait
     /**
      * {@inheritDoc}
      */
-    public function setTanka9(?string $tanka9): static
+    public function setTanka9(?string $tanka9)
     {
         $this->tanka9 = NumberConverter::stringWithCommaToFloat($tanka9);
         return $this;
