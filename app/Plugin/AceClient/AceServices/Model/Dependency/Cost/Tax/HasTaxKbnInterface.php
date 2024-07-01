@@ -23,6 +23,6 @@ interface HasTaxKbnInterface
     * @param int|null $taxkbn
     * @return $this
     */
-    public function setTaxkbn(?int $taxkbn): static;
+    public function setTaxkbn(?int $taxkbn);
     
 }

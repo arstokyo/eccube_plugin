@@ -26,7 +26,7 @@ trait TTotalTrait
     /**
      * {@inheritDoc}
      */
-    public function setTtotal(?string $ttotal): static
+    public function setTtotal(?string $ttotal)
     {
         $this->ttotal = NumberConverter::stringWithCommaToFloat($ttotal);
         return $this;

@@ -29,7 +29,7 @@ class MemberModel implements MemberModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setRireki(array|null $rireki): void
+    public function setRireki(?array $rireki): void
     {
         $this->Rireki = $rireki;
     }

@@ -22,5 +22,5 @@ interface HasPnameInterface
      * @param ?string $pname
      * @return $this
      */
-    public function setPname(?string $pname): static;
+    public function setPname(?string $pname);
 }

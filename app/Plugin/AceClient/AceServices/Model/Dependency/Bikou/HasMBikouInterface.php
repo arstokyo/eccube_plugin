@@ -23,6 +23,6 @@ interface HasMBikouInterface
      * @param string|null $mbikou
      * @return $this
      */
-    public function setMbikou(?string $mbikou): static;
+    public function setMbikou(?string $mbikou);
 
 }

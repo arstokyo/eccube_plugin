@@ -23,6 +23,6 @@ interface HasZaikoInterface
      * @param int|null $zaiko
      * @return $this
      */
-    public function setZaiko(?int $zaiko): static;
+    public function setZaiko(?int $zaiko);
 
 }

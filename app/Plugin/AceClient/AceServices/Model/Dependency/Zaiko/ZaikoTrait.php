@@ -24,7 +24,7 @@ trait ZaikoTrait
     /**
      * {@inheritDoc}
      */
-    public function setZaiko(?int $zaiko): static
+    public function setZaiko(?int $zaiko)
     {
         $this->zaiko = $zaiko;
         return $this;

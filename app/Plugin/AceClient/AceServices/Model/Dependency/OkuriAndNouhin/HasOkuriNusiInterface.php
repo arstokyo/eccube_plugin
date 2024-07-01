@@ -22,5 +22,5 @@ interface HasOkuriNusiInterface
      * @param ?string $okurinusi
      * @return $this
      */
-    public function setOkurinusi(?string $okurinusi): static;
+    public function setOkurinusi(?string $okurinusi);
 }

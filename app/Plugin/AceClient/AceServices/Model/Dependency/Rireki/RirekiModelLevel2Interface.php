@@ -54,14 +54,14 @@ interface RirekiModelLevel2Interface extends RirekiModelLevel1Interface,
     /**
      * {@inheritDoc}
      */
-    #[SerializedName('PAYNAME')]
-    public function setPname(?string $pname): static;
+    /** @SerializedName("PAYNAME") */
+    public function setPname(?string $pname);
 
     /**
      * {@inheritDoc}
      */
-    #[SerializedName('NAME')]
-    public function setGname(?string $gname): static;
+    /** @SerializedName("NAME") */
+    public function setGname(?string $gname);
 
     /**
     * Get 受注顧客コード
@@ -71,15 +71,15 @@ interface RirekiModelLevel2Interface extends RirekiModelLevel1Interface,
     /**
      * Set 受注顧客コード
      */
-    public function setMcode(?string $mcode): static;
+    public function setMcode(?string $mcode);
 
     /**
     * Get 受付日
     */
-    public function getDay(): ?AceDateTime\AceDateTimeInterface;
+    public function getDay();
 
     /**
      * Set 受付日
      */
-    public function setDay(\DateTime|string|null $day): static;
+    public function setDay($day);
 }

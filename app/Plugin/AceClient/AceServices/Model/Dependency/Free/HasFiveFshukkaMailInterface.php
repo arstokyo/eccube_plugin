@@ -22,7 +22,7 @@ interface HasFiveFshukkaMailInterface
      * @param ?string $fshukkamail1
      * @return $this
      */
-    public function setFShukkaMail1(?string $fshukkamail1): static;
+    public function setFShukkaMail1(?string $fshukkamail1);
 
     /**
      * Get 出荷報告ﾒｰﾙｱﾄﾞﾚｽ2
@@ -37,7 +37,7 @@ interface HasFiveFshukkaMailInterface
      * @param ?string $fshukkamail2
      * @return $this
      */
-    public function setFShukkaMail2(?string $fshukkamail2): static;
+    public function setFShukkaMail2(?string $fshukkamail2);
 
     /**
      * Get 出荷報告ﾒｰﾙｱﾄﾞﾚｽ3
@@ -52,7 +52,7 @@ interface HasFiveFshukkaMailInterface
      * @param ?string $fshukkamail3
      * @return $this
      */
-    public function setFShukkaMail3(?string $fshukkamail3): static;
+    public function setFShukkaMail3(?string $fshukkamail3);
 
     /**
      * Get 出荷報告ﾒｰﾙｱﾄﾞﾚｽ4
@@ -67,7 +67,7 @@ interface HasFiveFshukkaMailInterface
      * @param ?string $fshukkamail4
      * @return $this
      */
-    public function setFShukkaMail4(?string $fshukkamail4): static;
+    public function setFShukkaMail4(?string $fshukkamail4);
 
     /**
      * Get 出荷報告ﾒｰﾙｱﾄﾞﾚｽ5
@@ -82,5 +82,5 @@ interface HasFiveFshukkaMailInterface
      * @param ?string $fshukkamail5
      * @return $this
      */
-    public function setFShukkaMail5(?string $fshukkamail5): static;
+    public function setFShukkaMail5(?string $fshukkamail5);
 }

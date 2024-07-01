@@ -26,5 +26,5 @@ interface GoodModelInterface extends Good\HasGdidInterface,
      * @param ?int $jsuu
      * @return $this
      */
-    public function setJsuu(?int $jsuu): static;
+    public function setJsuu(?int $jsuu);
 }

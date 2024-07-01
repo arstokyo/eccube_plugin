@@ -26,7 +26,7 @@ trait HTTotalTrait
     /**
     * {@inheritDoc}
     */
-    public function setHttotal(?string $httotal): static
+    public function setHttotal(?string $httotal)
     {
         $this->httotal = NumberConverter::stringWithCommaToFloat($httotal);
         return $this;

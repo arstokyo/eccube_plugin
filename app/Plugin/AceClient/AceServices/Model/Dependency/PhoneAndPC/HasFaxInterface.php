@@ -23,6 +23,6 @@ interface HasFaxInterface
      * @param string|null $fax
      * @return $this
      */
-    public function setFax(?string $fax): static;
+    public function setFax(?string $fax);
 
 }

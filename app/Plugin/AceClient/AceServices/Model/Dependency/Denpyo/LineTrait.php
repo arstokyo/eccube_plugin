@@ -23,7 +23,7 @@ trait LineTrait
     /**
      * {@inheritDoc}
      */
-    public function setLine(?int $line): static
+    public function setLine(?int $line)
     {
         $this->line = $line;
         return $this;

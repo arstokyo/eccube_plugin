@@ -22,5 +22,5 @@ interface HasNadrInterface
      * @param string|null $nadr
      * @return $this
      */
-    public function setNadr(string|null $nadr): static;
+    public function setNadr(?string $nadr);
 }

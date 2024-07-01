@@ -24,7 +24,7 @@ trait SuuTrait
     /**
      * {@inheritDoc}
      */
-    public function setSuu(?int $suu): static
+    public function setSuu(?int $suu)
     {
         $this->suu = $suu;
         return $this;

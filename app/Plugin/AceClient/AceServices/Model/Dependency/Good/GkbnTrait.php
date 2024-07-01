@@ -24,7 +24,7 @@ trait GkbnTrait
     /**
      * {@inheritDoc}
      */
-    public function setGkbn(?int $gkbn): static
+    public function setGkbn(?int $gkbn)
     {
         $this->gkbn = $gkbn;
         return $this;

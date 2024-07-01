@@ -56,7 +56,7 @@ final class ClassFactory
      * @return string|object
      * @throws DataTypeMissMatchException
      */
-    final public static function validateCompatible(string|object $obj, ?string $targetInterface): string|object
+    final public static function validateCompatible($obj, ?string $targetInterface)
     {
         if ($targetInterface) {
             $interfaces = class_implements($obj);
@@ -64,6 +64,7 @@ final class ClassFactory
                 throw new DataTypeMissMatchException(sprintf('Given object is not compatible with %s. Given object %s', $targetInterface, self::getNameOfObject($obj)));
             };
         };
+        
         return $obj;
     }
 
@@ -91,7 +92,7 @@ final class ClassFactory
      * 
      * @return string
      */
-    private static function getNameOfObject(object|string $obj): string
+    private static function getNameOfObject($obj): string
     {
         return is_object($obj) ? get_class($obj) : $obj;
     }

@@ -24,7 +24,7 @@ trait MobileIdTrait
     /**
     * {@inheritDoc}
     */
-    public function setMobileId(?string $mobileid): static
+    public function setMobileId(?string $mobileid)
     {
         $this->mobileid = $mobileid;
         return $this;

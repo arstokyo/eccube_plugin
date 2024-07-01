@@ -21,5 +21,5 @@ interface HasDenKbnInterface
      * @param ?string $denkbn
      * @return $this
      */
-    public function setDenkbn(?string $denkbn): static;
+    public function setDenkbn(?string $denkbn);
 }

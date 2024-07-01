@@ -72,7 +72,7 @@ class JyudenModelGroup2 implements JyudenModelGroup2Interface
         /**
          * {@inheritDoc}
          */
-        public function setGtotalzn(?string $gtotalzn): static
+        public function setGtotalzn(?string $gtotalzn)
         {
             $this->gtotalzn = NumberConverter::stringWithCommaToFloat($gtotalzn);
             return $this;
@@ -89,7 +89,7 @@ class JyudenModelGroup2 implements JyudenModelGroup2Interface
         /**
          * {@inheritDoc}
          */
-        public function setHrcd(?int $hrcd): static
+        public function setHrcd(?int $hrcd)
         {
             $this->hrcd = $hrcd;
             return $this;
@@ -106,7 +106,7 @@ class JyudenModelGroup2 implements JyudenModelGroup2Interface
         /**
          * {@inheritDoc}
          */
-        public function setNouhin(?int $nouhin): static
+        public function setNouhin(?int $nouhin)
         {
             $this->nouhin = $nouhin;
             return $this;
@@ -123,7 +123,7 @@ class JyudenModelGroup2 implements JyudenModelGroup2Interface
         /**
          * {@inheritDoc}
          */
-        public function setTncode(?string $tncode): static
+        public function setTncode(?string $tncode)
         {
             $this->tncode = $tncode;
             return $this;
@@ -140,7 +140,7 @@ class JyudenModelGroup2 implements JyudenModelGroup2Interface
         /**
          * {@inheritDoc}
          */
-        public function setTyousei(?string $tyousei): static
+        public function setTyousei(?string $tyousei)
         {
             $this->tyousei = NumberConverter::stringWithCommaToFloat($tyousei);
             return $this;
@@ -157,7 +157,7 @@ class JyudenModelGroup2 implements JyudenModelGroup2Interface
         /**
          * {@inheritDoc}
          */
-        public function setYdaysuu(?int $ydaysuu): static
+        public function setYdaysuu(?int $ydaysuu)
         {
             $this->ydaysuu = $ydaysuu;
             return $this;

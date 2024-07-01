@@ -24,7 +24,7 @@ trait ReizouTrait
     /**
      * {@inheritDoc}
      */
-    public function setReizou(?int $reizou): static
+    public function setReizou(?int $reizou)
     {
         $this->reizou = $reizou;
         return $this;

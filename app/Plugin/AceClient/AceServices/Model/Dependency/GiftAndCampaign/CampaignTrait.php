@@ -27,7 +27,7 @@ trait CampaignTrait
     /**
      * {@inheritDoc}
      */
-    public function setCampaign(int|null $campaign): static
+    public function setCampaign(?int $campaign)
     {
         $this->campaign = $campaign;
         return $this;

@@ -22,5 +22,5 @@ interface HasNcodeInterface
      * @param string|null $ncode
      * @return $this
      */
-    public function setNcode(string|null $ncode): static;
+    public function setNcode(?string $ncode);
 }

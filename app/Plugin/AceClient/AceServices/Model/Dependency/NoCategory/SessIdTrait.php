@@ -23,7 +23,7 @@ trait SessIdTrait
     /**
      * {@inheritDoc}
      */
-    public function setSessId(?string $sessId): static
+    public function setSessId(?string $sessId)
     {
         $this->sessId = $sessId;
         return $this;

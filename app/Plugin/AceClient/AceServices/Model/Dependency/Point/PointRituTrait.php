@@ -26,7 +26,7 @@ trait PointRituTrait
     /**
      * {@inheritDoc}
      */
-    public function setPointritu(?string $pointritu): static
+    public function setPointritu(?string $pointritu)
     {
         $this->pointRitu = NumberConverter::stringWithCommaToFloat($pointritu);
         return $this;

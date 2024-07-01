@@ -27,7 +27,7 @@ interface GetHaisouDayResponseModelInterface extends ResponseModelInterface, AsS
      * 
      * @param ?int $day 
      */
-    #[SerializedName('getHaisouDayResult')]
+    /** @SerializedName("getHaisouDayResult") */
     public function setDay(?int $day): void;
     
 }

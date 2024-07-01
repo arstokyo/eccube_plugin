@@ -44,7 +44,7 @@ trait BaseConfigLoaderTrait
      * @throws NotDeserializableException
      * @throws \InvalidArgumentException
      */
-    final protected function loadConfig(?AceConfigSerializer $serializer = null, string $configBuilder = DefaultConfigBuilder::class, mixed $configOptions = null): ConfigModelInterface|OverridableConfigInterface
+    final protected function loadConfig(?AceConfigSerializer $serializer = null, string $configBuilder = DefaultConfigBuilder::class, $configOptions = null)
     {
         if (!is_subclass_of($configBuilder, ConfigBuilderInterface::class)) {
             throw new \InvalidArgumentException(sprintf('The configBuilder must be an instance of %s', ConfigBuilderInterface::class));

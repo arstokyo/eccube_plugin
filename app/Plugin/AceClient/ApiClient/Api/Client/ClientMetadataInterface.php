@@ -30,5 +30,5 @@ interface ClientMetadataInterface
      *
      * @return RequestModelInterface|\JsonSerializable|array<int|string, mixed>
      */
-    public function getData(): RequestModelInterface|\JsonSerializable|array;
+    public function getData();
 }

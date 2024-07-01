@@ -17,7 +17,7 @@ class InstanceConfigAbstract
     /**
      * @var ?string $className Class Name
      */
-    #[SerializedName("class_name")]
+    /** @SerializedName("class_name") */
     protected ?string $className = null;  
     
     /**

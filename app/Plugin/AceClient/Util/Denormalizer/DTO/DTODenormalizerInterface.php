@@ -15,6 +15,7 @@ interface DTODenormalizerInterface
      * @param mixed $data
      * @param string|null $format
      * @param array $context
+     * @return mixed
      */
-    public function denormalizeDTO($object, string $format = null, array $context = []): mixed;
+    public function denormalizeDTO($object, string $format = null, array $context = []);
 }

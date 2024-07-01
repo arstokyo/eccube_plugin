@@ -16,7 +16,7 @@ interface OrderInfoModelInterface
      *
      * @return ?int
      */
-    #[SerializedName('NOMONEY_FLG')]
+    /** @SerializedName("NOMONEY_FLG") */
     public function getNomoneyFlg(): ?int;
 
     /**
@@ -24,14 +24,14 @@ interface OrderInfoModelInterface
      *
      * @param ?int $nomoneyFlg
      */
-    #[SerializedName('NOMONEY_FLG')]
+    /** @SerializedName("NOMONEY_FLG") */
     public function setNomoneyFlg(?int $nomoneyFlg);
     /**
      * Get 購入回数
      *
      * @return ?int
      */
-    #[SerializedName('ORDER_CNT')]
+    /** @SerializedName("ORDER_CNT") */
     public function getOrderCnt(): ?int;
 
     /**
@@ -39,21 +39,21 @@ interface OrderInfoModelInterface
      *
      * @param ?int $orderCnt
      */
-    #[SerializedName('ORDER_CNT')]
+    /** @SerializedName("ORDER_CNT") */
     public function setOrderCnt(?int $orderCnt);
     /**
      * Get 最新購入日
      *
      * @return string|int|null
      */
-    #[SerializedName('ORDER_MAXDAY')]
-    public function getOrderMaxday(): string|int|null;
+    /** @SerializedName("ORDER_MAXDAY") */
+    public function getOrderMaxday(): ?string;
 
     /**
      * Set 最新購入日
      *
      * @param string|int|null $orderMaxday
      */
-    #[SerializedName('ORDER_MAXDAY')]
-    public function setOrderMaxday(string|int|null $orderMaxday);
+    /** @SerializedName("ORDER_MAXDAY") */
+    public function setOrderMaxday(?string $orderMaxday);
 }

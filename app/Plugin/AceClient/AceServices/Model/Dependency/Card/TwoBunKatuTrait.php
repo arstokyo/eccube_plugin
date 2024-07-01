@@ -27,7 +27,7 @@ trait TwoBunKatuTrait
     /**
     * {@inheritDoc}
     */
-    public function setBun1(?int $bun1): static
+    public function setBun1(?int $bun1)
     {
         $this->bun1 = $bun1;
         return $this;
@@ -44,7 +44,7 @@ trait TwoBunKatuTrait
     /**
     * {@inheritDoc}
     */
-    public function setBun2(?int $bun2): static
+    public function setBun2(?int $bun2)
     {
         $this->bun2 = $bun2;
         return $this;

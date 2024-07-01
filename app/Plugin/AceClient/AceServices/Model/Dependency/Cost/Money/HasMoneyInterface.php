@@ -23,6 +23,6 @@ interface HasMoneyInterface
     * @param string|null $money
     * @return $this
     */
-    public function setMoney(?string $money): static;
+    public function setMoney(?string $money);
     
 }

@@ -24,7 +24,7 @@ trait SKbnTrait
     /**
      * {@inheritDoc}
      */
-    public function setSkbn(?int $skbn): static
+    public function setSkbn(?int $skbn)
     {
         $this->skbn = $skbn;
         return $this;

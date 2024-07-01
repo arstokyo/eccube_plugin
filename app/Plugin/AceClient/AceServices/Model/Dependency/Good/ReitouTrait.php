@@ -24,7 +24,7 @@ trait ReitouTrait
     /**
      * {@inheritDoc}
      */
-    public function setReitou(?int $reitou): static
+    public function setReitou(?int $reitou)
     {
         $this->reitou = $reitou;
         return $this;

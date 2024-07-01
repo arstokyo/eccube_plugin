@@ -22,5 +22,5 @@ interface HasBcodeInterface
      * @param ?string $bcode
      * @return $this
      */
-    public function setBcode(?string $bcode): static;
+    public function setBcode(?string $bcode);
 }

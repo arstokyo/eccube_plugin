@@ -33,7 +33,7 @@ abstract class OverridableConfigAbstract implements OverridableConfigInterface
      * 
      * @var ?ConfigModelInterface $overridedConfig
      */
-    #[Ignore]
+    /** @Ignore */
     protected ?ConfigModelInterface $overridedConfig = null;
 
     /**
@@ -114,7 +114,7 @@ abstract class OverridableConfigAbstract implements OverridableConfigInterface
      *
      * @param string $targetOverride
      */
-    #[Ignore]
+    /** @Ignore */
     private function setOverrideConfig(string $targetOverride): void
     {
         $targetOverrideConfig = $this->getSpecificOverride($targetOverride);

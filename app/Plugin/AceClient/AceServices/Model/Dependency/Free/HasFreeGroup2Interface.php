@@ -24,7 +24,7 @@ interface HasFreeGroup2Interface extends HasFreeGroup1Interface
      * @param ?int $kessaishubetsu
      * @return $this
      */
-    public function setKessaishubetsu(?int $kessaishubetsu): static;
+    public function setKessaishubetsu(?int $kessaishubetsu);
 
     /**
      * Get 送料区分
@@ -39,7 +39,7 @@ interface HasFreeGroup2Interface extends HasFreeGroup1Interface
      * @param ?int $freesouryoukubun
      * @return $this
      */
-    public function setFreesouryoukubun(?int $freesouryoukubun): static;
+    public function setFreesouryoukubun(?int $freesouryoukubun);
 
     /**
      * Get 表示区分ID
@@ -54,7 +54,7 @@ interface HasFreeGroup2Interface extends HasFreeGroup1Interface
      * @param ?string $freedispkbnid
      * @return $this
      */
-    public function setFreedispkbnid(?string $freedispkbnid): static;
+    public function setFreedispkbnid(?string $freedispkbnid);
 
     /**
      * Get 表示区分名
@@ -69,5 +69,5 @@ interface HasFreeGroup2Interface extends HasFreeGroup1Interface
      * @param ?string $freedispkbnname
      * @return $this
      */
-    public function setFreedispkbnname(?string $freedispkbnname): static;
+    public function setFreedispkbnname(?string $freedispkbnname);
 }

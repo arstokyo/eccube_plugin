@@ -27,7 +27,7 @@ interface JyudenModelInterface extends JyudenModelGroup1Interface
      * @param Request\Jyuden\AddCart\CardInfoModel|null $cardInfo
      * @return self
      */
-    #[SerializedName('card_info')]
+    /** @SerializedName("card_info") */
     public function setCardInfo(?CardInfoModel $cardInfo): self;
 
     /**
@@ -43,7 +43,7 @@ interface JyudenModelInterface extends JyudenModelGroup1Interface
      * @param Request\Jyuden\AddCart\CvsInfoModel|null $cvsInfo
      * @return self
      */
-    #[SerializedName('cvs_info')]
+    /** @SerializedName("cvs_info") */
     public function setCvsInfo(?CvsInfoModel $cvsInfo): self;
 
     /**
@@ -59,7 +59,7 @@ interface JyudenModelInterface extends JyudenModelGroup1Interface
      * @param Request\Jyuden\AddCart\DpsInfoModel|null $dpsInfo
      * @return self
      */
-    #[SerializedName('dps_info')]
+    /** @SerializedName("dps_info") */
     public function setDpsInfo(?DpsInfoModelInterface $dpsInfo): self;
 
 }

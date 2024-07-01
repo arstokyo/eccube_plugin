@@ -31,6 +31,6 @@ interface JyusubModelGroup1Interface extends JyusubModelBaseInterface,
      * @param int|null $tpdenno
      * @return $this
      */
-    public function setTpdenno(int|null $tpdenno): static;
+    public function setTpdenno(?int $tpdenno);
     
 }

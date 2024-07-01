@@ -23,6 +23,6 @@ interface HasSKbnInterface
     * @param ?int $skbn
     * @return $this
     */
-    public function setSkbn(?int $skbn): static;
+    public function setSkbn(?int $skbn);
 
 }

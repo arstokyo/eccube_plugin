@@ -16,7 +16,7 @@ interface OTDDenormalizerInterface
      * 
      * @return string|null|object
      */
-    public function denormalizeOTD(): string|null|object;
+    public function denormalizeOTD();
 
     /**
      * Get Delegate

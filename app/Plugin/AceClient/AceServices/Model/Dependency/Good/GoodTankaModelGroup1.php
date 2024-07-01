@@ -63,7 +63,7 @@ class GoodTankaModelGroup1 implements GoodTankaModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setTaxrate(string|null $taxrate): static
+    public function setTaxrate(?string $taxrate)
     {
         $this->taxrate = NumberConverter::stringWithCommaToFloat($taxrate);
         return $this;
@@ -80,7 +80,7 @@ class GoodTankaModelGroup1 implements GoodTankaModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setInctanka(string|null $inctanka): static
+    public function setInctanka(?string $inctanka)
     {
         $this->inctanka = NumberConverter::stringWithCommaToFloat($inctanka);
         return $this;
@@ -97,7 +97,7 @@ class GoodTankaModelGroup1 implements GoodTankaModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setRevtanka(string|null $revtanka): static
+    public function setRevtanka(?string $revtanka)
     {
         $this->revtanka = NumberConverter::stringWithCommaToFloat($revtanka);
         return $this;
@@ -114,7 +114,7 @@ class GoodTankaModelGroup1 implements GoodTankaModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setNote(?string $note): static
+    public function setNote(?string $note)
     {
         $this->note = $note;
         return $this;
@@ -131,7 +131,7 @@ class GoodTankaModelGroup1 implements GoodTankaModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setNtaxrate(string|null $ntaxrate): static
+    public function setNtaxrate(?string $ntaxrate)
     {
         $this->ntaxrate = NumberConverter::stringWithCommaToFloat($ntaxrate);
         return $this;
@@ -148,7 +148,7 @@ class GoodTankaModelGroup1 implements GoodTankaModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setNinctanka(string|null $ninctanka): static
+    public function setNinctanka(?string $ninctanka)
     {
         $this->ninctanka = NumberConverter::stringWithCommaToFloat($ninctanka);
         return $this;
@@ -165,7 +165,7 @@ class GoodTankaModelGroup1 implements GoodTankaModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setNrevtanka(string|null $nrevtanka): static
+    public function setNrevtanka(?string $nrevtanka)
     {
         $this->nrevtanka = NumberConverter::stringWithCommaToFloat($nrevtanka);
         return $this;
@@ -182,7 +182,7 @@ class GoodTankaModelGroup1 implements GoodTankaModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setNtaxkbn(?int $ntaxkbn): static
+    public function setNtaxkbn(?int $ntaxkbn)
     {
         $this->ntaxkbn = $ntaxkbn;
         return $this;
@@ -199,7 +199,7 @@ class GoodTankaModelGroup1 implements GoodTankaModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setNpoint(?int $npoint): static
+    public function setNpoint(?int $npoint)
     {
         $this->npoint = $npoint;
         return $this;
@@ -216,7 +216,7 @@ class GoodTankaModelGroup1 implements GoodTankaModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setNnote(?string $nnote): static
+    public function setNnote(?string $nnote)
     {
         $this->nnote = $nnote;
         return $this;

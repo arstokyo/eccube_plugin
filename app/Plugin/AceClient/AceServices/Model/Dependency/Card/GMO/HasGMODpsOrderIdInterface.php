@@ -22,5 +22,5 @@ interface HasGMODpsOrderIdInterface
      * @param string|null $gmodpsorderid
      * @return $this
      */
-    public function setGmodpsorderid(string|null $gmodpsorderid): static;
+    public function setGmodpsorderid(?string $gmodpsorderid);
 }

@@ -29,7 +29,7 @@ trait ThreeAdrBikouTrait
     /**
      * {@inheritDoc}
      */
-    public function setAdrBikou1(?string $adrbikou1): static
+    public function setAdrBikou1(?string $adrbikou1)
     {
         $this->adrbikou1 = $adrbikou1;
         return $this;
@@ -46,7 +46,7 @@ trait ThreeAdrBikouTrait
     /**
      * {@inheritDoc}
      */
-    public function setAdrBikou2(?string $adrbikou2): static
+    public function setAdrBikou2(?string $adrbikou2)
     {
         $this->adrbikou2 = $adrbikou2;
         return $this;
@@ -64,7 +64,7 @@ trait ThreeAdrBikouTrait
     /**
      * {@inheritDoc}
      */
-    public function setAdrBikou3(?string $adrbikou3): static
+    public function setAdrBikou3(?string $adrbikou3)
     {
         $this->adrbikou3 = $adrbikou3;
         return $this;

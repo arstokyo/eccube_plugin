@@ -23,6 +23,6 @@ interface HasReitouInterface
      * @param int|null $reitou
      * @return $this
      */
-    public function setReitou(?int $reitou): static;
+    public function setReitou(?int $reitou);
 
 }

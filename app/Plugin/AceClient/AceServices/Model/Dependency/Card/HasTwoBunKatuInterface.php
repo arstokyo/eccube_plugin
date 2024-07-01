@@ -23,7 +23,7 @@ interface HasTwoBunKatuInterface
     * @param int|null $bun1
     * @return $this
     */
-    public function setBun1(?int $bun1): static;
+    public function setBun1(?int $bun1);
 
     /**
     * Get 分割初回以外金額
@@ -38,5 +38,5 @@ interface HasTwoBunKatuInterface
     * @param int|null $bun2
     * @return $this
     */
-    public function setBun2(?int $bun2): static;
+    public function setBun2(?int $bun2);
 }

@@ -10,7 +10,7 @@ namespace Plugin\AceClient\ApiClient\Response;
 class Response implements ResponseInterface
 {
     private array $headers;
-    private mixed $response;
+    private $response;
     private int $statusCode = 200;
 
     /**
@@ -23,7 +23,7 @@ class Response implements ResponseInterface
     public function __construct
     (
         array $headers,
-        mixed $response,
+        $response,
         int $statusCode = 200
     ) {
         $this->headers    = $headers;
@@ -56,7 +56,7 @@ class Response implements ResponseInterface
      *
      * @return mixed
      */
-    public function getResponse(): mixed
+    public function getResponse()
     {
         return $this->response;
     }

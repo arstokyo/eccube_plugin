@@ -25,7 +25,7 @@ interface CardModelLevel2Interface extends GMOModelGroup1Interface
      * @param string|null $spscustomerid
      * @return $this
      */
-    public function setSpscustomerid(string|null $spscustomerid): static;
+    public function setSpscustomerid(?string $spscustomerid);
 
     /**
      * Get SPSトラッキングID
@@ -40,7 +40,7 @@ interface CardModelLevel2Interface extends GMOModelGroup1Interface
      * @param string|null $spstid
      * @return $this
      */
-    public function setSpstid(string|null $spstid): static;
+    public function setSpstid(?string $spstid);
 
     /**
      * Get VeriTransステータス
@@ -55,7 +55,7 @@ interface CardModelLevel2Interface extends GMOModelGroup1Interface
      * @param string|null $veristatus
      * @return $this
      */
-    public function setVeristatus(string|null $veristatus): static;
+    public function setVeristatus(?string $veristatus);
 
     /**
      * Get VeriTrans取引ID
@@ -70,6 +70,6 @@ interface CardModelLevel2Interface extends GMOModelGroup1Interface
      * @param string|null $veriorderid
      * @return $this
      */
-    public function setVeriorderid(string|null $veriorderid): static;
+    public function setVeriorderid(?string $veriorderid);
     
 }

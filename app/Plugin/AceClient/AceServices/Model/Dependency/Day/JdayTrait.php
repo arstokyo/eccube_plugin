@@ -17,7 +17,7 @@ trait JdayTrait
     /**
      * {@inheritDoc}
      */
-    public function getJday(): ?AceDateTime\AceDateTimeInterface
+    public function getJday()
     {
         return $this->jday;
     }
@@ -25,7 +25,7 @@ trait JdayTrait
     /**
      * {@inheritDoc}
      */
-    public function setJday(\DateTime|string|null $jday): static
+    public function setJday($jday)
     {
         $this->jday = AceDateTime\AceDateTimeFactory::makeAceDateTime($jday);
         return $this;

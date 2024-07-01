@@ -23,6 +23,6 @@ interface HasMemIdInterface
      * @param int|null $memid
      * @return $this
      */
-    public function setMemid(int|null $memid): static;
+    public function setMemid(?int $memid);
 
 }

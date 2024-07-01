@@ -54,7 +54,7 @@ class CardModelGroup1 extends CardModelLevel2 implements CardModelGroup1Interfac
     /**
      * {@inheritDoc}
      */
-    public function setInkokyakuid(string|null $inkokyakuid): static
+    public function setInkokyakuid(?string $inkokyakuid)
     {
         $this->inkokyakuid = $inkokyakuid;
         return $this;
@@ -71,7 +71,7 @@ class CardModelGroup1 extends CardModelLevel2 implements CardModelGroup1Interfac
     /**
      * {@inheritDoc}
      */
-    public function setInchumonid(string|null $inchumonid): static
+    public function setInchumonid(?string $inchumonid)
     {
         $this->inchumonid = $inchumonid;
         return $this;
@@ -88,7 +88,7 @@ class CardModelGroup1 extends CardModelLevel2 implements CardModelGroup1Interfac
     /**
      * {@inheritDoc}
      */
-    public function setIntokushu1(string|null $intokushu1): static
+    public function setIntokushu1(?string $intokushu1)
     {
         $this->intokushu1 = $intokushu1;
         return $this;
@@ -105,7 +105,7 @@ class CardModelGroup1 extends CardModelLevel2 implements CardModelGroup1Interfac
     /**
      * {@inheritDoc}
      */
-    public function setIntokushu2(string|null $intokushu2): static
+    public function setIntokushu2(?string $intokushu2)
     {
         $this->intokushu2 = $intokushu2;
         return $this;
@@ -122,7 +122,7 @@ class CardModelGroup1 extends CardModelLevel2 implements CardModelGroup1Interfac
     /**
      * {@inheritDoc}
      */
-    public function setUkeno(string|null $ukeno): static
+    public function setUkeno(?string $ukeno)
     {
         $this->ukeno = $ukeno;
         return $this;
@@ -139,7 +139,7 @@ class CardModelGroup1 extends CardModelLevel2 implements CardModelGroup1Interfac
     /**
      * {@inheritDoc}
      */
-    public function setPgtmemid(string|null $pgtmemid): static
+    public function setPgtmemid(?string $pgtmemid)
     {
         $this->pgtmemid = $pgtmemid;
         return $this;
@@ -156,7 +156,7 @@ class CardModelGroup1 extends CardModelLevel2 implements CardModelGroup1Interfac
     /**
      * {@inheritDoc}
      */
-    public function setPgtmemcdid(string|null $pgtmemcdid): static
+    public function setPgtmemcdid(?string $pgtmemcdid)
     {
         $this->pgtmemcdid = $pgtmemcdid;
         return $this;
@@ -173,7 +173,7 @@ class CardModelGroup1 extends CardModelLevel2 implements CardModelGroup1Interfac
     /**
      * {@inheritDoc}
      */
-    public function setPgttid(string|null $pgttid): static
+    public function setPgttid(?string $pgttid)
     {
         $this->pgttid = $pgttid;
         return $this;
@@ -190,7 +190,7 @@ class CardModelGroup1 extends CardModelLevel2 implements CardModelGroup1Interfac
     /**
      * {@inheritDoc}
      */
-    public function setPgtid(string|null $pgtid): static
+    public function setPgtid(?string $pgtid)
     {
         $this->pgtid = $pgtid;
         return $this;
@@ -207,7 +207,7 @@ class CardModelGroup1 extends CardModelLevel2 implements CardModelGroup1Interfac
     /**
      * {@inheritDoc}
      */
-    public function setPgticls(string|null $pgticls): static
+    public function setPgticls(?string $pgticls)
     {
         $this->pgticls = $pgticls;
         return $this;
@@ -224,7 +224,7 @@ class CardModelGroup1 extends CardModelLevel2 implements CardModelGroup1Interfac
     /**
      * {@inheritDoc}
      */
-    public function setGmocardeda(string|null $gmocardeda): static
+    public function setGmocardeda(?string $gmocardeda)
     {
         $this->gmocardeda = $gmocardeda;
         return $this;

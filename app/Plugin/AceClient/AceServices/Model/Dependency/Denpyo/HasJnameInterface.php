@@ -22,5 +22,5 @@ interface HasJnameInterface
      * @param ?string $jname
      * @return $this
      */
-    public function setJname(?string $jname): static;
+    public function setJname(?string $jname);
 }

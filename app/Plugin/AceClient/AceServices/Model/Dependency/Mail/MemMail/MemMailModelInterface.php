@@ -25,7 +25,7 @@ interface MemMailModelInterface extends HasMailInterface
      * @param int|null $idx
      * @return $this
      */
-    public function setIdx(?int $idx): static;
+    public function setIdx(?int $idx);
 
     /**
      * Get DMメール配信区分
@@ -40,6 +40,6 @@ interface MemMailModelInterface extends HasMailInterface
      * @param int|null $dmailkbn
      * @return $this
      */
-    public function setDmailkbn(?int $dmailkbn): static;
+    public function setDmailkbn(?int $dmailkbn);
 
 }

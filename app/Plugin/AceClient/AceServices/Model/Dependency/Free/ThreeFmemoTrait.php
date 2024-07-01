@@ -29,7 +29,7 @@ trait ThreeFmemoTrait
     /**
      * {@inheritDoc}
      */
-    public function setFmemo1(?string $fmemo1): static
+    public function setFmemo1(?string $fmemo1)
     {
         $this->fmemo1 = $fmemo1;
         return $this;
@@ -46,7 +46,7 @@ trait ThreeFmemoTrait
     /**
      * {@inheritDoc}
      */
-    public function setFmemo2(?string $fmemo2): static
+    public function setFmemo2(?string $fmemo2)
     {
         $this->fmemo2 = $fmemo2;
         return $this;
@@ -63,7 +63,7 @@ trait ThreeFmemoTrait
     /**
      * {@inheritDoc}
      */
-    public function setFmemo3(?string $fmemo3): static
+    public function setFmemo3(?string $fmemo3)
     {
         $this->fmemo3 = $fmemo3;
         return $this;

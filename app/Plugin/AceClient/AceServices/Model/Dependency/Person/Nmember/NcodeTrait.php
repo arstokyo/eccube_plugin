@@ -24,7 +24,7 @@ trait NcodeTrait
     /**
     * {@inheritDoc}
     */
-    public function setNcode(string|null $ncode): static
+    public function setNcode(?string $ncode)
     {
         $this->ncode = $ncode;
         return $this;

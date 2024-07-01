@@ -37,7 +37,7 @@ interface ClientInterface
      *
      * @return ClientInterface
      */
-    public function withRequest(RequestModelInterface|\JsonSerializable|array $request): ClientInterface;
+    public function withRequest($request): ClientInterface;
 
     /**
      * Set client response as

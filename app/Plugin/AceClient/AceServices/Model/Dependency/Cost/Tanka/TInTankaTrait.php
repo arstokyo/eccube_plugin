@@ -25,7 +25,7 @@ trait TInTankaTrait
     /**
      * {@inheritDoc}
      */
-    public function setTintanka(?string $tintanka): static
+    public function setTintanka(?string $tintanka)
     {
         $this->tintanka = NumberConverter::stringWithCommaToFloat($tintanka);
         return $this;

@@ -22,5 +22,5 @@ interface HasDmKbnInterface
      * @param ?int $dmkbn
      * @return $this
      */
-    public function setDmkbn(?int $dmkbn): static;
+    public function setDmkbn(?int $dmkbn);
 }

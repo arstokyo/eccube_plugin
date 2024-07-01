@@ -22,5 +22,5 @@ interface HasScodeInterface
      * @param ?string $scode
      * @return $this
      */
-    public function setScode(?string $scode): static;
+    public function setScode(?string $scode);
 }

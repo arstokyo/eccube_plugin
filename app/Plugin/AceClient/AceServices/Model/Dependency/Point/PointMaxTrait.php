@@ -24,7 +24,7 @@ trait PointMaxTrait
     /**
      * {@inheritDoc}
      */
-    public function setPointmax(?int $pointmax): static
+    public function setPointmax(?int $pointmax)
     {
         $this->pointmax = $pointmax;
         return $this;

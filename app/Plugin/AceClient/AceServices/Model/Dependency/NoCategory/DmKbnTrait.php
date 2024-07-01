@@ -23,7 +23,7 @@ trait DmKbnTrait
     /**
     * {@inheritDoc}
     */
-    public function setDmkbn(?int $dmkbn): static
+    public function setDmkbn(?int $dmkbn)
     {
         $this->dmkbn = $dmkbn;
         return $this;

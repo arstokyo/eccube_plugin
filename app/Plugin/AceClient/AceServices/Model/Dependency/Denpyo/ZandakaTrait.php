@@ -25,7 +25,7 @@ trait ZandakaTrait
     /**
      * {@inheritDoc}
      */
-    public function setZandaka(string|null $zandaka): static
+    public function setZandaka(?string $zandaka)
     {
         $this->zandaka = NumberConverter::stringWithCommaToFloat($zandaka);
         return $this;

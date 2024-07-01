@@ -16,7 +16,7 @@ class NumberConverter
      * @param string|null $value
      * @return float
      */
-    public static function stringWithCommaToFloat(string|null $value): float
+    public static function stringWithCommaToFloat(?string $value): float
     {
         return (float)str_replace([',', '、'], '', $value);
     }
@@ -27,7 +27,7 @@ class NumberConverter
      * @param string|null $value
      * @return int
      */
-    public static function stringWithCommaToInt(string|null $value): int
+    public static function stringWithCommaToInt(?string $value): int
     {
         return (int)str_replace([',', '、'], '', $value);
     }
@@ -38,7 +38,7 @@ class NumberConverter
      * @param string|null $value
      * @return float
      */
-    public static function stringWithDotToFloat(string|null $value): float
+    public static function stringWithDotToFloat(?string $value): float
     {
         return (float)str_replace(['.', '。'], '', $value);
     }
@@ -49,7 +49,7 @@ class NumberConverter
      * @param string|null $value
      * @return int
      */
-    public static function stringWithDotToInt(string|null $value): int
+    public static function stringWithDotToInt(?string $value): int
     {
         return (int)str_replace(['.', '。'], '', $value);
     }

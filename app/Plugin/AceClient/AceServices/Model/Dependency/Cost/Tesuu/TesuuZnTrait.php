@@ -25,7 +25,7 @@ trait TesuuZnTrait
     /**
      * {@inheritDoc}
      */
-    public function setTesuuzn(?string $tesuuzn): static
+    public function setTesuuzn(?string $tesuuzn)
     {
         $this->tesuuzn = NumberConverter::stringWithCommaToFloat($tesuuzn);
         return $this;

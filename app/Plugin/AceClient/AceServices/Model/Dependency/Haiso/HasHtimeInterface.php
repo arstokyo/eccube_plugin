@@ -22,5 +22,5 @@ interface HasHtimeInterface
      * @param ?int $htime
      * @return $this
      */
-    public function setHtime(?int $htime): static;
+    public function setHtime(?int $htime);
 }

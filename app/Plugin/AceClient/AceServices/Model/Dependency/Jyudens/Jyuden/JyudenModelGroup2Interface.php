@@ -55,7 +55,7 @@ interface JyudenModelGroup2Interface extends JyudenModelBaseInterface,
      * @param int|null $hrcd
      * @return $this
      */
-    public function setHrcd(int|null $hrcd): static;
+    public function setHrcd(?int $hrcd);
 
     /**
      * Get 新規入力担当者コード
@@ -70,7 +70,7 @@ interface JyudenModelGroup2Interface extends JyudenModelBaseInterface,
      * @param string|null $tncode
      * @return $this
      */
-    public function setTncode(string|null $tncode): static;
+    public function setTncode(?string $tncode);
 
     /**
      * Get 伝票調整額
@@ -85,7 +85,7 @@ interface JyudenModelGroup2Interface extends JyudenModelBaseInterface,
      * @param string|null $tyousei
      * @return $this
      */
-    public function setTyousei(string|null $tyousei): static;
+    public function setTyousei(?string $tyousei);
 
     /**
      * Get 納品書印刷フラグ
@@ -100,7 +100,7 @@ interface JyudenModelGroup2Interface extends JyudenModelBaseInterface,
      * @param int|null $nouhin
      * @return $this
      */
-    public function setNouhin(int|null $nouhin): static;
+    public function setNouhin(?int $nouhin);
 
     /**
      * Get 出荷予定回数
@@ -115,7 +115,7 @@ interface JyudenModelGroup2Interface extends JyudenModelBaseInterface,
      * @param int|null $ydaysuu
      * @return $this
      */
-    public function setYdaysuu(int|null $ydaysuu): static;
+    public function setYdaysuu(?int $ydaysuu);
 
     /**
      * Get 税抜き商品合計
@@ -130,6 +130,6 @@ interface JyudenModelGroup2Interface extends JyudenModelBaseInterface,
      * @param string|null $gtotalzn
      * @return $this
      */
-    public function setGtotalzn(string|null $gtotalzn): static;
+    public function setGtotalzn(?string $gtotalzn);
 
 }

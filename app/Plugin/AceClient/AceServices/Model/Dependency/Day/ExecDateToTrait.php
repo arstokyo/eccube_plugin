@@ -17,7 +17,7 @@ trait ExecDateToTrait
     /**
      * {@inheritDoc}
      */
-    public function getExecDateTo(): ?AceDateTime\AceDateTimeInterface
+    public function getExecDateTo()
     {
         return $this->execDateTo;
     }
@@ -25,7 +25,7 @@ trait ExecDateToTrait
     /**
      * {@inheritDoc}
      */
-    public function setExecDateTo(\DateTime|string|null $execDateTo): static
+    public function setExecDateTo($execDateTo)
     {
         $this->execDateTo = AceDateTime\AceDateTimeFactory::makeAceDateTime($execDateTo,"Y/m/d H:i:s");
         return $this;

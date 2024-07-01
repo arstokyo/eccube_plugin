@@ -25,7 +25,7 @@ interface HaisoModelGroup1Interface extends NoCategory\HasSimeiInterface,
     /**
     * Set 配送先氏名
     */
-    public function setSimei(?string $simei): static;
+    public function setSimei(?string $simei);
 
     /**
      * Get 配送先住所
@@ -35,7 +35,7 @@ interface HaisoModelGroup1Interface extends NoCategory\HasSimeiInterface,
     /**
      * Set 配送先住所
      */
-    public function setAdr(?string $adr): static;
+    public function setAdr(?string $adr);
 
     /**
      * Get 配送先電話番号
@@ -45,7 +45,7 @@ interface HaisoModelGroup1Interface extends NoCategory\HasSimeiInterface,
     /**
      * Set 配送先電話番号
      */
-    public function setTel(?string $tel): static;
+    public function setTel(?string $tel);
 
     /**
      * Get 配送先郵便番号
@@ -55,6 +55,6 @@ interface HaisoModelGroup1Interface extends NoCategory\HasSimeiInterface,
     /**
      * Set 配送先郵便番号
      */
-    public function setZip(?string $zip): static;
+    public function setZip(?string $zip);
 
 }

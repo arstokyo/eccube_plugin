@@ -26,7 +26,7 @@ trait TOutMoneyTrait
     /**
      * {@inheritDoc}
      */
-    public function setToutmoney(?string $toutmoney): static
+    public function setToutmoney(?string $toutmoney)
     {
         $this->toutmoney = NumberConverter::stringWithCommaToFloat($toutmoney);
         return $this;

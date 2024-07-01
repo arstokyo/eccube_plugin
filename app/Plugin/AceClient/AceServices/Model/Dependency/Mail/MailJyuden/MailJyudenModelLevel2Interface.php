@@ -23,7 +23,7 @@ interface MailJyudenModelLevel2Interface extends MailJyudenModelLevel1Interface
      * @param ?int $mailkbn
      * @return $this
      */
-    public function setMailkbn(?int $mailkbn): static;
+    public function setMailkbn(?int $mailkbn);
 
     /**
      * Get 受注メールコメント
@@ -38,7 +38,7 @@ interface MailJyudenModelLevel2Interface extends MailJyudenModelLevel1Interface
      * @param ?string $jbikou
      * @return $this
      */
-    public function setJbikou(?string $jbikou): static;
+    public function setJbikou(?string $jbikou);
 
     /**
      * Get 出荷メールコメント
@@ -53,5 +53,5 @@ interface MailJyudenModelLevel2Interface extends MailJyudenModelLevel1Interface
      * @param ?string $sbikou
      * @return $this
      */
-    public function setSbikou(?string $sbikou): static;
+    public function setSbikou(?string $sbikou);
 }

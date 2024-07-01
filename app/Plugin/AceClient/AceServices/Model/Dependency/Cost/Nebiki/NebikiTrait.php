@@ -25,7 +25,7 @@ trait NebikiTrait
     /**
      * {@inheritDoc}
      */
-    public function setNebiki(?string $nebiki): static
+    public function setNebiki(?string $nebiki)
     {
         $this->nebiki = NumberConverter::stringWithCommaToFloat($nebiki);
         return $this;

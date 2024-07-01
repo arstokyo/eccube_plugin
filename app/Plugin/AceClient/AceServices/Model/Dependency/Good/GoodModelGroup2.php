@@ -83,7 +83,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     /**
      * {@inheritDoc}
      */
-    public function setDbun(?string $dbun): static
+    public function setDbun(?string $dbun)
     {
         $this->dbun = $dbun;
         return $this;
@@ -100,7 +100,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     /**
      * {@inheritDoc}
      */
-    public function setDbunname(?string $dbunname): static
+    public function setDbunname(?string $dbunname)
     {
         $this->dbunname = $dbunname;
         return $this;
@@ -117,7 +117,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     /**
      * {@inheritDoc}
      */
-    public function setTbun(?string $tbun): static
+    public function setTbun(?string $tbun)
     {
         $this->tbun = $tbun;
         return $this;
@@ -134,7 +134,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     /**
      * {@inheritDoc}
      */
-    public function setTbunname(?string $tbunname): static
+    public function setTbunname(?string $tbunname)
     {
         $this->tbunname = $tbunname;
         return $this;
@@ -151,7 +151,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     /**
      * {@inheritDoc}
      */
-    public function setSbun(?string $sbun): static
+    public function setSbun(?string $sbun)
     {
         $this->sbun = $sbun;
         return $this;
@@ -168,7 +168,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     /**
      * {@inheritDoc}
      */
-    public function setSbunname(?string $sbunname): static
+    public function setSbunname(?string $sbunname)
     {
         $this->sbunname = $sbunname;
         return $this;
@@ -185,7 +185,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     /**
      * {@inheritDoc}
      */
-    public function setBikou(?string $bikou): static
+    public function setBikou(?string $bikou)
     {
         $this->bikou = $bikou;
         return $this;
@@ -202,7 +202,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     /**
      * {@inheritDoc}
      */
-    public function setTanano(?string $tanano): static
+    public function setTanano(?string $tanano)
     {
         $this->tanano = $tanano;
         return $this;
@@ -219,7 +219,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     /**
      * {@inheritDoc}
      */
-    public function setKakuho(?int $kakuho): static
+    public function setKakuho(?int $kakuho)
     {
         $this->kakuho = $kakuho;
         return $this;
@@ -236,7 +236,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     /**
      * {@inheritDoc}
      */
-    public function setKonpo(?int $konpo): static
+    public function setKonpo(?int $konpo)
     {
         $this->konpo = $konpo;
         return $this;
@@ -253,7 +253,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     /**
      * {@inheritDoc}
      */
-    public function setOtaxkbn(?int $otaxkbn): static
+    public function setOtaxkbn(?int $otaxkbn)
     {
         $this->otaxkbn = $otaxkbn;
         return $this;
@@ -270,7 +270,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     /**
      * {@inheritDoc}
      */
-    public function setSougakuhkbn(?int $sougakuhkbn): static
+    public function setSougakuhkbn(?int $sougakuhkbn)
     {
         $this->sougakuhkbn = $sougakuhkbn;
         return $this;
@@ -287,7 +287,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     /**
      * {@inheritDoc}
      */
-    public function setPointkake(?int $pointkake): static
+    public function setPointkake(?int $pointkake)
     {
         $this->pointkake = $pointkake;
         return $this;

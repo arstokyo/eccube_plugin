@@ -22,5 +22,5 @@ interface HasOrderIdInterface
      * @param string|null $orderid
      * @return $this
      */
-    public function setOrderid(string|null $orderid): static;
+    public function setOrderid(?string $orderid);
 }

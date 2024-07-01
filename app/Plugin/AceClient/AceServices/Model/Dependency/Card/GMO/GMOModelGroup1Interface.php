@@ -22,7 +22,7 @@ interface GMOModelGroup1Interface
      * @param string|null $gmomemberid
      * @return $this
      */
-    public function setGmomemberid(string|null $gmomemberid): static;
+    public function setGmomemberid(?string $gmomemberid);
 
     /**
      * Get GMOオーダーID
@@ -37,7 +37,7 @@ interface GMOModelGroup1Interface
      * @param string|null $gmoorderid
      * @return $this
      */
-    public function setGmoorderid(string|null $gmoorderid): static;
+    public function setGmoorderid(?string $gmoorderid);
 
     /**
      * Get GMO取引ID
@@ -52,7 +52,7 @@ interface GMOModelGroup1Interface
      * @param string|null $gmotorihikiid
      * @return $this
      */
-    public function setGmotorihikiid(string|null $gmotorihikiid): static;
+    public function setGmotorihikiid(?string $gmotorihikiid);
 
     /**
      * Get GMO取引パスワード
@@ -67,6 +67,6 @@ interface GMOModelGroup1Interface
      * @param string|null $gmotorihikipw
      * @return $this
      */
-    public function setGmotorihikipw(string|null $gmotorihikipw): static;
+    public function setGmotorihikipw(?string $gmotorihikipw);
 
 }

@@ -24,7 +24,7 @@ trait JcodeTrait
     /**
     * {@inheritDoc}
     */
-    public function setJcode(?int $jcode): static
+    public function setJcode(?int $jcode)
     {
         $this->jcode = $jcode;
         return $this;
