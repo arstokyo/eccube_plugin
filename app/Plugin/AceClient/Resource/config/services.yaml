@@ -1,0 +1,12 @@
+services:
+
+    Plugin\AceClient\Util\Logger\SoapXmlLogger:
+        calls:
+            - setLogger: ['@monolog.logger']
+            - setFrontLogger: ['@monolog.logger.front']
+            - setAdminLogger: ['@monolog.logger.admin']
+            - setContext: ['@Eccube\Request\Context']
+
+    Plugin\AceClient\Util\Logger\LoggerProvider:
+        arguments:
+            - '@Plugin\AceClient\Util\Logger\SoapXmlLogger'
