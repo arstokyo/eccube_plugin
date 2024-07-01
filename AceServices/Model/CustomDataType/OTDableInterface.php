@@ -14,5 +14,5 @@ interface OTDableInterface
      * 
      * @return string|null|object
      */
-    public function toData(): string|null|object;
+    public function toData();
 }

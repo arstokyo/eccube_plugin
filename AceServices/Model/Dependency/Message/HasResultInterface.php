@@ -20,5 +20,5 @@ interface HasResultInterface
      * @param ?string $result
      * @return $this
      */
-    public function setResult(?string $result): static;
+    public function setResult(?string $result);
 }

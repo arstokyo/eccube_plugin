@@ -22,5 +22,5 @@ interface HasPointKindInterface
      * @param ?int $pointkind
      * @return $this
      */
-    public function setPointkind(?int $pointkind): static;
+    public function setPointkind(?int $pointkind);
 }

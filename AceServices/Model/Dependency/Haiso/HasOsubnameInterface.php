@@ -24,5 +24,5 @@ interface HasOsubnameInterface
      * @param ?string $subname
      * @return $this
      */
-    public function setOsubname(?string $subname): static;
+    public function setOsubname(?string $subname);
 }

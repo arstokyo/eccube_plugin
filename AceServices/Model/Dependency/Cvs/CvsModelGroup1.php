@@ -51,7 +51,7 @@ class CvsModelGroup1 implements CvsModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setServiceoptiontype(string|null $serviceoptiontype): static
+    public function setServiceoptiontype(?string $serviceoptiontype)
     {
         $this->serviceoptiontype = $serviceoptiontype;
         return $this;
@@ -68,7 +68,7 @@ class CvsModelGroup1 implements CvsModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setAmount(int|null $amount): static
+    public function setAmount(?int $amount)
     {
         $this->amount = $amount;
         return $this;
@@ -85,7 +85,7 @@ class CvsModelGroup1 implements CvsModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setName1(string|null $name1): static
+    public function setName1(?string $name1)
     {
         $this->name1 = $name1;
         return $this;
@@ -102,7 +102,7 @@ class CvsModelGroup1 implements CvsModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setName2(string|null $name2): static
+    public function setName2(?string $name2)
     {
         $this->name2 = $name2;
         return $this;
@@ -119,7 +119,7 @@ class CvsModelGroup1 implements CvsModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setPaylimit(\Datetime|string|null $paylimit): static
+    public function setPaylimit($paylimit)
     {
         $this->paylimit = AceDateTime\AceDatetimeFactory::makeAceDateTime($paylimit, 'Y/m/d');
         return $this;
@@ -136,7 +136,7 @@ class CvsModelGroup1 implements CvsModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setMstatus(string|null $mstatus): static
+    public function setMstatus(?string $mstatus)
     {
         $this->mstatus = $mstatus;
         return $this;
@@ -153,7 +153,7 @@ class CvsModelGroup1 implements CvsModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setVresultcode(string|null $vresultcode): static
+    public function setVresultcode(?string $vresultcode)
     {
         $this->vresultcode = $vresultcode;
         return $this;
@@ -170,7 +170,7 @@ class CvsModelGroup1 implements CvsModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setReceiptno(string|null $receiptno): static
+    public function setReceiptno(?string $receiptno)
     {
         $this->receiptno = $receiptno;
         return $this;

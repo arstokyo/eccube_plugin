@@ -24,7 +24,7 @@ trait GMOStatusTrait
     /**
      * {@inheritDoc}
      */
-    public function setGmostatus(?int $gmostatus): static
+    public function setGmostatus(?int $gmostatus)
     {
         $this->gmostatus = $gmostatus;
         return $this;

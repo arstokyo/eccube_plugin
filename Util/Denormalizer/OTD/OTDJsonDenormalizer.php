@@ -13,7 +13,7 @@ class OTDJsonDenormalizer extends OTDDenormalizerAbstract
     /**
      * {@inheritDoc}
      */
-    public function denormalizeOTD(): string|null|object
+    public function denormalizeOTD()
     {
         // TODO: Implement denormalizeOTD() method.
         return $this->delegate->getObject();

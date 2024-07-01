@@ -22,5 +22,5 @@ interface HasTaikaiInterface
      * @param ?int $taikai
      * @return $this
      */
-    public function setTaikai(?int $taikai): static;
+    public function setTaikai(?int $taikai);
 }

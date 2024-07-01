@@ -24,7 +24,7 @@ trait IcodeTrait
     /**
      * {@inheritDoc}
      */
-    public function setIcode(?string $icode): static
+    public function setIcode(?string $icode)
     {
         $this->icode = $icode;
         return $this;

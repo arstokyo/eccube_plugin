@@ -23,7 +23,7 @@ trait BetuTrait
     /**
      * {@inheritDoc}
      */
-    public function setBetu(?int $betu): static
+    public function setBetu(?int $betu)
     {
         $this->betu = $betu;
         return $this;

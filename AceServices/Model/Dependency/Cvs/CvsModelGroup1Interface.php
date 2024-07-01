@@ -18,8 +18,8 @@ interface CvsModelGroup1Interface extends HasOrderIdInterface, HasTelInterface
     /**
      * {@inheritDoc}
      */
-    #[SerializedName('telno')]
-    public function setTel(?string $tel): static;
+    /** @SerializedName("telno") */
+    public function setTel(?string $tel);
 
     /**
      * Get 決済サービスオプション
@@ -34,7 +34,7 @@ interface CvsModelGroup1Interface extends HasOrderIdInterface, HasTelInterface
      * @param string|null $serviceoptiontype
      * @return $this
      */
-    public function setServiceoptiontype(?string $serviceoptiontype): static;
+    public function setServiceoptiontype(?string $serviceoptiontype);
 
     /**
      * Get 金額
@@ -49,7 +49,7 @@ interface CvsModelGroup1Interface extends HasOrderIdInterface, HasTelInterface
      * @param int|null $amount
      * @return $this
      */
-    public function setAmount(?int $amount): static;
+    public function setAmount(?int $amount);
 
     /**
      * Get 氏名１
@@ -64,7 +64,7 @@ interface CvsModelGroup1Interface extends HasOrderIdInterface, HasTelInterface
      * @param string|null $name1
      * @return $this
      */
-    public function setName1(?string $name1): static;
+    public function setName1(?string $name1);
 
     /**
      * Get 氏名２
@@ -79,14 +79,14 @@ interface CvsModelGroup1Interface extends HasOrderIdInterface, HasTelInterface
      * @param string|null $name2
      * @return $this
      */
-    public function setName2(?string $name2): static;
+    public function setName2(?string $name2);
 
     /**
      * Get 支払期限
      * 
      * @return AceDateTimeInterface|null
      */
-    public function getPaylimit(): ?AceDateTimeInterface;
+    public function getPaylimit();
 
     /**
      * Set 支払期限
@@ -94,7 +94,7 @@ interface CvsModelGroup1Interface extends HasOrderIdInterface, HasTelInterface
      * @param \Datetime|string|null $paylimit
      * @return $this
      */
-    public function setPaylimit(\Datetime|string|null $paylimit): static;
+    public function setPaylimit($paylimit);
 
     /**
      * Get 処理結果コード
@@ -109,7 +109,7 @@ interface CvsModelGroup1Interface extends HasOrderIdInterface, HasTelInterface
      * @param string|null $mstatus
      * @return $this
      */
-    public function setMstatus(?string $mstatus): static;
+    public function setMstatus(?string $mstatus);
 
     /**
      * Get 詳細結果コード
@@ -124,7 +124,7 @@ interface CvsModelGroup1Interface extends HasOrderIdInterface, HasTelInterface
      * @param string|null $vresultcode
      * @return $this
      */
-    public function setVresultcode(?string $vresultcode): static;
+    public function setVresultcode(?string $vresultcode);
 
     /**
      * Get 受付番号
@@ -139,6 +139,6 @@ interface CvsModelGroup1Interface extends HasOrderIdInterface, HasTelInterface
      * @param string|null $receiptno
      * @return $this
      */
-    public function setReceiptno(?string $receiptno): static;
+    public function setReceiptno(?string $receiptno);
 
 }

@@ -22,5 +22,5 @@ interface HasAdrInterface
      * @param ?string $adr
      * @return $this
      */
-    public function setAdr(?string $adr): static;
+    public function setAdr(?string $adr);
 }

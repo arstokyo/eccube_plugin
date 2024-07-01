@@ -23,7 +23,7 @@ interface HasPointMaxInterface
     * @param int|null $pointmax
     * @return $this
     */
-    public function setPointmax(?int $pointmax): static;
+    public function setPointmax(?int $pointmax);
     
 }
 

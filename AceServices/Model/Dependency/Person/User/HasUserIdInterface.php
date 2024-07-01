@@ -22,5 +22,5 @@ interface HasUserIdInterface
      * @param ?string $userId ユーザーID
      * @return $this
      */
-    public function setUserid(?string $userId): static;
+    public function setUserid(?string $userId);
 }

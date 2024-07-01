@@ -12,6 +12,8 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class ConfigRepositoryRetriever
 {
+    private EntityManagerInterface $entityManager;
+    private ConfigRepository $configRepository;
 
     /**
      * ServiceRetriveHelper constructor.
@@ -21,9 +23,11 @@ class ConfigRepositoryRetriever
      */
     public function __construct
     (
-        private EntityManagerInterface $entityManager,
-        private ConfigRepository $configRepository
+        EntityManagerInterface $entityManager,
+        ConfigRepository $configRepository
     ) {
+        $this->entityManager = $entityManager;
+        $this->configRepository = $configRepository;
     }
 
     /**

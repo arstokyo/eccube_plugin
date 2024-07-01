@@ -23,7 +23,7 @@ trait GiftNoTrait
     /**
      * {@inheritDoc}
      */
-    public function setGiftNo(?int $giftno): static
+    public function setGiftNo(?int $giftno)
     {
         $this->giftno = $giftno;
         return $this;

@@ -14,6 +14,11 @@ use Symfony\Component\Serializer\Normalizer;
  */
 class Delegate implements DelegateInterface
 {
+    protected ClientInterface $httpClient;
+    protected Serializer\SerializerInterface $serializer;
+    protected Normalizer\NormalizerInterface $normalizer;
+    protected LoggerInterface $logger;
+
    /**
      * Abstract Delegate constructor
      *
@@ -24,11 +29,15 @@ class Delegate implements DelegateInterface
      */
     public function __construct
     (
-        protected ClientInterface $httpClient,
-        protected Serializer\SerializerInterface $serializer,
-        protected Normalizer\NormalizerInterface $normalizer,
-        protected LoggerInterface $logger
+        ClientInterface $httpClient,
+        Serializer\SerializerInterface $serializer,
+        Normalizer\NormalizerInterface $normalizer,
+        LoggerInterface $logger
     ) {
+        $this->httpClient = $httpClient;
+        $this->serializer = $serializer;
+        $this->normalizer = $normalizer;
+        $this->logger = $logger;
     }
 
     /**

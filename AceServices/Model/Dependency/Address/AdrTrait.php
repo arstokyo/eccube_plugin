@@ -23,7 +23,7 @@ trait AdrTrait
     /**
      * {@inheritDoc}
      */
-    public function setAdr(?string $adr): static
+    public function setAdr(?string $adr)
     {
         $this->adr = $adr;
         return $this;

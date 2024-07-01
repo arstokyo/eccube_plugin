@@ -22,5 +22,5 @@ interface HasMobileIdInterface
      * @param ?string $mobileId
      * @return $this
      */
-    public function setMobileId(?string $mobileId): static;
+    public function setMobileId(?string $mobileId);
 }

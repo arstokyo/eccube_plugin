@@ -20,7 +20,7 @@ interface HasFiveFseikyuMailInterface
      * @param ?string $fseikyumail1
      * @return $this
      */
-    public function setFSeikyuMail1(?string $fseikyumail1): static;
+    public function setFSeikyuMail1(?string $fseikyumail1);
     /**
      * Get 請求明細ﾒｰﾙｱﾄﾞﾚｽ2
      *
@@ -33,7 +33,7 @@ interface HasFiveFseikyuMailInterface
      * @param ?string $fseikyumail2
      * @return $this
      */
-    public function setFSeikyuMail2(?string $fseikyumail2): static;
+    public function setFSeikyuMail2(?string $fseikyumail2);
     /**
      * Get 請求明細ﾒｰﾙｱﾄﾞﾚｽ3
      *
@@ -46,7 +46,7 @@ interface HasFiveFseikyuMailInterface
      * @param ?string $fseikyumail3
      * @return $this
      */
-    public function setFSeikyuMail3(?string $fseikyumail3): static;
+    public function setFSeikyuMail3(?string $fseikyumail3);
     /**
      * Get 請求明細ﾒｰﾙｱﾄﾞﾚｽ4
      *
@@ -59,7 +59,7 @@ interface HasFiveFseikyuMailInterface
      * @param ?string $fseikyumail4
      * @return $this
      */
-    public function setFSeikyuMail4(?string $fseikyumail4): static;
+    public function setFSeikyuMail4(?string $fseikyumail4);
     /**
      * Get 請求明細ﾒｰﾙｱﾄﾞﾚｽ5
      *
@@ -72,6 +72,6 @@ interface HasFiveFseikyuMailInterface
      * @param ?string $fseikyumail5
      * @return $this
      */
-    public function setFSeikyuMail5(?string $fseikyumail5): static;
+    public function setFSeikyuMail5(?string $fseikyumail5);
 
 }

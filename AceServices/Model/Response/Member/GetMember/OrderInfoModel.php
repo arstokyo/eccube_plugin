@@ -19,8 +19,8 @@ class OrderInfoModel implements OrderInfoModelInterface
     /** @var ?int $orderCnt 購入回数 */
     protected ?int $orderCnt = null;
 
-    /** @var int|string|null $orderMaxday 最新購入日 */
-    protected string|int|null $orderMaxday = null;
+    /** @var ?string $orderMaxday 最新購入日 */
+    protected ?string $orderMaxday = null;
     
     /**
      * {@inheritDoc}
@@ -57,7 +57,7 @@ class OrderInfoModel implements OrderInfoModelInterface
     /**
      * {@inheritDoc}
      */
-    public function getOrderMaxday(): string|int|null
+    public function getOrderMaxday(): ?string
     {
         return $this->orderMaxday;
     }
@@ -65,7 +65,7 @@ class OrderInfoModel implements OrderInfoModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setOrderMaxday(string|int|null $orderMaxday)
+    public function setOrderMaxday(?string $orderMaxday)
     {
         $this->orderMaxday = $orderMaxday;
         return $this;

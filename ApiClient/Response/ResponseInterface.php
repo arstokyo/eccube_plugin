@@ -28,5 +28,5 @@ interface ResponseInterface extends \JsonSerializable, \Stringable
      *
      * @return mixed
      */
-    public function getResponse(): mixed;
+    public function getResponse();
 }

@@ -22,7 +22,7 @@ trait HasMessageModelTrait
     /**
      * {@inheritDoc}
      */
-    public function setMessage(MessageModel $message): static
+    public function setMessage(MessageModel $message)
     {
         $this->Message = $message;
         return $this;

@@ -14,7 +14,7 @@ class AceMethodDetailModel implements ConfigModelInterface
 {
 
     /** @var ?ApiClientConfigModel $httpClient Http Client Config Model */
-    #[SerializedName("api_client")]
+    /** @SerializedName("api_client") */
     private ?ApiClientConfigModel $apiClient = null;
 
     /** @var ?NormalizerConfigModel $normalizer */
@@ -27,7 +27,7 @@ class AceMethodDetailModel implements ConfigModelInterface
     private ?LoggerConfigModel $logger = null;
 
     /** @var ?HttpClientConfigModel $logger */
-    #[SerializedName("http_client")]
+    /** @SerializedName("http_client") */
     private ?HttpClientConfigModel $httpClient = null;
 
     /**

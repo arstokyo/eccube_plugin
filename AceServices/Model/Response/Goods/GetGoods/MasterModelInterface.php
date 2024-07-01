@@ -28,7 +28,7 @@ interface MasterModelInterface extends HasMessageModelInterface,
      * @param Model\Dependency\Good\GoodModelGroup1[]|null $goods
      * @return void
      */
-    public function setGoods(array|null $goods): void;
+    public function setGoods(?array $goods): void;
 
     /**
      * Get Gtanka
@@ -43,5 +43,5 @@ interface MasterModelInterface extends HasMessageModelInterface,
      * @param Model\Dependency\Good\GoodTankaModelGroup1[]|null $gtanka
      * @return void
      */
-    public function setGtanka(array|null $gtanka): void;
+    public function setGtanka(?array $gtanka): void;
 }

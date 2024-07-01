@@ -21,7 +21,7 @@ interface HasTwoNBikouInterface
     * @param string|null $nbikou1
     * @return $this
     */
-    public function setNbikou1(?string $nbikou1): static;
+    public function setNbikou1(?string $nbikou1);
     /**
     * Get 納品書備考2
     *
@@ -34,5 +34,5 @@ interface HasTwoNBikouInterface
     * @param string|null $nbikou2
     * @return $this
     */
-    public function setNbikou2(?string $nbikou2): static;
+    public function setNbikou2(?string $nbikou2);
 }

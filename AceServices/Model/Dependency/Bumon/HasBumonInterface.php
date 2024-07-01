@@ -23,6 +23,6 @@ interface HasBumonInterface
      * @param string|null $bumon
      * @return $this
      */
-    public function setBumon(?string $bumon): static;
+    public function setBumon(?string $bumon);
     
 }

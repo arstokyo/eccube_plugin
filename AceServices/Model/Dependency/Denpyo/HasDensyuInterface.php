@@ -22,5 +22,5 @@ interface HasDensyuInterface
      * @param ?int $densyu
      * @return $this
      */
-    public function setDensyu(?int $densyu): static;
+    public function setDensyu(?int $densyu);
 }

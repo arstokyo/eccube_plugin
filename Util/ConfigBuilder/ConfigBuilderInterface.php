@@ -16,5 +16,5 @@ interface ConfigBuilderInterface
      * 
      * @return array
      */
-    public static function build(mixed $options = null): array;
+    public static function build($options = null): array;
 }

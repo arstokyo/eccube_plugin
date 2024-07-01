@@ -47,6 +47,6 @@ interface JyusubModelBaseInterface extends NoCategory\HasIdInterface,
      * @param int|null $smpkbn
      * @return $this
      */
-    public function setSmpkbn(?int $smpkbn): static;
+    public function setSmpkbn(?int $smpkbn);
 
 }

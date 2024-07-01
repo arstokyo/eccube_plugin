@@ -29,7 +29,7 @@ trait ThreeFreeTrait
     /**
      * {@inheritDoc}
      */
-    public function setFree1(?string $free1): static
+    public function setFree1(?string $free1)
     {
         $this->free1 = $free1;
         return $this;
@@ -46,7 +46,7 @@ trait ThreeFreeTrait
     /**
      * {@inheritDoc}
      */
-    public function setFree2(?string $free2): static
+    public function setFree2(?string $free2)
     {
         $this->free2 = $free2;
         return $this;
@@ -63,7 +63,7 @@ trait ThreeFreeTrait
     /**
      * {@inheritDoc}
      */
-    public function setFree3(?string $free3): static
+    public function setFree3(?string $free3)
     {
         $this->free3 = $free3;
         return $this;

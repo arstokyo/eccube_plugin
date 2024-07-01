@@ -15,13 +15,13 @@ interface GMOModelGroup2Interface extends HasGMODpsOrderIdInterface, HasGMODpsTI
     /**
      * {@inheritDoc}
      */
-    #[SerializedName('gmodps_orderid')]
-    public function setGmodpsorderid(string|null $gmodpsorderid): static;
+    /** @SerializedName("gmodps_orderid") */
+    public function setGmodpsorderid(?string $gmodpsorderid);
 
     /**
      * {@inheritDoc}
      */
-    #[SerializedName('gmodps_tid')]
-    public function setGmodpstid(string|null $gmodpstid): static;
+    /** @SerializedName("gmodps_tid") */
+    public function setGmodpstid(?string $gmodpstid);
     
 }

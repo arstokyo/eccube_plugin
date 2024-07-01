@@ -2,9 +2,6 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Baitai;
 
-use Symfony\Component\Serializer\Annotation\SerializedName;
-
-
 /**
  * Trait for 媒体名称
  *
@@ -13,11 +10,9 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 trait BaitaiNameTrait
 {
     /** @var ?string $baitaiName 媒体名称 */
-    #[SerializedName('baitai_name')]
     protected ?string $baitaiName = null;
 
     /** @var ?string $baifileName 管理番号名称 */
-    #[SerializedName('baifile_name')]
     protected ?string $baifileName = null;
 
     /**
@@ -30,8 +25,9 @@ trait BaitaiNameTrait
 
     /**
      * {@inheritDoc}
+     *  @\Symfony\Component\Serializer\Annotation\SerializedName("baitai_name")
      */
-    public function setBaitaiName(?string $baitaiName): static
+    public function setBaitaiName(?string $baitaiName)
     {
         $this->baitaiName = $baitaiName;
         return $this;
@@ -47,8 +43,9 @@ trait BaitaiNameTrait
 
     /**
      * {@inheritDoc}
+     * @\Symfony\Component\Serializer\Annotation\SerializedName("baifile_name")
      */
-    public function setBaifileName(?string $baifileName): static
+    public function setBaifileName(?string $baifileName)
     {
         $this->baifileName = $baifileName;
         return $this;

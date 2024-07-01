@@ -20,5 +20,5 @@ interface HasMessage1Interface
      * @param ?string $message1
      * @return $this
      */
-    public function setMessage1(?string $message1): static;
+    public function setMessage1(?string $message1);
 }

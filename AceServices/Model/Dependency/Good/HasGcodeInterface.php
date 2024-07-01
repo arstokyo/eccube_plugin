@@ -22,5 +22,5 @@ interface HasGcodeInterface
      * @param ?string $gcode 商品コード
      * @return $this
      */
-    public function setGcode(?string $gcode): static;
+    public function setGcode(?string $gcode);
 }

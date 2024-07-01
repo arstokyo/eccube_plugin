@@ -25,7 +25,7 @@ trait AnswerTrait
     /**
      * {@inheritDoc}
      */
-    public function setAnswer(?string $answer): static
+    public function setAnswer(?string $answer)
     {
         $this->answer = $answer;
         return $this;

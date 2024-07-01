@@ -27,7 +27,7 @@ trait CnameTrait
     /**
      * {@inheritDoc}
      */
-    public function setCname(string|null $cname): static
+    public function setCname(?string $cname)
     {
         $this->cname = $cname;
         return $this;

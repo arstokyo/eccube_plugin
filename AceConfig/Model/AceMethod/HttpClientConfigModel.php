@@ -17,7 +17,7 @@ class HttpClientConfigModel extends InstanceConfigAbstract implements ConfigMode
     /**
      * @var ?string $baseUri Base URI
      */
-    #[SerializedName("base_uri")]
+    /** @SerializedName("base_uri") */
     private ?string $baseUri = null;
 
     /**

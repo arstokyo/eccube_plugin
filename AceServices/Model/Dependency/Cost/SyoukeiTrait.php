@@ -26,7 +26,7 @@ trait SyoukeiTrait
     /**
      * {@inheritDoc}
      */
-    public function setSyoukei(?string $syoukei): static
+    public function setSyoukei(?string $syoukei)
     {
         $this->syoukei = NumberConverter::stringWithCommaToFloat($syoukei);
         return $this;

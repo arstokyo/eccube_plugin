@@ -22,5 +22,5 @@ interface HasGMODpsTIdInterface
      * @param string|null $gmodpstid
      * @return $this
      */
-    public function setGmodpstid(string|null $gmodpstid): static;
+    public function setGmodpstid(?string $gmodpstid);
 }

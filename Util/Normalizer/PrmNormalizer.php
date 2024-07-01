@@ -28,32 +28,32 @@ class PrmNormalizer implements NormalizerInterface, SerializerAwareInterface
      * 
      * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
      */
-    public function normalize($object, string|null $format = null, array $context = [])
+    public function normalize($object, ?string $format = null, array $context = [])
     {
         if (!$object instanceof PrmModelInterface) {
             throw new DataTypeMissMatchException('Prm normalize Error: Expected PrmModelInterface object');
         }
         
         $object->parseSerializer($this->serializer);
-        $this->cacheObj[] = $object::class;
+        $this->cacheObj[] = get_class($object);
 
         try
         {
             $result = $object->toData();
         } catch (\Throwable $e)
         {
-            $this->unsetCacheObj($object::class);
-            throw new NotSerializableException(sprintf('Could not normalize object "%s". %s', $object::class, $e->getMessage()), $e);
+            $this->unsetCacheObj(get_class($object));
+            throw new NotSerializableException(sprintf('Could not normalize object "%s". %s', get_class($object), $e->getMessage()), $e);
         }
 
-        $this->unsetCacheObj($object::class);
+        $this->unsetCacheObj(get_class($object));
         return $result;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function supportsNormalization($data, string|null $format = null)
+    public function supportsNormalization($data, ?string $format = null)
     {
         return ($data instanceof PrmModelInterface) && (!in_array(get_class($data), $this->cacheObj));
     }
@@ -78,7 +78,7 @@ class PrmNormalizer implements NormalizerInterface, SerializerAwareInterface
         }
     }
 
-    public function getSupportedTypes(string|null $format)
+    public function getSupportedTypes(?string $format)
     {
         return [
             PrmModelInterface::class => false,

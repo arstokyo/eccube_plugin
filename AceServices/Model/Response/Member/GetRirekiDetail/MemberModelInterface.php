@@ -27,7 +27,7 @@ interface MemberModelInterface extends HasMessageModelInterface,
      * @param RirekiDetailModel[]|null $rirekiDetail
      * @return void
      */
-    public function setRirekiDetail(array|null $rirekiDetail): void;
+    public function setRirekiDetail(?array $rirekiDetail): void;
 
     /**
      * Get MailJyuden
@@ -42,5 +42,5 @@ interface MemberModelInterface extends HasMessageModelInterface,
      * @param MailJyudenModel[]|null $mailJyuden
      * @return void
      */
-    public function setMailJyuden(array|null $mailJyuden): void;
+    public function setMailJyuden(?array $mailJyuden): void;
 }

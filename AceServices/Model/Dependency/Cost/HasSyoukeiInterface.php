@@ -22,6 +22,6 @@ interface HasSyoukeiInterface
     * @param string|null $syoukei
     * @return $this
     */
-    public function setSyoukei(?string $syoukei): static;
+    public function setSyoukei(?string $syoukei);
 
 }

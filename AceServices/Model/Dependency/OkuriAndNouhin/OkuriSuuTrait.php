@@ -24,7 +24,7 @@ trait OkuriSuuTrait
     /**
      * {@inheritDoc}
      */
-    public function setOkurisuu(?int $okurisuu): static
+    public function setOkurisuu(?int $okurisuu)
     {
         $this->okurisuu = $okurisuu;
         return $this;

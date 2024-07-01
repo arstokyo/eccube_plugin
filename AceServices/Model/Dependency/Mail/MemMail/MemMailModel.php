@@ -27,7 +27,7 @@ class MemMailModel implements MemMailModelInterface
      * {@inheritDoc}
      *
      */
-    public function setDmailkbn(?int $dmailkbn): static
+    public function setDmailkbn(?int $dmailkbn)
     {
         $this->dmailkbn = $dmailkbn;
         return $this;
@@ -46,7 +46,7 @@ class MemMailModel implements MemMailModelInterface
      * {@inheritDoc}
      *
      */
-    public function setIdx(?int $idx): static
+    public function setIdx(?int $idx)
     {
         $this->idx = $idx;
         return $this;

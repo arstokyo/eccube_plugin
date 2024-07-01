@@ -26,7 +26,7 @@ trait TaxTotalTrait
     /**
     * {@inheritDoc}
     */
-    public function setTaxtotal(?string $taxtotal): static
+    public function setTaxtotal(?string $taxtotal)
     {
         $this->taxtotal = NumberConverter::stringWithCommaToFloat($taxtotal);
         return $this;

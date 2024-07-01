@@ -27,5 +27,5 @@ interface JyudenModelInterface extends HasMessageModelInterface,
      * @param DeliveryModel[]|null $delivery
      * @return void
      */
-    public function setDelivery(array|null $delivery): void;
+    public function setDelivery(?array $delivery): void;
 }

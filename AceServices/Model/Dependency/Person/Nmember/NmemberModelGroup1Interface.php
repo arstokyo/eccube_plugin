@@ -31,6 +31,6 @@ interface NmemberModelGroup1Interface extends NmemberModelInterface, PersonLevel
      * @param string|null $adrName
      * @return $this
      */
-    public function setAdrName(?string $adrName): static;
+    public function setAdrName(?string $adrName);
 
 }

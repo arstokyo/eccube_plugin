@@ -22,5 +22,5 @@ interface HasToriKbnInterface
      * @param ?int $torikbn
      * @return $this
      */
-    public function setTorikbn(?int $torikbn): static;
+    public function setTorikbn(?int $torikbn);
 }

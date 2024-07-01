@@ -22,5 +22,5 @@ interface HasGNameInterface
      * @param ?string $gname
      * @return $this
      */
-    public function setGname(?string $gname): static;
+    public function setGname(?string $gname);
 }

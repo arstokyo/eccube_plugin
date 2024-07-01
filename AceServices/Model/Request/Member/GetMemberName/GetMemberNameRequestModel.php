@@ -31,7 +31,7 @@ class GetMemberNameRequestModel extends RequestModelAbstract implements GetMembe
     /**
      * {@inheritDoc}
      */
-    public function setSyid(?int $syid): static
+    public function setSyid(?int $syid)
     {
         $this->syid = $syid;
         return $this;

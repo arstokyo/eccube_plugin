@@ -22,5 +22,5 @@ interface HasDenkuNumInterface
      * @param ?int $denkuNum
      * @return $this
      */
-    public function setDenkuNum(?int $denkuNum): static;
+    public function setDenkuNum(?int $denkuNum);
 }

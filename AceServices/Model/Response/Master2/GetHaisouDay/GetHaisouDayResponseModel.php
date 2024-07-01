@@ -17,7 +17,7 @@ class GetHaisouDayResponseModel extends ResponseModelAbtract implements GetHaiso
     /**
      * {@inheritDoc}
      */
-    public function getDay(): int|null
+    public function getDay(): ?int
     {
         return $this->day;
     }
@@ -25,7 +25,7 @@ class GetHaisouDayResponseModel extends ResponseModelAbtract implements GetHaiso
     /**
      * {@inheritDoc}
      */
-    public function setDay(int|null $day): void
+    public function setDay(?int $day): void
     {
         $this->day = $day;
     }

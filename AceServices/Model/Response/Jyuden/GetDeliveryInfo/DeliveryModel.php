@@ -74,7 +74,7 @@ class DeliveryModel implements DeliveryModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setJmemid(?string $jmemid): static
+    public function setJmemid(?string $jmemid)
     {
         $this->jmemid = $jmemid;
         return $this;
@@ -91,7 +91,7 @@ class DeliveryModel implements DeliveryModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setJname(?string $jname): static
+    public function setJname(?string $jname)
     {
         $this->jname = $jname;
         return $this;
@@ -108,7 +108,7 @@ class DeliveryModel implements DeliveryModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setJkana(?string $jkana): static
+    public function setJkana(?string $jkana)
     {
         $this->jkana = $jkana;
         return $this;
@@ -125,7 +125,7 @@ class DeliveryModel implements DeliveryModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setJzip(?string $jzip): static
+    public function setJzip(?string $jzip)
     {
         $this->jzip = $jzip;
         return $this;
@@ -142,7 +142,7 @@ class DeliveryModel implements DeliveryModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setJadr(?string $jadr): static
+    public function setJadr(?string $jadr)
     {
         $this->jadr = $jadr;
         return $this;
@@ -159,7 +159,7 @@ class DeliveryModel implements DeliveryModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setJtel(?string $jtel): static
+    public function setJtel(?string $jtel)
     {
         $this->jtel = $jtel;
         return $this;
@@ -176,7 +176,7 @@ class DeliveryModel implements DeliveryModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setNmemid(?string $nmemid): static
+    public function setNmemid(?string $nmemid)
     {
         $this->nmemid = $nmemid;
         return $this;
@@ -193,7 +193,7 @@ class DeliveryModel implements DeliveryModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setNname(?string $nname): static
+    public function setNname(?string $nname)
     {
         $this->nname = $nname;
         return $this;
@@ -210,7 +210,7 @@ class DeliveryModel implements DeliveryModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setNkana(?string $nkana): static
+    public function setNkana(?string $nkana)
     {
         $this->nkana = $nkana;
         return $this;
@@ -227,7 +227,7 @@ class DeliveryModel implements DeliveryModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setNzip(?string $nzip): static
+    public function setNzip(?string $nzip)
     {
         $this->nzip = $nzip;
         return $this;
@@ -244,7 +244,7 @@ class DeliveryModel implements DeliveryModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setNtel(?string $ntel): static
+    public function setNtel(?string $ntel)
     {
         $this->ntel = $ntel;
         return $this;

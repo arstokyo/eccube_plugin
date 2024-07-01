@@ -25,7 +25,7 @@ class JyusubModelGroup1 implements JyusubModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function getTpdenno(): int|null
+    public function getTpdenno(): ?int
     {
         return $this->tpdenno;
     }
@@ -33,7 +33,7 @@ class JyusubModelGroup1 implements JyusubModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function setTpdenno(int|null $tpdenno): static
+    public function setTpdenno(?int $tpdenno)
     {
         $this->tpdenno = $tpdenno;
         return $this;

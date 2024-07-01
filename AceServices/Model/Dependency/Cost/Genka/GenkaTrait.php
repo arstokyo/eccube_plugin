@@ -29,7 +29,7 @@ trait GenkaTrait
     /**
      * {@inheritDoc}
      */
-    public function setGenka(?string $genka): static
+    public function setGenka(?string $genka)
     {
         $this->genka = NumberConverter::stringWithCommaToFloat($genka);
         return $this;

@@ -26,7 +26,7 @@ trait TInMoneyTrait
     /**
      * {@inheritDoc}
      */
-    public function setTinmoney(?string $tinmoney): static
+    public function setTinmoney(?string $tinmoney)
     {
         $this->tinmoney = NumberConverter::stringWithCommaToFloat($tinmoney);
         return $this;

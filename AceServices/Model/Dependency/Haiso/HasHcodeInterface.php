@@ -22,5 +22,5 @@ interface HasHcodeInterface
      * @param ?int $hcode
      * @return $this
      */
-    public function setHcode(?int $hcode): static;
+    public function setHcode(?int $hcode);
 }

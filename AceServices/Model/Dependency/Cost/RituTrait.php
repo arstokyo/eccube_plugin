@@ -26,7 +26,7 @@ trait RituTrait
     /**
      * {@inheritDoc}
      */
-    public function setRitu(?string $ritu): static
+    public function setRitu(?string $ritu)
     {
         $this->ritu = NumberConverter::stringWithCommaToFloat($ritu);
         return $this;

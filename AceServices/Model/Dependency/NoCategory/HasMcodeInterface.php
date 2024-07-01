@@ -22,5 +22,5 @@ interface HasMcodeInterface
      * @param ?string $mcode
      * @return $this
      */
-    public function setMcode(?string $mcode): static;
+    public function setMcode(?string $mcode);
 }

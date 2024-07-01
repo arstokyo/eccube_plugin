@@ -90,7 +90,7 @@ class SoapXmlSerializer implements SoapXmlSerializerInterface
      * 
      * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
      */
-    public function deserialize($data, string $type, string $format, array $context = []): mixed
+    public function deserialize($data, string $type, string $format, array $context = [])
     {
         if (!$this->serializer->supportsEncoding($format, $context)) {
             throw new NotEncodableValueException(sprintf('Serialization for the format "%s" is not supported.', $format));
@@ -145,7 +145,8 @@ class SoapXmlSerializer implements SoapXmlSerializerInterface
      * 
      * @return string
      */
-    private function serializeWithOptions($data, string $format, array $context = []): string{
+    private function serializeWithOptions($data, string $format, array $context = []): string
+    {
         return $this->serializer->serialize( \array_merge($this->config->getXmlns() ?: self::DEFAULT_XMLNS
                                                          ,['#' => $data])
                                             , $format

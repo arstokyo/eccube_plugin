@@ -44,7 +44,7 @@ abstract class AceMethodAbstract implements AceMethodInterface
      */
     public function initializeAssistant(string $baseServiceName, ServiceRetrieverInterface $serviceRetriever): void
     {
-        $this->assistant = new AceMethodAssistant($this::class, self::buildEndPoint($baseServiceName), $serviceRetriever);
+        $this->assistant = new AceMethodAssistant(\get_class($this), self::buildEndPoint($baseServiceName), $serviceRetriever);
         $this->assistant->getApiClient()->withResponseAs(self::getResponseAsObject());
     }
 

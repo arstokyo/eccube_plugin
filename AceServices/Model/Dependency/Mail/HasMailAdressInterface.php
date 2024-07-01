@@ -22,6 +22,6 @@ interface HasMailAdressInterface
      * @param ?string $mailadress
      * @return $this
      */
-    public function setMailadress(?string $mailadress): static;
+    public function setMailadress(?string $mailadress);
 
 }

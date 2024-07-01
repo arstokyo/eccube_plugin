@@ -17,5 +17,5 @@ interface HasMessageModelInterface
      * @param MessageModel $message
      * @return $this
      */
-    public function setMessage(MessageModel $message): static;
+    public function setMessage(MessageModel $message);
 }

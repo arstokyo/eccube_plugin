@@ -35,7 +35,7 @@ trait FiveFdenshiMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFreeDenshiMail1(?string $freedenshimail1): static
+    public function setFreeDenshiMail1(?string $freedenshimail1)
     {
         $this->freedenshimail1 = $freedenshimail1;
         return $this;
@@ -52,7 +52,7 @@ trait FiveFdenshiMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFreeDenshiMail2(?string $freedenshimail2): static
+    public function setFreeDenshiMail2(?string $freedenshimail2)
     {
         $this->freedenshimail2 = $freedenshimail2;
         return $this;
@@ -69,7 +69,7 @@ trait FiveFdenshiMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFreeDenshiMail3(?string $freedenshimail3): static
+    public function setFreeDenshiMail3(?string $freedenshimail3)
     {
         $this->freedenshimail3 = $freedenshimail3;
         return $this;
@@ -86,7 +86,7 @@ trait FiveFdenshiMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFreeDenshiMail4(?string $freedenshimail4): static
+    public function setFreeDenshiMail4(?string $freedenshimail4)
     {
         $this->freedenshimail4 = $freedenshimail4;
         return $this;
@@ -103,7 +103,7 @@ trait FiveFdenshiMailTrait
     /**
      * {@inheritDoc}
      */
-    public function setFreeDenshiMail5(?string $freedenshimail5): static
+    public function setFreeDenshiMail5(?string $freedenshimail5)
     {
         $this->freedenshimail5 = $freedenshimail5;
         return $this;

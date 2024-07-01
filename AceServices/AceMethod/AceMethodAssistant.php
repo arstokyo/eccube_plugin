@@ -99,7 +99,6 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
                                             $endpoint,
                                             $this->buildDelegate(), 
                                             );
-
     }
 
     /**
@@ -157,6 +156,7 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
         ) {
             return $this->serviceRetriever->getSoapXmlProvider()->getSoapXmlSerializer();
         }
+
         return SerializerFactory::makeSerilizerByClassName($this->config->getSerializer()->getClassName() ?: SerializerFactory::DEFAULT_SERIALIZER,
                                                            $this->buildNormalizersForSerializer(),
                                                            $this->buildEncoders(),
@@ -178,6 +178,7 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
         ) {
             return $this->serviceRetriever->getSoapXmlProvider()->getNormalizers();
         }
+
         $callfuncSuffix = $this->config->getSerializer()->getNormalizers();
         return NormalizerFactory::makeNormalizerByFuncNameSuffix($callfuncSuffix);
     }
@@ -197,6 +198,7 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
         ) {
             return $this->serviceRetriever->getSoapXmlProvider()->getEncoders();
         }
+
         return [EncoderFactory::makeEncoderByClassName($this->config->getSerializer()->getEncoder())];
     }
 
@@ -215,6 +217,7 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
         ) {
             return $this->serviceRetriever->getNormalizer();
         }
+
         return NormalizerFactory::makeNormalizerByClassName($this->config->getNormalizer()->getClassName());
     }
 
@@ -228,11 +231,15 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
      */
     private function buildLogger(): LoggerInterface
     {   
-        return match($this->config->getLogger()->getClassName()) {
-            LoggerFactory::DEFAUT_LOGGER_CLASS => $this->serviceRetriever->getLoggerProvider()->getLogger(),
-            LoggerFactory::NULL_LOGGER_CLASS => $this->serviceRetriever->getLoggerProvider()->getNullLogger(),
-            default => LoggerFactory::makeLoggerByClassName($this->config->getLogger()->getClassName() ?: LoggerFactory::DEFAUT_LOGGER_CLASS)
-        };  
+        if (empty($this->config->getLogger()->getClassName()) || 
+            LoggerFactory::DEFAUT_LOGGER_CLASS === $this->config->getLogger()->getClassName()
+        ) {
+            return $this->serviceRetriever->getLoggerProvider()->getLogger();
+        } elseif (LoggerFactory::NULL_LOGGER_CLASS === $this->config->getLogger()->getClassName()) {
+            return $this->serviceRetriever->getLoggerProvider()->getNullLogger();
+        }
+
+        return LoggerFactory::makeLoggerByClassName($this->config->getLogger()->getClassName());
     }
 
 }

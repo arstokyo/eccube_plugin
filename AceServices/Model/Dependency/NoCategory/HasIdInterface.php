@@ -22,5 +22,5 @@ interface HasIdInterface
      * @param ?int $id
      * @return $this
      */
-    public function setId(?int $id): static;
+    public function setId(?int $id);
 }

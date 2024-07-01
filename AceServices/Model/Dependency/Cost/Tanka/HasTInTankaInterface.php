@@ -23,6 +23,6 @@ interface HasTInTankaInterface
      * @param string|null $tintanka
      * @return $this
      */
-    public function setTintanka(?string $tintanka): static;
+    public function setTintanka(?string $tintanka);
 
 }

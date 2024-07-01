@@ -23,5 +23,5 @@ interface HasGMOStatusInterface
      * @param int|null $gmostatus
      * @return $this
      */
-    public function setGmostatus(?int $gmostatus): static;
+    public function setGmostatus(?int $gmostatus);
 }

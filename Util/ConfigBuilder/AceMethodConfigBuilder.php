@@ -19,7 +19,7 @@ class AceMethodConfigBuilder implements ConfigBuilderInterface
      * 
      * @throws \RuntimeException
      */
-    public static function build(mixed $options = null): array
+    public static function build($options = null): array
     {
         $srcConfig = DefaultConfigBuilder::build();
         $optionConfig = $options->get();

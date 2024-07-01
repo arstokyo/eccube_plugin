@@ -22,7 +22,7 @@ interface HasFiveMelmagaInterface
      * @param ?int $melmaga1
      * @return $this
      */
-    public function setMelmaga1(?int $melmaga1): static;
+    public function setMelmaga1(?int $melmaga1);
 
     /**
      * Get メルマガ区分2
@@ -37,7 +37,7 @@ interface HasFiveMelmagaInterface
      * @param ?int $melmaga2
      * @return $this
      */
-    public function setMelmaga2(?int $melmaga2): static;
+    public function setMelmaga2(?int $melmaga2);
 
     /**
      * Get メルマガ区分3
@@ -52,7 +52,7 @@ interface HasFiveMelmagaInterface
      * @param ?int $melmaga3
      * @return $this
      */
-    public function setMelmaga3(?int $melmaga3): static;
+    public function setMelmaga3(?int $melmaga3);
 
     /**
      * Get メルマガ区分4
@@ -67,7 +67,7 @@ interface HasFiveMelmagaInterface
      * @param ?int $melmaga4
      * @return $this
      */
-    public function setMelmaga4(?int $melmaga4): static;
+    public function setMelmaga4(?int $melmaga4);
 
     /**
      * Get メルマガ区分5
@@ -82,5 +82,5 @@ interface HasFiveMelmagaInterface
      * @param ?int $melmaga5
      * @return $this
      */
-    public function setMelmaga5(?int $melmaga5): static;
+    public function setMelmaga5(?int $melmaga5);
 }

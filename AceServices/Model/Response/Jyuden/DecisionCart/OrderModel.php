@@ -56,7 +56,7 @@ class OrderModel implements OrderModelInterface
      /**
       * {@inheritDoc}
       */
-     public function setJyuden(JyudenModel|null $jyuden): void
+     public function setJyuden(?JyudenModel $jyuden): void
      {
          $this->jyuden = $jyuden;
      }
@@ -88,7 +88,7 @@ class OrderModel implements OrderModelInterface
      /**
       * {@inheritDoc}
       */
-     public function setPoint(PointModel|null $point): void
+     public function setPoint(?PointModel $point): void
      {
          $this->point = $point;
      }

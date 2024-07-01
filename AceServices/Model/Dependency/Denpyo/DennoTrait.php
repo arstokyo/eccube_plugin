@@ -23,7 +23,7 @@ trait DennoTrait
     /**
      * {@inheritDoc}
      */
-    public function setDenno(?int $denno): static
+    public function setDenno(?int $denno)
     {
         $this->denno = $denno;
         return $this;

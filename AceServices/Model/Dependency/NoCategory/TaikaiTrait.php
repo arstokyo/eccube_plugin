@@ -27,7 +27,7 @@ trait TaikaiTrait
     /**
      * {@inheritDoc}
      */
-    public function setTaikai(?int $taikai): static
+    public function setTaikai(?int $taikai)
     {
         $this->taikai = $taikai;
         return $this;

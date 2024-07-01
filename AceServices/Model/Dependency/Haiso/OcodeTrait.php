@@ -23,7 +23,7 @@ trait OcodeTrait
     /**
      * {@inheritDoc}
      */
-    public function setOcode(?int $ocode): static
+    public function setOcode(?int $ocode)
     {
         $this->ocode = $ocode;
         return $this;

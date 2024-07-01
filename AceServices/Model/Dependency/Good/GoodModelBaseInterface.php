@@ -25,7 +25,7 @@ interface GoodModelBaseInterface extends HasGNameInterface,
     /**
      * Set 商品名称
      */
-    public function setGname(?string $gname): static;
+    public function setGname(?string $gname);
 
     /**
      * Get 略式名称
@@ -35,7 +35,7 @@ interface GoodModelBaseInterface extends HasGNameInterface,
     /**
      * Set 略式名称
      */
-    public function setSubName(?string $subName): static;
+    public function setSubName(?string $subName);
 
     /**
      * Get カナ名称
@@ -45,7 +45,7 @@ interface GoodModelBaseInterface extends HasGNameInterface,
     /**
      * Set カナ名称
      */
-    public function setKana(?string $kana): static;
+    public function setKana(?string $kana);
 
     /**
      * Get 単位
@@ -60,7 +60,7 @@ interface GoodModelBaseInterface extends HasGNameInterface,
      * @param string|null $tani
      * @return $this
      */
-    public function setTani(string|null $tani): static;
+    public function setTani(?string $tani);
 
     /**
      * Get 中止区分
@@ -75,7 +75,7 @@ interface GoodModelBaseInterface extends HasGNameInterface,
      * @param int|null $tkbn
      * @return $this
      */
-    public function setTkbn(?int $tkbn): static;
+    public function setTkbn(?int $tkbn);
 
     /**
      * Get 掛率区分
@@ -90,7 +90,7 @@ interface GoodModelBaseInterface extends HasGNameInterface,
      * @param int|null $kake
      * @return $this
      */
-    public function setKake(?int $kake): static;
+    public function setKake(?int $kake);
 
     /**
      * Get 在庫区分
@@ -105,7 +105,7 @@ interface GoodModelBaseInterface extends HasGNameInterface,
      * @param int|null $zkbn
      * @return $this
      */
-    public function setZkbn(?int $zkbn): static;
+    public function setZkbn(?int $zkbn);
 
     /**
     * Get 数量区分
@@ -115,7 +115,7 @@ interface GoodModelBaseInterface extends HasGNameInterface,
     /**
     * Set 数量区分
     */
-    public function setSkbn(?int $skbn): static;
+    public function setSkbn(?int $skbn);
 
     /**
      * Get バーコード
@@ -130,5 +130,5 @@ interface GoodModelBaseInterface extends HasGNameInterface,
      * @param ?string $barcode
      * @return $this
      */
-    public function setBarcode(?string $barcode): static;
+    public function setBarcode(?string $barcode);
 }

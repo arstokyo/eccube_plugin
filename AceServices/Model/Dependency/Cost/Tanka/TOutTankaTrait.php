@@ -26,7 +26,7 @@ trait TOutTankaTrait
     /**
      * {@inheritDoc}
      */
-    public function setTouttanka(?string $touttanka): static
+    public function setTouttanka(?string $touttanka)
     {
         $this->touttanka = NumberConverter::stringWithCommaToFloat($touttanka);
         return $this;

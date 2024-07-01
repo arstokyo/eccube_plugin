@@ -14,7 +14,7 @@ interface HasDenkuInterface
      *
      * @return string|int|null 伝票種類
      */
-    public function getDenku(): string|int|null;
+    public function getDenku(): ?string;
 
     /**
      * Set 伝票種類
@@ -22,5 +22,5 @@ interface HasDenkuInterface
      * @param string|int|null $denku 伝票種類
      * @return $this
      */
-    public function setDenku(string|int|null $denku): static;
+    public function setDenku(?string $denku);
 }

@@ -12,7 +12,7 @@ class OTDNullDenormalizer extends OTDDenormalizerAbstract
     /**
      * {@inheritDoc}
      */
-    public function denormalizeOTD(): string|null|object
+    public function denormalizeOTD()
     {
         return null;
     }

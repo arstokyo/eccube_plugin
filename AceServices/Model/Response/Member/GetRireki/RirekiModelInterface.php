@@ -65,7 +65,7 @@ interface RirekiModelInterface extends Rireki\RirekiModelLevel1Interface,
     /**
      * Set 伝票合計額
      */
-    public function setTotal(?string $total): static;
+    public function setTotal(?string $total);
 
     /**
      * Get URL

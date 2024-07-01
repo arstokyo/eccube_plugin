@@ -24,7 +24,7 @@ trait IgnoreZaikoTrait
     /**
      * {@inheritDoc}
      */
-    public function setIgnorezaiko(?int $ignorezaiko): static
+    public function setIgnorezaiko(?int $ignorezaiko)
     {
         $this->ignorezaiko = $ignorezaiko;
         return $this;

@@ -20,7 +20,7 @@ interface MasterModelInterface extends HasMessageModelInterface, AsListDenormali
      * 
      * @return Response\Master\GetOkuriHkTime\OkuriHkTimeModel[]|null
      */
-     public function getOkuri(): array|null;
+     public function getOkuri(): ?array;
 
     /**
      * Set Okuri
@@ -28,6 +28,6 @@ interface MasterModelInterface extends HasMessageModelInterface, AsListDenormali
      * @param Response\Master\GetOkuriHkTime\OkuriHkTimeModel[]|null
      * @return void
      */
-    public function setOkuri(array|null $Okuri): void;
+    public function setOkuri(?array $Okuri): void;
 
 }

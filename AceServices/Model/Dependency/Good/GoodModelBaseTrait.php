@@ -41,7 +41,7 @@ trait GoodModelBaseTrait
     /**
      * {@inheritDoc}
      */
-    public function setTani(string|null $tani): static
+    public function setTani(?string $tani)
     {
         $this->tani =  $tani;
         return $this;
@@ -58,7 +58,7 @@ trait GoodModelBaseTrait
     /**
      * {@inheritDoc}
      */
-    public function setTkbn(?int $tkbn): static
+    public function setTkbn(?int $tkbn)
     {
         $this->tkbn = $tkbn;
         return $this;
@@ -75,7 +75,7 @@ trait GoodModelBaseTrait
     /**
      * {@inheritDoc}
      */
-    public function setKake(?int $kake): static
+    public function setKake(?int $kake)
     {
         $this->kake = $kake;
         return $this;
@@ -92,7 +92,7 @@ trait GoodModelBaseTrait
     /**
      * {@inheritDoc}
      */
-    public function setZkbn(?int $zkbn): static
+    public function setZkbn(?int $zkbn)
     {
         $this->zkbn = $zkbn;
         return $this;
@@ -109,7 +109,7 @@ trait GoodModelBaseTrait
     /**
      * {@inheritDoc}
      */
-    public function setBarcode(?string $barcode): static
+    public function setBarcode(?string $barcode)
     {
         $this->barcode = $barcode;
         return $this;

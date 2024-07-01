@@ -22,5 +22,5 @@ interface HasZandakaInterface
      * @param string|null $zandaka
      * @return $this
      */
-    public function setZandaka(?string $zandaka): static;
+    public function setZandaka(?string $zandaka);
 }

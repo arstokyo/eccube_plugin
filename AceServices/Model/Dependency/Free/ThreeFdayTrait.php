@@ -23,7 +23,7 @@ trait ThreeFdayTrait
     /**
      * {@inheritDoc}
      */
-    public function getFday1(): ?AceDateTime\AceDateTimeInterface
+    public function getFday1()
     {
         return $this->fday1;
     }
@@ -31,7 +31,7 @@ trait ThreeFdayTrait
     /**
      * {@inheritDoc}
      */
-    public function setFday1(\DateTime|string|null $fday1): static
+    public function setFday1($fday1)
     {
         $this->fday1 = AceDateTime\AceDateTimeFactory::makeAceDateTime($fday1);
         return $this;
@@ -40,7 +40,7 @@ trait ThreeFdayTrait
     /**
      * {@inheritDoc}
      */
-    public function getFday2(): ?AceDateTime\AceDateTimeInterface
+    public function getFday2()
     {
         return $this->fday2;
     }
@@ -48,7 +48,7 @@ trait ThreeFdayTrait
     /**
      * {@inheritDoc}
      */
-    public function setFday2(\DateTime|string|null $fday2): static
+    public function setFday2($fday2)
     {
         $this->fday2 = AceDateTime\AceDateTimeFactory::makeAceDateTime($fday2);
         return $this;
@@ -57,7 +57,7 @@ trait ThreeFdayTrait
     /**
      * {@inheritDoc}
      */
-    public function getFday3(): ?AceDateTime\AceDateTimeInterface
+    public function getFday3()
     {
         return $this->fday3;
     }
@@ -65,7 +65,7 @@ trait ThreeFdayTrait
     /**
      * {@inheritDoc}
      */
-    public function setFday3(\DateTime|string|null $fday3): static
+    public function setFday3($fday3)
     {
         $this->fday3 = AceDateTime\AceDateTimeFactory::makeAceDateTime($fday3);
         return $this;

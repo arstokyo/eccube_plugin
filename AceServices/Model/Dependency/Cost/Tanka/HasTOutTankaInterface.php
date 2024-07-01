@@ -23,6 +23,6 @@ interface HasTOutTankaInterface
     * @param string|null $touttanka
     * @return $this
     */
-    public function setTouttanka(?string $touttanka): static;
+    public function setTouttanka(?string $touttanka);
 
 }

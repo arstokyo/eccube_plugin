@@ -17,16 +17,16 @@ class STPointModel implements STPointModelInterface
 {
     use PointTrait;
 
-    /** @var string|int|null $iday ポイント算出日付 */
-    protected string|int|null $iday = null;
+    /** @var ?string $iday ポイント算出日付 */
+    protected ?string $iday = null;
 
-    /** @var string|int|null $inppointMaxday 最新購入日 */
-    protected string|int|null $inppointMaxday = null;
+    /** @var ?string $inppointMaxday 最新購入日 */
+    protected ?string $inppointMaxday = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getIday(): string|int|null
+    public function getIday(): ?string
     {
         return $this->iday;
     }
@@ -34,7 +34,7 @@ class STPointModel implements STPointModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setIday(string|int|null $iday): static
+    public function setIday(?string $iday)
     {
         $this->iday = $iday;
         return $this;
@@ -43,7 +43,7 @@ class STPointModel implements STPointModelInterface
     /**
      * {@inheritDoc}
      */
-    public function getInppointMaxday(): string|int|null
+    public function getInppointMaxday(): ?string
     {
         return $this->inppointMaxday;
     }
@@ -51,7 +51,7 @@ class STPointModel implements STPointModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setInppointMaxday(string|int|null $inppointMaxday): static
+    public function setInppointMaxday(?string $inppointMaxday)
     {
         $this->inppointMaxday = $inppointMaxday;
         return $this;

@@ -16,7 +16,7 @@ interface HasThreeFdayInterface
      *
      * @return AceDateTimeInterface|null
      */
-    public function getFday1(): ?AceDateTimeInterface;
+    public function getFday1();
 
     /**
      * Set フリー日付1
@@ -24,14 +24,14 @@ interface HasThreeFdayInterface
      * @param \DateTime|string|null $fday
      * @return $this
      */
-    public function setFday1(\DateTime|string|null $fday): static;
+    public function setFday1($fday);
 
     /**
      * Get フリー日付2
      *
      * @return AceDateTimeInterface|null
      */
-    public function getFday2(): ?AceDateTimeInterface;
+    public function getFday2();
 
     /**
      * Set フリー日付2
@@ -39,14 +39,14 @@ interface HasThreeFdayInterface
      * @param \DateTime|string|null $fday2
      * @return $this
      */
-    public function setFday2(\DateTime|string|null $fday2): static;
+    public function setFday2($fday2);
 
     /**
      * Get フリー日付3
      *
      * @return AceDateTimeInterface|null
      */
-    public function getFday3(): ?AceDateTimeInterface;
+    public function getFday3();
 
     /**
      * Set フリー日付3
@@ -54,5 +54,5 @@ interface HasThreeFdayInterface
      * @param \DateTime|string|null $fday3
      * @return $this
      */
-    public function setFday3(\DateTime|string|null $fday3): static;
+    public function setFday3($fday3);
 }

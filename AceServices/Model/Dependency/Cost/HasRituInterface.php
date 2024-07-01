@@ -23,6 +23,6 @@ interface HasRituInterface
     * @param string|null $ritu
     * @return $this
     */
-    public function setRitu(?string $ritu): static;
+    public function setRitu(?string $ritu);
 
 }

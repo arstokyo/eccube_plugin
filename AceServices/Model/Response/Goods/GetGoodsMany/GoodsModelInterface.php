@@ -29,6 +29,6 @@ interface GoodsModelInterface extends HasMessageModelInterface,
      * @param GoodModel[]|null $good
      * @return void
      */
-    #[SerializedName('Goods')]
-    public function setGood(array|null $good): void;
+    /** @SerializedName("Goods") */
+    public function setGood(?array $good): void;
 }

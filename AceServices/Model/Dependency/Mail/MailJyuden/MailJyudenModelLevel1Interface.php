@@ -25,5 +25,5 @@ interface MailJyudenModelLevel1Interface extends Mail\HasMailInterface
      * @param ?string $tbikou
      * @return $this
      */
-    public function setTbikou(?string $tbikou): static;
+    public function setTbikou(?string $tbikou);
 }

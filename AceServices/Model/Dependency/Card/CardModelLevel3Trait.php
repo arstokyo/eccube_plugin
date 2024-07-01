@@ -33,7 +33,7 @@ trait CardModelLevel3Trait
     /**
      * {@inheritDoc}
      */
-    public function setSpsstatus(?int $spsstatus): static
+    public function setSpsstatus(?int $spsstatus)
     {
         $this->spsstatus = $spsstatus;
         return $this;
@@ -50,7 +50,7 @@ trait CardModelLevel3Trait
     /**
      * {@inheritDoc}
      */
-    public function setPgtkid(?string $pgtkid): static
+    public function setPgtkid(?string $pgtkid)
     {
         $this->pgtkid = $pgtkid;
         return $this;
@@ -67,7 +67,7 @@ trait CardModelLevel3Trait
     /**
      * {@inheritDoc}
      */
-    public function setPgtstatus(?int $pgtstatus): static
+    public function setPgtstatus(?int $pgtstatus)
     {
         $this->pgtstatus = $pgtstatus;
         return $this;

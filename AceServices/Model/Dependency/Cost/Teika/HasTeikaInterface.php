@@ -23,6 +23,6 @@ interface HasTeikaInterface
      * @param string|null $teika
      * @return $this
      */
-    public function setTeika(?string $teika): static;
+    public function setTeika(?string $teika);
 
 }

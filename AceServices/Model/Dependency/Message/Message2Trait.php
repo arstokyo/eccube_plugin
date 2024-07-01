@@ -27,7 +27,7 @@ trait Message2Trait
     /**
      * {@inheritDoc}
      */
-    public function setMessage2(?string $message2): static
+    public function setMessage2(?string $message2)
     {
         $this->message2 = $message2;
         return $this;

@@ -22,6 +22,6 @@ interface GetZaikoRequestModelInterface extends RequestModelInterface,
     /**
      * {@inheritDoc}
      */
-    #[SerializedName('skid')]
-    public function setSouko(?string $souko): static;
+    /** @SerializedName("skid") */
+    public function setSouko(?string $souko);
 }

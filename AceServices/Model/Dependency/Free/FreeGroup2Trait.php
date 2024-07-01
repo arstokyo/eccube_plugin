@@ -27,7 +27,7 @@ class FreeGroup2Trait implements HasFreeGroup2Interface
     /**
     * {@inheritDoc}
     */
-    public function setKessaishubetsu(?int $kessaishubetsu): static
+    public function setKessaishubetsu(?int $kessaishubetsu)
     {
         $this->kessaishubetsu = $kessaishubetsu;
         return $this;
@@ -43,7 +43,7 @@ class FreeGroup2Trait implements HasFreeGroup2Interface
     /**
      * {@inheritDoc}
      */
-    public function setFreesouryoukubun(?int $freesouryoukubun): static
+    public function setFreesouryoukubun(?int $freesouryoukubun)
     {
         $this->freesouryoukubun = $freesouryoukubun;
         return $this;
@@ -60,7 +60,7 @@ class FreeGroup2Trait implements HasFreeGroup2Interface
     /**
      * {@inheritDoc}
      */
-    public function setFreedispkbnid(?string $freedispkbnid): static
+    public function setFreedispkbnid(?string $freedispkbnid)
     {
         $this->freedispkbnid = $freedispkbnid;
         return $this;
@@ -77,7 +77,7 @@ class FreeGroup2Trait implements HasFreeGroup2Interface
     /**
      * {@inheritDoc}
      */
-    public function setFreedispkbnname(?string $freedispkbnname): static
+    public function setFreedispkbnname(?string $freedispkbnname)
     {
         $this->freedispkbnname = $freedispkbnname;
         return $this;
