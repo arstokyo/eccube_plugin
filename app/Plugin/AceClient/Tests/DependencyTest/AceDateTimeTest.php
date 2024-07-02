@@ -2,12 +2,12 @@
 
 namespace Plugin\AceClient\Tests\AceRequestTest;
 
-use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime\AceDateTime;
 use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime\AceDateTimeFactory;
 use Plugin\AceClient\Exception\AceDateTimeCreateFailedException;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class AceDateTimeTest extends AbstractAdminWebTestCase
+class AceDateTimeTest extends KernelTestCase
 {
     public function testCreateDateTime()
     {
