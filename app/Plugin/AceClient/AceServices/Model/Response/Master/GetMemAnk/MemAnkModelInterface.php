@@ -22,7 +22,7 @@ interface MemAnkModelInterface
      * @param ?string $mbid
      * @return $this
      */
-    public function setMbid(?string $mbid): static;
+    public function setMbid(?string $mbid);
 
     /**
      * Get フリー項目区分
@@ -37,7 +37,7 @@ interface MemAnkModelInterface
      * @param ?int $kubun
      * @return $this
      */
-    public function setKubun(?int $kubun): static;
+    public function setKubun(?int $kubun);
 
     /**
      * Get 回答番号
@@ -52,7 +52,7 @@ interface MemAnkModelInterface
      * @param ?int $ansno
      * @return $this
      */
-    public function setAnsno(?int $ansno): static;
+    public function setAnsno(?int $ansno);
 
     /**
      * Get アンケートID
@@ -67,5 +67,5 @@ interface MemAnkModelInterface
      * @param ?string $ansid
      * @return $this
      */
-    public function setAnsid(?string $ansid): static;
+    public function setAnsid(?string $ansid);
 }

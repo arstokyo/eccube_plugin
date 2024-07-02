@@ -32,14 +32,14 @@ interface BaifileModelInterface extends Baitai\HasBcodeInterface,
      * @param ?int $keihi
      * @return $this
      */
-    public function setKeihi(?int $keihi): static;
+    public function setKeihi(?int $keihi);
 
     /**
      * Get 媒体終了日
      *
      * @return ?AceDateTime\AceDateTimeInterface
      */
-    public function getEday(): ?AceDateTime\AceDateTimeInterface;
+    public function getEday();
 
     /**
      * Set 媒体終了日
@@ -47,7 +47,7 @@ interface BaifileModelInterface extends Baitai\HasBcodeInterface,
      * @param \DateTime|string|null $eday
      * @return $this
      */
-    public function setEday(\DateTime|string|null $eday): static;
+    public function setEday($eday);
 
     /**
      * Get 中止区分
@@ -62,7 +62,7 @@ interface BaifileModelInterface extends Baitai\HasBcodeInterface,
      * @param ?int $stopfg
      * @return $this
      */
-    public function setStopfg(?int $stopfg): static;
+    public function setStopfg(?int $stopfg);
 
     /**
      * Get フリーコード１
@@ -77,7 +77,7 @@ interface BaifileModelInterface extends Baitai\HasBcodeInterface,
      * @param ?string $fcode1
      * @return $this
      */
-    public function setFcode1(?string $fcode1): static;
+    public function setFcode1(?string $fcode1);
 
     /**
      * Get フリーコード２
@@ -92,5 +92,5 @@ interface BaifileModelInterface extends Baitai\HasBcodeInterface,
      * @param ?string $fcode2
      * @return $this
      */
-    public function setFcode2(?string $fcode2): static;
+    public function setFcode2(?string $fcode2);
 }

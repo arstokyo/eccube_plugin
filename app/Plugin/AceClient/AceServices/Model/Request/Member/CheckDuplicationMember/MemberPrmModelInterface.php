@@ -26,6 +26,6 @@ interface MemberPrmModelInterface extends NoCategory\HasNameInterface,
     /**
     * {@inheritDoc}
     */
-    #[SerializedName('email')]
-    public function setMail(?string $mail): static;
+    /** @SerializedName("email") */
+    public function setMail(?string $mail);
 }

@@ -32,7 +32,7 @@ class MasterModel implements MasterModelInterface
     /**
     * {@inheritDoc}
     */
-    function setStaff(array|null $staff): void
+    function setStaff(?array $staff): void
     {
         $this->staff = $staff;
     }

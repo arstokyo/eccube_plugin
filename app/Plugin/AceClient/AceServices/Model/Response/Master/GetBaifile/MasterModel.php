@@ -32,7 +32,7 @@ class MasterModel implements MasterModelInterface
     /**
     * {@inheritDoc}
     */
-    function setBaifile(array|null $baifile): void
+    function setBaifile(?array $baifile): void
     {
         $this->baifile = $baifile;
     }

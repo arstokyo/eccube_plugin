@@ -22,7 +22,7 @@ interface HasFreeGroup3Interface
      * @param ?int $frkbn
      * @return $this
      */
-    public function setFrkbn(?int $frkbn): static;
+    public function setFrkbn(?int $frkbn);
 
     /**
      * Get キー情報
@@ -37,7 +37,7 @@ interface HasFreeGroup3Interface
      * @param ?string $frkey
      * @return $this
      */
-    public function setFrkey(?string $frkey): static;
+    public function setFrkey(?string $frkey);
 
     /**
      * Get フリー項目区分
@@ -52,7 +52,7 @@ interface HasFreeGroup3Interface
      * @param ?int $fmkbn
      * @return $this
      */
-    public function setFmkbn(?int $fmkbn): static;
+    public function setFmkbn(?int $fmkbn);
 
     /**
      * Get フリー内容
@@ -67,5 +67,5 @@ interface HasFreeGroup3Interface
      * @param ?string $free
      * @return $this
      */
-    public function setFree(?string $free): static;
+    public function setFree(?string $free);
 }

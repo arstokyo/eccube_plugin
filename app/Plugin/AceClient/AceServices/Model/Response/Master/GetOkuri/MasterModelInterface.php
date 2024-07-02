@@ -26,5 +26,5 @@ interface MasterModelInterface extends HasMessageModelInterface,
      * @param OkuriModel[]|null $okuri
      * @return void
      */
-    public function setOkuri(array|null $okuri): void;
+    public function setOkuri(?array $okuri): void;
 }

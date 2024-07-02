@@ -31,7 +31,7 @@ class MasterModel implements MasterModelInterface
     /**
     * {@inheritDoc}
     */
-    function setJcode(array|null $jcode): void
+    function setJcode(?array $jcode): void
     {
         $this->jcode = $jcode;
     }

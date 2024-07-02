@@ -26,5 +26,5 @@ interface MasterModelInterface extends HasMessageModelInterface,
      * @param BaitaiModel[]|null $baitai
      * @return void
      */
-    public function setBaitai(array|null $baitai): void;
+    public function setBaitai(?array $baitai): void;
 }

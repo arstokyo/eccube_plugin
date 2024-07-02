@@ -51,7 +51,7 @@ trait FreeMstTrait
     /**
      * {@inheritDoc}
      */
-    public function setKubun(?int $kubun): static
+    public function setKubun(?int $kubun)
     {
         $this->kubun = $kubun;
         return $this;
@@ -68,7 +68,7 @@ trait FreeMstTrait
     /**
      * {@inheritDoc}
      */
-    public function setType(?int $type): static
+    public function setType(?int $type)
     {
         $this->type = $type;
         return $this;
@@ -85,7 +85,7 @@ trait FreeMstTrait
     /**
      * {@inheritDoc}
      */
-    public function setJyun(?int $jyun): static
+    public function setJyun(?int $jyun)
     {
         $this->jyun = $jyun;
         return $this;
@@ -102,7 +102,7 @@ trait FreeMstTrait
     /**
      * {@inheritDoc}
      */
-    public function setReqflg(?int $reqflg): static
+    public function setReqflg(?int $reqflg)
     {
         $this->reqflg = $reqflg;
         return $this;
@@ -119,7 +119,7 @@ trait FreeMstTrait
     /**
      * {@inheritDoc}
      */
-    public function setExplanation(?string $explanation): static
+    public function setExplanation(?string $explanation)
     {
         $this->explanation = $explanation;
         return $this;
@@ -136,7 +136,7 @@ trait FreeMstTrait
     /**
      * {@inheritDoc}
      */
-    public function setOyakubun(?int $oyakubun): static
+    public function setOyakubun(?int $oyakubun)
     {
         $this->oyakubun = $oyakubun;
         return $this;
@@ -153,7 +153,7 @@ trait FreeMstTrait
     /**
      * {@inheritDoc}
      */
-    public function setBgcolor(?string $bgcolor): static
+    public function setBgcolor(?string $bgcolor)
     {
         $this->bgcolor = $bgcolor;
         return $this;
@@ -170,7 +170,7 @@ trait FreeMstTrait
     /**
      * {@inheritDoc}
      */
-    public function setRpos(?int $rpos): static
+    public function setRpos(?int $rpos)
     {
         $this->rpos = $rpos;
         return $this;
@@ -187,7 +187,7 @@ trait FreeMstTrait
     /**
      * {@inheritDoc}
      */
-    public function setLeng(?int $leng): static
+    public function setLeng(?int $leng)
     {
         $this->leng = $leng;
         return $this;

@@ -31,7 +31,7 @@ class MasterModel implements MasterModelInterface
     /**
     * {@inheritDoc}
     */
-    function setCalendar(array|null $calendar): void
+    function setCalendar(?array $calendar): void
     {
         $this->calendar = $calendar;
     }

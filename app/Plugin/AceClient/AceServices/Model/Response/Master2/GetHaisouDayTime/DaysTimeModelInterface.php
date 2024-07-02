@@ -22,7 +22,7 @@ interface DaysTimeModelInterface
      * @param ?int $days
      * @return $this
      */
-    public function setDays(?int $days): static;
+    public function setDays(?int $days);
 
     /**
      * Get 配送時間帯
@@ -37,5 +37,5 @@ interface DaysTimeModelInterface
      * @param ?int $time
      * @return $this
      */
-    public function setTime(?int $time): static;
+    public function setTime(?int $time);
 }

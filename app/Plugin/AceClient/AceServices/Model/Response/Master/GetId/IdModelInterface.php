@@ -24,5 +24,5 @@ interface IdModelInterface extends NoCategory\HasIdInterface
      * @param ?string $idName
      * @return $this
      */
-    public function setIdName(?string $idName): static;
+    public function setIdName(?string $idName);
 }

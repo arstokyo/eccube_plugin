@@ -25,14 +25,14 @@ interface GetHolidayRequestModelInterface extends RequestModelInterface
      * @param ?int $syid
      * @return $this
      */
-    public function setSyid(?int $syid): static;
+    public function setSyid(?int $syid);
 
     /**
      * Get 開始日
      *
      * @return ?AceDateTime\AceDateTimeInterface
      */
-    public function getStartday(): ?AceDateTime\AceDateTimeInterface;
+    public function getStartday();
 
     /**
      * Set 開始日
@@ -40,14 +40,14 @@ interface GetHolidayRequestModelInterface extends RequestModelInterface
      * @param \DateTime|string|null $startday
      * @return $this
      */
-    public function setStartday(\DateTime|string|null $startday): static;
+    public function setStartday($startday);
 
     /**
      * Get 終了日
      *
      * @return ?AceDateTime\AceDateTimeInterface
      */
-    public function getEndday(): ?AceDateTime\AceDateTimeInterface;
+    public function getEndday();
 
     /**
      * Set 終了日
@@ -55,7 +55,7 @@ interface GetHolidayRequestModelInterface extends RequestModelInterface
      * @param \DateTime|string|null $endday
      * @return $this
      */
-    public function setEndday(\DateTime|string|null $endday): static;
+    public function setEndday($endday);
 
     /**
      * Get 倉庫ID
@@ -70,5 +70,5 @@ interface GetHolidayRequestModelInterface extends RequestModelInterface
      * @param ?string $skid
      * @return $this
      */
-    public function setSkid(?string $skid): static;
+    public function setSkid(?string $skid);
 }

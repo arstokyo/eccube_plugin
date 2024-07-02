@@ -29,7 +29,7 @@ class HktimeModel implements HktimeModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setHktime(?int $hktime): static
+    public function setHktime(?int $hktime)
     {
         $this->hktime = $hktime;
         return $this;

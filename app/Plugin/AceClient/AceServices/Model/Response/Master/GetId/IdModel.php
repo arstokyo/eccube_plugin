@@ -28,7 +28,7 @@ class IdModel implements IdModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setIdName(?string $idName): static
+    public function setIdName(?string $idName)
     {
         $this->idName = $idName;
         return $this;

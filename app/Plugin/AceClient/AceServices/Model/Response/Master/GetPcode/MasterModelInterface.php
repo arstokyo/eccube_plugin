@@ -26,5 +26,5 @@ interface MasterModelInterface extends HasMessageModelInterface,
      * @param PcodeModel[]|null $pcode
      * @return void
      */
-    public function setPcode(array|null $pcode): void;
+    public function setPcode(?array $pcode): void;
 }

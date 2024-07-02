@@ -33,7 +33,7 @@ class MemAnkModel implements MemAnkModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setMbid(?string $mbid): static
+    public function setMbid(?string $mbid)
     {
         $this->mbid = $mbid;
         return $this;
@@ -50,7 +50,7 @@ class MemAnkModel implements MemAnkModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setKubun(?int $kubun): static
+    public function setKubun(?int $kubun)
     {
         $this->kubun = $kubun;
         return $this;
@@ -67,7 +67,7 @@ class MemAnkModel implements MemAnkModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setAnsno(?int $ansno): static
+    public function setAnsno(?int $ansno)
     {
         $this->ansno = $ansno;
         return $this;
@@ -84,7 +84,7 @@ class MemAnkModel implements MemAnkModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setAnsid(?string $ansid): static
+    public function setAnsid(?string $ansid)
     {
         $this->ansid = $ansid;
         return $this;

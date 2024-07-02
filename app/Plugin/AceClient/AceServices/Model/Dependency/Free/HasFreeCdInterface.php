@@ -26,7 +26,7 @@ interface HasFreeCdInterface extends NoCategory\HasNameInterface,
      * @param ?int $kubun
      * @return $this
      */
-    public function setKubun(?int $kubun): static;
+    public function setKubun(?int $kubun);
     /**
      * Get フリーマスタID
      *
@@ -40,5 +40,5 @@ interface HasFreeCdInterface extends NoCategory\HasNameInterface,
      * @param ?string $fcid
      * @return $this
      */
-    public function setFcid(?string $fcid): static;
+    public function setFcid(?string $fcid);
 }

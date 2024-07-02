@@ -32,7 +32,7 @@ class MasterModel implements MasterModelInterface
     /**
     * {@inheritDoc}
     */
-    function setBumonFree(array|null $bumonFree): void
+    function setBumonFree(?array $bumonFree): void
     {
         $this->bumonFree = $bumonFree;
     }

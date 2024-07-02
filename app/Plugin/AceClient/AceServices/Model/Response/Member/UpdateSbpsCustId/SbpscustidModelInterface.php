@@ -24,7 +24,7 @@ interface SbpscustidModelInterface extends Day\HasDayInterface
      * @param ?string $mbid
      * @return $this
      */
-    public function setMbid(?string $mbid): static;
+    public function setMbid(?string $mbid);
 
     /**
      * Get SBPS顧客枝番
@@ -39,7 +39,7 @@ interface SbpscustidModelInterface extends Day\HasDayInterface
      * @param ?string $ceda
      * @return $this
      */
-    public function setCeda(?string $ceda): static;
+    public function setCeda(?string $ceda);
 
     /**
      * Get SBPS顧客ID
@@ -54,5 +54,5 @@ interface SbpscustidModelInterface extends Day\HasDayInterface
      * @param ?string $custid
      * @return $this
      */
-    public function setCustid(?string $custid): static;
+    public function setCustid(?string $custid);
 }

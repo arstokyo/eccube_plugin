@@ -27,5 +27,5 @@ interface MasterModelInterface extends HasMessageModelInterface,
      * @param StaffModel[]|null $staff
      * @return void
      */
-    public function setStaff(array|null $staff): void;
+    public function setStaff(?array $staff): void;
 }

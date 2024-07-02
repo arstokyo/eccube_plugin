@@ -32,7 +32,7 @@ trait FreeCdTrait
     /**
      * {@inheritDoc}
      */
-    public function setKubun(?int $kubun): static
+    public function setKubun(?int $kubun)
     {
         $this->kubun = $kubun;
         return $this;
@@ -49,7 +49,7 @@ trait FreeCdTrait
     /**
      * {@inheritDoc}
      */
-    public function setFcid(?string $fcid): static
+    public function setFcid(?string $fcid)
     {
         $this->fcid = $fcid;
         return $this;

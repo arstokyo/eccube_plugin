@@ -26,5 +26,5 @@ interface MasterModelInterface extends HasMessageModelInterface,
      * @param JcodeModel[]|null $jcode
      * @return void
      */
-    public function setJcode(array|null $jcode): void;
+    public function setJcode(?array $jcode): void;
 }

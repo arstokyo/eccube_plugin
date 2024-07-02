@@ -23,7 +23,7 @@ interface HasFreeMemoInterface
      * @param ?int $kubun
      * @return $this
      */
-    public function setKubun(?int $kubun): static;
+    public function setKubun(?int $kubun);
 
     /**
      * Get フリーマスタID
@@ -38,7 +38,7 @@ interface HasFreeMemoInterface
      * @param ?string $foid
      * @return $this
      */
-    public function setFoid(?string $foid): static;
+    public function setFoid(?string $foid);
 
     /**
      * Get メモ
@@ -53,5 +53,5 @@ interface HasFreeMemoInterface
      * @param ?string $memo
      * @return $this
      */
-    public function setMemo(?string $memo): static;
+    public function setMemo(?string $memo);
 }

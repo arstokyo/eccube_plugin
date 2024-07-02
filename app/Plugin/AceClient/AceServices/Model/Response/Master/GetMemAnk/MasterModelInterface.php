@@ -26,5 +26,5 @@ interface MasterModelInterface extends HasMessageModelInterface,
      * @param MemAnkModel[]|null $memAnk
      * @return void
      */
-    public function setMemAnk(array|null $memAnk): void;
+    public function setMemAnk(?array $memAnk): void;
 }

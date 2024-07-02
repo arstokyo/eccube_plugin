@@ -24,7 +24,7 @@ interface GetDurationOrderTotalRequestModelInterface extends RequestModelInterfa
      * @param ?int $syid
      * @return $this
      */
-    public function setSyid(?int $syid): static;
+    public function setSyid(?int $syid);
 
     /**
      * Get 顧客ID
@@ -39,7 +39,7 @@ interface GetDurationOrderTotalRequestModelInterface extends RequestModelInterfa
      * @param ?string $mbid
      * @return $this
      */
-    public function setMbid(?string $mbid): static;
+    public function setMbid(?string $mbid);
 
     /**
      * Get 開始日付
@@ -54,7 +54,7 @@ interface GetDurationOrderTotalRequestModelInterface extends RequestModelInterfa
      * @param ?int $dayfrom
      * @return $this
      */
-    public function setDayfrom(?int $dayfrom): static;
+    public function setDayfrom(?int $dayfrom);
 
     /**
      * Get 終了日付
@@ -69,5 +69,5 @@ interface GetDurationOrderTotalRequestModelInterface extends RequestModelInterfa
      * @param ?int $dayto
      * @return $this
      */
-    public function setDayto(?int $dayto): static;
+    public function setDayto(?int $dayto);
 }

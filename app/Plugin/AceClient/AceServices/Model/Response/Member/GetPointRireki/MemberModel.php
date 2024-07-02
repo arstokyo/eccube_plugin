@@ -29,7 +29,7 @@ class MemberModel implements MemberModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setPoint(array|null $point): void
+    public function setPoint(?array $point): void
     {
         $this->point = $point;
     }

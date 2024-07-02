@@ -26,5 +26,5 @@ interface MasterModelInterface extends HasMessageModelInterface,
      * @param IdModel[]|null $id
      * @return void
      */
-    public function setId(array|null $id): void;
+    public function setId(?array $id): void;
 }

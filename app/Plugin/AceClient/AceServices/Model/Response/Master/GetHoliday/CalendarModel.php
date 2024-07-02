@@ -40,7 +40,7 @@ class CalendarModel implements CalendarModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setSkid(?string $skid): static
+    public function setSkid(?string $skid)
     {
         $this->skid = $skid;
         return $this;
@@ -57,7 +57,7 @@ class CalendarModel implements CalendarModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setHolkbn(?int $holkbn): static
+    public function setHolkbn(?int $holkbn)
     {
         $this->holkbn = $holkbn;
         return $this;
@@ -74,7 +74,7 @@ class CalendarModel implements CalendarModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setMemo(?string $memo): static
+    public function setMemo(?string $memo)
     {
         $this->memo = $memo;
         return $this;
@@ -91,7 +91,7 @@ class CalendarModel implements CalendarModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setFrcolor(?string $frcolor): static
+    public function setFrcolor(?string $frcolor)
     {
         $this->frcolor = $frcolor;
         return $this;
@@ -108,7 +108,7 @@ class CalendarModel implements CalendarModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setShowdays(?int $showdays): static
+    public function setShowdays(?int $showdays)
     {
         $this->showdays = $showdays;
         return $this;

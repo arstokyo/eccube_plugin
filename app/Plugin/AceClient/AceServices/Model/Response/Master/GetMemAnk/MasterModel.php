@@ -31,7 +31,7 @@ class MasterModel implements MasterModelInterface
     /**
     * {@inheritDoc}
     */
-    function setMemAnk(array|null $memAnk): void
+    function setMemAnk(?array $memAnk): void
     {
         $this->memAnk = $memAnk;
     }

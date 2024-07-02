@@ -40,7 +40,7 @@ class BaitaiModel implements BaitaiModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setBun(?string $bun): static
+    public function setBun(?string $bun)
     {
         $this->bun = $bun;
         return $this;
@@ -57,7 +57,7 @@ class BaitaiModel implements BaitaiModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setFcode1(?string $fcode1): static
+    public function setFcode1(?string $fcode1)
     {
         $this->fcode1 = $fcode1;
         return $this;
@@ -74,7 +74,7 @@ class BaitaiModel implements BaitaiModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setFcode2(?string $fcode2): static
+    public function setFcode2(?string $fcode2)
     {
         $this->fcode2 = $fcode2;
         return $this;
@@ -91,7 +91,7 @@ class BaitaiModel implements BaitaiModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setDispkbn(?int $dispkbn): static
+    public function setDispkbn(?int $dispkbn)
     {
         $this->dispkbn = $dispkbn;
         return $this;

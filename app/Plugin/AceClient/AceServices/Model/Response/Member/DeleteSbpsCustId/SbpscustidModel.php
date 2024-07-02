@@ -33,7 +33,7 @@ class SbpscustidModel implements SbpscustidModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setMbid(?string $mbid): static
+    public function setMbid(?string $mbid)
     {
         $this->mbid = $mbid;
         return $this;
@@ -50,7 +50,7 @@ class SbpscustidModel implements SbpscustidModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setCeda(?string $ceda): static
+    public function setCeda(?string $ceda)
     {
         $this->ceda = $ceda;
         return $this;
@@ -67,7 +67,7 @@ class SbpscustidModel implements SbpscustidModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setCustid(?string $custid): static
+    public function setCustid(?string $custid)
     {
         $this->custid = $custid;
         return $this;

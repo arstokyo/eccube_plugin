@@ -55,7 +55,7 @@ class PointModel implements PointModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setKubun(?int $kubun): static
+    public function setKubun(?int $kubun)
     {
         $this->kubun = $kubun;
         return $this;
@@ -72,7 +72,7 @@ class PointModel implements PointModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setNouno(?int $nouno): static
+    public function setNouno(?int $nouno)
     {
         $this->nouno = $nouno;
         return $this;
@@ -89,7 +89,7 @@ class PointModel implements PointModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setEdano(?int $edano): static
+    public function setEdano(?int $edano)
     {
         $this->edano = $edano;
         return $this;
@@ -106,7 +106,7 @@ class PointModel implements PointModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setBrid(?int $brid): static
+    public function setBrid(?int $brid)
     {
         $this->brid = $brid;
         return $this;
@@ -123,7 +123,7 @@ class PointModel implements PointModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setUsekbn(?int $usekbn): static
+    public function setUsekbn(?int $usekbn)
     {
         $this->usekbn = $usekbn;
         return $this;
@@ -140,7 +140,7 @@ class PointModel implements PointModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setMsyid(?int $msyid): static
+    public function setMsyid(?int $msyid)
     {
         $this->msyid = $msyid;
         return $this;
@@ -157,7 +157,7 @@ class PointModel implements PointModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setJmemid(?string $jmemid): static
+    public function setJmemid(?string $jmemid)
     {
         $this->jmemid = $jmemid;
         return $this;
@@ -174,7 +174,7 @@ class PointModel implements PointModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setCuser(?string $cuser): static
+    public function setCuser(?string $cuser)
     {
         $this->cuser = $cuser;
         return $this;
@@ -191,7 +191,7 @@ class PointModel implements PointModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setUuser(?string $uuser): static
+    public function setUuser(?string $uuser)
     {
         $this->uuser = $uuser;
         return $this;

@@ -31,5 +31,5 @@ interface OkuriModelInterface extends Haiso\HasOcodeInterface,
      * @param ?int $kubun
      * @return $this
      */
-    public function setKubun(?int $kubun): static;
+    public function setKubun(?int $kubun);
 }

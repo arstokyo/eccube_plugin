@@ -48,7 +48,7 @@ class BaifileModel implements BaifileModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setKeihi(?int $keihi): static
+    public function setKeihi(?int $keihi)
     {
         $this->keihi = $keihi;
         return $this;
@@ -57,7 +57,7 @@ class BaifileModel implements BaifileModelInterface
     /**
      * {@inheritDoc}
      */
-    public function getEday(): ?AceDateTime\AceDateTimeInterface
+    public function getEday()
     {
         return $this->eday;
     }
@@ -65,7 +65,7 @@ class BaifileModel implements BaifileModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setEday(\DateTime|string|null $eday): static
+    public function setEday($eday)
     {
         $this->eday = AceDateTime\AceDateTimeFactory::makeAceDateTime($eday);
         return $this;
@@ -82,7 +82,7 @@ class BaifileModel implements BaifileModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setStopfg(?int $stopfg): static
+    public function setStopfg(?int $stopfg)
     {
         $this->stopfg = $stopfg;
         return $this;
@@ -99,7 +99,7 @@ class BaifileModel implements BaifileModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setFcode1(?string $fcode1): static
+    public function setFcode1(?string $fcode1)
     {
         $this->fcode1 = $fcode1;
         return $this;
@@ -116,7 +116,7 @@ class BaifileModel implements BaifileModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setFcode2(?string $fcode2): static
+    public function setFcode2(?string $fcode2)
     {
         $this->fcode2 = $fcode2;
         return $this;

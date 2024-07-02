@@ -26,5 +26,5 @@ interface MasterModelInterface extends HasMessageModelInterface,
      * @param HktimeModel[]|null $hktime
      * @return void
      */
-    public function setHktime(array|null $hktime): void;
+    public function setHktime(?array $hktime): void;
 }

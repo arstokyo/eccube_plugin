@@ -35,7 +35,7 @@ class GetHolidayRequestModel extends RequestModelAbstract implements GetHolidayR
     /**
      * {@inheritDoc}
      */
-    public function setSyid(?int $syid): static
+    public function setSyid(?int $syid)
     {
         $this->syid = $syid;
         return $this;
@@ -47,7 +47,7 @@ class GetHolidayRequestModel extends RequestModelAbstract implements GetHolidayR
     /**
      * {@inheritDoc}
      */
-    public function getStartday(): ?AceDateTime\AceDateTimeInterface
+    public function getStartday()
     {
         return $this->startday;
     }
@@ -55,7 +55,7 @@ class GetHolidayRequestModel extends RequestModelAbstract implements GetHolidayR
     /**
      * {@inheritDoc}
      */
-    public function setStartday(\DateTime|string|null $startday): static
+    public function setStartday($startday)
     {
         $this->startday = AceDateTime\AceDateTimeFactory::makeAceDateTime($startday);
         return $this;
@@ -64,7 +64,7 @@ class GetHolidayRequestModel extends RequestModelAbstract implements GetHolidayR
     /**
      * {@inheritDoc}
      */
-    public function getEndday(): ?AceDateTime\AceDateTimeInterface
+    public function getEndday()
     {
         return $this->endday;
     }
@@ -72,7 +72,7 @@ class GetHolidayRequestModel extends RequestModelAbstract implements GetHolidayR
     /**
      * {@inheritDoc}
      */
-    public function setEndday(\DateTime|string|null $endday): static
+    public function setEndday($endday)
     {
         $this->endday = AceDateTime\AceDateTimeFactory::makeAceDateTime($endday);
         return $this;
@@ -89,7 +89,7 @@ class GetHolidayRequestModel extends RequestModelAbstract implements GetHolidayR
     /**
      * {@inheritDoc}
      */
-    public function setSkid(?string $skid): static
+    public function setSkid(?string $skid)
     {
         $this->skid = $skid;
         return $this;

@@ -20,7 +20,7 @@ interface CheckDuplicationMemberRequestModelInterface extends RequestModelInterf
      * @param ?int $syid
      * @return $this
      */
-    public function setSyid(?int $syid): static;
+    public function setSyid(?int $syid);
 
     /**
      * Set 顧客情報

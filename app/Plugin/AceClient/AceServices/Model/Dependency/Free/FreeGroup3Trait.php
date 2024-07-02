@@ -33,7 +33,7 @@ trait FreeGroup3Trait
     /**
      * {@inheritDoc}
      */
-    public function setFrkbn(?int $frkbn): static
+    public function setFrkbn(?int $frkbn)
     {
         $this->frkbn = $frkbn;
         return $this;
@@ -50,7 +50,7 @@ trait FreeGroup3Trait
     /**
      * {@inheritDoc}
      */
-    public function setFrkey(?string $frkey): static
+    public function setFrkey(?string $frkey)
     {
         $this->frkey = $frkey;
         return $this;
@@ -67,7 +67,7 @@ trait FreeGroup3Trait
     /**
      * {@inheritDoc}
      */
-    public function setFmkbn(?int $fmkbn): static
+    public function setFmkbn(?int $fmkbn)
     {
         $this->fmkbn = $fmkbn;
         return $this;
@@ -84,7 +84,7 @@ trait FreeGroup3Trait
     /**
      * {@inheritDoc}
      */
-    public function setFree(?string $free): static
+    public function setFree(?string $free)
     {
         $this->free = $free;
         return $this;
