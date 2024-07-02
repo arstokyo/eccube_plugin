@@ -5,6 +5,7 @@ namespace Plugin\AceClient\Tests\AceRequestTest\Goods;
 use Plugin\AceClient\AceServices\Model\Request\Goods\GetGoods\GetGoodsRequestModel;
 use Plugin\AceClient\AceServices\Model\Response\Goods\GetGoods\GetGoodsResponseModel;
 use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient\AceServices\Model\Dependency\Good\GoodModelGroup1;
 use Plugin\AceClient\Util\Mapper\OverviewMapper;
 use Plugin\AceClient\Util\Serializer;
 use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
@@ -66,9 +67,11 @@ class GetGoodsRequestModelTest extends AceRequestTestAbtract
                 /** @var GetGoodsResponseModel $responseObj */
                 $responseObj = $response->getResponse();
                 $message1 = $responseObj->getMaster()->getMessage()->getMessage1();
-                $goods1 = $responseObj->getMaster()->getGoods()[0];
-                $goods2 = $responseObj->getMaster()->getGoods()[1];
-                $goods84 = $responseObj->getMaster()->getGoods()[83];
+                $goods = $responseObj->getMaster()->getGoods();
+
+                $goods1 = $this->getGood('1289-0', $goods);
+                $goods2 = $this->getGood('105HMT1', $goods);
+                $goods84 = $this->getGood('202', $goods);
                 $gtanka1 = $responseObj->getMaster()->getGtanka()[0];
                 $gtanka2 = $responseObj->getMaster()->getGtanka()[1];
                 $message = $responseObj->getMaster()->getMessage();
@@ -236,5 +239,21 @@ class GetGoodsRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(null, $gtanka);
         $this->assertEquals("ＷＥＢ初期設定がありません", $message->getMessage1());
         $this->assertEquals("", $message->getMessage2());
+    }
+
+    /**
+     * @param GoodModelGroup1[] $goods
+     * 
+     * @return GoodModelGroup1|null
+     */
+    private function getGood(string $gdid, array $goods): ?GoodModelGroup1
+    {
+        foreach ( $goods as $good ) {
+            if ($gdid == $good->getGdid()) {
+                return $good;
+            }
+       }
+
+       return null;
     }
 }
