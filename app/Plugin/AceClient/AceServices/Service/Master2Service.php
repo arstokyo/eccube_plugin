@@ -24,5 +24,14 @@ class Master2Service extends AceServiceAbstract implements AceServiceInterface
     {
         return new AceMethod\Master2\GetHaisouDayMethod($this->baseServiceName, $this->serviceRetriever);
     }
- 
+
+    /**
+     * Make GetHaisouDayTimeMethod
+     *
+     * @return AceMethod\Master2\GetHaisouDayTimeMethod
+     */
+    public function makeGetHaisouDayTimeMethod(): AceMethod\Master2\GetHaisouDayTimeMethod
+    {
+        return new AceMethod\Master2\GetHaisouDayTimeMethod($this->baseServiceName, $this->serviceRetriever);
+    }
 }
