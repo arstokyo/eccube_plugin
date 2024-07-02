@@ -31,7 +31,7 @@ class MasterModel implements MasterModelInterface
     /**
     * {@inheritDoc}
     */
-    function setDaysTime(DaysTimeModel|null $daysTime): void
+    function setDaysTime(?DaysTimeModel $daysTime): void
     {
         $this->daysTime = $daysTime;
     }

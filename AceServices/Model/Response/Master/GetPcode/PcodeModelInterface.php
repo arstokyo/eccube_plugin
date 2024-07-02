@@ -25,7 +25,7 @@ interface PcodeModelInterface extends NoCategory\HasCodeInterface,
      * @param ?string $pcodeSyurui
      * @return $this
      */
-    public function setPcodeSyurui(?string $pcodeSyurui): static;
+    public function setPcodeSyurui(?string $pcodeSyurui);
 
     /**
      * Get Web公開区分
@@ -40,5 +40,5 @@ interface PcodeModelInterface extends NoCategory\HasCodeInterface,
      * @param ?string $memo
      * @return $this
      */
-    public function setMemo(?string $memo): static;
+    public function setMemo(?string $memo);
 }

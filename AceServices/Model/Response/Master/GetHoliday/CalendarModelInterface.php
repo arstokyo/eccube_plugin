@@ -25,7 +25,7 @@ interface CalendarModelInterface extends Day\HasDayInterface
      * @param ?string $skid
      * @return $this
      */
-    public function setSkid(?string $skid): static;
+    public function setSkid(?string $skid);
 
     /**
      * Get 休日区分
@@ -40,7 +40,7 @@ interface CalendarModelInterface extends Day\HasDayInterface
      * @param ?int $holkbn
      * @return $this
      */
-    public function setHolkbn(?int $holkbn): static;
+    public function setHolkbn(?int $holkbn);
 
     /**
      * Get メモ
@@ -55,7 +55,7 @@ interface CalendarModelInterface extends Day\HasDayInterface
      * @param ?string $memo
      * @return $this
      */
-    public function setMemo(?string $memo): static;
+    public function setMemo(?string $memo);
 
     /**
      * Get 色
@@ -70,7 +70,7 @@ interface CalendarModelInterface extends Day\HasDayInterface
      * @param ?string $frcolor
      * @return $this
      */
-    public function setFrcolor(?string $frcolor): static;
+    public function setFrcolor(?string $frcolor);
 
     /**
      * Get メモの表示日数
@@ -85,5 +85,5 @@ interface CalendarModelInterface extends Day\HasDayInterface
      * @param ?int $showdays
      * @return $this
      */
-    public function setShowdays(?int $showdays): static;
+    public function setShowdays(?int $showdays);
 }

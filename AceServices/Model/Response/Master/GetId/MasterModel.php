@@ -31,7 +31,7 @@ class MasterModel implements MasterModelInterface
     /**
     * {@inheritDoc}
     */
-    function setId(array|null $id): void
+    function setId(?array $id): void
     {
         $this->id = $id;
     }

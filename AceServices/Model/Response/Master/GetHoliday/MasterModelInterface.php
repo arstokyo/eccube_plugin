@@ -26,5 +26,5 @@ interface MasterModelInterface extends HasMessageModelInterface,
      * @param CalendarModel[]|null $calendar
      * @return void
      */
-    public function setCalendar(array|null $calendar): void;
+    public function setCalendar(?array $calendar): void;
 }

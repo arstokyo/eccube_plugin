@@ -32,7 +32,7 @@ class MasterModel implements MasterModelInterface
     /**
     * {@inheritDoc}
     */
-    function setFreeMemo(array|null $freeMemo): void
+    function setFreeMemo(?array $freeMemo): void
     {
         $this->freeMemo = $freeMemo;
     }

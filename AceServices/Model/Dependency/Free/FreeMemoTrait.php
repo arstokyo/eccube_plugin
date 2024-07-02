@@ -29,7 +29,7 @@ trait FreeMemoTrait
     /**
      * {@inheritDoc}
      */
-    public function setKubun(?int $kubun): static
+    public function setKubun(?int $kubun)
     {
         $this->kubun = $kubun;
         return $this;
@@ -46,7 +46,7 @@ trait FreeMemoTrait
     /**
      * {@inheritDoc}
      */
-    public function setFoid(?string $foid): static
+    public function setFoid(?string $foid)
     {
         $this->foid = $foid;
         return $this;
@@ -63,7 +63,7 @@ trait FreeMemoTrait
     /**
      * {@inheritDoc}
      */
-    public function setMemo(?string $memo): static
+    public function setMemo(?string $memo)
     {
         $this->memo = $memo;
         return $this;

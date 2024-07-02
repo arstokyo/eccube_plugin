@@ -25,5 +25,5 @@ interface HktimeModelInterface extends Haiso\HasHkCodeInterface,
      * @param ?int $hktime
      * @return $this
      */
-    public function setHktime(?int $hktime): static;
+    public function setHktime(?int $hktime);
 }

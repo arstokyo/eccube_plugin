@@ -26,5 +26,5 @@ interface MasterModelInterface extends HasMessageModelInterface,
      * @param SoukoModel[]|null $souko
      * @return void
      */
-    public function setSouko(array|null $souko): void;
+    public function setSouko(?array $souko): void;
 }

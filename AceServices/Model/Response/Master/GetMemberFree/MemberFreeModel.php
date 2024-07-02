@@ -32,7 +32,7 @@ class MemberFreeModel implements MemberFreeModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setMbid(?string $mbid): static
+    public function setMbid(?string $mbid)
     {
         $this->mbid = $mbid;
         return $this;
@@ -49,7 +49,7 @@ class MemberFreeModel implements MemberFreeModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setKubun(?int $kubun): static
+    public function setKubun(?int $kubun)
     {
         $this->kubun = $kubun;
         return $this;
@@ -66,7 +66,7 @@ class MemberFreeModel implements MemberFreeModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setFree(?string $free): static
+    public function setFree(?string $free)
     {
         $this->free = $free;
         return $this;

@@ -37,7 +37,7 @@ class UpdateSbpsCustIdRequestModel extends RequestModelAbstract implements Updat
     /**
      * {@inheritDoc}
      */
-    public function setSyid(?int $syid): static
+    public function setSyid(?int $syid)
     {
         $this->syid = $syid;
         return $this;
@@ -54,7 +54,7 @@ class UpdateSbpsCustIdRequestModel extends RequestModelAbstract implements Updat
     /**
      * {@inheritDoc}
      */
-    public function setMbid(?string $mbid): static
+    public function setMbid(?string $mbid)
     {
         $this->mbid = $mbid;
         return $this;
@@ -71,7 +71,7 @@ class UpdateSbpsCustIdRequestModel extends RequestModelAbstract implements Updat
     /**
      * {@inheritDoc}
      */
-    public function setCustid(?string $custid): static
+    public function setCustid(?string $custid)
     {
         $this->custid = $custid;
         return $this;
@@ -88,7 +88,7 @@ class UpdateSbpsCustIdRequestModel extends RequestModelAbstract implements Updat
     /**
      * {@inheritDoc}
      */
-    public function setCeda(?string $ceda): static
+    public function setCeda(?string $ceda)
     {
         $this->ceda = $ceda;
         return $this;

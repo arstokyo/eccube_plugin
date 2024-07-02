@@ -27,7 +27,7 @@ interface BaitaiModelInterface extends NoCategory\HasCodeInterface,
      * @param ?string $bun
      * @return $this
      */
-    public function setBun(?string $bun): static;
+    public function setBun(?string $bun);
 
     /**
      * Get フリーコード１
@@ -42,7 +42,7 @@ interface BaitaiModelInterface extends NoCategory\HasCodeInterface,
      * @param ?string $fcode1
      * @return $this
      */
-    public function setFcode1(?string $fcode1): static;
+    public function setFcode1(?string $fcode1);
 
     /**
      * Get フリーコード２
@@ -57,7 +57,7 @@ interface BaitaiModelInterface extends NoCategory\HasCodeInterface,
      * @param ?string $fcode2
      * @return $this
      */
-    public function setFcode2(?string $fcode2): static;
+    public function setFcode2(?string $fcode2);
 
     /**
      * Get 表示／非表示
@@ -72,5 +72,5 @@ interface BaitaiModelInterface extends NoCategory\HasCodeInterface,
      * @param ?int $dispkbn
      * @return $this
      */
-    public function setDispkbn(?int $dispkbn): static;
+    public function setDispkbn(?int $dispkbn);
 }

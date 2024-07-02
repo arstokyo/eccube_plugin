@@ -26,5 +26,5 @@ interface MasterModelInterface extends HasMessageModelInterface,
      * @param FreeCdModel[]|null $freeCd
      * @return void
      */
-    public function setFreeCd(array|null $freeCd): void;
+    public function setFreeCd(?array $freeCd): void;
 }

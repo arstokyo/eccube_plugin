@@ -32,7 +32,7 @@ class GetPointRirekiRequestModel extends RequestModelAbstract implements GetPoin
     /**
      * {@inheritDoc}
      */
-    public function setSyid(?int $syid): static
+    public function setSyid(?int $syid)
     {
         $this->syid = $syid;
         return $this;
@@ -50,7 +50,7 @@ class GetPointRirekiRequestModel extends RequestModelAbstract implements GetPoin
     /**
      * {@inheritDoc}
      */
-    public function setJmemid(?string $jmemid): static
+    public function setJmemid(?string $jmemid)
     {
         $this->jmemid = $jmemid;
         return $this;

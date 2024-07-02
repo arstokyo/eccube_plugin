@@ -26,5 +26,5 @@ interface MasterModelInterface extends HasMessageModelInterface,
      * @param FreeMemoModel[]|null $freeMemo
      * @return void
      */
-    public function setFreeMemo(array|null $freeMemo): void;
+    public function setFreeMemo(?array $freeMemo): void;
 }

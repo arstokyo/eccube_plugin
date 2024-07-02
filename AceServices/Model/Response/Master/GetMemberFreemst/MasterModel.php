@@ -31,7 +31,7 @@ class MasterModel implements MasterModelInterface
     /**
     * {@inheritDoc}
     */
-    function setFreemst(array|null $freemst): void
+    function setFreemst(?array $freemst): void
     {
         $this->freemst = $freemst;
     }

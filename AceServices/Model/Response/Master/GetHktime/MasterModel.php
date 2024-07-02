@@ -31,7 +31,7 @@ class MasterModel implements MasterModelInterface
     /**
     * {@inheritDoc}
     */
-    function setHktime(array|null $hktime): void
+    function setHktime(?array $hktime): void
     {
         $this->hktime = $hktime;
     }

@@ -29,7 +29,7 @@ interface PointModelInterface extends Denpyo\HasDennoInterface,
      * @param ?int $kubun
      * @return $this
      */
-    public function setKubun(?int $kubun): static;
+    public function setKubun(?int $kubun);
 
     /**
      * Get 納品先枝番号
@@ -44,7 +44,7 @@ interface PointModelInterface extends Denpyo\HasDennoInterface,
      * @param ?int $nouno
      * @return $this
      */
-    public function setNouno(?int $nouno): static;
+    public function setNouno(?int $nouno);
 
     /**
      * Get 受注枝番
@@ -59,7 +59,7 @@ interface PointModelInterface extends Denpyo\HasDennoInterface,
      * @param ?int $edano
      * @return $this
      */
-    public function setEdano(?int $edano): static;
+    public function setEdano(?int $edano);
 
     /**
      * Get ポイント種類
@@ -74,7 +74,7 @@ interface PointModelInterface extends Denpyo\HasDennoInterface,
      * @param ?int $brid
      * @return $this
      */
-    public function setBrid(?int $brid): static;
+    public function setBrid(?int $brid);
 
     /**
      * Get 使用区分
@@ -89,7 +89,7 @@ interface PointModelInterface extends Denpyo\HasDennoInterface,
      * @param ?int $usekbn
      * @return $this
      */
-    public function setUsekbn(?int $usekbn): static;
+    public function setUsekbn(?int $usekbn);
 
     /**
      * Get 顧客共有システムID
@@ -104,7 +104,7 @@ interface PointModelInterface extends Denpyo\HasDennoInterface,
      * @param ?int $msyid
      * @return $this
      */
-    public function setMsyid(?int $msyid): static;
+    public function setMsyid(?int $msyid);
 
     /**
      * Get 顧客ID
@@ -119,7 +119,7 @@ interface PointModelInterface extends Denpyo\HasDennoInterface,
      * @param ?string $jmemid
      * @return $this
      */
-    public function setJmemid(?string $jmemid): static;
+    public function setJmemid(?string $jmemid);
 
     /**
      * Get 作成ユーザーID
@@ -134,7 +134,7 @@ interface PointModelInterface extends Denpyo\HasDennoInterface,
      * @param ?string $cuser
      * @return $this
      */
-    public function setCuser(?string $cuser): static;
+    public function setCuser(?string $cuser);
 
     /**
      * Get 更新ユーザーID
@@ -149,5 +149,5 @@ interface PointModelInterface extends Denpyo\HasDennoInterface,
      * @param ?string $uuser
      * @return $this
      */
-    public function setUuser(?string $uuser): static;
+    public function setUuser(?string $uuser);
 }

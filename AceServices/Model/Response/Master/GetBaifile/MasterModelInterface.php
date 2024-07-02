@@ -26,5 +26,5 @@ interface MasterModelInterface extends HasMessageModelInterface,
      * @param BaifileModel[]|null $baifile
      * @return void
      */
-    public function setBaifile(array|null $baifile): void;
+    public function setBaifile(?array $baifile): void;
 }

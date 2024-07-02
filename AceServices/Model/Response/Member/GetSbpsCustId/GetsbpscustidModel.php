@@ -28,7 +28,7 @@ class GetsbpscustidModel implements GetsbpscustidModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setSbpscustid(array|null $sbpscustid): void
+    public function setSbpscustid(?array $sbpscustid): void
     {
         $this->sbpscustid = $sbpscustid;
     }

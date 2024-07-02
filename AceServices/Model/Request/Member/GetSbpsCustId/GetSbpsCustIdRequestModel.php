@@ -31,7 +31,7 @@ class GetSbpsCustIdRequestModel extends RequestModelAbstract implements GetSbpsC
     /**
      * {@inheritDoc}
      */
-    public function setSyid(?int $syid): static
+    public function setSyid(?int $syid)
     {
         $this->syid = $syid;
         return $this;
@@ -48,7 +48,7 @@ class GetSbpsCustIdRequestModel extends RequestModelAbstract implements GetSbpsC
     /**
      * {@inheritDoc}
      */
-    public function setMbid(?string $mbid): static
+    public function setMbid(?string $mbid)
     {
         $this->mbid = $mbid;
         return $this;

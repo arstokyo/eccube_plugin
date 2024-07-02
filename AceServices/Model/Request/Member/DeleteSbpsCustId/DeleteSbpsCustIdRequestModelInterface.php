@@ -24,7 +24,7 @@ interface DeleteSbpsCustIdRequestModelInterface extends RequestModelInterface
      * @param ?int $syid
      * @return $this
      */
-    public function setSyid(?int $syid): static;
+    public function setSyid(?int $syid);
 
     /**
      * Get 顧客ID
@@ -39,7 +39,7 @@ interface DeleteSbpsCustIdRequestModelInterface extends RequestModelInterface
      * @param ?string $mbid
      * @return $this
      */
-    public function setMbid(?string $mbid): static;
+    public function setMbid(?string $mbid);
 
     /**
      * Get SBPS顧客枝番
@@ -54,5 +54,5 @@ interface DeleteSbpsCustIdRequestModelInterface extends RequestModelInterface
      * @param ?string $ceda
      * @return $this
      */
-    public function setCeda(?string $ceda): static;
+    public function setCeda(?string $ceda);
 }

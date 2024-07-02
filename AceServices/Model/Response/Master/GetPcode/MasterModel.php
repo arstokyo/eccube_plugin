@@ -32,7 +32,7 @@ class MasterModel implements MasterModelInterface
     /**
     * {@inheritDoc}
     */
-    function setPcode(array|null $pcode): void
+    function setPcode(?array $pcode): void
     {
         $this->pcode = $pcode;
     }

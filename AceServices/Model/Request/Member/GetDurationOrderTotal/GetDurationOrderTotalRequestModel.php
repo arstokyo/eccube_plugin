@@ -37,7 +37,7 @@ class GetDurationOrderTotalRequestModel extends RequestModelAbstract implements 
     /**
      * {@inheritDoc}
      */
-    public function setSyid(?int $syid): static
+    public function setSyid(?int $syid)
     {
         $this->syid = $syid;
         return $this;
@@ -54,7 +54,7 @@ class GetDurationOrderTotalRequestModel extends RequestModelAbstract implements 
     /**
      * {@inheritDoc}
      */
-    public function setMbid(?string $mbid): static
+    public function setMbid(?string $mbid)
     {
         $this->mbid = $mbid;
         return $this;
@@ -71,7 +71,7 @@ class GetDurationOrderTotalRequestModel extends RequestModelAbstract implements 
     /**
      * {@inheritDoc}
      */
-    public function setDayfrom(?int $dayfrom): static
+    public function setDayfrom(?int $dayfrom)
     {
         $this->dayfrom = $dayfrom;
         return $this;
@@ -88,7 +88,7 @@ class GetDurationOrderTotalRequestModel extends RequestModelAbstract implements 
     /**
      * {@inheritDoc}
      */
-    public function setDayto(?int $dayto): static
+    public function setDayto(?int $dayto)
     {
         $this->dayto = $dayto;
         return $this;

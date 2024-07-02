@@ -22,7 +22,7 @@ interface MemberFreeModelInterface
      * @param ?string $mbid
      * @return $this
      */
-    public function setMbid(?string $mbid): static;
+    public function setMbid(?string $mbid);
 
     /**
      * Get フリー項目区分
@@ -37,7 +37,7 @@ interface MemberFreeModelInterface
      * @param ?int $kubun
      * @return $this
      */
-    public function setKubun(?int $kubun): static;
+    public function setKubun(?int $kubun);
 
     /**
      * Get フリー内容
@@ -52,5 +52,5 @@ interface MemberFreeModelInterface
      * @param ?string $free
      * @return $this
      */
-    public function setFree(?string $free): static;
+    public function setFree(?string $free);
 }

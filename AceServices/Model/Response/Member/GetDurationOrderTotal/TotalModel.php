@@ -27,7 +27,7 @@ class TotalModel implements TotalModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setDentotal(?int $dentotal): static
+    public function setDentotal(?int $dentotal)
     {
         $this->dentotal = $dentotal;
         return $this;

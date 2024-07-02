@@ -26,5 +26,5 @@ interface GetsbpscustidModelInterface extends HasMessageModelInterface,
      * @param SbpscustidModel[]|null $sbpscustid
      * @return void
      */
-    public function setSbpscustid(array|null $sbpscustid): void;
+    public function setSbpscustid(?array $sbpscustid): void;
 }

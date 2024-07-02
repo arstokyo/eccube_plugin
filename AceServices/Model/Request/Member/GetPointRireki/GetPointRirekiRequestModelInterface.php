@@ -24,7 +24,7 @@ interface GetPointRirekiRequestModelInterface extends RequestModelInterface
      * @param ?int $syid
      * @return $this
      */
-    public function setSyid(?int $syid): static;
+    public function setSyid(?int $syid);
 
     /**
      * Get 受注顧客ID
@@ -39,5 +39,5 @@ interface GetPointRirekiRequestModelInterface extends RequestModelInterface
      * @param ?string $jmemid
      * @return $this
      */
-    public function setJmemid(?string $jmemid): static;
+    public function setJmemid(?string $jmemid);
 }

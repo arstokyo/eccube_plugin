@@ -26,5 +26,5 @@ interface MemberModelInterface extends HasMessageModelInterface,
      * @param PointModel[]|null $point
      * @return void
      */
-    public function setPoint(array|null $point): void;
+    public function setPoint(?array $point): void;
 }

@@ -26,5 +26,5 @@ interface MasterModelInterface extends HasMessageModelInterface,
      * @param BumonModel[]|null $bumon
      * @return void
      */
-    public function setBumon(array|null $bumon): void;
+    public function setBumon(?array $bumon): void;
 }

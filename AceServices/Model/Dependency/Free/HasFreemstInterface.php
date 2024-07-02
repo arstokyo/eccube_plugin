@@ -24,7 +24,7 @@ interface HasFreemstInterface extends NoCategory\HasNameInterface
      * @param ?int $kubun
      * @return $this
      */
-    public function setKubun(?int $kubun): static;
+    public function setKubun(?int $kubun);
 
     /**
      * Get フリー項目タイプ
@@ -39,7 +39,7 @@ interface HasFreemstInterface extends NoCategory\HasNameInterface
      * @param ?int $type
      * @return $this
      */
-    public function setType(?int $type): static;
+    public function setType(?int $type);
 
     /**
      * Get 表示順
@@ -54,7 +54,7 @@ interface HasFreemstInterface extends NoCategory\HasNameInterface
      * @param ?int $jyun
      * @return $this
      */
-    public function setJyun(?int $jyun): static;
+    public function setJyun(?int $jyun);
 
     /**
      * Get 必須フラグ
@@ -69,7 +69,7 @@ interface HasFreemstInterface extends NoCategory\HasNameInterface
      * @param ?int $reqflg
      * @return $this
      */
-    public function setReqflg(?int $reqflg): static;
+    public function setReqflg(?int $reqflg);
 
     /**
      * Get 説明
@@ -84,7 +84,7 @@ interface HasFreemstInterface extends NoCategory\HasNameInterface
      * @param ?string $explanation
      * @return $this
      */
-    public function setExplanation(?string $explanation): static;
+    public function setExplanation(?string $explanation);
 
     /**
      * Get 親フリー項目区分
@@ -99,7 +99,7 @@ interface HasFreemstInterface extends NoCategory\HasNameInterface
      * @param ?int $oyakubun
      * @return $this
      */
-    public function setOyakubun(?int $oyakubun): static;
+    public function setOyakubun(?int $oyakubun);
 
     /**
      * Get バックカラー
@@ -114,7 +114,7 @@ interface HasFreemstInterface extends NoCategory\HasNameInterface
      * @param ?string $bgcolor
      * @return $this
      */
-    public function setBgcolor(?string $bgcolor): static;
+    public function setBgcolor(?string $bgcolor);
 
     /**
      * Get データ読込位置
@@ -129,7 +129,7 @@ interface HasFreemstInterface extends NoCategory\HasNameInterface
      * @param ?int $rpos
      * @return $this
      */
-    public function setRpos(?int $rpos): static;
+    public function setRpos(?int $rpos);
 
     /**
      * Get 最大文字数
@@ -144,5 +144,5 @@ interface HasFreemstInterface extends NoCategory\HasNameInterface
      * @param ?int $leng
      * @return $this
      */
-    public function setLeng(?int $leng): static;
+    public function setLeng(?int $leng);
 }

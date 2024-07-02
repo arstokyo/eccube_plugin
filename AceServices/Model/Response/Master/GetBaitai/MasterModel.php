@@ -32,7 +32,7 @@ class MasterModel implements MasterModelInterface
     /**
     * {@inheritDoc}
     */
-    function setBaitai(array|null $baitai): void
+    function setBaitai(?array $baitai): void
     {
         $this->baitai = $baitai;
     }

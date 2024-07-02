@@ -24,5 +24,5 @@ interface MasterModelInterface extends HasMessageModelInterface
      * @param DaysTimeModel|null $daysTime
      * @return void
      */
-    public function setDaysTime(DaysTimeModel|null $daysTime): void;
+    public function setDaysTime(?DaysTimeModel $daysTime): void;
 }

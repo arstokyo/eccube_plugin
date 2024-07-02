@@ -24,7 +24,7 @@ interface GetSbpsCustIdRequestModelInterface extends RequestModelInterface
      * @param ?int $syid
      * @return $this
      */
-    public function setSyid(?int $syid): static;
+    public function setSyid(?int $syid);
 
     /**
      * Get 顧客ID
@@ -39,5 +39,5 @@ interface GetSbpsCustIdRequestModelInterface extends RequestModelInterface
      * @param ?string $mbid
      * @return $this
      */
-    public function setMbid(?string $mbid): static;
+    public function setMbid(?string $mbid);
 }

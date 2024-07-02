@@ -24,5 +24,5 @@ interface TotalModelInterface extends Good\HasGkbnInterface
      * @param ?int $dentotal
      * @return $this
      */
-    public function setDentotal(?int $dentotal): static;
+    public function setDentotal(?int $dentotal);
 }

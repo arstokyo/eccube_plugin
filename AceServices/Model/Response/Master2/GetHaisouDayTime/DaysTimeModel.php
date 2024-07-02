@@ -28,7 +28,7 @@ class DaysTimeModel implements DaysTimeModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setDays(?int $days): static
+    public function setDays(?int $days)
     {
         $this->days = $days;
         return $this;
@@ -45,7 +45,7 @@ class DaysTimeModel implements DaysTimeModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setTime(?int $time): static
+    public function setTime(?int $time)
     {
         $this->time = $time;
         return $this;

@@ -27,7 +27,7 @@ class CheckDuplicationMemberRequestModel extends Request\RequestModelAbstract im
     /**
      * {@inheritDoc}
      */
-    public function setSyid(?int $syid): static
+    public function setSyid(?int $syid)
     {
         $this->syid = $syid;
         return $this;

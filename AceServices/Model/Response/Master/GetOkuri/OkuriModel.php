@@ -35,7 +35,7 @@ class OkuriModel implements OkuriModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setKubun(?int $kubun): static
+    public function setKubun(?int $kubun)
     {
         $this->kubun = $kubun;
         return $this;

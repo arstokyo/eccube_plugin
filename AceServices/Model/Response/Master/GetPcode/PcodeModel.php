@@ -32,7 +32,7 @@ class PcodeModel implements PcodeModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setPcodeSyurui(?string $pcodeSyurui): static
+    public function setPcodeSyurui(?string $pcodeSyurui)
     {
         $this->pcodeSyurui = $pcodeSyurui;
         return $this;
@@ -49,7 +49,7 @@ class PcodeModel implements PcodeModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setMemo(?string $memo): static
+    public function setMemo(?string $memo)
     {
         $this->memo = $memo;
         return $this;
