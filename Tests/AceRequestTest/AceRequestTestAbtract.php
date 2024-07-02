@@ -2,10 +2,10 @@
 
 namespace Plugin\AceClient\Tests\AceRequestTest;
 
-use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Plugin\AceClient\AceClient;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class AceRequestTestAbtract extends AbstractAdminWebTestCase
+class AceRequestTestAbtract extends KernelTestCase
 {
     protected ?AceClient $aceClient = null;
 
