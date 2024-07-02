@@ -17,8 +17,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Eccube\Plugin\AbstractPluginManager;
 use Plugin\AceClient\Repository\ConfigRepository;
 use Plugin\AceClient\Entity\Config as AceClientConfig;
-use Plugin\AceClient\Util\HttpClient\HttpClientFactory;
-use Plugin\AceClient\Util\Logger\LoggerFactory;
 
 /**
  * Class PluginManager.
@@ -48,8 +46,6 @@ class PluginManager extends AbstractPluginManager
 
         if (\is_null($configRepository->get())) {
             $config = new AceClientConfig();
-            $config->setBaseUri(HttpClientFactory::DEFAULT_BASE_URL);
-            $config->setIsLogOn(LoggerFactory::DEFAULT_LOG_ON);
 
             $entityManager->persist($config);
             $entityManager->flush();
