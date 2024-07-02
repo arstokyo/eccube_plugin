@@ -53,7 +53,7 @@ class AbstractClient implements ClientInterface
      */
     public function getMetadata(): ClientMetadataInterface
     {
-        return new ClientMetadata($this->requestmethod, $this->endpoint, $this->request);
+        return new ClientMetadata($this->requestmethod, $this->endpoint, $this->request ?? []);
     }
 
     /**
