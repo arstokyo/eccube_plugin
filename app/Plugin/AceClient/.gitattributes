@@ -1,0 +1,8 @@
+* merge=keepTheirs
+Util/Serializer/SoapXmlSerializer.php merge=keepMine
+Util/Denormalizer/AsListDenormalizer.php merge=keepMine
+Util/Normalizer/AceDateTimeNormalizer.php merge=keepMine
+Util/Normalizer/PrmNormalizer.php merge=keepMine
+Util/Serializer/AceConfigSerializer.php merge=keepMine
+
+
