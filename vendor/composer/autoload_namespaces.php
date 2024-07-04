@@ -6,7 +6,9 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'org\\bovigo\\vfs\\' => array($vendorDir . '/mikey179/vfsstream/src/main/php'),
     'HTMLPurifier' => array($vendorDir . '/ezyang/htmlpurifier/library'),
     'Eccube' => array($vendorDir . '/ec-cube/plugin-installer/src'),
     'Detection' => array($vendorDir . '/mobiledetect/mobiledetectlib/namespaced'),
+    'Behat\\Gherkin' => array($vendorDir . '/behat/gherkin/src'),
 );
