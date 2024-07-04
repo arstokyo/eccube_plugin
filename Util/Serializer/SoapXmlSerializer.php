@@ -145,7 +145,8 @@ class SoapXmlSerializer implements SoapXmlSerializerInterface
      * 
      * @return string
      */
-    private function serializeWithOptions($data, string $format, array $context = []): string{
+    private function serializeWithOptions($data, string $format, array $context = []): string
+    {
         return $this->serializer->serialize( \array_merge($this->config->getXmlns() ?: self::DEFAULT_XMLNS
                                                          ,['#' => $data])
                                             , $format
