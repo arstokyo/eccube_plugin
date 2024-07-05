@@ -8,17 +8,17 @@ use Plugin\AceClient\Util\ServiceRetriever\ServiceRetrieverInterface;
 
 /**
  * Class for AceClient
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class AceClient 
+class AceClient
 {
     /** @var AceServiceFactory $serviceFactory */
     private AceServiceFactory $serviceFactory;
 
     /**
      * AceClient constructor.
-     * 
+     *
      * @param ServiceRetrieverInterface $serviceRetriever
      */
     public function __construct
@@ -30,7 +30,7 @@ class AceClient
 
     /**
      * Make AceJyudenService
-     * 
+     *
      * @return Service\JyudenService
      */
     public function makeJyudenService() : Service\JyudenService
@@ -40,7 +40,7 @@ class AceClient
 
     /**
      * Make MemberService
-     * 
+     *
      * @return Service\MemberService
      */
     public function makeMemberService() : Service\MemberService
@@ -60,7 +60,7 @@ class AceClient
 
     /**
      * Make Master2Service
-     * 
+     *
      * @return Service\Master2Service
      */
     public function makeMaster2Service() : Service\Master2Service
@@ -70,7 +70,7 @@ class AceClient
 
     /**
      * Meke Master Service
-     * 
+     *
      * @return Service\MasterService
      */
     public function makeMasterService() : Service\MasterService
@@ -78,5 +78,13 @@ class AceClient
         return $this->serviceFactory->makeMasterService();
     }
 
-
+    /**
+     * Meke Hanpu Service
+     *
+     * @return Service\HanpuService
+     */
+    public function makeHanpuService() : Service\HanpuService
+    {
+        return $this->serviceFactory->makeHanpuService();
+    }
 }

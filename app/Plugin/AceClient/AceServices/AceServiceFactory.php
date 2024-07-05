@@ -7,15 +7,15 @@ use Plugin\AceClient\Util\ServiceRetriever\ServiceRetrieverInterface;
 
 /**
  * Factory for AceService
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class AceServiceFactory 
+class AceServiceFactory
 {
-    
+
     /**
      * AceServiceFactory constructor.
-     * 
+     *
      * @param ServiceRetrieverInterface $serviceRetriever
      */
     public function __construct
@@ -26,7 +26,7 @@ class AceServiceFactory
 
     /**
      * Make new JyudenService
-     * 
+     *
      * @return Service\JyudenService
      */
     public function makeJyudenService() : Service\JyudenService
@@ -36,7 +36,7 @@ class AceServiceFactory
 
     /**
      * Make new MemberService
-     * 
+     *
      * @return Service\MemberService
      */
     public function makeMemberService() : Service\MemberService
@@ -56,7 +56,7 @@ class AceServiceFactory
 
     /**
      * Make new Master2Service
-     * 
+     *
      * @return Service\Master2Service
      */
     public function makeMaster2Service() : Service\Master2Service
@@ -64,9 +64,9 @@ class AceServiceFactory
         return new Service\Master2Service($this->serviceRetriever);
     }
 
-   /**
+    /**
      * Make new MasterService
-     * 
+     *
      * @return Service\MasterService
      */
     public function makeMasterService() : Service\MasterService
@@ -74,4 +74,23 @@ class AceServiceFactory
         return new Service\MasterService($this->serviceRetriever);
     }
 
+    /**
+     * Make new HanpuService
+     *
+     * @return Service\HanpuService
+     */
+    public function makeHanpuService() : Service\HanpuService
+    {
+        return new Service\HanpuService($this->serviceRetriever);
+    }
+
+    /**
+     * Make new ContactService
+     *
+     * @return Service\ContactService
+     */
+    public function makeContactService() : Service\ContactService
+    {
+        return new Service\ContactService($this->serviceRetriever);
+    }
 }

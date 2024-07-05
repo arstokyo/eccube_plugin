@@ -22,7 +22,7 @@ class MemberPrmModel extends PrmModelAbstract implements MemberPrmModelInterface
         Mail\MailTrait,
         PhoneAndPC\TelTrait;
 
-        const PRM_NODE_NAME = 'member';
+    const PRM_NODE_NAME = 'member';
 
     /**
      * {@inheritDoc}
