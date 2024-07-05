@@ -54,11 +54,17 @@ final class NormalizerFactory
         return \array_merge(self::makeNormalizers($classMetadataFactory, new MetadataAwareNameConverter($classMetadataFactory), null,new ReflectionExtractor));
     }
 
+    /**
+     * Make Default Soap Normalizers
+     * 
+     * @comment 2024/07/05 - SoapReflectionExtractorを使わないため、ReflectionExtractorを使うように変更
+     * @return NormalizerInterface[]
+     */
     public static function makeDefaultSoapNormalizers() : array 
     {
         $classMetadataFactory = self::makeAnnotationMetaFactory();
         return \array_merge([new AceDateTimeNormalizer(), new PrmNormalizer(), DenormalizerFactory::makeArrayDenormalizer(), DenormalizerFactory::makeAsListDenormalizer()],
-                             self::makeNormalizers($classMetadataFactory, new MetadataAwareNameConverter($classMetadataFactory), null, new SoapReflectionExtractor()));
+                             self::makeNormalizers($classMetadataFactory, new MetadataAwareNameConverter($classMetadataFactory), null, new ReflectionExtractor()));
     }
 
     /**
