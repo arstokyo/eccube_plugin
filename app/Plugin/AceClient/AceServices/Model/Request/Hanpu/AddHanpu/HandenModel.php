@@ -31,34 +31,31 @@ class HandenModel implements HandenModelInterface
     /** @var ?string $hanpucd 頒布コード */
     protected ?string $hanpucd = null;
 
-    /** @var ?string $hcnt 頒布回数 */
-    protected ?string $hcnt = null;
-
     /**
      * CardInfo
      *
-     * @var Request\Hanpu\AddHanpu\CardInfoModel $cardInfo
+     * @var Request\Hanpu\AddHanpu\CardInfoModelInterface $cardInfo
      */
-    protected ?CardInfoModel $cardInfo  = null;
+    protected ?CardInfoModelInterface $cardInfo  = null;
 
     /**
      * HanpuFirst
      *
-     * @var Request\Hanpu\AddHanpu\HanpuFirstModel $hanpuFirst
+     * @var Request\Hanpu\AddHanpu\HanpuFirstModelInterface $hanpuFirst
      */
-    protected ?HanpuFirstModel $hanpuFirst  = null;
+    protected ?HanpuFirstModelInterface $hanpuFirst  = null;
 
     /**
      * HanpuSecond
      *
-     * @var Request\Hanpu\AddHanpu\HanpuSecondModel $hanpuSecond
+     * @var Request\Hanpu\AddHanpu\HanpuSecondModelInterface $hanpuSecond
      */
-    protected ?HanpuSecondModel $hanpuSecond  = null;
+    protected ?HanpuSecondModelInterface $hanpuSecond  = null;
 
     /**
      * {@inheritDoc}
      */
-    function getCardInfo(): ?CardInfoModel
+    public function getCardInfo(): ?CardInfoModelInterface
     {
         return $this->cardInfo;
     }
@@ -66,7 +63,7 @@ class HandenModel implements HandenModelInterface
     /**
     * {@inheritDoc}
     */
-    function setCardInfo(?CardInfoModel $cardInfo): self
+    public function setCardInfo(?CardInfoModelInterface $cardInfo): self
     {
         $this->cardInfo = $cardInfo;
         return $this;
@@ -75,7 +72,7 @@ class HandenModel implements HandenModelInterface
     /**
      * {@inheritDoc}
      */
-    function getHanpuFirst(): ?HanpuFirstModel
+    public function getHanpuFirst(): ?HanpuFirstModelInterface
     {
         return $this->hanpuFirst;
     }
@@ -83,7 +80,7 @@ class HandenModel implements HandenModelInterface
     /**
     * {@inheritDoc}
     */
-    function setHanpuFirst(?HanpuFirstModel $hanpuFirst): self
+    public function setHanpuFirst(?HanpuFirstModelInterface $hanpuFirst): self
     {
         $this->hanpuFirst = $hanpuFirst;
         return $this;
@@ -92,7 +89,7 @@ class HandenModel implements HandenModelInterface
     /**
      * {@inheritDoc}
      */
-    function getHanpuSecond(): ?HanpuSecondModel
+    public function getHanpuSecond(): ?HanpuSecondModelInterface
     {
         return $this->hanpuSecond;
     }
@@ -100,7 +97,7 @@ class HandenModel implements HandenModelInterface
     /**
     * {@inheritDoc}
     */
-    function setHanpuSecond(?HanpuSecondModel $hanpuSecond): self
+    public function setHanpuSecond(?HanpuSecondModelInterface $hanpuSecond): self
     {
         $this->hanpuSecond = $hanpuSecond;
         return $this;
@@ -140,20 +137,4 @@ class HandenModel implements HandenModelInterface
         return $this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getHcnt(): ?string
-    {
-        return $this->hcnt;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setHcnt(?string $hcnt): static
-    {
-        $this->hcnt = $hcnt;
-        return $this;
-    }
 }

@@ -13,9 +13,8 @@ class AddHanpuRequestModel extends Request\RequestModelAbstract implements AddHa
     use NoCategory\IdTrait,
         NoCategory\SessIdTrait;
 
-    /** @var HanpuPrmModel $prm Prm */
-    private HanpuPrmModel $prm;
-
+    /** @var HanpuPrmModelInterface $prm Prm */
+    protected HanpuPrmModelInterface $prm;
 
     /**
      * {@inheritDoc}
@@ -28,7 +27,7 @@ class AddHanpuRequestModel extends Request\RequestModelAbstract implements AddHa
     /**
      * {@inheritDoc}
      */
-    public function setPrm(HanpuPrmModel $prm): self
+    public function setPrm(HanpuPrmModelInterface $prm): self
     {
         $this->prm = $prm;
         return $this;
@@ -49,6 +48,6 @@ class AddHanpuRequestModel extends Request\RequestModelAbstract implements AddHa
      */
     public function fetchRequestNodeName(): string
     {
-        return self::XML_NODE_NAME;
+        return $this::XML_NODE_NAME;
     }
 }

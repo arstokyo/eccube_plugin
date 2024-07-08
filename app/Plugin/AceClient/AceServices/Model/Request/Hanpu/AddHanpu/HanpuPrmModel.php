@@ -10,10 +10,37 @@ use Plugin\AceClient\AceServices\Model\Request\Prm\PrmModelAbstract;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-
 class HanpuPrmModel extends PrmModelAbstract implements HanpuPrmModelInterface
 {
     const PRM_NODE_NAME = 'hanpu';
+
+    /**
+     * Handen
+     *
+     * @var Request\Hanpu\AddHanpu\HandenModelInterface $handen
+     */
+    protected ?HandenModelInterface $handen  = null;
+
+    /**
+     * Member
+     *
+     * @var Request\Hanpu\AddHanpu\MemberModelInterface $member
+     */
+    protected ?MemberModelInterface $member  = null;
+
+    /**
+     * Detail
+     *
+     * @var Request\Hanpu\AddHanpu\DetailModelInterface $detail
+     */
+    protected ?DetailModelInterface $detail  = null;
+
+    /**
+     * Mailjyuden
+     *
+     * @var Request\Hanpu\AddHanpu\MailJyudenModelInterface $mailjyuden
+     */
+    protected ?MailJyudenModelInterface $mailjyuden  = null;
 
     /**
      * {@inheritDoc}
@@ -30,17 +57,11 @@ class HanpuPrmModel extends PrmModelAbstract implements HanpuPrmModelInterface
     {
         return self::PRM_NODE_NAME;
     }
-    /**
-     * Member
-     *
-     * @var Request\Hanpu\AddHanpu\MemberModel $member
-     */
-    protected ?MemberModel $member  = null;
 
     /**
      * {@inheritDoc}
      */
-    function getMember(): ?MemberModel
+    public function getMember(): ?MemberModelInterface
     {
         return $this->member;
     }
@@ -48,23 +69,16 @@ class HanpuPrmModel extends PrmModelAbstract implements HanpuPrmModelInterface
     /**
     * {@inheritDoc}
     */
-    function setMember(?MemberModel $member): self
+    public function setMember(?MemberModelInterface $member): self
     {
         $this->member = $member;
         return $this;
     }
 
     /**
-     * Handen
-     *
-     * @var Request\Hanpu\AddHanpu\HandenModel $handen
-     */
-    protected ?HandenModel $handen  = null;
-
-    /**
      * {@inheritDoc}
      */
-    function getHanden(): ?HandenModel
+    public function getHanden(): ?HandenModelInterface
     {
         return $this->handen;
     }
@@ -72,23 +86,16 @@ class HanpuPrmModel extends PrmModelAbstract implements HanpuPrmModelInterface
     /**
     * {@inheritDoc}
     */
-    function setHanden(?HandenModel $handen): self
+    public function setHanden(?HandenModelInterface $handen): self
     {
         $this->handen = $handen;
         return $this;
     }
 
     /**
-     * Mailjyuden
-     *
-     * @var Request\Hanpu\AddHanpu\MailjyudenModel $mailjyuden
-     */
-    protected ?MailjyudenModel $mailjyuden  = null;
-
-    /**
      * {@inheritDoc}
      */
-    function getMailjyuden(): ?MailjyudenModel
+    public function getMailjyuden(): ?MailJyudenModelInterface
     {
         return $this->mailjyuden;
     }
@@ -96,23 +103,17 @@ class HanpuPrmModel extends PrmModelAbstract implements HanpuPrmModelInterface
     /**
     * {@inheritDoc}
     */
-    function setMailjyuden(?MailjyudenModel $mailjyuden): self
+    public function setMailjyuden(?MailJyudenModelInterface $mailjyuden): self
     {
         $this->mailjyuden = $mailjyuden;
         return $this;
     }
 
-    /**
-     * Detail
-     *
-     * @var Request\Hanpu\AddHanpu\DetailModel $detail
-     */
-    protected ?DetailModel $detail  = null;
 
     /**
      * {@inheritDoc}
      */
-    function getDetail(): ?DetailModel
+    public function getDetail(): ?DetailModelInterface
     {
         return $this->detail;
     }
@@ -120,7 +121,7 @@ class HanpuPrmModel extends PrmModelAbstract implements HanpuPrmModelInterface
     /**
     * {@inheritDoc}
     */
-    function setDetail(?DetailModel $detail): self
+    public function setDetail(?DetailModelInterface $detail): self
     {
         $this->detail = $detail;
         return $this;

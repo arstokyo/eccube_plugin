@@ -3,69 +3,35 @@
 namespace Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpuNext;
 
 use Plugin\AceClient\AceServices\Model\Request;
+use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\JmemberModelInterface;
+use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\MemberModel as ParentModel;
+use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\NmemberModelInterface;
+use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\SmemberModelInterface;
 
-class MemberModel implements MemberModelInterface
+class MemberModel extends ParentModel
 {
-    /** @var Request\Hanpu\AddHanpuNext\JmemberModelInterface|null $jmember 受注先 */
-    private ?JmemberModelInterface $jmember = null;
-
-    /** @var Request\Hanpu\AddHanpuNext\NmemberModelInterface|null $nmember 納品先 */
-    private ?NmemberModelInterface $nmember = null;
-
-    /** @var Request\Hanpu\AddHanpuNext\SmemberModelInterface|null $smember 請求先 */
-    private ?SmemberModelInterface $smember = null;
 
     /**
-     * {@inheritDoc}
-     */
-    public function getJmember(): ?JmemberModelInterface
-    {
-        return $this->jmember;
-
-    }
-
-    /**
-     * {@inheritDoc}
+     * @param Request\Hanpu\AddHanpu\JmemberModel|null $jmember
      */
     public function setJmember(?JmemberModelInterface $jmember): self
     {
-        $this->jmember = $jmember;
-        return $this;
+        return parent::setJmember($jmember);
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function getNmember(): ?NmemberModelInterface
-    {
-        return $this->nmember;
-
-    }
-
-    /**
-     * {@inheritDoc}
+     * @param Request\Hanpu\AddHanpu\NmemberModel|null $nmember
      */
     public function setNmember(?NmemberModelInterface $nmember): self
     {
-        $this->nmember = $nmember;
-        return $this;
+        return parent::setNmember($nmember);
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function getSmember(): ?SmemberModelInterface
-    {
-        return $this->smember;
-
-    }
-
-    /**
-     * {@inheritDoc}
+     * @param Request\Hanpu\AddHanpu\SmemberModel|null $smember
      */
     public function setSmember(?SmemberModelInterface $smember): self
     {
-        $this->smember = $smember;
-        return $this;
+        return parent::setSmember($smember);
     }
 }

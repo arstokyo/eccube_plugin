@@ -6,13 +6,13 @@ namespace Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu;
 class MemberModel implements MemberModelInterface
 {
     /** @var JmemberModelInterface|null $jmember 受注先 */
-    private ?JmemberModelInterface $jmember = null;
+    protected ?JmemberModelInterface $jmember = null;
 
     /** @var NmemberModelInterface|null $nmember 納品先 */
-    private ?NmemberModelInterface $nmember = null;
+    protected ?NmemberModelInterface $nmember = null;
 
     /** @var SmemberModelInterface|null $smember 請求先 */
-    private ?SmemberModelInterface $smember = null;
+    protected ?SmemberModelInterface $smember = null;
 
     /**
      * {@inheritDoc}

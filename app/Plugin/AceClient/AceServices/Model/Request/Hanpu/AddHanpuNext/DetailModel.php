@@ -2,35 +2,22 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpuNext;
 
+use Plugin\AceClient\AceServices\Model\Request;
+use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\DetailModel as ParentModel;
+
 /**
  * Class DetailModel
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
 
-class DetailModel implements DetailModelInterface
+class DetailModel extends ParentModel
 {
     /**
-     * Hanmei
-     *
-     * @var HanmeiModel[]|null $hanmei
-     */
-    protected ?array $hanmei  = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    function getHanmei(): ?array
-    {
-        return $this->hanmei;
-    }
-
-    /**
-    * {@inheritDoc}
+    * @param Request\Hanpu\AddHanpuNext\HanmeiModel[]|null $hanmei
     */
     function setHanmei(?array $hanmei): self
     {
-        $this->hanmei = $hanmei;
-        return $this;
+        return parent::setHanmei($hanmei);
     }
 }
