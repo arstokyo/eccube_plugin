@@ -12,7 +12,7 @@ use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
 class AddHanpuTest extends AceRequestTestAbtract
 {
     private ?string $testMemberId = '221';
-    private ?string $testSessid;
+    private ?string $testSessid = '777777777777';
     public function getAddHanpuModel(): AddHanpu\AddHanpuRequestModel
     {
         $member = (new AddHanpu\MemberModel)
@@ -114,7 +114,6 @@ class AddHanpuTest extends AceRequestTestAbtract
                     ->setHanden($handen)
                     ->setMailjyuden($mailjyuden)
                     ->setDetail($detail);
-        $this->testSessid = bin2hex(random_bytes(10));
         return (new AddHanpu\AddHanpuRequestModel())
                     ->setId(OverviewMapper::ACE_TEST_SYID)
                     ->setSessId($this->testSessid)
