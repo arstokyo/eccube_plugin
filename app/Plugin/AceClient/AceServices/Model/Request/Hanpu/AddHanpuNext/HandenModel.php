@@ -43,15 +43,20 @@ class HandenModel extends ParentModel
     }
 
     /**
-     * {@inheritDoc}
-     */
+    * Get 頒布回数
+    *
+    * @return ?string
+    */
     public function getHcnt(): ?string
     {
         return $this->hcnt;
     }
 
     /**
-     * {@inheritDoc}
+     * Set 頒布回数
+     *
+     * @param ?string $hcnt
+     * @return $this
      */
     public function setHcnt(?string $hcnt): static
     {
