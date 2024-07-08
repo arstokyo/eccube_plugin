@@ -3,126 +3,50 @@
 namespace Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpuNext;
 
 use Plugin\AceClient\AceServices\Model\Request;
-use Plugin\AceClient\AceServices\Model\Request\Prm\PrmModelAbstract;
+use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\DetailModelInterface;
+use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\HandenModelInterface;
+use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\HanpuPrmModel as ParentModel;
+use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\MailJyudenModelInterface;
+use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\MemberModelInterface;
 
 /**
  * Class HanpuPrmModel
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-
-class HanpuPrmModel extends PrmModelAbstract implements HanpuPrmModelInterface
+class HanpuPrmModel extends ParentModel
 {
-    const PRM_NODE_NAME = 'hanpu';
 
     /**
-     * {@inheritDoc}
+     * @param Request\Hanpu\AddHanpuNext\MemberModel|null $member
      */
-    public function ensureParameterNotMissing(): void
+    public function setMember(?MemberModelInterface $member): self
     {
-        // ignore
+        return parent::setMember($member);
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function fetchPrmNodeName(): string
-    {
-        return self::PRM_NODE_NAME;
-    }
-    /**
-     * Member
-     *
-     * @var Request\Hanpu\AddHanpuNext\MemberModel $member
-     */
-    protected ?MemberModel $member  = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    function getMember(): ?MemberModel
-    {
-        return $this->member;
-    }
-
-    /**
-    * {@inheritDoc}
+    * @param Request\Hanpu\AddHanpuNext\HandenModel|null $handen
     */
-    function setMember(?MemberModel $member): self
+    public function setHanden(?HandenModelInterface $handen): self
     {
-        $this->member = $member;
-        return $this;
+        return parent::setHanden($handen);
     }
 
     /**
-     * Handen
-     *
-     * @var Request\Hanpu\AddHanpuNext\HandenModel $handen
-     */
-    protected ?HandenModel $handen  = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    function getHanden(): ?HandenModel
-    {
-        return $this->handen;
-    }
-
-    /**
-    * {@inheritDoc}
+    * @param Request\Hanpu\AddHanpuNext\MailJyudenModel|null $mailjyuden
     */
-    function setHanden(?HandenModel $handen): self
+    public function setMailjyuden(?MailJyudenModelInterface $mailjyuden): self
     {
-        $this->handen = $handen;
-        return $this;
+        return parent::setMailjyuden($mailjyuden);
     }
 
     /**
-     * Mailjyuden
-     *
-     * @var Request\Hanpu\AddHanpuNext\MailjyudenModel $mailjyuden
-     */
-    protected ?MailjyudenModel $mailjyuden  = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    function getMailjyuden(): ?MailjyudenModel
-    {
-        return $this->mailjyuden;
-    }
-
-    /**
-    * {@inheritDoc}
+    * @param Request\Hanpu\AddHanpuNext\DetailModel|null $detail
     */
-    function setMailjyuden(?MailjyudenModel $mailjyuden): self
+    public function setDetail(?DetailModelInterface $detail): self
     {
-        $this->mailjyuden = $mailjyuden;
-        return $this;
+        return parent::setDetail($detail);
     }
 
-    /**
-     * Detail
-     *
-     * @var Request\Hanpu\AddHanpuNext\DetailModel $detail
-     */
-    protected ?DetailModel $detail  = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    function getDetail(): ?DetailModel
-    {
-        return $this->detail;
-    }
-
-    /**
-    * {@inheritDoc}
-    */
-    function setDetail(?DetailModel $detail): self
-    {
-        $this->detail = $detail;
-        return $this;
-    }
 }

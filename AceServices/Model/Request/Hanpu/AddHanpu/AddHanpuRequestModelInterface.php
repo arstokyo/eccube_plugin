@@ -16,7 +16,7 @@ interface AddHanpuRequestModelInterface extends RequestModelInterface,
      * @param Request\Hanpu\AddHanpu\HanpuPrmModel $prm
      * @return self
      */
-    public function setPrm(HanpuPrmModel $prm): self;
+    public function setPrm(HanpuPrmModelInterface $prm): self;
 
     /**
      * Get オーダー情報

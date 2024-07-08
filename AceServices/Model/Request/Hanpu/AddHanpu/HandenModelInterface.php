@@ -27,9 +27,9 @@ interface HandenModelInterface extends Shukka\HasSKbnInterface,
     /**
     * Get CardInfo
     *
-    * @return Request\Hanpu\AddHanpu\CardInfoModel
+    * @return Request\Hanpu\AddHanpu\CardInfoModelInterface
     */
-    public function getCardInfo(): ?CardInfoModel;
+    public function getCardInfo(): ?CardInfoModelInterface;
 
     /**
      * Set CardInfo
@@ -38,14 +38,14 @@ interface HandenModelInterface extends Shukka\HasSKbnInterface,
      * @return self
      */
     #[SerializedName('card_info')]
-    public function setCardInfo(?CardInfoModel $cardInfo): self;
+    public function setCardInfo(?CardInfoModelInterface $cardInfo): self;
 
     /**
     * Get HanpuFirst
     *
-    * @return Request\Hanpu\AddHanpu\HanpuFirstModel
+    * @return Request\Hanpu\AddHanpu\HanpuFirstModelInterface
     */
-    public function getHanpuFirst(): ?HanpuFirstModel;
+    public function getHanpuFirst(): ?HanpuFirstModelInterface;
 
     /**
      * Set HanpuFirst
@@ -54,14 +54,14 @@ interface HandenModelInterface extends Shukka\HasSKbnInterface,
      * @return self
      */
     #[SerializedName('hanpu_first')]
-    public function setHanpuFirst(?HanpuFirstModel $hanpuFirst): self;
+    public function setHanpuFirst(?HanpuFirstModelInterface $hanpuFirst): self;
 
     /**
     * Get HanpuSecond
     *
-    * @return Request\Hanpu\AddHanpu\HanpuSecondModel
+    * @return Request\Hanpu\AddHanpu\HanpuSecondModelInterface
     */
-    public function getHanpuSecond(): ?HanpuSecondModel;
+    public function getHanpuSecond(): ?HanpuSecondModelInterface;
 
     /**
      * Set HanpuSecond
@@ -70,7 +70,7 @@ interface HandenModelInterface extends Shukka\HasSKbnInterface,
      * @return self
      */
     #[SerializedName('hanpu_second')]
-    public function setHanpuSecond(?HanpuSecondModel $hanpuSecond): self;
+    public function setHanpuSecond(?HanpuSecondModelInterface $hanpuSecond): self;
 
     /**
     * Get 媒体識別コード
@@ -102,18 +102,4 @@ interface HandenModelInterface extends Shukka\HasSKbnInterface,
      */
     public function setHanpucd(?string $hanpucd): static;
 
-    /**
-    * Get 頒布回数
-    *
-    * @return ?string
-    */
-    public function getHcnt(): ?string;
-
-    /**
-     * Set 頒布回数
-     *
-     * @param ?string $hcnt
-     * @return $this
-     */
-    public function setHcnt(?string $hcnt): static;
 }

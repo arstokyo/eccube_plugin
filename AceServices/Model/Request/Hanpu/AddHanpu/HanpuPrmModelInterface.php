@@ -17,7 +17,7 @@ interface HanpuPrmModelInterface extends PrmModelInterface
     *
     * @return Request\Hanpu\AddHanpu\MemberModel
     */
-    public function getMember(): ?MemberModel;
+    public function getMember(): ?MemberModelInterface;
 
     /**
      * Set Member
@@ -25,14 +25,14 @@ interface HanpuPrmModelInterface extends PrmModelInterface
      * @param Request\Hanpu\AddHanpu\MemberModel $member
      * @return self
      */
-    public function setMember(?MemberModel $member): self;
+    public function setMember(?MemberModelInterface $member): self;
 
     /**
     * Get Handen
     *
     * @return Request\Hanpu\AddHanpu\HandenModel
     */
-    public function getHanden(): ?HandenModel;
+    public function getHanden(): ?HandenModelInterface;
 
     /**
      * Set Handen
@@ -40,14 +40,14 @@ interface HanpuPrmModelInterface extends PrmModelInterface
      * @param Request\Hanpu\AddHanpu\HandenModel $handen
      * @return self
      */
-    public function setHanden(?HandenModel $handen): self;
+    public function setHanden(?HandenModelInterface $handen): self;
 
     /**
     * Get Mailjyuden
     *
     * @return Request\Hanpu\AddHanpu\MailjyudenModel
     */
-    public function getMailjyuden(): ?MailjyudenModel;
+    public function getMailjyuden(): ?MailJyudenModelInterface;
 
     /**
      * Set Mailjyuden
@@ -55,14 +55,14 @@ interface HanpuPrmModelInterface extends PrmModelInterface
      * @param Request\Hanpu\AddHanpu\MailjyudenModel $mailjyuden
      * @return self
      */
-    public function setMailjyuden(?MailjyudenModel $mailjyuden): self;
+    public function setMailjyuden(?MailJyudenModelInterface $mailjyuden): self;
 
     /**
     * Get Detail
     *
     * @return Request\Hanpu\AddHanpu\DetailModel
     */
-    public function getDetail(): ?DetailModel;
+    public function getDetail(): ?DetailModelInterface;
 
     /**
      * Set Detail
@@ -70,5 +70,5 @@ interface HanpuPrmModelInterface extends PrmModelInterface
      * @param Request\Hanpu\AddHanpu\DetailModel $detail
      * @return self
      */
-    public function setDetail(?DetailModel $detail): self;
+    public function setDetail(?DetailModelInterface $detail): self;
 }

@@ -2,13 +2,13 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpuNext;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Card;
+use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\CardInfoModel as ParentModel;
 
 /**
  * Class CardInfoModel
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-class CardInfoModel extends Card\CardModelGroup1 implements CardInfoModelInterface
+class CardInfoModel extends ParentModel
 {
 }

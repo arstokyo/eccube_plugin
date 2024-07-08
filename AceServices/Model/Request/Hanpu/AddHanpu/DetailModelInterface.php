@@ -2,6 +2,8 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu;
 
+use Plugin\AceClient\AceServices\Model\Request;
+
 /**
  * Interface for DetailModel
  *
@@ -19,7 +21,7 @@ interface DetailModelInterface
     /**
      * Set Hanmei
      *
-     * @param HanmeiModel[]|null $hanmei
+     * @param Request\Hanpu\AddHanpu\HanmeiModel[]|null $hanmei
      * @return self
      */
     public function setHanmei(?array $hanmei): self;
