@@ -14,7 +14,7 @@ use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
 class DecisionHanpuTest extends AceRequestTestAbtract
 {
     private ?string $testMemberId = '221';
-    private ?string $testSessid;
+    private ?string $testSessid = '6666666666';
     public function getAddHanpuModel(string $sessid): AddHanpu\AddHanpuRequestModel
     {
         $member = (new AddHanpu\MemberModel)
@@ -147,7 +147,6 @@ class DecisionHanpuTest extends AceRequestTestAbtract
 
     public function testRequestDecisionHanpuOK()
     {
-        $this->testSessid = bin2hex(random_bytes(10));
         $this->assertTrue($this->addNewHanpu($this->testSessid));
         try {
             $decisionHanpuRequest = (new DecisionHanpu\DecisionHanpuRequestModel())
