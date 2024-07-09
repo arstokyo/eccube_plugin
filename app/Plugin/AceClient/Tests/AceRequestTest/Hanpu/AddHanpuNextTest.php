@@ -431,41 +431,41 @@ class AddHanpuNextTest extends AceRequestTestAbtract
                     <handen>
                         <hcnt>1</hcnt>
                         <card_info>
-                        <pgt_memid>100</pgt_memid>
-                        <pgt_memcdid>110</pgt_memcdid>
-                        <pgt_tid>20</pgt_tid>
-                        <pgt_id>999</pgt_id>
-                        <pgt_icls>1</pgt_icls>
-                        <gmocardeda>1</gmocardeda>
-                        <sps_memid>100</sps_memid>
-                        <sps_tracid>100</sps_tracid>
-                        <veristatus>1</veristatus>
-                        <orderid>999</orderid>
-                        <card_code>100</card_code>
-                        <card_no>123456789</card_no>
-                        <card_kigen>202507</card_kigen>
-                        <card_pay>21</card_pay>
-                        <kaisuu>5</kaisuu>
-                        <card_syonin>100</card_syonin>
-                        <cname>name</cname>
-                        <gmomemberid>100</gmomemberid>
-                        <gmoorderid>123456789</gmoorderid>
-                        <gmotorihikiid>gmoid</gmotorihikiid>
-                        <gmotorihikipw>gmopw</gmotorihikipw>
+                            <pgt_memid>100</pgt_memid>
+                            <pgt_memcdid>110</pgt_memcdid>
+                            <pgt_tid>20</pgt_tid>
+                            <pgt_id>999</pgt_id>
+                            <pgt_icls>1</pgt_icls>
+                            <gmocardeda>1</gmocardeda>
+                            <sps_memid>100</sps_memid>
+                            <sps_tracid>100</sps_tracid>
+                            <veristatus>1</veristatus>
+                            <orderid>999</orderid>
+                            <card_code>100</card_code>
+                            <card_no>123456789</card_no>
+                            <card_kigen>{$ckigen}</card_kigen>
+                            <card_pay>21</card_pay>
+                            <kaisuu>5</kaisuu>
+                            <card_syonin>100</card_syonin>
+                            <cname>name</cname>
+                            <gmomemberid>100</gmomemberid>
+                            <gmoorderid>123456789</gmoorderid>
+                            <gmotorihikiid>gmoid</gmotorihikiid>
+                            <gmotorihikipw>gmopw</gmotorihikipw>
                         </card_info>
                         <hanpu_first>
-                        <otodokeday>20270708</otodokeday>
-                        <sday>20250708</sday>
+                            <otodokeday>{$otodokeday}</otodokeday>
+                            <sday>{$sday}</sday>
                         </hanpu_first>
                         <hanpu_second>
-                        <siteday/>
-                        <site>1</site>
-                        <sdd>3</sdd>
-                        <weeksite>1</weeksite>
-                        <weekday>2</weekday>
-                        <otodokedd>1</otodokedd>
-                        <otodokewsite>3</otodokewsite>
-                        <otodokewday>2</otodokewday>
+                            <siteday/>
+                            <site>1</site>
+                            <sdd>3</sdd>
+                            <weeksite>1</weeksite>
+                            <weekday>2</weekday>
+                            <otodokedd>1</otodokedd>
+                            <otodokewsite>3</otodokewsite>
+                            <otodokewday>2</otodokewday>
                         </hanpu_second>
                         <bscode>100</bscode>
                         <hanpucd>21</hanpucd>
@@ -475,7 +475,7 @@ class AddHanpuNextTest extends AceRequestTestAbtract
                         <weborderno>1234</weborderno>
                         <hbikou1>頒布伝票備考1</hbikou1>
                         <hbikou2>頒布伝票備考2</hbikou2>
-                        <day>20250708</day>
+                        <day>{$day}</day>
                         <tcode>123</tcode>
                         <jcode>1</jcode>
                         <pcode>14</pcode>
