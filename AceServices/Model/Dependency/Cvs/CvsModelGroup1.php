@@ -111,7 +111,7 @@ class CvsModelGroup1 implements CvsModelGroup1Interface
     /**
      * {@inheritDoc}
      */
-    public function getPaylimit(): ?AceDateTime\AceDateTime
+    public function getPaylimit()
     {
         return $this->paylimit;
     }
