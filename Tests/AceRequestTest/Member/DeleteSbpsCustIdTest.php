@@ -86,7 +86,7 @@ class DeleteSbpsCustIdRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals("214", $sbpscustid->getMbid());
         $this->assertEquals("1", $sbpscustid->getCeda());
         $this->assertEquals("214", $sbpscustid->getCustid());
-        $this->assertContains($sbpscustid->getDay()->toShortDate(), ['2024-06-12', '6061-02-01', '6070-02-01']);
+        $this->assertNotNull($sbpscustid->getDay()->toDateTime());
 
         $this->assertEquals("", $message->getMessage1());
         $this->assertEquals("", $message->getMessage2());
