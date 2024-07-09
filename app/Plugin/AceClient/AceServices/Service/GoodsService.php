@@ -64,4 +64,24 @@ class GoodsService extends AceServiceAbstract implements AceServiceInterface
     {
         return new AceMethod\Goods\GetGtankaMethod($this->baseServiceName, $this->serviceRetriever);
     }
+
+    /**
+     * Make GetNyukaYoteiMethod
+     *
+     * @return AceMethod\Goods\GetNyukaYoteiMethod
+     */
+    public function makeGetNyukaYoteiMethod(): AceMethod\Goods\GetNyukaYoteiMethod
+    {
+        return new AceMethod\Goods\GetNyukaYoteiMethod($this->baseServiceName, $this->serviceRetriever);
+    }
+
+    /**
+     * Make GetGoodsBunruiMethod
+     *
+     * @return AceMethod\Goods\GetGoodsBunruiMethod
+     */
+    public function makeGetGoodsBunruiMethod(): AceMethod\Goods\GetGoodsBunruiMethod
+    {
+        return new AceMethod\Goods\GetGoodsBunruiMethod($this->baseServiceName, $this->serviceRetriever);
+    }
 }

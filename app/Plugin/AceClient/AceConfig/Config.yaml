@@ -45,7 +45,7 @@ prm_otd_format:
     default: 
         format: 'xml'
         options: 
-            xml_format_output: true
+            xml_format_output: false
             xml_encoding: 'UTF-8'
 
     overrides:
