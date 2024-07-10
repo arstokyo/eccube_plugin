@@ -11,19 +11,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
 interface GetMemAnkRequestModelInterface extends RequestModelInterface,
-                                                 NoCategory\HasIdInterface
+                                                 NoCategory\HasIdInterface,
+                                                 NoCategory\HasMbidInterface
 {
-    /**
-     * Get 顧客ID
-     *
-     * @return string
-     */
-    public function getMbid(): ?string;
-
-    /**
-     * Set 顧客ID
-     *
-     * @param string $mbid
-     */
-    public function setMbid(?string $mbid);
 }

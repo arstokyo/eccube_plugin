@@ -27,9 +27,9 @@ class UpdatePasswordRequestModelTest extends AceRequestTestAbtract
         <<<XML
         {$soapHead}
             <updatePassword xmlns="{$xmlns}">
+                <password>111</password>
                 <syid>13</syid>
                 <mbid>204</mbid>
-                <password>111</password>
             </updatePassword>
         {$soapEnd}
         XML;

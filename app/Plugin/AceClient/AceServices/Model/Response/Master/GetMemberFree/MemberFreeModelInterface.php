@@ -2,28 +2,15 @@
 
 namespace Plugin\AceClient\AceServices\Model\Response\Master\GetMemberFree;
 
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+
 /**
  * Interface for MemberFreeModel
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface MemberFreeModelInterface
+interface MemberFreeModelInterface extends NoCategory\HasMbidInterface
 {
-    /**
-     * Get 顧客ID
-     *
-     * @return ?string
-     */
-    public function getMbid(): ?string;
-
-    /**
-     * Set 顧客ID
-     *
-     * @param ?string $mbid
-     * @return $this
-     */
-    public function setMbid(?string $mbid);
-
     /**
      * Get フリー項目区分
      *
