@@ -27,10 +27,10 @@ class GetHolidayRequestModelTest extends AceRequestTestAbtract
         <<<XML
         {$soapHead}
             <getHoliday xmlns="{$xmlns}">
-                <syid>13</syid>
                 <startday>20240101</startday>
                 <endday>20240601</endday>
                 <skid>300</skid>
+                <syid>13</syid>
             </getHoliday>
         {$soapEnd}
         XML;

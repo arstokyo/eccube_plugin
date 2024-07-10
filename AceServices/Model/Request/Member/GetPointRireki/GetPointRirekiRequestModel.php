@@ -4,6 +4,7 @@ namespace Plugin\AceClient\AceServices\Model\Request\Member\GetPointRireki;
 
 use Plugin\AceClient\AceServices\Model\Request\RequestModelAbstract;
 use Plugin\AceClient\Exception\MissingRequestParameterException;
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Class GetPointRirekiRequestModel
@@ -14,30 +15,10 @@ class GetPointRirekiRequestModel extends RequestModelAbstract implements GetPoin
 {
     const XML_NODE_NAME = 'getPointRireki';
 
-
-    /** @var ?int $syid 通販AceID */
-    protected ?int $syid = null;
+    use NoCategory\SyidTrait;
 
     /** @var ?string $jmemid 受注顧客ID */
     protected ?string $jmemid = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getSyid(): ?int
-    {
-        return $this->syid;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setSyid(?int $syid)
-    {
-        $this->syid = $syid;
-        return $this;
-    }
-
 
     /**
      * {@inheritDoc}

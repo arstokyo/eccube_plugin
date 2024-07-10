@@ -13,29 +13,10 @@ use Plugin\AceClient\Exception\MissingRequestParameterException;
  */
 class GetMemAnkRequestModel extends RequestModelAbstract implements GetMemAnkRequestModelInterface
 {
-    use NoCategory\IdTrait;
+    use NoCategory\IdTrait,
+        NoCategory\MbidTrait;
 
     const XML_NODE_NAME = 'getMemAnk';
-
-    /** @var ?string $mbid 顧客ID */
-    protected ?string $mbid = null;
-
-    /**
-    * {@inheritDoc}
-    */
-    public function getMbid(): ?string
-    {
-        return $this->mbid;
-    }
-
-    /**
-    * {@inheritDoc}
-    */
-    public function setMbid(?string $mbid)
-    {
-        $this->mbid = $mbid;
-        return $this;
-    }
 
     /**
      * {@inheritDoc}

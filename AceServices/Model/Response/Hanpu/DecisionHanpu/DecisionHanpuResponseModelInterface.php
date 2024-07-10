@@ -15,14 +15,14 @@ interface DecisionHanpuResponseModelInterface extends ResponseModelInterface
     /**
      * Get OrderModel
      *
-     * @return Response\Hanpu\AddHanpu\OrderModelInterface
+     * @return Response\Hanpu\DecisionHanpu\OrderModelInterface
      */
     public function getOrder(): OrderModelInterface;
 
     /**
      * Set OrderModel
      *
-     * @param Response\Hanpu\AddHanpu\OrderModel $order
+     * @param Response\Hanpu\DecisionHanpu\OrderModel $order
      */
     public function setOrder(OrderModel $order): void;
 }

@@ -27,8 +27,8 @@ class GetPointRirekiRequestModelTest extends AceRequestTestAbtract
         <<<XML
         {$soapHead}
             <getPointRireki xmlns="{$xmlns}">
-                <syid>13</syid>
                 <jmemid>213</jmemid>
+                <syid>13</syid>
             </getPointRireki>
         {$soapEnd}
         XML;

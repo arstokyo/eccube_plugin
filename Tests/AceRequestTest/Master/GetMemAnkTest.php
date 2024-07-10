@@ -27,8 +27,8 @@ class GetMemAnkRequestModelTest extends AceRequestTestAbtract
         <<<XML
         {$soapHead}
             <getMemAnk xmlns="{$xmlns}">
-                <mbid>222</mbid>
                 <id>13</id>
+                <mbid>222</mbid>
             </getMemAnk>
         {$soapEnd}
         XML;

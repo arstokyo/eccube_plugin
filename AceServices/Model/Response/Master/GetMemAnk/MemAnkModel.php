@@ -2,6 +2,8 @@
 
 namespace Plugin\AceClient\AceServices\Model\Response\Master\GetMemAnk;
 
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+
 /**
  * Class MemAnkModel
  *
@@ -10,8 +12,7 @@ namespace Plugin\AceClient\AceServices\Model\Response\Master\GetMemAnk;
 
 class MemAnkModel implements MemAnkModelInterface
 {
-    /** @var ?string $mbid 顧客ID */
-    protected ?string $mbid = null;
+    use NoCategory\MbidTrait;
 
     /** @var ?int $kubun フリー項目区分 */
     protected ?int $kubun = null;
@@ -21,23 +22,6 @@ class MemAnkModel implements MemAnkModelInterface
 
     /** @var ?string $ansid アンケートID */
     protected ?string $ansid = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getMbid(): ?string
-    {
-        return $this->mbid;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setMbid(?string $mbid)
-    {
-        $this->mbid = $mbid;
-        return $this;
-    }
 
     /**
      * {@inheritDoc}

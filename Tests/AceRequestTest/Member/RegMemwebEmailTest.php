@@ -27,9 +27,9 @@ class RegMemwebEmailRequestModelTest extends AceRequestTestAbtract
         <<<XML
         {$soapHead}
             <regMemwebEmail xmlns="{$xmlns}">
+                <email>test@gmail.com</email>
                 <syid>13</syid>
                 <mbid>208</mbid>
-                <email>test@gmail.com</email>
             </regMemwebEmail>
         {$soapEnd}
         XML;
