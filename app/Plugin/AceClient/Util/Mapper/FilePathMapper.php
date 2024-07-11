@@ -10,6 +10,5 @@ namespace Plugin\AceClient\Util\Mapper;
 class FilePathMapper
 {
     const ROOT_CONFIG_PATH = __DIR__.'/../../AceConfig';
-
     const ACE_CLIENT_FILE_NAME = 'Config.yaml';
 }

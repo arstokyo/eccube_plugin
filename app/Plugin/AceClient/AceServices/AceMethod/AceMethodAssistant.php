@@ -173,7 +173,7 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
      */
     private function buildNormalizersForSerializer(): array
     {
-        if (empty($this->config->getSerializer()->getNormalizers()) or
+        if (empty($this->config->getSerializer()->getNormalizers()) ||
             NormalizerFactory::DEFAULT_NORMALIZERS_FOR_SOAP_SERIALIZER === $this->config->getSerializer()->getNormalizers()
         ) {
             return $this->serviceRetriever->getSoapXmlProvider()->getNormalizers();
@@ -193,7 +193,7 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
      */
     private function buildEncoders(): array
     {
-        if (empty($this->config->getSerializer()->getEncoder()) or
+        if (empty($this->config->getSerializer()->getEncoder()) ||
             EncoderFactory::DEFAULT_ENCODER_FOR_SOAP_SERIALIZER === $this->config->getSerializer()->getEncoder()
         ) {
             return $this->serviceRetriever->getSoapXmlProvider()->getEncoders();
@@ -212,7 +212,7 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
      */
     private function buildNormalizer(): NormalizerInterface
     {
-        if (empty($this->config->getNormalizer()->getClassName()) or 
+        if (empty($this->config->getNormalizer()->getClassName()) ||
             NormalizerFactory::DEFAULT_NORMALIZER === $this->config->getNormalizer()->getClassName()
         ) {
             return $this->serviceRetriever->getNormalizer();

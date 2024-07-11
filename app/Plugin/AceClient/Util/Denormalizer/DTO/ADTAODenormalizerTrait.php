@@ -27,6 +27,7 @@ trait ADTAODenormalizerTrait
         if (!$this->getSerializerForDTO()) {
             $this->setSerializerForDTO(SerializerFactory::makeDTOSerializer());
         };
+
         foreach ($result as $key => $value) {
             if (is_array($value)) {
                 foreach($value as $k => $v) {
@@ -34,6 +35,7 @@ trait ADTAODenormalizerTrait
                 }
             }
         }
+        
         return $result;
     }
 
