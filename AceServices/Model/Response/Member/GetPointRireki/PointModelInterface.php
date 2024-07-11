@@ -5,6 +5,8 @@ namespace Plugin\AceClient\AceServices\Model\Response\Member\GetPointRireki;
 use Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
 use Plugin\AceClient\AceServices\Model\Dependency\Day;
 use Plugin\AceClient\AceServices\Model\Dependency\Point;
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+
 
 /**
  * Interface for PointModel
@@ -14,20 +16,17 @@ use Plugin\AceClient\AceServices\Model\Dependency\Point;
 interface PointModelInterface extends Denpyo\HasDennoInterface,
                                       Day\HasJdayInterface,
                                       Day\HasDayInterface,
-                                      Point\HasPointInterface
+                                      Point\HasPointInterface,
+                                      NoCategory\HasJmemidInterface,
+                                      NoCategory\HasKubunInterface
 {
     /**
      * Get ポイント区分
-     *
-     * @return ?int
      */
     public function getKubun(): ?int;
 
     /**
      * Set ポイント区分
-     *
-     * @param ?int $kubun
-     * @return $this
      */
     public function setKubun(?int $kubun);
 
@@ -109,15 +108,12 @@ interface PointModelInterface extends Denpyo\HasDennoInterface,
     /**
      * Get 顧客ID
      *
-     * @return ?string
      */
     public function getJmemid(): ?string;
 
     /**
      * Set 顧客ID
      *
-     * @param ?string $jmemid
-     * @return $this
      */
     public function setJmemid(?string $jmemid);
 

@@ -26,8 +26,7 @@ class LoggerProvider
     public function __construct
     (
         LoggerInterface $logger
-    )
-    {
+    ) {
         $this->logger = $logger;
         $this->nullLogger = LoggerFactory::makeLoggerByClassName(LoggerFactory::NULL_LOGGER_CLASS);
     }

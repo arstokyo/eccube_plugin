@@ -82,6 +82,7 @@ final class ClassFactory
         if (!class_exists($className)) {
             throw new InvalidClassNameException(sprintf('Given class name does not exist. Given class name %s', $className));
         }
+        
         return true;
     }
 

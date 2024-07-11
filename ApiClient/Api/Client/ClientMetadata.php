@@ -35,9 +35,7 @@ class ClientMetadata implements ClientMetadataInterface
     }
 
     /**
-     * Get Client Request method
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function getRequestMethod(): string
     {
@@ -45,9 +43,7 @@ class ClientMetadata implements ClientMetadataInterface
     }
 
     /**
-     * Get Client get target Uri
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function getUri(): string
     {
@@ -55,9 +51,7 @@ class ClientMetadata implements ClientMetadataInterface
     }
 
     /**
-     * Get Client Request Data
-     *
-     * @return RequestModelInterface|\JsonSerializable|array<int|string, mixed>
+     * {@inheritDoc}
      */
     public function getData()
     {

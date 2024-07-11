@@ -14,8 +14,6 @@ class PrmOTDFormatModel extends OverridableConfigAbstract implements ConfigModel
 {
 
     /**
-     * Get the value of default
-     * 
      * @return PrmDetailFormatModel
      */
     public function getDefaultConfig(): ConfigModelInterface
@@ -24,10 +22,6 @@ class PrmOTDFormatModel extends OverridableConfigAbstract implements ConfigModel
     }
 
     /**
-     * Get a specific override value
-     * 
-     * @param string $classNameFQD
-     * 
      * @return ?PrmDetailFormatModel
      */
     public function getSpecificOverride(string $classNameFQD): ?ConfigModelInterface
@@ -37,7 +31,6 @@ class PrmOTDFormatModel extends OverridableConfigAbstract implements ConfigModel
 
     /**
      * {@inheritDoc}
-     * 
      */
     protected function setDetailConfigClassName(): string
     {
@@ -53,8 +46,8 @@ class PrmOTDFormatModel extends OverridableConfigAbstract implements ConfigModel
      */
     protected function performOverrideConfig(ConfigModelInterface $overrideConfig): ConfigModelInterface
     {
-
         $result = new PrmDetailFormatModel;
+        
         if ($overrideConfig->getFormat())
         {
             $result->setFormat($overrideConfig->getFormat());

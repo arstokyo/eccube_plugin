@@ -18,7 +18,7 @@ class OTDXmlDenormalizer extends OTDDenormalizerAbstract
      */
     public function denormalizeOTD()
     {
-        if ($this->delegate->getSerializer() === null) {
+        if (null === $this->delegate->getSerializer()) {
             throw new \RuntimeException('OTDXmlDenormalizer Error: Serializer is not set in delegate.');
         }
 

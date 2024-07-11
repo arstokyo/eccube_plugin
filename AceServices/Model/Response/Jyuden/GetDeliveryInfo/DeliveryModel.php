@@ -10,6 +10,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\OkuriAndNouhin;
 use Plugin\AceClient\AceServices\Model\Dependency\Person;
 use Plugin\AceClient\AceServices\Model\Dependency\Day;
 use Plugin\AceClient\AceServices\Model\Dependency\Haiso;
+use Plugin\AceClient\AceServices\Model\Dependency\Person\Nmember\NcodeTrait;
 
 /**
  * Class for DeliveryModel
@@ -28,10 +29,8 @@ class DeliveryModel implements DeliveryModelInterface
     Person\Nmember\NadrTrait,
     Day\SdayTrait,
     Day\HdayTrait,
-    Haiso\HkNameTrait;
-
-    /** @var ?string $jmemid 受付先顧客ID */
-    protected ?string $jmemid = null;
+    Haiso\HkNameTrait,
+    NoCategory\JmemidTrait;
 
     /** @var ?string $jname 氏名 */
     protected ?string $jname = null;
@@ -62,23 +61,6 @@ class DeliveryModel implements DeliveryModelInterface
 
     /** @var ?string $ntel 電話番号 */
     protected ?string $ntel = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getJmemid(): ?string
-    {
-        return $this->jmemid;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setJmemid(?string $jmemid)
-    {
-        $this->jmemid = $jmemid;
-        return $this;
-    }
 
     /**
      * {@inheritDoc}

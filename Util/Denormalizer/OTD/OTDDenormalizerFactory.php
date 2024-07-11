@@ -2,7 +2,6 @@
 
 namespace Plugin\AceClient\Util\Denormalizer\OTD;
 
-
 /**
  * Factory for Object to Data Denormalizer.
  * 

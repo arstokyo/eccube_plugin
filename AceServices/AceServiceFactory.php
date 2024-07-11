@@ -12,7 +12,6 @@ use Plugin\AceClient\Util\ServiceRetriever\ServiceRetrieverInterface;
  */
 class AceServiceFactory
 {
-
     private ServiceRetrieverInterface $serviceRetriever;
     
     /**

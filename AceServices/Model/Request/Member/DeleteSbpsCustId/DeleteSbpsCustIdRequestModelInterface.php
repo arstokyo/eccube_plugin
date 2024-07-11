@@ -4,6 +4,7 @@ namespace Plugin\AceClient\AceServices\Model\Request\Member\DeleteSbpsCustId;
 
 use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient\AceServices\Model\Dependency\Card;
 
 /**
  * Interface DeleteSbpsCustIdRequestInterface
@@ -12,20 +13,16 @@ use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
  */
 interface DeleteSbpsCustIdRequestModelInterface extends RequestModelInterface,
                                                         NoCategory\HasSyidInterface,
-                                                        NoCategory\HasMbidInterface
+                                                        NoCategory\HasMbidInterface,
+                                                        Card\HasCedaInterface
 {
     /**
      * Get SBPS顧客枝番
-     *
-     * @return ?string
      */
     public function getCeda(): ?string;
 
     /**
      * Set SBPS顧客枝番
-     *
-     * @param ?string $ceda
-     * @return $this
      */
     public function setCeda(?string $ceda);
 }

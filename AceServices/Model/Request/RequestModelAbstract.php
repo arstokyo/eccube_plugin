@@ -2,8 +2,11 @@
 
 namespace Plugin\AceClient\AceServices\Model\Request;
 
-use Symfony\Component\Serializer\Annotation\Ignore;
-
+/**
+ * Abstract Class for Request Model
+ * 
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 abstract class RequestModelAbstract implements RequestModelInterface
 {
     /**

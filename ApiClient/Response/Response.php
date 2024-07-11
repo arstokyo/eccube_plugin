@@ -33,8 +33,6 @@ class Response implements ResponseInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @return array<array-key, array<array-key, string>>
      */
     public function getHeaders(): array
     {
@@ -43,8 +41,6 @@ class Response implements ResponseInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @return integer
      */
     public function getStatusCode(): int
     {
@@ -53,8 +49,6 @@ class Response implements ResponseInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @return mixed
      */
     public function getResponse()
     {

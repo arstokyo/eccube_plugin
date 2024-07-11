@@ -13,7 +13,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\Zaiko;
 class GoodModel implements GoodModelInterface
 {
     use Good\GdidTrait,
-    Good\GNameTrait,
-    Cost\Tanka\NineTankaTrait,
-    Zaiko\ZaikoTrait;
+        Good\GNameTrait,
+        Cost\Tanka\NineTankaTrait,
+        Zaiko\ZaikoTrait;
 }
