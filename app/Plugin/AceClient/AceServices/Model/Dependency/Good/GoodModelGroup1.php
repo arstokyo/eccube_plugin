@@ -15,9 +15,6 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
 {
     use Bikou\ThreeNotesTrait, GoodModelBaseTrait, GdidTrait;
 
-    /** @var ?string $gdid 商品ID */
-    protected ?string $gdid = null;
-
     /** @var ?int $nprint 納品明細出力区分 */
     protected ?int $nprint = null;
 
@@ -65,23 +62,6 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
 
     /** @var ?string $subnm1 略名称 */
     protected ?string $subnm1 = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getGdid(): ?string
-    {
-        return $this->gdid;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setGdid(?string $gdid)
-    {
-        $this->gdid = $gdid;
-        return $this;
-    }
 
     /**
      * {@inheritDoc}

@@ -4,29 +4,16 @@ namespace Plugin\AceClient\AceServices\Model\Request\Master\GetHoliday;
 
 use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Interface GetHoliday Request Model
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface GetHolidayRequestModelInterface extends RequestModelInterface
+interface GetHolidayRequestModelInterface extends RequestModelInterface,
+                                                  NoCategory\HasSyidInterface
 {
-    /**
-     * Get 通販AceID
-     *
-     * @return ?int
-     */
-    public function getSyid(): ?int;
-
-    /**
-     * Set 通販AceID
-     *
-     * @param ?int $syid
-     * @return $this
-     */
-    public function setSyid(?int $syid);
-
     /**
      * Get 開始日
      *

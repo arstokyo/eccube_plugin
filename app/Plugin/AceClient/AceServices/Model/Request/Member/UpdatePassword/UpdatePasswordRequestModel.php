@@ -13,49 +13,11 @@ use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
  */
 class UpdatePasswordRequestModel extends RequestModelAbstract implements UpdatePasswordRequestModelInterface
 {
-    use NoCategory\PassWdTrait;
+    use NoCategory\PassWdTrait,
+        NoCategory\SyidTrait,
+        NoCategory\MbidTrait;
 
     const XML_NODE_NAME = 'updatePassword';
-
-    /** @var ?int $syid 通販AceシステムID */
-    protected ?int $syid = null;
-
-    /** @var ?string $mbid 顧客ID */
-    protected ?string $mbid = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getSyid(): ?int
-    {
-        return $this->syid;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setSyid(?int $syid)
-    {
-        $this->syid = $syid;
-        return $this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getMbid(): ?string
-    {
-        return $this->mbid;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setMbid(?string $mbid)
-    {
-        $this->mbid = $mbid;
-        return $this;
-    }
 
     /**
      * {@inheritDoc}

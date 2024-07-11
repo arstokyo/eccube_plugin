@@ -28,7 +28,6 @@ class CheckDuplicationMemberRequestModelTest extends AceRequestTestAbtract
         <<<XML
         {$soapHead}
             <checkDuplicationMember xmlns="{$xmlns}">
-                <syid>13</syid>
                 <prm><![CDATA[<?xmlversion="1.0"encoding="UTF-8"?>
                     <member>
                         <name>noExistUser</name>
@@ -39,6 +38,7 @@ class CheckDuplicationMemberRequestModelTest extends AceRequestTestAbtract
                         <tel>09876543210</tel>
                     </member>
                 ]]></prm>
+                <syid>13</syid>
             </checkDuplicationMember>
         {$soapEnd}
         XML;
