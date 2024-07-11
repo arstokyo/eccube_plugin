@@ -27,10 +27,10 @@ class GetDurationOrderTotalRequestModelTest extends AceRequestTestAbtract
         <<<XML
         {$soapHead}
             <getDurationOrderTotal xmlns="{$xmlns}">
-                <syid>13</syid>
-                <mbid>216</mbid>
                 <dayfrom>20230101</dayfrom>
                 <dayto>20240101</dayto>
+                <syid>13</syid>
+                <mbid>216</mbid>
             </getDurationOrderTotal>
         {$soapEnd}
         XML;

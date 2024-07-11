@@ -3,29 +3,16 @@
 namespace Plugin\AceClient\AceServices\Model\Response\Member\DeleteSbpsCustId;
 
 use Plugin\AceClient\AceServices\Model\Dependency\Day;
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Interface for SbpscustidModel
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface SbpscustidModelInterface extends Day\HasDayInterface
+interface SbpscustidModelInterface extends Day\HasDayInterface,
+                                           NoCategory\HasMbidInterface
 {
-    /**
-     * Get 顧客ID
-     *
-     * @return ?string
-     */
-    public function getMbid(): ?string;
-
-    /**
-     * Set 顧客ID
-     *
-     * @param ?string $mbid
-     * @return $this
-     */
-    public function setMbid(?string $mbid);
-
     /**
      * Get SBPS顧客枝番
      *

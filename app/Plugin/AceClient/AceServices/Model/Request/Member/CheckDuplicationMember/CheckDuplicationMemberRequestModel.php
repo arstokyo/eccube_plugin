@@ -4,34 +4,16 @@ namespace Plugin\AceClient\AceServices\Model\Request\Member\CheckDuplicationMemb
 
 use Plugin\AceClient\AceServices\Model\Request;
 use Plugin\AceClient\Exception\MissingRequestParameterException;
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 class CheckDuplicationMemberRequestModel extends Request\RequestModelAbstract implements CheckDuplicationMemberRequestModelInterface
 {
     const XML_NODE_NAME = 'checkDuplicationMember';
 
+    use NoCategory\SyidTrait;
 
-    /** @var MemberPrmModel $prm Prm */
+    /** @var Request\Member\CheckDuplicationMember\MemberPrmModel $prm Prm */
     private MemberPrmModel $prm;
-
-    /** @var ?int $syid 通販AceID */
-    protected ?int $syid = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getSyid(): ?int
-    {
-        return $this->syid;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setSyid(?int $syid)
-    {
-        $this->syid = $syid;
-        return $this;
-    }
 
     /**
      * {@inheritDoc}

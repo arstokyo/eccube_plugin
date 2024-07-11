@@ -4,6 +4,7 @@ namespace Plugin\AceClient\AceServices\Model\Request\Member\GetMemberName;
 
 use Plugin\AceClient\AceServices\Model\Request\RequestModelAbstract;
 use Plugin\AceClient\Exception\MissingRequestParameterException;
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Class GetMemberName Request Model
@@ -14,45 +15,8 @@ class GetMemberNameRequestModel extends RequestModelAbstract implements GetMembe
 {
     const XML_NODE_NAME = 'getMemberName';
 
-    /** @var ?int $syid 通販AceシステムID */
-    protected ?int $syid = null;
-
-    /** @var ?string $mbid 顧客ID */
-    protected ?string $mbid = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getSyid(): ?int
-    {
-        return $this->syid;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setSyid(?int $syid)
-    {
-        $this->syid = $syid;
-        return $this;
-    }
-
-    /**
-    * {@inheritDoc}
-    */
-    public function getMbid(): ?string
-    {
-        return $this->mbid;
-    }
-
-    /**
-    * {@inheritDoc}
-    */
-    public function setMbid(?string $mbid)
-    {
-        $this->mbid = $mbid;
-        return $this;
-    }
+    use NoCategory\SyidTrait,
+        NoCategory\MbidTrait;
 
     public function ensureParameterNotMissing(): void
     {

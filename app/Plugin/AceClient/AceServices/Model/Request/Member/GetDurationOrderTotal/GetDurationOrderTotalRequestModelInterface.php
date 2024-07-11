@@ -3,44 +3,17 @@
 namespace Plugin\AceClient\AceServices\Model\Request\Member\GetDurationOrderTotal;
 
 use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Interface GetDurationOrderTotalRequestInterface
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface GetDurationOrderTotalRequestModelInterface extends RequestModelInterface
+interface GetDurationOrderTotalRequestModelInterface extends RequestModelInterface,
+                                                             NoCategory\HasSyidInterface,
+                                                             NoCategory\HasMbidInterface
 {
-    /**
-     * Get 通販AceID
-     *
-     * @return ?int
-     */
-    public function getSyid(): ?int;
-
-    /**
-     * Set 通販AceID
-     *
-     * @param ?int $syid
-     * @return $this
-     */
-    public function setSyid(?int $syid);
-
-    /**
-     * Get 顧客ID
-     *
-     * @return ?string
-     */
-    public function getMbid(): ?string;
-
-    /**
-     * Set 顧客ID
-     *
-     * @param ?string $mbid
-     * @return $this
-     */
-    public function setMbid(?string $mbid);
-
     /**
      * Get 開始日付
      *

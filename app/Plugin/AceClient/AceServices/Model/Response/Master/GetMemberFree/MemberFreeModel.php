@@ -2,6 +2,7 @@
 
 namespace Plugin\AceClient\AceServices\Model\Response\Master\GetMemberFree;
 
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Class MemberFreeModel
@@ -11,32 +12,13 @@ namespace Plugin\AceClient\AceServices\Model\Response\Master\GetMemberFree;
 
 class MemberFreeModel implements MemberFreeModelInterface
 {
-
-    /** @var ?string $mbid 顧客ID */
-    protected ?string $mbid = null;
+    use NoCategory\MbidTrait;
 
     /** @var ?int $kubun フリー項目区分 */
     protected ?int $kubun = null;
 
     /** @var ?string $free フリー内容 */
     protected ?string $free = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getMbid(): ?string
-    {
-        return $this->mbid;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setMbid(?string $mbid)
-    {
-        $this->mbid = $mbid;
-        return $this;
-    }
 
     /**
      * {@inheritDoc}

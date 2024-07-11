@@ -66,7 +66,7 @@ class AceClient
     }
 
     /**
-     * Meke Master Service
+     * Make Master Service
      *
      * @return Service\MasterService
      */
@@ -76,12 +76,22 @@ class AceClient
     }
 
     /**
-     * Meke Hanpu Service
+     * Make Hanpu Service
      *
      * @return Service\HanpuService
      */
     public function makeHanpuService() : Service\HanpuService
     {
         return $this->serviceFactory->makeHanpuService();
+    }
+
+    /**
+     * Make Contact Service
+     *
+     * @return Service\ContactService
+     */
+    public function makeContactService() : Service\ContactService
+    {
+        return $this->serviceFactory->makeContactService();
     }
 }

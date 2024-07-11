@@ -123,7 +123,7 @@ class GetHanpuTest extends AceRequestTestAbtract
                     ->setPrm($prm);
     }
 
-    public function testRequestGetHanpuOK()
+    public function addNewHanpu() : bool
     {
         try {
             $addHanpuRequest = $this->getAddHanpuModel();
@@ -133,6 +133,31 @@ class GetHanpuTest extends AceRequestTestAbtract
                                         ->send();
             if ($response->getStatusCode() === 200) {
                 /** @var AddHanpuResponseModel $responseObj */
+                $responseObj = $response->getResponse();
+                $message1 = $responseObj->getOrder()->getMessage()->getMessage1();
+                $message2 = $responseObj->getOrder()->getMessage()->getMessage2();
+            }
+        } catch(ClientException $e) {
+            $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
+        } catch(\Throwable $e) {
+            $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
+        }
+        return empty($message1) && empty($message2) ;
+    }
+
+    public function testRequestGetHanpuOK()
+    {
+        $this->assertTrue($this->addNewHanpu());
+        try {
+            $getHanpuRequest = (new GetHanpuRequestModel())
+                                    ->setId(OverviewMapper::ACE_TEST_SYID)
+                                    ->setSessId($this->testSessid);
+            $response = $this->aceClient->makeHanpuService()
+                                        ->makeGetHanpuMethod()
+                                        ->withRequest($getHanpuRequest)
+                                        ->send();
+            if ($response->getStatusCode() === 200) {
+                /** @var GetHanpuResponseModel $responseObj */
                 $responseObj = $response->getResponse();
                 $handen = $responseObj->getOrder()->getHanden();
                 $hanmei1 = $responseObj->getOrder()->getHanmei()[0];
@@ -408,11 +433,14 @@ class GetHanpuTest extends AceRequestTestAbtract
     }
     public function testRequestGetHanpuNG()
     {
+        $this->assertTrue($this->addNewHanpu());
         try {
-            $addHanpuRequest = $this->getAddHanpuModel()->setId(-1);
+            $getHanpuRequest = (new GetHanpuRequestModel())
+                                    ->setId(-1)
+                                    ->setSessId($this->testSessid);
             $response = $this->aceClient->makeHanpuService()
-                                        ->makeAddHanpuMethod()
-                                        ->withRequest($addHanpuRequest)
+                                        ->makeGetHanpuMethod()
+                                        ->withRequest($getHanpuRequest)
                                         ->send();
             if ($response->getStatusCode() === 200) {
                 /** @var AddHanpuResponseModel $responseObj */
