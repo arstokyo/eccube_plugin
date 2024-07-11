@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Plugin\AceClient\Tests\AceRequestTest\Master;
+namespace Plugin\AceClient\Tests\AceRequestTest\Master;
 
 use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient\AceServices\Model\Request\Master\GetOkuriHkTime\GetOkuriHkTimeRequestModel;
