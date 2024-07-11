@@ -112,6 +112,7 @@ abstract class AceMethodAbstract implements AceMethodInterface
      {
         $settedResponseObject = $this->setResponseAsObject();
         ClassFactory::validateClassExists($settedResponseObject);
+        
         return ClassFactory::validateCompatible($settedResponseObject, ResponseModelInterface::class);
      }
 

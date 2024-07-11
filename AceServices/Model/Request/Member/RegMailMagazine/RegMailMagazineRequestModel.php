@@ -15,28 +15,10 @@ use Plugin\AceClient\AceServices\Model\Dependency\Mail;
 class RegMailMagazineRequestModel extends RequestModelAbstract implements RegMailMagazineRequestModelInterface
 {
     use NoCategory\IdTrait,
-        Mail\MailTrait;
+        Mail\MailTrait,
+        NoCategory\KbnTrait;
+
     const XML_NODE_NAME = 'regMailMagazine';
-
-    /** @var ?int $kbn 区分 */
-    protected ?int $kbn = null;
-
-    /**
-    * {@inheritDoc}
-    */
-    public function getKbn(): ?int
-    {
-        return $this->kbn;
-    }
-
-    /**
-    * {@inheritDoc}
-    */
-    public function setKbn(?int $kbn)
-    {
-        $this->kbn = $kbn;
-        return $this;
-    }
 
     /**
      * {@inheritDoc}

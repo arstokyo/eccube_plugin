@@ -4,7 +4,6 @@ namespace Plugin\AceClient\AceConfig\Model\PrmFormat;
 
 use Plugin\AceClient\AceConfig\Model\ConfigModelInterface;
 
-
 /**
  * Model for Prm Detail Format
  * 

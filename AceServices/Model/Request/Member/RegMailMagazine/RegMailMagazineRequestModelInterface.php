@@ -13,19 +13,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\Mail;
  */
 interface RegMailMagazineRequestModelInterface extends RequestModelInterface,
                                                        NoCategory\HasIdInterface,
-                                                       Mail\HasMailInterface
+                                                       Mail\HasMailInterface,
+                                                       NoCategory\HasKbnInterface
 {
-    /**
-     * Get the 区分
-     *
-     * @return ?int
-     */
-    public function getKbn(): ?int;
-
-    /**
-     * Set the 区分
-     *
-     * @param ?int $kbn
-     */
-    public function setKbn(?int $kbn);
 }

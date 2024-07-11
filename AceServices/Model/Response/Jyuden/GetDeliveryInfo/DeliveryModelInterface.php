@@ -26,21 +26,18 @@ interface DeliveryModelInterface extends Mail\HasMailInterface,
                                          Person\Nmember\HasNadrInterface,
                                          Day\HasSdayInterface,
                                          Day\HasHdayInterface,
-                                         Haiso\HasHkNameInterface
+                                         Haiso\HasHkNameInterface,
+                                         NoCategory\HasJmemidInterface
 {
-
     /**
      * Get 受付先顧客ID
      *
-     * @return ?string
      */
     public function getJmemid(): ?string;
 
     /**
      * Set 受付先顧客ID
      *
-     * @param ?string $jmemid
-     * @return $this
      */
     public function setJmemid(?string $jmemid);
 

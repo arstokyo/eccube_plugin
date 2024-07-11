@@ -65,7 +65,8 @@ abstract class PrmModelAbstract implements PrmModelInterface
      */
     private function buildXMlDenormalizeOptions(): array
     {
-        return \array_merge([EncodeDefineMapper::XML_ROOT_NODE_NAME => $this->fetchPrmNodeName()], $this->assistant->getConfig()->getOptions() ?? []);
+        return \array_merge([EncodeDefineMapper::XML_ROOT_NODE_NAME => $this->fetchPrmNodeName()], 
+                            $this->assistant->getConfig()->getOptions() ?? []);
     }
 
     /**
