@@ -14,10 +14,10 @@ use Symfony\Component\Serializer\Normalizer;
  */
 class Delegate implements DelegateInterface
 {
-    protected ClientInterface $httpClient;
-    protected Serializer\SerializerInterface $serializer;
-    protected Normalizer\NormalizerInterface $normalizer;
-    protected LoggerInterface $logger;
+    private ClientInterface $httpClient;
+    private Serializer\SerializerInterface $serializer;
+    private Normalizer\NormalizerInterface $normalizer;
+    private LoggerInterface $logger;
 
    /**
      * Abstract Delegate constructor
@@ -41,9 +41,7 @@ class Delegate implements DelegateInterface
     }
 
     /**
-     * Get the HTTP client instance
-     *
-     * @return ClientInterface
+     * {@inheritDoc}
      */
     public function getHttpClient(): ClientInterface
     {
@@ -51,9 +49,7 @@ class Delegate implements DelegateInterface
     }
 
     /**
-     * Get the serializer instance
-     *
-     * @return Serializer\SerializerInterface
+     * {@inheritDoc}
      */
     public function getSerializer(): Serializer\SerializerInterface
     {
@@ -61,9 +57,7 @@ class Delegate implements DelegateInterface
     }
 
     /**
-     * Get the normalizer instance
-     *
-     * @return Normalizer\NormalizerInterface
+     * {@inheritDoc}
      */
     public function getNormalizer(): Normalizer\NormalizerInterface
     {
@@ -71,9 +65,7 @@ class Delegate implements DelegateInterface
     }
 
     /**
-     * Get the logger instance
-     *
-     * @return LoggerInterface
+     * {@inheritDoc}
      */
     public function getLogger(): LoggerInterface
     {

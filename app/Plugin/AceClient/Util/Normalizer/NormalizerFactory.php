@@ -51,7 +51,7 @@ final class NormalizerFactory
     public static function makeDTONormalizers() : array 
     {
         $classMetadataFactory = self::makeAnnotationMetaFactory();
-        return \array_merge(self::makeNormalizers($classMetadataFactory, new MetadataAwareNameConverter($classMetadataFactory), null,new ReflectionExtractor));
+        return \array_merge(self::makeNormalizers($classMetadataFactory, new MetadataAwareNameConverter($classMetadataFactory), null, new ReflectionExtractor));
     }
 
     /**

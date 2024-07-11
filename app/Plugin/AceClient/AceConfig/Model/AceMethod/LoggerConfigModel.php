@@ -11,5 +11,4 @@ use Plugin\AceClient\AceConfig\Model\ConfigModelInterface;
  */
 class LoggerConfigModel extends InstanceConfigAbstract implements ConfigModelInterface
 {
-
 }

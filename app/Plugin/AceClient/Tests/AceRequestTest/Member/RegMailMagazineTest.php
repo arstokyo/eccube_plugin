@@ -26,9 +26,9 @@ class RegMailMagazineRequestModelTest extends AceRequestTestAbtract
         $expectedData = <<<XML
                             {$soapHead}
                                 <regMailMagazine xmlns="{$xmlns}">
-                                    <kbn>0</kbn>
                                     <id>13</id>
                                     <mail>abc@gmail.com</mail>
+                                    <kbn>0</kbn>
                                 </regMailMagazine>
                             {$soapEnd}
                         XML;

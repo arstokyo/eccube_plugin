@@ -9,23 +9,9 @@ use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface MemberFreeModelInterface extends NoCategory\HasMbidInterface
+interface MemberFreeModelInterface extends NoCategory\HasMbidInterface,
+                                           NoCategory\HasKubunInterface
 {
-    /**
-     * Get フリー項目区分
-     *
-     * @return ?int
-     */
-    public function getKubun(): ?int;
-
-    /**
-     * Set フリー項目区分
-     *
-     * @param ?int $kubun
-     * @return $this
-     */
-    public function setKubun(?int $kubun);
-
     /**
      * Get フリー内容
      *

@@ -7,7 +7,6 @@ use Plugin\AceClient\AceConfig\Model\ConfigModelInterface;
 use Plugin\AceClient\AceConfig\Model\OverridableConfigInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 
 /**
  * Trait for denormalizing Data to Object.
@@ -36,6 +35,7 @@ trait DTODenormalizerTrait
         if (!isset($this->dtoSerializer)) {
             $this->dtoSerializer = SerializerFactory::makeDTOSerializer();
         }
+        
         return $this->dtoSerializer->denormalize($data, $type, $format, $context);
     }
 

@@ -37,9 +37,7 @@ abstract class OverridableConfigAbstract implements OverridableConfigInterface
     protected ?ConfigModelInterface $overridedConfig = null;
 
     /**
-     * Get the value of default
-     * 
-     * @return ConfigModelInterface
+     * {@inheritDoc}
      */
     public function getDefaultConfig(): ConfigModelInterface
     {
@@ -59,9 +57,7 @@ abstract class OverridableConfigAbstract implements OverridableConfigInterface
     }
 
     /**
-     * Get the value of overrides
-     * 
-     * @return ?array
+     * {@inheritDoc}
      */
     public function getOverrides(): ?array
     {
@@ -81,9 +77,7 @@ abstract class OverridableConfigAbstract implements OverridableConfigInterface
     }
 
     /**
-     * Get the specific override for the config
-     *
-     * @return ?ConfigModelInterface
+     * {@inheritDoc}
      */
     public function getSpecificOverride(string $target): ?ConfigModelInterface
     {
@@ -94,18 +88,19 @@ abstract class OverridableConfigAbstract implements OverridableConfigInterface
                 }
             }
         }
+
         return null;
     }
 
     /**
      * {@inheritDoc}
-     *
      */
     public function getOverridedConfig(string $targetOverride): ?ConfigModelInterface
     {
         if (empty($this->overridedConfig)) {
             $this->setOverrideConfig($targetOverride);
         }
+        
         return $this->overridedConfig;
     }
 

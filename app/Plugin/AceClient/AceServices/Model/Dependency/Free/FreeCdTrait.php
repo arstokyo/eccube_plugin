@@ -13,30 +13,11 @@ use Plugin\AceClient\AceServices\Model\Dependency\Bikou;
 trait FreeCdTrait
 {
     use NoCategory\NameTrait,
-        Bikou\ThreeNotesTrait;
-
-    /** @var ?int $kubun フリー項目区分 */
-    protected ?int $kubun = null;
+        Bikou\ThreeNotesTrait,
+        NoCategory\KubunTrait;
 
     /** @var ?string $fcid フリーマスタID */
     protected ?string $fcid = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getKubun(): ?int
-    {
-        return $this->kubun;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setKubun(?int $kubun)
-    {
-        $this->kubun = $kubun;
-        return $this;
-    }
 
     /**
      * {@inheritDoc}

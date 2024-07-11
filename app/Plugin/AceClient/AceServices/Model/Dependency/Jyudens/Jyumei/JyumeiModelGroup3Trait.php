@@ -16,30 +16,11 @@ trait JyumeiModelGroup3Trait
     use Good\SubNameTrait,
         Good\GkbnTrait,
         NoCategory\TwoImagesTrait,
-        Cost\Tanka\NineTankaTrait;
-
-    /** @var ?int $kbn 区分 */
-    private ?int $kbn = null;
+        Cost\Tanka\NineTankaTrait,
+        NoCategory\KbnTrait;
 
     /** @var ?string $detailmsg 詳細メッセージ */
     private ?string $detailmsg = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getKbn(): ?int
-    {
-        return $this->kbn;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setKbn(?int $kbn)
-    {
-        $this->kbn = $kbn;
-        return $this;
-    }
 
     /**
      * {@inheritDoc}

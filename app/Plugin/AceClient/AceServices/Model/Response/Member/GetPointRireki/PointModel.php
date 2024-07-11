@@ -5,6 +5,7 @@ namespace Plugin\AceClient\AceServices\Model\Response\Member\GetPointRireki;
 use Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
 use Plugin\AceClient\AceServices\Model\Dependency\Day;
 use Plugin\AceClient\AceServices\Model\Dependency\Point;
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Model for Point
@@ -16,10 +17,9 @@ class PointModel implements PointModelInterface
     use Denpyo\DennoTrait,
         Day\JdayTrait,
         Day\DayTrait,
-        Point\PointTrait;
-
-    /** @var ?int $kubun ポイント区分 */
-    protected ?int $kubun = null;
+        Point\PointTrait,
+        NoCategory\JmemidTrait,
+        NoCategory\KubunTrait;
 
     /** @var ?int $nouno 納品先枝番号 */
     protected ?int $nouno = null;
@@ -36,30 +36,11 @@ class PointModel implements PointModelInterface
     /** @var ?int $msyid 顧客共有システムID */
     protected ?int $msyid = null;
 
-    /** @var ?string $jmemid 顧客ID */
-    protected ?string $jmemid = null;
-
     /** @var ?string $cuser 作成ユーザーID */
     protected ?string $cuser = null;
 
     /** @var ?string $uuser 更新ユーザーID */
     protected ?string $uuser = null;
-    /**
-     * {@inheritDoc}
-     */
-    public function getKubun(): ?int
-    {
-        return $this->kubun;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setKubun(?int $kubun)
-    {
-        $this->kubun = $kubun;
-        return $this;
-    }
 
     /**
      * {@inheritDoc}
@@ -143,23 +124,6 @@ class PointModel implements PointModelInterface
     public function setMsyid(?int $msyid)
     {
         $this->msyid = $msyid;
-        return $this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getJmemid(): ?string
-    {
-        return $this->jmemid;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setJmemid(?string $jmemid)
-    {
-        $this->jmemid = $jmemid;
         return $this;
     }
 
