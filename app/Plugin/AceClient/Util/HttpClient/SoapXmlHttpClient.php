@@ -8,11 +8,11 @@ use Psr\Http\Message\RequestInterface;
 use GuzzleHttp\Promise\PromiseInterface;
 
 /**
- * SoapXmlApiClient
+ * SoapXmlHttpClient
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class SoapXmlApiClient implements ClientInterface
+class SoapXmlHttpClient implements ClientInterface
 {
     /**
      * @var \GuzzleHttp\Client $httpClient
@@ -20,17 +20,16 @@ class SoapXmlApiClient implements ClientInterface
     private ClientInterface $httpClient;
 
     /**
-     * SoapXmlApiClient constructor.
+     * SoapXmlHttpClient constructor.
      * 
      */
     public function __construct(array $config = [])
     {
-        $this->httpClient = HttpClientFactory::makeSoapXmlClient($config);
+        $this->httpClient = HttpClientFactory::makeSoapHttpClient($config);
     }
     
     /**
-     * {@inheritDoc}
-     * 
+     * @throws \BadMethodCallException
      */
     public function getConfig(?string $option = null)
     {
