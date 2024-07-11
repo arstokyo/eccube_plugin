@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 class AceRequestTestAbtract extends KernelTestCase
 {
     protected ?AceClient $aceClient = null;
+    const ACE_CLIENT_SERVICE_NAME = 'plugin.aceclient';
 
     public function setUp(): void
     {
@@ -19,7 +20,7 @@ class AceRequestTestAbtract extends KernelTestCase
         if (null === $this->aceClient) 
         {
             $container = static::$kernel->getContainer();
-            $this->aceClient = $container->get('plugin.ace.client');
+            $this->aceClient = $container->get(self::ACE_CLIENT_SERVICE_NAME);
         }
     }
 

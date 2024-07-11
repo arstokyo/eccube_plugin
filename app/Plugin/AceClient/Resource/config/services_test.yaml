@@ -1,6 +1,6 @@
 services:
 
-    plugin.ace.client:
+    plugin.aceclient:
         class: Plugin\AceClient\AceClient
         public: true
         arguments:
