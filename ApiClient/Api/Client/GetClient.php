@@ -21,6 +21,7 @@ class GetClient extends AbstractClient implements GetClientInterface
         if (empty($this->request)) {
             return $baseUri;
         }
+
         try {
             $data  = (array)$this->delegate->getNormalizer()->normalize($this->request);
             $query = str_contains($baseUri, '?') ? '&' : '?';
@@ -32,6 +33,7 @@ class GetClient extends AbstractClient implements GetClientInterface
             $this->delegate->getLogger()->error("API Client error: {$t->getMessage()}");
             throw new Exception\CanNotBuildRequestException('Cannot build GET query string', $t);
         }
-        return "{$baseUri}{$query}";
+
+        return sprintf('%s%s', $baseUri, $query);
     }
 }

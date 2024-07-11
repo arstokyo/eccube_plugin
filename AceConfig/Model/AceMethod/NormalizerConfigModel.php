@@ -11,6 +11,5 @@ use Plugin\AceClient\AceConfig\Model\ConfigModelInterface;
  */
 class NormalizerConfigModel extends InstanceConfigAbstract implements ConfigModelInterface
 {
-
 }
 

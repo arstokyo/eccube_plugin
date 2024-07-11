@@ -3,6 +3,7 @@
 namespace Plugin\AceClient\ApiClient\Api\Client;
 
 use Plugin\AceClient\Exception;
+use Plugin\AceClient\Util\Mapper\EncodeDefineMapper;
 
 class PostJsonClient extends PostClientAbstract implements ClientInterface
 {
@@ -23,18 +24,12 @@ class PostJsonClient extends PostClientAbstract implements ClientInterface
         if (empty($this->request)) {
             return $baseOptions;
         }
-        try {
-            $request = $this->delegate->getSerializer()->serialize($this->request, 'json');
-        } catch (\Throwable $t) {
-            $this->delegate->getLogger()->error("API Client error: {$t->getMessage()}");
-            throw new Exception\CanNotBuildRequestException("Cannot build {$this->requestmethod} request body", $t);
-        }
-        return array_merge_recursive(
-            $baseOptions,
-            [
-                'headers' => ['Content-Type' => 'application/json'],
-                'body'    => $request,
-            ]
-        );
+
+        $request = $this->serializeRequest(EncodeDefineMapper::JSON);
+
+        return array_merge_recursive($baseOptions, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'body'    => $request,
+        ]);
     }
 }
