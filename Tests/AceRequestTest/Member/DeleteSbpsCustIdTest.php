@@ -27,9 +27,9 @@ class DeleteSbpsCustIdRequestModelTest extends AceRequestTestAbtract
         <<<XML
         {$soapHead}
             <deleteSbpsCustId xmlns="{$xmlns}">
+                <ceda>1</ceda>
                 <syid>13</syid>
                 <mbid>214</mbid>
-                <ceda>1</ceda>
             </deleteSbpsCustId>
         {$soapEnd}
         XML;

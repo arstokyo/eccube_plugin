@@ -5,6 +5,7 @@ namespace Plugin\AceClient\AceServices\Model\Request\Master\GetHoliday;
 use Plugin\AceClient\AceServices\Model\Request\RequestModelAbstract;
 use Plugin\AceClient\Exception\MissingRequestParameterException;
 use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Class GetHolidayRequestModel
@@ -15,31 +16,13 @@ class GetHolidayRequestModel extends RequestModelAbstract implements GetHolidayR
 {
     const XML_NODE_NAME = 'getHoliday';
 
-    /** @var ?int $syid 通販AceID */
-    protected ?int $syid = null;
+    use NoCategory\SyidTrait;
 
     /** @var ?AceDateTime\AceDateTime $startday 開始日 */
     protected ?AceDateTime\AceDateTime $startday = null;
 
     /** @var ?AceDateTime\AceDateTime $endday 終了日 */
     protected ?AceDateTime\AceDateTime $endday = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getSyid(): ?int
-    {
-        return $this->syid;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setSyid(?int $syid)
-    {
-        $this->syid = $syid;
-        return $this;
-    }
 
     /** @var ?string $skid 倉庫ID */
     protected ?string $skid = null;

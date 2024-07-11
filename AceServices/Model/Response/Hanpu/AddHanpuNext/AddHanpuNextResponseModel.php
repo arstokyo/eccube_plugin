@@ -11,5 +11,4 @@ use Plugin\AceClient\AceServices\Model\Response\Hanpu\AddHanpu\AddHanpuResponseM
  */
 class AddHanpuNextResponseModel extends AddHanpuResponseModel
 {
-
 }

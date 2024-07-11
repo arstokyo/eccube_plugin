@@ -4,6 +4,7 @@ namespace Plugin\AceClient\AceServices\Model\Request\Member\GetDurationOrderTota
 
 use Plugin\AceClient\AceServices\Model\Request\RequestModelAbstract;
 use Plugin\AceClient\Exception\MissingRequestParameterException;
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Class GetDurationOrderTotalRequestModel
@@ -14,51 +15,14 @@ class GetDurationOrderTotalRequestModel extends RequestModelAbstract implements 
 {
     const XML_NODE_NAME = 'getDurationOrderTotal';
 
-    /** @var ?int $syid 通販AceID */
-    protected ?int $syid = null;
-
-    /** @var ?string $mbid 顧客ID */
-    protected ?string $mbid = null;
+    use NoCategory\SyidTrait,
+        NoCategory\MbidTrait;
 
     /** @var ?int $dayfrom 開始日付 */
     protected ?int $dayfrom = null;
 
     /** @var ?int $dayto 終了日付 */
     protected ?int $dayto = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getSyid(): ?int
-    {
-        return $this->syid;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setSyid(?int $syid)
-    {
-        $this->syid = $syid;
-        return $this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getMbid(): ?string
-    {
-        return $this->mbid;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setMbid(?string $mbid)
-    {
-        $this->mbid = $mbid;
-        return $this;
-    }
 
     /**
      * {@inheritDoc}

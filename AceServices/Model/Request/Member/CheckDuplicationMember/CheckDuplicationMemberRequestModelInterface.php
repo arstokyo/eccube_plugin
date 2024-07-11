@@ -4,24 +4,11 @@ namespace Plugin\AceClient\AceServices\Model\Request\Member\CheckDuplicationMemb
 
 use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient\AceServices\Model\Request;
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
-interface CheckDuplicationMemberRequestModelInterface extends RequestModelInterface
+interface CheckDuplicationMemberRequestModelInterface extends RequestModelInterface,
+                                                              NoCategory\HasSyidInterface
 {
-    /**
-     * Get 通販AceID
-     *
-     * @return ?int
-     */
-    public function getSyid(): ?int;
-
-    /**
-     * Set 通販AceID
-     *
-     * @param ?int $syid
-     * @return $this
-     */
-    public function setSyid(?int $syid);
-
     /**
      * Set 顧客情報
      *

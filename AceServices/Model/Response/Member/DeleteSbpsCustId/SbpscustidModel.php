@@ -3,6 +3,7 @@
 namespace Plugin\AceClient\AceServices\Model\Response\Member\DeleteSbpsCustId;
 
 use Plugin\AceClient\AceServices\Model\Dependency\Day;
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Model for Sbpscustid
@@ -11,33 +12,14 @@ use Plugin\AceClient\AceServices\Model\Dependency\Day;
  */
 class SbpscustidModel implements SbpscustidModelInterface
 {
-    use Day\DayTrait;
-
-    /** @var ?string $mbid 顧客ID */
-    protected ?string $mbid = null;
+    use Day\DayTrait,
+        NoCategory\MbidTrait;
 
     /** @var ?string $ceda SBPS顧客枝番 */
     protected ?string $ceda = null;
 
     /** @var ?string $custid SBPS顧客ID */
     protected ?string $custid = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getMbid(): ?string
-    {
-        return $this->mbid;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setMbid(?string $mbid)
-    {
-        $this->mbid = $mbid;
-        return $this;
-    }
 
     /**
      * {@inheritDoc}

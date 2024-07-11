@@ -27,10 +27,10 @@ class UpdateSbpsCustIdRequestModelTest extends AceRequestTestAbtract
         <<<XML
         {$soapHead}
             <updateSbpsCustId xmlns="{$xmlns}">
-                <syid>13</syid>
-                <mbid>214</mbid>
                 <custid>214</custid>
                 <ceda>1</ceda>
+                <syid>13</syid>
+                <mbid>214</mbid>
             </updateSbpsCustId>
         {$soapEnd}
         XML;
