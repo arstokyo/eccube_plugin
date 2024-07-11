@@ -19,15 +19,14 @@ final class HttpClientFactory
     public const DEFAULT_BASE_URL = "http://localhost:8080/";
     public const DEFAULT_HEADER = ['User-Agent' => OverviewMapper::USER_AGENT_HEADER];
     public const DEFAULT_OPTIONS = ['timeout' => 600 , 'verify' => false];
-
-    public const DEFAULT_HTTP_CLIENT = SoapXmlApiClient::class;
+    public const DEFAULT_HTTP_CLIENT = SoapXmlHttpClient::class;
 
     /**
      * Make Soap Xml Client
      * 
      * @return ClientInterface
      */
-    public static function makeSoapXmlClient(array $config = []): ClientInterface
+    public static function makeSoapHttpClient(array $config = []): ClientInterface
     {
         return new Client($config);
     }
