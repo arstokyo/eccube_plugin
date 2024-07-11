@@ -27,8 +27,8 @@ class GetMemberFreeRequestModelTest extends AceRequestTestAbtract
         <<<XML
         {$soapHead}
             <getMemberFree xmlns="{$xmlns}">
-                <mbid>212</mbid>
                 <id>13</id>
+                <mbid>212</mbid>
             </getMemberFree>
         {$soapEnd}
         XML;

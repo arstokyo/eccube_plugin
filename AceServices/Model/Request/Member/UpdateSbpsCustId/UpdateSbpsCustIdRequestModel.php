@@ -4,6 +4,7 @@ namespace Plugin\AceClient\AceServices\Model\Request\Member\UpdateSbpsCustId;
 
 use Plugin\AceClient\AceServices\Model\Request\RequestModelAbstract;
 use Plugin\AceClient\Exception\MissingRequestParameterException;
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Class UpdateSbpsCustIdRequestModel
@@ -14,51 +15,14 @@ class UpdateSbpsCustIdRequestModel extends RequestModelAbstract implements Updat
 {
     const XML_NODE_NAME = 'updateSbpsCustId';
 
-    /** @var ?int $syid 通販AceID */
-    protected ?int $syid = null;
-
-    /** @var ?string $mbid 顧客ID */
-    protected ?string $mbid = null;
+    use NoCategory\SyidTrait,
+        NoCategory\MbidTrait;
 
     /** @var ?string $custid SBPS顧客ID */
     protected ?string $custid = null;
 
     /** @var ?string $ceda SBPS顧客枝番 */
     protected ?string $ceda = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getSyid(): ?int
-    {
-        return $this->syid;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setSyid(?int $syid)
-    {
-        $this->syid = $syid;
-        return $this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getMbid(): ?string
-    {
-        return $this->mbid;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setMbid(?string $mbid)
-    {
-        $this->mbid = $mbid;
-        return $this;
-    }
 
     /**
      * {@inheritDoc}
