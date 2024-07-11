@@ -14,22 +14,9 @@ use Plugin\AceClient\AceServices\Model\Dependency\Cost;
 interface JyumeiModelGroup3Interface extends Good\HasSubNameInterface,
                                              Good\HasGkbnInterface,
                                              NoCategory\HasTwoImagesInterface,
-                                             Cost\Tanka\HasNineTankaInterface
+                                             Cost\Tanka\HasNineTankaInterface,
+                                             NoCategory\HasKbnInterface
 {
-    /**
-     * Get 区分
-     * 
-     * @return ?int
-     */
-    public function getKbn(): ?int;
-
-    /**
-     * Set 区分
-     * 
-     * @param ?int $kbn
-     */
-    public function setKbn(?int $kbn);
-
     /**
      * Get 詳細メッセージ
      * 

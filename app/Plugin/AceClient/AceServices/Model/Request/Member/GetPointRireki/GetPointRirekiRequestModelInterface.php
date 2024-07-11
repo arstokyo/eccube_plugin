@@ -11,20 +11,7 @@ use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
 interface GetPointRirekiRequestModelInterface extends RequestModelInterface,
-                                                      NoCategory\HasSyidInterface
+                                                      NoCategory\HasSyidInterface,
+                                                      NoCategory\HasJmemidInterface
 {
-    /**
-     * Get 受注顧客ID
-     *
-     * @return ?string
-     */
-    public function getJmemid(): ?string;
-
-    /**
-     * Set 受注顧客ID
-     *
-     * @param ?string $jmemid
-     * @return $this
-     */
-    public function setJmemid(?string $jmemid);
 }

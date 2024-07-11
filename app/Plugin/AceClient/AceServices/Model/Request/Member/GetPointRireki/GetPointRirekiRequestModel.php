@@ -15,27 +15,8 @@ class GetPointRirekiRequestModel extends RequestModelAbstract implements GetPoin
 {
     const XML_NODE_NAME = 'getPointRireki';
 
-    use NoCategory\SyidTrait;
-
-    /** @var ?string $jmemid 受注顧客ID */
-    protected ?string $jmemid = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getJmemid(): ?string
-    {
-        return $this->jmemid;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setJmemid(?string $jmemid)
-    {
-        $this->jmemid = $jmemid;
-        return $this;
-    }
+    use NoCategory\SyidTrait,
+        NoCategory\JmemidTrait;
 
     /**
      * {@inheritDoc}
