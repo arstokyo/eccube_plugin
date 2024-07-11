@@ -11,10 +11,8 @@ use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
  */
 trait FreeMstTrait
 {
-    use NoCategory\NameTrait;
-
-    /** @var ?int $kubun フリー項目区分 */
-    protected ?int $kubun = null;
+    use NoCategory\NameTrait,
+        NoCategory\KubunTrait;
 
     /** @var ?int $type フリー項目タイプ */
     protected ?int $type = null;
@@ -39,23 +37,6 @@ trait FreeMstTrait
 
     /** @var ?int $leng 最大文字数 */
     protected ?int $leng = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getKubun(): ?int
-    {
-        return $this->kubun;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setKubun(?int $kubun)
-    {
-        $this->kubun = $kubun;
-        return $this;
-    }
 
     /**
      * {@inheritDoc}

@@ -12,33 +12,14 @@ use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 class MemAnkModel implements MemAnkModelInterface
 {
-    use NoCategory\MbidTrait;
-
-    /** @var ?int $kubun フリー項目区分 */
-    protected ?int $kubun = null;
+    use NoCategory\MbidTrait,
+        NoCategory\KubunTrait;
 
     /** @var ?int $ansno 回答番号 */
     protected ?int $ansno = null;
 
     /** @var ?string $ansid アンケートID */
     protected ?string $ansid = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getKubun(): ?int
-    {
-        return $this->kubun;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setKubun(?int $kubun)
-    {
-        $this->kubun = $kubun;
-        return $this;
-    }
 
     /**
      * {@inheritDoc}
