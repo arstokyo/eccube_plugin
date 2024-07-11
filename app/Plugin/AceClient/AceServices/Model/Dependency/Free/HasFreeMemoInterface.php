@@ -2,29 +2,15 @@
 
 namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
 
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Interface For HasFreeMemo
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface HasFreeMemoInterface
+interface HasFreeMemoInterface extends NoCategory\HasKubunInterface
 {
-    /**
-     * Get フリー項目区分
-     *
-     * @return ?int
-     */
-    public function getKubun(): ?int;
-
-    /**
-     * Set フリー項目区分
-     *
-     * @param ?int $kubun
-     * @return $this
-     */
-    public function setKubun(?int $kubun);
-
     /**
      * Get フリーマスタID
      *

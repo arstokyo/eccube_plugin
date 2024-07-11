@@ -5,7 +5,6 @@ namespace Plugin\AceClient\ApiClient\Api\Client;
 use Plugin\AceClient\ApiClient\Api\DelegateInterface;
 use Plugin\AceClient\ApiClient\Response;
 use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient\ApiClient\Response\ResponseInterface;
 use Psr\Http\Message\ResponseInterface as PsrResponse;
 use Plugin\AceClient\Exception;
 
@@ -47,9 +46,7 @@ class AbstractClient implements ClientInterface
     }
 
     /**
-     * Get Client Metadata
-     *
-     * @return ClientMetadataInterface
+     * {@inheritDoc}
      */
     public function getMetadata(): ClientMetadataInterface
     {
@@ -57,11 +54,7 @@ class AbstractClient implements ClientInterface
     }
 
     /**
-     * Set Client Headers
-     *
-     * @param array<string, string[]> $headers Client headers.
-     *
-     * @return ClientInterface
+     * {@inheritDoc}
      */
     public function withHeaders(array $headers): ClientInterface
     {
@@ -70,11 +63,7 @@ class AbstractClient implements ClientInterface
     }
 
     /**
-     * Set Client Request
-     *
-     * @param ResponseInterface|\JsonSerializable|array<int|string, mixed> $request Client request.
-     *
-     * @return ClientInterface
+     * @inheritDoc
      */
     public function withRequest($request): ClientInterface
     {
@@ -83,11 +72,7 @@ class AbstractClient implements ClientInterface
     }
 
     /**
-     * Set Client ResponseObject
-     *
-     * @param class-string $object Class of the client response.
-     *
-     * @return ClientInterface
+     * {@inheritDoc}
      */
     public function withResponseAs(string $object): ClientInterface
     {
@@ -96,11 +81,7 @@ class AbstractClient implements ClientInterface
     }
 
     /**
-     * Send a request
-     *
-     * @throws Exception\AceClientBaseException
-     *
-     * @return Response\ResponseInterface
+     * {@inheritDoc}
      */
     public function send(): Response\ResponseInterface
     {
@@ -164,6 +145,7 @@ class AbstractClient implements ClientInterface
             $this->delegate->getLogger()->error("[AceClient] error: {$t->getMessage()}");
             throw new Exception\CanNotBuildResponseException('Cannot fetch and deserialize response content', $t);
         }
+
         return new Response\Response($psrResponse->getHeaders(), $response, $psrResponse->getStatusCode());
     }
 
@@ -189,11 +171,34 @@ class AbstractClient implements ClientInterface
             'application/x-xml'    => 'xml',
             'text/csv'             => 'csv',
         ];
+
         foreach ($contentTypeToFormatMap as $contentType => $format) {
             if (str_contains($responseContentType, $contentType)) {
                 return $format;
             }
         }
-        throw new \InvalidArgumentException("Unsuported Content-Type: {$responseContentType}");
+
+        throw new \InvalidArgumentException(sprintf('Unsuported Content-Type: %s', $responseContentType));
+    }
+
+    /**
+     * Try to serialize the request object to specified format
+     * 
+     * @param string specified format $format
+     * 
+     * @return string
+     * 
+     * @throws Exception\CanNotBuildRequestException
+     */
+    protected function serializeRequest(string $format): string
+    {
+        try {
+            $serializedRequest = $this->delegate->getSerializer()->serialize($this->request, $format);
+        } catch (\Throwable $t) {
+            $this->delegate->getLogger()->error(sprintf('API Client error: %s', $t->getMessage()));
+            throw new Exception\CanNotBuildRequestException(sprintf("Cannot build %s request body", $this->requestmethod), $t);
+        }
+
+        return $serializedRequest;
     }
 }

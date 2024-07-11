@@ -9,5 +9,4 @@ namespace Plugin\AceClient\AceConfig\Model;
  */
 interface ConfigModelInterface
 {
-    
 }

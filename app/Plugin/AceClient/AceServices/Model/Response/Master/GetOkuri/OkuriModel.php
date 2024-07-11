@@ -4,6 +4,7 @@ namespace Plugin\AceClient\AceServices\Model\Response\Master\GetOkuri;
 
 use Plugin\AceClient\AceServices\Model\Dependency\Haiso;
 use Plugin\AceClient\AceServices\Model\Dependency\Good;
+use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Class OkuriModel
@@ -19,25 +20,6 @@ class OkuriModel implements OkuriModelInterface
         Haiso\HnameTrait,
         Good\JyouonTrait,
         Good\ReizouTrait,
-        Good\ReitouTrait;
-
-    /** @var ?int $kubun 代引区分 */
-    protected ?int $kubun = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getKubun(): ?int
-    {
-        return $this->kubun;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setKubun(?int $kubun)
-    {
-        $this->kubun = $kubun;
-        return $this;
-    }
+        Good\ReitouTrait,
+        NoCategory\KubunTrait;
 }

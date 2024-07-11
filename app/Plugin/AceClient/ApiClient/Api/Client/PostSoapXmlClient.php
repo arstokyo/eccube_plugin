@@ -3,15 +3,14 @@
 namespace Plugin\AceClient\ApiClient\Api\Client;
 
 use Plugin\AceClient\Exception;
-use Plugin\AceClient\ApiClient\Api\DelegateInterface;
 use Plugin\AceClient\Util\Mapper\EncodeDefineMapper;
 
 /**
- * PostSoapXMLClient
+ * PostSoapXmlClient
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class PostSoapXMLClient extends PostClientAbstract
+class PostSoapXmlClient extends PostClientAbstract
 {
 
     /**
@@ -31,19 +30,13 @@ class PostSoapXMLClient extends PostClientAbstract
         if (empty($this->request)) {
             return $baseOptions;
         }
-        try {
-            $request = $this->delegate->getSerializer()->serialize($this->request, EncodeDefineMapper::XML);
-        } catch (\Throwable $t) {
-            $this->delegate->getLogger()->error("API Client error: {$t->getMessage()}");
-            throw new Exception\CanNotBuildRequestException("Cannot build {$this->requestmethod} request body", $t);
-        }
-        return array_merge_recursive(
-            $baseOptions,
-            [
-                'headers' => ['Content-Type' => 'application/soap+xml; charset=utf-8'],
-                'body'    => $request,
-            ]
-        );
+
+        $request = $this->serializeRequest(EncodeDefineMapper::XML);
+
+        return array_merge_recursive($baseOptions,[
+            'headers' => ['Content-Type' => 'application/soap+xml; charset=utf-8'],
+            'body'    => $request,
+        ]);
     }
 
 }

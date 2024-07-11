@@ -4,6 +4,7 @@ namespace Plugin\AceClient\AceServices\Model\Request\Member\UpdateSbpsCustId;
 
 use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient\AceServices\Model\Dependency\Card;
 
 /**
  * Interface UpdateSbpsCustIdRequestInterface
@@ -12,35 +13,17 @@ use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
  */
 interface UpdateSbpsCustIdRequestModelInterface extends RequestModelInterface,
                                                         NoCategory\HasSyidInterface,
-                                                        NoCategory\HasMbidInterface
+                                                        NoCategory\HasMbidInterface,
+                                                        Card\HasCedaInterface,
+                                                        NoCategory\HasCustidInterface
 {
     /**
-     * Get SBPS顧客ID
-     *
-     * @return ?string
-     */
-    public function getCustid(): ?string;
-
-    /**
-     * Set SBPS顧客ID
-     *
-     * @param ?string $custid
-     * @return $this
-     */
-    public function setCustid(?string $custid);
-
-    /**
      * Get SBPS顧客枝番
-     *
-     * @return ?string
      */
     public function getCeda(): ?string;
 
     /**
      * Set SBPS顧客枝番
-     *
-     * @param ?string $ceda
-     * @return $this
      */
     public function setCeda(?string $ceda);
 }

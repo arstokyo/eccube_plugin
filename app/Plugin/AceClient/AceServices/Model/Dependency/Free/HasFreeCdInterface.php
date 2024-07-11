@@ -11,22 +11,9 @@ use Plugin\AceClient\AceServices\Model\Dependency\Bikou;
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
 interface HasFreeCdInterface extends NoCategory\HasNameInterface,
-                                     Bikou\HasThreeNotesInterface
+                                     Bikou\HasThreeNotesInterface,
+                                     NoCategory\HasKubunInterface
 {
-    /**
-     * Get フリー項目区分
-     *
-     * @return ?int
-     */
-    public function getKubun(): ?int;
-
-    /**
-     * Set フリー項目区分
-     *
-     * @param ?int $kubun
-     * @return $this
-     */
-    public function setKubun(?int $kubun);
     /**
      * Get フリーマスタID
      *

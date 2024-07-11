@@ -2,8 +2,6 @@
 
 namespace Plugin\AceClient\Util\Denormalizer\OTD;
 
-use Symfony\Component\Serializer\SerializerInterface;
-
 /**
  * Interface for Object To Data Denormalizer.
  * 

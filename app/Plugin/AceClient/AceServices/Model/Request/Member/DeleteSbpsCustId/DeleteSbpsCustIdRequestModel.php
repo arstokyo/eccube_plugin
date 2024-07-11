@@ -5,7 +5,7 @@ namespace Plugin\AceClient\AceServices\Model\Request\Member\DeleteSbpsCustId;
 use Plugin\AceClient\AceServices\Model\Request\RequestModelAbstract;
 use Plugin\AceClient\Exception\MissingRequestParameterException;
 use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
-
+use Plugin\AceClient\AceServices\Model\Dependency\Card;
 /**
  * Class DeleteSbpsCustIdRequestModel
  *
@@ -16,27 +16,8 @@ class DeleteSbpsCustIdRequestModel extends RequestModelAbstract implements Delet
     const XML_NODE_NAME = 'deleteSbpsCustId';
 
     use NoCategory\SyidTrait,
-        NoCategory\MbidTrait;
-
-    /** @var ?string $ceda SBPS顧客枝番 */
-    protected ?string $ceda = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getCeda(): ?string
-    {
-        return $this->ceda;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setCeda(?string $ceda)
-    {
-        $this->ceda = $ceda;
-        return $this;
-    }
+        NoCategory\MbidTrait,
+        Card\CedaTrait;
 
     /**
      * {@inheritDoc}

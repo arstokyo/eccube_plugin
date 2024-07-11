@@ -15,7 +15,7 @@ use Plugin\AceClient\Util\ClassFactory\ClassFactory;
  */
 final class ApiClientFactory
 {
-    public const DEFAULT_API_CLIENT = \Plugin\AceClient\ApiClient\Api\Client\PostSoapXMLClient::class;
+    public const DEFAULT_API_CLIENT = \Plugin\AceClient\ApiClient\Api\Client\PostSoapXmlClient::class;
 
     /**
      * Make a new client instance.
