@@ -20,6 +20,7 @@ use Plugin\AceClient\Exception\InvalidFuncNameException;
 use Plugin\AceClient\Exception\DataTypeMissMatchException;
 use Plugin\AceClient\Util\ClassFactory\ClassFactory;
 use Plugin\AceClient\Util\Denormalizer\DenormalizerFactory;
+use Plugin\AceClient\Util\Normalizer\SoapXmlNormalizer;
 
 /**
  * Factory for Normalizer.
@@ -30,7 +31,7 @@ final class NormalizerFactory
 {
     const DEFAULT_NORMALIZERS_FOR_SOAP_SERIALIZER = 'DefaultSoapNormalizers';
 
-    const DEFAULT_NORMALIZER = \Plugin\AceClient\Util\Normalizer\SoapXmlNormalizer::class;
+    const DEFAULT_NORMALIZER = SoapXmlNormalizer::class;
 
     /**
      * Make Anonotation Normalizers

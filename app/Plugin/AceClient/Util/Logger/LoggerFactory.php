@@ -6,12 +6,13 @@ use Psr\Log\LoggerInterface;
 use Plugin\AceClient\Exception\InvalidClassNameException;
 use Plugin\AceClient\Exception\DataTypeMissMatchException;
 use Plugin\AceClient\Util\ClassFactory\ClassFactory;
+use Psr\Log\NullLogger;
 
 class LoggerFactory 
 {
     const DEFAUT_LOGGER_CLASS = SoapXmlLogger::class;
 
-    const NULL_LOGGER_CLASS = \Psr\Log\NullLogger::class;
+    const NULL_LOGGER_CLASS = NullLogger::class;
 
     const DEFAULT_LOG_ON = true;
 

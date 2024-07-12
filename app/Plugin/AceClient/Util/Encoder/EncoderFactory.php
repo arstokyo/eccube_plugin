@@ -6,6 +6,7 @@ use Plugin\AceClient\Exception\InvalidClassNameException;
 use Plugin\AceClient\Exception\DataTypeMissMatchException;
 use Plugin\AceClient\Util\ClassFactory\ClassFactory;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
 
 /**
  * Factory for Encoder.
@@ -14,7 +15,7 @@ use Symfony\Component\Serializer\Encoder\EncoderInterface;
  */
 final class EncoderFactory
 {
-    const DEFAULT_ENCODER_FOR_SOAP_SERIALIZER = \Symfony\Component\Serializer\Encoder\XmlEncoder::class;
+    const DEFAULT_ENCODER_FOR_SOAP_SERIALIZER = XmlEncoder::class;
 
     /**
      * Make Encoder by class name
