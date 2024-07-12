@@ -1,0 +1,97 @@
+<?php
+
+namespace Plugin\AceClient43;
+
+use Plugin\AceClient43\AceServices\AceServiceFactory;
+use Plugin\AceClient43\AceServices\Service;
+use Plugin\AceClient43\Util\ServiceRetriever\ServiceRetrieverInterface;
+
+/**
+ * Class for AceClient
+ *
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
+class AceClient
+{
+    /** @var AceServiceFactory $serviceFactory */
+    private AceServiceFactory $serviceFactory;
+
+    /**
+     * AceClient constructor.
+     *
+     * @param ServiceRetrieverInterface $serviceRetriever
+     */
+    public function __construct(ServiceRetrieverInterface $serviceRetriever) {
+        $this->serviceFactory = new AceServiceFactory($serviceRetriever);
+    }
+
+    /**
+     * Make AceJyudenService
+     *
+     * @return Service\JyudenService
+     */
+    public function makeJyudenService() : Service\JyudenService
+    {
+        return $this->serviceFactory->makeJyudenService();
+    }
+
+    /**
+     * Make MemberService
+     *
+     * @return Service\MemberService
+     */
+    public function makeMemberService() : Service\MemberService
+    {
+        return $this->serviceFactory->makeMemberService();
+    }
+
+    /**
+     * Make GoodsService
+     *
+     * @return Service\GoodsService
+     */
+    public function makeGoodsService() : Service\GoodsService
+    {
+        return $this->serviceFactory->makeGoodsService();
+    }
+
+    /**
+     * Make Master2Service
+     *
+     * @return Service\Master2Service
+     */
+    public function makeMaster2Service() : Service\Master2Service
+    {
+        return $this->serviceFactory->makeMaster2Service();
+    }
+
+    /**
+     * Make Master Service
+     *
+     * @return Service\MasterService
+     */
+    public function makeMasterService() : Service\MasterService
+    {
+        return $this->serviceFactory->makeMasterService();
+    }
+
+    /**
+     * Make Hanpu Service
+     *
+     * @return Service\HanpuService
+     */
+    public function makeHanpuService() : Service\HanpuService
+    {
+        return $this->serviceFactory->makeHanpuService();
+    }
+
+    /**
+     * Make Contact Service
+     *
+     * @return Service\ContactService
+     */
+    public function makeContactService() : Service\ContactService
+    {
+        return $this->serviceFactory->makeContactService();
+    }
+}
