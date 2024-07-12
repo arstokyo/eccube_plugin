@@ -28,9 +28,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Eccube\Controller\AbstractController;
-use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart;
-use Plugin\AceClient\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModel;
-use Plugin\AceClient\AceClient;
+use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart;
+use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModel;
+use Plugin\AceClient43\AceClient;
 
 class CartController extends AbstractController
 {

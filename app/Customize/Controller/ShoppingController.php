@@ -44,9 +44,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Eccube\Controller\AbstractShoppingController;
-use Plugin\AceClient;
-use Plugin\AceClient\AceServices\Model\Request\Jyuden as JyudenRequest;
-use Plugin\AceClient\AceServices\Model\Response\Jyuden as JyudenResponse;
+use Plugin\AceClient43;
+use Plugin\AceClient43\AceServices\Model\Request\Jyuden as JyudenRequest;
+use Plugin\AceClient43\AceServices\Model\Response\Jyuden as JyudenResponse;
 use Psr\Container\ContainerInterface;
 
 class ShoppingController extends AbstractShoppingController
@@ -94,7 +94,7 @@ class ShoppingController extends AbstractShoppingController
 
     protected RateLimiterFactory $shoppingCheckoutCustomerLimiter;
 
-    private AceClient\AceClient $aceClient;
+    private AceClient43\AceClient $aceClient;
 
     public function __construct(
         CartService $cartService,
@@ -108,7 +108,7 @@ class ShoppingController extends AbstractShoppingController
         RateLimiterFactory $shoppingCheckoutIpLimiter,
         RateLimiterFactory $shoppingCheckoutCustomerLimiter,
         BaseInfoRepository $baseInfoRepository,
-        AceClient\AceClient $aceClient
+        AceClient43\AceClient $aceClient
     ) {
         $this->cartService = $cartService;
         $this->mailService = $mailService;
@@ -967,7 +967,7 @@ class ShoppingController extends AbstractShoppingController
      * Add New Cart On Ace
      *
      * @param Order $Order
-     * @param AceClient\AceServices\Service\JyudenService $jyudenService
+     * @param AceClient43\AceServices\Service\JyudenService $jyudenService
      * 
      * @return array<string, string>
      */

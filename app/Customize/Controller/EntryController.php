@@ -35,9 +35,9 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Eccube\Controller\AbstractController;
-use Plugin\AceClient;
-use Plugin\AceClient\AceServices\Model\Request\Member\RegMember;
-use Plugin\AceClient\AceServices\Model\Response\Member\RegMember\RegMemberResponseModel;
+use Plugin\AceClient43;
+use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
+use Plugin\AceClient43\AceServices\Model\Response\Member\RegMember\RegMemberResponseModel;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class EntryController extends AbstractController
@@ -88,7 +88,7 @@ class EntryController extends AbstractController
     protected $pageRepository;
 
 
-    private AceClient\AceClient $aceClient;
+    private AceClient43\AceClient $aceClient;
 
     /**
      * EntryController constructor.
@@ -101,7 +101,7 @@ class EntryController extends AbstractController
      * @param UserPasswordHasherInterface $encoderFactory
      * @param ValidatorInterface $validatorInterface
      * @param TokenStorageInterface $tokenStorage
-     * @param AceClient\AceClient $aceClient
+     * @param AceClient43\AceClient $aceClient
      */
     public function __construct(
         CartService $cartService,
@@ -113,7 +113,7 @@ class EntryController extends AbstractController
         ValidatorInterface $validatorInterface,
         TokenStorageInterface $tokenStorage,
         PageRepository $pageRepository,
-        AceClient\AceClient $aceClient
+        AceClient43\AceClient $aceClient
     ) {
         $this->customerStatusRepository = $customerStatusRepository;
         $this->mailService = $mailService;
