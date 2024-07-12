@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\Util\Serializer;
+namespace Plugin\AceClient43\Util\Serializer;
 
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;

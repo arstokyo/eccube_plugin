@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Master\GetPcode;
+namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetPcode;
 
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelInterface;
 
 /**
  * Interface GetPcode Response Model

@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\RegMember;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\RegMember;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person\Nmember\NmemberModelGroup2;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person\Nmember\NmemberModelGroup2;
 
 /**
  * Nmem Model

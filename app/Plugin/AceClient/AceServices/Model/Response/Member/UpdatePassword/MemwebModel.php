@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\UpdatePassword;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\UpdatePassword;
 
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Model for MemwebModel

@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\Util\ConfigBuilder;
+namespace Plugin\AceClient43\Util\ConfigBuilder;
 
 use Symfony\Component\Yaml\Yaml;
-use Plugin\AceClient\Util\Mapper\FilePathMapper;
+use Plugin\AceClient43\Util\Mapper\FilePathMapper;
 
 /**
  * Class for Default Config Builder.

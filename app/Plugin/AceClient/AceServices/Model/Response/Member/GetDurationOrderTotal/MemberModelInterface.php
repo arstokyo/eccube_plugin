@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\GetDurationOrderTotal;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetDurationOrderTotal;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelInterface;
 
 /**
  * Interface for Member Model

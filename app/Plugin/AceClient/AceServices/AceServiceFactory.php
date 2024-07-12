@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices;
+namespace Plugin\AceClient43\AceServices;
 
-use Plugin\AceClient\AceServices\Service;
-use Plugin\AceClient\Util\ServiceRetriever\ServiceRetrieverInterface;
+use Plugin\AceClient43\AceServices\Service;
+use Plugin\AceClient43\Util\ServiceRetriever\ServiceRetrieverInterface;
 
 /**
  * Factory for AceService

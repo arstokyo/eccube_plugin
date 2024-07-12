@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Card;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Card;
 
-use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
+use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
 
 /**
  * Interface for Card Level 1

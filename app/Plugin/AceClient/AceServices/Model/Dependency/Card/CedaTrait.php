@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Card;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Card;
 
 /**
  * Trait for カード枝番

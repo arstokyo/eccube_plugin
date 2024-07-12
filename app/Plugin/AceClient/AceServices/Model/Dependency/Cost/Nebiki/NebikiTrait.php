@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Nebiki;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Cost\Nebiki;
 
-use Plugin\AceClient\Util\Converter\NumberConverter;
+use Plugin\AceClient43\Util\Converter\NumberConverter;
 
 /**
  * Trait for NebikiTrait

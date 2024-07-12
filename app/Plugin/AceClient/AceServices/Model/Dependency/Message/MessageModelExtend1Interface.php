@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Message;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Message;
 
 /**
  * Interface for Message Model Extend2

@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Mail;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Mail;
 
 
 /**

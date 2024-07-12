@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\GetMemberMcode;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode;
 
-use Plugin\AceClient\AceServices\Model\Response\Member\GetMember\OrderInfoModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember\OrderInfoModelInterface;
 
 /**
  * Model for OrderInfo

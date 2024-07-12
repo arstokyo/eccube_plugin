@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\CheckDuplicationMember;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\CheckDuplicationMember;
 
 /**
  * Class for MemberModel

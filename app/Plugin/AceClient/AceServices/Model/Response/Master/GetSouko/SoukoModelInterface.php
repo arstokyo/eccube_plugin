@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Master\GetSouko;
+namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetSouko;
 
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Interface for SoukoModel

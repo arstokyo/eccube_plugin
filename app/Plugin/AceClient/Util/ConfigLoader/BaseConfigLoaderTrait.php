@@ -1,14 +1,14 @@
 <?php
 
-namespace Plugin\AceClient\Util\ConfigLoader;
+namespace Plugin\AceClient43\Util\ConfigLoader;
 
-use Plugin\AceClient\AceConfig\Model\ConfigModelInterface;
-use Plugin\AceClient\AceConfig\Model\OverridableConfigInterface;
-use Plugin\AceClient\Util\Denormalizer\DTO\DTODenormalizerTrait;
-use Plugin\AceClient\Util\ConfigBuilder\ConfigBuilderInterface;
-use Plugin\AceClient\Util\Serializer\AceConfigSerializer;
-use Plugin\AceClient\Util\ConfigBuilder\DefaultConfigBuilder;
-use Plugin\AceClient\Exception\NotDeserializableException;
+use Plugin\AceClient43\AceConfig\Model\ConfigModelInterface;
+use Plugin\AceClient43\AceConfig\Model\OverridableConfigInterface;
+use Plugin\AceClient43\Util\Denormalizer\DTO\DTODenormalizerTrait;
+use Plugin\AceClient43\Util\ConfigBuilder\ConfigBuilderInterface;
+use Plugin\AceClient43\Util\Serializer\AceConfigSerializer;
+use Plugin\AceClient43\Util\ConfigBuilder\DefaultConfigBuilder;
+use Plugin\AceClient43\Exception\NotDeserializableException;
 
 /**
  * Trait for BaseConfigLoader.

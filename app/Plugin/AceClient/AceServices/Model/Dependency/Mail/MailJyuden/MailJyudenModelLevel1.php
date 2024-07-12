@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Mail\MailJyuden;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Mail\MailJyuden;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Mail;
+use Plugin\AceClient43\AceServices\Model\Dependency\Mail;
 
 /**
  * Class For MailJyudenModelLevel1

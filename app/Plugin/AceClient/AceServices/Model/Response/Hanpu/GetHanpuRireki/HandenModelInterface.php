@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Hanpu\GetHanpuRireki;
+namespace Plugin\AceClient43\AceServices\Model\Response\Hanpu\GetHanpuRireki;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Hanpu\Handen;
-use Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
-use Plugin\AceClient\AceServices\Model\Dependency\Card;
+use Plugin\AceClient43\AceServices\Model\Dependency\Hanpu\Handen;
+use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
+use Plugin\AceClient43\AceServices\Model\Dependency\Card;
 
 /**
  * Interface for HandenModel

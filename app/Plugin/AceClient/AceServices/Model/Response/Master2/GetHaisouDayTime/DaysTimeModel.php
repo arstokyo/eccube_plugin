@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Master2\GetHaisouDayTime;
+namespace Plugin\AceClient43\AceServices\Model\Response\Master2\GetHaisouDayTime;
 
 /**
  * Class DaysTimeModel

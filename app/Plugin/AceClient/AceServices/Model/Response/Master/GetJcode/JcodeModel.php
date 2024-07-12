@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Master\GetJcode;
+namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetJcode;
 
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Class JcodeModel

@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\Util\Encoder;
+namespace Plugin\AceClient43\Util\Encoder;
 
-use Plugin\AceClient\Exception\InvalidClassNameException;
-use Plugin\AceClient\Exception\DataTypeMissMatchException;
-use Plugin\AceClient\Util\ClassFactory\ClassFactory;
+use Plugin\AceClient43\Exception\InvalidClassNameException;
+use Plugin\AceClient43\Exception\DataTypeMissMatchException;
+use Plugin\AceClient43\Util\ClassFactory\ClassFactory;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Goods\GetZaiko;
+namespace Plugin\AceClient43\AceServices\Model\Response\Goods\GetZaiko;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Zaiko;
+use Plugin\AceClient43\AceServices\Model\Dependency\Zaiko;
 
 /**
  * Class for GoodModel

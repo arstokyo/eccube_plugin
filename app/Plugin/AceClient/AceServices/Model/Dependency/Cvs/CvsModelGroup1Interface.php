@@ -1,11 +1,11 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Cvs;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Cvs;
 
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\HasOrderIdInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC\HasTelInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory\HasOrderIdInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC\HasTelInterface;
 use Symfony\Component\Serializer\Annotation\SerializedName;
-use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime\AceDateTimeInterface;
+use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime\AceDateTimeInterface;
 
 /**
  * Interface for CSV Group 1

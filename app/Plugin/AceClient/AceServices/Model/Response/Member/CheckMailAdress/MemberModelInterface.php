@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\CheckMailAdress;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\CheckMailAdress;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelExtend2Interface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelExtend2Interface;
 
 /**
  * Interface MemberModelInterface

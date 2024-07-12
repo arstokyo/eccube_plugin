@@ -1,12 +1,12 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Good;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Good;
 
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
-use Plugin\AceClient\AceServices\Model\Dependency\Cost;
-use Plugin\AceClient\AceServices\Model\Dependency\Free;
-use Plugin\AceClient\AceServices\Model\Dependency\Point;
-use Plugin\AceClient\AceServices\Model\Dependency\Zaiko;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\Cost;
+use Plugin\AceClient43\AceServices\Model\Dependency\Free;
+use Plugin\AceClient43\AceServices\Model\Dependency\Point;
+use Plugin\AceClient43\AceServices\Model\Dependency\Zaiko;
 
 /**
  * Interface for GoodModelGroup2

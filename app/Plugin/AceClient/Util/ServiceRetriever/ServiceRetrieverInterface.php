@@ -1,13 +1,13 @@
 <?php
 
-namespace Plugin\AceClient\Util\ServiceRetriever;
+namespace Plugin\AceClient43\Util\ServiceRetriever;
 
-use Plugin\AceClient\Repository\ConfigRepository;
+use Plugin\AceClient43\Repository\ConfigRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Eccube\Common\EccubeConfig;
-use Plugin\AceClient\Util\Serializer\AceConfigSerializer;
-use Plugin\AceClient\Util\Serializer\SoapXmlSerializerProvider;
-use Plugin\AceClient\Util\Logger\LoggerProvider;
+use Plugin\AceClient43\Util\Serializer\AceConfigSerializer;
+use Plugin\AceClient43\Util\Serializer\SoapXmlSerializerProvider;
+use Plugin\AceClient43\Util\Logger\LoggerProvider;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**

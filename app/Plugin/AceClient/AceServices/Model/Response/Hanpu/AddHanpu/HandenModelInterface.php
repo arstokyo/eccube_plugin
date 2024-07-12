@@ -1,12 +1,12 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Hanpu\AddHanpu;
+namespace Plugin\AceClient43\AceServices\Model\Response\Hanpu\AddHanpu;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Hanpu\Handen;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
-use Plugin\AceClient\AceServices\Model\Dependency\Card;
-use Plugin\AceClient\AceServices\Model\Dependency\Cost;
-use Plugin\AceClient\AceServices\Model\Dependency\Day;
+use Plugin\AceClient43\AceServices\Model\Dependency\Hanpu\Handen;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\Card;
+use Plugin\AceClient43\AceServices\Model\Dependency\Cost;
+use Plugin\AceClient43\AceServices\Model\Dependency\Day;
 
 /**
  * Interface for HandenModel

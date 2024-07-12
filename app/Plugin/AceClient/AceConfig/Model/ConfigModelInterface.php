@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceConfig\Model;
+namespace Plugin\AceClient43\AceConfig\Model;
 
 /**
  * Interface for Config Model

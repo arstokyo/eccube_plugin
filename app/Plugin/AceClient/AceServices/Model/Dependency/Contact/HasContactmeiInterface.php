@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Contact;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Contact;
 
-use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
+use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
 
 /**
  * Interface for HasContactmei

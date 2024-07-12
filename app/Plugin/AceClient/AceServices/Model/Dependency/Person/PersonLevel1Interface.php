@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Person;
 
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\HasCodeInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory\HasCodeInterface;
 
 /**
  * Interface For Person Level 1

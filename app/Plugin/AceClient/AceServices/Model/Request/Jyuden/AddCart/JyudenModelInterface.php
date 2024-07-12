@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart;
+namespace Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Jyudens\Jyuden\JyudenModelGroup1Interface;
-use Plugin\AceClient\AceServices\Model\Request;
+use Plugin\AceClient43\AceServices\Model\Dependency\Jyudens\Jyuden\JyudenModelGroup1Interface;
+use Plugin\AceClient43\AceServices\Model\Request;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**

@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\UpdatePassword;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\UpdatePassword;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelTrait;
 
 /**
  * Class MemberModel

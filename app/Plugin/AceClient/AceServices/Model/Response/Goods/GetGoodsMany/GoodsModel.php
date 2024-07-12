@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Goods\GetGoodsMany;
+namespace Plugin\AceClient43\AceServices\Model\Response\Goods\GetGoodsMany;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelTrait;
-use Plugin\AceClient\AceServices\Model;
+use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelTrait;
+use Plugin\AceClient43\AceServices\Model;
 
 /**
  * Class for GoodsModel

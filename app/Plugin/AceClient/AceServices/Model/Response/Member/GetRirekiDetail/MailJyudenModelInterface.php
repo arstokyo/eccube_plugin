@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\GetRirekiDetail;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetRirekiDetail;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Mail\MailJyuden;
+use Plugin\AceClient43\AceServices\Model\Dependency\Mail\MailJyuden;
 
 
 /**

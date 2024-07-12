@@ -1,11 +1,11 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\AceMethod\Master2;
+namespace Plugin\AceClient43\AceServices\AceMethod\Master2;
 
-use Plugin\AceClient\AceServices\AceMethod\AceMethodAbstract;
-use Plugin\AceClient\AceServices\Model\Response\Master2\GetHaisouDayTime\GetHaisouDayTimeResponseModel;
-use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient\AceServices\Model\Request;
+use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
+use Plugin\AceClient43\AceServices\Model\Response\Master2\GetHaisouDayTime\GetHaisouDayTimeResponseModel;
+use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request;
 
 /**
  * Get GetHaisouDayTimeMethod

@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Master\GetGoodsFreeMemo;
+namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetGoodsFreeMemo;
 
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelInterface;
 
 /**
  * Interface GetGoodsFreeMemo Response Model

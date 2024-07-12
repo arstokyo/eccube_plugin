@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceConfig\Model\PrmFormat;
+namespace Plugin\AceClient43\AceConfig\Model\PrmFormat;
 
-use Plugin\AceClient\AceConfig\Model\ConfigModelInterface;
+use Plugin\AceClient43\AceConfig\Model\ConfigModelInterface;
 
 /**
  * Model for Prm Detail Format

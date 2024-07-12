@@ -1,11 +1,11 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr;
+namespace Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr;
 
-use Plugin\AceClient\AceServices\Model\Request;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\IdTrait;
-use Plugin\AceClient\AceServices\Model\Request\RequestModelAbstract;
-use Plugin\AceClient\Exception\MissingRequestParameterException;
+use Plugin\AceClient43\AceServices\Model\Request;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory\IdTrait;
+use Plugin\AceClient43\AceServices\Model\Request\RequestModelAbstract;
+use Plugin\AceClient43\Exception\MissingRequestParameterException;
 
 /**
  * Class RegMemAdrRequestModel

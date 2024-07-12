@@ -1,13 +1,13 @@
 <?php
 
-namespace Plugin\AceClient\Tests\AceRequestTest\Master;
+namespace Plugin\AceClient43\Tests\AceRequestTest\Master;
 
-use Plugin\AceClient\AceServices\Model\Request\Master\GetGoodsFreeMemo\GetGoodsFreeMemoRequestModel;
-use Plugin\AceClient\AceServices\Model\Response\Master\GetGoodsFreeMemo\GetGoodsFreeMemoResponseModel;
+use Plugin\AceClient43\AceServices\Model\Request\Master\GetGoodsFreeMemo\GetGoodsFreeMemoRequestModel;
+use Plugin\AceClient43\AceServices\Model\Response\Master\GetGoodsFreeMemo\GetGoodsFreeMemoResponseModel;
 use GuzzleHttp\Exception\ClientException;
-use Plugin\AceClient\Util\Mapper\OverviewMapper;
-use Plugin\AceClient\Util\Serializer;
-use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
+use Plugin\AceClient43\Util\Mapper\OverviewMapper;
+use Plugin\AceClient43\Util\Serializer;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 
 
 class GetGoodsFreeMemoRequestModelTest extends AceRequestTestAbtract

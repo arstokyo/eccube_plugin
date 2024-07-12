@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\UpdatePassword;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\UpdatePassword;
 
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelInterface;
 
 /**
  * Interface UpdatePassword Response Model

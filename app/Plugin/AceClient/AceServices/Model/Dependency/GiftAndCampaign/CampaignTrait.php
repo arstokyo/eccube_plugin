@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\GiftAndCampaign;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\GiftAndCampaign;
 
 /**
  * Trait for キャンペーン動作フラグ

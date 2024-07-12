@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Goods\GetZaikoAll;
+namespace Plugin\AceClient43\AceServices\Model\Response\Goods\GetZaikoAll;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelInterface;
-use Plugin\AceClient\AceServices\Model\Response\AsListDenormalizableInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\AsListDenormalizableInterface;
 
 
 /**

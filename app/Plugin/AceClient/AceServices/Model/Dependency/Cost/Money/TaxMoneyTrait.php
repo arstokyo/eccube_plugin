@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Money;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Cost\Money;
 
-use Plugin\AceClient\Util\Converter\NumberConverter;
+use Plugin\AceClient43\Util\Converter\NumberConverter;
 
 /**
  * Trait for 消費税金額

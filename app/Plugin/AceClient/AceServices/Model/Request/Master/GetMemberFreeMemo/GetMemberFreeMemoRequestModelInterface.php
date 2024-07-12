@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Master\GetMemberFreeMemo;
+namespace Plugin\AceClient43\AceServices\Model\Request\Master\GetMemberFreeMemo;
 
-use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Interface GetMemberFreeMemo Request Model

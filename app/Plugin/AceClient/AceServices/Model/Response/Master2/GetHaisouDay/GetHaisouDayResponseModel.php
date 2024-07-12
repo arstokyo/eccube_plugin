@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Master2\GetHaisouDay;
+namespace Plugin\AceClient43\AceServices\Model\Response\Master2\GetHaisouDay;
 
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelAbtract;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelAbtract;
 
 /**
  * Get Haisou Day Response Model

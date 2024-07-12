@@ -1,11 +1,11 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Haiso;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Haiso;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Haiso;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
-use Plugin\AceClient\AceServices\Model\Dependency\Address;
-use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
+use Plugin\AceClient43\AceServices\Model\Dependency\Haiso;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\Address;
+use Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC;
 /**
 * Interface for HaisoGroupModel
 *

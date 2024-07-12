@@ -1,9 +1,9 @@
 <?php
 
-namespace  Plugin\AceClient\AceServices\Model\Request\Member\RegMember;
+namespace  Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person;
-use Plugin\AceClient\AceServices\Model\Request;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person;
+use Plugin\AceClient43\AceServices\Model\Request;
 
 interface SmemberModelInterface extends Person\PersonLevel4Interface, Person\PersonLevel2ExtractInterface
 {

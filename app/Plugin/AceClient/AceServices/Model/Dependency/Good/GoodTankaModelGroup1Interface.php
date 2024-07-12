@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Good;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Good;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Cost;
-use Plugin\AceClient\AceServices\Model\Dependency\Day;
-use Plugin\AceClient\AceServices\Model\Dependency\Point;
+use Plugin\AceClient43\AceServices\Model\Dependency\Cost;
+use Plugin\AceClient43\AceServices\Model\Dependency\Day;
+use Plugin\AceClient43\AceServices\Model\Dependency\Point;
 
 /**
  * Interface for GoodTankaModelGroup1

@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Card\GMO;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Card\GMO;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Card\GMO\GMODpsOrderIdTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Card\GMO\GMODpsTIdTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Card\GMO\GMODpsOrderIdTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Card\GMO\GMODpsTIdTrait;
 
 /**
  * Trait for GMOグループ2

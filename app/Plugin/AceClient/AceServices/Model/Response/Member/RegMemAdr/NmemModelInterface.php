@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\RegMemAdr;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\RegMemAdr;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person\Nmember\NmemberModelGroup1Interface;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\HasBetuInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person\Nmember\NmemberModelGroup1Interface;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory\HasBetuInterface;
 
 /**
  * Interface for Nmem Model

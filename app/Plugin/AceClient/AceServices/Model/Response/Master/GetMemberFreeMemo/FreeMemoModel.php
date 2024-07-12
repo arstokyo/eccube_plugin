@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Master\GetMemberFreeMemo;
+namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetMemberFreeMemo;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Free;
+use Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 /**
  * Class FreememoModel

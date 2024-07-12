@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\Util\ConfigLoader;
+namespace Plugin\AceClient43\Util\ConfigLoader;
 
 trait ConvertToConstTrait
 {

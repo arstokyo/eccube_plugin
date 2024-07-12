@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Cost;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Cost;
 
-use Plugin\AceClient\Util\Converter\NumberConverter;
+use Plugin\AceClient43\Util\Converter\NumberConverter;
 
 /**
  * Trait for 掛け率

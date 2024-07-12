@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\CustomDataType;
+namespace Plugin\AceClient43\AceServices\Model\CustomDataType;
 
-use Plugin\AceClient\Exception\MissingRequestParameterException;
+use Plugin\AceClient43\Exception\MissingRequestParameterException;
 
 /**
  * Interface for ensureParameterNotMissing.

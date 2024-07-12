@@ -1,11 +1,11 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\AceMethod\Contact;
+namespace Plugin\AceClient43\AceServices\AceMethod\Contact;
 
-use Plugin\AceClient\AceServices\AceMethod\AceMethodAbstract;
-use Plugin\AceClient\AceServices\Model\Request;
-use Plugin\AceClient\AceServices\Model\Response\Contact\RegContact\RegContactResponseModel;
-use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
+use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
+use Plugin\AceClient43\AceServices\Model\Request;
+use Plugin\AceClient43\AceServices\Model\Response\Contact\RegContact\RegContactResponseModel;
+use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
 
 /**
  * Method for RegContact

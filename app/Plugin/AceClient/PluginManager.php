@@ -11,12 +11,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Plugin\AceClient;
+namespace Plugin\AceClient43;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Eccube\Plugin\AbstractPluginManager;
-use Plugin\AceClient\Repository\ConfigRepository;
-use Plugin\AceClient\Entity\Config as AceClientConfig;
+use Plugin\AceClient43\Repository\ConfigRepository;
+use Plugin\AceClient43\Entity\Config as AceClientConfig;
 
 /**
  * Class PluginManager.

@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Tesuu;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Cost\Tesuu;
 
-use Plugin\AceClient\Util\Converter\NumberConverter;
+use Plugin\AceClient43\Util\Converter\NumberConverter;
 
 /**
  * Trait for 手数料合計

@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Card;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Card;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Card\GMO\GMOStatusTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Card\GMO\GMOStatusTrait;
 
 /**
  * Trait for Card Level 3

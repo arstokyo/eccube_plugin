@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\ApiClient\Api;
+namespace Plugin\AceClient43\ApiClient\Api;
 
 use GuzzleHttp\ClientInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;

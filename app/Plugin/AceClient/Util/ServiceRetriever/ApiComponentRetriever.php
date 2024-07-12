@@ -1,11 +1,11 @@
 <?php
 
-namespace Plugin\AceClient\Util\ServiceRetriever;
+namespace Plugin\AceClient43\Util\ServiceRetriever;
 
-use Plugin\AceClient\Util\Serializer\SoapXmlSerializerProvider;
-use Plugin\AceClient\Util\Logger\LoggerProvider;
+use Plugin\AceClient43\Util\Serializer\SoapXmlSerializerProvider;
+use Plugin\AceClient43\Util\Logger\LoggerProvider;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Plugin\AceClient\Util\Normalizer\SoapXmlNormalizer;
+use Plugin\AceClient43\Util\Normalizer\SoapXmlNormalizer;
 
 /**
  * Retriver for ApiDelegate.

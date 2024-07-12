@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Master2\GetHaisouDayTime;
+namespace Plugin\AceClient43\AceServices\Model\Response\Master2\GetHaisouDayTime;
 
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelInterface;
 
 /**
  * Interface GetHaisouDayTime Response Model

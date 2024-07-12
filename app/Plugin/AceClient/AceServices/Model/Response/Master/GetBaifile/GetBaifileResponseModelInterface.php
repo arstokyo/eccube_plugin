@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Master\GetBaifile;
+namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetBaifile;
 
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelInterface;
 
 /**
  * Interface GetBaifile Response Model

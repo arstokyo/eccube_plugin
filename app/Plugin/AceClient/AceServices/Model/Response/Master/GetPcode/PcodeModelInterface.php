@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Master\GetPcode;
+namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetPcode;
 
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Interface for PcodeModel

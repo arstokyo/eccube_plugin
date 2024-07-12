@@ -1,15 +1,15 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Person;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Baitai\HasBaitaiNameInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Free\HasThreeFnameInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC\HasFivePCKbnInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC\HasFiveKeiKbnInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Mail\HasFiveMailInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Mail\HasMailInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Point\HasPointInterface;
-use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime\AceDateTimeInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Baitai\HasBaitaiNameInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Free\HasThreeFnameInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC\HasFivePCKbnInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC\HasFiveKeiKbnInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Mail\HasFiveMailInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Mail\HasMailInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Point\HasPointInterface;
+use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime\AceDateTimeInterface;
 
 /**
  * Interface for Person Level 5

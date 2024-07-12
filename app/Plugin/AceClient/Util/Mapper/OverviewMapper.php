@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\Util\Mapper;
+namespace Plugin\AceClient43\Util\Mapper;
 
 class OverviewMapper
 {

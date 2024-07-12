@@ -1,15 +1,15 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Jyuden\GetDeliveryInfo;
+namespace Plugin\AceClient43\AceServices\Model\Response\Jyuden\GetDeliveryInfo;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Mail;
-use Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
-use Plugin\AceClient\AceServices\Model\Dependency\Good;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
-use Plugin\AceClient\AceServices\Model\Dependency\OkuriAndNouhin;
-use Plugin\AceClient\AceServices\Model\Dependency\Person;
-use Plugin\AceClient\AceServices\Model\Dependency\Day;
-use Plugin\AceClient\AceServices\Model\Dependency\Haiso;
+use Plugin\AceClient43\AceServices\Model\Dependency\Mail;
+use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
+use Plugin\AceClient43\AceServices\Model\Dependency\Good;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\OkuriAndNouhin;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person;
+use Plugin\AceClient43\AceServices\Model\Dependency\Day;
+use Plugin\AceClient43\AceServices\Model\Dependency\Haiso;
 
 /**
  * Interface for DeliveryModel

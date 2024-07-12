@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Shukka;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Shukka;
 
 /**
  * Interface for 出荷対象区分

@@ -1,15 +1,15 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Person;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Baitai\BaitaiNameTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Free\ThreeFnameTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC\FivePCKbnTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC\FiveKeiKbnTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Mail\FiveMailTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Mail\MailTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Point\PointTrait;
-use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
+use Plugin\AceClient43\AceServices\Model\Dependency\Baitai\BaitaiNameTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Free\ThreeFnameTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC\FivePCKbnTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC\FiveKeiKbnTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Mail\FiveMailTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Mail\MailTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Point\PointTrait;
+use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
 
 /**
  * Trait For Person Level 5

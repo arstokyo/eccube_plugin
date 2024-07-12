@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart;
+namespace Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person;
-use Plugin\AceClient\AceServices\Model\Request;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person;
+use Plugin\AceClient43\AceServices\Model\Request;
 
 /**
  * Interface Member Order Model

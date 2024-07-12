@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Haiso;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Haiso;
 
 /**
  * Interface for Has 配送希望時間コード

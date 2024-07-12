@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Master\GetPcode;
+namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetPcode;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelTrait;
 
 /**
  * Class MasterModel

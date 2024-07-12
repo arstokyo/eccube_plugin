@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\Util\Normalizer;
+namespace Plugin\AceClient43\Util\Normalizer;
 
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
 
 /**
  * Class Nomalizer for SOAP XML API.

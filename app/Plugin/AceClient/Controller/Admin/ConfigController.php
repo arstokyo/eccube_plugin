@@ -1,11 +1,11 @@
 <?php
 
-namespace Plugin\AceClient\Controller\Admin;
+namespace Plugin\AceClient43\Controller\Admin;
 
 use Eccube\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Plugin\AceClient\Form\Type\Admin\ConfigType;
-use Plugin\AceClient\Repository\ConfigRepository;
+use Plugin\AceClient43\Form\Type\Admin\ConfigType;
+use Plugin\AceClient43\Repository\ConfigRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -27,8 +27,8 @@ class ConfigController extends AbstractController
     }
 
     /**
-     * @Route("/%eccube_admin_route%/aceclient/config", name="ace_client_admin_config")
-     * @Template("@AceClient/admin/config.twig")
+     * @Route("/%eccube_admin_route%/aceclient43/config", name="ace_client_admin_config")
+     * @Template("@AceClient43/admin/config.twig")
      */
     public function index(Request $request)
     {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Souryou;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Cost\Souryou;
 
-use Plugin\AceClient\Util\Converter\NumberConverter;
+use Plugin\AceClient43\Util\Converter\NumberConverter;
 
 /**
  * Trait for Has 送料合計

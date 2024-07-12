@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Hanpu\DecisionHanpu;
+namespace Plugin\AceClient43\AceServices\Model\Response\Hanpu\DecisionHanpu;
 
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelAbtract;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelAbtract;
 
 /**
  * Class DecisionHanpuResponseModel

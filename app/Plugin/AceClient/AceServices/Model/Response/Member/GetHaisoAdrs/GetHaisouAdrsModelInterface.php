@@ -1,12 +1,12 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\GetHaisoAdrs;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetHaisoAdrs;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person\PersonLevel3ExtractInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Address\HasFourCdvAdrInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Address\HasFourAdrInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Bikou\HasThreeAdrBikouInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\HasKanaInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person\PersonLevel3ExtractInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Address\HasFourCdvAdrInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Address\HasFourAdrInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Bikou\HasThreeAdrBikouInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory\HasKanaInterface;
 
 /**
  * Interface GetHaisoAdrsModelResponseInterface

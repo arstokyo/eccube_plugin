@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Master\GetMemAnk;
+namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetMemAnk;
 
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Class MemAnkModel

@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Goods\GetZaikoAll;
+namespace Plugin\AceClient43\AceServices\Model\Response\Goods\GetZaikoAll;
 
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
-use Plugin\AceClient\AceServices\Model\Response;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Interface for GetZaikoAllResponseModel

@@ -1,11 +1,11 @@
 <?php
 
-namespace Plugin\AceClient\Util\Serializer;
+namespace Plugin\AceClient43\Util\Serializer;
 
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Plugin\AceClient\Util\Encoder\EncoderFactory;
-use Plugin\AceClient\Util\Normalizer\NormalizerFactory;
+use Plugin\AceClient43\Util\Encoder\EncoderFactory;
+use Plugin\AceClient43\Util\Normalizer\NormalizerFactory;
 
 /**
  * Provider for SoapSerializer.

@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Master\GetMemberFreemst;
+namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetMemberFreemst;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Free;
+use Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 /**
  * Interface for FreemstModel

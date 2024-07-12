@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Nebiki;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Cost\Nebiki;
 
 /**
  * Interface for Has 値引合計

@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Cost;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Cost;
 
 /**
  * Interface for Has 合計額

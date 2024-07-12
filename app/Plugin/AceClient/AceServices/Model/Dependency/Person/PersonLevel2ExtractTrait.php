@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Person;
 
 /**
  * Trait for For Person Level 2 Extract

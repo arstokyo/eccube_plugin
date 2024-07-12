@@ -1,17 +1,17 @@
 <?php
 
-namespace Plugin\AceClient\Entity;
+namespace Plugin\AceClient43\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Plugin\AceClient\Util\HttpClient\HttpClientFactory;
-use Plugin\AceClient\Util\Logger\LoggerFactory;
+use Plugin\AceClient43\Util\HttpClient\HttpClientFactory;
+use Plugin\AceClient43\Util\Logger\LoggerFactory;
 
-if (!class_exists('\Plugin\AceClient\Entity\Config', false)) {
+if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
     /**
      * Config
      *
      * @ORM\Table(name="plg_ace_client_config")
-     * @ORM\Entity(repositoryClass="Plugin\AceClient\Repository\ConfigRepository")
+     * @ORM\Entity(repositoryClass="Plugin\AceClient43\Repository\ConfigRepository")
      */
     class Config
     {

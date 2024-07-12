@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Haiso;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Haiso;
 
 /**
  * Check for Has 配送時間ID

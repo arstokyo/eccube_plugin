@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Person\User;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Person\User;
 
 /**
  * Interface for Has ユーザーID

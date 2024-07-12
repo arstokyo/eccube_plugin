@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Day;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Day;
 
-use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
+use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
 
 /**
  * Interface for Has 記録日

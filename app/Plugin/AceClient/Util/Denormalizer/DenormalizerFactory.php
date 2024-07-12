@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\Util\Denormalizer;
+namespace Plugin\AceClient43\Util\Denormalizer;
 
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-use Plugin\AceClient\Util\Denormalizer\AsListDenormalizer;
+use Plugin\AceClient43\Util\Denormalizer\AsListDenormalizer;
 
 /**
  * Factory for Denormalizer.

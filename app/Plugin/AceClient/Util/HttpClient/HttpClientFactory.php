@@ -1,13 +1,13 @@
 <?php
 
-namespace Plugin\AceClient\Util\HttpClient;
+namespace Plugin\AceClient43\Util\HttpClient;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Client;
-use Plugin\AceClient\Util\Mapper\OverviewMapper;
-use Plugin\AceClient\Exception\InvalidClassNameException;
-use Plugin\AceClient\Exception\DataTypeMissMatchException;
-use Plugin\AceClient\Util\ClassFactory\ClassFactory;
+use Plugin\AceClient43\Util\Mapper\OverviewMapper;
+use Plugin\AceClient43\Exception\InvalidClassNameException;
+use Plugin\AceClient43\Exception\DataTypeMissMatchException;
+use Plugin\AceClient43\Util\ClassFactory\ClassFactory;
 
 /**
  * Factory for HttpClient.

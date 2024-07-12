@@ -1,13 +1,13 @@
 <?php
 
-namespace Plugin\AceClient\Util\Normalizer;
+namespace Plugin\AceClient43\Util\Normalizer;
 
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Plugin\AceClient\AceServices\Model\Request\Prm\PrmModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\Prm\PrmModelInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\SerializerAwareInterface;
-use Plugin\AceClient\Exception\NotSerializableException;
-use Plugin\AceClient\Exception\DataTypeMissMatchException;
+use Plugin\AceClient43\Exception\NotSerializableException;
+use Plugin\AceClient43\Exception\DataTypeMissMatchException;
 
 /**
  * Normalizer for Prm

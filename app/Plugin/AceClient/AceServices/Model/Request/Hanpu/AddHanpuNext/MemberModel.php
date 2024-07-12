@@ -1,12 +1,12 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpuNext;
+namespace Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpuNext;
 
-use Plugin\AceClient\AceServices\Model\Request;
-use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\JmemberModelInterface;
-use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\MemberModel as ParentModel;
-use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\NmemberModelInterface;
-use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\SmemberModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request;
+use Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu\JmemberModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu\MemberModel as ParentModel;
+use Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu\NmemberModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu\SmemberModelInterface;
 
 class MemberModel extends ParentModel
 {

@@ -1,16 +1,16 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Hanpu\Handen;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Hanpu\Handen;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Day;
-use Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
-use Plugin\AceClient\AceServices\Model\Dependency\Payment;
-use Plugin\AceClient\AceServices\Model\Dependency\Baitai;
-use Plugin\AceClient\AceServices\Model\Dependency\Bumon;
-use Plugin\AceClient\AceServices\Model\Dependency\Souko;
-use Plugin\AceClient\AceServices\Model\Dependency\Haiso;
-use Plugin\AceClient\AceServices\Model\Dependency\Free;
-use Plugin\AceClient\AceServices\Model\Dependency\Bikou;
+use Plugin\AceClient43\AceServices\Model\Dependency\Day;
+use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
+use Plugin\AceClient43\AceServices\Model\Dependency\Payment;
+use Plugin\AceClient43\AceServices\Model\Dependency\Baitai;
+use Plugin\AceClient43\AceServices\Model\Dependency\Bumon;
+use Plugin\AceClient43\AceServices\Model\Dependency\Souko;
+use Plugin\AceClient43\AceServices\Model\Dependency\Haiso;
+use Plugin\AceClient43\AceServices\Model\Dependency\Free;
+use Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
 
 
 /**

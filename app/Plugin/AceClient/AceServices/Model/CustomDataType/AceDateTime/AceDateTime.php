@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
+namespace Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
 
 use DateTime;
 use DateTimeZone;
-use Plugin\AceClient\Exception\AceDateTimeCreateFailedException;
+use Plugin\AceClient43\Exception\AceDateTimeCreateFailedException;
 
 /**
  * Class for AceDateTime

@@ -1,16 +1,16 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Jyudens\Jyuden;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Jyudens\Jyuden;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Souko;
-use Plugin\AceClient\AceServices\Model\Dependency\Haiso;
-use Plugin\AceClient\AceServices\Model\Dependency\Day;
-use Plugin\AceClient\AceServices\Model\Dependency\OkuriAndNouhin;
-use Plugin\AceClient\AceServices\Model\Dependency\Bikou;
-use Plugin\AceClient\AceServices\Model\Dependency\Free;
-use Plugin\AceClient\AceServices\Model\Dependency\Cost;
-use Plugin\AceClient\AceServices\Model\Dependency\Shukka;
-use Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
+use Plugin\AceClient43\AceServices\Model\Dependency\Souko;
+use Plugin\AceClient43\AceServices\Model\Dependency\Haiso;
+use Plugin\AceClient43\AceServices\Model\Dependency\Day;
+use Plugin\AceClient43\AceServices\Model\Dependency\OkuriAndNouhin;
+use Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
+use Plugin\AceClient43\AceServices\Model\Dependency\Free;
+use Plugin\AceClient43\AceServices\Model\Dependency\Cost;
+use Plugin\AceClient43\AceServices\Model\Dependency\Shukka;
+use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
 
 /**
  * Interface for JyudenModelBase

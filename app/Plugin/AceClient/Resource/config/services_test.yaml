@@ -1,7 +1,7 @@
 services:
 
     plugin.aceclient:
-        class: Plugin\AceClient\AceClient
+        class: Plugin\AceClient43\AceClient
         public: true
         arguments:
-            - '@Plugin\AceClient\Util\ServiceRetriever\ServiceRetriever'
+            - '@Plugin\AceClient43\Util\ServiceRetriever\ServiceRetriever'

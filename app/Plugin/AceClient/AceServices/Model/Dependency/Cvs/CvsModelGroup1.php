@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Cvs;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Cvs;
 
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\OrderIdTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC\TelTrait;
-use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory\OrderIdTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC\TelTrait;
+use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
 
 /**
  * Model for CVS Group 1

@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\GetMember;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
 
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
-use Plugin\AceClient\AceServices\Model\Response;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**

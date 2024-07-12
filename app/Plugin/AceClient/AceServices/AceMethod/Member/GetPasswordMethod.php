@@ -1,11 +1,11 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\AceMethod\Member;
+namespace Plugin\AceClient43\AceServices\AceMethod\Member;
 
-use Plugin\AceClient\AceServices\AceMethod\AceMethodAbstract;
-use Plugin\AceClient\AceServices\Model\Request;
-use Plugin\AceClient\AceServices\Model\Response\Member\GetPassword\GetPasswordResponseModel;
-use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
+use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
+use Plugin\AceClient43\AceServices\Model\Request;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetPassword\GetPasswordResponseModel;
+use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
 
 /**
  * Method for GetPassword

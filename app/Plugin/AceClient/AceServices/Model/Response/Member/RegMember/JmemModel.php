@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\RegMember;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\RegMember;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person\PersonLevel6ExtractTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Mail\FiveMelmagaTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person\PersonLevel6ExtractTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Mail\FiveMelmagaTrait;
 
 /**
  * Jmem Model

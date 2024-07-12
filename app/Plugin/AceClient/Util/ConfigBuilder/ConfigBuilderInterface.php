@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\Util\ConfigBuilder;
+namespace Plugin\AceClient43\Util\ConfigBuilder;
 
 /**
  * Interface for Config Builder.

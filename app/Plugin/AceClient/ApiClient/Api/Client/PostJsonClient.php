@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\ApiClient\Api\Client;
+namespace Plugin\AceClient43\ApiClient\Api\Client;
 
-use Plugin\AceClient\Exception;
-use Plugin\AceClient\Util\Mapper\EncodeDefineMapper;
+use Plugin\AceClient43\Exception;
+use Plugin\AceClient43\Util\Mapper\EncodeDefineMapper;
 
 class PostJsonClient extends PostClientAbstract implements ClientInterface
 {

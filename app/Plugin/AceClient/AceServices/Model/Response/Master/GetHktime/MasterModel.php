@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Master\GetHktime;
+namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetHktime;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelTrait;
 
 /**
  * Class MasterModel

@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response;
+namespace Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Abstract Class for Response Model

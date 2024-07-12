@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\ApiClient\Api\Client;
+namespace Plugin\AceClient43\ApiClient\Api\Client;
 
 class PostClientAbstract extends AbstractClient implements PostClientInterface
 {

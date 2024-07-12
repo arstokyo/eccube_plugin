@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Master\GetOkuri;
+namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetOkuri;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Haiso;
-use Plugin\AceClient\AceServices\Model\Dependency\Good;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\Haiso;
+use Plugin\AceClient43\AceServices\Model\Dependency\Good;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Class OkuriModel

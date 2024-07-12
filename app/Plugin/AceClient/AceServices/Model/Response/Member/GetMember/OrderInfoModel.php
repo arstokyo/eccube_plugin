@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\GetMember;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
 
-use Plugin\AceClient\AceServices\Model\Response\Member\GetMember\OrderInfoModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember\OrderInfoModelInterface;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
 

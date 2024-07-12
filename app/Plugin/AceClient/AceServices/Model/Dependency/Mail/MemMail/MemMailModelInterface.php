@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Mail\MemMail;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Mail\MemMail;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Mail\HasMailInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Mail\HasMailInterface;
 
 /**
  * Interface For Member Mail

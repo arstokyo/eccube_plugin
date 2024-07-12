@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\Util\ServiceRetriever;
+namespace Plugin\AceClient43\Util\ServiceRetriever;
 
 use Eccube\Common\EccubeConfig;
 

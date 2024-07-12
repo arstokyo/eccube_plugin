@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Payment;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Payment;
 
 /**
  * Trait for Pname

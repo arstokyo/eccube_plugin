@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Member\RegMember;
+namespace Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 
-use Plugin\AceClient\AceServices\Model\Request\Prm\PrmModelInterface;
-use Plugin\AceClient\AceServices\Model\Request;
+use Plugin\AceClient43\AceServices\Model\Request\Prm\PrmModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request;
 
 /**
  * Interface Member Order Model

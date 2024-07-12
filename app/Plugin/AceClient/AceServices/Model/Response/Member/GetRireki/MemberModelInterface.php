@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\GetRireki;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetRireki;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelInterface;
-use Plugin\AceClient\AceServices\Model\Response\AsListDenormalizableInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\AsListDenormalizableInterface;
 
 /**
  * Interface for Login Member Model

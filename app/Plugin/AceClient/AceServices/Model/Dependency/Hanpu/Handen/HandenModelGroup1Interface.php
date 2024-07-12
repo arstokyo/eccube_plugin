@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Hanpu\Handen;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Hanpu\Handen;
 
 /**
  * Interface for HandenModelGroup1

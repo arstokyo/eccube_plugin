@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\UpdateSbpsCustId;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\UpdateSbpsCustId;
 
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelAbtract;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelAbtract;
 
 /**
  * Class GetSbpsCustIdResponseModel

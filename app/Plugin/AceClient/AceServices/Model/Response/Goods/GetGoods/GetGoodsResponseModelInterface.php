@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Goods\GetGoods;
+namespace Plugin\AceClient43\AceServices\Model\Response\Goods\GetGoods;
 
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
-use Plugin\AceClient\AceServices\Model\Response;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Interface for GetGoodsResponseModel

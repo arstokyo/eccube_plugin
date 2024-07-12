@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Point;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Point;
 
 /**
  * Trait for ポイント

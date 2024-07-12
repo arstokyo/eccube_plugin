@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\DeleteHaisoAdrs;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\DeleteHaisoAdrs;
 
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
-use Plugin\AceClient\AceServices\Model\Response\Member\DeleteHaisoAdrs\MemberModel;
-use Plugin\AceClient\AceServices\Model\Response;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\Member\DeleteHaisoAdrs\MemberModel;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Interface DeleteHaisoAdrsModelReponseInterface

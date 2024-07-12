@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Member\CheckMailAdress;
+namespace Plugin\AceClient43\AceServices\Model\Request\Member\CheckMailAdress;
 
-use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Mail\HasMailAdressInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\HasIdInterface;
+use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Mail\HasMailAdressInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory\HasIdInterface;
 
 /**
  * Interface CheckMailAdressRequestInterface

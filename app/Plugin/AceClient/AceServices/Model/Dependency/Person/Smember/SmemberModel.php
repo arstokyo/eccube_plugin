@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Person\Smember;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Person\Smember;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person\PersonLevel1;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person\PersonLevel1;
 
 /**
  * Model for 請求先顧客

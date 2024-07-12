@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Goods\GetZaikoAll;
+namespace Plugin\AceClient43\AceServices\Model\Response\Goods\GetZaikoAll;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Good;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\Good;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Interface for GoodModel

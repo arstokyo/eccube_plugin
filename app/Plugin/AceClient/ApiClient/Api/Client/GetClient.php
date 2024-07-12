@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\ApiClient\Api\Client;
+namespace Plugin\AceClient43\ApiClient\Api\Client;
 
-use Plugin\AceClient\Exception;
+use Plugin\AceClient43\Exception;
 
 class GetClient extends AbstractClient implements GetClientInterface
 {

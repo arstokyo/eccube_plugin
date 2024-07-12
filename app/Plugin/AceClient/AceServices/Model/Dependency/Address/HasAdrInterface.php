@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Address;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Address;
 
 /**
  * Interface for Has 住所

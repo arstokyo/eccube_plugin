@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\Form\Type\Admin;
+namespace Plugin\AceClient43\Form\Type\Admin;
 
-use Plugin\AceClient\Entity\Config;
+use Plugin\AceClient43\Entity\Config;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;

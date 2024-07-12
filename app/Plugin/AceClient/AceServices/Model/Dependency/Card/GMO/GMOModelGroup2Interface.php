@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Card\GMO;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Card\GMO;
 
 use Symfony\Component\Serializer\Annotation\SerializedName;
 

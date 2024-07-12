@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Master\GetBumonFreeCd;
+namespace Plugin\AceClient43\AceServices\Model\Request\Master\GetBumonFreeCd;
 
-use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Interface GetBumonFreeCd Request Model

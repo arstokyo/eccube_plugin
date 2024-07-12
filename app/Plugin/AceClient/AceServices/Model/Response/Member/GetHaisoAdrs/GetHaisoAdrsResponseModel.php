@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\GetHaisoAdrs;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetHaisoAdrs;
 
-use Plugin\AceClient\AceServices\Model\Response;
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelAbtract;
+use Plugin\AceClient43\AceServices\Model\Response;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelAbtract;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**

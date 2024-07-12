@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Master\GetMemberFreemst;
+namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetMemberFreemst;
 
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelAbtract;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelAbtract;
 
 /**
  * Class GetMemberFreemstResponseModel

@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\Util\Denormalizer;
+namespace Plugin\AceClient43\Util\Denormalizer;
 
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -9,9 +9,9 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Serializer;
-use Plugin\AceClient\AceServices\Model\Response\AsListDenormalizableInterface;
-use Plugin\AceClient\Exception\NotDeserializableException;
-use Plugin\AceClient\Exception\DataTypeMissMatchException;
+use Plugin\AceClient43\AceServices\Model\Response\AsListDenormalizableInterface;
+use Plugin\AceClient43\Exception\NotDeserializableException;
+use Plugin\AceClient43\Exception\DataTypeMissMatchException;
 
 /**
  * Denormalizer for AsList Response

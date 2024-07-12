@@ -1,15 +1,15 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Person;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Free;
-use Plugin\AceClient\AceServices\Model\Dependency\Baitai;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
-use Plugin\AceClient\AceServices\Model\Dependency\Bikou;
-use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
-use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
-use Plugin\AceClient\AceServices\Model\Dependency\Cost;
-use Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
+use Plugin\AceClient43\AceServices\Model\Dependency\Free;
+use Plugin\AceClient43\AceServices\Model\Dependency\Baitai;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
+use Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC;
+use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
+use Plugin\AceClient43\AceServices\Model\Dependency\Cost;
+use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
 
 /**
  * Trait for Person Level 4

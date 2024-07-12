@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Mail\MemMail;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Mail\MemMail;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Mail\MailTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Mail\MailTrait;
 
 class MemMailModel implements MemMailModelInterface
 {

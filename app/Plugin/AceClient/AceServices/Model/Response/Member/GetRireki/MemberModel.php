@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\GetRireki;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetRireki;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelTrait;
 
 /**
  * Class for MemberModel

@@ -1,13 +1,13 @@
 <?php
 
-namespace Plugin\AceClient\Tests\AceRequestTest\Jyuden;
+namespace Plugin\AceClient43\Tests\AceRequestTest\Jyuden;
 
-use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart;
-use Plugin\AceClient\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModel;
+use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart;
+use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModel;
 use GuzzleHttp\Exception\ClientException;
-use Plugin\AceClient\Util\Serializer;
-use Plugin\AceClient\Util\Mapper\OverviewMapper;
-use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
+use Plugin\AceClient43\Util\Serializer;
+use Plugin\AceClient43\Util\Mapper\OverviewMapper;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 
 class AddCartTest extends AceRequestTestAbtract
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Plugin\AceClient\Tests\AceRequestTest\Member;
+namespace Plugin\AceClient43\Tests\AceRequestTest\Member;
 
-use Plugin\AceClient\AceServices\Model\Request\Member\GetHaisoAdrs\GetHaisoAdrsRequestModel;
-use Plugin\AceClient\AceServices\Model\Response\Member\GetHaisoAdrs\GetHaisoAdrsResponseModel;
+use Plugin\AceClient43\AceServices\Model\Request\Member\GetHaisoAdrs\GetHaisoAdrsRequestModel;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetHaisoAdrs\GetHaisoAdrsResponseModel;
 use GuzzleHttp\Exception\ClientException;
-use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
-use Plugin\AceClient\Util\Mapper\OverviewMapper;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
+use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 
 class GetHaisoAdrsRequestModelTest extends AceRequestTestAbtract
 {

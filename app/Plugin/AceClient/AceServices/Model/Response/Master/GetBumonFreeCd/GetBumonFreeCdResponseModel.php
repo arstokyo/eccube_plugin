@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Master\GetBumonFreeCd;
+namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetBumonFreeCd;
 
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelAbtract;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelAbtract;
 
 /**
  * Class GetBumonFreeCdResponseModel

@@ -1,12 +1,12 @@
 <?php
 
-namespace Plugin\AceClient\Util\ConfigWriter;
+namespace Plugin\AceClient43\Util\ConfigWriter;
 
 use Symfony\Component\Yaml\Yaml;
-use Plugin\AceClient\Util\Mapper\FilePathMapper;
-use Plugin\AceClient\Util\Mapper\ConfigNodeRootNameMapper;
-use Plugin\AceClient\Entity\Config;
-use Plugin\AceClient\Util\Logger\LoggerFactory;
+use Plugin\AceClient43\Util\Mapper\FilePathMapper;
+use Plugin\AceClient43\Util\Mapper\ConfigNodeRootNameMapper;
+use Plugin\AceClient43\Entity\Config;
+use Plugin\AceClient43\Util\Logger\LoggerFactory;
 
 class ConfigWriter
 {

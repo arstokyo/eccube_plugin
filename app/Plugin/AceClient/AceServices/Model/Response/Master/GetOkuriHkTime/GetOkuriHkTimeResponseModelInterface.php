@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Master\GetOkuriHkTime;
+namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetOkuriHkTime;
 
-use Plugin\AceClient\AceServices\Model\Response;
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelInterface;
 
 /**
  * Interface for getOkuriHkTime Response Model

@@ -1,12 +1,12 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Rireki;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Rireki;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
-use Plugin\AceClient\AceServices\Model\Dependency\OkuriAndNouhin;
-use Plugin\AceClient\AceServices\Model\Dependency\Point;
-use Plugin\AceClient\AceServices\Model\Dependency\Day;
-use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
+use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
+use Plugin\AceClient43\AceServices\Model\Dependency\OkuriAndNouhin;
+use Plugin\AceClient43\AceServices\Model\Dependency\Point;
+use Plugin\AceClient43\AceServices\Model\Dependency\Day;
+use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
 
 /**
  * Model for RirekiLevel1

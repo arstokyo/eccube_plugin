@@ -1,11 +1,11 @@
 <?php
 
-namespace Plugin\AceClient\Util\Logger;
+namespace Plugin\AceClient43\Util\Logger;
 
 use Psr\Log\LoggerInterface;
-use Plugin\AceClient\Exception\InvalidClassNameException;
-use Plugin\AceClient\Exception\DataTypeMissMatchException;
-use Plugin\AceClient\Util\ClassFactory\ClassFactory;
+use Plugin\AceClient43\Exception\InvalidClassNameException;
+use Plugin\AceClient43\Exception\DataTypeMissMatchException;
+use Plugin\AceClient43\Util\ClassFactory\ClassFactory;
 use Psr\Log\NullLogger;
 
 class LoggerFactory 

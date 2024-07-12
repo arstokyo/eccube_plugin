@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\ApiClient\Response;
+namespace Plugin\AceClient43\ApiClient\Response;
 
 /**
  * Class for Api Client Response

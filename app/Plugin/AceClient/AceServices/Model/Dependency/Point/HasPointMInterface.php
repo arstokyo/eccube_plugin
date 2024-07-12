@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Point;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Point;
 
 /**
  * Interface for Has 使用ポイント

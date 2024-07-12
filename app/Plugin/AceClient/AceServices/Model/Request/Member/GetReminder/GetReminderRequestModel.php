@@ -1,11 +1,11 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Member\GetReminder;
+namespace Plugin\AceClient43\AceServices\Model\Request\Member\GetReminder;
 
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\IdTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Mail\MailAdressTrait;
-use Plugin\AceClient\Exception\MissingRequestParameterException;
-use Plugin\AceClient\AceServices\Model\Request\RequestModelAbstract;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory\IdTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Mail\MailAdressTrait;
+use Plugin\AceClient43\Exception\MissingRequestParameterException;
+use Plugin\AceClient43\AceServices\Model\Request\RequestModelAbstract;
 
 /**
  * Class GetPointRequestModel

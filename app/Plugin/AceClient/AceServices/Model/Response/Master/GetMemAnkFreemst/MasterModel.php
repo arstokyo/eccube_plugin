@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Master\GetMemAnkFreemst;
+namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetMemAnkFreemst;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelTrait;
 
 /**
  * Class MasterModel

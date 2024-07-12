@@ -1,15 +1,15 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\AceMethod;
+namespace Plugin\AceClient43\AceServices\AceMethod;
 
-use Plugin\AceClient\AceServices\Model\Request;
-use Plugin\AceClient\ApiClient\Api\Client\ClientMetadataInterface;
-use Plugin\AceClient\ApiClient\Response\ResponseInterface;
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
-use Plugin\AceClient\Exception\DataTypeMissMatchException;
-use Plugin\AceClient\Exception\InvalidClassNameException;
-use Plugin\AceClient\Util\ClassFactory\ClassFactory;
-use Plugin\AceClient\Util\ServiceRetriever\ServiceRetrieverInterface;
+use Plugin\AceClient43\AceServices\Model\Request;
+use Plugin\AceClient43\ApiClient\Api\Client\ClientMetadataInterface;
+use Plugin\AceClient43\ApiClient\Response\ResponseInterface;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelInterface;
+use Plugin\AceClient43\Exception\DataTypeMissMatchException;
+use Plugin\AceClient43\Exception\InvalidClassNameException;
+use Plugin\AceClient43\Util\ClassFactory\ClassFactory;
+use Plugin\AceClient43\Util\ServiceRetriever\ServiceRetrieverInterface;
 
 /**
  * Abstract Class for Ace Method

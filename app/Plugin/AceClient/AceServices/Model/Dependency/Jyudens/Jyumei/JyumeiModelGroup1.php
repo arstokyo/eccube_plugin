@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Jyudens\Jyumei;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Jyudens\Jyumei;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Cost;
-use Plugin\AceClient\AceServices\Model\Dependency\Zaiko;
+use Plugin\AceClient43\AceServices\Model\Dependency\Cost;
+use Plugin\AceClient43\AceServices\Model\Dependency\Zaiko;
 
 /**
  * Model for Jyumei Group1

@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Hanpu\DecisionHanpu;
+namespace Plugin\AceClient43\AceServices\Model\Response\Hanpu\DecisionHanpu;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Jyudens;
-use Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
+use Plugin\AceClient43\AceServices\Model\Dependency\Jyudens;
+use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
 
 /**
  * Class for JyudenModel

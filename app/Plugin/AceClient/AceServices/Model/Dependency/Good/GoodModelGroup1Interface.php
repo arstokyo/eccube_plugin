@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Good;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Good;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Bikou;
+use Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
 use Symfony\Component\Serializer\Annotation\SerializedName;
-use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
+use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
 
 
 /**

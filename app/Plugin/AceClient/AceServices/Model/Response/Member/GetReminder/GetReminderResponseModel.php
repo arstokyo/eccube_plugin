@@ -1,11 +1,11 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\GetReminder;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetReminder;
 
-use Plugin\AceClient\AceServices\Model\Response\Member\GetReminder\GetReminderResponseModelInterface;
-use Plugin\AceClient\AceServices\Model\Response\Member\GetReminder\MemberModel;
-use Plugin\AceClient\AceServices\Model\Response;
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelAbtract;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetReminder\GetReminderResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetReminder\MemberModel;
+use Plugin\AceClient43\AceServices\Model\Response;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelAbtract;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Serializer;
 /**

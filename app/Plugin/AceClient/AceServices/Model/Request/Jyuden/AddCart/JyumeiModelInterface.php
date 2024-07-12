@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart;
+namespace Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Jyudens\Jyumei\JyumeiModelGroup1Interface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Jyudens\Jyumei\JyumeiModelGroup1Interface;
 
 /**
  * Interface for Jyumei

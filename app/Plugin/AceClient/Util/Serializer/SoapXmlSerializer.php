@@ -1,18 +1,18 @@
 <?php
 
-namespace Plugin\AceClient\Util\Serializer;
+namespace Plugin\AceClient43\Util\Serializer;
 
-use Plugin\AceClient\Exception\DataTypeMissMatchException;
+use Plugin\AceClient43\Exception\DataTypeMissMatchException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient\AceConfig\Model\SoapXmlSerializer\SoapXmlSerializerModel;
-use Plugin\AceClient\Util\ConfigLoader\SoapXmlSerializerConfigLoaderTrait;
-use Plugin\AceClient\Util\Mapper\EncodeDefineMapper;
+use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
+use Plugin\AceClient43\AceConfig\Model\SoapXmlSerializer\SoapXmlSerializerModel;
+use Plugin\AceClient43\Util\ConfigLoader\SoapXmlSerializerConfigLoaderTrait;
+use Plugin\AceClient43\Util\Mapper\EncodeDefineMapper;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
-use Plugin\AceClient\Exception\NotDeserializableException;
-use Plugin\AceClient\AceServices\Model\Response\AsSpecificNodeResponseInterface;
+use Plugin\AceClient43\Exception\NotDeserializableException;
+use Plugin\AceClient43\AceServices\Model\Response\AsSpecificNodeResponseInterface;
 
 /**
  * Serializer for SOAP XML API.

@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr;
+namespace Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr;
 
-use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient\AceServices\Model\Request;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\HasIdInterface;
+use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory\HasIdInterface;
 
 /**
  * Interface RegMemAdrRequestInterface

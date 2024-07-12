@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\DeleteHaisoAdrs;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\DeleteHaisoAdrs;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person\Nmember\NmemberModelGroup1;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person\Nmember\NmemberModelGroup1;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Nmem Model

@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Baitai;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Baitai;
 
 /**
  * Interface for Has 媒体管理コード

@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Member\RegMember;
+namespace Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Reminder\PassWdRemModelInterface as ParentInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Reminder\PassWdRemModelInterface as ParentInterface;
 
 /**
  * Interface for PassWdRemModel

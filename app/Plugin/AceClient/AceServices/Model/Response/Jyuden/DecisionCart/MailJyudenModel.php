@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Jyuden\DecisionCart;
+namespace Plugin\AceClient43\AceServices\Model\Response\Jyuden\DecisionCart;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Mail\MailJyuden\MailJyudenModelLevel1;
+use Plugin\AceClient43\AceServices\Model\Dependency\Mail\MailJyuden\MailJyudenModelLevel1;
 
 /**
  * Model for MailJyuden

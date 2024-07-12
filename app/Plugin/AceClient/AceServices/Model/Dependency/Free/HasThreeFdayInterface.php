@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
-use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime\AceDateTimeInterface;
+use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime\AceDateTimeInterface;
 
 /**
  * Interface For 3つフリー日付

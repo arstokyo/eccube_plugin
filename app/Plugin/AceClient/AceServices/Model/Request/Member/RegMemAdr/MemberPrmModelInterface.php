@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr;
+namespace Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person\Nmember\NmemberModelInterface;
-use Plugin\AceClient\AceServices\Model\Request\Prm\PrmModelInterface;
-use Plugin\AceClient\AceServices\Model\Request;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person\Nmember\NmemberModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\Prm\PrmModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request;
 
 interface MemberPrmModelInterface extends PrmModelInterface
 {

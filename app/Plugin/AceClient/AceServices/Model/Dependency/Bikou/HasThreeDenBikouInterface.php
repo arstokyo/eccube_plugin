@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Bikou;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
 
 /**
  * Interface for Has 3伝票備考

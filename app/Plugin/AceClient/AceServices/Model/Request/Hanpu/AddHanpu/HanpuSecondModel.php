@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu;
+namespace Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Hanpu\Handen;
+use Plugin\AceClient43\AceServices\Model\Dependency\Hanpu\Handen;
 
 /**
  * Class HanpuSecondModel

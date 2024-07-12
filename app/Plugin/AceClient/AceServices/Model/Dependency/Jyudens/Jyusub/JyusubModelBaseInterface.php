@@ -1,15 +1,15 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Jyudens\Jyusub;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Jyudens\Jyusub;
 
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
-use Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
-use Plugin\AceClient\AceServices\Model\Dependency\Bumon;
-use Plugin\AceClient\AceServices\Model\Dependency\Payment;
-use Plugin\AceClient\AceServices\Model\Dependency\Card;
-use Plugin\AceClient\AceServices\Model\Dependency\Baitai;
-use Plugin\AceClient\AceServices\Model\Dependency\Free;
-use Plugin\AceClient\AceServices\Model\Dependency\Point;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
+use Plugin\AceClient43\AceServices\Model\Dependency\Bumon;
+use Plugin\AceClient43\AceServices\Model\Dependency\Payment;
+use Plugin\AceClient43\AceServices\Model\Dependency\Card;
+use Plugin\AceClient43\AceServices\Model\Dependency\Baitai;
+use Plugin\AceClient43\AceServices\Model\Dependency\Free;
+use Plugin\AceClient43\AceServices\Model\Dependency\Point;
 
 /**
  * Interface for JyusubModelBase

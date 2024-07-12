@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\GetMember;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person\PersonLevel6ExtractTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Mail\FiveMelmagaTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC\MobileIdTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person\PersonLevel6ExtractTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Mail\FiveMelmagaTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC\MobileIdTrait;
 
 /**
  * Class for Member Model

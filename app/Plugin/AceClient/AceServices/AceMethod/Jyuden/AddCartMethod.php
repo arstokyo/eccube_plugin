@@ -1,17 +1,16 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\AceMethod\Jyuden;
+namespace Plugin\AceClient43\AceServices\AceMethod\Jyuden;
 
-use Plugin\AceClient\AceServices\AceMethod\AceMethodAbstract;
-use Plugin\AceClient\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModel;
-use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient\AceServices\Model\Request;
+use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
+use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModel;
+use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request;
 
 /**
  * Add Cart Method
  * 
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
- * @package AceClient\AceServices\AceMethod\Jyuden
  */
 class AddCartMethod extends AceMethodAbstract
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Person\Nmember;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Person\Nmember;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Address;
-use Plugin\AceClient\AceServices\Model\Dependency\Bikou\ThreeAdrBikouTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Person;
-use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
+use Plugin\AceClient43\AceServices\Model\Dependency\Address;
+use Plugin\AceClient43\AceServices\Model\Dependency\Bikou\ThreeAdrBikouTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person;
+use Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC;
 
 /**
  * Class For Nmem Model Group1

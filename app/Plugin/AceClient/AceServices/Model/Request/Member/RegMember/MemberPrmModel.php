@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Member\RegMember;
+namespace Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 
-use Plugin\AceClient\AceServices\Model\Request\Prm\PrmModelAbstract;
-use Plugin\AceClient\Exception\MissingRequestParameterException;
+use Plugin\AceClient43\AceServices\Model\Request\Prm\PrmModelAbstract;
+use Plugin\AceClient43\Exception\MissingRequestParameterException;
 
 class MemberPrmModel extends PrmModelAbstract implements MemberPrmModelInterface
 {

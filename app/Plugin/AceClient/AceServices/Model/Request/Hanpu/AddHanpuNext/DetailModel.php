@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpuNext;
+namespace Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpuNext;
 
-use Plugin\AceClient\AceServices\Model\Request;
-use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\DetailModel as ParentModel;
+use Plugin\AceClient43\AceServices\Model\Request;
+use Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu\DetailModel as ParentModel;
 
 /**
  * Class DetailModel

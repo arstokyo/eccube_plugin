@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Free\HasFreeGroup1Interface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Free\HasFreeGroup1Interface;
 
 /**
  * Interface For HasFreeGroup2

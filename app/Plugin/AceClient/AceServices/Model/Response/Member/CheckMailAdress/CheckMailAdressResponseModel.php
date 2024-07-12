@@ -1,11 +1,11 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\CheckMailAdress;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\CheckMailAdress;
 
-use Plugin\AceClient\AceServices\Model\Response\Member\CheckMailAdress\CheckMailAdressResponseModelInterface;
-use Plugin\AceClient\AceServices\Model\Response\Member\CheckMailAdress\MemberModel;
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelAbtract;
-use Plugin\AceClient\AceServices\Model\Response;
+use Plugin\AceClient43\AceServices\Model\Response\Member\CheckMailAdress\CheckMailAdressResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\Member\CheckMailAdress\MemberModel;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelAbtract;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Class CheckMailAdressReponseModel

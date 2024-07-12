@@ -1,11 +1,11 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Member\GetPassword;
+namespace Plugin\AceClient43\AceServices\Model\Request\Member\GetPassword;
 
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
-use Plugin\AceClient\AceServices\Model\Request\RequestModelAbstract;
-use Plugin\AceClient\Exception\MissingRequestParameterException;
-use Plugin\AceClient\AceServices\Model\Dependency\Mail;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Request\RequestModelAbstract;
+use Plugin\AceClient43\Exception\MissingRequestParameterException;
+use Plugin\AceClient43\AceServices\Model\Dependency\Mail;
 
 
 /**

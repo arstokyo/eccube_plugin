@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart;
+namespace Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person\Smember\SmemberModel as ParentModel;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person\Smember\SmemberModel as ParentModel;
 
 /**
  * Class for Smember Model

@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices;
+namespace Plugin\AceClient43\AceServices;
 
-use Plugin\AceClient\Util\ServiceRetriever\ServiceRetrieverInterface;
+use Plugin\AceClient43\Util\ServiceRetriever\ServiceRetrieverInterface;
 
 /**
  * Abstract class for AceService

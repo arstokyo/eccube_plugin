@@ -1,18 +1,18 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Rireki;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Rireki;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Good;
-use Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
-use Plugin\AceClient\AceServices\Model\Dependency\Payment;
-use Plugin\AceClient\AceServices\Model\Dependency\Haiso;
-use Plugin\AceClient\AceServices\Model\Dependency\Bikou;
-use Plugin\AceClient\AceServices\Model\Dependency\Cost;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
-use Plugin\AceClient\AceServices\Model\Dependency\GiftAndCampaign;
-use Plugin\AceClient\AceServices\Model\Dependency\Day;
-use Plugin\AceClient\AceServices\Model\Dependency\Free;
-use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
+use Plugin\AceClient43\AceServices\Model\Dependency\Good;
+use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
+use Plugin\AceClient43\AceServices\Model\Dependency\Payment;
+use Plugin\AceClient43\AceServices\Model\Dependency\Haiso;
+use Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
+use Plugin\AceClient43\AceServices\Model\Dependency\Cost;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\GiftAndCampaign;
+use Plugin\AceClient43\AceServices\Model\Dependency\Day;
+use Plugin\AceClient43\AceServices\Model\Dependency\Free;
+use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
 

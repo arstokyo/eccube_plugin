@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Master2\GetHaisouDay;
+namespace Plugin\AceClient43\AceServices\Model\Response\Master2\GetHaisouDay;
 
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
-use Plugin\AceClient\AceServices\Model\Response\AsSpecificNodeResponseInterface;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\AsSpecificNodeResponseInterface;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**

@@ -1,16 +1,16 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Jyudens\Jyuden;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Jyudens\Jyuden;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
-use Plugin\AceClient\AceServices\Model\Dependency\Day;
-use Plugin\AceClient\AceServices\Model\Dependency\Haiso;
-use Plugin\AceClient\AceServices\Model\Dependency\Payment;
-use Plugin\AceClient\AceServices\Model\Dependency\Baitai;
-use Plugin\AceClient\AceServices\Model\Dependency\Bumon;
-use Plugin\AceClient\AceServices\Model\Dependency\Free;
-use Plugin\AceClient\AceServices\Model\Dependency\Point;
-use Plugin\AceClient\AceServices\Model\Dependency\GiftAndCampaign;
+use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
+use Plugin\AceClient43\AceServices\Model\Dependency\Day;
+use Plugin\AceClient43\AceServices\Model\Dependency\Haiso;
+use Plugin\AceClient43\AceServices\Model\Dependency\Payment;
+use Plugin\AceClient43\AceServices\Model\Dependency\Baitai;
+use Plugin\AceClient43\AceServices\Model\Dependency\Bumon;
+use Plugin\AceClient43\AceServices\Model\Dependency\Free;
+use Plugin\AceClient43\AceServices\Model\Dependency\Point;
+use Plugin\AceClient43\AceServices\Model\Dependency\GiftAndCampaign;
 
 /**
  * Model for Jyuden Group1

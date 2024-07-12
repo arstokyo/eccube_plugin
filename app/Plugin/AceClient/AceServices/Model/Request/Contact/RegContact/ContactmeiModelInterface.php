@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Contact\RegContact;
+namespace Plugin\AceClient43\AceServices\Model\Request\Contact\RegContact;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Contact;
+use Plugin\AceClient43\AceServices\Model\Dependency\Contact;
 
 /**
  * Interface ContactmeiModel

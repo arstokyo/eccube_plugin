@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Jyuden\AddCart;
+namespace Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Jyudens\Jyuden\JyudenModelGroup2;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\SessIdTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Jyudens\Jyuden\JyudenModelGroup2;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory\SessIdTrait;
 
 /**
  * Model for Jyuden Model

@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient;
+namespace Plugin\AceClient43;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

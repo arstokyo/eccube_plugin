@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\Util\ConfigLoader;
+namespace Plugin\AceClient43\Util\ConfigLoader;
 
-use Plugin\AceClient\Util\Mapper\ConfigNodeRootNameMapper;
-use Plugin\AceClient\AceConfig\Model\AceMethod\AceMethodModel;
+use Plugin\AceClient43\Util\Mapper\ConfigNodeRootNameMapper;
+use Plugin\AceClient43\AceConfig\Model\AceMethod\AceMethodModel;
 
 /**
  * Trait for AceMethod Config Loader.

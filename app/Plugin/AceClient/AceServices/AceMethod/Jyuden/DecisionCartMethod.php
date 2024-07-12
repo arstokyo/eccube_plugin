@@ -1,11 +1,11 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\AceMethod\Jyuden;
+namespace Plugin\AceClient43\AceServices\AceMethod\Jyuden;
 
-use Plugin\AceClient\AceServices\AceMethod\AceMethodAbstract;
-use Plugin\AceClient\AceServices\Model\Response\Jyuden\DecisionCart\DecisionCartResponseModel;
-use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient\AceServices\Model\Request;
+use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
+use Plugin\AceClient43\AceServices\Model\Response\Jyuden\DecisionCart\DecisionCartResponseModel;
+use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request;
 
 /**
  * Method for Decision Cart

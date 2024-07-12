@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Baitai;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Baitai;
 
 /**
  * Interface For Baitai has two values

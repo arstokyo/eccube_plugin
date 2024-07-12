@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\Util\ConfigLoader;
+namespace Plugin\AceClient43\Util\ConfigLoader;
 
-use Plugin\AceClient\AceConfig\Model\SoapXmlSerializer\SoapXmlSerializerModel;
-use Plugin\AceClient\Util\Mapper\ConfigNodeRootNameMapper;
+use Plugin\AceClient43\AceConfig\Model\SoapXmlSerializer\SoapXmlSerializerModel;
+use Plugin\AceClient43\Util\Mapper\ConfigNodeRootNameMapper;
 
 /**
  * Trait for SoapXmlSerializerConfigLoader.

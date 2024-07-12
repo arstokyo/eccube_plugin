@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Person\Nmember;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Person\Nmember;
 
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\EdaTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory\EdaTrait;
 
 /**
  * Abstract class for Nmember

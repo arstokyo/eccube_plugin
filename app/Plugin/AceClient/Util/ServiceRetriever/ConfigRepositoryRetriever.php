@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\Util\ServiceRetriever;
+namespace Plugin\AceClient43\Util\ServiceRetriever;
 
-use Plugin\AceClient\Repository\ConfigRepository;
+use Plugin\AceClient43\Repository\ConfigRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**

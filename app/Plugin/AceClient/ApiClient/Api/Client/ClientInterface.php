@@ -1,11 +1,11 @@
 <?php
 
-namespace Plugin\AceClient\ApiClient\Api\Client;
+namespace Plugin\AceClient43\ApiClient\Api\Client;
 
-use Plugin\AceClient\ApiClient\Api\Client\ClientMetadataInterface;
-use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient\ApiClient\Response\ResponseInterface;
-use Plugin\AceClient\Exception;
+use Plugin\AceClient43\ApiClient\Api\Client\ClientMetadataInterface;
+use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
+use Plugin\AceClient43\ApiClient\Response\ResponseInterface;
+use Plugin\AceClient43\Exception;
 
 /**
  * Interface for Client

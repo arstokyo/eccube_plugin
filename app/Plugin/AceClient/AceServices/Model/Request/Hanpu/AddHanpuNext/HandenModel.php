@@ -1,12 +1,12 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpuNext;
+namespace Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpuNext;
 
-use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\HandenModel as ParentModel;
-use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\CardInfoModelInterface;
-use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\HanpuFirstModelInterface;
-use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\HanpuSecondModelInterface;
-use Plugin\AceClient\AceServices\Model\Request;
+use Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu\HandenModel as ParentModel;
+use Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu\CardInfoModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu\HanpuFirstModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu\HanpuSecondModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request;
 
 /**
  * Class HandenModel

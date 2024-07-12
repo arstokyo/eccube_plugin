@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\OkuriAndNouhin;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\OkuriAndNouhin;
 
 /**
  * Interface for Has 送り主

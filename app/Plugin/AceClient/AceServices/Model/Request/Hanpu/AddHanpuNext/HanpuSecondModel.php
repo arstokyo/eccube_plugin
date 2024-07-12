@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpuNext;
+namespace Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpuNext;
 
-use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\HanpuSecondModel as ParentModel;
+use Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu\HanpuSecondModel as ParentModel;
 
 /**
  * Class HanpuSecondModel

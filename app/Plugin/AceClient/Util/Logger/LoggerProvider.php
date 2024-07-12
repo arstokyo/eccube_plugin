@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\Util\Logger;
+namespace Plugin\AceClient43\Util\Logger;
 
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;

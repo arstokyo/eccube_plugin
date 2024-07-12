@@ -1,11 +1,11 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Goods\GetGtanka;
+namespace Plugin\AceClient43\AceServices\Model\Request\Goods\GetGtanka;
 
-use Plugin\AceClient\AceServices\Model\Request\RequestModelAbstract;
-use Plugin\AceClient\Exception\MissingRequestParameterException;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
-use Plugin\AceClient\AceServices\Model\Dependency\Day;
+use Plugin\AceClient43\AceServices\Model\Request\RequestModelAbstract;
+use Plugin\AceClient43\Exception\MissingRequestParameterException;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\Day;
 
 /**
  * Class GetGtankaRequestModel

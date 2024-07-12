@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Hanpu\AddHanpu;
+namespace Plugin\AceClient43\AceServices\Model\Response\Hanpu\AddHanpu;
 
 /**
  * Class for CouponModel

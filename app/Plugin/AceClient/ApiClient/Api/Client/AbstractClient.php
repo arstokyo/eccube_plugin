@@ -1,12 +1,12 @@
 <?php
 
-namespace Plugin\AceClient\ApiClient\Api\Client;
+namespace Plugin\AceClient43\ApiClient\Api\Client;
 
-use Plugin\AceClient\ApiClient\Api\DelegateInterface;
-use Plugin\AceClient\ApiClient\Response;
-use Plugin\AceClient\AceServices\Model\Request\RequestModelInterface;
+use Plugin\AceClient43\ApiClient\Api\DelegateInterface;
+use Plugin\AceClient43\ApiClient\Response;
+use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
 use Psr\Http\Message\ResponseInterface as PsrResponse;
-use Plugin\AceClient\Exception;
+use Plugin\AceClient43\Exception;
 
 /**
  * AbstractClient

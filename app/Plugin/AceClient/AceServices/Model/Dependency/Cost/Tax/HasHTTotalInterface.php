@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Tax;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Cost\Tax;
 
 /**
  * Interface for Has 非課税対象額

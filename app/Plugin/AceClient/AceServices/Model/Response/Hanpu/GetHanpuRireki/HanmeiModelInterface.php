@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Hanpu\GetHanpuRireki;
+namespace Plugin\AceClient43\AceServices\Model\Response\Hanpu\GetHanpuRireki;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Hanpu\Hanmei;
+use Plugin\AceClient43\AceServices\Model\Dependency\Hanpu\Hanmei;
 
 /**
  * Interface for HanmeiModel

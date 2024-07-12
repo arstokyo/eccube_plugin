@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Bumon;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Bumon;
 
 /**
  * Trait for 部門

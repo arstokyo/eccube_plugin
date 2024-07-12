@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC;
 
 /**
  * Interface for Has 電話

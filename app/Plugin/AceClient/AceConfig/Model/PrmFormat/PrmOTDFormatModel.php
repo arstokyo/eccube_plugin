@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceConfig\Model\PrmFormat;
+namespace Plugin\AceClient43\AceConfig\Model\PrmFormat;
 
-use Plugin\AceClient\AceConfig\Model\ConfigModelInterface;
-use Plugin\AceClient\AceConfig\Model\OverridableConfigAbstract;
+use Plugin\AceClient43\AceConfig\Model\ConfigModelInterface;
+use Plugin\AceClient43\AceConfig\Model\OverridableConfigAbstract;
 
 /**
  * Model for Prm OTD Format

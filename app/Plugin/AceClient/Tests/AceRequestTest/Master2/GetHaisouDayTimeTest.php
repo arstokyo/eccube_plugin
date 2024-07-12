@@ -1,13 +1,13 @@
 <?php
 
-namespace Plugin\AceClient\Tests\AceRequestTest\Master2;
+namespace Plugin\AceClient43\Tests\AceRequestTest\Master2;
 
-use Plugin\AceClient\AceServices\Model\Request\Master2\GetHaisouDayTime\GetHaisouDayTimeRequestModel;
-use Plugin\AceClient\AceServices\Model\Response\Master2\GetHaisouDayTime\GetHaisouDayTimeResponseModel;
+use Plugin\AceClient43\AceServices\Model\Request\Master2\GetHaisouDayTime\GetHaisouDayTimeRequestModel;
+use Plugin\AceClient43\AceServices\Model\Response\Master2\GetHaisouDayTime\GetHaisouDayTimeResponseModel;
 use GuzzleHttp\Exception\ClientException;
-use Plugin\AceClient\Util\Mapper\OverviewMapper;
-use Plugin\AceClient\Util\Serializer;
-use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
+use Plugin\AceClient43\Util\Mapper\OverviewMapper;
+use Plugin\AceClient43\Util\Serializer;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 
 
 class GetHaisouDayTimeRequestModelTest extends AceRequestTestAbtract

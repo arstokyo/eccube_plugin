@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Haiso;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Haiso;
 
 /**
  * Trait for 時間指定名称

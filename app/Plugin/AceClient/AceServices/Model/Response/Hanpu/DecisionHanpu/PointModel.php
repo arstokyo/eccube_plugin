@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Hanpu\DecisionHanpu;
+namespace Plugin\AceClient43\AceServices\Model\Response\Hanpu\DecisionHanpu;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Point;
+use Plugin\AceClient43\AceServices\Model\Dependency\Point;
 
 /**
  * Class for PointModel

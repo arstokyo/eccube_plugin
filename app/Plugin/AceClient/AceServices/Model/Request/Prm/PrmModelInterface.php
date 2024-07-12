@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Prm;
+namespace Plugin\AceClient43\AceServices\Model\Request\Prm;
 
-use Plugin\AceClient\AceServices\Model\CustomDataType;
+use Plugin\AceClient43\AceServices\Model\CustomDataType;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Souryou;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Cost\Souryou;
 
 /**
  * Interface for Has 送料

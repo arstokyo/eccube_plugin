@@ -1,13 +1,13 @@
 <?php
 
-namespace Plugin\AceClient\Tests\AceRequestTest\Member;
+namespace Plugin\AceClient43\Tests\AceRequestTest\Member;
 
-use Plugin\AceClient\AceServices\Model\Request\Member\GetMember\GetMemberRequestModel;
-use Plugin\AceClient\AceServices\Model\Response\Member\GetMember\GetMemberResponseModel;
-use Plugin\AceClient\Util\Mapper\OverviewMapper;
+use Plugin\AceClient43\AceServices\Model\Request\Member\GetMember\GetMemberRequestModel;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember\GetMemberResponseModel;
+use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use GuzzleHttp\Exception\ClientException;
-use Plugin\AceClient\Util\Serializer;
-use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
+use Plugin\AceClient43\Util\Serializer;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 
 class GetMemberTest extends AceRequestTestAbtract
 {

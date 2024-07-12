@@ -1,11 +1,11 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Person\Nmember;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Person\Nmember;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person\PersonLevel1Interface;
-use Plugin\AceClient\AceServices\Model\Dependency\Address;
-use Plugin\AceClient\AceServices\Model\Dependency\Bikou\HasThreeAdrBikouInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person\PersonLevel1Interface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Address;
+use Plugin\AceClient43\AceServices\Model\Dependency\Bikou\HasThreeAdrBikouInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC;
 
 /**
  * Interface for NmemberModelGroup1

@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Person\Smember;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Person\Smember;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person\PersonLevel1Interface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person\PersonLevel1Interface;
 
 /**
  * Interface for Smember Model

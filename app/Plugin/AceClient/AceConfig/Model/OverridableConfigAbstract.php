@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceConfig\Model;
+namespace Plugin\AceClient43\AceConfig\Model;
 
-use Plugin\AceClient\Util\Denormalizer\DTO\ADTAODenormalizerTrait;
+use Plugin\AceClient43\Util\Denormalizer\DTO\ADTAODenormalizerTrait;
 use Symfony\Component\Serializer\Annotation\Ignore;
 
 /**

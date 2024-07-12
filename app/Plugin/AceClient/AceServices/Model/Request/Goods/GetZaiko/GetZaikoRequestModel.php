@@ -1,12 +1,12 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Goods\GetZaiko;
+namespace Plugin\AceClient43\AceServices\Model\Request\Goods\GetZaiko;
 
-use Plugin\AceClient\AceServices\Model\Request\RequestModelAbstract;
-use Plugin\AceClient\Exception\MissingRequestParameterException;
-use Plugin\AceClient\AceServices\Model\Dependency\Souko;
-use Plugin\AceClient\AceServices\Model\Dependency\Good;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Request\RequestModelAbstract;
+use Plugin\AceClient43\Exception\MissingRequestParameterException;
+use Plugin\AceClient43\AceServices\Model\Dependency\Souko;
+use Plugin\AceClient43\AceServices\Model\Dependency\Good;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Class GetZaikoRequestModel

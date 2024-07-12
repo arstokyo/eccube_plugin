@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 /**
  * Trait for 5つ商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ

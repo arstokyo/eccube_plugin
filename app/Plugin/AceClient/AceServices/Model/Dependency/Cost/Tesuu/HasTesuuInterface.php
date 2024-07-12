@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Tesuu;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Cost\Tesuu;
 
 /**
  * Interface for Has 手数料

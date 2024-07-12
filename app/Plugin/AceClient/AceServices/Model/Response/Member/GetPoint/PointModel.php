@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\GetPoint;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetPoint;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Point\PointModel as PointModelParent;
+use Plugin\AceClient43\AceServices\Model\Dependency\Point\PointModel as PointModelParent;
 
 /**
  * Class PointModel

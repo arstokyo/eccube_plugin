@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Money;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Cost\Money;
 
 /**
  * Interface for Has 税抜き金額

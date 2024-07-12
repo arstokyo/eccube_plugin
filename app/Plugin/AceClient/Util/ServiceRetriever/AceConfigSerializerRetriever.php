@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\Util\ServiceRetriever;
+namespace Plugin\AceClient43\Util\ServiceRetriever;
 
-use Plugin\AceClient\Util\Serializer\AceConfigSerializer;
+use Plugin\AceClient43\Util\Serializer\AceConfigSerializer;
 
 /**
  * Retriever for AceConfigSerializer.

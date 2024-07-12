@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Jyuden\DecisionCart;
+namespace Plugin\AceClient43\AceServices\Model\Response\Jyuden\DecisionCart;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Jyudens\Jyusub\JyusubModelBaseInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Denpyo\HasDennoInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Jyudens\Jyusub\JyusubModelBaseInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo\HasDennoInterface;
 
 /**
  * Interface for Jyusub

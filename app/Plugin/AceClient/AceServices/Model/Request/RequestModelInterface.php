@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request;
+namespace Plugin\AceClient43\AceServices\Model\Request;
 
-use Plugin\AceClient\AceServices\Model\CustomDataType;
+use Plugin\AceClient43\AceServices\Model\CustomDataType;
 
 /**
  * Interface for Request Model

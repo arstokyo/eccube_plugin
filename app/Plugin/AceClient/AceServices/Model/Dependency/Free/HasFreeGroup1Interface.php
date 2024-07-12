@@ -1,12 +1,12 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Free\HasFiveForderMailInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Free\HasFiveFshukkaMailInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Free\HasFiveFseikyuMailInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Free\HasFiveFshouHinMailInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Free\HasFiveFdenshiMailInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Free\HasFiveForderMailInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Free\HasFiveFshukkaMailInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Free\HasFiveFseikyuMailInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Free\HasFiveFshouHinMailInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Free\HasFiveFdenshiMailInterface;
 
 /**
  * Interface For HasFreeGroup1

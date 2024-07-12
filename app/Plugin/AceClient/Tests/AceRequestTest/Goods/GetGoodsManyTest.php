@@ -1,13 +1,13 @@
 <?php
 
-namespace Plugin\AceClient\Tests\AceRequestTest\Goods;
+namespace Plugin\AceClient43\Tests\AceRequestTest\Goods;
 
-use Plugin\AceClient\AceServices\Model\Request\Goods\GetGoodsMany\GetGoodsManyRequestModel;
-use Plugin\AceClient\AceServices\Model\Response\Goods\GetGoodsMany\GetGoodsManyResponseModel;
+use Plugin\AceClient43\AceServices\Model\Request\Goods\GetGoodsMany\GetGoodsManyRequestModel;
+use Plugin\AceClient43\AceServices\Model\Response\Goods\GetGoodsMany\GetGoodsManyResponseModel;
 use GuzzleHttp\Exception\ClientException;
-use Plugin\AceClient\Util\Mapper\OverviewMapper;
-use Plugin\AceClient\Util\Serializer;
-use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
+use Plugin\AceClient43\Util\Mapper\OverviewMapper;
+use Plugin\AceClient43\Util\Serializer;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 
 class GetGoodsManyRequestModelTest extends AceRequestTestAbtract
 {

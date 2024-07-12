@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\GetPoint;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetPoint;
 
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelAbtract;
-use Plugin\AceClient\AceServices\Model\Response\Member\GetPoint\MemberModel;
-use Plugin\AceClient\AceServices\Model\Response;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelAbtract;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetPoint\MemberModel;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Class GetPointRequestModel

@@ -1,12 +1,12 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Free\FiveForderMailTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Free\FiveFshukkaMailTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Free\FiveFseikyuMailTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Free\FiveFshouHinMailTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Free\FiveFdenshiMailTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Free\FiveForderMailTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Free\FiveFshukkaMailTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Free\FiveFseikyuMailTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Free\FiveFshouHinMailTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Free\FiveFdenshiMailTrait;
 /**
  * Trait For FreeGroup1
  *

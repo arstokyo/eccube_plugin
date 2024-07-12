@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Person\Nmember;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Person\Nmember;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person\PersonLevel3Interface;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\HasBetuInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person\PersonLevel3Interface;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory\HasBetuInterface;
 
 /**
  * Interface for Nmem Model Group2

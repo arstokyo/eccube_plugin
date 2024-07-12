@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Jyudens\Jyuden;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Jyudens\Jyuden;
 
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
-use Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
 
 /**
  * Interface for Jyuden Model Group3

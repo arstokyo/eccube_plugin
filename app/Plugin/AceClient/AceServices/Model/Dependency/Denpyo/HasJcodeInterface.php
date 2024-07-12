@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
 
 /**
  * Interface for Has 受注方法コード

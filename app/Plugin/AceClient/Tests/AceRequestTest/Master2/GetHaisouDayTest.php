@@ -1,13 +1,13 @@
 <?php
 
-namespace Plugin\AceClient\Tests\AceRequestTest\Jyuden;
+namespace Plugin\AceClient43\Tests\AceRequestTest\Jyuden;
 
-use Plugin\AceClient\AceServices\Model\Request\Master2\GetHaisouDay;
-use Plugin\AceClient\AceServices\Model\Response\Master2\GetHaisouDay\GetHaisouDayResponseModel;
+use Plugin\AceClient43\AceServices\Model\Request\Master2\GetHaisouDay;
+use Plugin\AceClient43\AceServices\Model\Response\Master2\GetHaisouDay\GetHaisouDayResponseModel;
 use GuzzleHttp\Exception\ClientException;
-use Plugin\AceClient\Util\Mapper\OverviewMapper;
-use Plugin\AceClient\Util\Serializer;
-use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
+use Plugin\AceClient43\Util\Mapper\OverviewMapper;
+use Plugin\AceClient43\Util\Serializer;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 
 class GetHaisouDayTest extends AceRequestTestAbtract
 {

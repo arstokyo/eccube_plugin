@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\Util\Denormalizer\OTD;
+namespace Plugin\AceClient43\Util\Denormalizer\OTD;
 
-use Plugin\AceClient\Exception\NotSerializableException;
-use Plugin\AceClient\Util\Mapper\EncodeDefineMapper;
+use Plugin\AceClient43\Exception\NotSerializableException;
+use Plugin\AceClient43\Util\Mapper\EncodeDefineMapper;
 
 /**
  * Denormalizer for Object To Data.

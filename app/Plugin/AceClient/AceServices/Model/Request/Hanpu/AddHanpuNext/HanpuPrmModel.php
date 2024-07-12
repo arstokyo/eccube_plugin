@@ -1,13 +1,13 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpuNext;
+namespace Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpuNext;
 
-use Plugin\AceClient\AceServices\Model\Request;
-use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\DetailModelInterface;
-use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\HandenModelInterface;
-use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\HanpuPrmModel as ParentModel;
-use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\MailJyudenModelInterface;
-use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\MemberModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request;
+use Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu\DetailModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu\HandenModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu\HanpuPrmModel as ParentModel;
+use Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu\MailJyudenModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu\MemberModelInterface;
 
 /**
  * Class HanpuPrmModel

@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu;
+namespace Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu;
 
 /**
  * Class DetailModel

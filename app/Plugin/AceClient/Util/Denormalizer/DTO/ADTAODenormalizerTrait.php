@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\Util\Denormalizer\DTO;
+namespace Plugin\AceClient43\Util\Denormalizer\DTO;
 
-use Plugin\AceClient\Util\Serializer\SerializerFactory;
+use Plugin\AceClient43\Util\Serializer\SerializerFactory;
 
 /**
  * Trait for denormalizing Array Data To Array objects.

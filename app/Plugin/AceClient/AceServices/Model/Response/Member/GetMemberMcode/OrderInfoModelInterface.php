@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\GetMemberMcode;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode;
 
 use Symfony\Component\Serializer\Annotation\SerializedName;
 

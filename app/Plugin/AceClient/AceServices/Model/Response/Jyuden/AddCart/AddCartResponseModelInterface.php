@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Jyuden\AddCart;
+namespace Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart;
 
-use Plugin\AceClient\AceServices\Model\Response;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Interface for AddCartResponseModel.

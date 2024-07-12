@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart;
+namespace Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person\Nmember\NmemberModel as ParentModel;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person\Nmember\NmemberModel as ParentModel;
 
 class NmemberModel extends ParentModel
 {

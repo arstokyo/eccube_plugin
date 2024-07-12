@@ -1,11 +1,11 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Hanpu\AddHanpu;
+namespace Plugin\AceClient43\AceServices\Model\Response\Hanpu\AddHanpu;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Jyudens;
-use Plugin\AceClient\AceServices\Model\Dependency\Card;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
-use Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
+use Plugin\AceClient43\AceServices\Model\Dependency\Jyudens;
+use Plugin\AceClient43\AceServices\Model\Dependency\Card;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
 
 
 /**

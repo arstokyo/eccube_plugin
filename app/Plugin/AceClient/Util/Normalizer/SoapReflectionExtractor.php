@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\Util\Normalizer;
+namespace Plugin\AceClient43\Util\Normalizer;
 
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\PropertyInfo\Type;

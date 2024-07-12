@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Zaiko;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Zaiko;
 
 /**
  * Trait for 在庫調整数

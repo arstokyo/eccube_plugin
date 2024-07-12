@@ -1,14 +1,14 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Jyudens\Jyumei;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Jyudens\Jyumei;
 
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
-use Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
-use Plugin\AceClient\AceServices\Model\Dependency\GiftAndCampaign;
-use Plugin\AceClient\AceServices\Model\Dependency\Day;
-use Plugin\AceClient\AceServices\Model\Dependency\Souko;
-use Plugin\AceClient\AceServices\Model\Dependency\Point;
-use Plugin\AceClient\AceServices\Model\Dependency\Shukka;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
+use Plugin\AceClient43\AceServices\Model\Dependency\GiftAndCampaign;
+use Plugin\AceClient43\AceServices\Model\Dependency\Day;
+use Plugin\AceClient43\AceServices\Model\Dependency\Souko;
+use Plugin\AceClient43\AceServices\Model\Dependency\Point;
+use Plugin\AceClient43\AceServices\Model\Dependency\Shukka;
 
 /**
  * Model for Jyumei Group4

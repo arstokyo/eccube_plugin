@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\Util\ConfigBuilder;
+namespace Plugin\AceClient43\Util\ConfigBuilder;
 
-use Plugin\AceClient\Repository\ConfigRepository;
-use Plugin\AceClient\Util\Mapper\ConfigNodeRootNameMapper;
-use Plugin\AceClient\Util\Logger\LoggerFactory;
+use Plugin\AceClient43\Repository\ConfigRepository;
+use Plugin\AceClient43\Util\Mapper\ConfigNodeRootNameMapper;
+use Plugin\AceClient43\Util\Logger\LoggerFactory;
 
 /**
  * Class for Ace Method Config Builder.

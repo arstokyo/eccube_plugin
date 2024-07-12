@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Good;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Good;
 
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
-use Plugin\AceClient\AceServices\Model\Dependency\Shukka;
-use Plugin\AceClient\Util\Converter\NumberConverter;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\Shukka;
+use Plugin\AceClient43\Util\Converter\NumberConverter;
 
 /**
  * Trait for GoodModelBase

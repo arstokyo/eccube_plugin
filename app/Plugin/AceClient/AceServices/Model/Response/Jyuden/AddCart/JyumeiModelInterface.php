@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Jyuden\AddCart;
+namespace Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Jyudens\Jyumei;
-use Plugin\AceClient\AceServices\Model\Dependency\Zaiko;
+use Plugin\AceClient43\AceServices\Model\Dependency\Jyudens\Jyumei;
+use Plugin\AceClient43\AceServices\Model\Dependency\Zaiko;
 
 /**
  * Interface for JyumeiModel

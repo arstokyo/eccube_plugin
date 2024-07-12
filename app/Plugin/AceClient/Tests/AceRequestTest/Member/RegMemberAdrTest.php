@@ -1,16 +1,16 @@
 <?php
 
-namespace Plugin\AceClient\Tests\AceRequestTest\Member;
+namespace Plugin\AceClient43\Tests\AceRequestTest\Member;
 
-use Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr\RegMemAdrRequestModel;
-use Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr\MemberPrmModel;
-use Plugin\AceClient\AceServices\Model\Request\Member\RegMemAdr\NmemberModel;
-use Plugin\AceClient\AceServices\Model\Response\Member\RegMemAdr\RegMemAdrResponseModel;;
+use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr\RegMemAdrRequestModel;
+use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr\MemberPrmModel;
+use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr\NmemberModel;
+use Plugin\AceClient43\AceServices\Model\Response\Member\RegMemAdr\RegMemAdrResponseModel;;
 use GuzzleHttp\Exception\ClientException;
-use Plugin\AceClient\Util\Mapper\OverviewMapper;
-use Plugin\AceClient\Util\Serializer;
-use Plugin\AceClient\Exception\MissingRequestParameterException;
-use Plugin\AceClient\Tests\AceRequestTest\AceRequestTestAbtract;
+use Plugin\AceClient43\Util\Mapper\OverviewMapper;
+use Plugin\AceClient43\Util\Serializer;
+use Plugin\AceClient43\Exception\MissingRequestParameterException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 
 class RegMemberAdrTest extends AceRequestTestAbtract
 {

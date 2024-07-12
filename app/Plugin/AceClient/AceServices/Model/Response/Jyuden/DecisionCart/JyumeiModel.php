@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Jyuden\DecisionCart;
+namespace Plugin\AceClient43\AceServices\Model\Response\Jyuden\DecisionCart;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Jyudens\Jyumei\JyumeiModelGroup4;
-use Plugin\AceClient\AceServices\Model\Dependency\Cost;
+use Plugin\AceClient43\AceServices\Model\Dependency\Jyudens\Jyumei\JyumeiModelGroup4;
+use Plugin\AceClient43\AceServices\Model\Dependency\Cost;
 
 /**
  * Model for Jyumei

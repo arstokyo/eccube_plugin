@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Member\RegMember;
+namespace Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person\Nmember\NmemberModel as ParentModel;
-use Plugin\AceClient\AceServices\Model\Dependency\Bikou\ThreeBikouTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Person\PersonLevel2ExtractTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person\Nmember\NmemberModel as ParentModel;
+use Plugin\AceClient43\AceServices\Model\Dependency\Bikou\ThreeBikouTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person\PersonLevel2ExtractTrait;
 
 /**
  * Class for 納品先Model

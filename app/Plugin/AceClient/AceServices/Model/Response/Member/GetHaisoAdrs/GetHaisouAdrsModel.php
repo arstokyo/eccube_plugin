@@ -1,13 +1,13 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\GetHaisoAdrs;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetHaisoAdrs;
 
-use Plugin\AceClient\AceServices\Model\Response\Member\GetHaisoAdrs\GetHaisouAdrsModelInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Bikou\ThreeAdrBikouTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Person\PersonLevel3ExtractTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Address\FourCdvAdrTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\Address\FourAdrTrait;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\KanaTrait;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetHaisoAdrs\GetHaisouAdrsModelInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Bikou\ThreeAdrBikouTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person\PersonLevel3ExtractTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Address\FourCdvAdrTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Address\FourAdrTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory\KanaTrait;
 
 /**
  * Class GetPointRequestModel

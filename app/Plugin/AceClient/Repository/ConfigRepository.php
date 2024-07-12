@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\Repository;
+namespace Plugin\AceClient43\Repository;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Eccube\Repository\AbstractRepository;
-use Plugin\AceClient\Entity\Config;
+use Plugin\AceClient43\Entity\Config;
 
 /**
  * ConfigRepository

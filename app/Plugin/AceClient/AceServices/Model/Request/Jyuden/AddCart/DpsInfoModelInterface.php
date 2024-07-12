@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart;
+namespace Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Card\GMO\GMOModelGroup2Interface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Card\GMO\GMOModelGroup2Interface;
 
 /**
  * Inteface for Dps Info Model

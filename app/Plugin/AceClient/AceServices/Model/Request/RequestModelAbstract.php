@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request;
+namespace Plugin\AceClient43\AceServices\Model\Request;
 
 /**
  * Abstract Class for Request Model

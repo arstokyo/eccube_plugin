@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Master\GetBumonFreeMemo;
+namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetBumonFreeMemo;
 
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelAbtract;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelAbtract;
 
 /**
  * Class GetBumonFreeMemoResponseModel

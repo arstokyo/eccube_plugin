@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Tanka;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Cost\Tanka;
 
 /**
  * Interface for Has 単価

@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\CheckMailAdress;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\CheckMailAdress;
 
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
-use Plugin\AceClient\AceServices\Model\Response\Member\CheckMailAdress\MemberModel;
-use Plugin\AceClient\AceServices\Model\Response;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\Member\CheckMailAdress\MemberModel;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Interface GetPointModelReponseInterface

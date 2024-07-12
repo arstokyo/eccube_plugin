@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Member\RegMember;
+namespace Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Mail\MemMail\MemMailModel as ParentModel;
+use Plugin\AceClient43\AceServices\Model\Dependency\Mail\MemMail\MemMailModel as ParentModel;
 
 /**
  * Class for メールアドレスModel

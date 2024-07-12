@@ -1,13 +1,13 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Member\CheckDuplicationMember;
+namespace Plugin\AceClient43\AceServices\Model\Request\Member\CheckDuplicationMember;
 
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
-use Plugin\AceClient\AceServices\Model\Dependency\Address;
-use Plugin\AceClient\AceServices\Model\Dependency\Mail;
-use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\Address;
+use Plugin\AceClient43\AceServices\Model\Dependency\Mail;
+use Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC;
 use Symfony\Component\Serializer\Annotation\SerializedName;
-use Plugin\AceClient\AceServices\Model\Request\Prm\PrmModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\Prm\PrmModelInterface;
 
 
 /**

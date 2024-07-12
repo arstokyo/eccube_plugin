@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\AceMethod;
+namespace Plugin\AceClient43\AceServices\AceMethod;
 
-use Plugin\AceClient\ApiClient\Api\Client\ClientInterface;
-use Plugin\AceClient\AceConfig\Model\AceMethod\AceMethodDetailModel;
-use Plugin\AceClient\Util\ServiceRetriever\ServiceRetrieverInterface;
+use Plugin\AceClient43\ApiClient\Api\Client\ClientInterface;
+use Plugin\AceClient43\AceConfig\Model\AceMethod\AceMethodDetailModel;
+use Plugin\AceClient43\Util\ServiceRetriever\ServiceRetrieverInterface;
 
 /**
  * Interface for Ace Method Assistant

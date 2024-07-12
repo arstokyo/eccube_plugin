@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Card;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Card;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Card\GMO\HasGMOStatusInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Card\GMO\HasGMOStatusInterface;
 
 /**
  * Interface for Card Level 3

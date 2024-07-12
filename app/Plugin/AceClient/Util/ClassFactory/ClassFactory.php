@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\Util\ClassFactory;
+namespace Plugin\AceClient43\Util\ClassFactory;
 
-use Plugin\AceClient\Exception\InvalidClassNameException;
-use Plugin\AceClient\Exception\DataTypeMissMatchException;
+use Plugin\AceClient43\Exception\InvalidClassNameException;
+use Plugin\AceClient43\Exception\DataTypeMissMatchException;
 
 /**
  * Class Factory

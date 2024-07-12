@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Jyudens\Jyusub;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Jyudens\Jyusub;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Card;
-use Plugin\AceClient\AceServices\Model\Dependency\Point;
-use Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
+use Plugin\AceClient43\AceServices\Model\Dependency\Card;
+use Plugin\AceClient43\AceServices\Model\Dependency\Point;
+use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
 
 /**
  * Model for Jyusub Group1

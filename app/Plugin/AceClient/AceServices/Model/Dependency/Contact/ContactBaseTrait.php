@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Contact;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Contact;
 
 /**
  * Trait Contactmei

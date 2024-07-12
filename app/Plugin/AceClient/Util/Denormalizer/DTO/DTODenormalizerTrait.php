@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\Util\Denormalizer\DTO;
+namespace Plugin\AceClient43\Util\Denormalizer\DTO;
 
-use Plugin\AceClient\Util\Serializer\SerializerFactory;
-use Plugin\AceClient\AceConfig\Model\ConfigModelInterface;
-use Plugin\AceClient\AceConfig\Model\OverridableConfigInterface;
+use Plugin\AceClient43\Util\Serializer\SerializerFactory;
+use Plugin\AceClient43\AceConfig\Model\ConfigModelInterface;
+use Plugin\AceClient43\AceConfig\Model\OverridableConfigInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Serializer;
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Master\GetOkuriHkTime;
+namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetOkuriHkTime;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelInterface;
-use Plugin\AceClient\AceServices\Model\Response\AsListDenormalizableInterface;
-use Plugin\AceClient\AceServices\Model\Response;
+use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\AsListDenormalizableInterface;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Interface for Master Model for Okuri Hk Time Response

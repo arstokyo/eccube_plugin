@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Jyuden\AddCart;
+namespace Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Jyudens\Jyuden\JyudenModelGroup2Interface;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\HasSessIdInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Jyudens\Jyuden\JyudenModelGroup2Interface;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory\HasSessIdInterface;
 
 /**
  * Interface for JyudenModel

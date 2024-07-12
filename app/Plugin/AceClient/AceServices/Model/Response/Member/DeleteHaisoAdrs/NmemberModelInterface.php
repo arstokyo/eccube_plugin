@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\DeleteHaisoAdrs;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\DeleteHaisoAdrs;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person\Nmember\NmemberModelGroup1Interface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person\Nmember\NmemberModelGroup1Interface;
 
 /**
  * Interface for Nmem Model

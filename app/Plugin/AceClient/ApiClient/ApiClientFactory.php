@@ -1,12 +1,13 @@
 <?php
 
-namespace Plugin\AceClient\ApiClient;
+namespace Plugin\AceClient43\ApiClient;
 
-use Plugin\AceClient\ApiClient\Api\DelegateInterface;
-use Plugin\AceClient\ApiClient\Api\Client\ClientInterface;
-use Plugin\AceClient\Exception\InvalidClassNameException;
-use Plugin\AceClient\Exception\DataTypeMissMatchException;
-use Plugin\AceClient\Util\ClassFactory\ClassFactory;
+use Plugin\AceClient43\ApiClient\Api\DelegateInterface;
+use Plugin\AceClient43\ApiClient\Api\Client\ClientInterface;
+use Plugin\AceClient43\Exception\InvalidClassNameException;
+use Plugin\AceClient43\Exception\DataTypeMissMatchException;
+use Plugin\AceClient43\Util\ClassFactory\ClassFactory;
+use Plugin\AceClient43\ApiClient\Api\Client\PostSoapXmlClient;
 
 /**
  * Factory for Api Client.
@@ -15,7 +16,7 @@ use Plugin\AceClient\Util\ClassFactory\ClassFactory;
  */
 final class ApiClientFactory
 {
-    public const DEFAULT_API_CLIENT = \Plugin\AceClient\ApiClient\Api\Client\PostSoapXmlClient::class;
+    public const DEFAULT_API_CLIENT = PostSoapXmlClient::class;
 
     /**
      * Make a new client instance.

@@ -1,15 +1,15 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu;
+namespace Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Shukka;
-use Plugin\AceClient\AceServices\Model\Dependency\Point;
-use Plugin\AceClient\AceServices\Model\Dependency\GiftAndCampaign;
-use Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
-use Plugin\AceClient\AceServices\Model\Dependency\Hanpu\Handen;
-use Plugin\AceClient\AceServices\Model\Dependency\Bikou;
+use Plugin\AceClient43\AceServices\Model\Dependency\Shukka;
+use Plugin\AceClient43\AceServices\Model\Dependency\Point;
+use Plugin\AceClient43\AceServices\Model\Dependency\GiftAndCampaign;
+use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
+use Plugin\AceClient43\AceServices\Model\Dependency\Hanpu\Handen;
+use Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
 use Symfony\Component\Serializer\Annotation\SerializedName;
-use Plugin\AceClient\AceServices\Model\Request;
+use Plugin\AceClient43\AceServices\Model\Request;
 
 /**
  * Interface HandenModel

@@ -3,35 +3,35 @@
 ace_method:
     default:
         serializer: 
-            class_name: 'Plugin\AceClient\Util\Serializer\SerializerFactory::DEFAULT_SERIALIZER'
-            normalizers: 'Plugin\AceClient\Util\Normalizer\NormalizerFactory::DEFAULT_NORMALIZERS_FOR_SOAP_SERIALIZER'
-            encoder: 'Plugin\AceClient\Util\Encoder\EncoderFactory::DEFAULT_ENCODER_FOR_SOAP_SERIALIZER'
+            class_name: 'Plugin\AceClient43\Util\Serializer\SerializerFactory::DEFAULT_SERIALIZER'
+            normalizers: 'Plugin\AceClient43\Util\Normalizer\NormalizerFactory::DEFAULT_NORMALIZERS_FOR_SOAP_SERIALIZER'
+            encoder: 'Plugin\AceClient43\Util\Encoder\EncoderFactory::DEFAULT_ENCODER_FOR_SOAP_SERIALIZER'
         normalizer: 
-            class_name: 'Plugin\AceClient\Util\Normalizer\NormalizerFactory::DEFAULT_NORMALIZER'
+            class_name: 'Plugin\AceClient43\Util\Normalizer\NormalizerFactory::DEFAULT_NORMALIZER'
         logger: 
         http_client: 
-            class_name: 'Plugin\AceClient\Util\HttpClient\HttpClientFactory::DEFAULT_HTTP_CLIENT'
+            class_name: 'Plugin\AceClient43\Util\HttpClient\HttpClientFactory::DEFAULT_HTTP_CLIENT'
             headers:
-                'User-Agent': '\Plugin\AceClient\Util\Mapper\OverviewMapper::USER_AGENT_HEADER'
+                'User-Agent': '\Plugin\AceClient43\Util\Mapper\OverviewMapper::USER_AGENT_HEADER'
             options:
                 timeout: 600
                 verify: false
         api_client:
-            class_name: 'Plugin\AceClient\ApiClient\ApiClientFactory::DEFAULT_API_CLIENT'
+            class_name: 'Plugin\AceClient43\ApiClient\ApiClientFactory::DEFAULT_API_CLIENT'
 
     overrides:
         # Change here for overriding default configuration
         # Example:
-        # - Plugin\AceClient\AceServices\AceMethod\SampleMethod:
+        # - Plugin\AceClient43\AceServices\AceMethod\SampleMethod:
         #     serializer: 
-        #         class_name: 'Plugin\AceClient\Util\Serializer\SoapXmlSerializer'
+        #         class_name: 'Plugin\AceClient43\Util\Serializer\SoapXmlSerializer'
         #         encoder: 'Symfony\Component\Serializer\Encoder\XmlEncoder'
         #     normalizer: 
-        #         class_name: 'Plugin\AceClient\Util\Normalizer\SoapXmlNormalizer'
+        #         class_name: 'Plugin\AceClient43\Util\Normalizer\SoapXmlNormalizer'
         #     logger: 
-        #         class_name: 'Plugin\AceClient\Util\Logger\SoapXmlLogger'
+        #         class_name: 'Plugin\AceClient43\Util\Logger\SoapXmlLogger'
         #     http_client: 
-        #         class_name: 'Plugin\AceClient\Util\HttpClient\SoapXmlApiClient'
+        #         class_name: 'Plugin\AceClient43\Util\HttpClient\SoapXmlApiClient'
         #         base_uri: 'http://192.168.0.77:20443/ACEXML/'
         #         headers:
         #             'User-Agent': 'AceClient v1.0'
@@ -39,7 +39,7 @@ ace_method:
         #             timeout: 600
         #             verify: false
         #     api_client:
-        #         class_name: 'Plugin\AceClient\ApiClient\Api\Client\PostSoapXMLClient'
+        #         class_name: 'Plugin\AceClient43\ApiClient\Api\Client\PostSoapXMLClient'
 
 prm_otd_format:
     default: 
@@ -51,7 +51,7 @@ prm_otd_format:
     overrides:
         # Change here for overriding default configuration
         # Example:
-        # - Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\OrderPrmModel:
+        # - Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\OrderPrmModel:
         #     format: 'object'
         #     options:
         #         xml_format_output: true

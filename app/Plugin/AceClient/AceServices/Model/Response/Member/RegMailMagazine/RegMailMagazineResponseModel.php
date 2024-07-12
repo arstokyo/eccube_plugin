@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\RegMailMagazine;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\RegMailMagazine;
 
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelAbtract;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelAbtract;
 
 /**
  * Class RegMailMagazineResponseModel

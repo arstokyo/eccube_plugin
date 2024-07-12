@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Hanpu\DecisionHanpu;
+namespace Plugin\AceClient43\AceServices\Model\Response\Hanpu\DecisionHanpu;
 
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
-use Plugin\AceClient\AceServices\Model\Response;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Interface for DecisionHanpuResponseModel

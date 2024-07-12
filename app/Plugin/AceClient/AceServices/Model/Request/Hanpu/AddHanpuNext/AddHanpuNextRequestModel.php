@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpuNext;
+namespace Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpuNext;
 
-use Plugin\AceClient\AceServices\Model\Request;
-use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\AddHanpuRequestModel as ParentModel;
-use Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu\HanpuPrmModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request;
+use Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu\AddHanpuRequestModel as ParentModel;
+use Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu\HanpuPrmModelInterface;
 
 class AddHanpuNextRequestModel extends ParentModel
 {

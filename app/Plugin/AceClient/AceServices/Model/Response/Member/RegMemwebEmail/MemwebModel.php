@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\RegMemwebEmail;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\RegMemwebEmail;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Mail;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\Mail;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Model for MemwebModel

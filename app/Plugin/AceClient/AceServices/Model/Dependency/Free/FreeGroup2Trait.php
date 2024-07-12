@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Free\FreeGroup1Trait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Free\FreeGroup1Trait;
 
 /**
  * Trait For FreeGroup2

@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Goods\GetGoodsBunrui;
+namespace Plugin\AceClient43\AceServices\Model\Response\Goods\GetGoodsBunrui;
 
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelAbtract;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelAbtract;
 
 /**
  * Class GetGoodsBunruiResponseModel

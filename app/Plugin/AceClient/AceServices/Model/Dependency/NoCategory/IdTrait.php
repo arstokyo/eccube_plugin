@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Trait for 通販プロID

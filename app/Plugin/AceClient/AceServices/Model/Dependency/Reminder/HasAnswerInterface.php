@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Reminder;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Reminder;
 
 /**
  * Interface for Has 答え

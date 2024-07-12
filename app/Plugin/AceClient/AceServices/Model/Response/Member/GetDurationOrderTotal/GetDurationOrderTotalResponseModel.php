@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\GetDurationOrderTotal;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetDurationOrderTotal;
 
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelAbtract;
-use Plugin\AceClient\AceServices\Model\Response\Member\GetDurationOrderTotal\MemberModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelAbtract;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetDurationOrderTotal\MemberModelInterface;
 
 /**
  * Class GetDurationOrderTotalResponseModel

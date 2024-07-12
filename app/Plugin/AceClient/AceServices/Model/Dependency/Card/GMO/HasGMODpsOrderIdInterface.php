@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Card\GMO;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Card\GMO;
 
 /**
  * Interface for Has 加盟店取引ID

@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Contact\RegContact;
+namespace Plugin\AceClient43\AceServices\Model\Response\Contact\RegContact;
 
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelInterface;
-use Plugin\AceClient\AceServices\Model\Response;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 interface RegContactResponseModelInterface extends ResponseModelInterface
 {

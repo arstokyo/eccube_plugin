@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Bikou;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
 
 /**
  * Interface For 3つ住所備考

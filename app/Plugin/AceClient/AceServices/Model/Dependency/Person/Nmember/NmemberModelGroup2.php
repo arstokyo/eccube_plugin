@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Person\Nmember;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Person\Nmember;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person\PersonLevel3Trait;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\BetuTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person\PersonLevel3Trait;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory\BetuTrait;
 
 /**
  * Class For Nmem Model Group2

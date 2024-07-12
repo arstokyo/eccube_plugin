@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\Util\Serializer;
+namespace Plugin\AceClient43\Util\Serializer;
 
 use Symfony\Component\Serializer\SerializerInterface;
-use Plugin\AceClient\AceConfig\Model\SoapXmlSerializer\SoapXmlSerializerModel;
+use Plugin\AceClient43\AceConfig\Model\SoapXmlSerializer\SoapXmlSerializerModel;
 
 /**
  * Interface for Soap Serializer.

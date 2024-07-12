@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC;
 
 /**
  * Trait for 電話番号

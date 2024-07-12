@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Contact\RegContact;
+namespace Plugin\AceClient43\AceServices\Model\Response\Contact\RegContact;
 
-use Plugin\AceClient\AceServices\Model\Response\ResponseModelAbtract;
+use Plugin\AceClient43\AceServices\Model\Response\ResponseModelAbtract;
 
 class RegContactResponseModel extends ResponseModelAbtract implements RegContactResponseModelInterface
 {

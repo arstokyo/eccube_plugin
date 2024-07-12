@@ -1,13 +1,13 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Hanpu\Handen;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Hanpu\Handen;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Denpyo;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
-use Plugin\AceClient\AceServices\Model\Dependency\Card;
-use Plugin\AceClient\AceServices\Model\Dependency\Person;
-use Plugin\AceClient\AceServices\Model\Dependency\Day;
-use Plugin\AceClient\AceServices\Model\Dependency\OkuriAndNouhin;
+use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\Card;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person;
+use Plugin\AceClient43\AceServices\Model\Dependency\Day;
+use Plugin\AceClient43\AceServices\Model\Dependency\OkuriAndNouhin;
 
 /**
  * Trait for HandenModelGroup2

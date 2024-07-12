@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Cost\Teika;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Cost\Teika;
 
 /**
  * Interface for Has 定価

@@ -1,7 +1,7 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Reminder;
-use Plugin\AceClient\AceServices\Model\Dependency\Reminder\HasSevenRemindersInterface;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Reminder;
+use Plugin\AceClient43\AceServices\Model\Dependency\Reminder\HasSevenRemindersInterface;
 /**
  * Interface for Has ReminderModel
  *

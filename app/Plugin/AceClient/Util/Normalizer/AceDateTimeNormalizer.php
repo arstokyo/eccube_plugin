@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\Util\Normalizer;
+namespace Plugin\AceClient43\Util\Normalizer;
 
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime\AceDateTime;
-use Plugin\AceClient\Exception\DataTypeMissMatchException;
+use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime\AceDateTime;
+use Plugin\AceClient43\Exception\DataTypeMissMatchException;
 
 /**
  * Normalizer for AceDateTime

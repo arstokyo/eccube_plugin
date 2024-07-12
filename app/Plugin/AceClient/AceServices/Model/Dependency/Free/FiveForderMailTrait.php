@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Free;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 /**
  * Trait For 5つ注文確認ﾒｰﾙｱﾄﾞﾚｽ

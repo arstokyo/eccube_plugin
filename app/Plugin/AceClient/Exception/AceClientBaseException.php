@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\Exception;
+namespace Plugin\AceClient43\Exception;
 
 class AceClientBaseException extends \Exception
 {

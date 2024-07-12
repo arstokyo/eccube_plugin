@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\Tests\AceRequestTest;
+namespace Plugin\AceClient43\Tests\AceRequestTest;
 
-use Plugin\AceClient\AceClient;
+use Plugin\AceClient43\AceClient;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class AceRequestTestAbtract extends KernelTestCase

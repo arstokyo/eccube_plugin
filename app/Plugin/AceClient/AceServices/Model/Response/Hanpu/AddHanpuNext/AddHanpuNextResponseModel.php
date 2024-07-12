@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Hanpu\AddHanpuNext;
+namespace Plugin\AceClient43\AceServices\Model\Response\Hanpu\AddHanpuNext;
 
-use Plugin\AceClient\AceServices\Model\Response\Hanpu\AddHanpu\AddHanpuResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response\Hanpu\AddHanpu\AddHanpuResponseModel;
 
 /**
  * Class AddHanpuNextResponseModel

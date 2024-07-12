@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Person;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Person;
 
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory\CodeTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory\CodeTrait;
 
 /**
  * Trait for Person Level 1

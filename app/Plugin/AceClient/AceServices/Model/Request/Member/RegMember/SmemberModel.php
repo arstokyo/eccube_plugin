@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Member\RegMember;
+namespace Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person;
 
 /**
  * Class for 請求先顧客情報

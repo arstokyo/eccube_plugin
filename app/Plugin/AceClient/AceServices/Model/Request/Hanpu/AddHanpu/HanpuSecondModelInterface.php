@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Hanpu\AddHanpu;
+namespace Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Hanpu\Handen\HandenModelGroup1Interface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Hanpu\Handen\HandenModelGroup1Interface;
 
 /**
  * Interface HanpuSecondModel

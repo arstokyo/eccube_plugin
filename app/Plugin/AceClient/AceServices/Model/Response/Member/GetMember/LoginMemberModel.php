@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\GetMember;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelExtend1Trait;
-use Plugin\AceClient\AceServices\Model\Dependency\Reminder;
-use Plugin\AceClient\AceServices\Model\Dependency\Point;
+use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelExtend1Trait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Reminder;
+use Plugin\AceClient43\AceServices\Model\Dependency\Point;
 
 
 /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\Util\Denormalizer\OTD;
+namespace Plugin\AceClient43\Util\Denormalizer\OTD;
 
 use Symfony\Component\Serializer\SerializerInterface;
 

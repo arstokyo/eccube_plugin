@@ -1,11 +1,11 @@
 <?php
 
-namespace Plugin\AceClient\AceConfig\Model\SoapXmlSerializer;
+namespace Plugin\AceClient43\AceConfig\Model\SoapXmlSerializer;
 
-use Plugin\AceClient\AceConfig\Model\ConfigModelInterface;
+use Plugin\AceClient43\AceConfig\Model\ConfigModelInterface;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Plugin\AceClient\Util\ConfigLoader\ConvertToConstTrait;
+use Plugin\AceClient43\Util\ConfigLoader\ConvertToConstTrait;
 
 /**
  * Model for SoapXmlSerializer

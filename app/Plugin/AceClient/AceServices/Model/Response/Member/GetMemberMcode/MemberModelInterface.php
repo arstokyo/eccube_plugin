@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\GetMemberMcode;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Person\PersonLevel6ExtractInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Mail\HasFiveMelmagaInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\PhoneAndPC\HasMobileIdInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person\PersonLevel6ExtractInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Mail\HasFiveMelmagaInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC\HasMobileIdInterface;
 
 /**
  * Interface MemberModelInterface

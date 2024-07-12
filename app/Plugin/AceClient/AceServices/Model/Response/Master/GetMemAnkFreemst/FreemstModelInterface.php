@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Master\GetMemAnkFreemst;
+namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetMemAnkFreemst;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Free;
+use Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 /**
  * Interface for FreemstModel

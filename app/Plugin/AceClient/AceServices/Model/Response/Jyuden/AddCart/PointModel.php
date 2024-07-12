@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Jyuden\AddCart;
+namespace Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Point\PointModelGroup2;
+use Plugin\AceClient43\AceServices\Model\Dependency\Point\PointModelGroup2;
 
 /**
  * PointModel

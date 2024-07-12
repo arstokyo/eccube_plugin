@@ -1,11 +1,11 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Master\GetOkuriHkTime;
+namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetOkuriHkTime;
 
-use Plugin\AceClient\AceServices\Model\Response\Master\GetOkuriHkTime\MasterModelInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Message\HasMessageModelTrait;
-use Plugin\AceClient\AceServices\Model\Response\Master\GetOkuriHkTime;
-use Plugin\AceClient\AceServices\Model\Response;
+use Plugin\AceClient43\AceServices\Model\Response\Master\GetOkuriHkTime\MasterModelInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelTrait;
+use Plugin\AceClient43\AceServices\Model\Response\Master\GetOkuriHkTime;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Master Model for Okuri Hk Time Response

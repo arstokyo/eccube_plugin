@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Contact\RegContact;
+namespace Plugin\AceClient43\AceServices\Model\Request\Contact\RegContact;
 
-use Plugin\AceClient\AceServices\Model\Request;
-use Plugin\AceClient\Exception\MissingRequestParameterException;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Request;
+use Plugin\AceClient43\Exception\MissingRequestParameterException;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 class RegContactRequestModel extends Request\RequestModelAbstract implements RegContactRequestModelInterface
 {

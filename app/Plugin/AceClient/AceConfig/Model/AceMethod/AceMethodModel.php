@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceConfig\Model\AceMethod;
+namespace Plugin\AceClient43\AceConfig\Model\AceMethod;
 
-use Plugin\AceClient\AceConfig\Model\ConfigModelInterface;
-use Plugin\AceClient\AceConfig\Model\OverridableConfigAbstract;
+use Plugin\AceClient43\AceConfig\Model\ConfigModelInterface;
+use Plugin\AceClient43\AceConfig\Model\OverridableConfigAbstract;
 
 /**
  * Ace Method Config Model

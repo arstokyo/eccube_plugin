@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Souko;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Souko;
 
 /**
  * Trait for 倉庫コード

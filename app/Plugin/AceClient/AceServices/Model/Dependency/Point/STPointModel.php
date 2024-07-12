@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Dependency\Point;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Point;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Point\STPointModelInterface;
-use Plugin\AceClient\AceServices\Model\Dependency\Point\PointTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\Point\STPointModelInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Point\PointTrait;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
 

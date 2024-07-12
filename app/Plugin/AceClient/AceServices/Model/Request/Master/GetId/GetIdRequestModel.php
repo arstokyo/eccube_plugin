@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Request\Master\GetId;
+namespace Plugin\AceClient43\AceServices\Model\Request\Master\GetId;
 
-use Plugin\AceClient\AceServices\Model\Request\RequestModelAbstract;
+use Plugin\AceClient43\AceServices\Model\Request\RequestModelAbstract;
 
 /**
  * Class GetIdRequestModel

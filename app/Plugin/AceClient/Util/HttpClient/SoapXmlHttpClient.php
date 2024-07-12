@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\Util\HttpClient;
+namespace Plugin\AceClient43\Util\HttpClient;
 
 use GuzzleHttp\ClientInterface;
 use Psr\Http\Message\ResponseInterface;

@@ -1,10 +1,10 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Jyuden\AddCart;
+namespace Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Jyudens\Jyusub\JyusubModelGroup1;
-use Plugin\AceClient\AceServices\Model\Dependency\Card\GMO;
-use Plugin\AceClient\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\Jyudens\Jyusub\JyusubModelGroup1;
+use Plugin\AceClient43\AceServices\Model\Dependency\Card\GMO;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Model for Jyusub

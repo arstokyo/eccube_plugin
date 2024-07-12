@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\Util\Denormalizer\DTO;
+namespace Plugin\AceClient43\Util\Denormalizer\DTO;
 
 /**
  * Interface for denormalizing DataToObject.

@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\CustomDataType\AceDateTime;
+namespace Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
 
 /**
  * Interface AceDateTimeInterface

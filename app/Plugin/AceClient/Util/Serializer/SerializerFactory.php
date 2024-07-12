@@ -1,20 +1,20 @@
 <?php
 
-namespace Plugin\AceClient\Util\Serializer;
+namespace Plugin\AceClient43\Util\Serializer;
 
-use Plugin\AceClient\AceConfig\Model\SoapXmlSerializer\SoapXmlSerializerModel;
+use Plugin\AceClient43\AceConfig\Model\SoapXmlSerializer\SoapXmlSerializerModel;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Plugin\AceClient\Util\Normalizer\NormalizerFactory;
-use Plugin\AceClient\Util\Denormalizer\DenormalizerFactory;
-use Plugin\AceClient\Exception\InvalidClassNameException;
-use Plugin\AceClient\Exception\DataTypeMissMatchException;
-use Plugin\AceClient\Util\Serializer as AceSerializer;
-use Plugin\AceClient\Util\ClassFactory\ClassFactory;
+use Plugin\AceClient43\Util\Normalizer\NormalizerFactory;
+use Plugin\AceClient43\Util\Denormalizer\DenormalizerFactory;
+use Plugin\AceClient43\Exception\InvalidClassNameException;
+use Plugin\AceClient43\Exception\DataTypeMissMatchException;
+use Plugin\AceClient43\Util\Serializer as AceSerializer;
+use Plugin\AceClient43\Util\ClassFactory\ClassFactory;
 
 /**
  * Factory for Serializer.

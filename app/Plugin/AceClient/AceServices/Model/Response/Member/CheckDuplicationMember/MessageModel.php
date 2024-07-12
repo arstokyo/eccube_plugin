@@ -1,8 +1,8 @@
 <?php
 
-namespace Plugin\AceClient\AceServices\Model\Response\Member\CheckDuplicationMember;
+namespace Plugin\AceClient43\AceServices\Model\Response\Member\CheckDuplicationMember;
 
-use Plugin\AceClient\AceServices\Model\Dependency\Message;
+use Plugin\AceClient43\AceServices\Model\Dependency\Message;
 
 /**
  * Class MessageModel
