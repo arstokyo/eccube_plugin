@@ -27,7 +27,7 @@ class ConfigController extends AbstractController
     }
 
     /**
-     * @Route("/%eccube_admin_route%/aceclient43/config", name="ace_client_admin_config")
+     * @Route("/%eccube_admin_route%/aceclient/config", name="ace_client_admin_config")
      * @Template("@AceClient43/admin/config.twig")
      */
     public function index(Request $request)
@@ -38,9 +38,6 @@ class ConfigController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $Config = $form->getData();
-            if (!\str_ends_with($Config->getBaseUri(), '/')) {
-                $Config->setBaseUri($Config->getBaseUri() . '/');
-            }
 
             $this->entityManager->persist($Config);
             $this->entityManager->flush();
