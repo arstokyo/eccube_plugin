@@ -96,8 +96,10 @@ services:
           $blockTemplates: '%eccube_twig_block_templates%'
 
     Plugin\:
-        resource: '../../../app/Plugin/*'
-        exclude: '../../../app/Plugin/*/{Entity,Resource,ServiceProvider,Tests,Codeception,DoctrineMigrations}'
+        resource: '../../../app/Plugin/'
+        exclude: 
+            - '../../../app/Plugin/AceClient'
+            - '../../../app/Plugin/*/{Entity,Resource,ServiceProvider,Tests,Codeception,DoctrineMigrations}'
 
     Customize\:
         resource: '../../../app/Customize/*'
