@@ -1,4 +1,5 @@
 * merge=keepTheirs
+composer.json merge=keepMine
 Util/Serializer/SoapXmlSerializer.php merge=keepMine
 Util/Denormalizer/AsListDenormalizer.php merge=keepMine
 Util/Normalizer/AceDateTimeNormalizer.php merge=keepMine
