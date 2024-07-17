@@ -38,9 +38,6 @@ class ConfigController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $Config = $form->getData();
-            if (!\str_ends_with($Config->getBaseUri(), '/')) {
-                $Config->setBaseUri($Config->getBaseUri() . '/');
-            }
 
             $this->entityManager->persist($Config);
             $this->entityManager->flush();
