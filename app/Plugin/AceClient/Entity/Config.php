@@ -61,6 +61,10 @@ if (!class_exists('\Plugin\AceClient\Entity\Config', false)) {
          */
         public function setBaseUri($baseUri)
         {
+            if (!\str_ends_with($baseUri, '/')) {
+                $baseUri .= '/';
+            }
+
             $this->baseUri = $baseUri;
 
             return $this;
