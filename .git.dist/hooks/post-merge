@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# Get the current branch name
+CURRENT_BRANCH=$(git branch --show-current)
+TARGET_BRANCH="compatible/eccube43"
+
+# if current branch is not the target branch, skip the post-merge hook
+if [ "$CURRENT_BRANCH" != "$TARGET_BRANCH" ]; then
+    exit 0
+fi
+
+SEARCH_NAMESPACE="AceClient"
+REPLACE_NAMESPACE="AceClient43"
+PLUGIN_DIR="app/Plugin"
+ACECLIENT_ROOT_DIR="$PLUGIN_DIR/$SEARCH_NAMESPACE"
+ACECLIENT_TEST_DIR="$PLUGIN_DIR/$REPLACE_NAMESPACE"
+
+# if folder ACECLIENT_ROOT_DIR does not exist, skip the post-merge hook
+if [ ! -d "$ACECLIENT_ROOT_DIR" ]; then
+    echo "Folder $ACECLIENT_ROOT_DIR does not exist. Skip post-merge hook."
+    exit 0
+fi
+
+echo "Start post-merge hook on branch $CURRENT_BRANCH."
+
+# Make sure we are in a terminal
+[ -t 0 ] || exec < /dev/tty
+
+echo "Find and replace namespace $SEARCH_NAMESPACE to $REPLACE_NAMESPACE in $ACECLIENT_ROOT_DIR."
+
+# Find and replace namespace in PHP files
+find "$ACECLIENT_ROOT_DIR/" -iname "*.php" -type f -exec perl -pi -e "s/^namespace\s+Plugin\\\\$SEARCH_NAMESPACE\\\/namespace Plugin\\\\$REPLACE_NAMESPACE\\\/i" {} \; \
+ -exec perl -pi -e "s/^use\s+Plugin\\\\$SEARCH_NAMESPACE\\\/use Plugin\\\\$REPLACE_NAMESPACE\\\/i" {} \;
+
+echo "Clone $ACECLIENT_ROOT_DIR to $ACECLIENT_TEST_DIR."
+rm -rf "$ACECLIENT_TEST_DIR"
+cp -rT "$ACECLIENT_ROOT_DIR" "$ACECLIENT_TEST_DIR"
+
+echo
+
+read -p "Do you want to run phpunit? [y/n]" -n 1 -r
+echo    # (optional) move to a new line
+
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    # remove cache
+    rm -rf ./var
+
+    # run phpunit
+    ./vendor/bin/phpunit --configuration "$ACECLIENT_TEST_DIR/phpunit.xml.dist" --stop-on-error
+fi
+
+echo "End post-merge hook."
+exit 0

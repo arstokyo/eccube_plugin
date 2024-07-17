@@ -1,0 +1,11 @@
+[core]
+	...
+	# MustHave
+	autoCRLF = false
+[merge "keepTheirs"]
+	name = always keep theirs during merge
+	driver = "/bin/bash.exe ./bin/resolveConflict.sh %A %B %P"
+[merge "keepMine"]
+	name = always keep mine during merge
+	driver = true
+
