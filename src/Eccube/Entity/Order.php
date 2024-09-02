@@ -45,7 +45,7 @@ if (!class_exists('\Eccube\Entity\Order')) {
     {
         use NameTrait;
         use PointTrait;
-
+        use UseCouponTrait;
         /**
          * 課税対象の明細を返す.
          *
@@ -75,11 +75,9 @@ if (!class_exists('\Eccube\Entity\Order')) {
         public function getTaxableTotal()
         {
             $total = 0;
-
             foreach ($this->getTaxableItems() as $Item) {
                 $total += $Item->getTotalPrice();
             }
-
             return $total;
         }
 

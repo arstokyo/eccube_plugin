@@ -48,6 +48,9 @@ use Eccube\Controller\AbstractShoppingController;
 use Plugin\AceClient;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden as JyudenRequest;
 use Plugin\AceClient\AceServices\Model\Response\Jyuden as JyudenResponse;
+use Eccube\Entity\Master\OrderItemType;
+
+
 
 class ShoppingController extends AbstractShoppingController
 {
@@ -95,6 +98,7 @@ class ShoppingController extends AbstractShoppingController
     protected RateLimiterFactory $shoppingCheckoutCustomerLimiter;
 
     private AceClient\AceClient $aceClient;
+
 
     public function __construct(
         CartService $cartService,
@@ -151,20 +155,36 @@ class ShoppingController extends AbstractShoppingController
         $Cart = $this->cartService->getCart();
         if (!($Cart && $this->orderHelper->verifyCart($Cart))) {
             log_info('[注文手続] カートが購入フローへ遷移できない状態のため, カート画面に遷移します.');
-
+            
             return $this->redirectToRoute('cart');
         }
-
         // 受注の初期化.
         log_info('[注文手続] 受注の初期化処理を開始します.');
         $Customer = $this->getUser() ? $this->getUser() : $this->orderHelper->getNonMember();
         $Order = $this->orderHelper->initializeOrder($Cart, $Customer);
 
+        if($this->session->get('CouponCode') != null){
+            $getDataCoupon = $this->getCouponAce($Order, $this->session->get('CouponCode'));
+            if($getDataCoupon['CouponCodeOk']){
+                //クーポンをOrderItemsとして初期化する
+                $OrderCounpon = clone $Order->getOrderItems()[0];
+                $OrderCounpon->setProductName('Coupon');
+                $OrderCounpon->setPrice($getDataCoupon['CouponValue']);
+                $OrderCounpon->setQuantity('1');
+                $ItemProduct = $this->entityManager->find(OrderItemType::class, OrderItemType::DISCOUNT);
+                $OrderCounpon->setOrderItemType($ItemProduct);
+                $Order->addOrderItem($OrderCounpon);
+                $Order->setCounponCode($getDataCoupon['CouponCodeOk']);
+            }
+            $this->session->set('CouponCode', null);
+        }
+        $this->entityManager->persist($Order);
+
+
         // 集計処理.
         log_info('[注文手続] 集計処理を開始します.', [$Order->getId()]);
         $flowResult = $this->executePurchaseFlow($Order, false);
         $this->entityManager->flush();
-
         if ($flowResult->hasError()) {
             log_info('[注文手続] Errorが発生したため購入エラー画面へ遷移します.', [$flowResult->getErrors()]);
 
@@ -187,16 +207,23 @@ class ShoppingController extends AbstractShoppingController
             $this->orderHelper->updateCustomerInfo($Order, $Customer);
             $this->entityManager->flush();
         }
-
         $activeTradeLaws = $this->tradeLawRepository->findBy(['displayOrderScreen' => true], ['sortNo' => 'ASC']);
-
         $form = $this->createForm(OrderType::class, $Order);
-
         return [
             'form' => $form->createView(),
             'Order' => $Order,
             'activeTradeLaws' => $activeTradeLaws,
         ];
+    }
+
+    /**
+     * `request`からのクーポンの処理
+     * @Route("/shopping/check_coupon", name="check_coupon", methods={"POST"})
+     */
+    public  function checkCoupon(Request $request)
+    {
+        $this->session->set('CouponCode',$request->request->get('coupon_code'));
+        return $this->redirectToRoute('shopping');
     }
 
     /**
@@ -279,7 +306,6 @@ class ShoppingController extends AbstractShoppingController
         $activeTradeLaws = $this->tradeLawRepository->findBy(['displayOrderScreen' => true], ['sortNo' => 'ASC']);
 
         log_info('[リダイレクト] フォームエラーのため, 注文手続き画面を表示します.', [$Order->getId()]);
-
         return [
             'form' => $form->createView(),
             'Order' => $Order,
@@ -979,11 +1005,9 @@ class ShoppingController extends AbstractShoppingController
                                 ->setId(13)
                                 ->setSessId($this->session->getId())
                                 ->setPrm($this->buildPrmForAddCart($Order));
-
         try {
             $response = $addCartMethod->withRequest($addCartRequestModel)
                                       ->send();
-
             if ($response->getStatusCode() === 200) {
                 /** @var JyudenResponse\AddCart\AddCartResponseModel $responseObj */
                 $responseObj = $response->getResponse();
@@ -1034,10 +1058,10 @@ class ShoppingController extends AbstractShoppingController
                    ->setHtime(2)
                    ->setBunsyo(1)
                    ->setDay(new \Datetime('now'))
-                   ->setWeborderno($Order->getOrderNo());
+                   ->setWeborderno($Order->getOrderNo())
+                   ->setCampaign(1);
 
         $jyumeis = [];
-        
         foreach ($this->cartService->getCart()->getItems() as $Item) {
             $jyumeis[] = (new JyudenRequest\AddCart\JyumeiModel)
                           ->setGcode($Item->getProductClass()->getCode())
@@ -1048,12 +1072,11 @@ class ShoppingController extends AbstractShoppingController
 
         if ($Order->getDeliveryFeeTotal() > 0) {
             $jyumeis[] = (new JyudenRequest\AddCart\JyumeiModel)
-                          ->setGcode('s-1')
+                          ->setGcode('n-1')
                           ->setSuu(1)
                           ->setTanka($Order->getDeliveryFeeTotal())
                           ->setTaxkbn(1);
         }
-
         return (new JyudenRequest\AddCart\OrderPrmModel())
                ->setMember($member)
                ->setJyuden($jyuden)
@@ -1061,4 +1084,50 @@ class ShoppingController extends AbstractShoppingController
                ->setMailjyuden((new JyudenRequest\AddCart\MailJyudenModel())->setMail($Customer->getEmail()));
     }
 
+    /**
+     * Get Coupon in ACE
+     *
+     * @param Order $Order
+     * @param string $CouponCode
+     *
+     * @return array<string, string>
+     */
+    private function getCouponAce($Order, $CouponCode)
+    {
+        $jyudenService = $this->aceClient->makeJyudenService();
+        $addCartMethod = $jyudenService->makeAddCartMethod();
+        $prm = $this->buildPrmForAddCart($Order);
+        $prm->getJyuden()->setFcode1($CouponCode);
+        $addCartRequestModel = (new JyudenRequest\AddCart\AddCartRequestModel())
+                                ->setId(13)
+                                ->setSessId($this->session->getId())
+                                ->setPrm($prm);
+        try {
+            $response = $addCartMethod->withRequest($addCartRequestModel)
+                                      ->send();
+            foreach($response->getResponse()->getOrder()->getJyumei() as $jyumei) {
+                if ($jyumei->getGcode() == 'c-1') {
+                    return [
+                        'CouponCodeOk' => $CouponCode,
+                        'CouponValue' => $jyumei->getTinmoney()
+                    ];
+                }
+            }
+            if ($response->getStatusCode() === 200) {
+                /** @var JyudenResponse\AddCart\AddCartResponseModel $responseObj */
+                $responseObj = $response->getResponse();
+
+                $message1 = $responseObj->getOrder()->getMessage()->getMessage1();
+                $message2 = $responseObj->getOrder()->getMessage()->getMessage2();
+            }
+
+        } catch(\Throwable $e) {
+            $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
+        }
+        return [
+            'CouponCodeOk' => "",
+            'CouponValue' => ""
+        ];
+
+    }
 }

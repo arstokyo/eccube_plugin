@@ -6620,6 +6620,9 @@ Styleguide 2.1.2
   padding-top: 0;
   padding-bottom: 0;
 }
+.check-coupon{
+  width: 25%;
+}
 .ec-blockBtn--action:focus, .ec-blockBtn--action.focus, .ec-blockBtn--action:active:focus, .ec-blockBtn--action:active.focus, .ec-blockBtn--action.active:focus, .ec-blockBtn--action.active.focus {
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
