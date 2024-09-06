@@ -163,7 +163,6 @@ class OrderHelper
 
         // 顧客情報の設定
         $this->setCustomer($Order, $Customer);
-
         $DeviceType = $this->deviceTypeRepository->find($this->mobileDetector->isMobile() ? DeviceType::DEVICE_TYPE_MB : DeviceType::DEVICE_TYPE_PC);
         $Order->setDeviceType($DeviceType);
 
@@ -305,11 +304,13 @@ class OrderHelper
     {
         // 購入処理中の受注情報を取得
         if ($Order = $this->getPurchaseProcessingOrder($Cart->getPreOrderId())) {
+            $this->removeDefaultDelivery($Order);
             return $Order;
         }
 
         // 受注情報を作成
         $Order = $this->createPurchaseProcessingOrder($Cart, $Customer);
+        $this->removeDefaultDelivery($Order);
         $Cart->setPreOrderId($Order->getPreOrderId());
 
         return $Order;
@@ -562,6 +563,14 @@ class OrderHelper
                 return $this->entityManager->find(TaxDisplayType::class, TaxDisplayType::INCLUDED);
             default:
                 return $this->entityManager->find(TaxDisplayType::class, TaxDisplayType::EXCLUDED);
+        }
+    }
+    private function removeDefaultDelivery(Order $Order)
+    {
+        foreach ($Order->getItems() as $OrderItem){
+            if($OrderItem->getProductName() == '送料'){
+                $Order->removeOrderItem($OrderItem);
+            }
         }
     }
 }

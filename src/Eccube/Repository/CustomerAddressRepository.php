@@ -45,4 +45,26 @@ class CustomerAddressRepository extends AbstractRepository
         $em->remove($CustomerAddress);
         $em->flush();
     }
+
+    /**
+     * Get the eda value for a given pref_id and customer_id.
+     *
+     * @param int $PrefId
+     * @param int $CustomerId
+     * @return int
+     */
+    public function getEda($Pref, $Customer)
+    {
+        $eda = $this->getEntityManager()
+        ->createQueryBuilder()
+        ->select('ca.eda')
+        ->from('Eccube\Entity\CustomerAddress', 'ca')
+        ->where('ca.Pref = :pref')
+        ->andWhere('ca.Customer = :customer')
+        ->setParameter('pref', $Pref)
+        ->setParameter('customer', $Customer)
+        ->getQuery()
+        ->getSingleScalarResult();
+        return $eda;
+    }
 }

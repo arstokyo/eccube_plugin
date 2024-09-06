@@ -14,6 +14,7 @@
 namespace Eccube\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Event\PrePersistEventArgs;
 
 if (!class_exists('\Eccube\Entity\CustomerAddress')) {
     /**
@@ -94,6 +95,13 @@ if (!class_exists('\Eccube\Entity\CustomerAddress')) {
          * @ORM\GeneratedValue(strategy="IDENTITY")
          */
         private $id;
+
+        /**
+         * @var string
+         *
+         * @ORM\Column(name="eda", type="string", length=255, nullable=false)
+         */
+        private $eda;
 
         /**
          * @var string|null
@@ -474,6 +482,18 @@ if (!class_exists('\Eccube\Entity\CustomerAddress')) {
         public function getUpdateDate()
         {
             return $this->update_date;
+        }
+
+        public function getEda(): ?string
+        {
+            return $this->eda;
+        }
+
+        public function setEda(?string $eda): self
+        {
+            $this->eda = $eda;
+
+            return $this;
         }
 
         /**
