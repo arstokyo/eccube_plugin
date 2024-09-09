@@ -80,8 +80,8 @@ class DeliveryFeePreprocessor implements ItemHolderPreprocessor
      */
     public function process(ItemHolderInterface $itemHolder, PurchaseContext $context)
     {
-        $this->removeDeliveryFeeItem($itemHolder);
-        $this->saveDeliveryFeeItem($itemHolder);
+        // $this->removeDeliveryFeeItem($itemHolder);
+        // $this->saveDeliveryFeeItem($itemHolder);
     }
 
     private function removeDeliveryFeeItem(ItemHolderInterface $itemHolder)

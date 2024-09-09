@@ -46,11 +46,8 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Eccube\Controller\AbstractShoppingController;
 use Plugin\AceClient;
-use Plugin\AceClient\AceServices\Model\Request\Jyuden as JyudenRequest;
-use Plugin\AceClient\AceServices\Model\Response\Jyuden as JyudenResponse;
-use Eccube\Entity\Master\OrderItemType;
-
-
+use Eccube\Repository\CustomerAddressRepository;
+use Eccube\Service\ShoppingHelper;
 
 class ShoppingController extends AbstractShoppingController
 {
@@ -99,6 +96,15 @@ class ShoppingController extends AbstractShoppingController
 
     private AceClient\AceClient $aceClient;
 
+    /**
+     * @var CustomerAddressRepository
+     */
+    protected $customerAddressRepository;
+
+    /**
+     * @var ShoppingHelper
+     */
+    protected $shoppingHelper;
 
     public function __construct(
         CartService $cartService,
@@ -112,7 +118,9 @@ class ShoppingController extends AbstractShoppingController
         RateLimiterFactory $shoppingCheckoutIpLimiter,
         RateLimiterFactory $shoppingCheckoutCustomerLimiter,
         BaseInfoRepository $baseInfoRepository,
-        AceClient\AceClient $aceClient
+        AceClient\AceClient $aceClient,
+        CustomerAddressRepository $customerAddressRepository,
+        ShoppingHelper $shoppingHelper,
     ) {
         $this->cartService = $cartService;
         $this->mailService = $mailService;
@@ -126,6 +134,8 @@ class ShoppingController extends AbstractShoppingController
         $this->shoppingCheckoutCustomerLimiter = $shoppingCheckoutCustomerLimiter;
         $this->baseInfoRepository = $baseInfoRepository;
         $this->aceClient = $aceClient;
+        $this->customerAddressRepository = $customerAddressRepository;
+        $this->shoppingHelper = $shoppingHelper;
     }
 
     /**
@@ -155,34 +165,25 @@ class ShoppingController extends AbstractShoppingController
         $Cart = $this->cartService->getCart();
         if (!($Cart && $this->orderHelper->verifyCart($Cart))) {
             log_info('[注文手続] カートが購入フローへ遷移できない状態のため, カート画面に遷移します.');
-            
             return $this->redirectToRoute('cart');
         }
         // 受注の初期化.
         log_info('[注文手続] 受注の初期化処理を開始します.');
         $Customer = $this->getUser() ? $this->getUser() : $this->orderHelper->getNonMember();
         $Order = $this->orderHelper->initializeOrder($Cart, $Customer);
-
+        $this->shoppingHelper->reinitializeCouponEC($Order);
         if($this->session->get('CouponCode') != null){
-            $getDataCoupon = $this->getCouponAce($Order, $this->session->get('CouponCode'));
+            $getDataCoupon = $this->shoppingHelper->getCouponAce($Order, $this->session->get('CouponCode'), $this->getUser(), $this->session->getId());
             if($getDataCoupon['CouponCodeOk']){
                 //クーポンをOrderItemsとして初期化する
-                $OrderCounpon = clone $Order->getOrderItems()[0];
-                $OrderCounpon->setProductName('Coupon');
-                $OrderCounpon->setPrice($getDataCoupon['CouponValue']);
-                $OrderCounpon->setQuantity('1');
-                $ItemProduct = $this->entityManager->find(OrderItemType::class, OrderItemType::DISCOUNT);
-                $OrderCounpon->setOrderItemType($ItemProduct);
-                $Order->addOrderItem($OrderCounpon);
-                $Order->setCounponCode($getDataCoupon['CouponCodeOk']);
+                $this->shoppingHelper->addOrderCouponItem($Order, $getDataCoupon['CouponValue']);
+                $Order->setCounponCode($this->session->get('CouponCode'));
             }
             $this->session->set('CouponCode', null);
         }
-        $this->entityManager->persist($Order);
-
-
         // 集計処理.
         log_info('[注文手続] 集計処理を開始します.', [$Order->getId()]);
+        $this->shoppingHelper->addOrderDeliveryFeeItemFromAce($Order, $this->getUser(), $this->session->getId());
         $flowResult = $this->executePurchaseFlow($Order, false);
         $this->entityManager->flush();
         if ($flowResult->hasError()) {
@@ -372,7 +373,7 @@ class ShoppingController extends AbstractShoppingController
             }
 
             log_info('[注文確認] PaymentMethod::verifyを実行します.', [$Order->getPayment()->getMethodClass()]);
-            $paymentMethod = $this->createPaymentMethod($Order, $form);
+            $paymentMethod = $this->shoppingHelper->createPaymentMethod($Order, $form);
             $PaymentResult = $paymentMethod->verify();
 
             if ($PaymentResult) {
@@ -398,9 +399,7 @@ class ShoppingController extends AbstractShoppingController
             }
 
             $this->entityManager->flush();
-
             log_info('[注文確認] 注文確認画面を表示します.');
-
             return [
                 'form' => $form->createView(),
                 'Order' => $Order,
@@ -415,7 +414,6 @@ class ShoppingController extends AbstractShoppingController
             'template' => 'Shopping/index.twig',
         ]);
         $request->attributes->set('_template', $template);
-
         return [
             'form' => $form->createView(),
             'Order' => $Order,
@@ -490,11 +488,11 @@ class ShoppingController extends AbstractShoppingController
                 }
 
                 log_info('[注文処理] PaymentMethodを取得します.', [$Order->getPayment()->getMethodClass()]);
-                $paymentMethod = $this->createPaymentMethod($Order, $form);
+                $paymentMethod = $this->shoppingHelper->createPaymentMethod($Order, $form);
 
                 // 通販Aceのカート決定処理
                 if (null !== $Customer && null !== $Customer->getMemId()) {
-                    $decisionCartRusult = $this->decisionCartOnAce($Order);
+                    $decisionCartRusult = $this->shoppingHelper->decisionCartOnAce($Order,$this->getUser(), $this->session->getId());
                     if ($decisionCartRusult['iserror'] == true) {
                         throw new ShoppingException(sprintf('通販Aceのエラー発生: %s', $decisionCartRusult['message1']));
                     }
@@ -718,7 +716,6 @@ class ShoppingController extends AbstractShoppingController
             $CustomerAddress->setFromShipping($Shipping);
         }
         $builder = $this->formFactory->createBuilder(ShoppingShippingType::class, $CustomerAddress);
-
         $event = new EventArgs(
             [
                 'builder' => $builder,
@@ -732,12 +729,19 @@ class ShoppingController extends AbstractShoppingController
 
         $form = $builder->getForm();
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             log_info('お届け先追加処理開始', ['order_id' => $Order->getId(), 'shipping_id' => $Shipping->getId()]);
 
+            $memberService = $this->aceClient->makeMemberService();
+            $regNewAdrAceErr = $this->shoppingHelper->RegNewAdrAce($CustomerAddress, $memberService);
+            if ($regNewAdrAceErr['iserror'] == true) {
+                throw new ShoppingException(sprintf('通販Aceのエラー発生: %s', $regNewAdrAceErr['message1']));
+            }
+            else
+            {
+                $CustomerAddress->setEda($regNewAdrAceErr['eda']);
+            }
             $Shipping->setFromCustomerAddress($CustomerAddress);
-
             if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
                 $this->entityManager->persist($CustomerAddress);
 
@@ -773,10 +777,8 @@ class ShoppingController extends AbstractShoppingController
             $this->eventDispatcher->dispatch($event, EccubeEvents::FRONT_SHOPPING_SHIPPING_EDIT_COMPLETE);
 
             log_info('お届け先追加処理完了', ['order_id' => $Order->getId(), 'shipping_id' => $Shipping->getId()]);
-
             return $this->redirectToRoute('shopping');
         }
-
         return [
             'form' => $form->createView(),
             'shippingId' => $Shipping->getId(),
@@ -857,23 +859,6 @@ class ShoppingController extends AbstractShoppingController
     }
 
     /**
-     * PaymentMethodをコンテナから取得する.
-     *
-     * @param Order $Order
-     * @param FormInterface $form
-     *
-     * @return PaymentMethodInterface
-     */
-    private function createPaymentMethod(Order $Order, FormInterface $form)
-    {
-        $PaymentMethod = $this->serviceContainer->get($Order->getPayment()->getMethodClass());
-        $PaymentMethod->setOrder($Order);
-        $PaymentMethod->setFormType($form);
-
-        return $PaymentMethod;
-    }
-
-    /**
      * PaymentMethod::applyを実行する.
      *
      * @param PaymentMethodInterface $paymentMethod
@@ -945,189 +930,5 @@ class ShoppingController extends AbstractShoppingController
         }
 
         return null;
-    }
-
-    /**
-     * Decision Cart On Ace
-     * 
-     * @param Order $Shipping
-     * 
-     * @return array<string, string>
-     */
-    private function decisionCartOnAce(Order $Order): array
-    {
-
-        $jyudenService = $this->aceClient->makeJyudenService();
-        $addCartErr = $this->addNewCartOnAce($Order, $jyudenService);
-        if ($addCartErr['iserror'] == true) {
-            return $addCartErr;
-        }
-
-        try {
-            $decisionCartRequest = (new JyudenRequest\DecisionCart\DecisionCartRequestModel())
-                                    ->setId(13)
-                                    ->setSessId($this->session->getId());
-            $response = $jyudenService->makeDecisionCartMethod()
-                                      ->withRequest($decisionCartRequest)
-                                      ->send();
-            if ($response->getStatusCode() === 200) {
-                /** @var JyudenResponse\DecisionCart\DecisionCartResponseModel $responseObj */
-                $responseObj = $response->getResponse();
-                $message1 = $responseObj->getOrder()->getMessage()->getMessage1();
-                $message2 = $responseObj->getOrder()->getMessage()->getMessage2();
-            }
-        } catch (\Throwable $e) {
-            $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        }
-
-        return [
-            'iserror'   => !empty($message1) | !empty($message2),
-            'errortype' => 'decisionCartError',
-            'message1'  => $message1,
-            'message2'  => isset($message2) ? $message2 : '',
-        ];
-
-    }
-
-    /**
-     * Add New Cart On Ace
-     *
-     * @param Order $Order
-     * @param AceClient\AceServices\Service\JyudenService $jyudenService
-     * 
-     * @return array<string, string>
-     */
-    private function addNewCartOnAce(Order $Order, $jyudenService): array
-    {
-
-        $addCartMethod = $jyudenService->makeAddCartMethod();
-        $addCartRequestModel = (new JyudenRequest\AddCart\AddCartRequestModel())
-                                ->setId(13)
-                                ->setSessId($this->session->getId())
-                                ->setPrm($this->buildPrmForAddCart($Order));
-        try {
-            $response = $addCartMethod->withRequest($addCartRequestModel)
-                                      ->send();
-            if ($response->getStatusCode() === 200) {
-                /** @var JyudenResponse\AddCart\AddCartResponseModel $responseObj */
-                $responseObj = $response->getResponse();
-
-                $message1 = $responseObj->getOrder()->getMessage()->getMessage1();
-                $message2 = $responseObj->getOrder()->getMessage()->getMessage2();
-            }
-
-        } catch(\Throwable $e) {
-            $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        }
-
-        return [
-            'iserror'   => !empty($message1) | !empty($message2),
-            'errortype' => 'addCartError',
-            'message1'  => $message1,
-            'message2'  => isset($message2) ? $message2 : '',
-        ];
-    }
-     
-
-    /**
-     * Build Prm For Add Cart
-     * 
-     * @param Order $Order
-     * 
-     * @return JyudenRequest\AddCart\OrderPrmModel
-     */
-    private function buildPrmForAddCart(Order $Order): JyudenRequest\AddCart\OrderPrmModel
-    {
-        /** @var \Eccube\Entity\Customer $Customer */
-        $Customer = $this->getUser();
-
-        $member = (new JyudenRequest\AddCart\MemberOrderModel)
-                   ->setJmember((new JyudenRequest\AddCart\JmemberModel())->setCode($Customer->getMemId()))
-                   ->setSmember((new JyudenRequest\AddCart\SmemberModel())->setCode($Customer->getMemId()))
-                   ->setNmember((new JyudenRequest\AddCart\NmemberModel())->setEda(1));
-        
-        $jyuden = (new JyudenRequest\AddCart\JyudenModel)
-                   ->setPcode(10)
-                   ->setJcode(1)
-                   ->setBcode(100)
-                   ->setBkcode(100)
-                   ->setBumon(100)
-                   ->setSouko(1)
-                   ->setHcode(10)
-                   ->setHday((new \Datetime())->modify('+14 day'))
-                   ->setHtime(2)
-                   ->setBunsyo(1)
-                   ->setDay(new \Datetime('now'))
-                   ->setWeborderno($Order->getOrderNo())
-                   ->setCampaign(1);
-
-        $jyumeis = [];
-        foreach ($this->cartService->getCart()->getItems() as $Item) {
-            $jyumeis[] = (new JyudenRequest\AddCart\JyumeiModel)
-                          ->setGcode($Item->getProductClass()->getCode())
-                          ->setTanka($Item->getPrice())
-                          ->setSuu($Item->getQuantity())
-                          ->setTaxkbn(1);
-        }
-
-        if ($Order->getDeliveryFeeTotal() > 0) {
-            $jyumeis[] = (new JyudenRequest\AddCart\JyumeiModel)
-                          ->setGcode('n-1')
-                          ->setSuu(1)
-                          ->setTanka($Order->getDeliveryFeeTotal())
-                          ->setTaxkbn(1);
-        }
-        return (new JyudenRequest\AddCart\OrderPrmModel())
-               ->setMember($member)
-               ->setJyuden($jyuden)
-               ->setDetail((new JyudenRequest\AddCart\DetailModel())->setJyumei($jyumeis))
-               ->setMailjyuden((new JyudenRequest\AddCart\MailJyudenModel())->setMail($Customer->getEmail()));
-    }
-
-    /**
-     * Get Coupon in ACE
-     *
-     * @param Order $Order
-     * @param string $CouponCode
-     *
-     * @return array<string, string>
-     */
-    private function getCouponAce($Order, $CouponCode)
-    {
-        $jyudenService = $this->aceClient->makeJyudenService();
-        $addCartMethod = $jyudenService->makeAddCartMethod();
-        $prm = $this->buildPrmForAddCart($Order);
-        $prm->getJyuden()->setFcode1($CouponCode);
-        $addCartRequestModel = (new JyudenRequest\AddCart\AddCartRequestModel())
-                                ->setId(13)
-                                ->setSessId($this->session->getId())
-                                ->setPrm($prm);
-        try {
-            $response = $addCartMethod->withRequest($addCartRequestModel)
-                                      ->send();
-            foreach($response->getResponse()->getOrder()->getJyumei() as $jyumei) {
-                if ($jyumei->getGcode() == 'c-1') {
-                    return [
-                        'CouponCodeOk' => $CouponCode,
-                        'CouponValue' => $jyumei->getTinmoney()
-                    ];
-                }
-            }
-            if ($response->getStatusCode() === 200) {
-                /** @var JyudenResponse\AddCart\AddCartResponseModel $responseObj */
-                $responseObj = $response->getResponse();
-
-                $message1 = $responseObj->getOrder()->getMessage()->getMessage1();
-                $message2 = $responseObj->getOrder()->getMessage()->getMessage2();
-            }
-
-        } catch(\Throwable $e) {
-            $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        }
-        return [
-            'CouponCodeOk' => "",
-            'CouponValue' => ""
-        ];
-
     }
 }
