@@ -121,7 +121,7 @@ class OrderPrmModel extends PrmModelAbstract implements OrderPrmModelInterface
                 throw new MissingRequestParameterException($this->compilePropertyName(sprintf('detail.jyumei[%d].suu', $i)));
             }
 
-            if (empty($jyumei->getTanka())) {
+            if (null === $jyumei->getTanka()) {
                 throw new MissingRequestParameterException($this->compilePropertyName(sprintf('detail.jyumei[%d].tanka', $i)));
             }
         }
