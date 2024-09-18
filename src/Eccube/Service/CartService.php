@@ -276,6 +276,18 @@ class CartService
         return $allCartItems;
     }
 
+    public function removeCartItemGift()
+    {
+        foreach ($this->getCarts() as $Cart) {
+            foreach ($Cart->getCartItems() as $i) {
+                if($i->getTag() === 'gift'){
+                    $this->entityManager->remove($i);
+                    $this->entityManager->flush();
+                }
+            }
+        }
+    }
+
     protected function restoreCarts($cartItems)
     {
         foreach ($this->getCarts() as $Cart) {
@@ -290,11 +302,9 @@ class CartService
 
         /** @var Cart[] $Carts */
         $Carts = [];
-
         foreach ($cartItems as $item) {
             $allocatedId = $this->cartItemAllocator->allocate($item);
             $cartKey = $this->createCartKey($allocatedId, $this->getUser());
-
             if (isset($Carts[$cartKey])) {
                 $Cart = $Carts[$cartKey];
                 $Cart->addCartItem($item);
@@ -317,7 +327,6 @@ class CartService
                 $Carts[$cartKey] = $Cart;
             }
         }
-
         $this->carts = array_values($Carts);
     }
 
@@ -326,10 +335,11 @@ class CartService
      *
      * @param $ProductClass ProductClass 商品規格
      * @param $quantity int 数量
+     * @param $tag string|null
      *
      * @return bool 商品を追加できた場合はtrue
      */
-    public function addProduct($ProductClass, $quantity = 1)
+    public function addProduct($ProductClass, $quantity = 1, $tag = '')
     {
         if (!$ProductClass instanceof ProductClass) {
             $ProductClassId = $ProductClass;
@@ -354,7 +364,7 @@ class CartService
         $newItem->setQuantity($quantity);
         $newItem->setPrice($ProductClass->getPrice02IncTax());
         $newItem->setProductClass($ProductClass);
-
+        $newItem->setTag($tag);
         $allCartItems = $this->mergeAllCartItems([$newItem]);
         $this->restoreCarts($allCartItems);
 

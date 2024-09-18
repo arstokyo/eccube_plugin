@@ -31,6 +31,8 @@ use Eccube\Entity\Master\TaxType;
 use Eccube\Entity\Master\RoundingType;
 use Eccube\Entity\OrderItem;
 use Eccube\Service\PurchaseFlow\Processor\DeliveryFeePreprocessor;
+use Eccube\Repository\ProductClassRepository;
+use Eccube\Repository\ProductRepository;
 
 class ShoppingHelper
 {
@@ -55,18 +57,32 @@ class ShoppingHelper
      */
     protected $entityManager;
 
+    /**
+     * @var ProductClassRepository
+     */
+    protected $productClassRepository;
+
+    /**
+     * @var ProductRepository
+     */
+    protected $productRepository;
+
     public function __construct(
         ContainerInterface $serviceContainer,
         AceClient\AceClient $aceClient,
         CartService $cartService,
         CustomerAddressRepository $customerAddressRepository,
         EntityManagerInterface $entityManager,
+        ProductClassRepository $productClassRepository,
+        ProductRepository $productRepository,
     ){
         $this->serviceContainer = $serviceContainer;
         $this->aceClient = $aceClient;
         $this->cartService = $cartService;
         $this->customerAddressRepository = $customerAddressRepository;
         $this->entityManager = $entityManager;
+        $this->productClassRepository = $productClassRepository;
+        $this->productRepository = $productRepository;
     }
     /**
      * PaymentMethodをコンテナから取得する.
@@ -370,6 +386,7 @@ class ShoppingHelper
             'delivery_fee' => '',
         ];
     }
+
     /**
      * Get Eda in EC
      *
@@ -476,5 +493,147 @@ class ShoppingHelper
         $OrderCounpon->setRoundingType($RoundingType);
         $OrderCounpon->setOrderItemType($ItemProduct);
         $Order->addOrderItem($OrderCounpon);
+    }
+
+    /**
+     * Get Gift Product in ACE
+     *
+     * @param $User
+     * @param $SessId
+     *
+     * @return array<array<string>>
+     */
+    public function getGiftProductAce($User, $SessId)
+    {
+        $jyudenService = $this->aceClient->makeJyudenService();
+        $addCartMethod = $jyudenService->makeAddCartMethod();
+
+        $Customer = $User;
+        $member = (new JyudenRequest\AddCart\MemberOrderModel)
+                ->setJmember((new JyudenRequest\AddCart\JmemberModel())->setCode($Customer->getMemId()))
+                ->setSmember((new JyudenRequest\AddCart\SmemberModel())->setCode($Customer->getMemId()))
+                ->setNmember((new JyudenRequest\AddCart\NmemberModel())->setEda(1));
+        $jyuden = (new JyudenRequest\AddCart\JyudenModel)
+                ->setPcode(1)
+                ->setJcode(1)
+                ->setHcode(11)
+                ->setCampaign(1);
+
+        $jyumeis = [];
+        foreach ($this->cartService->getCart()->getItems() as $Item) {
+            if($Item->getPrice() != 0)
+            {
+                $jyumeis[] = (new JyudenRequest\AddCart\JyumeiModel)
+                ->setGcode($Item->getProductClass()->getCode())
+                ->setTanka($Item->getPrice())
+                ->setSuu($Item->getQuantity())
+                ->setTaxkbn(1);
+            }
+        }
+        $prm =  (new JyudenRequest\AddCart\OrderPrmModel())
+                ->setMember($member)
+                ->setJyuden($jyuden)
+                ->setDetail((new JyudenRequest\AddCart\DetailModel())->setJyumei($jyumeis))
+                ->setMailjyuden((new JyudenRequest\AddCart\MailJyudenModel())->setMail($Customer->getEmail()));
+        $addCartRequestModel = (new JyudenRequest\AddCart\AddCartRequestModel())
+                ->setId(37)
+                ->setSessId($SessId)
+                ->setPrm($prm);
+
+        try {
+            $response = $addCartMethod->withRequest($addCartRequestModel)
+                                      ->send();
+            if ($response->getStatusCode() === 200)
+            {
+                $result = [];
+                $allJyumeis = $response->getResponse()->getOrder()->getJyumei();
+                foreach( $allJyumeis as $jyumei1)
+                {
+                    $allparentCkbn = explode(',',$jyumei1->getParentCkbn());
+                    if ($allparentCkbn[0] != '')
+                    {
+                        $parentGcode = $jyumei1->getGcode();
+                        foreach($allparentCkbn as $parentCkbn)
+                        {
+                            foreach($allJyumeis as $jyumei2)
+                            {
+                                if ($jyumei2->getCkbn() == $parentCkbn)
+                                {
+                                    if(!isset($result[$parentGcode]))
+                                    {
+                                        $result[$parentGcode] = [];
+                                        $result[$parentGcode][] = $jyumei2->getGcode();
+                                    }
+                                    else
+                                    {
+                                        $result[$parentGcode][] = $jyumei2->getGcode();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                $message1 = $response->getResponse()->getOrder()->getMessage()->getMessage1();
+                $message2 = $response->getResponse()->getOrder()->getMessage()->getMessage2();
+                return $result;
+            }
+        } catch(\Throwable $e) {
+            $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
+        }
+        return [];
+    }
+
+    /**
+     * Add Gift Product in EC
+     *
+     * @param array<string> $Products
+     * @param array<array<string>> $AllGiftProduct
+     *
+     * @return boolean
+     */
+    public function checkAddProduct($Carts, $ProductClass)
+    {
+        foreach($Carts as $Cart)
+        {
+            if($Cart->getProductClass()->getCode() == $ProductClass->getCode())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Add Gift Product in EC
+     *
+     * @param $Products
+     * @param $AllGiftProduct
+     *
+     * @return $newCampaignItems
+     */
+    public function addGiftProductEc($Products, $AllGiftProduct){
+        $newCampaignItems = [];
+        foreach($Products as $Product) {
+            if($Product->getProductClass()->getPrice02() != 0)
+            {
+                $parentProduct = $Product->getProductClass()->getCode();
+                foreach ($AllGiftProduct as $giftProducts)
+                {
+                    for ($i = 0; $i < count($giftProducts); $i++)
+                    {
+                        $ProductClass = $this->productClassRepository->getProductClassByProductCode($AllGiftProduct[$parentProduct][$i]);
+                        if(!$this->checkAddProduct($this->cartService->getCart()->getItems(),$ProductClass))
+                        {
+                            $this->cartService->addProduct($ProductClass, 1, 'gift');
+                            $newCampaignItems[] = [
+                                'name'=> $this->productRepository->getProductByProductId($ProductClass->getProduct()->getId())->getName(),
+                                'quantity'=> 1,
+                            ];
+                        }
+                    }
+                }
+            }
+        }
+        return $newCampaignItems;
     }
 }

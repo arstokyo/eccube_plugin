@@ -31,6 +31,7 @@ use Eccube\Controller\AbstractController;
 use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart;
 use Plugin\AceClient\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModel;
 use Plugin\AceClient\AceClient;
+use Eccube\Service\ShoppingHelper;
 
 class CartController extends AbstractController
 {
@@ -54,6 +55,10 @@ class CartController extends AbstractController
      */
     protected $baseInfo;
 
+    /**
+     * @var ShoppingHelper
+     */
+    protected $shoppingHelper;
 
     private AceClient $aceClient;
 
@@ -65,19 +70,22 @@ class CartController extends AbstractController
      * @param PurchaseFlow $cartPurchaseFlow
      * @param BaseInfoRepository $baseInfoRepository
      * @param AceClient $aceClient
+     * @param ShoppingHelper $shoppingHelper
      */
     public function __construct(
         ProductClassRepository $productClassRepository,
         CartService $cartService,
         PurchaseFlow $cartPurchaseFlow,
         BaseInfoRepository $baseInfoRepository,
-        AceClient $aceClient
+        AceClient $aceClient,
+        ShoppingHelper $shoppingHelper,
     ) {
         $this->productClassRepository = $productClassRepository;
         $this->cartService = $cartService;
         $this->purchaseFlow = $cartPurchaseFlow;
         $this->baseInfo = $baseInfoRepository->get();
         $this->aceClient = $aceClient;
+        $this->shoppingHelper = $shoppingHelper;
     }
 
     /**
@@ -92,14 +100,19 @@ class CartController extends AbstractController
         /** @var \Eccube\Entity\Cart[] $Carts */
         $Carts = $this->cartService->getCarts();
         $this->execPurchaseFlow($Carts);
-
         /** @var \Eccube\Entity\Customer $Customer */
         $Customer = $this->getUser();
-        if (null !== $Customer && null !== $Customer->getMemId() &&  count($Carts) > 0 && count(current($Carts)->getItems()) > 0){
+        if (null !== $Customer && null !== $Customer->getMemId() &&  count($Carts) > 0 && count(current($Carts)->getItems()) > 0)
+        {
             $this->addNewCartOnAce($Carts, $Customer);
+            $AllGiftProduct = $this->shoppingHelper->getGiftProductAce($this->getUser(), $this->session->getId());
+            $this->cartService->removeCartItemGift();
+            if($AllGiftProduct) {
+                $newCampaignItems = $this->shoppingHelper->addGiftProductEc($this->cartService->getCart()->getItems(), $AllGiftProduct);
+            }
         }
-        
-
+        $Carts = $this->cartService->getCarts();
+        $this->execPurchaseFlow($Carts);
         // TODO itemHolderから取得できるように
         $least = [];
         $quantity = [];
@@ -110,7 +123,6 @@ class CartController extends AbstractController
         foreach ($Carts as $Cart) {
             $quantity[$Cart->getCartKey()] = 0;
             $isDeliveryFree[$Cart->getCartKey()] = false;
-
             if ($this->baseInfo->getDeliveryFreeQuantity()) {
                 if ($this->baseInfo->getDeliveryFreeQuantity() > $Cart->getQuantity()) {
                     $quantity[$Cart->getCartKey()] = $this->baseInfo->getDeliveryFreeQuantity() - $Cart->getQuantity();
@@ -130,10 +142,8 @@ class CartController extends AbstractController
             $totalPrice += $Cart->getTotalPrice();
             $totalQuantity += $Cart->getQuantity();
         }
-
         // カートが分割された時のセッション情報を削除
         $request->getSession()->remove(OrderHelper::SESSION_CART_DIVIDE_FLAG);
-
         return [
             'totalPrice' => $totalPrice,
             'totalQuantity' => $totalQuantity,
@@ -142,6 +152,7 @@ class CartController extends AbstractController
             'least' => $least,
             'quantity' => $quantity,
             'is_delivery_free' => $isDeliveryFree,
+            'newCampaignItems' => $newCampaignItems ?? [],
         ];
     }
 

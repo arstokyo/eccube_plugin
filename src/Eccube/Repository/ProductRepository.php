@@ -412,4 +412,8 @@ class ProductRepository extends AbstractRepository
 
         return $this->queries->customize(QueryKey::PRODUCT_SEARCH_ADMIN, $qb, $searchData);
     }
+    public function getProductByProductId($product_id)
+    {
+        return $this->findOneBy(['id' => $product_id]);
+    }
 }

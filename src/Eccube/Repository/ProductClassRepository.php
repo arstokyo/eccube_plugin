@@ -28,4 +28,9 @@ class ProductClassRepository extends AbstractRepository
     {
         parent::__construct($registry, ProductClass::class);
     }
+
+    public function getProductClassByProductCode($product_code)
+    {
+        return $this->findOneBy(['code' => $product_code]);
+    }
 }

@@ -15,4 +15,25 @@ class JyumeiModel extends Jyumei\JyumeiModelGroup2 implements JyumeiModelInterfa
     use Jyumei\JyumeiModelGroup3Trait,
         Zaiko\ZaikoTrait,
         Zaiko\IgnoreZaikoTrait;
+
+    /** @var ?string $parentckbn 親キャンペーン区分 */
+    protected ?string $parentckbn = null;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getParentCkbn(): ?string
+    {
+        return $this->parentckbn;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setParentCkbn(?string $parentckbn)
+    {
+        $this->parentckbn = $parentckbn;
+        return $this;
+    }
+
 }

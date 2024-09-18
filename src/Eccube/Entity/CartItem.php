@@ -79,6 +79,13 @@ if (!class_exists('\Eccube\Entity\CartItem')) {
          */
         private $product_class_id;
 
+        /**
+         * @var string
+         *
+         * @ORM\Column(name="tag", type="string", nullable=true)
+         */
+        private $tag;
+
         public function __sleep()
         {
             return ['product_class_id', 'price', 'quantity'];
@@ -262,5 +269,25 @@ if (!class_exists('\Eccube\Entity\CartItem')) {
 
             return $this;
         }
+
+        /**
+         * @return string
+         */
+        public function getTag()
+        {
+            return $this->tag;
+        }
+
+        /**
+         * @param string $tag
+         * @return $this
+         */
+        public function setTag(string $tag)
+        {
+            $this->tag = $tag;
+
+            return $this;
+        }
+
     }
 }
