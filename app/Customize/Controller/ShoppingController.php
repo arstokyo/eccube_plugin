@@ -172,9 +172,9 @@ class ShoppingController extends AbstractShoppingController
         $Customer = $this->getUser() ? $this->getUser() : $this->orderHelper->getNonMember();
         $Order = $this->orderHelper->initializeOrder($Cart, $Customer);
         $this->shoppingHelper->reinitializeCouponEC($Order);
-        if($this->session->get('CouponCode') != null){
+        if ($this->session->get('CouponCode') !== null) {
             $getDataCoupon = $this->shoppingHelper->getCouponAce($Order, $this->session->get('CouponCode'), $this->getUser(), $this->session->getId());
-            if($getDataCoupon['CouponCodeOk']){
+            if ($getDataCoupon['CouponCodeOk']) {
                 //クーポンをOrderItemsとして初期化する
                 $this->shoppingHelper->addOrderCouponItem($Order, $getDataCoupon['CouponValue']);
                 $Order->setCounponCode($this->session->get('CouponCode'));

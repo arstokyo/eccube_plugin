@@ -567,8 +567,8 @@ class OrderHelper
     }
     private function removeDefaultDelivery(Order $Order)
     {
-        foreach ($Order->getItems() as $OrderItem){
-            if($OrderItem->getProductName() == '送料'){
+        foreach ($Order->getItems() as $OrderItem) {
+            if ($OrderItem->getProductName() === '送料') {
                 $Order->removeOrderItem($OrderItem);
             }
         }

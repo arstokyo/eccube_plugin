@@ -280,7 +280,7 @@ class CartService
     {
         foreach ($this->getCarts() as $Cart) {
             foreach ($Cart->getCartItems() as $i) {
-                if($i->getTag() === 'gift'){
+                if ($i->getTag() === 'gift') {
                     $this->entityManager->remove($i);
                     $this->entityManager->flush();
                 }

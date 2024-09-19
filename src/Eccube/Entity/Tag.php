@@ -29,6 +29,11 @@ if (!class_exists('\Eccube\Entity\Tag')) {
     class Tag extends \Eccube\Entity\AbstractEntity
     {
         /**
+         * 商品プレゼント
+         */
+        public const GIFT = 'gift';
+
+        /**
          * @return string
          */
         public function __toString()

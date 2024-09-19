@@ -102,13 +102,13 @@ class CartController extends AbstractController
         $this->execPurchaseFlow($Carts);
         /** @var \Eccube\Entity\Customer $Customer */
         $Customer = $this->getUser();
-        if (null !== $Customer && null !== $Customer->getMemId() &&  count($Carts) > 0 && count(current($Carts)->getItems()) > 0)
-        {
+        if (null !== $Customer && null !== $Customer->getMemId() &&  count($Carts) > 0 && count(current($Carts)->getItems()) > 0) {
             $this->addNewCartOnAce($Carts, $Customer);
-            $AllGiftProduct = $this->shoppingHelper->getGiftProductAce($this->getUser(), $this->session->getId());
             $this->cartService->removeCartItemGift();
-            if($AllGiftProduct) {
-                $newCampaignItems = $this->shoppingHelper->addGiftProductEc($this->cartService->getCart()->getItems(), $AllGiftProduct);
+            $allGiftProduct = $this->shoppingHelper->getGiftProductAce($this->getUser(), $this->session->getId());
+
+            if ($allGiftProduct) {
+                $newCampaignItems = $this->shoppingHelper->addGiftProductEc($this->cartService->getCart()->getItems(), $allGiftProduct);
             }
         }
         $Carts = $this->cartService->getCarts();

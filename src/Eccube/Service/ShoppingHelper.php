@@ -33,6 +33,7 @@ use Eccube\Entity\OrderItem;
 use Eccube\Service\PurchaseFlow\Processor\DeliveryFeePreprocessor;
 use Eccube\Repository\ProductClassRepository;
 use Eccube\Repository\ProductRepository;
+use Eccube\Entity\Tag;
 
 class ShoppingHelper
 {
@@ -75,7 +76,7 @@ class ShoppingHelper
         EntityManagerInterface $entityManager,
         ProductClassRepository $productClassRepository,
         ProductRepository $productRepository,
-    ){
+    ) {
         $this->serviceContainer = $serviceContainer;
         $this->aceClient = $aceClient;
         $this->cartService = $cartService;
@@ -322,7 +323,7 @@ class ShoppingHelper
                 $responseObj = $response->getResponse();
                 $message1 = $responseObj->getMember()->getMessage()->getMessage1();
                 $message2 = $responseObj->getMember()->getMessage()->getMessage2();
-                if($responseObj->getMember()->getNmember() != null) {
+                if ($responseObj->getMember()->getNmember() != null) {
                     return [
                         'iserror'   => false,
                         'eda' => $responseObj->getMember()->getNmember()->getEda(),
@@ -395,7 +396,7 @@ class ShoppingHelper
      *
      * @return string
      */
-    public function getEdaEc($Shipping, $Customer){
+    public function getEdaEc($Shipping, $Customer) {
         $eda = $this->customerAddressRepository
         ->getEda($Shipping, $Customer);
         return $eda;
@@ -410,12 +411,12 @@ class ShoppingHelper
      *
      * @return void
      */
-    public function addOrderDeliveryFeeItemFromAce(Order $Order, $User, $SessId){
+    public function addOrderDeliveryFeeItemFromAce(Order $Order, $User, $SessId) {
         $customer = $Order->getCustomer();
         foreach ($Order->getShippings() as $Shipping) {
             $eda = $this->getEdaEc($Shipping->getPref(), $customer);
             $delivery_fee = $this->getDeliveryFeeAce($Order, $eda, $User, $SessId)['delivery_fee'];
-            if($delivery_fee == ''){
+            if ($delivery_fee === '') {
                 $delivery_fee = 1000;
             }
             $this->reinitializeDeliveryFeeEC($Order);
@@ -444,8 +445,8 @@ class ShoppingHelper
      */
     public function reinitializeCouponEC(Order $Order)
     {
-        foreach($Order->getOrderItems() as $Item){
-            if($Item->getProductName() == 'Coupon'){
+        foreach($Order->getOrderItems() as $Item) {
+            if ($Item->getProductName() === 'Coupon') {
                 $this->entityManager->remove($Item);
                 $this->entityManager->flush();
             }
@@ -460,8 +461,8 @@ class ShoppingHelper
      */
     public function reinitializeDeliveryFeeEC(Order $Order)
     {
-        foreach($Order->getOrderItems() as $Item){
-            if($Item->getProductName() == 'delivery_fee'){
+        foreach($Order->getOrderItems() as $Item) {
+            if ($Item->getProductName() === 'delivery_fee') {
                 $this->entityManager->remove($Item);
                 $this->entityManager->flush();
             }
@@ -476,7 +477,7 @@ class ShoppingHelper
      *
      * @return void
      */
-    public function addOrderCouponItem(Order $Order, $CouponValue){
+    public function addOrderCouponItem(Order $Order, $CouponValue) {
         $OrderCounpon = new OrderItem();
         $OrderCounpon->setProductName('Coupon');
         $OrderCounpon->setProductCode('c-1');
@@ -521,8 +522,7 @@ class ShoppingHelper
 
         $jyumeis = [];
         foreach ($this->cartService->getCart()->getItems() as $Item) {
-            if($Item->getPrice() != 0)
-            {
+            if ($Item->getTag() !== Tag::GIFT) {
                 $jyumeis[] = (new JyudenRequest\AddCart\JyumeiModel)
                 ->setGcode($Item->getProductClass()->getCode())
                 ->setTanka($Item->getPrice())
@@ -543,38 +543,26 @@ class ShoppingHelper
         try {
             $response = $addCartMethod->withRequest($addCartRequestModel)
                                       ->send();
-            if ($response->getStatusCode() === 200)
-            {
+
+            if ($response->getStatusCode() === 200) {
+                //レスポンスACEからすべてのjyumeiを取得する
+                $jyumeis = $response->getResponse()->getOrder()->getJyumei();
                 $result = [];
-                $allJyumeis = $response->getResponse()->getOrder()->getJyumei();
-                foreach( $allJyumeis as $jyumei1)
-                {
-                    $allparentCkbn = explode(',',$jyumei1->getParentCkbn());
-                    if ($allparentCkbn[0] != '')
-                    {
-                        $parentGcode = $jyumei1->getGcode();
-                        foreach($allparentCkbn as $parentCkbn)
-                        {
-                            foreach($allJyumeis as $jyumei2)
-                            {
-                                if ($jyumei2->getCkbn() == $parentCkbn)
-                                {
-                                    if(!isset($result[$parentGcode]))
-                                    {
-                                        $result[$parentGcode] = [];
-                                        $result[$parentGcode][] = $jyumei2->getGcode();
-                                    }
-                                    else
-                                    {
-                                        $result[$parentGcode][] = $jyumei2->getGcode();
-                                    }
-                                }
-                            }
-                        }
+                //CKBN と GCODE を一緒にマップする
+                $mapCkbnToGcode = $this->createCkbnToGcodeMap($jyumeis);
+
+                foreach ($jyumeis as $jyumei) {
+                    // parent_ckbn を取得してarrayに作成します
+                    $parentCkbn = explode(',', $jyumei->getParentCkbn());
+                    if (!empty($parentCkbn[0])) {
+                        $parentGcode = $jyumei->getGcode();
+                        $this->addGcodeToResult($result, $parentGcode, $parentCkbn, $mapCkbnToGcode);
                     }
                 }
                 $message1 = $response->getResponse()->getOrder()->getMessage()->getMessage1();
                 $message2 = $response->getResponse()->getOrder()->getMessage()->getMessage2();
+
+                //「result」変数にはparentGcodeとgiftGcodeが含まれています
                 return $result;
             }
         } catch(\Throwable $e) {
@@ -584,19 +572,63 @@ class ShoppingHelper
     }
 
     /**
-     * Add Gift Product in EC
+     * Add Gcode To Result
+     * @param $result
+     * @param $parentGcode
+     * @param $parentCkbn
+     * @param $mapCkbnToGcode
+     * @return void
+     */
+    private function addGcodeToResult(&$result, $parentGcode, $parentCkbn, $mapCkbnToGcode)
+    {
+        foreach ($parentCkbn as $ckbn) {
+            if (isset($mapCkbnToGcode[$ckbn])) {
+                if (!isset($result[$parentGcode])) {
+                    $result[$parentGcode] = []; // creat result with parentGcode as key
+                }
+
+                $result[$parentGcode] = array_merge($result[$parentGcode], $mapCkbnToGcode[$ckbn]);
+            }
+        }
+    }
+
+    /**
+     * Create Map Ckbn To Gcode
+     *
+     * @param array $jyumeis
+     *
+     * @return array<array<string>>
+     */
+    private function createCkbnToGcodeMap($jyumeis)
+    {
+        $map = [];
+
+        foreach ($jyumeis as $jyumei) {
+            $ckbn = $jyumei->getCkbn();
+            $gcode = $jyumei->getGcode();
+
+            if (!isset($map[$ckbn])) {
+                $map[$ckbn] = [];
+            }
+
+            $map[$ckbn][] = $gcode;
+        }
+
+        return $map;
+    }
+
+    /**
+     * 商品がCartに入っているか確認する
      *
      * @param array<string> $Products
-     * @param array<array<string>> $AllGiftProduct
+     * @param array<array<string>> $allGiftProduct
      *
      * @return boolean
      */
-    public function checkAddProduct($Carts, $ProductClass)
+    public function isExistedProduct($Carts, $ProductClass)
     {
-        foreach($Carts as $Cart)
-        {
-            if($Cart->getProductClass()->getCode() == $ProductClass->getCode())
-            {
+        foreach($Carts as $Cart) {
+            if ($Cart->getProductClass()->getCode() === $ProductClass->getCode()) {
                 return true;
             }
         }
@@ -607,29 +639,27 @@ class ShoppingHelper
      * Add Gift Product in EC
      *
      * @param $Products
-     * @param $AllGiftProduct
+     * @param $allGiftProduct
      *
-     * @return $newCampaignItems
+     * @return array $newCampaignItems
      */
-    public function addGiftProductEc($Products, $AllGiftProduct){
+    public function addGiftProductEc($Products, $allGiftProduct) {
         $newCampaignItems = [];
-        foreach($Products as $Product) {
-            if($Product->getProductClass()->getPrice02() != 0)
-            {
-                $parentProduct = $Product->getProductClass()->getCode();
-                foreach ($AllGiftProduct as $giftProducts)
-                {
-                    for ($i = 0; $i < count($giftProducts); $i++)
-                    {
-                        $ProductClass = $this->productClassRepository->getProductClassByProductCode($AllGiftProduct[$parentProduct][$i]);
-                        if(!$this->checkAddProduct($this->cartService->getCart()->getItems(),$ProductClass))
-                        {
-                            $this->cartService->addProduct($ProductClass, 1, 'gift');
-                            $newCampaignItems[] = [
-                                'name'=> $this->productRepository->getProductByProductId($ProductClass->getProduct()->getId())->getName(),
-                                'quantity'=> 1,
-                            ];
-                        }
+
+        foreach ($Products as $Product) {
+            $parentProductCode = $Product->getProductClass()->getCode();
+            //商品プレゼントがある場合
+            if (isset($allGiftProduct[$parentProductCode])) {
+                foreach ($allGiftProduct[$parentProductCode] as $giftProductCode) {
+                    $ProductClass = $this->productClassRepository->getProductClassByProductCode($giftProductCode);
+                    $cartItems = $this->cartService->getCart()->getItems();
+
+                    if (!$this->isExistedProduct($cartItems, $ProductClass)) {
+                        $this->cartService->addProduct($ProductClass, 1, Tag::GIFT);
+                        $newCampaignItems[] = [
+                            'name' => $ProductClass->getProduct()->getName(),
+                            'quantity' => 1,
+                        ];
                     }
                 }
             }
