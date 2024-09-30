@@ -13,73 +13,43 @@ file that was distributed with this source code.
 {% set body_class = 'cart_page' %}
 {% block stylesheet %}
     <style>
-        #popupMessage {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
+        .btn-close-modal {
+            border: 0;
+            font-size: 33px;
+            background: white;
         }
-        .popup-content {
-            background-color: white;
-            margin: 25% auto;
-            padding: 0px 20px 20px 20px;
-            border: 1px solid #888;
-            width: 400px;
-            text-align: center;
-        }
-        .close {
-            color: white;
-            font-size: 28px;
-            font-weight: bold;
-            margin-top: 10px;
-            background: #DE5D50;
-            width: 80px;
-            margin-left: 38%;
-        }
-        .close:hover,
-        .close:focus {
-            color: black;
-            cursor: pointer;
-        }
-        .title-popup{
-            font-size: 20px;
-            font-weight: bold;
-            margin: 10px 0px;
-            color: #337ab7;
+        .modal-title {
+            color: #DE5D50;
         }
     </style>
 {% endblock %}
-
 {% block main %}
     {% if newCampaignItems %}
-        <div id="popupMessage">
-            <div class="popup-content">
-            <p class='title-popup'>キャンペーン商品が追加されました。</p>
-                {% for newCampaignItem in newCampaignItems %}
-                    <p>{{ newCampaignItem.name }}&nbsp;x{{ newCampaignItem.quantity }}</p>
-                {% endfor %}
-                <p class="close">OK</p>
-            </div>'
+        <!-- Modal -->
+        <div class="modal fade" id="popupMessage" tabindex="-1" role="dialog" aria-labelledby="popupMessageLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header d-flex justify-content-center">
+                        <h5 class="modal-title fw-bold" id="popupMessageLabel">キャンペーン商品が追加されました。</h5>
+                        <button type="button" class="close btn-close-modal position-absolute top-0 end-0" style="right: 10px !important" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body d-flex flex-column align-items-center justify-content-center">
+                        {% for newCampaignItem in newCampaignItems %}
+                            <p>{{ newCampaignItem.name }}&nbsp;x{{ newCampaignItem.quantity }}</p>
+                        {% endfor %}
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
         </div>
-
         <script>
-            window.onload = function() {
-                var popup = document.getElementById("popupMessage");
-                var closeBtn = document.getElementsByClassName("close")[0];
-                popup.style.display = "block";
-                closeBtn.onclick = function() {
-                    popup.style.display = "none";
-                }
-                window.onclick = function(event) {
-                    if (event.target == popup) {
-                        popup.style.display = "none";
-                    }
-                }
-            };
+            document.addEventListener('DOMContentLoaded', function() {
+                $('#popupMessage').modal('show');
+            });
         </script>
     {% endif %}
     <div class="ec-role">
