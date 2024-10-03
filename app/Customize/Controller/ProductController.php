@@ -187,6 +187,8 @@ class ProductController extends AbstractController
         // addCart form
         $forms = [];
         foreach ($pagination as $Product) {
+            // Get stock from ACE and update stock in EC
+            $this->productHelper->getStockAce($Product);
             /* @var $builder \Symfony\Component\Form\FormBuilderInterface */
             $builder = $this->formFactory->createNamedBuilder(
                 '',
@@ -197,12 +199,11 @@ class ProductController extends AbstractController
                     'allow_extra_fields' => true,
                 ]
             );
-            $addCartForm = $builder->getForm();
 
+            $addCartForm = $builder->getForm();
             $forms[$Product->getId()] = $addCartForm->createView();
-            // Get stock from ACE and update stock in EC
-            $this->productHelper->getStockAce($Product);
         }
+
         $Category = $searchForm->get('category_id')->getData();
 
         return [
