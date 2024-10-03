@@ -171,16 +171,23 @@ class ShoppingController extends AbstractShoppingController
         log_info('[注文手続] 受注の初期化処理を開始します.');
         $Customer = $this->getUser() ? $this->getUser() : $this->orderHelper->getNonMember();
         $Order = $this->orderHelper->initializeOrder($Cart, $Customer);
-        $this->shoppingHelper->reinitializeCouponEC($Order);
-        if ($this->session->get('CouponCode') !== null) {
-            $getDataCoupon = $this->shoppingHelper->getCouponAce($Order, $this->session->get('CouponCode'), $this->getUser(), $this->session->getId());
+        $session_coupon_code = $this->session->get('CouponCode');
+        if ($session_coupon_code !== "") {
+            $getDataCoupon = $this->shoppingHelper->getCouponAce($Order, $session_coupon_code, $this->getUser(), $this->session->getId());
             if ($getDataCoupon['CouponCodeOk']) {
                 //クーポンをOrderItemsとして初期化する
                 $this->shoppingHelper->addOrderCouponItem($Order, $getDataCoupon['CouponValue']);
-                $Order->setCounponCode($this->session->get('CouponCode'));
+                $Order->setCounponCode($session_coupon_code);
+                $this->entityManager->persist($Order);
+                $this->entityManager->flush();
+                $this->session->remove('CouponCode');
             }
-            $this->session->set('CouponCode', null);
         }
+
+        else {
+            $this->shoppingHelper->reinitializeCouponEC($Order);
+        }
+
         // 集計処理.
         log_info('[注文手続] 集計処理を開始します.', [$Order->getId()]);
         $this->shoppingHelper->addOrderDeliveryFeeItemFromAce($Order, $this->getUser(), $this->session->getId());

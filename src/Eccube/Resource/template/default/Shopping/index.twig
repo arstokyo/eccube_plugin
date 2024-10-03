@@ -385,7 +385,7 @@ file that was distributed with this source code.
                             id="coupon_code"
                             name="coupon_code"
                             placeholder="{{ 'クーポンコードを入力してください。'|trans }}"
-                            value='{{Order.counpon_code}}'
+                            value="{{ app.session.get('CouponCode') ? app.session.get('CouponCode') : Order.counpon_code }}"
                         >
                         {% if Order.counpon_code %}
                             <p id="couponStatus" style="padding: 5px 0px; color: green">利用可能</p>
@@ -393,8 +393,10 @@ file that was distributed with this source code.
                                 <span>{{ '割引：'|trans }}</span>
                                 <span>{{ Order.taxable_discount|price }}</span>
                             </p>
-                        {% else %}
+                        {% elseif app.session.get('CouponCode') %}
                             <p id="couponStatus" style="padding: 5px 0px; color: red">利用不可</p>
+                        {% else %}
+                            <p id="couponStatus" style="padding: 5px 0px"></p>
                         {% endif %}
                         <button type="submit" id="checkCouponButton" class="check-coupon ec-blockBtn--action" data-check-coupon-url="{{ path('check_coupon') }}" onclick="javascript: form.action='{{ path('check_coupon') }}';">{{ 'クーポンを適用する'|trans }}</button>
                     </div>

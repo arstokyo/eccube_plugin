@@ -452,6 +452,8 @@ class ShoppingHelper
             }
         }
         $Order->setCounponCode('');
+        $this->entityManager->persist($Order);
+        $this->entityManager->flush();
     }
 
     /**
