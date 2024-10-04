@@ -18,6 +18,7 @@ use Eccube\Entity\Product;
 use Plugin\AceClient\AceServices\Model\Request\Goods\GetZaiko\GetZaikoRequestModel;
 use Plugin\AceClient\AceServices\Model\Response\Goods\GetZaiko\GetZaikoResponseModel;
 use Doctrine\ORM\EntityManagerInterface;
+use Plugin\AceClient\Util\Mapper\OverviewMapper;
 
 class ProductHelper {
 
@@ -47,9 +48,9 @@ class ProductHelper {
     public function getStockAce(Product $product): void
     {
         $zaiko = new GetZaikoRequestModel();
-        $getZaikoModel = $zaiko->setId(13)
+        $getZaikoModel = $zaiko->setId(OverviewMapper::ACE_TEST_SYID)
                          ->setGdid($product->getProductClasses()[0]->getCode())
-                         ->setSouko("500");
+                         ->setSouko("10");
 
         try {
             $response = $this->aceClient->makeGoodsService()

@@ -14,6 +14,7 @@
 namespace Eccube\Service;
 
 use Eccube\Entity\Order;
+use Plugin\AceClient\Util\Mapper\OverviewMapper;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Eccube\Service\Payment\PaymentMethodInterface;
@@ -120,7 +121,7 @@ class ShoppingHelper
 
         try {
             $decisionCartRequest = (new JyudenRequest\DecisionCart\DecisionCartRequestModel())
-                                    ->setId(13)
+                                    ->setId(OverviewMapper::ACE_TEST_SYID)
                                     ->setSessId($SessId);
             $response = $jyudenService->makeDecisionCartMethod()
                                       ->withRequest($decisionCartRequest)
@@ -155,7 +156,7 @@ class ShoppingHelper
 
         $addCartMethod = $jyudenService->makeAddCartMethod();
         $addCartRequestModel = (new JyudenRequest\AddCart\AddCartRequestModel())
-                                ->setId(13)
+                                ->setId(OverviewMapper::ACE_TEST_SYID)
                                 ->setSessId($SessId)
                                 ->setPrm($this->buildPrmForAddCart($Order, $User));
         try {
@@ -251,7 +252,7 @@ class ShoppingHelper
         $prm = $this->buildPrmForAddCart($Order, $User);
         $prm->getJyuden()->setFcode1($CouponCode);
         $addCartRequestModel = (new JyudenRequest\AddCart\AddCartRequestModel())
-                                ->setId(13)
+                                ->setId(OverviewMapper::ACE_TEST_SYID)
                                 ->setSessId($SessId)
                                 ->setPrm($prm);
         try {
@@ -313,7 +314,7 @@ class ShoppingHelper
     {
         $regMemAdrMethod = $memberService->makeRegMemAdrMethod();
         $regMemAdrRequestModel = (new MemberRequest\RegMemAdr\RegMemAdrRequestModel())
-                                ->setId(13)
+                                ->setId(OverviewMapper::ACE_TEST_SYID)
                                 ->setPrm($this->buildPrmForRegMemAdr($CustomerAddress));
         try{
             $response = $regMemAdrMethod->withRequest($regMemAdrRequestModel)
@@ -359,7 +360,7 @@ class ShoppingHelper
         $prm = $this->buildPrmForAddCart($Order, $User);
         $prm->getMember()->getNmember()->setEda($eda);
         $addCartRequestModel = (new JyudenRequest\AddCart\AddCartRequestModel())
-                                ->setId(13)
+                                ->setId(OverviewMapper::ACE_TEST_SYID)
                                 ->setSessId($SessId)
                                 ->setPrm($prm);
         try {
@@ -397,9 +398,8 @@ class ShoppingHelper
      * @return string
      */
     public function getEdaEc($Shipping, $Customer) {
-        $eda = $this->customerAddressRepository
+        return $this->customerAddressRepository
         ->getEda($Shipping, $Customer);
-        return $eda;
     }
 
     /**
@@ -517,7 +517,7 @@ class ShoppingHelper
                 ->setSmember((new JyudenRequest\AddCart\SmemberModel())->setCode($Customer->getMemId()))
                 ->setNmember((new JyudenRequest\AddCart\NmemberModel())->setEda(1));
         $jyuden = (new JyudenRequest\AddCart\JyudenModel)
-                ->setPcode(1)
+                ->setPcode(14)
                 ->setJcode(1)
                 ->setHcode(11)
                 ->setCampaign(1);
@@ -538,14 +538,13 @@ class ShoppingHelper
                 ->setDetail((new JyudenRequest\AddCart\DetailModel())->setJyumei($jyumeis))
                 ->setMailjyuden((new JyudenRequest\AddCart\MailJyudenModel())->setMail($Customer->getEmail()));
         $addCartRequestModel = (new JyudenRequest\AddCart\AddCartRequestModel())
-                ->setId(37)
+                ->setId(OverviewMapper::ACE_TEST_SYID)
                 ->setSessId($SessId)
                 ->setPrm($prm);
 
         try {
             $response = $addCartMethod->withRequest($addCartRequestModel)
                                       ->send();
-
             if ($response->getStatusCode() === 200) {
                 //レスポンスACEからすべてのjyumeiを取得する
                 $jyumeis = $response->getResponse()->getOrder()->getJyumei();
