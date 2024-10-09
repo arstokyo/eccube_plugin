@@ -172,7 +172,8 @@ class ShoppingController extends AbstractShoppingController
         $Customer = $this->getUser() ? $this->getUser() : $this->orderHelper->getNonMember();
         $Order = $this->orderHelper->initializeOrder($Cart, $Customer);
         $session_coupon_code = $this->session->get('CouponCode');
-        if ($session_coupon_code !== "") {
+        if ($session_coupon_code !== null) {
+            $this->shoppingHelper->reinitializeCouponEC($Order);
             $getDataCoupon = $this->shoppingHelper->getCouponAce($Order, $session_coupon_code, $this->getUser(), $this->session->getId());
             if ($getDataCoupon['CouponCodeOk']) {
                 //クーポンをOrderItemsとして初期化する
@@ -182,10 +183,6 @@ class ShoppingController extends AbstractShoppingController
                 $this->entityManager->flush();
                 $this->session->remove('CouponCode');
             }
-        }
-
-        else {
-            $this->shoppingHelper->reinitializeCouponEC($Order);
         }
 
         // 集計処理.
@@ -352,7 +349,6 @@ class ShoppingController extends AbstractShoppingController
         $activeTradeLaws = $this->tradeLawRepository->findBy(['displayOrderScreen' => true], ['sortNo' => 'ASC']);
         $form = $this->createForm(OrderType::class, $Order);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             log_info('[注文確認] 集計処理を開始します.', [$Order->getId()]);
             $response = $this->executePurchaseFlow($Order);
@@ -382,7 +378,6 @@ class ShoppingController extends AbstractShoppingController
             log_info('[注文確認] PaymentMethod::verifyを実行します.', [$Order->getPayment()->getMethodClass()]);
             $paymentMethod = $this->shoppingHelper->createPaymentMethod($Order, $form);
             $PaymentResult = $paymentMethod->verify();
-
             if ($PaymentResult) {
                 if (!$PaymentResult->isSuccess()) {
                     $this->entityManager->rollback();
@@ -496,7 +491,6 @@ class ShoppingController extends AbstractShoppingController
 
                 log_info('[注文処理] PaymentMethodを取得します.', [$Order->getPayment()->getMethodClass()]);
                 $paymentMethod = $this->shoppingHelper->createPaymentMethod($Order, $form);
-
                 // 通販Aceのカート決定処理
                 if (null !== $Customer && null !== $Customer->getMemId()) {
                     $decisionCartRusult = $this->shoppingHelper->decisionCartOnAce($Order,$this->getUser(), $this->session->getId());

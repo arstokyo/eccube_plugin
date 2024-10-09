@@ -13,7 +13,11 @@
 
 namespace Eccube\Service;
 
+use Eccube\Entity\Customer;
 use Eccube\Entity\Order;
+use Eccube\Entity\Shipping;
+use Plugin\AceClient\AceServices\Model\Request\Jyuden\AddCart\OrderPrmModel;
+use Plugin\AceClient\AceServices\Service\JyudenService;
 use Plugin\AceClient\Util\Mapper\OverviewMapper;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -106,19 +110,18 @@ class ShoppingHelper
     /**
      * Decision Cart On Ace
      *
-     * @param Order $Shipping
-     *
+     * @param Order $Order
+     * @param $User
+     * @param $SessId
      * @return array<string, string>
      */
     public function decisionCartOnAce(Order $Order, $User, $SessId): array
     {
-
         $jyudenService = $this->aceClient->makeJyudenService();
         $addCartErr = $this->addNewCartOnAce($Order, $jyudenService, $User, $SessId);
-        if ($addCartErr['iserror'] == true) {
+        if ($addCartErr['iserror']) {
             return $addCartErr;
         }
-
         try {
             $decisionCartRequest = (new JyudenRequest\DecisionCart\DecisionCartRequestModel())
                                     ->setId(OverviewMapper::ACE_TEST_SYID)
@@ -147,25 +150,25 @@ class ShoppingHelper
      * Add New Cart On Ace
      *
      * @param Order $Order
-     * @param AceClient\AceServices\Service\JyudenService $jyudenService
-     *
+     * @param JyudenService $jyudenService
+     * @param $User
+     * @param $SessId
      * @return array<string, string>
      */
-    public function addNewCartOnAce(Order $Order, $jyudenService, $User, $SessId): array
+    public function addNewCartOnAce(Order $Order, JyudenService $jyudenService, $User, $SessId): array
     {
-
         $addCartMethod = $jyudenService->makeAddCartMethod();
         $addCartRequestModel = (new JyudenRequest\AddCart\AddCartRequestModel())
                                 ->setId(OverviewMapper::ACE_TEST_SYID)
                                 ->setSessId($SessId)
                                 ->setPrm($this->buildPrmForAddCart($Order, $User));
+        $addCartRequestModel->getPrm()->getJyuden()->setCampaign(0);
         try {
             $response = $addCartMethod->withRequest($addCartRequestModel)
                                       ->send();
             if ($response->getStatusCode() === 200) {
                 /** @var JyudenResponse\AddCart\AddCartResponseModel $responseObj */
                 $responseObj = $response->getResponse();
-
                 $message1 = $responseObj->getOrder()->getMessage()->getMessage1();
                 $message2 = $responseObj->getOrder()->getMessage()->getMessage2();
             }
@@ -186,33 +189,23 @@ class ShoppingHelper
      * Build Prm For Add Cart
      *
      * @param Order $Order
-     *
-     * @return JyudenRequest\AddCart\OrderPrmModel
+     * @param $User
+     * @return OrderPrmModel
      */
     public function buildPrmForAddCart(Order $Order, $User): JyudenRequest\AddCart\OrderPrmModel
     {
-        /** @var \Eccube\Entity\Customer $Customer */
+        /** @var Customer $Customer */
         $Customer = $User;
-
         $member = (new JyudenRequest\AddCart\MemberOrderModel)
                    ->setJmember((new JyudenRequest\AddCart\JmemberModel())->setCode($Customer->getMemId()))
                    ->setSmember((new JyudenRequest\AddCart\SmemberModel())->setCode($Customer->getMemId()))
                    ->setNmember((new JyudenRequest\AddCart\NmemberModel())->setEda(1));
 
         $jyuden = (new JyudenRequest\AddCart\JyudenModel)
-                   ->setPcode(10)
-                   ->setJcode(1)
-                   ->setBcode(100)
-                   ->setBkcode(100)
-                   ->setBumon(100)
-                   ->setSouko(1)
-                   ->setHcode(10)
-                   ->setHday((new \Datetime())->modify('+14 day'))
-                   ->setHtime(2)
-                   ->setBunsyo(1)
-                   ->setDay(new \Datetime('now'))
-                   ->setWeborderno($Order->getOrderNo())
-                   ->setCampaign(1);
+            ->setPcode(1)
+            ->setJcode(1)
+            ->setHcode(1)
+            ->setCampaign(1);
 
         $jyumeis = [];
         foreach ($this->cartService->getCart()->getItems() as $Item) {
@@ -222,10 +215,19 @@ class ShoppingHelper
                           ->setSuu($Item->getQuantity())
                           ->setTaxkbn(1);
         }
+        foreach ($Order->getItems() as $Item) {
+            if ($Item->getProductName() === 'Coupon') {
+                $jyumeis[] = (new JyudenRequest\AddCart\JyumeiModel)
+                              ->setGcode('c-1')
+                              ->setSuu(1)
+                              ->setTanka($Item->getPrice() + $Item->getTax())
+                              ->setTaxkbn(1);
+            }
+        }
 
         if ($Order->getDeliveryFeeTotal() > 0) {
             $jyumeis[] = (new JyudenRequest\AddCart\JyumeiModel)
-                          ->setGcode('n-1')
+                          ->setGcode('s-1')
                           ->setSuu(1)
                           ->setTanka($Order->getDeliveryFeeTotal())
                           ->setTaxkbn(1);
@@ -241,16 +243,17 @@ class ShoppingHelper
      * Get Coupon in ACE
      *
      * @param Order $Order
-     * @param string $CouponCode
-     *
+     * @param ?string $CouponCode
+     * @param $User
+     * @param $SessId
      * @return array<string, string>
      */
-    public function getCouponAce($Order, $CouponCode, $User, $SessId)
+    public function getCouponAce(Order $Order, ?string $CouponCode, $User, $SessId): array
     {
         $jyudenService = $this->aceClient->makeJyudenService();
         $addCartMethod = $jyudenService->makeAddCartMethod();
         $prm = $this->buildPrmForAddCart($Order, $User);
-        $prm->getJyuden()->setFcode1($CouponCode);
+        $prm->getJyuden()->setFmemo2($CouponCode);
         $addCartRequestModel = (new JyudenRequest\AddCart\AddCartRequestModel())
                                 ->setId(OverviewMapper::ACE_TEST_SYID)
                                 ->setSessId($SessId)
@@ -283,6 +286,12 @@ class ShoppingHelper
         ];
     }
 
+    /**
+     * Build Prm For Reg Mem Adr
+     *
+     * @param CustomerAddress $CustomerAddress
+     * @return MemberRequest\RegMemAdr\MemberPrmModel
+     */
     public function buildPrmForRegMemAdr(CustomerAddress $CustomerAddress): MemberRequest\RegMemAdr\MemberPrmModel
     {
 
@@ -348,12 +357,12 @@ class ShoppingHelper
      *
      * @param Order $Order
      * @param string $eda
-     * @param string $User
+     * @param $User
      * @param string $SessId
      *
      * @return array<string>
      */
-    public function getDeliveryFeeAce(Order $Order, $eda, $User, $SessId)
+    public function getDeliveryFeeAce(Order $Order, string $eda, $User, string $SessId): array
     {
         $jyudenService = $this->aceClient->makeJyudenService();
         $addCartMethod = $jyudenService->makeAddCartMethod();
@@ -367,7 +376,7 @@ class ShoppingHelper
             $response = $addCartMethod->withRequest($addCartRequestModel)
                                       ->send();
             foreach($response->getResponse()->getOrder()->getJyumei() as $jyumei) {
-                if ($jyumei->getGcode() == 's-1') {
+                if ($jyumei->getGcode() == 's-1' and $jyumei->getCkbn() != 0) {
                     return [
                         'delivery_fee' => $jyumei->getTintanka(),
                     ];
@@ -380,7 +389,6 @@ class ShoppingHelper
                 $message1 = $responseObj->getOrder()->getMessage()->getMessage1();
                 $message2 = $responseObj->getOrder()->getMessage()->getMessage2();
             }
-
         } catch(\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
@@ -392,12 +400,13 @@ class ShoppingHelper
     /**
      * Get Eda in EC
      *
-     * @param \Eccube\Entity\Shipping $Shipping
-     * @param \Eccube\Entity\Customer $Customer
+     * @param Shipping $Shipping
+     * @param Customer $Customer
      *
      * @return string
      */
-    public function getEdaEc($Shipping, $Customer) {
+    public function getEdaEc(Shipping $Shipping, Customer $Customer): string
+    {
         return $this->customerAddressRepository
         ->getEda($Shipping, $Customer);
     }
@@ -406,20 +415,21 @@ class ShoppingHelper
      * Add Order Delivery Fee Item From Ace
      *
      * @param Order $Order
-     * @param string $User
+     * @param $User
      * @param string $SessId
      *
      * @return void
      */
-    public function addOrderDeliveryFeeItemFromAce(Order $Order, $User, $SessId) {
-        $customer = $Order->getCustomer();
+    public function addOrderDeliveryFeeItemFromAce(Order $Order, $User, string $SessId): void
+    {
+        $Customer = $Order->getCustomer();
         foreach ($Order->getShippings() as $Shipping) {
-            $eda = $this->getEdaEc($Shipping->getPref(), $customer);
+            $this->reinitializeDeliveryFeeEC($Order);
+            $eda = $this->customerAddressRepository->getEda($Shipping->getPref(), $Customer);
             $delivery_fee = $this->getDeliveryFeeAce($Order, $eda, $User, $SessId)['delivery_fee'];
             if ($delivery_fee === '') {
                 $delivery_fee = 1000;
             }
-            $this->reinitializeDeliveryFeeEC($Order);
             $DeliveryFree = new OrderItem();
             $DeliveryFree->setProductName('delivery_fee');
             $DeliveryFree->setProductCode('s-1');
@@ -443,7 +453,7 @@ class ShoppingHelper
      *
      * @param Order $Order
      */
-    public function reinitializeCouponEC(Order $Order)
+    public function reinitializeCouponEC(Order $Order): void
     {
         foreach($Order->getOrderItems() as $Item) {
             if ($Item->getProductName() === 'Coupon') {
@@ -461,7 +471,7 @@ class ShoppingHelper
      *
      * @param Order $Order
      */
-    public function reinitializeDeliveryFeeEC(Order $Order)
+    public function reinitializeDeliveryFeeEC(Order $Order): void
     {
         foreach($Order->getOrderItems() as $Item) {
             if ($Item->getProductName() === 'delivery_fee') {
@@ -479,23 +489,24 @@ class ShoppingHelper
      *
      * @return void
      */
-    public function addOrderCouponItem(Order $Order, $CouponValue) {
-        $OrderCounpon = new OrderItem();
-        $OrderCounpon->setProductName('Coupon');
-        $OrderCounpon->setProductCode('c-1');
-        $OrderCounpon->setPrice($CouponValue);
-        $OrderCounpon->setTax($CouponValue*0.1);
-        $OrderCounpon->setTaxRate(10);
+    public function addOrderCouponItem(Order $Order, string $CouponValue): void
+    {
+        $OrderCoupon = new OrderItem();
+        $OrderCoupon->setProductName('Coupon');
+        $OrderCoupon->setProductCode('c-1');
+        $OrderCoupon->setPrice($CouponValue);
+        $OrderCoupon->setTax($CouponValue*0.1);
+        $OrderCoupon->setTaxRate(10);
         $TaxType = $this->entityManager->find(TaxType::class, TaxType::TAXATION);
-        $OrderCounpon->setQuantity('1');
-        $OrderCounpon->setCurrencyCode('JPY');
-        $OrderCounpon->setOrder($Order);
+        $OrderCoupon->setQuantity('1');
+        $OrderCoupon->setCurrencyCode('JPY');
+        $OrderCoupon->setOrder($Order);
         $ItemProduct = $this->entityManager->find(OrderItemType::class, OrderItemType::DISCOUNT);
-        $OrderCounpon->setTaxType($TaxType);
+        $OrderCoupon->setTaxType($TaxType);
         $RoundingType = $this->entityManager->find(RoundingType::class, RoundingType::ROUND);
-        $OrderCounpon->setRoundingType($RoundingType);
-        $OrderCounpon->setOrderItemType($ItemProduct);
-        $Order->addOrderItem($OrderCounpon);
+        $OrderCoupon->setRoundingType($RoundingType);
+        $OrderCoupon->setOrderItemType($ItemProduct);
+        $Order->addOrderItem($OrderCoupon);
     }
 
     /**
@@ -506,20 +517,19 @@ class ShoppingHelper
      *
      * @return array<array<string>>
      */
-    public function getGiftProductAce($User, $SessId)
+    public function getGiftProductAce($User, $SessId): array
     {
         $jyudenService = $this->aceClient->makeJyudenService();
         $addCartMethod = $jyudenService->makeAddCartMethod();
 
-        $Customer = $User;
         $member = (new JyudenRequest\AddCart\MemberOrderModel)
-                ->setJmember((new JyudenRequest\AddCart\JmemberModel())->setCode($Customer->getMemId()))
-                ->setSmember((new JyudenRequest\AddCart\SmemberModel())->setCode($Customer->getMemId()))
+                ->setJmember((new JyudenRequest\AddCart\JmemberModel())->setCode($User->getMemId()))
+                ->setSmember((new JyudenRequest\AddCart\SmemberModel())->setCode($User->getMemId()))
                 ->setNmember((new JyudenRequest\AddCart\NmemberModel())->setEda(1));
         $jyuden = (new JyudenRequest\AddCart\JyudenModel)
-                ->setPcode(14)
+                ->setPcode(1)
                 ->setJcode(1)
-                ->setHcode(11)
+                ->setHcode(1)
                 ->setCampaign(1);
 
         $jyumeis = [];
@@ -536,7 +546,7 @@ class ShoppingHelper
                 ->setMember($member)
                 ->setJyuden($jyuden)
                 ->setDetail((new JyudenRequest\AddCart\DetailModel())->setJyumei($jyumeis))
-                ->setMailjyuden((new JyudenRequest\AddCart\MailJyudenModel())->setMail($Customer->getEmail()));
+                ->setMailjyuden((new JyudenRequest\AddCart\MailJyudenModel())->setMail($User->getEmail()));
         $addCartRequestModel = (new JyudenRequest\AddCart\AddCartRequestModel())
                 ->setId(OverviewMapper::ACE_TEST_SYID)
                 ->setSessId($SessId)
@@ -580,7 +590,7 @@ class ShoppingHelper
      * @param $mapCkbnToGcode
      * @return void
      */
-    private function addGcodeToResult(&$result, $parentGcode, $parentCkbn, $mapCkbnToGcode)
+    private function addGcodeToResult(&$result, $parentGcode, $parentCkbn, $mapCkbnToGcode): void
     {
         foreach ($parentCkbn as $ckbn) {
             if (isset($mapCkbnToGcode[$ckbn])) {
@@ -600,7 +610,7 @@ class ShoppingHelper
      *
      * @return array<array<string>>
      */
-    private function createCkbnToGcodeMap($jyumeis)
+    private function createCkbnToGcodeMap(array $jyumeis): array
     {
         $map = [];
 
@@ -621,12 +631,11 @@ class ShoppingHelper
     /**
      * 商品がCartに入っているか確認する
      *
-     * @param array<string> $Products
-     * @param array<array<string>> $allGiftProduct
-     *
+     * @param $Carts
+     * @param $ProductClass
      * @return boolean
      */
-    public function isExistedProduct($Carts, $ProductClass)
+    public function isExistedProduct($Carts, $ProductClass): bool
     {
         foreach($Carts as $Cart) {
             if ($Cart->getProductClass()->getCode() === $ProductClass->getCode()) {
@@ -644,23 +653,24 @@ class ShoppingHelper
      *
      * @return array $newCampaignItems
      */
-    public function addGiftProductEc($Products, $allGiftProduct) {
+    public function addGiftProductEc($Products, $allGiftProduct): array
+    {
         $newCampaignItems = [];
-
         foreach ($Products as $Product) {
             $parentProductCode = $Product->getProductClass()->getCode();
             //商品プレゼントがある場合
             if (isset($allGiftProduct[$parentProductCode])) {
                 foreach ($allGiftProduct[$parentProductCode] as $giftProductCode) {
                     $ProductClass = $this->productClassRepository->getProductClassByProductCode($giftProductCode);
-                    $cartItems = $this->cartService->getCart()->getItems();
-
-                    if (!$this->isExistedProduct($cartItems, $ProductClass)) {
-                        $this->cartService->addProduct($ProductClass, 1, Tag::GIFT);
-                        $newCampaignItems[] = [
-                            'name' => $ProductClass->getProduct()->getName(),
-                            'quantity' => 1,
-                        ];
+                    if ($ProductClass !== null) {
+                        $cartItems = $this->cartService->getCart()->getItems();
+                        if (!$this->isExistedProduct($cartItems, $ProductClass)) {
+                            $this->cartService->addProduct($ProductClass, 1, Tag::GIFT);
+                            $newCampaignItems[] = [
+                                'name' => $ProductClass->getProduct()->getName(),
+                                'quantity' => 1,
+                            ];
+                        }
                     }
                 }
             }

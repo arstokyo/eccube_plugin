@@ -64,7 +64,10 @@ class CustomerAddressRepository extends AbstractRepository
         ->setParameter('pref', $Pref)
         ->setParameter('customer', $Customer)
         ->getQuery()
-        ->getSingleScalarResult();
-        return $eda;
+        ->getOneOrNullResult();
+        if ($eda === null) {
+            return 1;
+        }
+        return $eda['eda'];
     }
 }
