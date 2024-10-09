@@ -14,6 +14,7 @@
 namespace Customize\Controller;
 
 use Eccube\Entity\BaseInfo;
+use Plugin\AceClient\Util\Mapper\OverviewMapper;
 use Eccube\Entity\ProductClass;
 use Eccube\Event\EccubeEvents;
 use Eccube\Event\EventArgs;
@@ -106,7 +107,6 @@ class CartController extends AbstractController
             $this->addNewCartOnAce($Carts, $Customer);
             $this->cartService->removeCartItemGift();
             $allGiftProduct = $this->shoppingHelper->getGiftProductAce($this->getUser(), $this->session->getId());
-
             if ($allGiftProduct) {
                 $newCampaignItems = $this->shoppingHelper->addGiftProductEc($this->cartService->getCart()->getItems(), $allGiftProduct);
             }
@@ -315,7 +315,7 @@ class CartController extends AbstractController
         foreach ($Carts as $Cart) {
 
             $addCartRequestModel = (new AddCart\AddCartRequestModel())
-                                    ->setId(7)
+                                    ->setId(OverviewMapper::ACE_TEST_SYID)
                                     ->setSessId($this->session->getId())
                                     ->setPrm($this->buildPrm($Cart, $customer));
         

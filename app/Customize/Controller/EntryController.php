@@ -14,6 +14,7 @@
 namespace Customize\Controller;
 
 use Eccube\Entity\BaseInfo;
+use Plugin\AceClient\Util\Mapper\OverviewMapper;
 use Eccube\Entity\Master\CustomerStatus;
 use Eccube\Event\EccubeEvents;
 use Eccube\Event\EventArgs;
@@ -413,7 +414,7 @@ class EntryController extends AbstractController
                     ;
         $prm = (new RegMember\MemberPrmModel())->setJmember($jmember);
         return (new RegMember\RegMemberRequestModel())
-                    ->setId(13)
+                    ->setId(OverviewMapper::ACE_TEST_SYID)
                     ->setSessId($this->session->getId())
                     ->setPrm((new RegMember\MemberPrmModel())->setJmember($jmember));
     }   
