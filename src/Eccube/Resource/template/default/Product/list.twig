@@ -132,7 +132,7 @@ file that was distributed with this source code.
             <div class="ec-searchnavRole__infos">
                 <div class="ec-searchnavRole__counter">
                     {% if pagination.totalItemCount > 0 %}
-                        {{ '<span class="ec-font-bold">%count%件</span><span>の商品が見つかりました</span>'|trans({ '%count%': pagination.totalItemCount })|raw }}
+                        {{ '<span class="ec-font-bold">%count%件</span><span>の商品が見つかりました</span>'|trans({ '%count%': pagination.totalItemCount - 4 })|raw }} {# 4はギフト商品の合計数ですのでカウントされません。 #}
                     {% else %}
                         <span>{{ 'お探しの商品は見つかりませんでした'|trans }}</span>
                     {% endif %}

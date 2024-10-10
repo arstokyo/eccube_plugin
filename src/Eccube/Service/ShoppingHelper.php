@@ -218,7 +218,7 @@ class ShoppingHelper
         foreach ($Order->getItems() as $Item) {
             if ($Item->getProductName() === 'Coupon') {
                 $jyumeis[] = (new JyudenRequest\AddCart\JyumeiModel)
-                              ->setGcode('c-1')
+                              ->setGcode('c-2')
                               ->setSuu(1)
                               ->setTanka($Item->getPrice() + $Item->getTax())
                               ->setTaxkbn(1);
@@ -237,6 +237,37 @@ class ShoppingHelper
                ->setJyuden($jyuden)
                ->setDetail((new JyudenRequest\AddCart\DetailModel())->setJyumei($jyumeis))
                ->setMailjyuden((new JyudenRequest\AddCart\MailJyudenModel())->setMail($Customer->getEmail()));
+    }
+
+    public function buildPrmForGetDelivery(Order $Order, $User): JyudenRequest\AddCart\OrderPrmModel
+    {
+        /** @var Customer $Customer */
+        $Customer = $User;
+        $member = (new JyudenRequest\AddCart\MemberOrderModel)
+            ->setJmember((new JyudenRequest\AddCart\JmemberModel())->setCode($Customer->getMemId()))
+            ->setSmember((new JyudenRequest\AddCart\SmemberModel())->setCode($Customer->getMemId()))
+            ->setNmember((new JyudenRequest\AddCart\NmemberModel())->setEda(1));
+
+        $jyuden = (new JyudenRequest\AddCart\JyudenModel)
+            ->setPcode(1)
+            ->setJcode(1)
+            ->setHcode(1)
+            ->setCampaign(1);
+
+        $jyumeis = [];
+        foreach ($this->cartService->getCart()->getItems() as $Item) {
+            $jyumeis[] = (new JyudenRequest\AddCart\JyumeiModel)
+                ->setGcode($Item->getProductClass()->getCode())
+                ->setTanka($Item->getPrice())
+                ->setSuu($Item->getQuantity())
+                ->setTaxkbn(1);
+        }
+
+        return (new JyudenRequest\AddCart\OrderPrmModel())
+            ->setMember($member)
+            ->setJyuden($jyuden)
+            ->setDetail((new JyudenRequest\AddCart\DetailModel())->setJyumei($jyumeis))
+            ->setMailjyuden((new JyudenRequest\AddCart\MailJyudenModel())->setMail($Customer->getEmail()));
     }
 
     /**
@@ -262,7 +293,7 @@ class ShoppingHelper
             $response = $addCartMethod->withRequest($addCartRequestModel)
                                       ->send();
             foreach($response->getResponse()->getOrder()->getJyumei() as $jyumei) {
-                if ($jyumei->getGcode() == 'c-1') {
+                if ($jyumei->getGcode() == 'c-2') {
                     return [
                         'CouponCodeOk' => $CouponCode,
                         'CouponValue' => $jyumei->getTinmoney()
@@ -366,7 +397,7 @@ class ShoppingHelper
     {
         $jyudenService = $this->aceClient->makeJyudenService();
         $addCartMethod = $jyudenService->makeAddCartMethod();
-        $prm = $this->buildPrmForAddCart($Order, $User);
+        $prm = $this->buildPrmForGetDelivery($Order, $User);
         $prm->getMember()->getNmember()->setEda($eda);
         $addCartRequestModel = (new JyudenRequest\AddCart\AddCartRequestModel())
                                 ->setId(OverviewMapper::ACE_TEST_SYID)
@@ -493,7 +524,7 @@ class ShoppingHelper
     {
         $OrderCoupon = new OrderItem();
         $OrderCoupon->setProductName('Coupon');
-        $OrderCoupon->setProductCode('c-1');
+        $OrderCoupon->setProductCode('c-2');
         $OrderCoupon->setPrice($CouponValue);
         $OrderCoupon->setTax($CouponValue*0.1);
         $OrderCoupon->setTaxRate(10);
