@@ -27,6 +27,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Plugin\AceClient;
+use Eccube\Service\ShoppingHelper;
 
 class DeliveryController extends AbstractController
 {
@@ -45,15 +47,26 @@ class DeliveryController extends AbstractController
      */
     protected $mailService;
 
+    private AceClient\AceClient $aceClient;
+
+    /**
+     * @var ShoppingHelper
+     */
+    protected $shoppingHelper;
+
     public function __construct(
         BaseInfoRepository $baseInfoRepository,
         CustomerAddressRepository $customerAddressRepository,
-        MailService $mailService
+        MailService $mailService,
+        AceClient\AceClient $aceClient,
+        ShoppingHelper $shoppingHelper
     )
     {
         $this->BaseInfo = $baseInfoRepository->get();
         $this->customerAddressRepository = $customerAddressRepository;
         $this->mailService = $mailService;
+        $this->aceClient = $aceClient;
+        $this->shoppingHelper = $shoppingHelper;
     }
 
     /**
@@ -103,7 +116,6 @@ class DeliveryController extends AbstractController
                 throw new NotFoundHttpException();
             }
         }
-
         $parentPage = $request->get('parent_page', null);
 
         // 正しい遷移かをチェック
@@ -133,10 +145,11 @@ class DeliveryController extends AbstractController
 
         $form = $builder->getForm();
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             log_info('お届け先登録開始', [$id]);
-
+            $CustomerAddress->setEda(count($Customer->getCustomerAddresses()) + 2);
+            $memberService = $this->aceClient->makeMemberService();
+            $this->shoppingHelper->RegNewAdrAce($CustomerAddress, $memberService);
             $this->entityManager->persist($CustomerAddress);
             $this->entityManager->flush();
 

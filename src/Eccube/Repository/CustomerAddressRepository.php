@@ -49,11 +49,11 @@ class CustomerAddressRepository extends AbstractRepository
     /**
      * Get the eda value for a given pref_id and customer_id.
      *
-     * @param int $PrefId
-     * @param int $CustomerId
-     * @return int
+     * @param $Shipping
+     * @param $Customer
+     * @return string
      */
-    public function getEda($Pref, $Customer)
+    public function getEda($Shipping, $Customer)
     {
         $eda = $this->getEntityManager()
         ->createQueryBuilder()
@@ -61,8 +61,14 @@ class CustomerAddressRepository extends AbstractRepository
         ->from('Eccube\Entity\CustomerAddress', 'ca')
         ->where('ca.Pref = :pref')
         ->andWhere('ca.Customer = :customer')
-        ->setParameter('pref', $Pref)
+        ->andwhere('ca.postal_code = :postal_code')
+        ->andwhere('ca.addr02 = :addr02')
+        ->andwhere('ca.phone_number = :phone_number')
+        ->setParameter('pref', $Shipping->getPref())
         ->setParameter('customer', $Customer)
+        ->setParameter('postal_code', $Shipping->getPostalCode())
+        ->setParameter('addr02', $Shipping->getAddr02())
+        ->setParameter('phone_number', $Shipping->getPhoneNumber())
         ->getQuery()
         ->getOneOrNullResult();
         if ($eda === null) {

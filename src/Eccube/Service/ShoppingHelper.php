@@ -429,20 +429,6 @@ class ShoppingHelper
     }
 
     /**
-     * Get Eda in EC
-     *
-     * @param Shipping $Shipping
-     * @param Customer $Customer
-     *
-     * @return string
-     */
-    public function getEdaEc(Shipping $Shipping, Customer $Customer): string
-    {
-        return $this->customerAddressRepository
-        ->getEda($Shipping, $Customer);
-    }
-
-    /**
      * Add Order Delivery Fee Item From Ace
      *
      * @param Order $Order
@@ -456,7 +442,7 @@ class ShoppingHelper
         $Customer = $Order->getCustomer();
         foreach ($Order->getShippings() as $Shipping) {
             $this->reinitializeDeliveryFeeEC($Order);
-            $eda = $this->customerAddressRepository->getEda($Shipping->getPref(), $Customer);
+            $eda = $this->customerAddressRepository->getEda($Shipping, $Customer);
             $delivery_fee = $this->getDeliveryFeeAce($Order, $eda, $User, $SessId)['delivery_fee'];
             if ($delivery_fee === '') {
                 $delivery_fee = 1000;
