@@ -44,7 +44,7 @@ form_error.member_already_exists: This ID is already registered.
 form_error.customer_already_exists:  This email address can not be used.
 form_error.password_pattern_invalid: Please use one alphanumeric character each.
 form_error.out_of_range: Invalid DateTime.
-
+form_error.max_length_12: Entry must be less than 12 characters.
 #------------------------------------------------------------------------------------
 # Deplicated
 #

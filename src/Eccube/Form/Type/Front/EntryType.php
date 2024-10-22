@@ -24,9 +24,12 @@ use Eccube\Form\Type\PhoneNumberType;
 use Eccube\Form\Type\PostalType;
 use Eccube\Form\Type\RepeatedEmailType;
 use Eccube\Form\Type\RepeatedPasswordType;
+use Eccube\Form\Validator\Email;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
@@ -34,6 +37,12 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
+use Customize\Form\Type\FcodeType;
+use Customize\Form\Type\FmemoType;
+use Customize\Form\Type\FnameType;
+use Customize\Entity\Fmemo;
+use Customize\Entity\Fcode;
+use Customize\Entity\Fname;
 
 class EntryType extends AbstractType
 {
@@ -92,6 +101,139 @@ class EntryType extends AbstractType
             ])
             ->add('sex', SexType::class, [
                 'required' => false,
+            ])
+            ->add('fmemo1', FmemoType::class, [
+                'choice_label' => 'fmemo',
+                'required' => true,
+                'placeholder' => 'common.select',
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'form_error.not_selected',
+                    ]),
+                ]
+            ])
+            ->add('fmemo2', FmemoType::class, [
+                'choice_label' => 'fmemo',
+                'required' => false,
+                'placeholder' => 'common.select',
+            ])
+            ->add('fmemo3', FmemoType::class, [
+                'choice_label' => 'fmemo',
+                'required' => false,
+                'placeholder' => 'common.select',
+            ])
+            ->add('fday1', DateType::class, [
+                'required' => true,
+                'input' => 'datetime',
+                'widget' => 'single_text',
+                'placeholder' => ['year' => '----', 'month' => '--', 'day' => '--'],
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'form_error.not_selected',
+                    ]),
+                    new Assert\Range([
+                        'min'=> '0003-01-01',
+                        'minMessage' => 'form_error.out_of_range',
+                    ]),
+                ],
+            ])
+            ->add('fday2', DateType::class, [
+                'required' => false,
+                'widget' => 'single_text',
+                'placeholder' => ['year' => '----', 'month' => '--', 'day' => '--'],
+                'constraints' => [
+                    new Assert\Range([
+                        'min'=> '0003-01-01',
+                        'minMessage' => 'form_error.out_of_range',
+                    ]),
+                ],
+            ])
+            ->add('fday3', DateType::class, [
+                'required' => false,
+                'widget' => 'single_text',
+                'placeholder' => ['year' => '----', 'month' => '--', 'day' => '--'],
+                'constraints' => [
+                    new Assert\Range([
+                        'min'=> '0003-01-01',
+                        'minMessage' => 'form_error.out_of_range',
+                    ]),
+                ],
+            ])
+            ->add('free1', TextType::class, [
+                'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'form_error.max_length_12',
+                    ]),
+                    new Assert\Length([
+                        'max' => 12,
+                    ]),
+                ],
+                'attr' => [
+                    'placeholder' => 'common.free',
+                ],
+            ])
+            ->add('free2', TextType::class, [
+                'required' => false,
+                'constraints' => [
+                    new Assert\Length([
+                        'max' => 12,
+                    ]),
+                ],
+                'attr' => [
+                    'placeholder' => 'common.free',
+                ],
+            ])
+            ->add('free3', TextType::class, [
+                'required' => false,
+                'constraints' => [
+                    new Assert\Length([
+                        'max' => 12,
+                    ]),
+                ],
+                'attr' => [
+                    'placeholder' => 'common.free',
+                ],
+            ])
+            ->add('fcode1', FcodeType::class, [
+                'choice_label' => 'fcode',
+                'required' => true,
+                'placeholder' => 'common.select',
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'form_error.not_selected',
+                    ]),
+                ]
+            ])
+            ->add('fcode2', FcodeType::class, [
+                'choice_label' => 'fcode',
+                'required' => false,
+                'placeholder' => 'common.select',
+            ])
+            ->add('fcode3', FcodeType::class, [
+                'choice_label' => 'fcode',
+                'required' => false,
+                'placeholder' => 'common.select',
+            ])
+            ->add('fname1', FnameType::class, [
+                'choice_label' => 'fname',
+                'required' => true,
+                'placeholder' => 'common.select',
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'form_error.not_selected',
+                    ]),
+                ]
+            ])
+            ->add('fname2', FnameType::class, [
+                'choice_label' => 'fname',
+                'required' => false,
+                'placeholder' => 'common.select',
+            ])
+            ->add('fname3', FnameType::class, [
+                'choice_label' => 'fname',
+                'required' => false,
+                'placeholder' => 'common.select',
             ])
             ->add('job', JobType::class, [
                 'required' => false,

@@ -47,7 +47,7 @@ form_error.member_already_exists: 既に利用されているログインIDで�
 form_error.customer_already_exists:  このメールアドレスは利用できません。
 form_error.password_pattern_invalid: 英数字をそれぞれ1種類使用してください。
 form_error.out_of_range: 不正な日付です。
-
+form_error.max_length_12: 12文字以下で入力してください。
 #------------------------------------------------------------------------------------
 # Deplicated
 #

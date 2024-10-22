@@ -36,9 +36,7 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Eccube\Controller\AbstractController;
-use Plugin\AceClient;
-use Plugin\AceClient\AceServices\Model\Request\Member\RegMember;
-use Plugin\AceClient\AceServices\Model\Response\Member\RegMember\RegMemberResponseModel;
+use Eccube\Service\MemberHelper;
 
 class EntryController extends AbstractController
 {
@@ -87,10 +85,12 @@ class EntryController extends AbstractController
      */
     protected $pageRepository;
 
-
-    private AceClient\AceClient $aceClient;
-
     /**
+     * @var MemberHelper
+     */
+    protected $memberHelper;
+
+     /**
      * EntryController constructor.
      *
      * @param CartService $cartService
@@ -101,7 +101,8 @@ class EntryController extends AbstractController
      * @param EncoderFactoryInterface $encoderFactory
      * @param ValidatorInterface $validatorInterface
      * @param TokenStorageInterface $tokenStorage
-     * @param AceClient\AceClient $aceClient
+     * @param PageRepository $pageRepository
+     * @param MemberHelper $memberHelper
      */
     public function __construct(
         CartService $cartService,
@@ -113,7 +114,7 @@ class EntryController extends AbstractController
         ValidatorInterface $validatorInterface,
         TokenStorageInterface $tokenStorage,
         PageRepository $pageRepository,
-        AceClient\AceClient $aceClient
+        MemberHelper $memberHelper,
     ) {
         $this->customerStatusRepository = $customerStatusRepository;
         $this->mailService = $mailService;
@@ -124,7 +125,7 @@ class EntryController extends AbstractController
         $this->tokenStorage = $tokenStorage;
         $this->cartService = $cartService;
         $this->pageRepository = $pageRepository;
-        $this->aceClient = $aceClient;
+        $this->memberHelper = $memberHelper;
     }
 
     /**
@@ -185,7 +186,7 @@ class EntryController extends AbstractController
                     $secretKey = $this->customerRepository->getUniqueSecretKey();
 
                     // 通販Aceのユーザー登録
-                    $response = $this->createNewMemberOnAce($Customer);
+                    $response = $this->memberHelper->createNewMemberOnAce($Customer);
                     if ($response['iserror'] == true) {
                         return $this->render('error.twig', [
                             'error_title' => trans('通販Aceのユーザー登録に失敗しました。'),
@@ -346,76 +347,4 @@ class EntryController extends AbstractController
 
         return $qtyInCart;
     }
-
-    /**
-     * 通販Aceのユーザー登録を行う
-     * 
-     * @param \Eccube\Entity\Customer $Customer
-     * @return array
-     */
-    private function createNewMemberOnAce(\Eccube\Entity\Customer $Customer): array
-    {
-        try {
-            $regMemberRequest = $this->buildRegMemberRequest($Customer);
-            $response = $this->aceClient
-                             ->makeMemberService()
-                             ->makeRegMemberMethod()
-                             ->withRequest($regMemberRequest)
-                             ->send();
-            if ($response->getStatusCode() === 200) {
-                /** @var RegMemberResponseModel $responseObj */
-                $responseObj = $response->getResponse();
-                $jmem = $responseObj->getMember()->getJmember();
-                if (!empty($jmem)) {
-                    $Customer->setMemId($jmem->getCode());
-                }
-                $message1 = $responseObj->getMember()->getMessage()->getMessage1() ?? null;
-                $message2 = $responseObj->getMember()->getMessage()->getMessage2() ?? null;
-            }
-
-        } catch (\Throwable $e) {
-            $message1 = $e->getMessage();
-        }
-        return [
-            'iserror' => !empty($message1) | !empty($message2),
-            'message1' => $message1,
-            'message2' => isset($message2) ? $message2 : null,
-        ];
-    }
-
-    /**
-     * 通販Aceの会員登録リクエストを作成する
-     *
-     * @param \Eccube\Entity\Customer $Customer
-     * @return RegMember\RegMemberRequestModel
-     */
-    private function buildRegMemberRequest(\Eccube\Entity\Customer $Customer): RegMember\RegMemberRequestModel
-    {   
-        $jmember = (new RegMember\JmemberModel())
-                        ->setSimei(mb_convert_kana($Customer->getName01() . ' ' . $Customer->getName02(), 'KVA'))
-                        ->setKana(mb_convert_kana($Customer->getKana01() . ' ' . $Customer->getKana02(), 'KVA'))
-                        ->setZip($Customer->getPostalCode())
-                        ->setAdr1($Customer->getPref()->getName())
-                        ->setAdr2($Customer->getAddr01())
-                        ->setAdr3($Customer->getAddr02())
-                        ->setTel($Customer->getPhoneNumber())
-                        ->setFmemo1($Customer->getNote())
-                        ->setUserid($Customer->getEmail())
-                        ->setPasswd($Customer->getPassword())
-                        ->setSex($Customer->getSex()->getId())
-                        ->setBirthday($Customer->getBirth())
-                        ->setPoint($Customer->getPoint())
-                        ->setBikou2($Customer->getCompanyName())
-                        ->setMemmail((new RegMember\MemMailModel())
-                                          ->setMail($Customer->getEmail())
-                                          ->setIdx(1)
-                                    )
-                        ->setPoint($Customer->getPoint())
-                    ;
-        $prm = (new RegMember\MemberPrmModel())->setJmember($jmember);
-        return (new RegMember\RegMemberRequestModel())
-                    ->setId(OverviewMapper::ACE_TEST_SYID)
-                    ->setSessId($this->session->getId())
-                    ->setPrm((new RegMember\MemberPrmModel())->setJmember($jmember));
-    }   
 }

@@ -37,6 +37,13 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Customize\Form\Type\FmemoType;
+use Customize\Entity\Fmemo;
+use Customize\Form\Type\FcodeType;
+use Customize\Entity\Fcode;
+use Customize\Form\Type\FnameType;
+use Customize\Entity\Fname;
 
 class CustomerType extends AbstractType
 {
@@ -140,6 +147,138 @@ class CustomerType extends AbstractType
                     ],
                 ]
             )
+            ->add('fmemo1', FmemoType::class, [
+                'choice_label' => 'fmemo',
+                'required' => true,
+                'placeholder' => 'common.select',
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'form_error.not_selected',
+                    ]),
+                ]
+            ])
+            ->add('fmemo2', FmemoType::class, [
+                'choice_label' => 'fmemo',
+                'required' => false,
+                'placeholder' => 'common.select',
+            ])
+            ->add('fmemo3', FmemoType::class, [
+                'choice_label' => 'fmemo',
+                'required' => false,
+                'placeholder' => 'common.select',
+            ])
+            ->add('fday1', DateType::class, [
+                'required' => true,
+                'widget' => 'single_text',
+                'input' => 'datetime',
+                'placeholder' => ['year' => '----', 'month' => '--', 'day' => '--'],
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'form_error.not_selected',
+                    ]),
+                    new Assert\Range([
+                        'min'=> '0003-01-01',
+                        'minMessage' => 'form_error.out_of_range',
+                    ]),
+                ],
+            ])
+            ->add('fday2', DateType::class, [
+                'required' => false,
+                'widget' => 'single_text',
+                'placeholder' => ['year' => '----', 'month' => '--', 'day' => '--'],
+                'constraints' => [
+                    new Assert\Range([
+                        'min'=> '0003-01-01',
+                        'minMessage' => 'form_error.out_of_range',
+                    ]),
+                ],
+            ])
+            ->add('fday3', DateType::class, [
+                'required' => false,
+                'widget' => 'single_text',
+                'placeholder' => ['year' => '----', 'month' => '--', 'day' => '--'],
+                'constraints' => [
+                    new Assert\Range([
+                        'min'=> '0003-01-01',
+                        'minMessage' => 'form_error.out_of_range',
+                    ]),
+                ],
+            ])
+            ->add('free1', TextType::class, [
+                'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank(),
+                    new Assert\Length([
+                        'max' => 12,
+                        'maxMessage' => 'form_error.max_length_12',
+                    ]),
+                ],
+                'attr' => [
+                    'placeholder' => 'common.free',
+                ],
+            ])
+            ->add('free2', TextType::class, [
+                'required' => false,
+                'constraints' => [
+                    new Assert\Length([
+                        'max' => 12,
+                    ]),
+                ],
+                'attr' => [
+                    'placeholder' => 'common.free',
+                ],
+            ])
+            ->add('free3', TextType::class, [
+                'required' => false,
+                'constraints' => [
+                    new Assert\Length([
+                        'max' => 12,
+                    ]),
+                ],
+                'attr' => [
+                    'placeholder' => 'common.free',
+                ],
+            ])
+            ->add('fcode1', FcodeType::class, [
+                'choice_label' => 'fcode',
+                'required' => true,
+                'placeholder' => 'common.select',
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'form_error.not_selected',
+                    ]),
+                ]
+            ])
+            ->add('fcode2', FcodeType::class, [
+                'choice_label' => 'fcode',
+                'required' => false,
+                'placeholder' => 'common.select',
+            ])
+            ->add('fcode3', FcodeType::class, [
+                'choice_label' => 'fcode',
+                'required' => false,
+                'placeholder' => 'common.select',
+            ])
+            ->add('fname1', FnameType::class, [
+                'choice_label' => 'fname',
+                'required' => true,
+                'placeholder' => 'common.select',
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'form_error.not_selected',
+                    ]),
+                ]
+            ])
+            ->add('fname2', FnameType::class, [
+                'choice_label' => 'fname',
+                'required' => false,
+                'placeholder' => 'common.select',
+            ])
+            ->add('fname3', FnameType::class, [
+                'choice_label' => 'fname',
+                'required' => false,
+                'placeholder' => 'common.select',
+            ])
             ->add('note', TextareaType::class, [
                 'required' => false,
                 'constraints' => [

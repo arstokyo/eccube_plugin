@@ -83,7 +83,7 @@ common.delete_confirm: 削除してもよろしいですか?
 common.pagetop: ページトップへ
 common.name.prefix: ''
 common.name.suffix: ' 様'
-
+common.free: Free text
 #====================================================================================
 # フロント画面
 #====================================================================================
@@ -529,6 +529,21 @@ admin.common.birth_day: 誕生日
 admin.common.birth_day__start: 誕生日(開始)
 admin.common.birth_day__end: 誕生日(終了)
 admin.common.point: ポイント
+admin.common.free1: フリー１
+admin.common.free2: フリー２
+admin.common.free3: フリー３
+admin.common.fday1: フリー日付１
+admin.common.fday2: フリー日付２
+admin.common.fday3: フリー日付３
+admin.common.fmemo1: 顧客メモ１
+admin.common.fmemo2: 顧客メモ２
+admin.common.fmemo3: 顧客メモ３
+admin.common.fcode1: フリーコード１
+admin.common.fcode2: フリーコード２
+admin.common.fcode3: フリーコード３
+admin.common.fname1: フリーコード１名称
+admin.common.fname2: フリーコード２名称
+admin.common.fname3: フリーコード３名称
 admin.common.shop_memo: ショップ用メモ欄
 admin.common.create_date: 登録日
 admin.common.create_date__start: 登録日(開始)

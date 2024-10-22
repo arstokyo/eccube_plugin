@@ -230,7 +230,146 @@ file that was distributed with this source code.
                                         {{ form_errors(form.point) }}
                                     </div>
                                 </div>
-
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.common.free1'|trans }}</span>
+                                        <span class="badge bg-primary ms-1">{{ 'admin.common.required'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.free1) }}
+                                        {{ form_errors(form.free1) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.common.free2'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.free2) }}
+                                        {{ form_errors(form.free2) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.common.free3'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.free3) }}
+                                        {{ form_errors(form.free3) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.common.fday1'|trans }}</span>
+                                        <span class="badge bg-primary ms-1">{{ 'admin.common.required'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.fday1) }}
+                                        {{ form_errors(form.fday1) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.common.fday2'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.fday2) }}
+                                        {{ form_errors(form.fday2) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.common.fday3'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.fday3) }}
+                                        {{ form_errors(form.fday3) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.common.fmemo1'|trans }}</span>
+                                        <span class="badge bg-primary ms-1">{{ 'admin.common.required'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.fmemo1) }}
+                                        {{ form_errors(form.fmemo1) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.common.fmemo2'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.fmemo2) }}
+                                        {{ form_errors(form.fmemo2) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.common.fmemo3'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.fmemo3) }}
+                                        {{ form_errors(form.fmemo3) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.common.fcode1'|trans }}</span>
+                                        <span class="badge bg-primary ms-1">{{ 'admin.common.required'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.fcode1) }}
+                                        {{ form_errors(form.fcode1) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.common.fcode2'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.fcode2) }}
+                                        {{ form_errors(form.fcode2) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.common.fcode3'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.fcode3) }}
+                                        {{ form_errors(form.fcode3) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.common.fname1'|trans }}</span>
+                                        <span class="badge bg-primary ms-1">{{ 'admin.common.required'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.fname1) }}
+                                        {{ form_errors(form.fname1) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.common.fname2'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.fname2) }}
+                                        {{ form_errors(form.fname2) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.common.fname3'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.fname3) }}
+                                        {{ form_errors(form.fname3) }}
+                                    </div>
+                                </div>
                                 {# エンティティ拡張の自動出力 #}
                                 {% for f in form|filter(f => f.vars.eccube_form_options.auto_render) %}
                                     {% if f.vars.eccube_form_options.form_theme %}

@@ -129,7 +129,129 @@ file that was distributed with this source code.
                                 {{ form_widget(form.job, { type: 'hidden'}) }}
                             </dd>
                         </dl>
-
+                        <dl>
+                            <dt>
+                                {{ form_label(form.free1, 'フリー１', {'label_attr': {'class': 'ec-label'}}) }}
+                            </dt>
+                            <dd>{{ form.free1.vars.data }}
+                                {{ form_widget(form.free1, { type: 'hidden'}) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.free2, 'フリー2', {'label_attr': {'class': 'ec-label'}}) }}
+                            </dt>
+                            <dd>{{ form.free2.vars.data }}
+                                {{ form_widget(form.free2, { type: 'hidden'}) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.free3, 'フリー3', {'label_attr': {'class': 'ec-label'}}) }}
+                            </dt>
+                            <dd>{{ form.free3.vars.data }}
+                                {{ form_widget(form.free3, { type: 'hidden'}) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.fday1, 'フリー日付１', {'label_attr': {'class': 'ec-label'}}) }}
+                            </dt>
+                            <dd>
+                                {{ form.fday1.vars.data ? form.fday1.vars.data|date_day }}
+                                {{ form_widget(form.fday1, { type: 'hidden'}) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.fday2, 'フリー日付2', {'label_attr': {'class': 'ec-label'}}) }}
+                            </dt>
+                            <dd>
+                                {{ form.fday2.vars.data ? form.fday2.vars.data|date('Y/m/d') }}
+                                {{ form_widget(form.fday2, { type: 'hidden'}) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.fday3, 'フリー日付3', {'label_attr': {'class': 'ec-label'}}) }}
+                            </dt>
+                            <dd>
+                                {{ form.fday3.vars.data ? form.fday3.vars.data|date('Y/m/d') }}
+                                {{ form_widget(form.fday3, { type: 'hidden'}) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.fmemo1, '顧客メモ１', {'label_attr': {'class': 'ec-label'}}) }}
+                            </dt>
+                            <dd>{{ form.fmemo1.vars.data }}
+                                {{ form_widget(form.fmemo1, { type: 'hidden'}) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.fmemo2, '顧客メモ2', {'label_attr': {'class': 'ec-label'}}) }}
+                            </dt>
+                            <dd>{{ form.fmemo2.vars.data }}
+                                {{ form_widget(form.fmemo2, { type: 'hidden'}) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.fmemo3, '顧客メモ3', {'label_attr': {'class': 'ec-label'}}) }}
+                            </dt>
+                            <dd>{{ form.fmemo3.vars.data }}
+                                {{ form_widget(form.fmemo3, { type: 'hidden'}) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.fcode1, 'フリーコード１', {'label_attr': {'class': 'ec-label'}}) }}
+                            </dt>
+                            <dd>{{ form.fcode1.vars.data }}
+                                {{ form_widget(form.fcode1, { type: 'hidden'}) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.fcode2, 'フリーコード2', {'label_attr': {'class': 'ec-label'}}) }}
+                            </dt>
+                            <dd>{{ form.fcode2.vars.data }}
+                                {{ form_widget(form.fcode2, { type: 'hidden'}) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.fcode3, 'フリーコード3', {'label_attr': {'class': 'ec-label'}}) }}
+                            </dt>
+                            <dd>{{ form.fcode3.vars.data }}
+                                {{ form_widget(form.fcode3, { type: 'hidden'}) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.fname1, 'フリーコード１名称 ', {'label_attr': {'class': 'ec-label'}}) }}
+                            </dt>
+                            <dd>{{ form.fname1.vars.data }}
+                                {{ form_widget(form.fname1, { type: 'hidden'}) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.fname2, 'フリーコード2名称 ', {'label_attr': {'class': 'ec-label'}}) }}
+                            </dt>
+                            <dd>{{ form.fname2.vars.data }}
+                                {{ form_widget(form.fname2, { type: 'hidden'}) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.fname3, 'フリーコード3名称 ', {'label_attr': {'class': 'ec-label'}}) }}
+                            </dt>
+                            <dd>{{ form.fname3.vars.data }}
+                                {{ form_widget(form.fname3, { type: 'hidden'}) }}
+                            </dd>
+                        </dl>
                         {{ form_widget(form.user_policy_check, { type: 'hidden'}) }}
 
                         {# エンティティ拡張の自動出力 #}
