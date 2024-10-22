@@ -236,7 +236,12 @@ class EntryType extends AbstractType
                 'placeholder' => 'common.select',
             ])
             ->add('job', JobType::class, [
-                'required' => false,
+                'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'form_error.not_selected',
+                    ]),
+                ]
             ]);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {

@@ -79,6 +79,7 @@ class MemberHelper
      */
     private function buildRegMemberRequest(Customer $Customer): RegMember\RegMemberRequestModel
     {
+//        dd($Customer);
         $jmember = (new RegMember\JmemberModel())
             ->setSimei(mb_convert_kana($Customer->getName01() . ' ' . $Customer->getName02(), 'KVA'))
             ->setKana(mb_convert_kana($Customer->getKana01() . ' ' . $Customer->getKana02(), 'KVA'))
@@ -110,7 +111,7 @@ class MemberHelper
             ->setFmemo3($Customer->getFmemo3() === null ? null : $Customer->getFmemo3()->getSortNo())
             ->setFcode1($Customer->getFcode1()->getSortNo())
             ->setFcode2($Customer->getFcode2() === null ? null : $Customer->getFcode2()->getSortNo())
-            ->setFcode3($Customer->getFcode3() === null ? null : $Customer->getFcode3()->getSortNo())
+            ->setFcode3($Customer->getJob()->getId())
         ;
         $prm = (new RegMember\MemberPrmModel())->setJmember($jmember);
         return (new RegMember\RegMemberRequestModel())
