@@ -108,7 +108,12 @@ class CustomerType extends AbstractType
                 'required' => false,
             ])
             ->add('job', JobType::class, [
-                'required' => false,
+                'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'form_error.not_selected',
+                    ]),
+                ]
             ])
             ->add('birth', BirthdayType::class, [
                 'required' => false,
