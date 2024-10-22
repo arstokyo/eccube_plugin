@@ -106,10 +106,10 @@ class MemberHelper
             ->setFday1($Customer->getFday1())
             ->setFday2($Customer->getFday2())
             ->setFday3($Customer->getFday3())
-            ->setFmemo1($Customer->getFmemo1()->getSortNo())
+            ->setFmemo1($Customer->getFmemo1() === null ? null : $Customer->getFmemo1()->getSortNo())
             ->setFmemo2($Customer->getFmemo2() === null ? null : $Customer->getFmemo2()->getSortNo())
             ->setFmemo3($Customer->getFmemo3() === null ? null : $Customer->getFmemo3()->getSortNo())
-            ->setFcode1($Customer->getFcode1()->getSortNo())
+            ->setFcode1($Customer->getFcode1() === null ? null : $Customer->getFcode1()->getSortNo())
             ->setFcode2($Customer->getFcode2() === null ? null : $Customer->getFcode2()->getSortNo())
             ->setFcode3($Customer->getJob()->getId())
         ;
