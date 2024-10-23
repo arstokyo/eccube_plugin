@@ -56,9 +56,8 @@ class MasterdataType extends AbstractType
         $driverChain = $this->entityManager->getConfiguration()->getMetadataDriverImpl()->getDriver();
         /** @var MappingDriver[] $drivers */
         $drivers = $driverChain->getDrivers();
-
         foreach ($drivers as $namespace => $driver) {
-            if ($namespace == 'Eccube\Entity') {
+            if ($namespace === 'Eccube\Entity' || $namespace === 'Customize\Entity') {
                 $classNames = $driver->getAllClassNames();
                 foreach ($classNames as $className) {
                     /** @var ClassMetadata $meta */
@@ -69,8 +68,12 @@ class MasterdataType extends AbstractType
                     if (in_array($meta->getName(), [OrderStatus::class, OrderStatusColor::class, CustomerOrderStatus::class])) {
                         continue;
                     }
-
-                    if (strpos($meta->rootEntityName, 'Master') !== false
+                    if ((
+                               strpos($meta->rootEntityName, 'Master')
+                            || strpos($meta->rootEntityName, 'Fcode')
+                            || strpos($meta->rootEntityName, 'Fmemo')
+                            || strpos($meta->rootEntityName, 'Fname')
+                        ) !== false
                         && $meta->hasField('id')
                         && $meta->hasField('name')
                         && $meta->hasField('sort_no')
@@ -81,7 +84,6 @@ class MasterdataType extends AbstractType
                 }
             }
         }
-
         $builder
             ->add('masterdata', ChoiceType::class, [
                 'choices' => array_flip($masterdata),

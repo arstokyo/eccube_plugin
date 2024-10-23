@@ -15,56 +15,7 @@ if (!class_exists(Fname::class, false)) {
      * @ORM\Entity(repositoryClass="Customize\Repository\FnameRepository")
      * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
      */
-    class Fname
+    class Fname extends \Eccube\Entity\Master\AbstractMasterEntity
     {
-        /**
-         * @ORM\Id()
-         * @ORM\GeneratedValue()
-         * @ORM\Column(type="integer")
-         */
-        private $id;
-
-        /**
-         * @ORM\Column(type="string", length=255)
-         */
-        private $fname;
-
-        /**
-         * @ORM\Column(name="sort_no", type="smallint", options={"unsigned":true})
-         */
-        private $sort_no;
-
-        // Getters and Setters
-        public function getId(): ?int
-        {
-            return $this->id;
-        }
-
-        public function getFname(): ?string
-        {
-            return $this->fname;
-        }
-
-        public function setFname(string $fname): self
-        {
-            $this->fname = $fname;
-            return $this;
-        }
-
-        public function getSortNo(): ?int
-        {
-            return $this->sort_no;
-        }
-
-        public function setSortNo(int $sort_no): self
-        {
-            $this->sort_no = $sort_no;
-            return $this;
-        }
-
-        public function __toString(): string
-        {
-            return $this->fname;
-        }
     }
 }

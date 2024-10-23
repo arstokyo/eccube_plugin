@@ -153,17 +153,17 @@ class CustomerType extends AbstractType
                 ]
             )
             ->add('fmemo1', FmemoType::class, [
-                'choice_label' => 'fmemo',
+                'choice_label' => 'name',
                 'required' => false,
                 'placeholder' => 'common.select',
             ])
             ->add('fmemo2', FmemoType::class, [
-                'choice_label' => 'fmemo',
+                'choice_label' => 'name',
                 'required' => false,
                 'placeholder' => 'common.select',
             ])
             ->add('fmemo3', FmemoType::class, [
-                'choice_label' => 'fmemo',
+                'choice_label' => 'name',
                 'required' => false,
                 'placeholder' => 'common.select',
             ])
@@ -238,17 +238,17 @@ class CustomerType extends AbstractType
                 ],
             ])
             ->add('fcode1', FcodeType::class, [
-                'choice_label' => 'fcode',
+                'choice_label' => 'name',
                 'required' => false,
                 'placeholder' => 'common.select',
             ])
             ->add('fcode2', FcodeType::class, [
-                'choice_label' => 'fcode',
+                'choice_label' => 'name',
                 'required' => false,
                 'placeholder' => 'common.select',
             ])
             ->add('fcode3', FcodeType::class, [
-                'choice_label' => 'fcode',
+                'choice_label' => 'name',
                 'required' => false,
                 'placeholder' => 'common.select',
             ])
