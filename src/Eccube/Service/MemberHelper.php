@@ -16,8 +16,13 @@ namespace Eccube\Service;
 use Eccube\Entity\Customer;
 use Plugin\AceClient;
 use Plugin\AceClient\AceServices\Model\Request\Member\RegMember;
+use Plugin\AceClient\AceServices\Model\Request\Member\GetRireki;
+use Plugin\AceClient\AceServices\Model\Request\Member\GetRirekiDetail;
 use Plugin\AceClient\AceServices\Model\Response\Member\RegMember\RegMemberResponseModel;
+use Plugin\AceClient\AceServices\Model\Response\Member\GetRireki\GetRirekiResponseModel;
+use Plugin\AceClient\AceServices\Model\Response\Member\GetRirekiDetail\GetRirekiDetailResponseModel;
 use Plugin\AceClient\Util\Mapper\OverviewMapper;
+use ReflectionClass;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class MemberHelper
@@ -79,7 +84,6 @@ class MemberHelper
      */
     private function buildRegMemberRequest(Customer $Customer): RegMember\RegMemberRequestModel
     {
-//        dd($Customer);
         $jmember = (new RegMember\JmemberModel())
             ->setSimei(mb_convert_kana($Customer->getName01() . ' ' . $Customer->getName02(), 'KVA'))
             ->setKana(mb_convert_kana($Customer->getKana01() . ' ' . $Customer->getKana02(), 'KVA'))
@@ -118,5 +122,90 @@ class MemberHelper
             ->setId(OverviewMapper::ACE_TEST_SYID)
             ->setSessId($this->session->getId())
             ->setPrm((new RegMember\MemberPrmModel())->setJmember($jmember));
+    }
+
+    /**
+     * Get Rireki from Ace
+     *
+     * @param string $memId
+     * @param int $dispRow
+     * @param int $dispPage
+     * @return array|null
+     */
+    public function getRireki($memId, $dispRow, $dispPage)
+    {
+        $requestModel = new GetRireki\GetRirekiRequestModel();
+        $requestModel->setId(OverviewMapper::ACE_TEST_SYID);
+        $requestModel->setMcode($memId);
+        $requestModel->setDispRow($dispRow);
+        $requestModel->setDispPage($dispPage);
+        $requestModel->setSort(0);
+        try {
+            $response = $this->aceClient
+                ->makeMemberService()
+                ->makeGetRirekiMethod()
+                ->withRequest($requestModel)
+                ->send();
+            if ($response->getStatusCode() === 200) {
+                /** @var GetRirekiResponseModel $responseObj */
+                $responseObj = $response->getResponse()->getMember()->getRireki();
+                return $this->convertModelsToArray($responseObj);
+            }
+        } catch (\Throwable $e) {
+            $message1 = $e->getMessage();
+        }
+        return [];
+    }
+
+    /**
+     * Get Rireki Detail from Ace
+     *
+     * @param string $denno
+     * @param string $denku
+     * @param string $mcode
+     * @return array|null
+     */
+    public function getRirekiDetail($denno, $denku, $mcode)
+    {
+        $requestModel = new GetRirekiDetail\GetRirekiDetailRequestModel();
+        $requestModel->setId(OverviewMapper::ACE_TEST_SYID);
+        $requestModel->setDenno($denno);
+        $requestModel->setDenku($denku);
+        $requestModel->setMcode($mcode);
+        try {
+            $response = $this->aceClient
+                ->makeMemberService()
+                ->makeGetRirekiDetailMethod()
+                ->withRequest($requestModel)
+                ->send();
+            if ($response->getStatusCode() === 200) {
+                /** @var GetRirekiDetailResponseModel $responseObj */
+                $responseObj = $response->getResponse()->getMember()->getRirekiDetail();
+                return $this->convertModelsToArray($responseObj);
+            }
+        } catch (\Throwable $e) {
+            $message1 = $e->getMessage();
+        }
+        return [];
+    }
+
+    /**
+     * Convert models to array
+     *
+     * @param array $models
+     * @return array
+     */
+    private function convertModelsToArray(array $models): array
+    {
+        return array_map(function($model) {
+            $reflectionClass = new ReflectionClass($model);
+            $properties = $reflectionClass->getProperties();
+            $array = [];
+            foreach ($properties as $property) {
+                $property->setAccessible(true);
+                $array[$property->getName()] = $property->getValue($model);
+            }
+            return $array;
+        }, $models);
     }
 }

@@ -36,6 +36,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Eccube\Service\MemberHelper;
 
 class MypageController extends AbstractController
 {
@@ -70,6 +71,11 @@ class MypageController extends AbstractController
     protected $purchaseFlow;
 
     /**
+     * @var MemberHelper
+     */
+    protected $memberHelper;
+
+    /**
      * MypageController constructor.
      *
      * @param OrderRepository $orderRepository
@@ -77,19 +83,22 @@ class MypageController extends AbstractController
      * @param CartService $cartService
      * @param BaseInfoRepository $baseInfoRepository
      * @param PurchaseFlow $purchaseFlow
+     * @param MemberHelper $memberHelper
      */
     public function __construct(
         OrderRepository $orderRepository,
         CustomerFavoriteProductRepository $customerFavoriteProductRepository,
         CartService $cartService,
         BaseInfoRepository $baseInfoRepository,
-        PurchaseFlow $purchaseFlow
+        PurchaseFlow $purchaseFlow,
+        MemberHelper $memberHelper
     ) {
         $this->orderRepository = $orderRepository;
         $this->customerFavoriteProductRepository = $customerFavoriteProductRepository;
         $this->BaseInfo = $baseInfoRepository->get();
         $this->cartService = $cartService;
         $this->purchaseFlow = $purchaseFlow;
+        $this->memberHelper = $memberHelper;
     }
 
     /**
@@ -145,32 +154,38 @@ class MypageController extends AbstractController
     public function index(Request $request, PaginatorInterface $paginator)
     {
         $Customer = $this->getUser();
+        $dispRow = 10;  // ページ別表示数
+        $dispPage = $request->get('pageno', 1);   // ページ番号
+        $isPrev = false;
+        $isNext = false;
 
-        // 購入処理中/決済処理中ステータスの受注を非表示にする.
-        $this->entityManager
-            ->getFilters()
-            ->enable('incomplete_order_status_hidden');
+        $response = $this->memberHelper->getRireki($Customer->getMemId(), $dispRow, $dispPage);
+        if (count($response)) {
+            // 値がある場合、前、後ページの受注取得可能かどうか確認
+            $isPrev = ! empty( $this->memberHelper->getRireki( $Customer->getMemId(), $dispRow, $dispPage - 1 ) );
+            $isNext = ! empty( $this->memberHelper->getRireki( $Customer->getMemId(), $dispRow, $dispPage + 1 ) );
+        }
 
-        // paginator
-        $qb = $this->orderRepository->getQueryBuilderByCustomer($Customer);
+        // 受注情報が1件の場合は、二次元配列にならないので、配列を詰めなおす
+        if (isset($response['sday'])) {
+            $response_temp[0] = $response;
+            $response = $response_temp;
+        }
 
-        $event = new EventArgs(
-            [
-                'qb' => $qb,
-                'Customer' => $Customer,
-            ],
-            $request
-        );
-        $this->eventDispatcher->dispatch($event, EccubeEvents::FRONT_MYPAGE_MYPAGE_INDEX_SEARCH);
-
-        $pagination = $paginator->paginate(
-            $qb,
-            $request->get('pageno', 1),
-            $this->eccubeConfig['eccube_search_pmax']
-        );
+        for ($i=0, $iMax = count($response); $i < $iMax; $i++) {
+            $now = new \DateTime("now");
+            $sday = new \DateTime($response[$i]["sday"]);
+            $response[$i]["status"] = "注文受付";
+            if ($now > $sday) {
+                $response[$i]["status"] = "発送済み";
+            }
+        }
 
         return [
-            'pagination' => $pagination,
+            'Orders' => $response,
+            'pageno' => $dispPage,
+            'is_prev' => $isPrev,
+            'is_next' => $isNext,
         ];
     }
 
@@ -182,41 +197,52 @@ class MypageController extends AbstractController
      */
     public function history(Request $request, $order_no)
     {
-        $this->entityManager->getFilters()
-            ->enable('incomplete_order_status_hidden');
-        $Order = $this->orderRepository->findOneBy(
-            [
-                'order_no' => $order_no,
-                'Customer' => $this->getUser(),
-            ]
-        );
+        $Customer = $this->getUser();
+        $Order = $this->memberHelper->getRirekiDetail($order_no,0, $Customer->getMemId());
+        $countPerPage = 10;  // ページ別表示数
+        $response = $this->memberHelper->getRireki($Customer->getMemId(), $countPerPage, $request->get('pageno'));
 
-        $event = new EventArgs(
-            [
-                'Order' => $Order,
-            ],
-            $request
-        );
-        $this->eventDispatcher->dispatch($event, EccubeEvents::FRONT_MYPAGE_MYPAGE_HISTORY_INITIALIZE);
-
-        /** @var Order $Order */
-        $Order = $event->getArgument('Order');
-
-        if (!$Order) {
-            throw new NotFoundHttpException();
+        // 受注情報が1件の場合は、二次元配列にならないので、配列を詰めなおす
+        if (isset($response['sday'])) {
+            $response_temp[0] = $response;
+            $response = $response_temp;
         }
 
-        $stockOrder = true;
-        foreach ($Order->getOrderItems() as $orderItem) {
-            if ($orderItem->isProduct() && $orderItem->getQuantity() < 0) {
-                $stockOrder = false;
+        foreach ($response as $rireki) {
+            if ((int)$order_no === $rireki['denno']) {
+                $target_rireki = $rireki;
                 break;
             }
         }
 
+        $url = '';
+        if (isset($target_rireki['url'])) {
+            $url = $target_rireki['url'];
+        }
+
+        $order_status = "注文受付";
+        if (!is_null($target_rireki['sday'])) {
+            $now = new \DateTime("now");
+            $sday = new \DateTime($target_rireki['sday']);
+            if ($now > $sday) {
+                $order_status = "発送済み";
+            }
+        }
         return [
-            'Order' => $Order,
-            'stockOrder' => $stockOrder,
+            'Order' => array_key_exists('gcode', $Order) ? [$Order] : $Order, // 購入商品が1個の場合と複数個の場合を区別します。
+            'subtotal' => $target_rireki['syoukei'],
+            'charge' => $target_rireki['tesuu'],
+            'delivery_fee_total' => $target_rireki['souryou'],
+            'payment_total' => $target_rireki['total'],
+            'order_no' => $order_no,
+            'order_date' => $target_rireki['day'],
+            'order_status' => $order_status,
+            'send_number' => $target_rireki['okurino'],
+            'sending_url' => $url,
+            'payment' => $target_rireki['pname'],
+            'pageno' => $request->get('pageno'),
+            'hday' => $target_rireki['hday'],
+            'nebiki' => $target_rireki['nebiki'],
         ];
     }
 
