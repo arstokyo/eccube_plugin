@@ -1,4 +1,4 @@
-# Welcom to Ace Client Plugin - Ver43
+# Welcome to Ace Client Plugin - Ver43
 
 ## Purpose of the two folders: `AceClient` and `AceClient43`
 - The `AceClient` folder contains the final release version.
