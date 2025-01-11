@@ -1,6 +1,6 @@
 {
     "name": "ec-cube/aceclient43",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "AceClient Plugin 43",
     "type": "eccube-plugin",
     "require": {
