@@ -39,6 +39,7 @@ use Eccube\Service\PurchaseFlow\Processor\DeliveryFeePreprocessor;
 use Eccube\Repository\ProductClassRepository;
 use Eccube\Repository\ProductRepository;
 use Eccube\Entity\Tag;
+use Eccube\Repository\DeliveryFeeRepository;
 
 class ShoppingHelper
 {
@@ -73,6 +74,11 @@ class ShoppingHelper
      */
     protected $productRepository;
 
+    /**
+     * @var DeliveryFeeRepository
+     */
+    protected $deliveryFeeRepository;
+
     public function __construct(
         ContainerInterface $serviceContainer,
         AceClient\AceClient $aceClient,
@@ -81,6 +87,7 @@ class ShoppingHelper
         EntityManagerInterface $entityManager,
         ProductClassRepository $productClassRepository,
         ProductRepository $productRepository,
+        DeliveryFeeRepository $deliveryFeeRepository
     ) {
         $this->serviceContainer = $serviceContainer;
         $this->aceClient = $aceClient;
@@ -89,6 +96,7 @@ class ShoppingHelper
         $this->entityManager = $entityManager;
         $this->productClassRepository = $productClassRepository;
         $this->productRepository = $productRepository;
+        $this->deliveryFeeRepository = $deliveryFeeRepository;
     }
     /**
      * PaymentMethodをコンテナから取得する.
@@ -424,7 +432,7 @@ class ShoppingHelper
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
         return [
-            'delivery_fee' => '',
+            'delivery_fee' => null,
         ];
     }
 
@@ -443,10 +451,18 @@ class ShoppingHelper
         foreach ($Order->getShippings() as $Shipping) {
             $this->reinitializeDeliveryFeeEC($Order);
             $eda = $this->customerAddressRepository->getEda($Shipping, $Customer);
-            $delivery_fee = $this->getDeliveryFeeAce($Order, $eda, $User, $SessId)['delivery_fee'];
-            if ($delivery_fee === '') {
-                $delivery_fee = 1000;
+            $deliveryFreeAce = $this->getDeliveryFeeAce($Order, $eda, $User, $SessId)['delivery_fee'];
+            $deliveryFreeEc = $this->deliveryFeeRepository->findOneBy([
+                'Delivery' => $Shipping->getDelivery(),
+                'Pref' => $Shipping->getPref(),
+            ])->getFee();
+            if ($deliveryFreeAce !== null) {
+                $delivery_fee = $deliveryFreeAce;
+            
+            } else {
+                $delivery_fee = $deliveryFreeEc;
             }
+            // dd($delivery_fee);
             $DeliveryFree = new OrderItem();
             $DeliveryFree->setProductName('delivery_fee');
             $DeliveryFree->setProductCode('s-1');
