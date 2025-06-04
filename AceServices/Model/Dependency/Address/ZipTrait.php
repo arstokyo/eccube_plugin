@@ -13,6 +13,8 @@
 
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Address;
 
+use Plugin\AceClient43\Util\Converter\PostalCodeConverter;
+
 /**
  * Trait for Zip
  *
@@ -36,7 +38,7 @@ trait ZipTrait
      */
     public function setZip(?string $zip)
     {
-        $this->zip = $zip;
+        $this->zip = $zip ? PostalCodeConverter::ToAceFormat($zip) : null;
 
         return $this;
     }

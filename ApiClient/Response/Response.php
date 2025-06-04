@@ -90,4 +90,14 @@ class Response implements ResponseInterface
         return json_encode($this, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE | JSON_PRESERVE_ZERO_FRACTION);
         // phpcs:enable
     }
+
+    /**
+     * Check if response is OK
+     *
+     * @return bool
+     */
+    public function isOk(): bool
+    {
+        return $this->statusCode >= 200 && $this->statusCode < 300;
+    }
 }

@@ -53,6 +53,13 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         private bool $isLogOn = LoggerFactory::DEFAULT_LOG_ON;
 
         /**
+         * @var string
+         *
+         * @ORM\Column(name="syid", type="integer", length=1, options={"default":"1"})
+         */
+        private int $syid = 1;
+
+        /**
          * @return int
          */
         public function getId()
@@ -100,6 +107,18 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         public function setIsLogOn($isLogOn)
         {
             $this->isLogOn = $isLogOn;
+
+            return $this;
+        }
+
+        public function getSyid(): int
+        {
+            return $this->syid;
+        }
+
+        public function setSyid(string $syid)
+        {
+            $this->syid = $syid;
 
             return $this;
         }

@@ -40,8 +40,21 @@ class ConfigRepository extends AbstractRepository
      *
      * @return Config|null
      */
-    public function get($id = 1)
+    public function get()
     {
-        return $this->find($id);
+        return $this->findOneBy([], ['id' => 'ASC']);
+    }
+
+    /**
+     * @return int|null
+     */
+    public function findSyid(): ?int
+    {
+        $config = $this->get();
+        if ($config) {
+            return $config->getSyid();
+        }
+
+        return null;
     }
 }

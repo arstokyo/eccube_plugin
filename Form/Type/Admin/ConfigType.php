@@ -36,7 +36,13 @@ class ConfigType extends AbstractType
                     new Length(['max' => 255]),
                 ],
             ])
-                ->add('is_log_on', ToggleSwitchType::class);
+                ->add('is_log_on', ToggleSwitchType::class)
+                ->add('syid', TextType::class, [
+                    'constraints' => [
+                        new NotBlank(),
+                        new Length(['max' => 1]),
+                    ],
+                ]);
     }
 
     /**

@@ -40,4 +40,11 @@ interface ResponseInterface extends \JsonSerializable, \Stringable
      * @return mixed
      */
     public function getResponse();
+
+    /**
+     * Get response body
+     *
+     * @return string
+     */
+    public function isOk(): bool;
 }
