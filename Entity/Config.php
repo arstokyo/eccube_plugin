@@ -60,6 +60,13 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         private int $syid = 1;
 
         /**
+         * @var int
+         *
+         * @ORM\Column(name="jyuchu_id", type="integer", length=1)
+         */
+        private int $jyuchuId;
+
+        /**
          * @return int
          */
         public function getId()
@@ -119,6 +126,18 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         public function setSyid(string $syid)
         {
             $this->syid = $syid;
+
+            return $this;
+        }
+
+        public function getJyuchuId(): int
+        {
+            return $this->jyuchuId;
+        }
+
+        public function setJyuchuId(int $jyuchuId): self
+        {
+            $this->jyuchuId = $jyuchuId;
 
             return $this;
         }

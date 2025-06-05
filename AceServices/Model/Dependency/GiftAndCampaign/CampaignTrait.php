@@ -44,4 +44,11 @@ trait CampaignTrait
 
         return $this;
     }
+
+    public function useCampaign($use = true): self
+    {
+        $this->setCampaign($use ? 1 : 0);
+
+        return $this;
+    }
 }

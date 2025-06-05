@@ -11,7 +11,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Plugin\AceClient43\Events;
+namespace Plugin\AceClient43\Events;
 
 class Events
 {
@@ -22,4 +22,11 @@ class Events
     public const ON_GET_AND_UPDATE_CUSTOMER = 'ace_client.on_get_and_update_customer';
     public const PRE_CREATE_OR_UPDATE_CUSTOMER_ADDRESS = 'ace_client.pre_create_or_update_customer_address';
     public const POST_CREATE_OR_UPDATE_CUSTOMER_ADDRESS = 'ace_client.post_create_or_update_customer_address';
+    public const PRE_ADD_CART = 'ace_client.pre_add_cart';
+    public const POST_ADD_CART = 'ace_client.post_add_cart';
+    public const ON_BIND_JYUMEI_ORDER = 'ace_client.on_bind_jyumei_order';
+    public const ON_PRE_CREATE_ORDER = 'ace_client.on_pre_create_order';
+    public const POST_PRE_CREATE_ORDER = 'ace_client.post_pre_create_order';
+    public const ON_CREATE_ORDER = 'ace_client.on_create_order';
+    public const POST_CREATE_ORDER = 'ace_client.post_create_order';
 }

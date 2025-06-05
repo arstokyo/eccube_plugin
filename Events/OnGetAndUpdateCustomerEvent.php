@@ -11,7 +11,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Plugin\AceClient43\Events;
+namespace Plugin\AceClient43\Events;
 
 use Eccube\Entity\Customer;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;

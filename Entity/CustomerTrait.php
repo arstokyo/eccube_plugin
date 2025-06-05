@@ -18,7 +18,7 @@ use Eccube\Annotation\EntityExtension;
 /**
  * @EntityExtension("Eccube\Entity\Customer")
  */
-class CustomerTrait
+trait CustomerTrait
 {
     /**
      * @var string|null

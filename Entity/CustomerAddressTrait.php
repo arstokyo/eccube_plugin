@@ -18,12 +18,12 @@ use Eccube\Annotation\EntityExtension;
 /**
  * @EntityExtension("Eccube\Entity\CustomerAddress")
  */
-class CustomerAddressTrait
+trait CustomerAddressTrait
 {
     /**
      * @var string|null
      *
-     * @ORM\Column(name="mem_id", type="int", length=6, nullable=true, options={"comment":"Ace住所枝番号"}, unique=true)
+     * @ORM\Column(name="ace_eda_no", type="integer", length=6, nullable=true, options={"comment":"Ace住所枝番号"}, unique=true)
      */
     private ?int $ace_eda_no = null;
 

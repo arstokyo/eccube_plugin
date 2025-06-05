@@ -1,0 +1,42 @@
+<?php
+
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Plugin\AceClient43\Events;
+
+use Eccube\Entity\Shipping;
+use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModelInterface;
+use Symfony\Contracts\EventDispatcher\Event;
+
+class PostPreCreateOrderEvent extends Event
+{
+    private AddCartResponseModelInterface $addCartResponseModel;
+    private Shipping $shipping;
+
+    public function __construct(
+        AddCartResponseModelInterface $addCartResponseModel,
+        Shipping $shipping,
+    ) {
+        $this->addCartResponseModel = $addCartResponseModel;
+        $this->shipping = $shipping;
+    }
+
+    public function getAddCartResponseModel(): AddCartResponseModelInterface
+    {
+        return $this->addCartResponseModel;
+    }
+
+    public function getShipping(): Shipping
+    {
+        return $this->shipping;
+    }
+}
