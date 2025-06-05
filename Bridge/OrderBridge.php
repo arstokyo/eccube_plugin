@@ -122,7 +122,7 @@ class OrderBridge extends BaseBridge
      * @throws CouldNotPreCreateOrderException
      * @throws \LogicException
      */
-    public function preCreate(Shipping $shipping): string
+    private function preCreate(Shipping $shipping): string
     {
         [$order, $customer, $customerAddress, $config] = $this->validatePreCreate($shipping);
 
@@ -274,7 +274,7 @@ class OrderBridge extends BaseBridge
      *
      * @throws CouldNotCreateOrderException
      */
-    public function create(string $sessionId, Shipping $shipping): void
+    private function create(string $sessionId, Shipping $shipping): void
     {
         $config = $this->configRepository->get();
 
