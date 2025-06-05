@@ -71,23 +71,9 @@ class OnBindJyumeiOrderEvent extends Event
         return $this->jyumei;
     }
 
-    public function setJyumei(JyumeiModelInterface $jyumei): self
-    {
-        $this->jyumei = $jyumei;
-
-        return $this;
-    }
-
     public function getJyumeis(): array
     {
         return $this->jyumeis;
-    }
-
-    public function setJyumeis(array $jyumeis): self
-    {
-        $this->jyumeis = $jyumeis;
-
-        return $this;
     }
 
     public function getCharge(): float
@@ -95,23 +81,9 @@ class OnBindJyumeiOrderEvent extends Event
         return $this->charge;
     }
 
-    public function setCharge(float $charge): self
-    {
-        $this->charge = $charge;
-
-        return $this;
-    }
-
     public function getDiscount(): float
     {
         return $this->discount;
-    }
-
-    public function setDiscount(float $discount): self
-    {
-        $this->discount = $discount;
-
-        return $this;
     }
 
     public function getOrderItem(): OrderItem
@@ -119,23 +91,9 @@ class OnBindJyumeiOrderEvent extends Event
         return $this->orderItem;
     }
 
-    public function setOrderItem(OrderItem $orderItem): self
-    {
-        $this->orderItem = $orderItem;
-
-        return $this;
-    }
-
     public function getShipping(): Shipping
     {
         return $this->shipping;
-    }
-
-    public function setShipping(Shipping $shipping): self
-    {
-        $this->shipping = $shipping;
-
-        return $this;
     }
 
     public function getConfig(): Config
@@ -143,22 +101,8 @@ class OnBindJyumeiOrderEvent extends Event
         return $this->config;
     }
 
-    public function setConfig(Config $config): self
-    {
-        $this->config = $config;
-
-        return $this;
-    }
-
     public function getJyuden(): JyudenModelInterface
     {
         return $this->jyuden;
-    }
-
-    public function setJyuden(JyudenModelInterface $jyuden): self
-    {
-        $this->jyuden = $jyuden;
-
-        return $this;
     }
 }
