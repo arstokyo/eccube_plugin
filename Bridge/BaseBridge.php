@@ -14,6 +14,8 @@
 namespace Plugin\AceClient43\Bridge;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Eccube\Session\Session;
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelInterface;
 use Plugin\AceClient43\Entity\Config;
 use Plugin\AceClient43\Repository\ConfigRepository;
@@ -52,7 +54,7 @@ class BaseBridge
     /**
      * @Required
      */
-    public function setEntityManger(EntityManager $entityManager): void
+    public function setEntityManger(EntityManagerInterface $entityManager): void
     {
         $this->em = $entityManager;
     }
@@ -60,7 +62,7 @@ class BaseBridge
     /**
      * @Required
      */
-    public function setSession(SessionInterface $session): void
+    public function setSession(Session $session): void
     {
         $this->session = $session;
     }
