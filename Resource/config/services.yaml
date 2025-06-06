@@ -22,3 +22,9 @@ services:
     Plugin\AceClient43\Service\DiscountProcessor:
         tags:
           - { name: eccube.discount.processor, flow_type: shopping, priority: 1100 }
+
+framework:
+    validation:
+        mapping:
+            paths:
+                - '%kernel.project_dir%/app/Plugin/AceClient43/Resource/config/validator.yaml'
