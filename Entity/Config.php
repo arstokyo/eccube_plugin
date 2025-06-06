@@ -67,6 +67,27 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         private int $jyuchuId;
 
         /**
+         * @ORM\Column(name="use_ace_delivery_fee_instead", type="boolean", options={"default":false})
+         *
+         * @var bool
+         */
+        private bool $use_ace_delivery_fee_instead = false;
+
+        /**
+         * @ORM\Column(name="use_ace_discount_instead", type="boolean", options={"default":false})
+         *
+         * @var bool
+         */
+        private bool $use_ace_discount_instead = false;
+
+        /**
+         * @ORM\Column(name="use_ace_charge_instead", type="boolean", options={"default":false})
+         *
+         * @var bool
+         */
+        private bool $use_ace_charge_instead = false;
+
+        /**
          * @return int
          */
         public function getId()
@@ -135,11 +156,47 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
             return $this->jyuchuId;
         }
 
-        public function setJyuchuId(int $jyuchuId): self
+        public function setJyuchuId(int $jyuchuId)
         {
             $this->jyuchuId = $jyuchuId;
 
             return $this;
+        }
+
+        public function isUseAceDeliveryFeeInstead(): bool
+        {
+            return $this->use_ace_delivery_fee_instead;
+        }
+
+        public function setUseAceDeliveryFeeInstead(bool $useAceDeliveryFeeInstead)
+        {
+            $this->use_ace_delivery_fee_instead = $useAceDeliveryFeeInstead;
+
+            return $this;
+        }
+
+        public function isUseAceDiscountInstead(): bool
+        {
+            return $this->use_ace_discount_instead;
+        }
+
+        public function setUseAceDiscountInstead(bool $use_ace_discount_instead)
+        {
+            $this->use_ace_discount_instead = $use_ace_discount_instead;
+
+            return $this;
+        }
+
+        public function setUseAceChargeInstead(bool $use_ace_charge_instead)
+        {
+            $this->use_ace_charge_instead = $use_ace_charge_instead;
+
+            return $this;
+        }
+
+        public function isUseAceChargeInstead(): bool
+        {
+            return $this->use_ace_charge_instead;
         }
     }
 }
