@@ -10,3 +10,15 @@ services:
     Plugin\AceClient43\Util\Logger\LoggerProvider:
         arguments:
             - '@Plugin\AceClient43\Util\Logger\SoapXmlLogger'
+
+    Plugin\AceClient43\Service\ChargeProcessor:
+        tags:
+            - { name: eccube.item.holder.preprocessor, flow_type: shopping, priority: 650 }
+
+    Plugin\AceClient43\Service\DeliveryFeeProcessor:
+        tags:
+            - { name: eccube.item.holder.preprocessor, flow_type: shopping, priority: 850 }
+
+    Plugin\AceClient43\Service\DiscountProcessor:
+        tags:
+          - { name: eccube.discount.processor, flow_type: shopping, priority: 1100 }
