@@ -100,7 +100,7 @@ class OrderBridge extends BaseBridge
             throw new \LogicException('AceClientプラグインの設定を先に行ってください。');
         }
 
-        if (null === $customer->getAceMemberId()) {
+        if (null === $customer->getAceCustomerId()) {
             $this->logger->error('会員IDが設定されていません。');
             throw new \LogicException('会員IDが設定されていません。');
         }
@@ -190,9 +190,9 @@ class OrderBridge extends BaseBridge
     private function createPreCreateRequest(Shipping $shipping, $order, $customer, $customerAddress, $config, $options): RequestAddCart\AddCartRequestModel
     {
         $member = (new RequestAddCart\MemberOrderModel())
-            ->setJmember((new RequestAddCart\JmemberModel())->setCode($customer->getAceMemberId()))
+            ->setJmember((new RequestAddCart\JmemberModel())->setCode($customer->getAceCustomerId()))
             ->setNmember((new RequestAddCart\NmemberModel())->setEda($customerAddress->getAceEdaNo()))
-            ->setSmember((new RequestAddCart\SmemberModel())->setCode($customer->getAceMemberId()));
+            ->setSmember((new RequestAddCart\SmemberModel())->setCode($customer->getAceCustomerId()));
 
         /** @var RequestAddCart\JyudenModel $jyuden */
         $jyuden = (new RequestAddCart\JyudenModel())

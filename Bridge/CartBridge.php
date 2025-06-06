@@ -143,14 +143,14 @@ class CartBridge extends BaseBridge
     {
         /** @var CustomerTrait|Customer $customer */
         $customer = $cart->getCustomer();
-        if (null === $customer->getAceMemberId()) {
+        if (null === $customer->getAceCustomerId()) {
             $this->logger->error('会員IDが設定されていません。', ['customer' => $customer]);
             throw new \LogicException('会員IDが設定されていません。');
         }
 
         $member = (new RequestAddCart\MemberOrderModel())
             ->setJmember(
-                (new RequestAddCart\JmemberModel())->setCode($customer->getAceMemberId())
+                (new RequestAddCart\JmemberModel())->setCode($customer->getAceCustomerId())
             );
 
         /** @var RequestAddCart\JyudenModel $jyuden */
