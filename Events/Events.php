@@ -29,4 +29,13 @@ class Events
     public const POST_PRE_CREATE_ORDER = 'ace_client.post_pre_create_order';
     public const ON_CREATE_ORDER = 'ace_client.on_create_order';
     public const POST_CREATE_ORDER = 'ace_client.post_create_order';
+    public const ON_ATTACH_DELIVERY_FEE_TO_CART = 'ace_client.on_attach_delivery_fee_to_cart';
+    public const ON_ATTACH_DISCOUNT_TO_CART = 'ace_client.on_attach_discount_to_cart';
+    public const ON_ATTACH_CHARGE_TO_CART = 'ace_client.on_attach_charge_to_cart';
+    public const PRE_PROCESS_DELIVERY_FEE_EVENT = 'ace_client.pre_process_delivery_fee_event';
+    public const POST_PROCESS_DELIVERY_FEE_EVENT = 'ace_client.post_process_delivery_fee_event';
+    public const PRE_PROCESS_CHARGE_EVENT = 'ace_client.pre_process_charge_event';
+    public const POST_PROCESS_CHARGE_EVENT = 'ace_client.post_process_charge_event';
+    public const PRE_PROCESS_DISCOUNT_EVENT = 'ace_client.pre_process_discount_event';
+    public const POST_PROCESS_DISCOUNT_EVENT = 'ace_client.post_process_discount_event';
 }
