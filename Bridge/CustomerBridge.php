@@ -15,11 +15,13 @@ namespace Plugin\AceClient43\Bridge;
 
 use Eccube\Entity\Customer;
 use Eccube\Entity\CustomerAddress;
+use Plugin\AceClient43\AceServices\Model\Request\Member\CheckMailAdress\CheckMailAdressRequestModel;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetMember\GetMemberRequestModel;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetMemberMcode\GetMemberMcodeRequestModel;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr as RequestRegMemAdr;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr\RegMemAdrRequestModel;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
+use Plugin\AceClient43\AceServices\Model\Response\Member\CheckMailAdress\CheckMailAdressResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember\GetMemberResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode;
@@ -35,6 +37,7 @@ use Plugin\AceClient43\Events\PostCreateOrUpdateCustomerAddressEvent;
 use Plugin\AceClient43\Events\PostRegisterCustomerEvent;
 use Plugin\AceClient43\Events\PreCreateOrUpdateCustomerAddressEvent;
 use Plugin\AceClient43\Events\PreRegisterCustomerEvent;
+use Plugin\AceClient43\Exception\CouldNotCheckCustomerExistingException;
 use Plugin\AceClient43\Exception\CouldNotCreateOrUpdateCustomerAddressException;
 use Plugin\AceClient43\Exception\CouldNotRegisterNewCustomerException;
 
@@ -77,7 +80,7 @@ class CustomerBridge extends BaseBridge
             ->setAdr3($customer->getAddr02())
             ->setTel($customer->getPhoneNumber())
             ->setUserid($customer->getEmail())
-            ->setSex($customer->getSex())
+            ->setSexByClass($customer->getSex())
             ->setBirthday($customer->getBirth())
             ->setPoint((int) $customer->getPoint() ?? 0)
             ->setMemmail((new RegMember\MemMailModel())
@@ -86,8 +89,8 @@ class CustomerBridge extends BaseBridge
             );
 
         // 更新用にAceMemberIdを設定
-        if ($customer->getAceMemberId()) {
-            $jmember->setCode($customer->getAceMemberId());
+        if ($customer->getAceCustomerId()) {
+            $jmember->setCode($customer->getAceCustomerId());
         }
 
         return (new RegMember\RegMemberRequestModel())
@@ -130,13 +133,7 @@ class CustomerBridge extends BaseBridge
                 throw new CouldNotRegisterNewCustomerException();
             }
 
-            /** @var CustomerAddressTrait|CustomerAddress $firstAddress */
-            $firstAddress = $customer->getCustomerAddresses()->first();
-            if (null === $customer->getAceMemberId() && null === $firstAddress->getAceEdaNo()) {
-                $firstAddress->setAceEdaNo(1);
-            }
-
-            $customer->setAceMemberId($responseObject->getMember()->getJmember()->getCode());
+            $customer->setAceCustomerId($responseObject->getMember()->getJmember()->getCode());
 
             $postEventName = $eventName === Events::PRE_REGISTER_CUSTOMER
                 ? Events::POST_REGISTER_CUSTOMER
@@ -172,9 +169,9 @@ class CustomerBridge extends BaseBridge
      *
      * @throws \LogicException
      */
-    public function new(Customer $customer, bool $needFlush = true, array $options = []): void
+    public function new(Customer $customer, bool $needFlush = false, array $options = []): void
     {
-        if (null !== $customer->getAceMemberId()) {
+        if (null !== $customer->getAceCustomerId()) {
             $this->logger->error('通販Aceの顧客登録に失敗しました: 顧客IDが既に存在します', ['customer' => $customer]);
             throw new \LogicException('顧客IDが既に登録されています。');
         }
@@ -195,7 +192,7 @@ class CustomerBridge extends BaseBridge
      */
     public function update(Customer $customer, bool $needFlush = true, array $options = []): void
     {
-        if (null === $customer->getAceMemberId()) {
+        if (null === $customer->getAceCustomerId()) {
             $this->logger->error('通販Aceの顧客更新に失敗しました: 顧客IDが設定されていません', ['customer' => $customer]);
             throw new \LogicException('顧客IDが設定されていません。');
         }
@@ -287,7 +284,7 @@ class CustomerBridge extends BaseBridge
      */
     public function getAndUpdate(Customer $customer, bool $needFlush = true): Customer
     {
-        if (null === $aceMbid = $customer->getAceMemberId()) {
+        if (null === $aceMbid = $customer->getAceCustomerId()) {
             $loginMemberModel = $this->getByEmailAndPassword($customer->getEmail(), $customer->getPassword());
         } else {
             $loginMemberModel = $this->getByMbid($aceMbid);
@@ -318,7 +315,7 @@ class CustomerBridge extends BaseBridge
         $customer->setSex($jmember->getSex());
         $customer->setBirth($jmember->getBirthday());
         $customer->setPoint($jmember->getPoint());
-        $customer->setAceMemberId($jmember->getCode());
+        $customer->setAceCustomerId($jmember->getCode());
 
         $this->eventDispatcher->dispatch(
             new OnGetAndUpdateCustomerEvent($loginMemberModel, $customer),
@@ -377,7 +374,7 @@ class CustomerBridge extends BaseBridge
          * @var CustomerTrait|Customer $customer
          */
         $customer = $address->getCustomer();
-        if (null === $customer->getAceMemberId()) {
+        if (null === $customer->getAceCustomerId()) {
             $this->logger->error('通販Aceの住所登録に失敗しました: 顧客IDが設定されていません', ['customer' => $customer]);
             throw new \LogicException('先に顧客を登録してください。');
         }
@@ -386,7 +383,7 @@ class CustomerBridge extends BaseBridge
             ->setId($this->getSyid())
             ->setPrm((new RequestRegMemAdr\MemberPrmModel())
                 ->setNmember((new RequestRegMemAdr\NmemberModel())
-                    ->setCode($customer->getAceMemberId())
+                    ->setCode($customer->getAceCustomerId())
                     ->setEda($address->getAceEdaNo())
                     ->setZip($address->getPostalCode())
                     ->setAdr1($address->getPref()->getName())
@@ -438,5 +435,35 @@ class CustomerBridge extends BaseBridge
         }
 
         return true;
+    }
+
+    /**
+     * 顧客の存在チェック
+     *
+     * @throw CouldNotCheckCustomerExistingException
+     */
+    public function has(string $mail): bool
+    {
+        try {
+            $request = (new CheckMailAdressRequestModel())
+                ->setId($this->getSyid())
+                ->setMailadress($mail);
+
+            $response = $this->memberService->makeCheckMailAdressMethod()
+                ->withRequest($request)
+                ->send();
+
+            if (!$response->isOk()) {
+                throw new \RuntimeException(sprintf('通販Aceの顧客の参照時に、エラーが発生しました。 %s', $response->getStatusCode()));
+            }
+
+            /** @var CheckMailAdressResponseModelInterface $responseObject */
+            $responseObject = $response->getResponse();
+
+            return 'NG' === $responseObject->getMember()->getMessage()->getResult();
+        } catch (\Throwable $e) {
+            $this->logger->error('通販Aceの顧客存在のチェック処理にエラーが発生しました。', ['exception' => $e]);
+            throw new CouldNotCheckCustomerExistingException('通販Aceの顧客が存在するかどうかのチェックできませんでした。', $e);
+        }
     }
 }

@@ -24,18 +24,18 @@ trait CustomerTrait
     /**
      * @var string|null
      *
-     * @ORM\Column(name="mem_id", type="string", length=255, nullable=true, options={"comment":"ACE顧客ID"}, unique=true)
+     * @ORM\Column(name="ace_customer_id", type="string", length=255, nullable=true, options={"comment":"ACE顧客ID"}, unique=true)
      */
-    private ?string $ace_mbid = null;
+    private ?string $ace_customer_id = null;
 
     /**
      * mem_idの値を取得する
      *
      * @return string|null
      */
-    public function getAceMemberId(): ?string
+    public function getAceCustomerId(): ?string
     {
-        return $this->ace_mbid;
+        return $this->ace_customer_id;
     }
 
     /**
@@ -45,9 +45,9 @@ trait CustomerTrait
      *
      * @return self
      */
-    public function setAceMemberId(?string $ace_mbid): self
+    public function setAceCustomerId(?string $ace_customer_id): self
     {
-        $this->ace_mbid = $ace_mbid;
+        $this->ace_customer_id = $ace_customer_id;
 
         return $this;
     }
