@@ -13,6 +13,7 @@
 
 namespace Plugin\AceClient43\Validator;
 
+use Eccube\Repository\CustomerRepository;
 use Plugin\AceClient43\Bridge\CustomerBridge;
 use Plugin\AceClient43\Exception\CouldNotCheckCustomerExistingException;
 use Plugin\AceClient43\Repository\ConfigRepository;
@@ -25,12 +26,14 @@ class UniqueCustomerValidator extends ConstraintValidator
     private CustomerBridge $customerBridge;
     private ConfigRepository $configRepository;
     private TranslatorInterface $translator;
+    private CustomerRepository $customerRepository;
 
-    public function __construct(CustomerBridge $customerBridge, ConfigRepository $configRepository, TranslatorInterface $translator)
+    public function __construct(CustomerBridge $customerBridge, ConfigRepository $configRepository, TranslatorInterface $translator, CustomerRepository $customerRepository)
     {
         $this->customerBridge = $customerBridge;
         $this->configRepository = $configRepository;
         $this->translator = $translator;
+        $this->customerRepository = $customerRepository;
     }
 
     /**
@@ -44,6 +47,11 @@ class UniqueCustomerValidator extends ConstraintValidator
     public function validate($value, Constraint $constraint)
     {
         if (!$this->configRepository->get()->needValidateCustomerExisting()) {
+            return;
+        }
+
+        $customer = $this->customerRepository->findBy(['email' => $value]);
+        if ($customer) {
             return;
         }
 
