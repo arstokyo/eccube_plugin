@@ -45,6 +45,7 @@ class OnBindJyumeiOrderEvent extends Event
 
     /** @var JyudenModelInterface */
     private $jyuden;
+    private $options;
 
     public function __construct(
         ?JyumeiModelInterface $jyumei,
@@ -55,6 +56,7 @@ class OnBindJyumeiOrderEvent extends Event
         Shipping $shipping,
         Config $config,
         JyudenModelInterface $jyuden,
+        array $options,
     ) {
         $this->jyumei = $jyumei;
         $this->jyumeis = $jyumeis;
@@ -64,6 +66,7 @@ class OnBindJyumeiOrderEvent extends Event
         $this->shipping = $shipping;
         $this->config = $config;
         $this->jyuden = $jyuden;
+        $this->options = $options;
     }
 
     public function getJyumei(): ?JyumeiModelInterface
@@ -104,5 +107,10 @@ class OnBindJyumeiOrderEvent extends Event
     public function getJyuden(): JyudenModelInterface
     {
         return $this->jyuden;
+    }
+
+    public function getOptions(): array
+    {
+        return $this->options;
     }
 }

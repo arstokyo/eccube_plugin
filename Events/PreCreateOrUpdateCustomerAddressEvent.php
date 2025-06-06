@@ -29,6 +29,8 @@ class PreCreateOrUpdateCustomerAddressEvent extends Event
      */
     private $customerAddress;
 
+    private array $options;
+
     /**
      * @param RegMemAdrRequestModel $regMemAdrRequestModel
      * @param \Eccube\Entity\Customer $customer
@@ -36,9 +38,11 @@ class PreCreateOrUpdateCustomerAddressEvent extends Event
     public function __construct(
         RegMemAdrRequestModel $regMemAdrRequestModel,
         CustomerAddress $customerAddress,
+        array $options,
     ) {
         $this->regMemAdrRequestModel = $regMemAdrRequestModel;
         $this->customerAddress = $customerAddress;
+        $this->options = $options;
     }
 
     public function getRegMemAdrRequestModel(): RegMemAdrRequestModel
@@ -49,5 +53,10 @@ class PreCreateOrUpdateCustomerAddressEvent extends Event
     public function getCustomerAddress(): CustomerAddress
     {
         return $this->customerAddress;
+    }
+
+    public function getOptions(): array
+    {
+        return $this->options;
     }
 }

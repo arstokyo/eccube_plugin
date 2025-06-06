@@ -29,6 +29,8 @@ class PostCreateOrUpdateCustomerAddressEvent extends Event
      */
     private $customerAddress;
 
+    private array $options;
+
     /**
      * @param RegMemAdrResponseModel $regMemAdrResponseModel
      * @param CustomerAddress $customer
@@ -36,9 +38,11 @@ class PostCreateOrUpdateCustomerAddressEvent extends Event
     public function __construct(
         RegMemAdrResponseModel $regMemAdrResponseModel,
         CustomerAddress $customer,
+        array $options,
     ) {
         $this->regMemAdrResponseModel = $regMemAdrResponseModel;
         $this->customerAddress = $customer;
+        $this->options = $options;
     }
 
     public function getRegMemAdrResponseModel(): RegMemAdrResponseModel
@@ -49,5 +53,10 @@ class PostCreateOrUpdateCustomerAddressEvent extends Event
     public function getCustomerAddress(): CustomerAddress
     {
         return $this->customerAddress;
+    }
+
+    public function getOptions(): array
+    {
+        return $this->options;
     }
 }

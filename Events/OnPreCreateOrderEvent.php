@@ -37,6 +37,8 @@ class OnPreCreateOrderEvent extends Event
 
     private AddCartRequestModelInterface $addCartRequest;
 
+    private array $options;
+
     public function __construct(
         float $charge,
         float $discount,
@@ -44,6 +46,7 @@ class OnPreCreateOrderEvent extends Event
         AddCartRequestModelInterface $addCartRequest,
         Shipping $shipping,
         Config $config,
+        array $options,
     ) {
         $this->charge = $charge;
         $this->discount = $discount;
@@ -51,6 +54,7 @@ class OnPreCreateOrderEvent extends Event
         $this->config = $config;
         $this->shipping = $shipping;
         $this->addCartRequest = $addCartRequest;
+        $this->options = $options;
     }
 
     public function getCharge(): float
@@ -81,5 +85,10 @@ class OnPreCreateOrderEvent extends Event
     public function getAddCartRequest(): AddCartRequestModelInterface
     {
         return $this->addCartRequest;
+    }
+
+    public function getOptions(): array
+    {
+        return $this->options;
     }
 }

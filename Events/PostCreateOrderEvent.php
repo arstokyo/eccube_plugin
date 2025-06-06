@@ -21,13 +21,16 @@ class PostCreateOrderEvent extends Event
 {
     private DecisionCartResponseModelInterface $decisionCartResponse;
     private Shipping $shipping;
+    private array $options;
 
     public function __construct(
         DecisionCartResponseModelInterface $decisionCartResponse,
         Shipping $shipping,
+        array $options,
     ) {
         $this->decisionCartResponse = $decisionCartResponse;
         $this->shipping = $shipping;
+        $this->options = $options;
     }
 
     public function getShipping(): Shipping
@@ -38,5 +41,10 @@ class PostCreateOrderEvent extends Event
     public function getDecisionCartResponse(): DecisionCartResponseModelInterface
     {
         return $this->decisionCartResponse;
+    }
+
+    public function getOptions(): array
+    {
+        return $this->options;
     }
 }

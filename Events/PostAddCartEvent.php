@@ -15,6 +15,7 @@ namespace Plugin\AceClient43\Events;
 
 use Eccube\Entity\Cart;
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModelInterface;
+use Plugin\AceClient43\Entity\Config;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class PostAddCartEvent extends Event
@@ -23,12 +24,19 @@ class PostAddCartEvent extends Event
 
     private Cart $cart;
 
+    private array $options;
+    private Config $config;
+
     public function __construct(
         AddCartResponseModelInterface $addCartResponseModel,
         Cart $cart,
+        array $options,
+        Config $config,
     ) {
         $this->addCartResponseModel = $addCartResponseModel;
         $this->cart = $cart;
+        $this->options = $options;
+        $this->config = $config;
     }
 
     public function getAddCartResponseModel(): AddCartResponseModelInterface
@@ -39,5 +47,15 @@ class PostAddCartEvent extends Event
     public function getCart(): Cart
     {
         return $this->cart;
+    }
+
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
+
+    public function getConfig(): Config
+    {
+        return $this->config;
     }
 }

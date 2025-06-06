@@ -15,19 +15,26 @@ namespace Plugin\AceClient43\Events;
 
 use Eccube\Entity\Shipping;
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModelInterface;
+use Plugin\AceClient43\Entity\Config;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class PostPreCreateOrderEvent extends Event
 {
     private AddCartResponseModelInterface $addCartResponseModel;
     private Shipping $shipping;
+    private Config $config;
+    private array $options;
 
     public function __construct(
         AddCartResponseModelInterface $addCartResponseModel,
         Shipping $shipping,
+        Config $config,
+        array $options,
     ) {
         $this->addCartResponseModel = $addCartResponseModel;
         $this->shipping = $shipping;
+        $this->config = $config;
+        $this->options = $options;
     }
 
     public function getAddCartResponseModel(): AddCartResponseModelInterface
@@ -38,5 +45,15 @@ class PostPreCreateOrderEvent extends Event
     public function getShipping(): Shipping
     {
         return $this->shipping;
+    }
+
+    public function getConfig(): Config
+    {
+        return $this->config;
+    }
+
+    public function getOptions(): array
+    {
+        return $this->options;
     }
 }
