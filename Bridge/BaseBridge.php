@@ -15,6 +15,7 @@ namespace Plugin\AceClient43\Bridge;
 
 use Doctrine\ORM\EntityManager;
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelInterface;
+use Plugin\AceClient43\Entity\Config;
 use Plugin\AceClient43\Repository\ConfigRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -127,5 +128,15 @@ class BaseBridge
         }
 
         return false;
+    }
+
+    protected function getConfig(): Config
+    {
+        $config = $this->configRepository->get();
+        if (null === $config) {
+            throw new \LogicException('通販Aceの設定が見つかりません。');
+        }
+
+        return $config;
     }
 }
