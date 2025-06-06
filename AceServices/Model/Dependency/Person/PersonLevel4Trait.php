@@ -13,6 +13,7 @@
 
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Person;
 
+use Eccube\Entity\Master\Sex;
 use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
 use Plugin\AceClient43\AceServices\Model\Dependency\Baitai;
 use Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
@@ -172,6 +173,15 @@ trait PersonLevel4Trait
     public function setSex(?int $sex)
     {
         $this->sex = $sex;
+
+        return $this;
+    }
+
+    public function setSexByClass(?Sex $sexClass)
+    {
+        $sex = (null === $sexClass || !in_array($sexClass->getId(), [1, 2])) ? 0 : $sexClass->getId();
+
+        $this->setSex($sex);
 
         return $this;
     }
