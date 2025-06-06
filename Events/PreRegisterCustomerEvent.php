@@ -14,13 +14,13 @@
 namespace Plugin\AceClient43\Events;
 
 use Eccube\Entity\Customer;
-use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember\RegMemberRequestModel;
+use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember\RegMemberRequestModelInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class PreRegisterCustomerEvent extends Event
 {
     /**
-     * @var RegMemberRequestModel
+     * @var RegMemberRequestModelInterface
      */
     private $regMemberRequestModel;
 
@@ -29,15 +29,19 @@ class PreRegisterCustomerEvent extends Event
      */
     private $customer;
 
+    private $options;
+
     public function __construct(
-        RegMemberRequestModel $regMemberRequestModel,
+        RegMemberRequestModelInterface $regMemberRequestModel,
         Customer $customer,
+        array $options,
     ) {
         $this->regMemberRequestModel = $regMemberRequestModel;
         $this->customer = $customer;
+        $this->options = $options;
     }
 
-    public function getRegMemberRequestModel(): RegMemberRequestModel
+    public function getRegMemberRequestModel(): RegMemberRequestModelInterface
     {
         return $this->regMemberRequestModel;
     }
@@ -45,5 +49,10 @@ class PreRegisterCustomerEvent extends Event
     public function getCustomer(): Customer
     {
         return $this->customer;
+    }
+
+    public function getOptions(): array
+    {
+        return $this->options;
     }
 }

@@ -65,6 +65,7 @@ class OrderBridge extends BaseBridge
      * カート作成
      *
      * @param Shipping|ShippingTrait $shipping
+     * @param array $options
      *
      * @return void
      *
@@ -72,10 +73,10 @@ class OrderBridge extends BaseBridge
      * @throws CouldNotCreateOrderException
      * @throws \LogicException
      */
-    public function new(Shipping $shipping): void
+    public function new(Shipping $shipping, array $options = []): void
     {
-        $sessionId = $this->preCreate($shipping);
-        $this->create($sessionId, $shipping);
+        $sessionId = $this->preCreate($shipping, $options);
+        $this->create($sessionId, $shipping, $options);
     }
 
     /**
@@ -87,7 +88,7 @@ class OrderBridge extends BaseBridge
      *
      * @throws \LogicException
      */
-    private function validatePreCreate(Shipping $shipping)
+    private function validatePreCreate(Shipping $shipping): array
     {
         $order = $shipping->getOrder();
         $customer = $order->getCustomer();
@@ -116,17 +117,18 @@ class OrderBridge extends BaseBridge
      * カートを事前作成
      *
      * @param Shipping|ShippingTrait $shipping
+     * @param array $options
      *
      * @return string Session ID
      *
      * @throws CouldNotPreCreateOrderException
      * @throws \LogicException
      */
-    private function preCreate(Shipping $shipping): string
+    private function preCreate(Shipping $shipping, array $options): string
     {
         [$order, $customer, $customerAddress, $config] = $this->validatePreCreate($shipping);
 
-        $request = $this->createPreCreateRequest($shipping, $order, $customer, $customerAddress, $config);
+        $request = $this->createPreCreateRequest($shipping, $order, $customer, $customerAddress, $config, $options);
 
         $this->eventDispatcher->dispatch(
             new OnPreCreateOrderEvent(
@@ -135,7 +137,8 @@ class OrderBridge extends BaseBridge
                 $request->getPrm()->getJyuden()->getSouryou() ?? 0,
                 $request,
                 $shipping,
-                $config
+                $config,
+                $options
             ),
             Events::ON_PRE_CREATE_ORDER
         );
@@ -156,7 +159,7 @@ class OrderBridge extends BaseBridge
             }
 
             $this->eventDispatcher->dispatch(
-                new PostPreCreateOrderEvent($responseObject, $shipping),
+                new PostPreCreateOrderEvent($responseObject, $shipping, $config, $options),
                 Events::POST_PRE_CREATE_ORDER
             );
 
@@ -180,10 +183,11 @@ class OrderBridge extends BaseBridge
      * @param Customer|CustomerTrait $customer
      * @param CustomerAddress|CustomerAddressTrait $customerAddress
      * @param Config $config
+     * @param array $options
      *
      * @return RequestAddCart\AddCartRequestModel
      */
-    private function createPreCreateRequest(Shipping $shipping, $order, $customer, $customerAddress, $config): RequestAddCart\AddCartRequestModel
+    private function createPreCreateRequest(Shipping $shipping, $order, $customer, $customerAddress, $config, $options): RequestAddCart\AddCartRequestModel
     {
         $member = (new RequestAddCart\MemberOrderModel())
             ->setJmember((new RequestAddCart\JmemberModel())->setCode($customer->getAceMemberId()))
@@ -197,7 +201,8 @@ class OrderBridge extends BaseBridge
             ->setJcode($config->getJyuchuId())
             ->setNbikou1($shipping->getNote())
             ->setHday($shipping->getShippingDeliveryDate())
-            ->setWeborderno($order->getId());
+            ->setWeborderno($order->getId())
+            ->setPointm($order->getUsePoint());
 
         $jyumeis = [];
         $charge = 0;
@@ -224,14 +229,15 @@ class OrderBridge extends BaseBridge
 
             $this->eventDispatcher->dispatch(
                 new OnBindJyumeiOrderEvent(
-                    $jyumei,
+                    $jyumei ?? null,
                     $jyumeis,
                     $charge,
                     $discount,
                     $item,
                     $shipping,
                     $config,
-                    $jyuden
+                    $jyuden,
+                    $options
                 ),
                 Events::ON_BIND_JYUMEI_ORDER
             );
@@ -245,7 +251,7 @@ class OrderBridge extends BaseBridge
             $jyuden->setNebiki($discount);
         }
 
-        if ($deliveryFree > 0) {
+        if (!$config->isUseAceDeliveryFeeInstead() && $deliveryFree > 0) {
             $jyuden->setSouryou($deliveryFree);
         }
 
@@ -269,12 +275,13 @@ class OrderBridge extends BaseBridge
      *
      * @param string $sessionId
      * @param Shipping|ShippingTrait $shipping
+     * @param array $options
      *
      * @return void
      *
      * @throws CouldNotCreateOrderException
      */
-    private function create(string $sessionId, Shipping $shipping): void
+    private function create(string $sessionId, Shipping $shipping, array $options): void
     {
         $config = $this->configRepository->get();
 
@@ -283,7 +290,7 @@ class OrderBridge extends BaseBridge
             ->setSessId($sessionId);
 
         $this->eventDispatcher->dispatch(
-            new OnCreateOrderEvent($decisionRequest, $shipping),
+            new OnCreateOrderEvent($decisionRequest, $shipping, $options),
             Events::ON_CREATE_ORDER
         );
 
@@ -303,7 +310,7 @@ class OrderBridge extends BaseBridge
             }
 
             $this->eventDispatcher->dispatch(
-                new PostCreateOrderEvent($decisionResponseObject, $shipping),
+                new PostCreateOrderEvent($decisionResponseObject, $shipping, $options),
                 Events::POST_CREATE_ORDER
             );
         } catch (\Throwable $e) {

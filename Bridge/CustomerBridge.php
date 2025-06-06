@@ -48,7 +48,7 @@ class CustomerBridge extends BaseBridge
     /**
      * @var MemberService
      */
-    private $memberService;
+    private MemberService $memberService;
 
     public function __construct(
         MemberService $memberService,
@@ -99,19 +99,18 @@ class CustomerBridge extends BaseBridge
     /**
      * 顧客データをACE APIに送信
      *
-     * @param RegMember\RegMemberRequestModel $regMemberRequest
+     * @param RegMember\RegMemberRequestModelInterface $regMemberRequest
      * @param CustomerTrait|Customer $customer
      * @param string $eventName
      * @param bool $needFlush
-     *
-     * @return bool
+     * @param array $options
      *
      * @throws CouldNotRegisterNewCustomerException
      */
-    private function sendCustomerToAce($regMemberRequest, $customer, string $eventName, bool $needFlush = true): void
+    private function sendCustomerToAce(RegMember\RegMemberRequestModelInterface $regMemberRequest, Customer $customer, string $eventName, bool $needFlush, array $options): void
     {
         $this->eventDispatcher->dispatch(
-            new PreRegisterCustomerEvent($regMemberRequest, $customer),
+            new PreRegisterCustomerEvent($regMemberRequest, $customer, $options),
             $eventName
         );
 
@@ -144,7 +143,7 @@ class CustomerBridge extends BaseBridge
                 : Events::POST_UPDATE_CUSTOMER;
 
             $this->eventDispatcher->dispatch(
-                new PostRegisterCustomerEvent($responseObject, $customer),
+                new PostRegisterCustomerEvent($responseObject, $customer, $options),
                 $postEventName
             );
 
@@ -169,12 +168,11 @@ class CustomerBridge extends BaseBridge
      *
      * @param CustomerTrait|Customer $customer
      * @param bool $needFlush - trueの場合、エンティティマネージャーをフラッシュします
-     *
-     * @return bool
+     * @param array $options
      *
      * @throws \LogicException
      */
-    public function new($customer, bool $needFlush = true): bool
+    public function new(Customer $customer, bool $needFlush = true, array $options = []): void
     {
         if (null !== $customer->getAceMemberId()) {
             $this->logger->error('通販Aceの顧客登録に失敗しました: 顧客IDが既に存在します', ['customer' => $customer]);
@@ -183,7 +181,7 @@ class CustomerBridge extends BaseBridge
 
         $regMemberRequest = $this->bindCustomerToRegMember($customer);
 
-        return $this->sendCustomerToAce($regMemberRequest, $customer, Events::PRE_REGISTER_CUSTOMER, $needFlush);
+        $this->sendCustomerToAce($regMemberRequest, $customer, Events::PRE_REGISTER_CUSTOMER, $needFlush, $options);
     }
 
     /**
@@ -191,12 +189,11 @@ class CustomerBridge extends BaseBridge
      *
      * @param CustomerTrait|Customer $customer
      * @param bool $needFlush - trueの場合、エンティティマネージャーをフラッシュします
-     *
-     * @return bool
+     * @param array $options
      *
      * @throws \LogicException
      */
-    public function update($customer, bool $needFlush = true): bool
+    public function update(Customer $customer, bool $needFlush = true, array $options = []): void
     {
         if (null === $customer->getAceMemberId()) {
             $this->logger->error('通販Aceの顧客更新に失敗しました: 顧客IDが設定されていません', ['customer' => $customer]);
@@ -205,7 +202,7 @@ class CustomerBridge extends BaseBridge
 
         $regMemberRequest = $this->bindCustomerToRegMember($customer);
 
-        return $this->sendCustomerToAce($regMemberRequest, $customer, Events::PRE_UPDATE_CUSTOMER, $needFlush);
+        $this->sendCustomerToAce($regMemberRequest, $customer, Events::PRE_UPDATE_CUSTOMER, $needFlush, $options);
     }
 
     /**
@@ -288,7 +285,7 @@ class CustomerBridge extends BaseBridge
      *
      * @throws \LogicException
      */
-    public function getAndUpdate($customer, $needFlush = true): Customer
+    public function getAndUpdate(Customer $customer, bool $needFlush = true): Customer
     {
         if (null === $aceMbid = $customer->getAceMemberId()) {
             $loginMemberModel = $this->getByEmailAndPassword($customer->getEmail(), $customer->getPassword());
@@ -341,17 +338,18 @@ class CustomerBridge extends BaseBridge
      *
      * @param CustomerAddress[]|CustomerAddressTrait[] $addresses
      * @param bool $needFlush
+     * @param array $options
      *
      * @throws \LogicException
      */
-    public function createOrUpdateAddresses(array $addresses, $needFlush = true): bool
+    public function createOrUpdateAddresses(array $addresses, bool $needFlush = true, array $options = []): bool
     {
         if (empty($addresses)) {
             return false;
         }
 
         foreach ($addresses as $address) {
-            $this->createOrUpdateAddress($address, false);
+            $this->createOrUpdateAddress($address, false, $options);
         }
 
         if ($needFlush) {
@@ -366,13 +364,14 @@ class CustomerBridge extends BaseBridge
      *
      * @param CustomerAddress|CustomerAddressTrait $address
      * @param mixed $needFlush
+     * @param array $options
      *
      * @return bool
      *
      * @throws \LogicException
      * @throws CouldNotCreateOrUpdateCustomerAddressException
      */
-    public function createOrUpdateAddress(CustomerAddress $address, $needFlush = true): bool
+    public function createOrUpdateAddress(CustomerAddress $address, bool $needFlush = true, array $options = []): bool
     {
         /**
          * @var CustomerTrait|Customer $customer
@@ -398,7 +397,7 @@ class CustomerBridge extends BaseBridge
             );
 
         $this->eventDispatcher->dispatch(
-            new PreCreateOrUpdateCustomerAddressEvent($request, $address),
+            new PreCreateOrUpdateCustomerAddressEvent($request, $address, $options),
             Events::PRE_CREATE_OR_UPDATE_CUSTOMER_ADDRESS
         );
 
@@ -420,7 +419,7 @@ class CustomerBridge extends BaseBridge
             $address->setAceEdaNo($responseObject->getMember()->getNmember()->getEda());
 
             $this->eventDispatcher->dispatch(
-                new PostCreateOrUpdateCustomerAddressEvent($responseObject, $address),
+                new PostCreateOrUpdateCustomerAddressEvent($responseObject, $address, $options),
                 Events::POST_CREATE_OR_UPDATE_CUSTOMER_ADDRESS
             );
 

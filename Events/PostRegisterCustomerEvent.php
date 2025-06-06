@@ -14,13 +14,13 @@
 namespace Plugin\AceClient43\Events;
 
 use Eccube\Entity\Customer;
-use Plugin\AceClient43\AceServices\Model\Response\Member\RegMember\RegMemberResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response\Member\RegMember\RegMemberResponseModelInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class PostRegisterCustomerEvent extends Event
 {
     /**
-     * @var RegMemberResponseModel
+     * @var RegMemberResponseModelInterface
      */
     private $regMemberResponseModel;
 
@@ -29,15 +29,19 @@ class PostRegisterCustomerEvent extends Event
      */
     private $customer;
 
+    private array $options;
+
     public function __construct(
-        RegMemberResponseModel $regMemberResponseModel,
+        RegMemberResponseModelInterface $regMemberResponseModel,
         Customer $customer,
+        array $options,
     ) {
         $this->regMemberResponseModel = $regMemberResponseModel;
         $this->customer = $customer;
+        $this->options = $options;
     }
 
-    public function getRegMemberResponseModel(): RegMemberResponseModel
+    public function getRegMemberResponseModel(): RegMemberResponseModelInterface
     {
         return $this->regMemberResponseModel;
     }
@@ -45,5 +49,10 @@ class PostRegisterCustomerEvent extends Event
     public function getCustomer(): Customer
     {
         return $this->customer;
+    }
+
+    public function getOptions(): array
+    {
+        return $this->options;
     }
 }
