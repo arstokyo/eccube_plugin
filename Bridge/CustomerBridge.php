@@ -72,8 +72,8 @@ class CustomerBridge extends BaseBridge
     {
         $syid = $this->getSyid();
         $jmember = (new RegMember\JmemberModel())
-            ->setSimei(mb_convert_kana(sprintf('%s %s', $customer->getname01(), $customer->getName02(), 'KVA')))
-            ->setKana(mb_convert_kana(sprintf('%s %s', $customer->getKana01(), $customer->getKana02(), 'KVA')))
+            ->setSimei(mb_convert_kana(sprintf('%s　%s', $customer->getname01(), $customer->getName02(), 'KVA')))
+            ->setKana(mb_convert_kana(sprintf('%s　%s', $customer->getKana01(), $customer->getKana02(), 'KVA')))
             ->setZip($customer->getPostalCode())
             ->setAdr1($customer->getPref()->getName())
             ->setAdr2($customer->getAddr01())
@@ -83,6 +83,7 @@ class CustomerBridge extends BaseBridge
             ->setSexByClass($customer->getSex())
             ->setBirthday($customer->getBirth())
             ->setPoint((int) $customer->getPoint() ?? 0)
+            ->setPasswd($customer->getPassword())
             ->setMemmail((new RegMember\MemMailModel())
                 ->setMail($customer->getEmail())
                 ->setIdx(1)
@@ -205,15 +206,15 @@ class CustomerBridge extends BaseBridge
     /**
      * 会員IDによる顧客情報の取得
      *
-     * @param string $ace_mbid
+     * @param string $ace_customer_id - 通販Aceの顧客ID
      *
      * @return GetMemberMcode\LoginMemberModelInterface|null
      */
-    public function getByMbid(string $ace_mbid): ?GetMemberMcode\LoginMemberModelInterface
+    public function getByAceCustomerId(string $ace_customer_id): ?GetMemberMcode\LoginMemberModelInterface
     {
         $request = (new GetMemberMcodeRequestModel())
             ->setId($this->getSyid())
-            ->setMcode($ace_mbid);
+            ->setMcode($ace_customer_id);
 
         try {
             $response = $this->memberService->makeGetMemberMcodeMethod()
@@ -284,10 +285,10 @@ class CustomerBridge extends BaseBridge
      */
     public function getAndUpdate(Customer $customer, bool $needFlush = true): Customer
     {
-        if (null === $aceMbid = $customer->getAceCustomerId()) {
+        if (null === $aceCustomerId = $customer->getAceCustomerId()) {
             $loginMemberModel = $this->getByEmailAndPassword($customer->getEmail(), $customer->getPassword());
         } else {
-            $loginMemberModel = $this->getByMbid($aceMbid);
+            $loginMemberModel = $this->getByAceCustomerId($aceCustomerId);
         }
 
         if (null === $loginMemberModel) {
