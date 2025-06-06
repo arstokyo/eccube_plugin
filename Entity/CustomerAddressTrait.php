@@ -13,6 +13,7 @@
 
 namespace Plugin\AceClient43\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use Eccube\Annotation\EntityExtension;
 
 /**

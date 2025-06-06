@@ -13,6 +13,7 @@
 
 namespace Plugin\AceClient43\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use Plugin\AceClient43\Entity\Constants\TorihikiKubun;
 
 trait BaseCartOrderTrait
@@ -43,14 +44,14 @@ trait BaseCartOrderTrait
     /**
      * @var float
      *
-     * @ORM\Column(name=ace_discount_amount", type="decimal", precision=12, scale=2, options={"default":0})
+     * @ORM\Column(name="ace_discount_amount", type="decimal", precision=12, scale=2, options={"default":0})
      */
     private $ace_discount_amount = 0;
 
     /**
      * @var float
      *
-     * @ORM\Column(name=ace_charge_fee", type="decimal", precision=12, scale=2, options={"default":0})
+     * @ORM\Column(name="ace_charge_fee", type="decimal", precision=12, scale=2, options={"default":0})
      */
     private $ace_charge_fee = 0;
 
