@@ -88,6 +88,13 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         private bool $use_ace_charge_instead = false;
 
         /**
+         * @ORM\Column(name="validate_customer_existing", type="boolean", options={"default":true})
+         *
+         * @var bool
+         */
+        private bool $validate_customer_existing = true;
+
+        /**
          * @return int
          */
         public function getId()
@@ -197,6 +204,18 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         public function isUseAceChargeInstead(): bool
         {
             return $this->use_ace_charge_instead;
+        }
+
+        public function setValidateCustomerExisting(bool $validateCustomerExisting)
+        {
+            $this->validate_customer_existing = $validateCustomerExisting;
+
+            return $this;
+        }
+
+        public function needValidateCustomerExisting(): bool
+        {
+            return $this->validate_customer_existing;
         }
     }
 }
