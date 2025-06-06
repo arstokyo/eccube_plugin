@@ -34,11 +34,32 @@ trait BaseCartOrderTrait
     private int $ace_ksid;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(name="ace_delivery_fee", type="decimal", precision=12, scale=2, options={"default":0})
+     */
+    private $ace_delivery_fee = 0;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name=ace_discount_amount", type="decimal", precision=12, scale=2, options={"default":0})
+     */
+    private $ace_discount_amount = 0;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name=ace_charge_fee", type="decimal", precision=12, scale=2, options={"default":0})
+     */
+    private $ace_charge_fee = 0;
+
+    /**
      * ace_torihiki_kubunの値を取得する
      *
-     * @return int
+     * @return $this
      */
-    public function setAceTorihikiKubun(int $ace_torihiki_kubun): self
+    public function setAceTorihikiKubun(int $ace_torihiki_kubun)
     {
         $this->ace_torihiki_kubun = $ace_torihiki_kubun;
 
@@ -72,10 +93,54 @@ trait BaseCartOrderTrait
      *
      * @return self
      */
-    public function setAceKsid(int $ace_ksid): self
+    public function setAceKsid(int $ace_ksid)
     {
         $this->ace_ksid = $ace_ksid;
 
         return $this;
+    }
+
+    /**
+     * ace_delivery_feeの値を取得する
+     */
+    public function setAceDeliveryFee(float $ace_delivery_fee)
+    {
+        $this->ace_delivery_fee = $ace_delivery_fee;
+
+        return $this;
+    }
+
+    /**
+     * ace_delivery_feeの値を取得する
+     *
+     * @return float|null
+     */
+    public function getAceDeliveryFee(): ?float
+    {
+        return $this->ace_delivery_fee;
+    }
+
+    public function setAceDiscountAmount(float $ace_discount_amount)
+    {
+        $this->ace_discount_amount = $ace_discount_amount;
+
+        return $this;
+    }
+
+    public function getAceDiscountAmount(): float
+    {
+        return $this->ace_discount_amount;
+    }
+
+    public function setAceChargeFee(float $ace_charge_fee)
+    {
+        $this->ace_charge_fee = $ace_charge_fee;
+
+        return $this;
+    }
+
+    public function getAceChargeFee(): float
+    {
+        return $this->ace_charge_fee;
     }
 }
