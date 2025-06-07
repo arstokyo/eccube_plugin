@@ -37,8 +37,9 @@ use Plugin\AceClient43\AceServices\Service\MemberService;
 class CustomerBridgeHelper
 {
     private MemberService $memberService;
-    private CustomerRepository $customerRepository;
+
     private SexRepository $sexRepository;
+
     private PrefRepository $prefRepository;
 
     public function __construct(
@@ -48,7 +49,6 @@ class CustomerBridgeHelper
         PrefRepository $prefRepository,
     ) {
         $this->memberService = $memberService;
-        $this->customerRepository = $customerRepository;
         $this->sexRepository = $sexRepository;
         $this->prefRepository = $prefRepository;
     }
