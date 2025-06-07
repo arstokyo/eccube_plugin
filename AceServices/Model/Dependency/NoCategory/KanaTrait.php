@@ -13,6 +13,8 @@
 
 namespace Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
+use Plugin\AceClient43\Util\Converter\NameConverter;
+
 /**
  * Trait for フリガナ
  *
@@ -39,5 +41,29 @@ trait KanaTrait
         $this->kana = $kana;
 
         return $this;
+    }
+
+    /**
+     * フリガナ1を取得
+     *
+     * @return string|null フリガナ1、またはフリガナがnullの場合はnull
+     */
+    public function getKana1(): ?string
+    {
+        $parts = NameConverter::splitName($this->kana);
+
+        return $parts[0] ?? null;
+    }
+
+    /**
+     * フリガナ2を取得
+     *
+     * @return string|null フリガナ2、またはフリガナがnullの場合はnull
+     */
+    public function getKana2(): ?string
+    {
+        $parts = NameConverter::splitName($this->kana);
+
+        return $parts[1] ?? null;
     }
 }

@@ -13,6 +13,8 @@
 
 namespace Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
+use Eccube\Entity\Master\CustomerStatus;
+
 /**
  * Trait for 退会フラグ
  *
@@ -43,5 +45,17 @@ trait TaikaiTrait
         $this->taikai = $taikai;
 
         return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTaikaiAsCustomerStatus(): ?string
+    {
+        if ($this->getTaikai() === null) {
+            return null;
+        }
+
+        return $this->getTaikai() === 0 ? CustomerStatus::REGULAR : CustomerStatus::PROVISIONAL;
     }
 }

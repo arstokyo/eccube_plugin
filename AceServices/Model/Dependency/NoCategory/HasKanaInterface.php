@@ -33,4 +33,18 @@ interface HasKanaInterface
      * @return $this
      */
     public function setKana(?string $kana);
+
+    /**
+     * Get フリガナ1
+     *
+     * @return string|null
+     */
+    public function getKana1(): ?string;
+
+    /**
+     * Get フリガナ2
+     *
+     * @return string|null
+     */
+    public function getKana2(): ?string;
 }

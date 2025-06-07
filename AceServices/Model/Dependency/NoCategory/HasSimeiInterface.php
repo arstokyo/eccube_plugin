@@ -35,4 +35,8 @@ interface HasSimeiInterface
      * @return $this
      */
     public function setSimei(?string $simei);
+
+    public function getName1(): ?string;
+
+    public function getName2(): ?string;
 }
