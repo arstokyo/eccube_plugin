@@ -1,0 +1,311 @@
+<?php
+
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Plugin\AceClient43\Bridge\Helper;
+
+use Eccube\Entity\Customer;
+use Eccube\Entity\CustomerAddress;
+use Eccube\Entity\Master\TaxType;
+use Eccube\Entity\Order;
+use Eccube\Entity\OrderItem;
+use Eccube\Entity\ProductClass;
+use Eccube\Entity\Shipping;
+use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart as RequestAddCart;
+use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\JyumeiModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\Jyuden\DecisionCart\DecisionCartRequestModel;
+use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModelInterface;
+use Plugin\AceClient43\AceServices\Service\JyudenService;
+use Plugin\AceClient43\Entity\Config;
+use Plugin\AceClient43\Entity\Constants\TaxKubun;
+use Plugin\AceClient43\Entity\CustomerAddressTrait;
+use Plugin\AceClient43\Entity\CustomerTrait;
+use Plugin\AceClient43\Entity\OrderItemTrait;
+use Plugin\AceClient43\Entity\OrderTrait;
+use Plugin\AceClient43\Entity\ProductClassTrait;
+use Plugin\AceClient43\Entity\ShippingTrait;
+
+/**
+ * OrderBridgeHelper - 注文関連の複雑なロジックをカプセル化するヘルパークラス
+ *
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
+class OrderBridgeHelper
+{
+    private JyudenService $jyudenService;
+
+    public function __construct(JyudenService $jyudenService)
+    {
+        $this->jyudenService = $jyudenService;
+    }
+
+    /**
+     * 事前作成のバリデーション
+     *
+     * @param Shipping|ShippingTrait $shipping
+     * @param Config|null $config
+     *
+     * @return array [order, customer, customerAddress, config]
+     *
+     * @throws \LogicException
+     */
+    public function validatePreCreate(Shipping $shipping, ?Config $config): array
+    {
+        $order = $shipping->getOrder();
+        $customer = $order->getCustomer();
+        $customerAddress = $shipping->getCustomerAddress();
+
+        if (null === $config) {
+            throw new \LogicException('AceClientプラグインの設定を先に行ってください。');
+        }
+
+        if (null === $customer->getAceCustomerId()) {
+            throw new \LogicException('会員IDが設定されていません。');
+        }
+
+        if (null === $customerAddress->getAceEdaNo()) {
+            throw new \LogicException('会員住所枝番号が設定されていません。');
+        }
+
+        return [$order, $customer, $customerAddress, $config];
+    }
+
+    /**
+     * 事前作成リクエストの作成
+     *
+     * @param Shipping $shipping
+     * @param Order|OrderTrait $order
+     * @param Customer|CustomerTrait $customer
+     * @param CustomerAddress|CustomerAddressTrait $customerAddress
+     * @param Config $config
+     * @param string $systemId
+     * @param string $sessionId
+     *
+     * @return RequestAddCart\AddCartRequestModel
+     */
+    public function createPreCreateRequest(
+        Shipping $shipping,
+        $order,
+        $customer,
+        $customerAddress,
+        Config $config,
+        string $systemId,
+        string $sessionId,
+    ): RequestAddCart\AddCartRequestModel {
+        $member = $this->createMemberOrderModel($customer, $customerAddress);
+        $jyuden = $this->createJyudenModel($order, $shipping, $config);
+
+        $jyumeis = [];
+        $charge = 0;
+        $discount = 0;
+        $deliveryFree = 0;
+
+        foreach ($order->getOrderItems() as $item) {
+            if ($item->isCharge()) {
+                $charge += $item->getPriceIncTax();
+            }
+
+            if ($item->isDiscount()) {
+                $discount += $item->getPriceIncTax();
+            }
+
+            if ($item->isDeliveryFee()) {
+                $deliveryFree += $item->getPriceIncTax();
+            }
+
+            if ($item->isProduct()) {
+                $jyumeis[] = $this->createJyumei($item);
+            }
+        }
+
+        $this->applyOrderTotals($jyuden, $charge, $discount, $deliveryFree, $config);
+
+        $prm = (new RequestAddCart\OrderPrmModel())
+            ->setMember($member)
+            ->setJyuden($jyuden)
+            ->setDetail((new RequestAddCart\DetailModel())
+                ->setJyumei($jyumeis)
+            )->setMailjyuden((new RequestAddCart\MailJyudenModel())
+                ->setMail($order->getEmail())
+            );
+
+        return (new RequestAddCart\AddCartRequestModel())
+            ->setPrm($prm)
+            ->setId($systemId)
+            ->setSessId($sessionId);
+    }
+
+    /**
+     * MemberOrderModelを作成
+     *
+     * @param Customer|CustomerTrait $customer
+     * @param CustomerAddress|CustomerAddressTrait $customerAddress
+     *
+     * @return RequestAddCart\MemberOrderModel
+     */
+    private function createMemberOrderModel($customer, $customerAddress): RequestAddCart\MemberOrderModel
+    {
+        return (new RequestAddCart\MemberOrderModel())
+            ->setJmember((new RequestAddCart\JmemberModel())->setCode($customer->getAceCustomerId()))
+            ->setNmember((new RequestAddCart\NmemberModel())->setEda($customerAddress->getAceEdaNo()))
+            ->setSmember((new RequestAddCart\SmemberModel())->setCode($customer->getAceCustomerId()));
+    }
+
+    /**
+     * JyudenModelを作成
+     *
+     * @param Order|OrderTrait $order
+     * @param Shipping $shipping
+     * @param Config $config
+     *
+     * @return RequestAddCart\JyudenModel
+     */
+    private function createJyudenModel($order, Shipping $shipping, Config $config): RequestAddCart\JyudenModel
+    {
+        return (new RequestAddCart\JyudenModel())
+            ->setTorikbn($order->getAceTorihikiKubun())
+            ->setPcode($order->getAceKsid())
+            ->setJcode($config->getJyuchuId())
+            ->setNbikou1($shipping->getNote())
+            ->setHday($shipping->getShippingDeliveryDate())
+            ->setWeborderno($order->getId())
+            ->setPointm($order->getUsePoint());
+    }
+
+    /**
+     * JyumeiModelを作成
+     *
+     * @param OrderItem|OrderItemTrait $item
+     *
+     * @return JyumeiModelInterface
+     */
+    public function createJyumei(OrderItem $item): JyumeiModelInterface
+    {
+        /** @var ProductClass|ProductClassTrait $productClass */
+        $productClass = $item->getProductClass();
+
+        $taxKbn = $this->determineTaxKubun($item->getTaxType());
+        $price = $taxKbn === TaxKubun::ZEINUKI
+            ? $item->getPrice()
+            : $item->getPriceIncTax();
+
+        return (new RequestAddCart\JyumeiModel())
+            ->setGcode($productClass->getAceGdid())
+            ->setSuu($item->getQuantity())
+            ->setTanka($price)
+            ->setIgnorezaiko($item->isAceIgnoreStock())
+            ->setRitu($item->getAceKakeRitu());
+    }
+
+    /**
+     * 税区分を判定
+     *
+     * @param int $taxType
+     *
+     * @return int
+     */
+    private function determineTaxKubun(int $taxType): int
+    {
+        switch ($taxType) {
+            case TaxType::TAXATION:
+                return TaxKubun::ZEIKOMI;
+            case TaxType::TAX_EXEMPT:
+                return TaxKubun::HIKAZEI;
+            default:
+                return TaxKubun::ZEINUKI;
+        }
+    }
+
+    /**
+     * 注文の合計を適用
+     *
+     * @param RequestAddCart\JyudenModel $jyuden
+     * @param float $charge
+     * @param float $discount
+     * @param float $deliveryFree
+     * @param Config $config
+     */
+    private function applyOrderTotals(
+        RequestAddCart\JyudenModel $jyuden,
+        float $charge,
+        float $discount,
+        float $deliveryFree,
+        Config $config,
+    ): void {
+        if ($charge > 0) {
+            $jyuden->setTesuu($charge);
+        }
+
+        if ($discount > 0) {
+            $jyuden->setNebiki($discount);
+        }
+
+        if (!$config->isUseAceDeliveryFeeInstead() && $deliveryFree > 0) {
+            $jyuden->setSouryou($deliveryFree);
+        }
+    }
+
+    /**
+     * カートを確定するリクエストモデルを作成
+     *
+     * @param string $sessionId
+     * @param string $systemId
+     *
+     * @return DecisionCartRequestModel
+     */
+    public function createDecisionCartRequest(string $sessionId, string $systemId): DecisionCartRequestModel
+    {
+        return (new DecisionCartRequestModel())
+            ->setId($systemId)
+            ->setSessId($sessionId);
+    }
+
+    /**
+     * AddCartメソッドを実行
+     *
+     * @param RequestAddCart\AddCartRequestModel $request
+     *
+     * @return AddCartResponseModelInterface
+     */
+    public function executeAddCartMethod(RequestAddCart\AddCartRequestModel $request): AddCartResponseModelInterface
+    {
+        $response = $this->jyudenService->makeAddCartMethod()
+            ->withRequest($request)
+            ->send();
+
+        if (!$response->isOk()) {
+            throw new \RuntimeException(sprintf('通販Aceの注文事前作成処理に失敗しました: %s', $response->getStatusCode()));
+        }
+
+        return $response->getResponse();
+    }
+
+    /**
+     * DecisionCartメソッドを実行
+     *
+     * @param DecisionCartRequestModel $request
+     *
+     * @return mixed
+     */
+    public function executeDecisionCartMethod(DecisionCartRequestModel $request)
+    {
+        $response = $this->jyudenService->makeDecisionCartMethod()
+            ->withRequest($request)
+            ->send();
+
+        if (!$response->isOk()) {
+            throw new \RuntimeException(sprintf('通販Aceの注文作成処理に失敗しました: %s', $response->getStatusCode()));
+        }
+
+        return $response->getResponse();
+    }
+}
