@@ -95,6 +95,20 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         private bool $validate_customer_existing = true;
 
         /**
+         * @ORM\Column(name="redirect_to_forgot_customer", type="boolean", options={"default":false})
+         *
+         * @var bool
+         */
+        private bool $redirect_to_forgot_customer = false;
+
+        /**
+         * @ORM\Column(name="forgot_customer_path", type="string", length=255, options={"default":""})
+         *
+         * @var string
+         */
+        private string $forgot_customer_path = '';
+
+        /**
          * @return int
          */
         public function getId()
@@ -216,6 +230,38 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         public function needValidateCustomerExisting(): bool
         {
             return $this->validate_customer_existing;
+        }
+
+        public function setRedirectToForgotCustomer(bool $redirectToForgotCustomer)
+        {
+            $this->redirect_to_forgot_customer = $redirectToForgotCustomer;
+
+            return $this;
+        }
+
+        /**
+         * @return bool
+         */
+        public function isRedirectToForgotCustomerIfExistsOnAce(): bool
+        {
+            return $this->redirect_to_forgot_customer;
+        }
+
+        public function setForgotCustomerPath(string $forgotCustomerPath)
+        {
+            $this->forgot_customer_path = $forgotCustomerPath;
+
+            return $this;
+        }
+
+        public function getForgotCustomerPath(): string
+        {
+            return $this->forgot_customer_path;
+        }
+
+        public function hasForgotCustomerPath(): bool
+        {
+            return !empty($this->forgot_customer_path);
         }
     }
 }
