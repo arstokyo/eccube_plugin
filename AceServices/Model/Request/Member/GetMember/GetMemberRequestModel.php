@@ -44,9 +44,6 @@ class GetMemberRequestModel extends RequestModelAbstract implements GetMemberReq
         if (!$this->userid) {
             throw new MissingRequestParameterException($this->compilePropertyName('userid'));
         }
-        if (!$this->passwd) {
-            throw new MissingRequestParameterException($this->compilePropertyName('passwd'));
-        }
     }
 
     /**

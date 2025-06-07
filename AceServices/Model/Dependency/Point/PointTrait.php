@@ -21,7 +21,7 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Point;
 trait PointTrait
 {
     /** @var int|string|null ポイント */
-    protected ?int $point = null;
+    protected ?int $point = 0;
 
     /**
      * {@inheritDoc}

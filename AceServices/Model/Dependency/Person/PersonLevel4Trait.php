@@ -168,6 +168,18 @@ trait PersonLevel4Trait
     }
 
     /**
+     * Ec-Cubeの性別IDを取得します。
+     *
+     * @return int|null
+     */
+    public function getEccubeSexId(): ?int
+    {
+        $sex = $this->getSex();
+
+        return (null === $sex || !in_array($sex, [1, 2])) ? null : $sex;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function setSex(?int $sex)

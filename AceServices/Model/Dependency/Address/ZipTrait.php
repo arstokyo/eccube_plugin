@@ -33,6 +33,11 @@ trait ZipTrait
         return $this->zip;
     }
 
+    public function getZipEccubeFormat(): ?string
+    {
+        return $this->zip ? PostalCodeConverter::FromAceFormat($this->zip) : null;
+    }
+
     /**
      * {@inheritDoc}
      */
