@@ -16,6 +16,7 @@ namespace Plugin\AceClient43\Bridge;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Eccube\Session\Session;
+use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelExtend1Interface;
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelInterface;
 use Plugin\AceClient43\Entity\Config;
 use Plugin\AceClient43\Repository\ConfigRepository;
@@ -111,12 +112,16 @@ class BaseBridge
     /**
      * レスポンスがエラーかどうかを判定
      *
-     * @param HasMessageModelInterface $response
+     * @param HasMessageModelInterface|HasMessageModelExtend1Interface $response
      *
      * @return bool
      */
-    protected function hasErrorMessage(HasMessageModelInterface $response): bool
+    protected function hasErrorMessage($response): bool
     {
+        if (method_exists($response->getMessage(), 'getResult')) {
+            return 'OK' !== $response->getMessage()->getResult();
+        }
+
         $hasMessage1 = $response->getMessage()->getMessage1();
         $hasMessage2 = $response->getMessage()->getMessage2();
 
