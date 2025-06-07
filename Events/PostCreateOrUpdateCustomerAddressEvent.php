@@ -15,12 +15,13 @@ namespace Plugin\AceClient43\Events;
 
 use Eccube\Entity\CustomerAddress;
 use Plugin\AceClient43\AceServices\Model\Response\Member\RegMemAdr\RegMemAdrResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response\Member\RegMemAdr\RegMemAdrResponseModelInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class PostCreateOrUpdateCustomerAddressEvent extends Event
 {
     /**
-     * @var RegMemAdrResponseModel
+     * @var RegMemAdrResponseModelInterface
      */
     private $regMemAdrResponseModel;
 
@@ -36,7 +37,7 @@ class PostCreateOrUpdateCustomerAddressEvent extends Event
      * @param CustomerAddress $customer
      */
     public function __construct(
-        RegMemAdrResponseModel $regMemAdrResponseModel,
+        RegMemAdrResponseModelInterface $regMemAdrResponseModel,
         CustomerAddress $customer,
         array $options,
     ) {
@@ -45,7 +46,7 @@ class PostCreateOrUpdateCustomerAddressEvent extends Event
         $this->options = $options;
     }
 
-    public function getRegMemAdrResponseModel(): RegMemAdrResponseModel
+    public function getRegMemAdrResponseModel(): RegMemAdrResponseModelInterface
     {
         return $this->regMemAdrResponseModel;
     }
