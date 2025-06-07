@@ -13,22 +13,18 @@
 
 namespace Plugin\AceClient43\Bridge;
 
+use Doctrine\ORM\Exception\ORMException;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMInvalidArgumentException;
 use Eccube\Entity\Customer;
 use Eccube\Entity\CustomerAddress;
-use Plugin\AceClient43\AceServices\Model\Request\Member\CheckMailAdress\CheckMailAdressRequestModel;
-use Plugin\AceClient43\AceServices\Model\Request\Member\GetMember\GetMemberRequestModel;
-use Plugin\AceClient43\AceServices\Model\Request\Member\GetMemberMcode\GetMemberMcodeRequestModel;
-use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr as RequestRegMemAdr;
-use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr\RegMemAdrRequestModel;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
-use Plugin\AceClient43\AceServices\Model\Response\Member\CheckMailAdress\CheckMailAdressResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
-use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember\GetMemberResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode;
-use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode\GetMemberMcodeResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\RegMemAdr\RegMemAdrResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\RegMember\RegMemberResponseModelInterface;
 use Plugin\AceClient43\AceServices\Service\MemberService;
+use Plugin\AceClient43\Bridge\Helper\CustomerBridgeHelper;
 use Plugin\AceClient43\Entity\CustomerAddressTrait;
 use Plugin\AceClient43\Entity\CustomerTrait;
 use Plugin\AceClient43\Events\Events;
@@ -48,56 +44,55 @@ use Plugin\AceClient43\Exception\CouldNotRegisterNewCustomerException;
  */
 class CustomerBridge extends BaseBridge
 {
-    /**
-     * @var MemberService
-     */
     private MemberService $memberService;
+    private CustomerBridgeHelper $helper;
 
     public function __construct(
         MemberService $memberService,
+        CustomerBridgeHelper $helper,
     ) {
         $this->memberService = $memberService;
+        $this->helper = $helper;
     }
 
     /**
-     * 顧客データをRegMemberモデルにバインドする
+     * 顧客を新規登録
      *
      * @param CustomerTrait|Customer $customer
-     *
-     * @return RegMember\RegMemberRequestModelInterface
+     * @param bool $needFlush - trueの場合、エンティティマネージャーをフラッシュします
+     * @param array $options
      *
      * @throws \LogicException
      */
-    private function bindCustomerToRegMember($customer): RegMember\RegMemberRequestModelInterface
+    public function new(Customer $customer, bool $needFlush = false, array $options = []): void
     {
-        $syid = $this->getSyid();
-        $jmember = (new RegMember\JmemberModel())
-            ->setSimei(mb_convert_kana(sprintf('%s　%s', $customer->getname01(), $customer->getName02(), 'KVA')))
-            ->setKana(mb_convert_kana(sprintf('%s　%s', $customer->getKana01(), $customer->getKana02(), 'KVA')))
-            ->setZip($customer->getPostalCode())
-            ->setAdr1($customer->getPref()->getName())
-            ->setAdr2($customer->getAddr01())
-            ->setAdr3($customer->getAddr02())
-            ->setTel($customer->getPhoneNumber())
-            ->setUserid($customer->getEmail())
-            ->setSexByClass($customer->getSex())
-            ->setBirthday($customer->getBirth())
-            ->setPoint((int) $customer->getPoint() ?? 0)
-            ->setPasswd($customer->getPassword())
-            ->setMemmail((new RegMember\MemMailModel())
-                ->setMail($customer->getEmail())
-                ->setIdx(1)
-            );
-
-        // 更新用にAceMemberIdを設定
-        if ($customer->getAceCustomerId()) {
-            $jmember->setCode($customer->getAceCustomerId());
+        if (null !== $customer->getAceCustomerId()) {
+            $this->logger->error('通販Aceの顧客登録に失敗しました: 顧客IDが既に存在します', ['customer' => $customer]);
+            throw new \LogicException('顧客IDが既に登録されています。');
         }
 
-        return (new RegMember\RegMemberRequestModel())
-            ->setId($syid)
-            ->setPrm((new RegMember\MemberPrmModel())->setJmember($jmember))
-            ->setSessId($this->session->getId());
+        $regMemberRequest = $this->helper->bindCustomerToRegMember($customer, $this->getSyid());
+        $this->sendCustomerToAce($regMemberRequest, $customer, Events::PRE_REGISTER_CUSTOMER, $needFlush, $options);
+    }
+
+    /**
+     * 顧客情報を更新
+     *
+     * @param CustomerTrait|Customer $customer
+     * @param bool $needFlush - trueの場合、エンティティマネージャーをフラッシュします
+     * @param array $options
+     *
+     * @throws \LogicException
+     */
+    public function update(Customer $customer, bool $needFlush = true, array $options = []): void
+    {
+        if (null === $customer->getAceCustomerId()) {
+            $this->logger->error('通販Aceの顧客更新に失敗しました: 顧客IDが設定されていません', ['customer' => $customer]);
+            throw new \LogicException('顧客IDが設定されていません。');
+        }
+
+        $regMemberRequest = $this->helper->bindCustomerToRegMember($customer, $this->getSyid());
+        $this->sendCustomerToAce($regMemberRequest, $customer, Events::PRE_UPDATE_CUSTOMER, $needFlush, $options);
     }
 
     /**
@@ -111,7 +106,7 @@ class CustomerBridge extends BaseBridge
      *
      * @throws CouldNotRegisterNewCustomerException
      */
-    private function sendCustomerToAce(RegMember\RegMemberRequestModelInterface $regMemberRequest, Customer $customer, string $eventName, bool $needFlush, array $options): void
+    private function sendCustomerToAce($regMemberRequest, Customer $customer, string $eventName, bool $needFlush, array $options): void
     {
         $this->eventDispatcher->dispatch(
             new PreRegisterCustomerEvent($regMemberRequest, $customer, $options),
@@ -162,78 +157,15 @@ class CustomerBridge extends BaseBridge
     }
 
     /**
-     * 顧客を新規登録
-     *
-     * @param CustomerTrait|Customer $customer
-     * @param bool $needFlush - trueの場合、エンティティマネージャーをフラッシュします
-     * @param array $options
-     *
-     * @throws \LogicException
-     */
-    public function new(Customer $customer, bool $needFlush = false, array $options = []): void
-    {
-        if (null !== $customer->getAceCustomerId()) {
-            $this->logger->error('通販Aceの顧客登録に失敗しました: 顧客IDが既に存在します', ['customer' => $customer]);
-            throw new \LogicException('顧客IDが既に登録されています。');
-        }
-
-        $regMemberRequest = $this->bindCustomerToRegMember($customer);
-
-        $this->sendCustomerToAce($regMemberRequest, $customer, Events::PRE_REGISTER_CUSTOMER, $needFlush, $options);
-    }
-
-    /**
-     * 顧客情報を更新
-     *
-     * @param CustomerTrait|Customer $customer
-     * @param bool $needFlush - trueの場合、エンティティマネージャーをフラッシュします
-     * @param array $options
-     *
-     * @throws \LogicException
-     */
-    public function update(Customer $customer, bool $needFlush = true, array $options = []): void
-    {
-        if (null === $customer->getAceCustomerId()) {
-            $this->logger->error('通販Aceの顧客更新に失敗しました: 顧客IDが設定されていません', ['customer' => $customer]);
-            throw new \LogicException('顧客IDが設定されていません。');
-        }
-
-        $regMemberRequest = $this->bindCustomerToRegMember($customer);
-
-        $this->sendCustomerToAce($regMemberRequest, $customer, Events::PRE_UPDATE_CUSTOMER, $needFlush, $options);
-    }
-
-    /**
      * 会員IDによる顧客情報の取得
      *
-     * @param string $ace_customer_id - 通販Aceの顧客ID
+     * @param string $aceCustomerId - 通販Aceの顧客ID
      *
      * @return GetMemberMcode\LoginMemberModelInterface|null
      */
-    public function getByAceCustomerId(string $ace_customer_id): ?GetMemberMcode\LoginMemberModelInterface
+    public function getByAceCustomerId(string $aceCustomerId)
     {
-        $request = (new GetMemberMcodeRequestModel())
-            ->setId($this->getSyid())
-            ->setMcode($ace_customer_id);
-
-        try {
-            $response = $this->memberService->makeGetMemberMcodeMethod()
-                ->withRequest($request)
-                ->send();
-
-            if (!$response->isOk()) {
-                throw new \RuntimeException('通販Aceの顧客情報取得に失敗しました。');
-            }
-
-            /** @var GetMemberMcodeResponseModelInterface $responseModel */
-            $responseModel = $response->getResponse();
-
-            return $responseModel->getLoginMember()->getMember()->getCode() ? $responseModel->getLoginMember() : null;
-        } catch (\Throwable $e) {
-            $this->logger->error('通販Aceの顧客情報取得に失敗しました', ['exception' => $e]);
-        }
-
-        return null;
+        return $this->helper->getByAceCustomerId($aceCustomerId, $this->getSyid());
     }
 
     /**
@@ -244,88 +176,135 @@ class CustomerBridge extends BaseBridge
      *
      * @return GetMember\LoginMemberModelInterface|null
      */
-    public function getByEmailAndPassword(string $email, string $password): ?GetMember\LoginMemberModelInterface
+    public function getByEmailAndPassword(string $email, string $password)
     {
-        $request = (new GetMemberRequestModel())
-            ->setId($this->getSyid())
-            ->setUserid($email)
-            ->setPasswd($password);
-
-        try {
-            $response = $this->memberService->makeGetMemberMethod()
-                ->withRequest($request)
-                ->send();
-
-            if (!$response->isOk()) {
-                $this->logger->error('通販Aceの顧客情報取得に失敗しました: ステータスコード '.$response->getStatusCode());
-
-                return null;
-            }
-
-            /** @var GetMemberResponseModelInterface $responseModel */
-            $responseModel = $response->getResponse();
-
-            return $responseModel->getLoginMember()->getMember()->getCode() ? $responseModel->getLoginMember() : null;
-        } catch (\Throwable $e) {
-            $this->logger->error('通販Aceの顧客情報取得に失敗しました', ['exception' => $e]);
-        }
-
-        return null;
+        return $this->helper->getByEmailAndPassword($email, $password, $this->getSyid());
     }
 
     /**
      * 顧客情報を取得し更新する
      *
-     * @param CustomerTrait|Customer $customer
-     * @param bool $needFlush
+     * 顧客の ACE 顧客 ID が存在する場合は、その ID を使用して顧客情報を取得します。
+     * 存在しない場合は、メールアドレスとパスワードを使用して取得します。
+     * 取得した情報で顧客エンティティを更新します。
      *
-     * @return Customer
+     * @param CustomerTrait|Customer $customer 更新する顧客エンティティ
+     * @param bool $needFlush エンティティマネージャーの変更をフラッシュするかどうか
      *
-     * @throws \LogicException
+     * @return Customer 更新された顧客エンティティ
+     *
+     * @throws \LogicException 顧客情報の取得や更新に失敗した場合
      */
-    public function getAndUpdate(Customer $customer, bool $needFlush = true): Customer
+    public function getAndUpdateEntity(Customer $customer, bool $needFlush = true): Customer
     {
+        $loginMemberModel = null;
+
         if (null === $aceCustomerId = $customer->getAceCustomerId()) {
             $loginMemberModel = $this->getByEmailAndPassword($customer->getEmail(), $customer->getPassword());
         } else {
             $loginMemberModel = $this->getByAceCustomerId($aceCustomerId);
         }
 
-        if (null === $loginMemberModel) {
-            return $customer;
+        return $this->updateCustomerEntityFromLoginMember($customer, $loginMemberModel, $needFlush);
+    }
+
+    /**
+     * メールアドレスとパスワードで顧客情報を取得し作成する
+     *
+     * 指定されたメールアドレスを使用して通販Aceから顧客情報を取得し、
+     * 新しい顧客エンティティを作成します。
+     * パスワードがnullの場合は、メールアドレスからACE顧客IDを取得して処理します。
+     *
+     * @param string $email 顧客のメールアドレス
+     * @param string|null $password 顧客のパスワード（省略可能）
+     * @param bool $needFlush 更新後にエンティティマネージャーをフラッシュするかどうか
+     *
+     * @return Customer|null 作成された顧客エンティティ、または顧客が見つからない場合はnull
+     *
+     * @throws ORMInvalidArgumentException
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function getAndCreateCustomerByEmail(string $email, ?string $password = null, bool $needFlush = false): ?Customer
+    {
+        if ($password === null) {
+            $aceCustomerId = $this->getAceCustomerIdByEmail($email);
+            if ($aceCustomerId !== null) {
+                return $this->getAndCreateCustomerByAceCustomerId($aceCustomerId, $needFlush);
+            }
+
+            return null;
         }
 
-        $jmember = $loginMemberModel->getMember();
+        $loginMemberModel = $this->getByEmailAndPassword($email, $password);
+        if ($loginMemberModel === null) {
+            return null;
+        }
 
-        // TODO: 今後直す予定
-        // 氏名を姓と名に分割
-        $names = explode(' ', $jmember->getSimei());
-        $customer->setName01($names[0] ?? '');
-        $customer->setName02($names[1] ?? '');
+        $customer = new Customer();
 
-        // フリガナを姓と名に分割
-        $kanas = explode(' ', $jmember->getKana());
-        $customer->setKana01($kanas[0] ?? '');
-        $customer->setKana02($kanas[1] ?? '');
+        return $this->updateCustomerEntityFromLoginMember($customer, $loginMemberModel, $needFlush);
+    }
 
-        $customer->setPostalCode($jmember->getZip());
-        $customer->setAddr01($jmember->getAdr2());
-        $customer->setAddr02($jmember->getAdr3());
-        $customer->setPhoneNumber($jmember->getTel());
-        $customer->setEmail($jmember->getUserid());
-        $customer->setSex($jmember->getSex());
-        $customer->setBirth($jmember->getBirthday());
-        $customer->setPoint($jmember->getPoint());
-        $customer->setAceCustomerId($jmember->getCode());
+    /**
+     * ACE顧客IDで顧客情報を取得し作成する
+     *
+     * 指定されたACE顧客IDを使用して通販Aceから顧客情報を取得し、
+     * 新しい顧客エンティティを作成して更新します。顧客情報が見つからない場合はnullを返します。
+     *
+     * @param string $aceCustomerId 通販AceシステムのACE顧客ID
+     * @param bool $needFlush 更新後にエンティティマネージャーをフラッシュするかどうか
+     *
+     * @return Customer|null 作成された顧客エンティティ、または顧客が見つからない場合はnull
+     *
+     * @throws OptimisticLockException
+     * @throws ORMInvalidArgumentException
+     * @throws ORMException
+     */
+    public function getAndCreateCustomerByAceCustomerId(string $aceCustomerId, bool $needFlush = false): ?Customer
+    {
+        $loginMemberModel = $this->getByAceCustomerId($aceCustomerId);
+        if (null === $loginMemberModel) {
+            return null;
+        }
 
-        $this->eventDispatcher->dispatch(
-            new OnGetAndUpdateCustomerEvent($loginMemberModel, $customer),
-            Events::ON_GET_AND_UPDATE_CUSTOMER
-        );
+        return $this->updateCustomerEntityFromLoginMember(new Customer(), $loginMemberModel, $needFlush);
+    }
 
-        $this->em->persist($customer);
-        if ($needFlush) {
-            $this->em->flush();
+    /**
+     * ログインメンバーモデルから顧客エンティティを更新する
+     *
+     * 通販Aceから取得したログインメンバーモデルの情報を使用して、顧客エンティティの
+     * データを更新します。氏名やフリガナの分割、住所情報、連絡先、個人属性などを
+     * 設定し、イベントをディスパッチして追加の更新処理を可能にします。
+     *
+     * @param Customer $customer 更新対象の顧客エンティティ
+     * @param GetMember\LoginMemberModelInterface|GetMemberMcode\LoginMemberModelInterface|null $loginMemberModel 通販Aceから取得したログインメンバーモデル
+     * @param bool $needFlush 更新後にエンティティマネージャーの変更をフラッシュするかどうか
+     *
+     * @return Customer 更新された顧客エンティティ
+     *
+     * @throws ORMInvalidArgumentException
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    private function updateCustomerEntityFromLoginMember(Customer $customer, $loginMemberModel, bool $needFlush = true): Customer
+    {
+        // ヘルパーを使用して顧客エンティティを更新
+        $customer = $this->helper->updateCustomerFromLoginMember($customer, $loginMemberModel);
+
+        if ($loginMemberModel !== null) {
+            // イベント発火
+            $this->eventDispatcher->dispatch(
+                new OnGetAndUpdateCustomerEvent($loginMemberModel, $customer),
+                Events::ON_GET_AND_UPDATE_CUSTOMER
+            );
+
+            // 永続化
+            $this->em->persist($customer);
+            if ($needFlush) {
+                $this->em->flush();
+            }
         }
 
         return $customer;
@@ -380,19 +359,7 @@ class CustomerBridge extends BaseBridge
             throw new \LogicException('先に顧客を登録してください。');
         }
 
-        $request = (new RegMemAdrRequestModel())
-            ->setId($this->getSyid())
-            ->setPrm((new RequestRegMemAdr\MemberPrmModel())
-                ->setNmember((new RequestRegMemAdr\NmemberModel())
-                    ->setCode($customer->getAceCustomerId())
-                    ->setEda($address->getAceEdaNo())
-                    ->setZip($address->getPostalCode())
-                    ->setAdr1($address->getPref()->getName())
-                    ->setAdr2($address->getAddr01())
-                    ->setAdr3($address->getAddr02())
-                    ->setTel($address->getPhoneNumber())
-                )
-            );
+        $request = $this->helper->createAddressRequestModel($address, $this->getSyid());
 
         $this->eventDispatcher->dispatch(
             new PreCreateOrUpdateCustomerAddressEvent($request, $address, $options),
@@ -441,30 +408,34 @@ class CustomerBridge extends BaseBridge
     /**
      * 顧客の存在チェック
      *
-     * @throw CouldNotCheckCustomerExistingException
+     * 指定されたメールアドレスが通販Aceシステムに登録されているかを確認します
+     *
+     * @param string $mail チェックするメールアドレス
+     *
+     * @return bool メールアドレスが存在する場合はtrue、存在しない場合はfalse
+     *
+     * @throws CouldNotCheckCustomerExistingException 確認処理に失敗した場合
      */
     public function has(string $mail): bool
     {
-        try {
-            $request = (new CheckMailAdressRequestModel())
-                ->setId($this->getSyid())
-                ->setMailadress($mail);
+        $responseObject = $this->helper->checkMailAddressInAce($mail, $this->getSyid());
 
-            $response = $this->memberService->makeCheckMailAdressMethod()
-                ->withRequest($request)
-                ->send();
-
-            if (!$response->isOk()) {
-                throw new \RuntimeException(sprintf('通販Aceの顧客の参照時に、エラーが発生しました。 %s', $response->getStatusCode()));
-            }
-
-            /** @var CheckMailAdressResponseModelInterface $responseObject */
-            $responseObject = $response->getResponse();
-
-            return 'NG' === $responseObject->getMember()->getMessage()->getResult();
-        } catch (\Throwable $e) {
-            $this->logger->error('通販Aceの顧客存在のチェック処理にエラーが発生しました。', ['exception' => $e]);
-            throw new CouldNotCheckCustomerExistingException('通販Aceの顧客が存在するかどうかのチェックできませんでした。', $e);
+        if ($responseObject === null) {
+            throw new CouldNotCheckCustomerExistingException('通販Aceの顧客が存在するかどうかのチェックできませんでした。');
         }
+
+        return 'NG' === $responseObject->getMember()->getMessage()->getResult();
+    }
+
+    /**
+     * メールアドレスに対応する通販Ace顧客IDを取得する
+     *
+     * @param string $email 顧客のメールアドレス
+     *
+     * @return string|null 顧客ID、顧客が存在しない場合はnull
+     */
+    public function getAceCustomerIdByEmail(string $email): ?string
+    {
+        return $this->helper->getAceCustomerIdByEmail($email, $this->getSyid());
     }
 }
