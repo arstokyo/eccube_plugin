@@ -60,11 +60,11 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         private int $syid = 1;
 
         /**
-         * @var int
+         * @var int|null
          *
-         * @ORM\Column(name="jyuchu_id", type="integer", length=1)
+         * @ORM\Column(name="order_route_id", type="integer", length=1, nullable=true)
          */
-        private int $jyuchuId;
+        private ?int $order_route_id = null;
 
         /**
          * @ORM\Column(name="use_ace_delivery_fee_instead", type="boolean", options={"default":false})
@@ -160,11 +160,21 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
             return $this;
         }
 
+        /**
+         * 通販AceのシステムIDを取得
+         *
+         * @return int
+         */
         public function getSyid(): int
         {
             return $this->syid;
         }
 
+        /**
+         * 通販AceのシステムIDを取得
+         *
+         * @return string
+         */
         public function setSyid(string $syid)
         {
             $this->syid = $syid;
@@ -172,23 +182,57 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
             return $this;
         }
 
-        public function getJyuchuId(): int
+        /**
+         * 注文ルートIDを取得
+         *
+         * @return int|null
+         */
+        public function getOrderRouteId(): ?int
         {
-            return $this->jyuchuId;
+            return $this->order_route_id;
         }
 
-        public function setJyuchuId(int $jyuchuId)
+        /**
+         * 注文ルートIDを設定
+         *
+         * @param int|null $order_route_id
+         *
+         * @return $this
+         */
+        public function setOrderRouteId(?int $order_route_id)
         {
-            $this->jyuchuId = $jyuchuId;
+            $this->order_route_id = $order_route_id;
 
             return $this;
         }
 
+        /**
+         * 注文ルートIDが設定されているかどうか
+         *
+         * @return bool
+         */
+        public function hasOrderRouteId(): bool
+        {
+            return !is_null($this->order_route_id);
+        }
+
+        /**
+         * 配送手数料をACE側の値を使用するかどうか
+         *
+         * @return bool
+         */
         public function isUseAceDeliveryFeeInstead(): bool
         {
             return $this->use_ace_delivery_fee_instead;
         }
 
+        /**
+         * 配送手数料をACE側の値を使用するかどうか設定
+         *
+         * @param bool $useAceDeliveryFeeInstead
+         *
+         * @return $this
+         */
         public function setUseAceDeliveryFeeInstead(bool $useAceDeliveryFeeInstead)
         {
             $this->use_ace_delivery_fee_instead = $useAceDeliveryFeeInstead;
@@ -196,11 +240,23 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
             return $this;
         }
 
+        /**
+         * 割引をACE側の値を使用するかどうか
+         *
+         * @return bool
+         */
         public function isUseAceDiscountInstead(): bool
         {
             return $this->use_ace_discount_instead;
         }
 
+        /**
+         * 割引をACE側の値を使用するかどうか設定
+         *
+         * @param bool $use_ace_discount_instead
+         *
+         * @return $this
+         */
         public function setUseAceDiscountInstead(bool $use_ace_discount_instead)
         {
             $this->use_ace_discount_instead = $use_ace_discount_instead;
@@ -208,6 +264,11 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
             return $this;
         }
 
+        /**
+         * 手数料ACE側の値を使用するかどうか
+         *
+         * @return bool
+         */
         public function setUseAceChargeInstead(bool $use_ace_charge_instead)
         {
             $this->use_ace_charge_instead = $use_ace_charge_instead;
@@ -215,11 +276,23 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
             return $this;
         }
 
+        /**
+         * 手数料ACE側の値を使用するかどうか
+         *
+         * @return bool
+         */
         public function isUseAceChargeInstead(): bool
         {
             return $this->use_ace_charge_instead;
         }
 
+        /**
+         *  顧客登録する時の顧客が存在するかどうかを検証するかどうか
+         *
+         * @param bool $validateCustomerExisting
+         *
+         * @return $this
+         */
         public function setValidateCustomerExisting(bool $validateCustomerExisting)
         {
             $this->validate_customer_existing = $validateCustomerExisting;
@@ -227,11 +300,23 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
             return $this;
         }
 
+        /**
+         * 顧客登録する時の顧客が存在するかどうかを検証するかどうか
+         *
+         * @return bool
+         */
         public function needValidateCustomerExisting(): bool
         {
             return $this->validate_customer_existing;
         }
 
+        /**
+         * ロッグイン時、Ec側に顧客存在してないのにAce側に顧客が存在する場合、パスワードを忘れた画面にリダイレクトするかどうか
+         *
+         * @param bool $redirectToForgotCustomer
+         *
+         * @return $this
+         */
         public function setRedirectToForgotCustomer(bool $redirectToForgotCustomer)
         {
             $this->redirect_to_forgot_customer = $redirectToForgotCustomer;
@@ -240,6 +325,8 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         }
 
         /**
+         * ロッグイン時、Ec側に顧客存在してないのにAce側に顧客が存在する場合、パスワードを忘れた画面にリダイレクトするかどうか
+         *
          * @return bool
          */
         public function isRedirectToForgotCustomerIfExistsOnAce(): bool
@@ -247,6 +334,13 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
             return $this->redirect_to_forgot_customer;
         }
 
+        /**
+         * パスワードを忘れた画面のパスを設定
+         *
+         * @param string $forgotCustomerPath
+         *
+         * @return $this
+         */
         public function setForgotCustomerPath(string $forgotCustomerPath)
         {
             $this->forgot_customer_path = $forgotCustomerPath;
@@ -254,11 +348,21 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
             return $this;
         }
 
+        /**
+         * パスワードを忘れた画面のパスを取得
+         *
+         * @return string
+         */
         public function getForgotCustomerPath(): string
         {
             return $this->forgot_customer_path;
         }
 
+        /**
+         * パスワードを忘れた画面のパスが設定されているかどうか
+         *
+         * @return bool
+         */
         public function hasForgotCustomerPath(): bool
         {
             return !empty($this->forgot_customer_path);
