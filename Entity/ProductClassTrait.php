@@ -26,30 +26,30 @@ trait ProductClassTrait
      *
      * @var string|null
      *
-     * @ORM\Column(name="ace_gdid", type="string", length=20, nullable=true, options={"comment":"Ace商品ID"}, unique=true)
+     * @ORM\Column(name="ace_product_id", type="string", length=20, nullable=true, options={"comment":"Ace商品ID"}, unique=true)
      */
-    private ?string $ace_gdid = null;
+    private ?string $ace_product_id = null;
 
     /**
      * Aceの商品IDを取得する
      *
      * @return string|null
      */
-    public function getAceGdid(): ?string
+    public function getAceProductId(): ?string
     {
-        return $this->ace_gdid;
+        return $this->ace_product_id;
     }
 
     /**
      * Aceの商品IDを設定する
      *
-     * @param string|null $ace_gdid
+     * @param string|null $ace_product_id
      *
-     * @return self
+     * @return $this
      */
-    public function setAceGdid(?string $ace_gdid): self
+    public function setAceProductId(?string $ace_product_id)
     {
-        $this->ace_gdid = $ace_gdid;
+        $this->ace_product_id = $ace_product_id;
 
         return $this;
     }

@@ -18,34 +18,34 @@ use Doctrine\ORM\Mapping as ORM;
 trait BaseItemTrait
 {
     /**
-     * 掛け税率
+     * Ace掛け税率
      *
-     * @ORM\Column(name="ace_ritu", type="float", precision=10, scale=3, nullable=false, options={"comment":"Ace掛け税率"})
+     * @ORM\Column(name="ace_markup_rate", type="float", precision=10, scale=3, options={"comment":"Ace掛け税率"})
      *
      * @var float
      */
-    private float $ace_kake_ritu = 0;
+    private float $ace_markup_rate = 0;
 
     /**
      * 掛け税率を取得
      *
      * @return float
      */
-    public function getAceKakeRitu(): float
+    public function getAceMarkupRate(): float
     {
-        return $this->ace_kake_ritu;
+        return $this->ace_markup_rate;
     }
 
     /**
      * 掛け税率を設定
      *
-     * @param float $ace_kake_ritu
+     * @param float $ace_markup_rate
      *
-     * @return self
+     * @return $this
      */
-    public function setAceKakeRitu(float $ace_kake_ritu): self
+    public function setAceMarkupRate(float $ace_markup_rate)
     {
-        $this->ace_kake_ritu = $ace_kake_ritu;
+        $this->ace_markup_rate = $ace_markup_rate;
 
         return $this;
     }

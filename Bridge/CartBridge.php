@@ -22,7 +22,8 @@ use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\AddCartResponse
 use Plugin\AceClient43\AceServices\Service\JyudenService;
 use Plugin\AceClient43\Entity\CartItemTrait;
 use Plugin\AceClient43\Entity\CartTrait;
-use Plugin\AceClient43\Entity\Constants\GoodsKbn;
+use Plugin\AceClient43\Entity\Config;
+use Plugin\AceClient43\Entity\Constants\AceProductType;
 use Plugin\AceClient43\Entity\CustomerTrait;
 use Plugin\AceClient43\Entity\ProductClassTrait;
 use Plugin\AceClient43\Events\Events;
@@ -45,9 +46,8 @@ class CartBridge extends BaseBridge
      */
     private $jyudenService;
 
-    public function __construct(
-        JyudenService $jyudenService,
-    ) {
+    public function __construct(JyudenService $jyudenService)
+    {
         $this->jyudenService = $jyudenService;
     }
 
@@ -65,8 +65,8 @@ class CartBridge extends BaseBridge
      */
     public function add(Cart $cart, bool $canFlush = false, array $options = []): void
     {
-        $request = $this->createRequest($cart, $canFlush, $options);
         $config = $this->getConfig();
+        $request = $this->createRequest($cart, $config, $canFlush, $options);
 
         $this->eventDispatcher->dispatch(
             new PreAddCartEvent($request, $cart, $options, $config),
@@ -132,6 +132,7 @@ class CartBridge extends BaseBridge
      * Create request for add cart
      *
      * @param Cart|CartTrait $cart
+     * @param Config $config
      * @param bool $canFlush
      * @param array $options
      *
@@ -139,7 +140,7 @@ class CartBridge extends BaseBridge
      *
      * @throws \LogicException
      */
-    private function createRequest(Cart $cart, bool $canFlush, array $options): RequestAddCart\AddCartRequestModel
+    private function createRequest(Cart $cart, Config $config, bool $canFlush, array $options): RequestAddCart\AddCartRequestModel
     {
         /** @var CustomerTrait|Customer $customer */
         $customer = $cart->getCustomer();
@@ -153,11 +154,14 @@ class CartBridge extends BaseBridge
                 (new RequestAddCart\JmemberModel())->setCode($customer->getAceCustomerId())
             );
 
-        /** @var RequestAddCart\JyudenModel $jyuden */
         $jyuden = (new RequestAddCart\JyudenModel())
-            ->setTorikbn($cart->getAceTorihikiKubun())
+            ->setTorikbn($cart->getAceTransactionId())
             ->useCampaign($cart->getUseAceOrderSupport())
-            ->setPcode($cart->getAceKsid());
+            ->setPcode($cart->getAcePaymentId());
+
+        if ($config->hasOrderRouteId()) {
+            $jyuden->setJcode($config->getOrderRouteId());
+        }
 
         $jyumeis = [];
         /** @var CartItem|CartItemTrait $item */
@@ -166,11 +170,11 @@ class CartBridge extends BaseBridge
             $productClass = $item->getProductClass();
 
             $jyumei = (new RequestAddCart\JyumeiModel())
-                ->setGcode($productClass->getAceGdid())
+                ->setGcode($productClass->getAceProductId())
                 ->setSuu($item->getQuantity())
                 ->setTanka($item->getPrice())
-                ->setTaxkbn($item->getAceTaxKubun())
-                ->setRitu($item->getAceKakeRitu());
+                ->setTaxkbn($item->getAceTaxType())
+                ->setRitu($item->getAceMarkupRate());
 
             $jyumeis[] = $jyumei;
         }
@@ -195,13 +199,13 @@ class CartBridge extends BaseBridge
         $charge = 0;
         foreach ($responseObject->getOrder()->getJyumei() as $jyumei) {
             switch ($jyumei->getGkbn()) {
-                case GoodsKbn::SORYOU:
+                case AceProductType::DELIVERY_FEE:
                     $deliveryFee += $jyumei->getMoney();
                     break;
-                case GoodsKbn::NEBIKI:
+                case AceProductType::DISCOUNT:
                     $discount += $jyumei->getMoney();
                     break;
-                case GoodsKbn::TESU:
+                case AceProductType::CHARGE_FEE:
                     $charge += $jyumei->getMoney();
                     break;
             }

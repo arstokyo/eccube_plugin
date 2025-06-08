@@ -26,7 +26,7 @@ use Plugin\AceClient43\AceServices\Model\Request\Jyuden\DecisionCart\DecisionCar
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModelInterface;
 use Plugin\AceClient43\AceServices\Service\JyudenService;
 use Plugin\AceClient43\Entity\Config;
-use Plugin\AceClient43\Entity\Constants\TaxKubun;
+use Plugin\AceClient43\Entity\Constants\AceTaxType;
 use Plugin\AceClient43\Entity\CustomerAddressTrait;
 use Plugin\AceClient43\Entity\CustomerTrait;
 use Plugin\AceClient43\Entity\OrderItemTrait;
@@ -172,8 +172,8 @@ class OrderBridgeHelper
     private function createJyudenModel($order, Shipping $shipping, Config $config): RequestAddCart\JyudenModel
     {
         return (new RequestAddCart\JyudenModel())
-            ->setTorikbn($order->getAceTorihikiKubun())
-            ->setPcode($order->getAceKsid())
+            ->setTorikbn($order->getAceTransactionId())
+            ->setPcode($order->getAcePaymentId())
             ->setJcode($config->getJyuchuId())
             ->setNbikou1($shipping->getNote())
             ->setHday($shipping->getShippingDeliveryDate())
@@ -194,16 +194,16 @@ class OrderBridgeHelper
         $productClass = $item->getProductClass();
 
         $taxKbn = $this->determineTaxKubun($item->getTaxType());
-        $price = $taxKbn === TaxKubun::ZEINUKI
+        $price = $taxKbn === AceTaxType::TAX_EXCLUDED
             ? $item->getPrice()
             : $item->getPriceIncTax();
 
         return (new RequestAddCart\JyumeiModel())
-            ->setGcode($productClass->getAceGdid())
+            ->setGcode($productClass->getAceProductId())
             ->setSuu($item->getQuantity())
             ->setTanka($price)
             ->setIgnorezaiko($item->isAceIgnoreStock())
-            ->setRitu($item->getAceKakeRitu());
+            ->setRitu($item->getAceMarkupRate());
     }
 
     /**
@@ -217,11 +217,11 @@ class OrderBridgeHelper
     {
         switch ($taxType) {
             case TaxType::TAXATION:
-                return TaxKubun::ZEIKOMI;
+                return AceTaxType::TAX_INCLUDED;
             case TaxType::TAX_EXEMPT:
-                return TaxKubun::HIKAZEI;
+                return AceTaxType::TAX_EXEMPT;
             default:
-                return TaxKubun::ZEINUKI;
+                return AceTaxType::TAX_EXCLUDED;
         }
     }
 

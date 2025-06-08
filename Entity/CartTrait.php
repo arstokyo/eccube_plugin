@@ -33,11 +33,13 @@ trait CartTrait
     /**
      * use_order_supportの値を取得する
      *
-     * @return bool|null
+     * @param bool $use_order_support
+     *
+     * @return $this
      */
-    public function setUseAceOrderSupport(bool $use_order_support): self
+    public function setUseAceOrderSupport(bool $use_order_support)
     {
-        $this->use_order_support = $use_order_support;
+        $this->use_ace_order_support = $use_order_support;
 
         return $this;
     }
@@ -49,6 +51,6 @@ trait CartTrait
      */
     public function getUseAceOrderSupport(): ?bool
     {
-        return $this->use_order_support;
+        return $this->use_ace_order_support;
     }
 }

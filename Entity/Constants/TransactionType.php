@@ -13,33 +13,26 @@
 
 namespace Plugin\AceClient43\Entity\Constants;
 
-class TaxKubun
+class TransactionType
 {
     /**
-     * 税抜
+     * Single payment (都度払い)
      *
      * @var int
      */
-    public const ZEINUKI = 0;
+    public const SINGLE_PAYMENT = 0;
 
     /**
-     * 税込
+     * Credit payment / Pay later (掛け払い)
      *
      * @var int
      */
-    public const ZEIKOMI = 1;
+    public const CREDIT_PAYMENT = 1;
 
     /**
-     * 非課税
+     * Card payment (カード払い)
      *
      * @var int
      */
-    public const HIKAZEI = 2;
-
-    /**
-     * 単価依存
-     *
-     * @var int
-     */
-    public const DEPEN_ON_TANKA = 2;
+    public const CARD_PAYMENT = 9;
 }

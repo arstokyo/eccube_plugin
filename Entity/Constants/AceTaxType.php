@@ -13,26 +13,33 @@
 
 namespace Plugin\AceClient43\Entity\Constants;
 
-class TorihikiKubun
+class AceTaxType
 {
     /**
-     * つど払い
+     * 税抜
      *
      * @var int
      */
-    public const TSUDO_BARAI = 0;
+    public const TAX_EXCLUDED = 0;
 
     /**
-     * かけ払い
+     * 税込
      *
      * @var int
      */
-    public const KAKE_BARAI = 1;
+    public const TAX_INCLUDED = 1;
 
     /**
-     * カード払い
+     * 非課税
      *
      * @var int
      */
-    public const KADO_BARAI = 9;
+    public const TAX_EXEMPT = 2;
+
+    /**
+     * 単価依存
+     *
+     * @var int
+     */
+    public const DEPENDS_ON_UNIT_PRICE = 2;
 }

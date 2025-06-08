@@ -15,7 +15,7 @@ namespace Plugin\AceClient43\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Eccube\Annotation\EntityExtension;
-use Plugin\AceClient43\Entity\Constants\TaxKubun;
+use Plugin\AceClient43\Entity\Constants\AceTaxType;
 
 /**
  * @EntityExtension("Eccube\Entity\CartItem")
@@ -29,30 +29,30 @@ trait CartItemTrait
      *
      * @var int
      *
-     * @ORM\Column(name="ace_tax_kubun", type="integer", length="1", nullable=false, options={"comment":"Ace税区分"})
+     * @ORM\Column(name="ace_tax_type", type="integer", length="1", nullable=false, options={"comment":"Ace税区分"})
      */
-    private int $ace_tax_kubun = TaxKubun::ZEINUKI;
+    private int $ace_tax_type = AceTaxType::TAX_EXCLUDED;
 
     /**
      * Ace税区分を取得
      *
      * @return int
      */
-    public function getAceTaxKubun(): int
+    public function getAceTaxType(): int
     {
-        return $this->ace_tax_kubun;
+        return $this->ace_tax_type;
     }
 
     /**
      * Ace税区分を設定
      *
-     * @param int $ace_tax_kubun
+     * @param int $ace_tax_type
      *
-     * @return self
+     * @return $this
      */
-    public function setAceTaxKubun(int $ace_tax_kubun): self
+    public function setAceTaxType(int $ace_tax_type)
     {
-        $this->ace_tax_kubun = $ace_tax_kubun;
+        $this->ace_tax_type = $ace_tax_type;
 
         return $this;
     }
