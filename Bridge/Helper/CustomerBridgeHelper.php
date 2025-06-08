@@ -15,7 +15,6 @@ namespace Plugin\AceClient43\Bridge\Helper;
 
 use Eccube\Entity\Customer;
 use Eccube\Entity\CustomerAddress;
-use Eccube\Repository\CustomerRepository;
 use Eccube\Repository\Master\PrefRepository;
 use Eccube\Repository\Master\SexRepository;
 use Plugin\AceClient43\AceServices\Model\Request\Member\CheckMailAdress\CheckMailAdressRequestModel;
@@ -42,12 +41,8 @@ class CustomerBridgeHelper
 
     private PrefRepository $prefRepository;
 
-    public function __construct(
-        MemberService $memberService,
-        CustomerRepository $customerRepository,
-        SexRepository $sexRepository,
-        PrefRepository $prefRepository,
-    ) {
+    public function __construct(MemberService $memberService, SexRepository $sexRepository, PrefRepository $prefRepository)
+    {
         $this->memberService = $memberService;
         $this->sexRepository = $sexRepository;
         $this->prefRepository = $prefRepository;
@@ -85,6 +80,10 @@ class CustomerBridgeHelper
         if ($customer->getAceCustomerId()) {
             $jmember->setCode($customer->getAceCustomerId());
         }
+
+        //        if ($customer->getCustomerAddresses()->isEmpty()) {
+        //            $defaultAddress = new CustomerAddress();
+        //        }
 
         return (new RegMember\RegMemberRequestModel())
             ->setId($syid)

@@ -45,6 +45,7 @@ use Plugin\AceClient43\Exception\CouldNotRegisterNewCustomerException;
 class CustomerBridge extends BaseBridge
 {
     private MemberService $memberService;
+
     private CustomerBridgeHelper $helper;
 
     public function __construct(
@@ -163,7 +164,7 @@ class CustomerBridge extends BaseBridge
      *
      * @return GetMemberMcode\LoginMemberModelInterface|null
      */
-    public function getByAceCustomerId(string $aceCustomerId)
+    public function getByAceCustomerId(string $aceCustomerId): ?GetMemberMcode\LoginMemberModelInterface
     {
         return $this->helper->getByAceCustomerId($aceCustomerId, $this->getSyid());
     }
@@ -176,7 +177,7 @@ class CustomerBridge extends BaseBridge
      *
      * @return GetMember\LoginMemberModelInterface|null
      */
-    public function getByEmailAndPassword(string $email, string $password)
+    public function getByEmailAndPassword(string $email, string $password): ?GetMember\LoginMemberModelInterface
     {
         return $this->helper->getByEmailAndPassword($email, $password, $this->getSyid());
     }
