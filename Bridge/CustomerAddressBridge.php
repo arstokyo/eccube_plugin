@@ -15,6 +15,7 @@ namespace Plugin\AceClient43\Bridge;
 
 use Eccube\Entity\Customer;
 use Eccube\Entity\CustomerAddress;
+use Plugin\AceClient43\AceServices\Model\Response\Member\DeleteHaisoAdrs\DeleteHaisoAdrsResponseModel;
 use Plugin\AceClient43\AceServices\Model\Response\Member\RegMemAdr\RegMemAdrResponseModelInterface;
 use Plugin\AceClient43\AceServices\Service\MemberService;
 use Plugin\AceClient43\Bridge\Helper\CustomerAddressBridgeHelper;
@@ -23,6 +24,7 @@ use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\PostCreateOrUpdateCustomerAddressEvent;
 use Plugin\AceClient43\Events\PreCreateOrUpdateCustomerAddressEvent;
 use Plugin\AceClient43\Exception\CouldNotCreateOrUpdateCustomerAddressException;
+use Plugin\AceClient43\Exception\CouldNotRemoveCustomerAddressException;
 
 /**
  * 顧客住所連携ブリッジクラス
@@ -57,7 +59,7 @@ class CustomerAddressBridge extends BaseBridge
         }
 
         foreach ($addresses as $address) {
-            $this->createOrUpdateAddress($address, false, $options);
+            $this->createOrUpdate($address, false, $options);
         }
 
         if ($needFlush) {
@@ -78,7 +80,7 @@ class CustomerAddressBridge extends BaseBridge
      *
      * @throws CouldNotCreateOrUpdateCustomerAddressException
      */
-    public function createOrUpdateAddress(CustomerAddress $address, bool $needFlush = true, array $options = []): bool
+    public function createOrUpdate(CustomerAddress $address, bool $needFlush = true, array $options = []): bool
     {
         /**
          * @var CustomerTrait|Customer $customer
@@ -89,7 +91,7 @@ class CustomerAddressBridge extends BaseBridge
             throw new \LogicException('先に顧客を登録してください。');
         }
 
-        $request = $this->helper->createAddressRequestModel($address, $this->getSyid());
+        $request = $this->helper->createRegMemAdrRequestModel($address, $this->getSyid());
 
         $this->eventDispatcher->dispatch(
             new PreCreateOrUpdateCustomerAddressEvent($request, $address, $options),
@@ -130,6 +132,51 @@ class CustomerAddressBridge extends BaseBridge
 
             $this->logger->error('通販Aceの住所登録に失敗しました', ['exception' => $e]);
             throw new CouldNotCreateOrUpdateCustomerAddressException('通販Aceの住所登録時にエラーが発生しました', $e);
+        }
+
+        return true;
+    }
+
+    /**
+     * 顧客の住所を削除
+     *
+     * @param Customer $customer
+     * @param CustomerAddress $address
+     *
+     * @return bool
+     *
+     * @throws CouldNotRemoveCustomerAddressException
+     */
+    public function remove(Customer $customer, CustomerAddress $address): bool
+    {
+        if (null === $address->getAceEdaNo()) {
+            return false;
+        }
+
+        $request = $this->helper->createDeleteHaisoAdrsRequestModel($customer, $address, $this->getSyid());
+
+        try {
+            $response = $this->memberService->makeDeleteHaisoAdrsMethod()
+                ->withRequest($request)
+                ->send();
+
+            if (!$response->isOk()) {
+                throw new \RuntimeException(sprintf('通販Aceの住所削除に失敗しました: %s', $response->getStatusCode()));
+            }
+
+            /** @var DeleteHaisoAdrsResponseModel $responseObject */
+            $responseObject = $response->getResponse();
+            if ($this->hasErrorMessage($responseObject->getMember())) {
+                throw new CouldNotRemoveCustomerAddressException('通販Aceの住所削除に失敗しました。');
+            }
+        } catch (\Throwable $e) {
+            if ($e instanceof CouldNotRemoveCustomerAddressException) {
+                $this->logger->error('通販Aceの住所削除に失敗しました', ['exception' => $e]);
+                throw $e;
+            }
+
+            $this->logger->error('通販Aceの住所削除に失敗しました', ['exception' => $e]);
+            throw new CouldNotRemoveCustomerAddressException('通販Aceの住所削除時にエラーが発生しました', $e);
         }
 
         return true;

@@ -13,7 +13,9 @@
 
 namespace Plugin\AceClient43\Bridge\Helper;
 
+use Eccube\Entity\Customer;
 use Eccube\Entity\CustomerAddress;
+use Plugin\AceClient43\AceServices\Model\Request\Member\DeleteHaisoAdrs\DeleteHaisoAdrsRequestModel;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr as RequestRegMemAdr;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr\RegMemAdrRequestModel;
 
@@ -30,7 +32,7 @@ class CustomerAddressBridgeHelper
      *
      * @return RegMemAdrRequestModel
      */
-    public function createAddressRequestModel(CustomerAddress $address, string $syid): RegMemAdrRequestModel
+    public function createRegMemAdrRequestModel(CustomerAddress $address, string $syid): RegMemAdrRequestModel
     {
         $customer = $address->getCustomer();
         $fullName = mb_convert_kana(sprintf('%s　%s', $address->getName01(), $address->getName02()), 'KVA');
@@ -51,5 +53,22 @@ class CustomerAddressBridgeHelper
                     ->setKana($fullKana)
                 )
             );
+    }
+
+    /**
+     * 顧客住所を削除するためのリクエストモデルを生成
+     *
+     * @param Customer $customer 顧客エンティティ
+     * @param CustomerAddress $address 住所エンティティ
+     * @param string $syid システムID
+     *
+     * @return DeleteHaisoAdrsRequestModel
+     */
+    public function createDeleteHaisoAdrsRequestModel(Customer $customer, CustomerAddress $address, string $syid): DeleteHaisoAdrsRequestModel
+    {
+        return (new DeleteHaisoAdrsRequestModel())
+            ->setId($syid)
+            ->setMcode($customer->getAceCustomerId())
+            ->setEda($address->getAceEdaNo());
     }
 }
