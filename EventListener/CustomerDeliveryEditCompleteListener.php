@@ -17,6 +17,8 @@ use Eccube\Entity\CustomerAddress;
 use Eccube\Event\EccubeEvents;
 use Eccube\Event\EventArgs;
 use Plugin\AceClient43\Bridge\CustomerAddressBridge;
+use Plugin\AceClient43\Events\EccubeEvents\Events;
+use Plugin\AceClient43\Events\EccubeEvents\OnEditCustomerDeliveryEvent;
 use Plugin\AceClient43\Exception\CouldNotCreateOrUpdateCustomerAddressException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -43,7 +45,21 @@ class CustomerDeliveryEditCompleteListener implements EventSubscriberInterface
         return [
             EccubeEvents::FRONT_MYPAGE_DELIVERY_EDIT_COMPLETE => ['onEditComplete', 100],
             EccubeEvents::ADMIN_CUSTOMER_DELIVERY_EDIT_INDEX_COMPLETE => ['onEditComplete', 100],
+            Events::ON_EDIT_CUSTOMER_DELIVERY => ['onEditCustomerDelivery', 100],
         ];
+    }
+
+    /**
+     * お届け先編集完了イベントリスナー
+     *
+     * @param OnEditCustomerDeliveryEvent $event
+     *
+     * @throws CouldNotCreateOrUpdateCustomerAddressException
+     */
+    public function onEditCustomerDelivery(OnEditCustomerDeliveryEvent $event)
+    {
+        $CustomerAddress = $event->getCustomerAddress();
+        $this->process($CustomerAddress);
     }
 
     /**
@@ -57,6 +73,18 @@ class CustomerDeliveryEditCompleteListener implements EventSubscriberInterface
     {
         /** @var CustomerAddress $CustomerAddress */
         $CustomerAddress = $event->getArgument('CustomerAddress');
+        $this->process($CustomerAddress);
+    }
+
+    /**
+     * 顧客住所の編集処理
+     *
+     * @param CustomerAddress $CustomerAddress
+     *
+     * @throws CouldNotCreateOrUpdateCustomerAddressException
+     */
+    private function process(CustomerAddress $CustomerAddress)
+    {
         $this->logger->info('通販Aceの顧客住所を編集しています。', ['customer_address' => $CustomerAddress]);
 
         try {
