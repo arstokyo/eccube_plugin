@@ -41,11 +41,11 @@ trait CustomerTrait
     /**
      * mem_idの値を設定する
      *
-     * @param string|null $ace_mbid
+     * @param string|null $ace_customer_id
      *
-     * @return self
+     * @return $this
      */
-    public function setAceCustomerId(?string $ace_customer_id): self
+    public function setAceCustomerId(?string $ace_customer_id)
     {
         $this->ace_customer_id = $ace_customer_id;
 
