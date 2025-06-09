@@ -23,7 +23,7 @@ use Plugin\AceClient43\Util\Converter\NumberConverter;
 trait TesuuZnTrait
 {
     /** @var ?float 手数料合計 */
-    protected ?float $tesuuzn = null;
+    protected ?float $tesuuzn = 0;
 
     /**
      * {@inheritDoc}

@@ -23,7 +23,7 @@ use Plugin\AceClient43\Util\Converter\NumberConverter;
 trait NebikiZnTrait
 {
     /** @var ?float 値引合計 */
-    protected ?float $nebikizn = null;
+    protected ?float $nebikizn = 0;
 
     /**
      * {@inheritDoc}

@@ -23,7 +23,7 @@ use Plugin\AceClient43\Util\Converter\NumberConverter;
 trait SouryouZnTrait
 {
     /** @var ?float 送料合計 */
-    protected ?float $souryouzn = null;
+    protected ?float $souryouzn = 0;
 
     /**
      * {@inheritDoc}
