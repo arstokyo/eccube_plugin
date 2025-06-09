@@ -26,7 +26,7 @@ trait ProductClassTrait
      *
      * @var string|null
      *
-     * @ORM\Column(name="ace_product_id", type="string", length=20, nullable=true, options={"comment":"Ace商品ID"}, unique=true)
+     * @ORM\Column(name="ace_product_id", type="string", length=20, options={"comment":"Ace商品ID"}, unique=true)
      */
     private ?string $ace_product_id = null;
 
