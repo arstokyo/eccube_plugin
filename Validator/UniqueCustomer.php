@@ -20,6 +20,12 @@ use Symfony\Component\Validator\Constraint;
  */
 class UniqueCustomer extends Constraint
 {
+    public const TRANS_ADMIN_DOMAIN = 'ace_client.admin_customer_unique';
+
+    public const TRANS_FRONT_DOMAIN = 'ace_client.front_customer_unique';
+
+    public string $translationDomain = UniqueCustomer::TRANS_FRONT_DOMAIN;
+
     public function validatedBy(): string
     {
         return static::class.'Validator';

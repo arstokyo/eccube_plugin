@@ -16,32 +16,33 @@ namespace Plugin\AceClient43\Validator;
 use Eccube\Repository\CustomerRepository;
 use Plugin\AceClient43\Bridge\CustomerBridge;
 use Plugin\AceClient43\Exception\CouldNotCheckCustomerExistingException;
-use Plugin\AceClient43\Repository\ConfigRepository;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * 顧客のメールアドレスがユニークであることを検証するバリデータ
+ *
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 class UniqueCustomerValidator extends ConstraintValidator
 {
     private CustomerBridge $customerBridge;
-
-    private ConfigRepository $configRepository;
 
     private TranslatorInterface $translator;
 
     private CustomerRepository $customerRepository;
 
-    public function __construct(CustomerBridge $customerBridge, ConfigRepository $configRepository, TranslatorInterface $translator, CustomerRepository $customerRepository)
+    public function __construct(CustomerBridge $customerBridge, TranslatorInterface $translator, CustomerRepository $customerRepository)
     {
         $this->customerBridge = $customerBridge;
-        $this->configRepository = $configRepository;
         $this->translator = $translator;
         $this->customerRepository = $customerRepository;
     }
 
     /**
      * @param string $value
-     * @param Constraint|UniqueCustomer $constraint
+     * @param Constraint $constraint
      *
      * @return void
      *
@@ -58,11 +59,16 @@ class UniqueCustomerValidator extends ConstraintValidator
             return;
         }
 
+        if (!$constraint instanceof UniqueCustomer) {
+            throw new \InvalidArgumentException(sprintf('Expected argument of type "%s", "%s" given', UniqueCustomer::class, get_class($constraint)));
+        }
+
         if (!$this->customerBridge->has($value)) {
             return;
         }
 
-        $this->context->buildViolation($this->translator->trans('ace_client.customer_existing'))
+        $transDomain = $constraint->translationDomain;
+        $this->context->buildViolation($this->translator->trans($transDomain))
             ->setParameter('{{ email }}', $value)
             ->addViolation();
     }
