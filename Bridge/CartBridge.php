@@ -13,6 +13,7 @@
 
 namespace Plugin\AceClient43\Bridge;
 
+use Doctrine\ORM\Exception\ORMException;
 use Eccube\Entity\Cart;
 use Eccube\Entity\CartItem;
 use Eccube\Entity\Customer;
@@ -20,16 +21,10 @@ use Eccube\Entity\ProductClass;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart as RequestAddCart;
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModelInterface;
 use Plugin\AceClient43\AceServices\Service\JyudenService;
-use Plugin\AceClient43\Entity\CartItemTrait;
-use Plugin\AceClient43\Entity\CartTrait;
 use Plugin\AceClient43\Entity\Config;
-use Plugin\AceClient43\Entity\Constants\AceProductType;
 use Plugin\AceClient43\Entity\CustomerTrait;
-use Plugin\AceClient43\Entity\ProductClassTrait;
 use Plugin\AceClient43\Events\Events;
-use Plugin\AceClient43\Events\OnAttachChargeToCartEvent;
-use Plugin\AceClient43\Events\OnAttachDeliveryFeeToCartEvent;
-use Plugin\AceClient43\Events\OnAttachDiscountToCartEvent;
+use Plugin\AceClient43\Events\OnCalculateFeeCartEvent;
 use Plugin\AceClient43\Events\PostAddCartEvent;
 use Plugin\AceClient43\Events\PreAddCartEvent;
 use Plugin\AceClient43\Exception\CouldNotAddCartException;
@@ -41,10 +36,7 @@ use Plugin\AceClient43\Exception\CouldNotAddCartException;
  */
 class CartBridge extends BaseBridge
 {
-    /**
-     * @var JyudenService
-     */
-    private $jyudenService;
+    private JyudenService $jyudenService;
 
     public function __construct(JyudenService $jyudenService)
     {
@@ -54,7 +46,7 @@ class CartBridge extends BaseBridge
     /**
      * カートを追加
      *
-     * @param Cart|CartTrait $cart
+     * @param Cart $cart
      * @param bool $canFlush
      * @param array $options
      *
@@ -88,35 +80,34 @@ class CartBridge extends BaseBridge
                 throw new CouldNotAddCartException('通販Aceのカート追加に失敗しました。');
             }
 
-            [$deliveryFee, $discount, $charge] = $this->calculateDeliveryFeeAndDiscount($responseObject);
             $needFlush = false;
 
             if ($config->isUseAceDeliveryFeeInstead()) {
-                if ($this->attachDeliveryFeeToCart($deliveryFee, $responseObject, $cart, $canFlush, $options)) {
+                if ($this->attachDeliveryFeeToCart($responseObject, $cart, $canFlush, $options)) {
                     $needFlush = true;
                 }
             }
 
             if ($config->isUseAceDiscountInstead()) {
-                if ($this->attachDiscountToCart($discount, $responseObject, $cart, $canFlush, $options)) {
+                if ($this->attachDiscountToCart($responseObject, $cart, $canFlush, $options)) {
                     $needFlush = true;
                 }
             }
 
             if ($config->isUseAceChargeInstead()) {
-                if ($this->attachChargeToCart($charge, $responseObject, $cart, $canFlush, $options)) {
+                if ($this->attachChargeToCart($responseObject, $cart, $canFlush, $options)) {
                     $needFlush = true;
                 }
-            }
-
-            if ($needFlush) {
-                $this->em->flush($cart);
             }
 
             $this->eventDispatcher->dispatch(
                 new PostAddCartEvent($responseObject, $cart, $options, $config),
                 Events::POST_ADD_CART
             );
+
+            if ($needFlush) {
+                $this->em->flush($cart);
+            }
         } catch (\Throwable $e) {
             if ($e instanceof CouldNotAddCartException) {
                 $this->logger->error('通販Aceのカート追加に失敗しました。', ['exception' => $e]);
@@ -131,7 +122,7 @@ class CartBridge extends BaseBridge
     /**
      * Create request for add cart
      *
-     * @param Cart|CartTrait $cart
+     * @param Cart $cart
      * @param Config $config
      * @param bool $canFlush
      * @param array $options
@@ -156,7 +147,7 @@ class CartBridge extends BaseBridge
 
         $jyuden = (new RequestAddCart\JyudenModel())
             ->setTorikbn($cart->getAceTransactionId())
-            ->useCampaign($cart->getUseAceOrderSupport())
+            ->useCampaign($cart->isAceOrderSupportEnabled())
             ->setPcode($cart->getAcePaymentId());
 
         if ($config->hasOrderRouteId()) {
@@ -164,9 +155,9 @@ class CartBridge extends BaseBridge
         }
 
         $jyumeis = [];
-        /** @var CartItem|CartItemTrait $item */
+        /** @var CartItem $item */
         foreach ($cart->getCartItems() as $item) {
-            /** @var ProductClass|ProductClassTrait $productClass */
+            /** @var ProductClass $productClass */
             $productClass = $item->getProductClass();
 
             $jyumei = (new RequestAddCart\JyumeiModel())
@@ -189,50 +180,29 @@ class CartBridge extends BaseBridge
         return (new RequestAddCart\AddCartRequestModel())
             ->setPrm($prm)
             ->setId($this->getSyid())
-            ->setPrm($prm);
-    }
-
-    private function calculateDeliveryFeeAndDiscount(AddCartResponseModelInterface $responseObject): array
-    {
-        $deliveryFee = 0;
-        $discount = 0;
-        $charge = 0;
-        foreach ($responseObject->getOrder()->getJyumei() as $jyumei) {
-            switch ($jyumei->getGkbn()) {
-                case AceProductType::DELIVERY_FEE:
-                    $deliveryFee += $jyumei->getMoney();
-                    break;
-                case AceProductType::DISCOUNT:
-                    $discount += $jyumei->getMoney();
-                    break;
-                case AceProductType::CHARGE_FEE:
-                    $charge += $jyumei->getMoney();
-                    break;
-            }
-        }
-
-        return [$deliveryFee, $discount, $charge];
+            ->setSessId($this->session->getId());
     }
 
     /**
-     * @param float $deliveryFee
      * @param AddCartResponseModelInterface $responseObject
-     * @param Cart|CartTrait $cart
+     * @param Cart $cart
      * @param bool $canFlush
      * @param array $options
      *
      * @return bool
+     *
+     * @throws ORMException
      */
-    private function attachDeliveryFeeToCart(float $deliveryFee, AddCartResponseModelInterface $responseObject, Cart $cart, bool $canFlush, array $options): bool
+    private function attachDeliveryFeeToCart(AddCartResponseModelInterface $responseObject, Cart $cart, bool $canFlush, array $options): bool
     {
-        $event = new OnAttachDeliveryFeeToCartEvent($deliveryFee, $responseObject, $cart, $options, $canFlush);
-        $this->eventDispatcher->dispatch($event, Events::ON_ATTACH_DELIVERY_FEE_TO_CART);
+        $event = new OnCalculateFeeCartEvent($responseObject, $cart, $options, $canFlush);
+        $this->eventDispatcher->dispatch($event, Events::ON_CALCULATE_DELIVERY_FEE_CART);
 
         if ($event->needFlush) {
             return true;
         }
 
-        if (!$event->continue || $deliveryFee <= 0) {
+        if (!$event->continue || 0 >= $deliveryFee = $responseObject->getOrder()->getJyuden()->getSouryouzn()) {
             return false;
         }
 
@@ -243,22 +213,25 @@ class CartBridge extends BaseBridge
     }
 
     /**
-     * @param float $discount
-     * @param Cart|CartTrait $cart
+     * @param Cart $cart
      * @param AddCartResponseModelInterface $responseObject
      * @param bool $canFlush
      * @param array $options
+     *
+     * @return bool needFlush
+     *
+     * @throws ORMException
      */
-    private function attachDiscountToCart(float $discount, AddCartResponseModelInterface $responseObject, Cart $cart, bool $canFlush, array $options): bool
+    private function attachDiscountToCart(AddCartResponseModelInterface $responseObject, Cart $cart, bool $canFlush, array $options): bool
     {
-        $event = new OnAttachDiscountToCartEvent($discount, $responseObject, $cart, $options, $canFlush);
-        $this->eventDispatcher->dispatch($event, Events::ON_ATTACH_DISCOUNT_TO_CART);
+        $event = new OnCalculateFeeCartEvent($responseObject, $cart, $options, $canFlush);
+        $this->eventDispatcher->dispatch($event, Events::ON_CALCULATE_DISCOUNT_CART);
 
         if ($event->needFlush) {
             return true;
         }
 
-        if (!$event->continue || $discount <= 0) {
+        if (!$event->continue || 0 >= $discount = $responseObject->getOrder()->getJyuden()->getNebikizn()) {
             return false;
         }
 
@@ -269,24 +242,25 @@ class CartBridge extends BaseBridge
     }
 
     /**
-     * @param float $charge
-     * @param Cart|CartTrait $cart
+     * @param Cart $cart
      * @param AddCartResponseModelInterface $responseObject
      * @param bool $canFlush
      * @param array $options
      *
      * @return bool needFlush
+     *
+     * @throws ORMException
      */
-    private function attachChargeToCart(float $charge, AddCartResponseModelInterface $responseObject, Cart $cart, bool $canFlush, array $options): bool
+    private function attachChargeToCart(AddCartResponseModelInterface $responseObject, Cart $cart, bool $canFlush, array $options): bool
     {
-        $event = new OnAttachChargeToCartEvent($charge, $responseObject, $cart, $options, $canFlush);
-        $this->eventDispatcher->dispatch($event, Events::ON_ATTACH_CHARGE_TO_CART);
+        $event = new OnCalculateFeeCartEvent($responseObject, $cart, $options, $canFlush);
+        $this->eventDispatcher->dispatch($event, Events::ON_CALCULATE_CHARGE_CART);
 
         if ($event->needFlush) {
             return true;
         }
 
-        if (!$event->continue || $charge <= 0) {
+        if (!$event->continue || 0 >= $charge = $responseObject->getOrder()->getJyuden()->getTesuuzn()) {
             return false;
         }
 

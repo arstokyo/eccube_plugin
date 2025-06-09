@@ -17,33 +17,30 @@ use Eccube\Entity\Cart;
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModelInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
-class OnAttachChargeToCartEvent extends Event
+class OnCalculateFeeCartEvent extends Event
 {
-    private float $charge;
     private AddCartResponseModelInterface $addCartResponse;
+
     private Cart $cart;
+
     private array $options;
+
     private bool $canFlush;
+
     public bool $continue = true;
+
     public bool $needFlush = false;
 
     public function __construct(
-        float $charge,
         AddCartResponseModelInterface $addCartResponse,
         Cart $cart,
         array $options,
         bool $canFlush,
     ) {
-        $this->charge = $charge;
         $this->addCartResponse = $addCartResponse;
         $this->cart = $cart;
         $this->options = $options;
         $this->canFlush = $canFlush;
-    }
-
-    public function getCharge(): float
-    {
-        return $this->charge;
     }
 
     public function getOptions(): array
