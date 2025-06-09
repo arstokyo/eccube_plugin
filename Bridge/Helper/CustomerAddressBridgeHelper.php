@@ -21,6 +21,8 @@ use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr\RegMemAdrReque
 
 /**
  * 顧客住所ブリッジヘルパークラス
+ *
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 class CustomerAddressBridgeHelper
 {

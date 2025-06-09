@@ -21,6 +21,11 @@ use Plugin\AceClient43\Exception\CouldNotRemoveCustomerAddressException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * お届け先削除完了イベントリスナー
+ *
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 class FrontMypageDeliveryDeleteCompleteListener implements EventSubscriberInterface
 {
     private CustomerAddressBridge $customerAddressBridge;

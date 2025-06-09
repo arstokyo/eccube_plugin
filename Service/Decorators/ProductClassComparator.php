@@ -19,6 +19,11 @@ use Plugin\AceClient43\Events\EccubeEvents\Events;
 use Plugin\AceClient43\Events\EccubeEvents\OnCompareCartItemProductClassEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * カートアイテムのプロダクトクラスを比較するサービスのデコレータ
+ *
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 class ProductClassComparator extends BaseProductClassComparator
 {
     private EventDispatcherInterface $eventDispatcher;

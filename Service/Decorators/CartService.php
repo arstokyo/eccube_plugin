@@ -31,6 +31,11 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
+/**
+ * カートサービスのデコレータ
+ *
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 class CartService extends BaseCartService
 {
     private EventDispatcherInterface $eventDispatcher;

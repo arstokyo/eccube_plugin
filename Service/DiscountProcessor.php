@@ -34,6 +34,8 @@ use Plugin\AceClient43\Repository\ConfigRepository;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
+ * 受注サポートから振られている割引をOrderItemに変換するPreprocessor.
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 class DiscountProcessor implements DiscountProcessorInterface

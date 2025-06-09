@@ -43,6 +43,11 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
+/**
+ * 受注ヘルパークラスのデコレータ
+ *
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 class OrderHelper extends BaseOrderHelper
 {
     private EventDispatcherInterface $eventDispatcher;

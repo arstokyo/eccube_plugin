@@ -21,6 +21,11 @@ use Plugin\AceClient43\Exception\CouldNotCreateOrUpdateCustomerAddressException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * お届け先編集完了イベントリスナー
+ *
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 class FrontMypageDeliveryEditCompleteListener implements EventSubscriberInterface
 {
     private CustomerAddressBridge $customerAddressBridge;

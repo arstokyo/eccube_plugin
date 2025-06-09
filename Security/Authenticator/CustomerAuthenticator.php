@@ -29,14 +29,28 @@ use Symfony\Component\Security\Http\Authenticator\InteractiveAuthenticatorInterf
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 
+/**
+ * 顧客認証用のAuthenticator
+ *
+ * 通販Aceの顧客情報を参照して、ログイン処理を行う。
+ * 顧客情報が存在しない場合は、通販Aceに顧客情報が存在するか確認し、存在する場合はパスワードリセット画面へリダイレクトする。
+ *
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 class CustomerAuthenticator extends AbstractAuthenticator implements AuthenticationEntryPointInterface, InteractiveAuthenticatorInterface
 {
     public const RESET_PASSWORD_CUSTOMER = 'ace_client.reset_password_customer';
+
     private FormLoginAuthenticator $innerAuthenticator;
+
     private ConfigRepository $configRepository;
+
     private CustomerRepository $customerRepository;
+
     private CustomerBridge $customerBridge;
+
     private LoggerInterface $logger;
+
     private RouterInterface $router;
 
     public function __construct(FormLoginAuthenticator $innerAuthenticator, RouterInterface $router, ConfigRepository $configRepository, CustomerRepository $customerRepository, CustomerBridge $customerBridge, LoggerInterface $logger)

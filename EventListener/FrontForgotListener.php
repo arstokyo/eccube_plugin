@@ -19,6 +19,11 @@ use Plugin\AceClient43\Security\Authenticator\CustomerAuthenticator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 
+/**
+ * フロントのパスワードリセット画面のイベントリスナー
+ *
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
 class FrontForgotListener implements EventSubscriberInterface
 {
     public static function getSubscribedEvents()
