@@ -24,8 +24,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class UniqueCustomerValidator extends ConstraintValidator
 {
     private CustomerBridge $customerBridge;
+
     private ConfigRepository $configRepository;
+
     private TranslatorInterface $translator;
+
     private CustomerRepository $customerRepository;
 
     public function __construct(CustomerBridge $customerBridge, ConfigRepository $configRepository, TranslatorInterface $translator, CustomerRepository $customerRepository)
@@ -46,7 +49,7 @@ class UniqueCustomerValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        if (!$this->configRepository->get()->needValidateCustomerExisting()) {
+        if (empty($value)) {
             return;
         }
 

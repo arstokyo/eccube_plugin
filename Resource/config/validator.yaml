@@ -1,4 +1,0 @@
-Eccube\Entity\Customer:
-    properties:
-        email:
-            - Plugin\AceClient43\Validator\UniqueCustomer: ~

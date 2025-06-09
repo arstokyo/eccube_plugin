@@ -20,4 +20,8 @@ use Symfony\Component\Validator\Constraint;
  */
 class UniqueCustomer extends Constraint
 {
+    public function validatedBy(): string
+    {
+        return static::class.'Validator';
+    }
 }
