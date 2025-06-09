@@ -52,6 +52,15 @@ class OnInitializeCustomerFormTypeListener implements EventSubscriberInterface
         $this->processInitialize($event, EccubeEvents::FRONT_ENTRY_INDEX_INITIALIZE);
     }
 
+    /**
+     * フロントエントリーインデックス初期化イベント
+     *
+     * このメソッドは、フロントエントリーインデックスの初期化イベントを処理します。
+     * このイベントは、顧客のメールアドレスが一意であることを検証するために使用されます。
+     *
+     * @param EventArgs $event
+     * @param string $eventName
+     */
     private function processInitialize(EventArgs $event, string $eventName)
     {
         $aceConfig = $this->configRepository->get();
