@@ -89,11 +89,18 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         private bool $use_ace_charge_instead = false;
 
         /**
-         * @ORM\Column(name="validate_customer_existing", type="boolean", options={"default":true})
+         * @ORM\Column(name="validate_unique_customer_when_entry", type="boolean", options={"default":true})
          *
          * @var bool
          */
-        private bool $validate_customer_existing = true;
+        private bool $validate_unique_customer_when_entry = true;
+
+        /**
+         * @ORM\Column(name="validate_unique_customer_when_admin_edit", type="boolean", options={"default":true})
+         *
+         * @var bool
+         */
+        private bool $validate_unique_customer_when_admin_edit = true;
 
         /**
          * @ORM\Column(name="redirect_to_forgot_customer", type="boolean", options={"default":false})
@@ -309,15 +316,15 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         }
 
         /**
-         *  顧客登録する時の顧客が存在するかどうかを検証するかどうか
+         * 顧客登録する時の顧客が存在するかどうかを検証するかどうかを設定
          *
-         * @param bool $validateCustomerExisting
+         * @param bool $validate_unique_customer_when_entry
          *
          * @return $this
          */
-        public function setValidateCustomerExisting(bool $validateCustomerExisting)
+        public function setValidateUniqueCustomerWhenEntry(bool $validate_unique_customer_when_entry)
         {
-            $this->validate_customer_existing = $validateCustomerExisting;
+            $this->validate_unique_customer_when_entry = $validate_unique_customer_when_entry;
 
             return $this;
         }
@@ -327,9 +334,35 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
          *
          * @return bool
          */
-        public function needValidateCustomerExisting(): bool
+        public function isValidateUniqueCustomerWhenEntry(): bool
         {
-            return $this->validate_customer_existing;
+            return $this->validate_unique_customer_when_entry;
+        }
+
+        /**
+         * 管理画面で顧客編集する時の顧客が存在するかどうかを検証するかどうかを設定
+         *
+         * @param bool $validate_unique_customer_when_admin_edit
+         *
+         * @return $this
+         */
+        public function isValidateUniqueCustomerWhenAdminEdit(): bool
+        {
+            return $this->validate_unique_customer_when_admin_edit;
+        }
+
+        /**
+         * 管理画面で顧客編集する時の顧客が存在するかどうかを検証するかどうかを設定
+         *
+         * @param bool $validate_unique_customer_when_admin_edit
+         *
+         * @return $this
+         */
+        public function setValidateUniqueCustomerWhenAdminEdit(bool $validate_unique_customer_when_admin_edit)
+        {
+            $this->validate_unique_customer_when_admin_edit = $validate_unique_customer_when_admin_edit;
+
+            return $this;
         }
 
         /**
