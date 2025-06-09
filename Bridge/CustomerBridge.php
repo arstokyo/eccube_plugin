@@ -312,4 +312,22 @@ class CustomerBridge extends BaseBridge
     {
         return $this->helper->getAceCustomerIdByEmail($email, $this->getSyid());
     }
+
+    /**
+     * 顧客の新規登録または更新を行う
+     *
+     * @param Customer $customer 更新または新規登録する顧客エンティティ
+     * @param array $options オプションパラメータ
+     * @param bool $needFlush エンティティマネージャーの変更をフラッシュするかどうか
+     *
+     * @throws CouldNotRegisterNewCustomerException
+     */
+    public function createOrUpdate(Customer $customer, bool $needFlush = true, array $options = []): void
+    {
+        if ($customer->getAceCustomerId()) {
+            $this->update($customer, $needFlush, $options);
+        } else {
+            $this->new($customer, $needFlush);
+        }
+    }
 }
