@@ -21,7 +21,17 @@ use Eccube\Entity\OrderItem;
 
 class FeeSeparateHelper
 {
-    public static function separate(float $amount, Order $order, OrderItemType $orderItemType, TaxDisplayType $taxDisplayType, TaxType $taxation, $processorName): void
+    /**
+     * 受注の送料、手数料、値引き をOrderItemに分離する.
+     *
+     * @param float $amount
+     * @param Order $order
+     * @param OrderItemType $orderItemType
+     * @param TaxDisplayType $taxDisplayType
+     * @param TaxType $taxation
+     * @param string $processorName
+     */
+    public static function separate(float $amount, Order $order, OrderItemType $orderItemType, TaxDisplayType $taxDisplayType, TaxType $taxation, string $processorName): void
     {
         $shippingCount = $order->getShippings()->count();
         $feePerShipping = $shippingCount > 0 ? floor($amount / $shippingCount) : $amount;
@@ -36,6 +46,7 @@ class FeeSeparateHelper
                 ->setPrice($adjustedFee)
                 ->setOrderItemType($orderItemType)
                 ->setOrder($order)
+                ->setShipping($Shipping)
                 ->setTaxDisplayType($taxDisplayType)
                 ->setTaxType($taxation)
                 ->setProcessorName($processorName);
