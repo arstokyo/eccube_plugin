@@ -56,6 +56,9 @@ services:
         decorates: Eccube\Service\OrderHelper
         decoration_priority: 10
 
+    Plugin\AceClient43\Repository\CustomerAddressRepository:
+        decorates: Eccube\Repository\CustomerAddressRepository
+
 framework:
     validation:
         mapping:
