@@ -26,7 +26,7 @@ trait OrderItemTrait
     /**
      * 通販Aceの在庫を無視するフラグ
      *
-     * @ORM\Column(name="ace_tax_kubun", type="integer", length="1", nullable=false, options={"comment":"通販Aceの在庫を無視するフラグ"})
+     * @ORM\Column(name="ace_ignore_stock", type="integer", length="1", options={"comment":"通販Aceの在庫を無視するフラグ", "default":true})
      *
      * @var bool
      */
