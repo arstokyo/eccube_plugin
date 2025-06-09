@@ -51,6 +51,7 @@ class CustomerAddressBridgeHelper
                     ->setTel($address->getPhoneNumber())
                     ->setSimei($fullName)
                     ->setKana($fullKana)
+                    ->setBikou1($fullKana)
                 )
             );
     }
