@@ -1,4 +1,13 @@
 services:
+    # default configuration for services in *this* file
+    _defaults:
+        # automatically injects dependencies in your services
+        autowire: true
+        # automatically registers your services as commands, event subscribers, etc.
+        autoconfigure: true
+        # this means you cannot fetch services directly from the container via $container->get()
+        # if you need to do this, you can override this setting on individual services
+        public: false
 
     Plugin\AceClient43\Util\Logger\SoapXmlLogger:
         calls:
@@ -22,15 +31,30 @@ services:
 
     Plugin\AceClient43\Service\ChargeProcessor:
         tags:
-            - { name: eccube.item.holder.preprocessor, flow_type: shopping, priority: 650 }
+            - { name: eccube.item.holder.preprocessor, flow_type: shopping, priority: 550 }
 
     Plugin\AceClient43\Service\DeliveryFeeProcessor:
         tags:
-            - { name: eccube.item.holder.preprocessor, flow_type: shopping, priority: 850 }
+            - { name: eccube.item.holder.preprocessor, flow_type: shopping, priority: 750 }
 
     Plugin\AceClient43\Service\DiscountProcessor:
         tags:
-          - { name: eccube.discount.processor, flow_type: shopping, priority: 1100 }
+          - { name: eccube.discount.processor, flow_type: shopping, priority: 950 }
+
+
+    Plugin\AceClient43\Service\Decorators\ProductClassComparator:
+        decorates: Eccube\Service\Cart\ProductClassComparator
+        decoration_priority: 10
+
+    Plugin\AceClient43\Service\Decorators\CartService:
+        decorates: Eccube\Service\CartService
+        arguments:
+            $cartItemComparator: '@Plugin\AceClient43\Service\Decorators\ProductClassComparator'
+        decoration_priority: 10
+
+    Plugin\AceClient43\Service\Decorators\OrderHelper:
+        decorates: Eccube\Service\OrderHelper
+        decoration_priority: 10
 
 framework:
     validation:
