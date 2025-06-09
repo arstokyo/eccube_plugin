@@ -15,8 +15,9 @@ namespace Plugin\AceClient43\Bridge;
 
 use Eccube\Entity\OrderItem;
 use Eccube\Entity\Shipping;
+use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart as RequestAddCart;
 use Plugin\AceClient43\Bridge\Helper\OrderBridgeHelper;
-use Plugin\AceClient43\Entity\ShippingTrait;
+use Plugin\AceClient43\Entity\Config;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\OnBindJyumeiOrderEvent;
 use Plugin\AceClient43\Events\OnCreateOrderEvent;
@@ -28,6 +29,8 @@ use Plugin\AceClient43\Exception\CouldNotPreCreateOrderException;
 
 /**
  * 注文関連の処理を行うブリッジクラス
+ *
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 class OrderBridge extends BaseBridge
 {
@@ -41,7 +44,7 @@ class OrderBridge extends BaseBridge
     /**
      * カート作成
      *
-     * @param Shipping|ShippingTrait $shipping
+     * @param Shipping $shipping
      * @param array $options
      *
      * @return void
@@ -59,7 +62,7 @@ class OrderBridge extends BaseBridge
     /**
      * カートを事前作成
      *
-     * @param Shipping|ShippingTrait $shipping
+     * @param Shipping $shipping
      * @param array $options
      *
      * @return string Session ID
@@ -138,18 +141,18 @@ class OrderBridge extends BaseBridge
      * 注文商品に対するイベント処理
      *
      * @param OrderItem $item
-     * @param mixed $jyumei
+     * @param RequestAddCart\JyumeiModelInterface $jyumei
      * @param Shipping $shipping
-     * @param mixed $config
-     * @param mixed $jyuden
+     * @param Config $config
+     * @param RequestAddCart\JyudenModelInterface $jyuden
      * @param array $options
      */
     private function processOrderItemEvent(
         OrderItem $item,
-        $jyumei,
+        RequestAddCart\JyumeiModelInterface $jyumei,
         Shipping $shipping,
-        $config,
-        $jyuden,
+        Config $config,
+        RequestAddCart\JyudenModelInterface $jyuden,
         array $options,
     ): void {
         $this->eventDispatcher->dispatch(
@@ -172,7 +175,7 @@ class OrderBridge extends BaseBridge
      * カートを確定
      *
      * @param string $sessionId
-     * @param Shipping|ShippingTrait $shipping
+     * @param Shipping $shipping
      * @param array $options
      *
      * @return void

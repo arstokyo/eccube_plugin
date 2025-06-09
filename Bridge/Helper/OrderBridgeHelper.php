@@ -20,19 +20,17 @@ use Eccube\Entity\Order;
 use Eccube\Entity\OrderItem;
 use Eccube\Entity\ProductClass;
 use Eccube\Entity\Shipping;
+use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\AddCartRequestModel;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart as RequestAddCart;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\JyumeiModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\MemberOrderModel;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\DecisionCart\DecisionCartRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModelInterface;
 use Plugin\AceClient43\AceServices\Service\JyudenService;
 use Plugin\AceClient43\Entity\Config;
 use Plugin\AceClient43\Entity\Constants\AceTaxType;
-use Plugin\AceClient43\Entity\CustomerAddressTrait;
-use Plugin\AceClient43\Entity\CustomerTrait;
-use Plugin\AceClient43\Entity\OrderItemTrait;
 use Plugin\AceClient43\Entity\OrderTrait;
 use Plugin\AceClient43\Entity\ProductClassTrait;
-use Plugin\AceClient43\Entity\ShippingTrait;
 
 /**
  * OrderBridgeHelper - 注文関連の複雑なロジックをカプセル化するヘルパークラス
@@ -51,7 +49,7 @@ class OrderBridgeHelper
     /**
      * 事前作成のバリデーション
      *
-     * @param Shipping|ShippingTrait $shipping
+     * @param Shipping $shipping
      * @param Config|null $config
      *
      * @return array [order, customer, customerAddress, config]
@@ -72,10 +70,6 @@ class OrderBridgeHelper
             throw new \LogicException('会員IDが設定されていません。');
         }
 
-        if (null === $customerAddress->getAceEdaNo()) {
-            throw new \LogicException('会員住所枝番号が設定されていません。');
-        }
-
         return [$order, $customer, $customerAddress, $config];
     }
 
@@ -83,24 +77,24 @@ class OrderBridgeHelper
      * 事前作成リクエストの作成
      *
      * @param Shipping $shipping
-     * @param Order|OrderTrait $order
-     * @param Customer|CustomerTrait $customer
-     * @param CustomerAddress|CustomerAddressTrait $customerAddress
+     * @param Order $order
+     * @param Customer $customer
+     * @param CustomerAddress|null $customerAddress
      * @param Config $config
      * @param string $systemId
      * @param string $sessionId
      *
-     * @return RequestAddCart\AddCartRequestModel
+     * @return AddCartRequestModel
      */
     public function createPreCreateRequest(
         Shipping $shipping,
-        $order,
-        $customer,
-        $customerAddress,
+        Order $order,
+        Customer $customer,
+        ?CustomerAddress $customerAddress,
         Config $config,
         string $systemId,
         string $sessionId,
-    ): RequestAddCart\AddCartRequestModel {
+    ): AddCartRequestModel {
         $member = $this->createMemberOrderModel($customer, $customerAddress);
         $jyuden = $this->createJyudenModel($order, $shipping, $config);
 
@@ -138,7 +132,7 @@ class OrderBridgeHelper
                 ->setMail($order->getEmail())
             );
 
-        return (new RequestAddCart\AddCartRequestModel())
+        return (new AddCartRequestModel())
             ->setPrm($prm)
             ->setId($systemId)
             ->setSessId($sessionId);
@@ -147,17 +141,22 @@ class OrderBridgeHelper
     /**
      * MemberOrderModelを作成
      *
-     * @param Customer|CustomerTrait $customer
-     * @param CustomerAddress|CustomerAddressTrait $customerAddress
+     * @param Customer $customer
+     * @param CustomerAddress|null $customerAddress
      *
-     * @return RequestAddCart\MemberOrderModel
+     * @return MemberOrderModel
      */
-    private function createMemberOrderModel($customer, $customerAddress): RequestAddCart\MemberOrderModel
+    private function createMemberOrderModel(Customer $customer, ?CustomerAddress $customerAddress): MemberOrderModel
     {
-        return (new RequestAddCart\MemberOrderModel())
+        $memberOrderModel = (new MemberOrderModel())
             ->setJmember((new RequestAddCart\JmemberModel())->setCode($customer->getAceCustomerId()))
-            ->setNmember((new RequestAddCart\NmemberModel())->setEda($customerAddress->getAceEdaNo()))
             ->setSmember((new RequestAddCart\SmemberModel())->setCode($customer->getAceCustomerId()));
+
+        if ($customerAddress !== null) {
+            $memberOrderModel->setNmember((new RequestAddCart\NmemberModel())->setEda($customerAddress->getAceEdaNo()));
+        }
+
+        return $memberOrderModel;
     }
 
     /**
@@ -174,7 +173,7 @@ class OrderBridgeHelper
         return (new RequestAddCart\JyudenModel())
             ->setTorikbn($order->getAceTransactionId())
             ->setPcode($order->getAcePaymentId())
-            ->setJcode($config->getJyuchuId())
+            ->setJcode($config->getOrderRouteId())
             ->setNbikou1($shipping->getNote())
             ->setHday($shipping->getShippingDeliveryDate())
             ->setWeborderno($order->getId())
@@ -184,7 +183,7 @@ class OrderBridgeHelper
     /**
      * JyumeiModelを作成
      *
-     * @param OrderItem|OrderItemTrait $item
+     * @param OrderItem $item
      *
      * @return JyumeiModelInterface
      */
@@ -193,7 +192,7 @@ class OrderBridgeHelper
         /** @var ProductClass|ProductClassTrait $productClass */
         $productClass = $item->getProductClass();
 
-        $taxKbn = $this->determineTaxKubun($item->getTaxType());
+        $taxKbn = $this->determineTaxType($item->getTaxType()->getId());
         $price = $taxKbn === AceTaxType::TAX_EXCLUDED
             ? $item->getPrice()
             : $item->getPriceIncTax();
@@ -213,7 +212,7 @@ class OrderBridgeHelper
      *
      * @return int
      */
-    private function determineTaxKubun(int $taxType): int
+    private function determineTaxType(int $taxType): int
     {
         switch ($taxType) {
             case TaxType::TAXATION:
@@ -272,11 +271,11 @@ class OrderBridgeHelper
     /**
      * AddCartメソッドを実行
      *
-     * @param RequestAddCart\AddCartRequestModel $request
+     * @param AddCartRequestModel $request
      *
      * @return AddCartResponseModelInterface
      */
-    public function executeAddCartMethod(RequestAddCart\AddCartRequestModel $request): AddCartResponseModelInterface
+    public function executeAddCartMethod(AddCartRequestModel $request): AddCartResponseModelInterface
     {
         $response = $this->jyudenService->makeAddCartMethod()
             ->withRequest($request)
