@@ -59,12 +59,6 @@ services:
     Plugin\AceClient43\Repository\CustomerAddressRepository:
         decorates: Eccube\Repository\CustomerAddressRepository
 
-framework:
-    validation:
-        mapping:
-            paths:
-                - '%kernel.project_dir%/app/Plugin/AceClient43/Resource/config/validator.yaml'
-
 security:
     firewalls:
         customer:
