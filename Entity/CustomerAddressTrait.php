@@ -22,14 +22,16 @@ use Eccube\Annotation\EntityExtension;
 trait CustomerAddressTrait
 {
     /**
-     * @var string|null
+     * Aceの顧客住所枝番号
      *
-     * @ORM\Column(name="ace_eda_no", type="integer", length=6, nullable=true, options={"comment":"Ace住所枝番号"}, unique=true)
+     * @var int|null
+     *
+     * @ORM\Column(name="ace_eda_no", type="integer", length=6, nullable=true, options={"comment":"Ace住所枝番号"})
      */
     private ?int $ace_eda_no = null;
 
     /**
-     * ace_eda_no の値を取得する
+     * Aceの顧客住所枝番号を取得する
      *
      * @return int|null
      */
@@ -39,13 +41,13 @@ trait CustomerAddressTrait
     }
 
     /**
-     * ace_eda_no の値を設定する
+     * Aceの顧客住所枝番号を設定する
      *
      * @param int|null $ace_eda_no
      *
-     * @return self
+     * @return $this
      */
-    public function setAceEdaNo(?int $ace_eda_no): self
+    public function setAceEdaNo(?int $ace_eda_no)
     {
         $this->ace_eda_no = $ace_eda_no;
 
