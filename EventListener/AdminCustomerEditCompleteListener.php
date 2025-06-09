@@ -27,7 +27,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class AdminCustomerEditIndexCompleteListener implements EventSubscriberInterface
+class AdminCustomerEditCompleteListener implements EventSubscriberInterface
 {
     private CustomerBridge $customerBridge;
 
@@ -59,14 +59,14 @@ class AdminCustomerEditIndexCompleteListener implements EventSubscriberInterface
     {
         /** @var Customer $Customer */
         $Customer = $event->getArgument('Customer');
-        $this->logger->info('[AdminCustomerEditIndexCompleteListener] 通販Aceの顧客情報を登録しています。', [
+        $this->logger->info('[AdminCustomerEditCompleteListener] 通販Aceの顧客情報を登録しています。', [
             'customer' => $Customer,
         ]);
 
         try {
             $this->customerBridge->createOrUpdate($Customer);
         } catch (\Throwable $e) {
-            $this->logger->error('[AdminCustomerEditIndexCompleteListener] 通販Aceの顧客情報登録に失敗しました。', [
+            $this->logger->error('[AdminCustomerEditCompleteListener] 通販Aceの顧客情報登録に失敗しました。', [
                 'exception' => $e,
                 'customer' => $Customer,
             ]);
