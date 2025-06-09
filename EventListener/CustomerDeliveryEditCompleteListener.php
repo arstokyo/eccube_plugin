@@ -26,7 +26,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class FrontMypageDeliveryEditCompleteListener implements EventSubscriberInterface
+class CustomerDeliveryEditCompleteListener implements EventSubscriberInterface
 {
     private CustomerAddressBridge $customerAddressBridge;
 
@@ -42,6 +42,7 @@ class FrontMypageDeliveryEditCompleteListener implements EventSubscriberInterfac
     {
         return [
             EccubeEvents::FRONT_MYPAGE_DELIVERY_EDIT_COMPLETE => ['onEditComplete', 100],
+            EccubeEvents::ADMIN_CUSTOMER_DELIVERY_EDIT_INDEX_COMPLETE => ['onEditComplete', 100],
         ];
     }
 
@@ -56,9 +57,7 @@ class FrontMypageDeliveryEditCompleteListener implements EventSubscriberInterfac
     {
         /** @var CustomerAddress $CustomerAddress */
         $CustomerAddress = $event->getArgument('CustomerAddress');
-        $this->logger->info('[FrontMypageDeliveryEditCompleteListener] 通販Aceの顧客住所を編集しています。', [
-            'customer_address' => $CustomerAddress,
-        ]);
+        $this->logger->info('通販Aceの顧客住所を編集しています。', ['customer_address' => $CustomerAddress]);
 
         try {
             $this->customerAddressBridge->createOrUpdate($CustomerAddress, true);
