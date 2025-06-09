@@ -14,14 +14,11 @@
 namespace Plugin\AceClient43\Bridge\Helper;
 
 use Eccube\Entity\Customer;
-use Eccube\Entity\CustomerAddress;
 use Eccube\Repository\Master\PrefRepository;
 use Eccube\Repository\Master\SexRepository;
 use Plugin\AceClient43\AceServices\Model\Request\Member\CheckMailAdress\CheckMailAdressRequestModel;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetMember as GetMemberRequest;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetMemberMcode as GetMemberMcodeRequest;
-use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr as RequestRegMemAdr;
-use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr\RegMemAdrRequestModel;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\CheckMailAdress\CheckMailAdressResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember as GetMemberResponse;
@@ -80,10 +77,6 @@ class CustomerBridgeHelper
         if ($customer->getAceCustomerId()) {
             $jmember->setCode($customer->getAceCustomerId());
         }
-
-        //        if ($customer->getCustomerAddresses()->isEmpty()) {
-        //            $defaultAddress = new CustomerAddress();
-        //        }
 
         return (new RegMember\RegMemberRequestModel())
             ->setId($syid)
@@ -220,33 +213,6 @@ class CustomerBridgeHelper
         }
 
         return null;
-    }
-
-    /**
-     * 顧客の住所を新規作成または更新するためのリクエストモデルを生成
-     *
-     * @param CustomerAddress $address 住所エンティティ
-     * @param string $syid システムID
-     *
-     * @return RegMemAdrRequestModel
-     */
-    public function createAddressRequestModel(CustomerAddress $address, string $syid): RegMemAdrRequestModel
-    {
-        $customer = $address->getCustomer();
-
-        return (new RegMemAdrRequestModel())
-            ->setId($syid)
-            ->setPrm((new RequestRegMemAdr\MemberPrmModel())
-                ->setNmember((new RequestRegMemAdr\NmemberModel())
-                    ->setCode($customer->getAceCustomerId())
-                    ->setEda($address->getAceEdaNo())
-                    ->setZip($address->getPostalCode())
-                    ->setAdr1($address->getPref()->getName())
-                    ->setAdr2($address->getAddr01())
-                    ->setAdr3($address->getAddr02())
-                    ->setTel($address->getPhoneNumber())
-                )
-            );
     }
 
     /**

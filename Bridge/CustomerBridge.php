@@ -15,32 +15,22 @@ namespace Plugin\AceClient43\Bridge;
 
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMInvalidArgumentException;
 use Eccube\Entity\Customer;
-use Eccube\Entity\CustomerAddress;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode;
-use Plugin\AceClient43\AceServices\Model\Response\Member\RegMemAdr\RegMemAdrResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\RegMember\RegMemberResponseModelInterface;
 use Plugin\AceClient43\AceServices\Service\MemberService;
 use Plugin\AceClient43\Bridge\Helper\CustomerBridgeHelper;
-use Plugin\AceClient43\Entity\CustomerAddressTrait;
-use Plugin\AceClient43\Entity\CustomerTrait;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\OnGetAndUpdateCustomerEvent;
-use Plugin\AceClient43\Events\PostCreateOrUpdateCustomerAddressEvent;
 use Plugin\AceClient43\Events\PostRegisterCustomerEvent;
-use Plugin\AceClient43\Events\PreCreateOrUpdateCustomerAddressEvent;
 use Plugin\AceClient43\Events\PreRegisterCustomerEvent;
 use Plugin\AceClient43\Exception\CouldNotCheckCustomerExistingException;
-use Plugin\AceClient43\Exception\CouldNotCreateOrUpdateCustomerAddressException;
 use Plugin\AceClient43\Exception\CouldNotRegisterNewCustomerException;
 
 /**
  * 顧客連携ブリッジクラス
- *
- * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 class CustomerBridge extends BaseBridge
 {
@@ -59,11 +49,11 @@ class CustomerBridge extends BaseBridge
     /**
      * 顧客を新規登録
      *
-     * @param CustomerTrait|Customer $customer
+     * @param Customer $customer
      * @param bool $needFlush - trueの場合、エンティティマネージャーをフラッシュします
      * @param array $options
      *
-     * @throws \LogicException
+     * @throws CouldNotRegisterNewCustomerException
      */
     public function new(Customer $customer, bool $needFlush = false, array $options = []): void
     {
@@ -79,11 +69,11 @@ class CustomerBridge extends BaseBridge
     /**
      * 顧客情報を更新
      *
-     * @param CustomerTrait|Customer $customer
+     * @param Customer $customer
      * @param bool $needFlush - trueの場合、エンティティマネージャーをフラッシュします
      * @param array $options
      *
-     * @throws \LogicException
+     * @throws CouldNotRegisterNewCustomerException
      */
     public function update(Customer $customer, bool $needFlush = true, array $options = []): void
     {
@@ -100,7 +90,7 @@ class CustomerBridge extends BaseBridge
      * 顧客データをACE APIに送信
      *
      * @param RegMember\RegMemberRequestModelInterface $regMemberRequest
-     * @param CustomerTrait|Customer $customer
+     * @param Customer $customer
      * @param string $eventName
      * @param bool $needFlush
      * @param array $options
@@ -189,12 +179,13 @@ class CustomerBridge extends BaseBridge
      * 存在しない場合は、メールアドレスとパスワードを使用して取得します。
      * 取得した情報で顧客エンティティを更新します。
      *
-     * @param CustomerTrait|Customer $customer 更新する顧客エンティティ
+     * @param Customer $customer 更新する顧客エンティティ
      * @param bool $needFlush エンティティマネージャーの変更をフラッシュするかどうか
      *
      * @return Customer 更新された顧客エンティティ
      *
-     * @throws \LogicException 顧客情報の取得や更新に失敗した場合
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function getAndUpdateEntity(Customer $customer, bool $needFlush = true): Customer
     {
@@ -212,19 +203,11 @@ class CustomerBridge extends BaseBridge
     /**
      * メールアドレスとパスワードで顧客情報を取得し作成する
      *
-     * 指定されたメールアドレスを使用して通販Aceから顧客情報を取得し、
-     * 新しい顧客エンティティを作成します。
-     * パスワードがnullの場合は、メールアドレスからACE顧客IDを取得して処理します。
-     *
      * @param string $email 顧客のメールアドレス
      * @param string|null $password 顧客のパスワード（省略可能）
      * @param bool $needFlush 更新後にエンティティマネージャーをフラッシュするかどうか
      *
      * @return Customer|null 作成された顧客エンティティ、または顧客が見つからない場合はnull
-     *
-     * @throws ORMInvalidArgumentException
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function getAndCreateCustomerByEmail(string $email, ?string $password = null, bool $needFlush = false): ?Customer
     {
@@ -250,17 +233,10 @@ class CustomerBridge extends BaseBridge
     /**
      * ACE顧客IDで顧客情報を取得し作成する
      *
-     * 指定されたACE顧客IDを使用して通販Aceから顧客情報を取得し、
-     * 新しい顧客エンティティを作成して更新します。顧客情報が見つからない場合はnullを返します。
-     *
      * @param string $aceCustomerId 通販AceシステムのACE顧客ID
      * @param bool $needFlush 更新後にエンティティマネージャーをフラッシュするかどうか
      *
      * @return Customer|null 作成された顧客エンティティ、または顧客が見つからない場合はnull
-     *
-     * @throws OptimisticLockException
-     * @throws ORMInvalidArgumentException
-     * @throws ORMException
      */
     public function getAndCreateCustomerByAceCustomerId(string $aceCustomerId, bool $needFlush = false): ?Customer
     {
@@ -275,19 +251,11 @@ class CustomerBridge extends BaseBridge
     /**
      * ログインメンバーモデルから顧客エンティティを更新する
      *
-     * 通販Aceから取得したログインメンバーモデルの情報を使用して、顧客エンティティの
-     * データを更新します。氏名やフリガナの分割、住所情報、連絡先、個人属性などを
-     * 設定し、イベントをディスパッチして追加の更新処理を可能にします。
-     *
      * @param Customer $customer 更新対象の顧客エンティティ
      * @param GetMember\LoginMemberModelInterface|GetMemberMcode\LoginMemberModelInterface|null $loginMemberModel 通販Aceから取得したログインメンバーモデル
      * @param bool $needFlush 更新後にエンティティマネージャーの変更をフラッシュするかどうか
      *
      * @return Customer 更新された顧客エンティティ
-     *
-     * @throws ORMInvalidArgumentException
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
     private function updateCustomerEntityFromLoginMember(Customer $customer, $loginMemberModel, bool $needFlush = true): Customer
     {
@@ -309,101 +277,6 @@ class CustomerBridge extends BaseBridge
         }
 
         return $customer;
-    }
-
-    /**
-     * 顧客の新規住所を作成
-     *
-     * @param CustomerAddress[]|CustomerAddressTrait[] $addresses
-     * @param bool $needFlush
-     * @param array $options
-     *
-     * @throws \LogicException
-     */
-    public function createOrUpdateAddresses(array $addresses, bool $needFlush = true, array $options = []): bool
-    {
-        if (empty($addresses)) {
-            return false;
-        }
-
-        foreach ($addresses as $address) {
-            $this->createOrUpdateAddress($address, false, $options);
-        }
-
-        if ($needFlush) {
-            $this->em->flush();
-        }
-
-        return true;
-    }
-
-    /**
-     * 顧客の住所を新規作成または更新
-     *
-     * @param CustomerAddress|CustomerAddressTrait $address
-     * @param mixed $needFlush
-     * @param array $options
-     *
-     * @return bool
-     *
-     * @throws \LogicException
-     * @throws CouldNotCreateOrUpdateCustomerAddressException
-     */
-    public function createOrUpdateAddress(CustomerAddress $address, bool $needFlush = true, array $options = []): bool
-    {
-        /**
-         * @var CustomerTrait|Customer $customer
-         */
-        $customer = $address->getCustomer();
-        if (null === $customer->getAceCustomerId()) {
-            $this->logger->error('通販Aceの住所登録に失敗しました: 顧客IDが設定されていません', ['customer' => $customer]);
-            throw new \LogicException('先に顧客を登録してください。');
-        }
-
-        $request = $this->helper->createAddressRequestModel($address, $this->getSyid());
-
-        $this->eventDispatcher->dispatch(
-            new PreCreateOrUpdateCustomerAddressEvent($request, $address, $options),
-            Events::PRE_CREATE_OR_UPDATE_CUSTOMER_ADDRESS
-        );
-
-        try {
-            $response = $this->memberService->makeRegMemAdrMethod()
-                ->withRequest($request)
-                ->send();
-
-            if (!$response->isOk()) {
-                throw new \RuntimeException(sprintf('通販Aceの住所登録に失敗しました: %s', $response->getStatusCode()));
-            }
-
-            /** @var RegMemAdrResponseModelInterface $responseObject */
-            $responseObject = $response->getResponse();
-            if ($this->hasErrorMessage($responseObject->getMember())) {
-                throw new CouldNotCreateOrUpdateCustomerAddressException('通販Aceの住所登録に失敗しました。');
-            }
-
-            $address->setAceEdaNo($responseObject->getMember()->getNmember()->getEda());
-
-            $this->eventDispatcher->dispatch(
-                new PostCreateOrUpdateCustomerAddressEvent($responseObject, $address, $options),
-                Events::POST_CREATE_OR_UPDATE_CUSTOMER_ADDRESS
-            );
-
-            $this->em->persist($address);
-            if ($needFlush) {
-                $this->em->flush($address);
-            }
-        } catch (\Throwable $e) {
-            if ($e instanceof CouldNotCreateOrUpdateCustomerAddressException) {
-                $this->logger->error('通販Aceの住所登録に失敗しました', ['exception' => $e]);
-                throw $e;
-            }
-
-            $this->logger->error('通販Aceの住所登録に失敗しました', ['exception' => $e]);
-            throw new CouldNotCreateOrUpdateCustomerAddressException('通販Aceの住所登録時にエラーが発生しました', $e);
-        }
-
-        return true;
     }
 
     /**
