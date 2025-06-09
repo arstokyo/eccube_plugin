@@ -16,6 +16,7 @@ namespace Plugin\AceClient43\EventListener;
 use Eccube\Entity\CustomerAddress;
 use Eccube\Event\EccubeEvents;
 use Eccube\Event\EventArgs;
+use Eccube\Repository\CustomerAddressRepository;
 use Plugin\AceClient43\Bridge\CustomerAddressBridge;
 use Plugin\AceClient43\Exception\CouldNotRemoveCustomerAddressException;
 use Psr\Log\LoggerInterface;
@@ -26,22 +27,26 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class FrontMypageDeliveryDeleteCompleteListener implements EventSubscriberInterface
+class CustomerDeliveryDeleteCompleteListener implements EventSubscriberInterface
 {
     private CustomerAddressBridge $customerAddressBridge;
 
     private LoggerInterface $logger;
 
-    public function __construct(CustomerAddressBridge $customerAddressBridge, LoggerInterface $logger)
+    private CustomerAddressRepository $customerAddressRepository;
+
+    public function __construct(CustomerAddressBridge $customerAddressBridge, LoggerInterface $logger, CustomerAddressRepository $customerAddressRepository)
     {
         $this->customerAddressBridge = $customerAddressBridge;
         $this->logger = $logger;
+        $this->customerAddressRepository = $customerAddressRepository;
     }
 
     public static function getSubscribedEvents()
     {
         return [
-            EccubeEvents::FRONT_MYPAGE_DELIVERY_DELETE_COMPLETE => ['onFrontMypageDeliveryDeleteComplete', 100],
+            EccubeEvents::FRONT_MYPAGE_DELIVERY_DELETE_COMPLETE => ['onDelete', 100],
+            EccubeEvents::ADMIN_CUSTOMER_DELIVERY_DELETE_COMPLETE => ['onDelete', 100],
         ];
     }
 
@@ -52,20 +57,30 @@ class FrontMypageDeliveryDeleteCompleteListener implements EventSubscriberInterf
      *
      * @throws CouldNotRemoveCustomerAddressException
      */
-    public function onFrontMypageDeliveryDeleteComplete(EventArgs $event)
+    public function onDelete(EventArgs $event)
     {
-        $Customer = $event->getArgument('Customer');
         /** @var CustomerAddress $CustomerAddress */
         $CustomerAddress = $event->getArgument('CustomerAddress');
-        $this->logger->info('[FrontMypageDeliveryDeleteCompleteListener] 通販Aceの顧客住所削除しています。',
+        $Customer = $event->getArgument('Customer');
+        $this->logger->info('販Aceの顧客住所削除しています。',
             [
                 'customer' => $Customer,
                 'customer_address' => $CustomerAddress,
             ]
         );
 
-        if (null === $CustomerAddress->getAceEdaNo()) {
-            $this->logger->warning('顧客住所の通販Ace枝番号が設定されていません。削除処理をスキップします。', [
+        if ($CustomerAddress->getAceEdaNo()) {
+            $this->logger->warning('削除しようとしている顧客住所のAceEdaNoが存在しません。削除処理をスキップします。', [
+                'customer' => $Customer,
+                'customer_address' => $CustomerAddress,
+            ]);
+
+            return;
+        }
+
+        $addressId = $CustomerAddress->getId();
+        if ($addressId && null !== $this->customerAddressRepository->find($addressId)) {
+            $this->logger->warning('削除しようとしている顧客住所はまだデータベースに存在しているため。削除処理をスキップします。', [
                 'customer' => $Customer,
                 'customer_address' => $CustomerAddress,
             ]);
