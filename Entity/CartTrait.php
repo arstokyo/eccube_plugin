@@ -24,33 +24,55 @@ trait CartTrait
     use BaseCartOrderTrait;
 
     /**
+     * Aceの受注サポート機能を有効にするかどうか
+     *
      * @var bool
      *
-     * @ORM\Column(name="use_ace_order_support", type="boolean", nullable=true, options={"comment":"ACE顧客ID"})
+     * @ORM\Column(name="enable_ace_order_support", type="boolean", options={"default":false, "comment":"Aceの受注サポート機能を有効にするかどうか"})
      */
-    private bool $use_ace_order_support = false;
+    private bool $enable_ace_order_support = false;
 
     /**
-     * use_order_supportの値を取得する
-     *
-     * @param bool $use_order_support
+     * Aceの受注サポート機能を有効にする
      *
      * @return $this
      */
-    public function setUseAceOrderSupport(bool $use_order_support)
+    public function enableAceOrderSupport()
     {
-        $this->use_ace_order_support = $use_order_support;
+        return $this->setEnableAceOrderSupport(true);
+    }
 
-        return $this;
+    /**
+     * Aceの受注サポート機能を無効にする
+     *
+     * @return $this
+     */
+    public function disableAceOrderSupport()
+    {
+        return $this->setEnableAceOrderSupport(false);
     }
 
     /**
      * use_order_supportの値を取得する
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getUseAceOrderSupport(): ?bool
+    public function isAceOrderSupportEnabled(): bool
     {
-        return $this->use_ace_order_support;
+        return $this->enable_ace_order_support;
+    }
+
+    /**
+     * Aceの受注サポート機能を有効にするかどうかを設定する
+     *
+     * @param bool $enable
+     *
+     * @return $this
+     */
+    public function setEnableAceOrderSupport(bool $enable)
+    {
+        $this->enable_ace_order_support = $enable;
+
+        return $this;
     }
 }

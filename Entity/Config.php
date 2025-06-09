@@ -14,6 +14,7 @@
 namespace Plugin\AceClient43\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Plugin\AceClient43\Entity\Constants\TransactionType;
 use Plugin\AceClient43\Util\HttpClient\HttpClientFactory;
 use Plugin\AceClient43\Util\Logger\LoggerFactory;
 
@@ -107,6 +108,27 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
          * @var string
          */
         private string $forgot_customer_path = '';
+
+        /**
+         * @var int
+         *
+         * @ORM\Column(name="default_payment_id", type="integer", options={"default":0})
+         */
+        private int $default_payment_id = 0;
+
+        /**
+         * @var int
+         *
+         * @ORM\Column(name="default_transaction_type", type="integer", options={"default":0})
+         */
+        private int $default_transaction_type = TransactionType::SINGLE_PAYMENT;
+
+        /**
+         * @ORM\Column(name="enable_order_support", type="boolean", options={"default":false})
+         *
+         * @var bool
+         */
+        private bool $enable_order_support = false;
 
         /**
          * @return int
@@ -366,6 +388,108 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         public function hasForgotCustomerPath(): bool
         {
             return !empty($this->forgot_customer_path);
+        }
+
+        /**
+         * デフォルトの決済方法IDを取得
+         *
+         * @return int
+         */
+        public function getDefaultPaymentId(): int
+        {
+            return $this->default_payment_id;
+        }
+
+        /**
+         * デフォルトの決済方法IDを設定
+         *
+         * @param int $default_payment_id
+         *
+         * @return $this
+         */
+        public function setDefaultPaymentId(int $default_payment_id)
+        {
+            $this->default_payment_id = $default_payment_id;
+
+            return $this;
+        }
+
+        /**
+         * デフォルトの取引区分を取得
+         *
+         * @return int
+         */
+        public function getDefaultTransactionType(): int
+        {
+            return $this->default_transaction_type;
+        }
+
+        /**
+         * デフォルトの取引区分を設定
+         *
+         * @param int $default_transaction_type
+         *
+         * @return $this
+         */
+        public function setDefaultTransactionType(int $default_transaction_type)
+        {
+            $this->default_transaction_type = $default_transaction_type;
+
+            return $this;
+        }
+
+        /**
+         * Aceの受注サポート機能を有効にするかどうか
+         *
+         * @return bool
+         */
+        public function getEnableOrderSupport(): bool
+        {
+            return $this->enable_order_support;
+        }
+
+        /**
+         * Aceの受注サポート機能が有効かどうかを確認
+         *
+         * @return bool
+         */
+        public function isOrderSupportEnabled(): bool
+        {
+            return $this->getEnableOrderSupport();
+        }
+
+        /**
+         * Aceの受注サポート機能を有効にする
+         *
+         * @return $this
+         */
+        public function enableOrderSupport()
+        {
+            return $this->setEnableOrderSupport(true);
+        }
+
+        /**
+         * Aceの受注サポート機能を無効にする
+         *
+         * @return $this
+         */
+        public function disableOrderSupport()
+        {
+            return $this->setEnableOrderSupport(false);
+        }
+
+        /**
+         * Aceの受注サポート機能を有効にするかどうかを設定
+         *
+         * @param bool $enable_order_support
+         *
+         * @return $this
+         */
+        public function setEnableOrderSupport(bool $enable_order_support): self
+        {
+            $this->enable_order_support = $enable_order_support;
+
+            return $this;
         }
     }
 }
