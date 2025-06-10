@@ -69,7 +69,7 @@ class CustomerDeliveryDeleteCompleteListener implements EventSubscriberInterface
             ]
         );
 
-        if ($CustomerAddress->getAceEdaNo()) {
+        if (!$CustomerAddress->getAceEdaNo()) {
             $this->logger->warning('削除しようとしている顧客住所のAceEdaNoが存在しません。削除処理をスキップします。', [
                 'customer' => $Customer,
                 'customer_address' => $CustomerAddress,
