@@ -38,4 +38,6 @@ class Events
     public const POST_PROCESS_CHARGE_EVENT = 'ace_client.post_process_charge_event';
     public const PRE_PROCESS_DISCOUNT_EVENT = 'ace_client.pre_process_discount_event';
     public const POST_PROCESS_DISCOUNT_EVENT = 'ace_client.post_process_discount_event';
+    public const PRE_IMPORT_PRODUCT = 'ace_client.pre_import_product';
+    public const POST_IMPORT_PRODUCT = 'ace_client.post_import_product';
 }
