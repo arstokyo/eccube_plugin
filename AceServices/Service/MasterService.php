@@ -295,4 +295,14 @@ class MasterService extends AceServiceAbstract implements AceServiceInterface
     {
         return new AceMethod\Master\GetHolidayMethod($this->baseServiceName, $this->serviceRetriever);
     }
+
+    /**
+     * Meke GetFreeCdWithName Method
+     *
+     * @return AceMethod\Master\GetFreeCdWithNameMethod
+     */
+    public function makeGetFreeCdWithNameMethod(): AceMethod\Master\GetFreeCdWithNameMethod
+    {
+        return new AceMethod\Master\GetFreeCdWithNameMethod($this->baseServiceName, $this->serviceRetriever);
+    }
 }
