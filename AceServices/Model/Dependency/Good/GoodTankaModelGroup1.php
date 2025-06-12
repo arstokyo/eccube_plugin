@@ -16,6 +16,7 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Good;
 use Plugin\AceClient43\AceServices\Model\Dependency\Cost;
 use Plugin\AceClient43\AceServices\Model\Dependency\Day;
 use Plugin\AceClient43\AceServices\Model\Dependency\Point;
+use Plugin\AceClient43\Entity\Constants\AceTaxType;
 use Plugin\AceClient43\Util\Converter\NumberConverter;
 
 /**
@@ -26,10 +27,15 @@ use Plugin\AceClient43\Util\Converter\NumberConverter;
 class GoodTankaModelGroup1 implements GoodTankaModelGroup1Interface
 {
     use Cost\Tanka\TankaKbnTrait;
+
     use Day\DayTrait;
+
     use Cost\Tax\TaxKbnTrait;
+
     use Point\PointTrait;
+
     use Day\NdayTrait;
+
     use GdidTrait;
 
     /** @var ?float 税率 */
@@ -240,5 +246,29 @@ class GoodTankaModelGroup1 implements GoodTankaModelGroup1Interface
         $this->nnote = $nnote;
 
         return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isTaxIncluded(): bool
+    {
+        return $this->getTaxkbn() !== AceTaxType::TAX_INCLUDED;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isTaxExcluded(): bool
+    {
+        return $this->getTaxkbn() === AceTaxType::TAX_EXCLUDED;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isTaxExempt(): bool
+    {
+        return $this->getTaxkbn() === AceTaxType::TAX_EXEMPT;
     }
 }

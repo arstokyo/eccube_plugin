@@ -183,4 +183,25 @@ interface GoodTankaModelGroup1Interface extends Cost\Tanka\HasTankaKbnInterface,
      * @return $this
      */
     public function setNnote(?string $nnote);
+
+    /**
+     * 税込みかどうかを確認する
+     *
+     * @return bool
+     */
+    public function isTaxIncluded(): bool;
+
+    /**
+     * 税抜きかどうかを確認する
+     *
+     * @return bool
+     */
+    public function isTaxExcluded(): bool;
+
+    /**
+     * 非課税かどうかを確認する
+     *
+     * @return bool
+     */
+    public function isTaxExempt(): bool;
 }
