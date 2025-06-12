@@ -15,6 +15,7 @@ namespace Plugin\AceClient43\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Eccube\Annotation\EntityExtension;
+use Plugin\AceClient43\Entity\Constants\AceProductType;
 
 /**
  * @EntityExtension("Eccube\Entity\ProductClass")
@@ -29,6 +30,15 @@ trait ProductClassTrait
      * @ORM\Column(name="ace_product_id", type="string", length=20, options={"comment":"Ace商品ID"}, unique=true)
      */
     private ?string $ace_product_id = null;
+
+    /**
+     * Aceの商品種別
+     *
+     * @var int
+     *
+     * @ORM\Column(name="ace_product_type", type="integer", options={"default":0, "comment":"Ace商品種別"})
+     */
+    private int $ace_product_type = AceProductType::PRODUCT;
 
     /**
      * Aceの商品IDを取得する
@@ -50,6 +60,30 @@ trait ProductClassTrait
     public function setAceProductId(?string $ace_product_id)
     {
         $this->ace_product_id = $ace_product_id;
+
+        return $this;
+    }
+
+    /**
+     * Aceの商品種別を取得する
+     *
+     * @return int
+     */
+    public function getAceProductType(): int
+    {
+        return $this->ace_product_type;
+    }
+
+    /**
+     * Aceの商品種別を設定する
+     *
+     * @param int $ace_product_type
+     *
+     * @return $this
+     */
+    public function setAceProductType(int $ace_product_type)
+    {
+        $this->ace_product_type = $ace_product_type;
 
         return $this;
     }
