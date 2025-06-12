@@ -22,60 +22,25 @@ class PreImportProductEvent extends Event
 {
     public bool $continue = true;
 
-    private \DateTime $updateFrom;
+    public \DateTime $updateFrom;
 
-    private \DateTime $updateTo;
+    public \DateTime $updateTo;
 
-    private InputInterface $input;
+    public InputInterface $input;
 
-    private OutputInterface $output;
+    public OutputInterface $output;
 
-    private Member $creator;
+    public Member $creator;
 
-    private array $options = [];
+    public array $options;
 
-    public function __construct(Member $creator, \DateTime $updateFrom, \DateTime $updateTo, InputInterface $input, OutputInterface $output, array $options = [])
+    public function __construct(Member $creator, \DateTime $updateFrom, \DateTime $updateTo, InputInterface $input, OutputInterface $output, array $options)
     {
         $this->updateFrom = $updateFrom;
         $this->updateTo = $updateTo;
         $this->input = $input;
         $this->output = $output;
         $this->creator = $creator;
-        $this->options = $options;
-    }
-
-    public function getUpdateFrom(): \DateTime
-    {
-        return $this->updateFrom;
-    }
-
-    public function getUpdateTo(): \DateTime
-    {
-        return $this->updateTo;
-    }
-
-    public function getInput(): InputInterface
-    {
-        return $this->input;
-    }
-
-    public function getOutput(): OutputInterface
-    {
-        return $this->output;
-    }
-
-    public function getCreator(): Member
-    {
-        return $this->creator;
-    }
-
-    public function getOptions(): array
-    {
-        return $this->options;
-    }
-
-    public function setOptions(array $options): void
-    {
         $this->options = $options;
     }
 }
