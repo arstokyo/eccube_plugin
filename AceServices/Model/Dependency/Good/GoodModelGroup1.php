@@ -25,7 +25,9 @@ use Plugin\AceClient43\Util\Converter\NumberConverter;
 class GoodModelGroup1 implements GoodModelGroup1Interface
 {
     use Bikou\ThreeNotesTrait;
+
     use GoodModelBaseTrait;
+
     use GdidTrait;
 
     /** @var ?int 納品明細出力区分 */
@@ -362,5 +364,13 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
         $this->subnm1 = $subnm1;
 
         return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isSoftDelete(): bool
+    {
+        return $this->getDelfg() === 1;
     }
 }

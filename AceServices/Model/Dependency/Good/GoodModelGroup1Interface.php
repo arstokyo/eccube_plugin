@@ -301,4 +301,11 @@ interface GoodModelGroup1Interface extends GoodModelBaseInterface, Bikou\HasThre
      * @return $this
      */
     public function setSubnm1(?string $subnm1);
+
+    /**
+     * Get 削除フラグ
+     *
+     * @return bool
+     */
+    public function isSoftDelete(): bool;
 }
