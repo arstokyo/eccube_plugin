@@ -276,6 +276,7 @@ class ProductImportHelper
 
         if (null === $onSetPriceEvent) {
             $onSetPriceEvent = new HelperOnSetPriceEvent(
+                $productClass,
                 $creator,
                 $groupedTankaModels,
                 $tankaModels,
@@ -286,9 +287,11 @@ class ProductImportHelper
             );
             $settingBag['on_set_price_event'] = $onSetPriceEvent;
         } else {
+            $onSetPriceEvent->productClass = $productClass;
             $onSetPriceEvent->firstTankaModel = $tankaModel;
             $onSetPriceEvent->currentModels = $tankaModels;
             $onSetPriceEvent->groupedTankaModels = $groupedTankaModels;
+            $onSetPriceEvent->options = $options;
         }
 
         $this->eventDispatcher->dispatch($onSetPriceEvent, Events::PRODUCT_IMPORT_HELPER_ON_SET_PRICE);
