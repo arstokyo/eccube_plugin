@@ -22,6 +22,7 @@ use Eccube\Repository\MemberRepository;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\PreImportProductEvent;
 use Plugin\AceClient43\Exception\CouldNotImportProductException;
+use Plugin\AceClient43\Service\EntityManagerResetHelper;
 use Plugin\AceClient43\Service\ProductImportHelper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -234,12 +235,8 @@ class ProductImportCommand extends Command
 
         foreach ($entities as $entity) {
             try {
-                // エンティティマネージャーの状態をリセット
-                if (!$this->entityManager->isOpen()) {
-                    $output->writeln('<comment>エンティティマネージャーが閉じられているため、再初期化します</comment>');
-                    $this->entityManager = $this->managerRegistry->resetManager();
-                    $output->writeln('<info>エンティティマネージャーをリセットしました</info>');
-                }
+                $entityManager = $this->entityManager;
+                $entityManager = EntityManagerResetHelper::resetIfNotOpen($entityManager, $this->managerRegistry, $output);
 
                 // エンティティがデタッチされている場合は再読み込み
                 $className = get_class($entity);
@@ -252,7 +249,7 @@ class ProductImportCommand extends Command
                 }
 
                 // 毎回新しいエンティティを取得する
-                $refreshedEntity = $this->entityManager->find($className, $id);
+                $refreshedEntity = $entityManager->find($className, $id);
                 if ($refreshedEntity === null) {
                     $output->writeln(sprintf('<comment>エンティティが存在しないためスキップします: %s (ID: %s)</comment>', $className, $id));
                     $failed++;
@@ -260,19 +257,19 @@ class ProductImportCommand extends Command
                 }
 
                 // トランザクションを開始して削除操作を実行
-                $this->entityManager->beginTransaction();
+                $entityManager->beginTransaction();
 
                 try {
-                    $this->entityManager->remove($refreshedEntity);
-                    $this->entityManager->flush();
-                    $this->entityManager->commit();
+                    $entityManager->remove($refreshedEntity);
+                    $entityManager->flush();
+                    $entityManager->commit();
 
                     $removed++;
                     $output->writeln(sprintf('<info>エンティティを削除しました: %s (ID: %s)</info>', $className, $id));
                 } catch (\Exception $e) {
                     // このトランザクション内でのみロールバック
-                    if ($this->entityManager->getConnection()->isTransactionActive()) {
-                        $this->entityManager->rollback();
+                    if ($entityManager->getConnection()->isTransactionActive()) {
+                        $entityManager->rollback();
                     }
 
                     throw $e; // 外部のcatchブロックで処理するために再スロー
@@ -283,45 +280,18 @@ class ProductImportCommand extends Command
                 $failed++;
 
                 // 問題が発生した場合はエンティティマネージャーをリセット
-                $this->resetEntityManager($output);
+                $this->entityManager = EntityManagerResetHelper::resetEntityManager($entityManager, $this->managerRegistry, $output);
             } catch (\Throwable $e) {
                 $output->writeln(sprintf('<error>エンティティの削除中にエラーが発生しました: %s (ID: %s): %s</error>',
                     get_class($entity), method_exists($entity, 'getId') ? $entity->getId() : '不明', $e->getMessage()));
                 $failed++;
 
                 // 問題が発生した場合はエンティティマネージャーをリセット
-                $this->resetEntityManager($output);
+                $this->entityManager = EntityManagerResetHelper::resetEntityManager($entityManager, $this->managerRegistry, $output);
             }
         }
 
         // 処理結果の集計を表示
         $output->writeln(sprintf('<info>削除処理完了: 成功=%d件, 失敗=%d件</info>', $removed, $failed));
-    }
-
-    /**
-     * エンティティマネージャーをリセットする
-     *
-     * @param OutputInterface $output
-     */
-    private function resetEntityManager(OutputInterface $output): void
-    {
-        try {
-            // 活性なトランザクションをロールバック
-            if ($this->entityManager->isOpen() && $this->entityManager->getConnection()->isTransactionActive()) {
-                $this->entityManager->rollback();
-                $output->writeln('<comment>トランザクションをロールバックしました</comment>');
-            }
-
-            // エンティティマネージャーをクリア
-            if ($this->entityManager->isOpen()) {
-                $this->entityManager->clear();
-            }
-
-            // 完全にリセット
-            $this->entityManager = $this->managerRegistry->resetManager();
-            $output->writeln('<info>エンティティマネージャーをリセットしました</info>');
-        } catch (\Throwable $e) {
-            $output->writeln(sprintf('<error>エンティティマネージャーのリセット中にエラーが発生しました: %s</error>', $e->getMessage()));
-        }
     }
 }
