@@ -14,6 +14,7 @@
 namespace Plugin\AceClient43\Events;
 
 use Eccube\Entity\Member;
+use Eccube\Entity\ProductClass;
 use Plugin\AceClient43\AceServices\Model\Dependency\Good\GoodTankaModelGroup1Interface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Contracts\EventDispatcher\Event;
@@ -36,9 +37,12 @@ class HelperOnSetPriceEvent extends Event
 
     public Member $creator;
 
+    public ProductClass $productClass;
+
     public bool $break = false;
 
     public function __construct(
+        ProductClass $productClass,
         Member $creator,
         array $groupedTankaModels,
         array $currentModels,
@@ -47,6 +51,7 @@ class HelperOnSetPriceEvent extends Event
         array $options,
         ?OutputInterface $output,
     ) {
+        $this->productClass = $productClass;
         $this->creator = $creator;
         $this->groupedTankaModels = $groupedTankaModels;
         $this->currentModels = $currentModels;
