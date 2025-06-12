@@ -14,6 +14,8 @@
 namespace Plugin\AceClient43\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use Eccube\Entity\BaseInfo;
 use Eccube\Entity\Master\ProductStatus;
 use Eccube\Entity\Member;
@@ -32,6 +34,7 @@ use Plugin\AceClient43\AceServices\Model\Response\Goods\GetGoods\MasterModelInte
 use Plugin\AceClient43\Bridge\ProductBridge;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\HelperOnCreateProductEvent;
+use Plugin\AceClient43\Events\HelperOnCreateProductFailedEvent;
 use Plugin\AceClient43\Events\HelperOnSetPriceEvent;
 use Plugin\AceClient43\Events\HelperPreImportProductEvent;
 use Psr\Log\LoggerInterface;
@@ -48,7 +51,7 @@ class ProductImportHelper
 
     private ProductStatusRepository $productStatusRepository;
 
-    private EntityManagerInterface $entityManager;
+    private ObjectManager $entityManager;
 
     private EventDispatcherInterface $eventDispatcher;
 
@@ -57,6 +60,8 @@ class ProductImportHelper
     private BaseInfo $baseInfo;
 
     private CountryRepository $countryRepository;
+
+    private ManagerRegistry $managerRegistry;
 
     public function __construct(
         ProductBridge $productBridge,
@@ -68,6 +73,7 @@ class ProductImportHelper
         EntityManagerInterface $entityManager,
         EventDispatcherInterface $eventDispatcher,
         BaseInfoRepository $baseInfoRepository,
+        ManagerRegistry $managerRegistry,
     ) {
         $this->productBridge = $productBridge;
         $this->logger = $logger;
@@ -78,6 +84,7 @@ class ProductImportHelper
         $this->taxRuleRepository = $taxRuleRepository;
         $this->countryRepository = $countryRepository;
         $this->baseInfo = $baseInfoRepository->get();
+        $this->managerRegistry = $managerRegistry;
     }
 
     /**
@@ -147,6 +154,13 @@ class ProductImportHelper
 
         foreach ($productModels as $productModel) {
             try {
+                // エンティティマネージャーの状態をリセット
+                $entityManager = $this->entityManager;
+                $entityManager = EntityManagerResetHelper::resetIfNotOpen($entityManager, $this->managerRegistry, $output);
+
+                /** @var ProductClass $productClass */
+                /** @var ProductStock $productStock */
+                /** @var Product $product */
                 [$aceProductId, $productClass, $product, $productStock] = $this->getOrCreateProductStuff($productModel, $creator, $output);
 
                 $product->setName($productModel->getGname());
@@ -174,6 +188,7 @@ class ProductImportHelper
                         $onCreateEvent->productClass = $productClass;
                         $onCreateEvent->productModel = $productModel;
                         $onCreateEvent->processedProductsClasses = $processedProductClasses;
+                        $onCreateEvent->options = $options;
                         $onCreateEvent->failed = false;
                     }
 
@@ -198,16 +213,16 @@ class ProductImportHelper
                     $options = $onCreateEvent->options;
                 }
 
-                $this->entityManager->persist($product);
-                $this->entityManager->persist($productClass);
-                $this->entityManager->persist($productStock);
+                $entityManager->persist($product);
+                $entityManager->persist($productClass);
+                $entityManager->persist($productStock);
 
-                $this->entityManager->flush();
+                $entityManager->flush();
 
                 $processedProductClasses[$aceProductId] = $productClass;
             } catch (\Throwable $e) {
                 $this->log('error', '商品作成中にエラーが発生しました: '.$e->getMessage(), $output);
-                $options['_failed_product_codes'][] = $productModel->getGdid();
+                $this->handleCreateProductFailed($productModel, $processedProductClasses, $options, $output, $settingBag);
             }
         }
 
@@ -410,6 +425,7 @@ class ProductImportHelper
         $displayHideStatus = $this->productStatusRepository->find(ProductStatus::DISPLAY_HIDE);
         $hasOnCreateProductSubscribed = $this->eventDispatcher->hasListeners(Events::PRODUCT_IMPORT_HELPER_ON_CREATE_PRODUCT);
         $hasOnSetPriceSubscribed = $this->eventDispatcher->hasListeners(Events::PRODUCT_IMPORT_HELPER_ON_SET_PRICE);
+        $hasOnCreateProductFailedSubscribed = $this->eventDispatcher->hasListeners(Events::PRODUCT_IMPORT_HELPER_ON_CREATE_PRODUCT_FAILED);
 
         return [
             'grouped_tanka_models' => $groupedTankaModels,
@@ -419,8 +435,10 @@ class ProductImportHelper
             'display_hide_status' => $displayHideStatus,
             'has_on_create_product_subscribed' => $hasOnCreateProductSubscribed,
             'has_on_set_price_subscribed' => $hasOnSetPriceSubscribed,
+            'has_on_create_product_failed_subscribed' => $hasOnCreateProductFailedSubscribed,
             'on_create_product_event' => null,
             'on_set_price_event' => null,
+            'on_create_product_failed_event' => null,
         ];
     }
 
@@ -467,5 +485,68 @@ class ProductImportHelper
         }
 
         $product->setStatus($status);
+    }
+
+    /**
+     * 設定情報の配列をリセットする
+     *
+     * @param array $settingBag 設定情報の配列
+     *
+     * @return array リセットされた設定情報の配列
+     */
+    private function resetSettingBagEntity(array $settingBag): array
+    {
+        $displayHideStatus = $this->entityManager->find(ProductStatus::class, ProductStatus::DISPLAY_HIDE);
+        $displayAbolishedStatus = $this->entityManager->find(ProductStatus::class, ProductStatus::DISPLAY_ABOLISHED);
+        $displayShowStatus = $this->entityManager->find(ProductStatus::class, ProductStatus::DISPLAY_SHOW);
+
+        return array_merge(
+            $settingBag, [
+                'display_show_status' => $displayShowStatus,
+                'display_abolished_status' => $displayAbolishedStatus,
+                'display_hide_status' => $displayHideStatus,
+            ]
+        );
+    }
+
+    /**
+     * 商品作成失敗時の処理を行う
+     *
+     * @param GoodModelGroup1Interface $productModel 商品モデル
+     * @param array $processedProductClasses 処理済み商品クラス配列
+     * @param array $options オプション
+     * @param OutputInterface|null $output コンソール出力インターフェース
+     * @param array $settingBag 設定情報の配列
+     *
+     * @return void
+     */
+    private function handleCreateProductFailed(GoodModelGroup1Interface $productModel, array $processedProductClasses, array &$options, ?OutputInterface $output, array &$settingBag): void
+    {
+        $options['_failed_product_codes'][] = $productModel->getGdid();
+        $this->entityManager = EntityManagerResetHelper::resetEntityManager($this->entityManager, $this->managerRegistry, $output);
+        $settingBag = $this->resetSettingBagEntity($settingBag);
+
+        if (!$settingBag['has_on_create_product_failed_subscribed']) {
+            return;
+        }
+
+        /** @var HelperOnCreateProductFailedEvent $onCreateProductFailedEvent */
+        $onCreateProductFailedEvent = $settingBag['on_create_product_failed_event'];
+        if (null === $onCreateProductFailedEvent) {
+            $onCreateProductFailedEvent = new HelperOnCreateProductFailedEvent(
+                $processedProductClasses,
+                $options,
+                $this->entityManager,
+                $output,
+            );
+            $settingBag['on_create_product_failed_event'] = $onCreateProductFailedEvent;
+        } else {
+            $onCreateProductFailedEvent->options = $options;
+            $onCreateProductFailedEvent->entityManager = $this->entityManager;
+            $onCreateProductFailedEvent->output = $output;
+        }
+
+        $this->eventDispatcher->dispatch($onCreateProductFailedEvent, Events::PRODUCT_IMPORT_HELPER_ON_CREATE_PRODUCT_FAILED);
+        $options = $onCreateProductFailedEvent->options;
     }
 }
