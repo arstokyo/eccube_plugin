@@ -14,25 +14,17 @@
 namespace Plugin\AceClient43\Events\EccubeEvents;
 
 use Eccube\Entity\CartItem;
-use Plugin\AceClient43\Entity\CartItemTrait;
 use Symfony\Contracts\EventDispatcher\Event;
 
-class OnAddProductEvent extends Event
+class OnCartAddProductEvent extends Event
 {
-    private CartItem $cartItem;
+    public CartItem $cartItem;
 
-    public function __construct(CartItem $cartItem)
+    public array $options;
+
+    public function __construct(CartItem $cartItem, array $options = [])
     {
         $this->cartItem = $cartItem;
-    }
-
-    /**
-     * カートアイテムを取得します.
-     *
-     * @return CartItem|CartItemTrait
-     */
-    public function getCartItem()
-    {
-        return $this->cartItem;
+        $this->options = $options;
     }
 }
