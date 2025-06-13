@@ -28,8 +28,8 @@ class OnNewOrderListener implements EventSubscriberInterface
 
     public function onNewOrder(OnNewOrderEvent $event)
     {
-        $order = $event->getOrder();
-        $cart = $event->getCart();
+        $order = $event->order;
+        $cart = $event->cart;
 
         $order->setAceTransactionId($cart->getAceTransactionId())
             ->setAcePaymentId($cart->getAcePaymentId())
