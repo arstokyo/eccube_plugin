@@ -18,6 +18,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Eccube\Entity\BaseInfo;
 use Eccube\Entity\Master\ProductStatus;
+use Eccube\Entity\Master\SaleType;
 use Eccube\Entity\Member;
 use Eccube\Entity\Product;
 use Eccube\Entity\ProductClass;
@@ -26,6 +27,7 @@ use Eccube\Entity\TaxRule;
 use Eccube\Repository\BaseInfoRepository;
 use Eccube\Repository\Master\CountryRepository;
 use Eccube\Repository\Master\ProductStatusRepository;
+use Eccube\Repository\Master\SaleTypeRepository;
 use Eccube\Repository\ProductClassRepository;
 use Eccube\Repository\TaxRuleRepository;
 use Plugin\AceClient43\AceServices\Model\Dependency\Good\GoodModelGroup1Interface;
@@ -61,6 +63,8 @@ class ProductImportHelper
 
     private CountryRepository $countryRepository;
 
+    private SaleTypeRepository $saleTypeRepository;
+
     private ManagerRegistry $managerRegistry;
 
     public function __construct(
@@ -70,6 +74,7 @@ class ProductImportHelper
         ProductStatusRepository $productStatusRepository,
         TaxRuleRepository $taxRuleRepository,
         CountryRepository $countryRepository,
+        SaleTypeRepository $saleTypeRepository,
         EntityManagerInterface $entityManager,
         EventDispatcherInterface $eventDispatcher,
         BaseInfoRepository $baseInfoRepository,
@@ -79,6 +84,7 @@ class ProductImportHelper
         $this->logger = $logger;
         $this->productClassRepository = $productClassRepository;
         $this->productStatusRepository = $productStatusRepository;
+        $this->saleTypeRepository = $saleTypeRepository;
         $this->entityManager = $entityManager;
         $this->eventDispatcher = $eventDispatcher;
         $this->taxRuleRepository = $taxRuleRepository;
@@ -167,6 +173,7 @@ class ProductImportHelper
                 $productClass->setAceProductId($aceProductId);
                 $productClass->setStockUnlimited(false);
                 $productClass->setAceProductType($productModel->getGkbn());
+                $productClass->setSaleType($settingBag['normal_sale_type']);
 
                 $this->setStatus($productModel, $product, $productClass, $settingBag);
                 $this->setPrice($productModel, $productClass, $creator, $settingBag, $options, $output);
@@ -222,6 +229,7 @@ class ProductImportHelper
                 $processedProductClasses[$aceProductId] = $productClass;
             } catch (\Throwable $e) {
                 $this->log('error', '商品作成中にエラーが発生しました: '.$e->getMessage(), $output);
+                // エラーが発生した場合は、キャッシュされたエンティティマネージャーをリセット
                 $this->handleCreateProductFailed($productModel, $processedProductClasses, $options, $output, $settingBag);
             }
         }
@@ -426,6 +434,8 @@ class ProductImportHelper
         $displayShowStatus = $this->productStatusRepository->find(ProductStatus::DISPLAY_SHOW);
         $displayAbolishedStatus = $this->productStatusRepository->find(ProductStatus::DISPLAY_ABOLISHED);
         $displayHideStatus = $this->productStatusRepository->find(ProductStatus::DISPLAY_HIDE);
+        $normalSaleType = $this->saleTypeRepository->find(SaleType::SALE_TYPE_NORMAL);
+
         $hasOnCreateProductSubscribed = $this->eventDispatcher->hasListeners(Events::PRODUCT_IMPORT_HELPER_ON_CREATE_PRODUCT);
         $hasOnSetPriceSubscribed = $this->eventDispatcher->hasListeners(Events::PRODUCT_IMPORT_HELPER_ON_SET_PRICE);
         $hasOnCreateProductFailedSubscribed = $this->eventDispatcher->hasListeners(Events::PRODUCT_IMPORT_HELPER_ON_CREATE_PRODUCT_FAILED);
@@ -436,6 +446,7 @@ class ProductImportHelper
             'display_show_status' => $displayShowStatus,
             'display_abolished_status' => $displayAbolishedStatus,
             'display_hide_status' => $displayHideStatus,
+            'normal_sale_type' => $normalSaleType,
             'has_on_create_product_subscribed' => $hasOnCreateProductSubscribed,
             'has_on_set_price_subscribed' => $hasOnSetPriceSubscribed,
             'has_on_create_product_failed_subscribed' => $hasOnCreateProductFailedSubscribed,
@@ -502,12 +513,14 @@ class ProductImportHelper
         $displayHideStatus = $this->entityManager->find(ProductStatus::class, ProductStatus::DISPLAY_HIDE);
         $displayAbolishedStatus = $this->entityManager->find(ProductStatus::class, ProductStatus::DISPLAY_ABOLISHED);
         $displayShowStatus = $this->entityManager->find(ProductStatus::class, ProductStatus::DISPLAY_SHOW);
+        $normalSaleType = $this->entityManager->find(SaleType::class, SaleType::SALE_TYPE_NORMAL);
 
         return array_merge(
             $settingBag, [
                 'display_show_status' => $displayShowStatus,
                 'display_abolished_status' => $displayAbolishedStatus,
                 'display_hide_status' => $displayHideStatus,
+                'normal_sale_type' => $normalSaleType,
             ]
         );
     }
