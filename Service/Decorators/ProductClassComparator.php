@@ -47,6 +47,19 @@ class ProductClassComparator extends BaseProductClassComparator
             }
         }
 
+        return ProductClassComparator::isProductClassIdEqual($Item1, $Item2);
+    }
+
+    /**
+     * カートアイテムのプロダクトクラスIDが等しいかどうかを比較する
+     *
+     * @param CartItem $Item1
+     * @param CartItem $Item2
+     *
+     * @return bool
+     */
+    public static function isProductClassIdEqual(CartItem $Item1, CartItem $Item2): bool
+    {
         $ProductClass1 = $Item1->getProductClass();
         $ProductClass2 = $Item2->getProductClass();
         $product_class_id1 = $ProductClass1 ? (string) $ProductClass1->getId() : null;
