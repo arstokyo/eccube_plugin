@@ -25,7 +25,6 @@ use Eccube\Entity\ProductClass;
 use Eccube\Entity\ProductStock;
 use Eccube\Entity\TaxRule;
 use Eccube\Repository\BaseInfoRepository;
-use Eccube\Repository\Master\CountryRepository;
 use Eccube\Repository\Master\ProductStatusRepository;
 use Eccube\Repository\Master\SaleTypeRepository;
 use Eccube\Repository\ProductClassRepository;
@@ -61,8 +60,6 @@ class ProductImportHelper
 
     private BaseInfo $baseInfo;
 
-    private CountryRepository $countryRepository;
-
     private SaleTypeRepository $saleTypeRepository;
 
     private ManagerRegistry $managerRegistry;
@@ -73,7 +70,6 @@ class ProductImportHelper
         ProductClassRepository $productClassRepository,
         ProductStatusRepository $productStatusRepository,
         TaxRuleRepository $taxRuleRepository,
-        CountryRepository $countryRepository,
         SaleTypeRepository $saleTypeRepository,
         EntityManagerInterface $entityManager,
         EventDispatcherInterface $eventDispatcher,
@@ -88,7 +84,6 @@ class ProductImportHelper
         $this->entityManager = $entityManager;
         $this->eventDispatcher = $eventDispatcher;
         $this->taxRuleRepository = $taxRuleRepository;
-        $this->countryRepository = $countryRepository;
         $this->baseInfo = $baseInfoRepository->get();
         $this->managerRegistry = $managerRegistry;
     }
@@ -381,15 +376,10 @@ class ProductImportHelper
             return $productClass->getTaxRule();
         }
 
-        $country = $this->countryRepository->findOneBy(['name' => '日本']);
-        if (!$country) {
-            $country = $this->countryRepository->find(1); // デフォルトの国を取得
-        }
-
         $taxRule = $this->taxRuleRepository->newTaxRule();
         // TODO: プラグインの設定のTax区分ついか、またはAPI経由でデフォルトの税区分を追加
         $taxRule->setProductClass($productClass);
-        $taxRule->setCountry($country);
+        $taxRule->setCountry(null);
         $taxRule->setProduct($productClass->getProduct());
         $taxRule->setCreator($creator);
         $productClass->setTaxRule($taxRule);
