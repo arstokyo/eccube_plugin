@@ -25,7 +25,7 @@ use Eccube\Service\Cart\CartItemComparator;
 use Eccube\Service\CartService as BaseCartService;
 use Eccube\Session\Session;
 use Plugin\AceClient43\Events\EccubeEvents\Events;
-use Plugin\AceClient43\Events\EccubeEvents\OnAddProductEvent;
+use Plugin\AceClient43\Events\EccubeEvents\OnCartAddProductEvent;
 use Plugin\AceClient43\Events\EccubeEvents\OnNewCartEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -67,7 +67,7 @@ class CartService extends BaseCartService
      *
      * @return bool 商品を追加できた場合はtrue
      */
-    public function addProduct($ProductClass, $quantity = 1)
+    public function addProduct($ProductClass, $quantity = 1, array $options = [])
     {
         if (!$ProductClass instanceof ProductClass) {
             $ProductClassId = $ProductClass;
@@ -93,7 +93,9 @@ class CartService extends BaseCartService
         $newItem->setPrice($ProductClass->getPrice02IncTax());
         $newItem->setProductClass($ProductClass);
 
-        $this->eventDispatcher->dispatch(new OnAddProductEvent($newItem), Events::ON_ADD_PRODUCT);
+        if ($this->eventDispatcher->hasListeners(Events::ON_CART_ADD_PRODUCT)) {
+            $this->eventDispatcher->dispatch(new OnCartAddProductEvent($newItem, $options), Events::ON_CART_ADD_PRODUCT);
+        }
 
         $allCartItems = $this->mergeAllCartItems([$newItem]);
         $this->restoreCarts($allCartItems);
@@ -140,7 +142,9 @@ class CartService extends BaseCartService
                 $Cart->addCartItem($item);
                 $item->setCart($Cart);
 
-                $this->eventDispatcher->dispatch(new OnNewCartEvent($Cart), Events::ON_NEW_CART);
+                if ($this->eventDispatcher->hasListeners(Events::ON_CART_ADD_PRODUCT)) {
+                    $this->eventDispatcher->dispatch(new OnNewCartEvent($Cart), Events::ON_NEW_CART);
+                }
 
                 $Carts[$cartKey] = $Cart;
             }
