@@ -14,7 +14,7 @@
 namespace Plugin\AceClient43\EventListener;
 
 use Plugin\AceClient43\Events\EccubeEvents\Events;
-use Plugin\AceClient43\Events\EccubeEvents\OnAddProductEvent;
+use Plugin\AceClient43\Events\EccubeEvents\OnCartAddProductEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class OnAddProductListener implements EventSubscriberInterface
@@ -22,11 +22,11 @@ class OnAddProductListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            Events::ON_ADD_PRODUCT => ['onAddProduct', 100],
+            Events::ON_CART_ADD_PRODUCT => ['onAddProduct', 100],
         ];
     }
 
-    public function onAddProduct(OnAddProductEvent $event)
+    public function onAddProduct(OnCartAddProductEvent $event)
     {
     }
 }
