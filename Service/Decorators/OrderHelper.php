@@ -127,7 +127,9 @@ class OrderHelper extends BaseOrderHelper
 
         $this->setDefaultPayment($Order);
 
-        $this->eventDispatcher->dispatch(new OnNewOrderEvent($Order, $Cart, $Customer), Events::ON_NEW_ORDER);
+        if ($this->eventDispatcher->hasListeners(Events::ON_NEW_ORDER)) {
+            $this->eventDispatcher->dispatch(new OnNewOrderEvent($Order, $Cart, $Customer), Events::ON_NEW_ORDER);
+        }
 
         $this->entityManager->persist($Order);
 
@@ -142,8 +144,10 @@ class OrderHelper extends BaseOrderHelper
     protected function createOrderItemsFromCartItems($CartItems)
     {
         $ProductItemType = $this->orderItemTypeRepository->find(OrderItemType::PRODUCT);
+        $hasNewOrderItemFromCartItemEvent = $this->eventDispatcher->hasListeners(Events::ON_NEW_ORDER_ITEM_FROM_CART_ITEM);
+        $event = null;
 
-        return array_map(function ($item) use ($ProductItemType) {
+        return array_map(function ($item) use ($ProductItemType, $hasNewOrderItemFromCartItemEvent, &$event) {
             /** @var CartItem $item */
             /** @var \Eccube\Entity\ProductClass $ProductClass */
             $ProductClass = $item->getProductClass();
@@ -171,7 +175,17 @@ class OrderHelper extends BaseOrderHelper
                 $OrderItem->setClassName2($ClassCategory2->getClassName()->getName());
             }
 
-            $this->eventDispatcher->dispatch(new OnNewOrderItemFromCartItemEvent($OrderItem, $item), Events::ON_NEW_ORDER_ITEM_FROM_CART_ITEM);
+            if ($hasNewOrderItemFromCartItemEvent) {
+                /** @var OnNewOrderItemFromCartItemEvent $event */
+                if (is_null($event)) {
+                    $event = new OnNewOrderItemFromCartItemEvent($OrderItem, $item);
+                } else {
+                    $event->cartItem = $item;
+                    $event->orderItem = $OrderItem;
+                }
+
+                $this->eventDispatcher->dispatch(new OnNewOrderItemFromCartItemEvent($OrderItem, $item), Events::ON_NEW_ORDER_ITEM_FROM_CART_ITEM);
+            }
 
             return $OrderItem;
         }, $CartItems instanceof Collection ? $CartItems->toArray() : $CartItems);
