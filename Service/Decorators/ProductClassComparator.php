@@ -38,11 +38,13 @@ class ProductClassComparator extends BaseProductClassComparator
      */
     public function compare(CartItem $Item1, CartItem $Item2): bool
     {
-        $event = new OnCompareCartItemProductClassEvent($Item1, $Item2);
-        $this->eventDispatcher->dispatch($event, Events::ON_COMPARE_CART_ITEM_PRODUCT_CLASS);
+        if ($this->eventDispatcher->hasListeners(Events::ON_COMPARE_CART_ITEM_PRODUCT_CLASS)) {
+            $event = new OnCompareCartItemProductClassEvent($Item1, $Item2);
+            $this->eventDispatcher->dispatch($event, Events::ON_COMPARE_CART_ITEM_PRODUCT_CLASS);
 
-        if ($event->isHandled) {
-            return $event->isEqual;
+            if ($event->isHandled) {
+                return $event->isEqual;
+            }
         }
 
         $ProductClass1 = $Item1->getProductClass();

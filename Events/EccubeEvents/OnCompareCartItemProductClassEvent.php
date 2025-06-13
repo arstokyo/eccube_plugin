@@ -18,9 +18,9 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class OnCompareCartItemProductClassEvent extends Event
 {
-    private CartItem $cartItem1;
+    public CartItem $cartItem1;
 
-    private CartItem $cartItem2;
+    public CartItem $cartItem2;
 
     public bool $isHandled = false;
 
@@ -30,15 +30,5 @@ class OnCompareCartItemProductClassEvent extends Event
     {
         $this->cartItem1 = $cartItem1;
         $this->cartItem2 = $cartItem2;
-    }
-
-    public function getCartItem1(): CartItem
-    {
-        return $this->cartItem1;
-    }
-
-    public function getCartItem2(): CartItem
-    {
-        return $this->cartItem2;
     }
 }
