@@ -20,46 +20,16 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class OnNewOrderEvent extends Event
 {
-    private Order $order;
+    public Order $order;
 
-    private Cart $cart;
+    public Cart $cart;
 
-    private Customer $customer;
+    public Customer $customer;
 
     public function __construct(Order $order, Cart $cart, Customer $customer)
     {
         $this->order = $order;
         $this->cart = $cart;
         $this->customer = $customer;
-    }
-
-    /**
-     * 受注を取得します.
-     *
-     * @return Order
-     */
-    public function getOrder(): Order
-    {
-        return $this->order;
-    }
-
-    /**
-     * カートを取得します.
-     *
-     * @return Cart
-     */
-    public function getCart(): Cart
-    {
-        return $this->cart;
-    }
-
-    /**
-     * 顧客を取得します.
-     *
-     * @return Customer
-     */
-    public function getCustomer(): Customer
-    {
-        return $this->customer;
     }
 }

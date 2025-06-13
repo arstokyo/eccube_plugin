@@ -19,33 +19,13 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class OnNewOrderItemFromCartItemEvent extends Event
 {
-    private OrderItem $orderItem;
+    public OrderItem $orderItem;
 
-    private CartItem $cartItem;
+    public CartItem $cartItem;
 
     public function __construct(OrderItem $orderItem, CartItem $cartItem)
     {
         $this->orderItem = $orderItem;
         $this->cartItem = $cartItem;
-    }
-
-    /**
-     * 注文商品を取得します.
-     *
-     * @return OrderItem
-     */
-    public function getOrderItem(): OrderItem
-    {
-        return $this->orderItem;
-    }
-
-    /**
-     * カートアイテムを取得します.
-     *
-     * @return CartItem
-     */
-    public function getCartItem(): CartItem
-    {
-        return $this->cartItem;
     }
 }
