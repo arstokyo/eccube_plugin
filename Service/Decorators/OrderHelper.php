@@ -144,10 +144,10 @@ class OrderHelper extends BaseOrderHelper
     protected function createOrderItemsFromCartItems($CartItems)
     {
         $ProductItemType = $this->orderItemTypeRepository->find(OrderItemType::PRODUCT);
-        $hasNewOrderItemFromCartItemEvent = $this->eventDispatcher->hasListeners(Events::ON_NEW_ORDER_ITEM_FROM_CART_ITEM);
+        $hasEventSubscriber = $this->eventDispatcher->hasListeners(Events::ON_NEW_ORDER_ITEM_FROM_CART_ITEM);
         $event = null;
 
-        return array_map(function ($item) use ($ProductItemType, $hasNewOrderItemFromCartItemEvent, &$event) {
+        return array_map(function ($item) use ($ProductItemType, $hasEventSubscriber, &$event) {
             /** @var CartItem $item */
             /** @var \Eccube\Entity\ProductClass $ProductClass */
             $ProductClass = $item->getProductClass();
@@ -175,7 +175,7 @@ class OrderHelper extends BaseOrderHelper
                 $OrderItem->setClassName2($ClassCategory2->getClassName()->getName());
             }
 
-            if ($hasNewOrderItemFromCartItemEvent) {
+            if ($hasEventSubscriber) {
                 /** @var OnNewOrderItemFromCartItemEvent $event */
                 if (is_null($event)) {
                     $event = new OnNewOrderItemFromCartItemEvent($OrderItem, $item);
@@ -211,7 +211,9 @@ class OrderHelper extends BaseOrderHelper
             ->setAddr01($Customer->getAddr01())
             ->setAddr02($Customer->getAddr02());
 
-        $this->eventDispatcher->dispatch(new OnNewShippingFromCustomerEvent($Shipping, $Customer), Events::ON_NEW_SHIPPING_FROM_CUSTOMER);
+        if ($this->eventDispatcher->hasListeners(Events::ON_NEW_SHIPPING_FROM_CUSTOMER)) {
+            $this->eventDispatcher->dispatch(new OnNewShippingFromCustomerEvent($Shipping, $Customer), Events::ON_NEW_SHIPPING_FROM_CUSTOMER);
+        }
 
         return $Shipping;
     }
