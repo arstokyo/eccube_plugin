@@ -56,10 +56,6 @@ services:
         decorates: Eccube\Service\OrderHelper
         decoration_priority: 10
 
-    Plugin\AceClient43\Repository\ProductClassRepository:
-        decorates: Eccube\Repository\ProductClassRepository
-        decoration_priority: 10
-
 security:
     firewalls:
         customer:
