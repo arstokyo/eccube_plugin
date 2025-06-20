@@ -334,7 +334,7 @@ class ProductImportHelper
     private function getOrCreateProductStuff(GoodModelGroup1Interface $productModel, Member $creator, OutputInterface $output): array
     {
         $aceProductId = $productModel->getGdid();
-        $productClass = $this->productClassRepository->findOneByAceProductId($aceProductId);
+        $productClass = $this->productClassRepository->findOneBy(['ace_product_id' => $aceProductId]);
         $productStock = $productClass ? $productClass->getProductStock() : null;
         $product = $productClass ? $productClass->getProduct() : null;
 
