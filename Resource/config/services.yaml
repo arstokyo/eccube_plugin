@@ -41,7 +41,6 @@ services:
         tags:
           - { name: eccube.discount.processor, flow_type: shopping, priority: 950 }
 
-
     Plugin\AceClient43\Service\Decorators\ProductClassComparator:
         decorates: Eccube\Service\Cart\ProductClassComparator
         decoration_priority: 10
