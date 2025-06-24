@@ -23,6 +23,7 @@ class Events
     public const PRE_CREATE_OR_UPDATE_CUSTOMER_ADDRESS = 'ace_client.pre_create_or_update_customer_address';
     public const POST_CREATE_OR_UPDATE_CUSTOMER_ADDRESS = 'ace_client.post_create_or_update_customer_address';
     public const PRE_ADD_CART = 'ace_client.pre_add_cart';
+    public const ON_SET_JYUMEI_MODEL = 'ace_client.on_set_jyumei_model';
     public const POST_ADD_CART = 'ace_client.post_add_cart';
     public const ON_BIND_JYUMEI_ORDER = 'ace_client.on_bind_jyumei_order';
     public const ON_PRE_CREATE_ORDER = 'ace_client.on_pre_create_order';

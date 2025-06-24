@@ -22,4 +22,7 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Jyudens\Jyumei\JyumeiModelGr
  */
 interface JyumeiModelInterface extends JyumeiModelGroup1Interface
 {
+    public function getJyumeiFree(): ?string;
+
+    public function setJyumeiFree(?array $free): self;
 }

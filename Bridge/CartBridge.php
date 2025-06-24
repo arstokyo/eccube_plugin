@@ -25,6 +25,7 @@ use Plugin\AceClient43\Entity\Config;
 use Plugin\AceClient43\Entity\CustomerTrait;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\OnCalculateFeeCartEvent;
+use Plugin\AceClient43\Events\OnSetJyumeiModelEvent;
 use Plugin\AceClient43\Events\PostAddCartEvent;
 use Plugin\AceClient43\Events\PreAddCartEvent;
 use Plugin\AceClient43\Exception\CouldNotAddCartException;
@@ -154,6 +155,9 @@ class CartBridge extends BaseBridge
             $jyuden->setJcode($config->getOrderRouteId());
         }
 
+        $hasEventSubscribed = $this->eventDispatcher->hasListeners(Events::ON_SET_JYUMEI_MODEL);
+        $event = null;
+
         $jyumeis = [];
         /** @var CartItem $item */
         foreach ($cart->getCartItems() as $item) {
@@ -166,6 +170,19 @@ class CartBridge extends BaseBridge
                 ->setTanka($item->getPrice())
                 ->setTaxkbn($item->getAceTaxType())
                 ->setRitu($item->getAceMarkupRate());
+
+            // サブスクライバーがいる場合はON_SET_JYUMEI_MODELイベントをチェックして発行
+            if ($hasEventSubscribed) {
+                if (null === $event) {
+                    $event = new OnSetJyumeiModelEvent($jyumei, $item, $options);
+                } else {
+                    $event->jyumeiModel = $jyumei;
+                    $event->cartItem = $item;
+                    $event->options = $options;
+                }
+
+                $this->eventDispatcher->dispatch($event, Events::ON_SET_JYUMEI_MODEL);
+            }
 
             $jyumeis[] = $jyumei;
         }
