@@ -41,10 +41,20 @@ class ProductBridge extends BaseBridge
      */
     public function getAll(\DateTime $updatedAtFrom, \DateTime $updatedAtTo, array &$options = []): ?ResponseGetGoods\MasterModelInterface
     {
+        // Options が配列の場合は、JSON 文字列に変換
+        $freeCodeJson = null;
+        if (isset($options['_get_goods.free_code'])) {
+            $freeCodeJson = json_encode(array_map(
+                fn ($arr) => array_values(array_filter($arr, fn ($v) => $v !== null)),
+                $options['_get_goods.free_code']
+            ));
+        }
+
         $request = (new RequestGetGoods\GetGoodsRequestModel())
             ->setId($this->getSyid())
             ->setExecDateFrom($updatedAtFrom)
-            ->setExecDateTo($updatedAtTo);
+            ->setExecDateTo($updatedAtTo)
+            ->setOptions($freeCodeJson);
 
         try {
             $response = $this->goodsService->makeGetGoodsMethod()

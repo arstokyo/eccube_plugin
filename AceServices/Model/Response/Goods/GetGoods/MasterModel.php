@@ -24,6 +24,7 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelTrait
 class MasterModel implements MasterModelInterface
 {
     use HasMessageModelTrait;
+
     /**
      * @var Model\Dependency\Good\GoodModelGroup1Interface[]|null Goods
      */
@@ -33,6 +34,11 @@ class MasterModel implements MasterModelInterface
      * @var Model\Dependency\Good\GoodTankaModelGroup1Interface[]|null Gtanka
      */
     private ?array $Gtanka = null;
+
+    /**
+     * @var Model\Dependency\Good\GoodFreeModelGroupInterface[]|null Gfree
+     */
+    private ?array $Gfree = null;
 
     /**
      * {@inheritDoc}
@@ -69,11 +75,28 @@ class MasterModel implements MasterModelInterface
     /**
      * {@inheritDoc}
      */
+    public function getGfree(): ?array
+    {
+        return $this->Gfree;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setGfree(?array $gfree): void
+    {
+        $this->Gfree = $gfree;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public static function fetchAsListProperty(): array
     {
         return [
             'Goods' => Model\Dependency\Good\GoodModelGroup1::class,
             'Gtanka' => Model\Dependency\Good\GoodTankaModelGroup1::class,
+            'Gfree' => Model\Dependency\Good\GoodFreeModelGroup::class,
         ];
     }
 }

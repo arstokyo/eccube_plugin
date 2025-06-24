@@ -179,16 +179,17 @@ class ProductImportHelper
                     $productStock->setStock($stock);
                     $productClass->setStock($stock);
                 }
-
+                $freeCodeModel = $settingBag['grouped_free_code_models'][$aceProductId] ?? [];
                 if ($settingBag['has_on_create_product_subscribed']) {
                     /** @var HelperOnCreateProductEvent $onCreateEvent */
                     $onCreateEvent = $settingBag['on_create_product_event'];
                     if (null === $onCreateEvent) {
-                        $onCreateEvent = new HelperOnCreateProductEvent($productClass, $productModel, $productModels, $processedProductClasses, $creator, $output, $options);
+                        $onCreateEvent = new HelperOnCreateProductEvent($productClass, $productModel, $productModels, $freeCodeModel, $processedProductClasses, $creator, $output, $options);
                         $settingBag['on_create_product_event'] = $onCreateEvent;
                     } else {
                         $onCreateEvent->productClass = $productClass;
                         $onCreateEvent->productModel = $productModel;
+                        $onCreateEvent->freeCodeModel = $freeCodeModel;
                         $onCreateEvent->processedProductsClasses = $processedProductClasses;
                         $onCreateEvent->options = $options;
                         $onCreateEvent->failed = false;
@@ -407,6 +408,7 @@ class ProductImportHelper
     private function createSettingBag(MasterModelInterface $master): array
     {
         $tankaModels = $master->getGtanka();
+        $freeCode = $master->getGfree();
 
         // このあと、設定されたTaxRuleを採用するため、オプション商品税率ルールを有効にする。
         $this->enableOptionProductTaxRule();
@@ -419,6 +421,10 @@ class ProductImportHelper
         foreach ($tankaModels as $tankaModel) {
             $aceProductId = $tankaModel->getGdid();
             $groupedTankaModels[$aceProductId][] = $tankaModel;
+        }
+        foreach ($freeCode as $freeCodeItem) {
+            $aceProductId = $freeCodeItem->getGdid();
+            $groupedFreeCodeModels[$aceProductId][] = $freeCodeItem;
         }
 
         $displayShowStatus = $this->productStatusRepository->find(ProductStatus::DISPLAY_SHOW);
@@ -443,6 +449,7 @@ class ProductImportHelper
             'on_create_product_event' => null,
             'on_set_price_event' => null,
             'on_create_product_failed_event' => null,
+            'grouped_free_code_models' => $groupedFreeCodeModels,
         ];
     }
 

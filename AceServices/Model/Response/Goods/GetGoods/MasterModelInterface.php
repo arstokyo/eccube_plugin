@@ -55,4 +55,20 @@ interface MasterModelInterface extends HasMessageModelInterface, AsListDenormali
      * @return void
      */
     public function setGtanka(?array $gtanka): void;
+
+    /**
+     * Get Gfree
+     *
+     * @return Model\Dependency\Good\GoodFreeModelGroup[]|null
+     */
+    public function getGfree(): ?array;
+
+    /**
+     * Set Gfree
+     *
+     * @param Model\Dependency\Good\GoodFreeModelGroup[]|null $gfree
+     *
+     * @return void
+     */
+    public function setGfree(?array $gfree): void;
 }

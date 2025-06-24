@@ -24,4 +24,21 @@ use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
  */
 interface GetGoodsRequestModelInterface extends RequestModelInterface, NoCategory\HasIdInterface, Day\HasExecDateFromInterface, Day\HasExecDateToInterface
 {
+    /**
+     * Get Options (JSON string)
+     *
+     * @return ?string
+     */
+    public function getOptions(): ?string;
+
+    /**
+     * Set Options (JSON string)
+     *
+     * @param ?string $options Valid JSON string
+     *
+     * @return $this
+     *
+     * @throws \InvalidArgumentException if options is not valid JSON
+     */
+    public function setOptions(?string $options);
 }
