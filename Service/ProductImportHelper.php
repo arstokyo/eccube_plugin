@@ -179,10 +179,10 @@ class ProductImportHelper
                     $productStock->setStock($stock);
                     $productClass->setStock($stock);
                 }
-                $freeCodeModel = $settingBag['grouped_free_code_models'][$aceProductId] ?? [];
                 if ($settingBag['has_on_create_product_subscribed']) {
                     /** @var HelperOnCreateProductEvent $onCreateEvent */
                     $onCreateEvent = $settingBag['on_create_product_event'];
+                    $freeCodeModel = $settingBag['grouped_free_code_models'][$aceProductId] ?? [];
                     if (null === $onCreateEvent) {
                         $onCreateEvent = new HelperOnCreateProductEvent($productClass, $productModel, $productModels, $freeCodeModel, $processedProductClasses, $creator, $output, $options);
                         $settingBag['on_create_product_event'] = $onCreateEvent;

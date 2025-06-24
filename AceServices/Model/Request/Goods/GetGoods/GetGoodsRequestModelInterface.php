@@ -32,13 +32,11 @@ interface GetGoodsRequestModelInterface extends RequestModelInterface, NoCategor
     public function getOptions(): ?string;
 
     /**
-     * Set Options (JSON string)
+     * Set Options
      *
-     * @param ?string $options Valid JSON string
+     * @param ?array $options
      *
      * @return $this
-     *
-     * @throws \InvalidArgumentException if options is not valid JSON
      */
-    public function setOptions(?string $options);
+    public function setOptions(?array $options);
 }

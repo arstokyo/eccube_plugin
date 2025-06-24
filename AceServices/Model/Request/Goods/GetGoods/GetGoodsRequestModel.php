@@ -50,30 +50,20 @@ class GetGoodsRequestModel extends RequestModelAbstract implements GetGoodsReque
     /**
      * {@inheritDoc}
      */
-    public function setOptions(?string $options)
+    public function setOptions(?array $options)
     {
-        // 文字列が有効なJSONかどうかの検証
-        if ($options !== null && !$this->isValidJson($options)) {
-            throw new \InvalidArgumentException('Options must be a valid JSON string');
+        // フリーコードのフィルタリング
+        if (isset($options['fmkbn'])) {
+            $options['fmkbn'] = array_filter(
+                $options['fmkbn'],
+                fn ($v) => !is_null($v)
+            );
+            $options['fmkbn'] = array_values($options['fmkbn']);
         }
 
-        $this->options = $options;
+        $this->options = json_encode($options);
 
         return $this;
-    }
-
-    /**
-     * Check if string is valid JSON
-     *
-     * @param string $jsonString
-     *
-     * @return bool
-     */
-    private function isValidJson(string $jsonString): bool
-    {
-        json_decode($jsonString);
-
-        return json_last_error() === JSON_ERROR_NONE;
     }
 
     /**
