@@ -41,7 +41,7 @@ class JyumeiModel extends JyumeiModelGroup1 implements JyumeiModelInterface
     public function setJyumeiFree(?array $free): self
     {
         $filteredFree = array_filter($free, function ($value) {
-            return !empty($value) && $value !== '';
+            return $value !== null && $value !== '';
         });
 
         if (!empty($filteredFree)) {

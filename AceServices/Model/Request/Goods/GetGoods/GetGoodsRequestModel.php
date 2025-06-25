@@ -54,7 +54,7 @@ class GetGoodsRequestModel extends RequestModelAbstract implements GetGoodsReque
     {
         $fmkbnCodes = $options['fmkbn'] ?? [];
         // フリーコードのフィルタリング
-        if (isset($fmkbnCodes)) {
+        if (!empty($fmkbnCodes)) {
             $fmkbnCodes = array_filter(
                 $fmkbnCodes,
                 fn ($v) => !is_null($v) && $v !== ''
