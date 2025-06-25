@@ -56,7 +56,7 @@ class GetGoodsRequestModel extends RequestModelAbstract implements GetGoodsReque
         if (isset($options['fmkbn'])) {
             $options['fmkbn'] = array_filter(
                 $options['fmkbn'],
-                fn ($v) => !is_null($v)
+                fn ($v) => !is_null($v) && $v !== ''
             );
             $options['fmkbn'] = array_values($options['fmkbn']);
         }
