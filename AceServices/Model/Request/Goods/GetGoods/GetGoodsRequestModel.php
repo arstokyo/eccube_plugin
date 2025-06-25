@@ -52,15 +52,15 @@ class GetGoodsRequestModel extends RequestModelAbstract implements GetGoodsReque
      */
     public function setOptions(?array $options)
     {
+        $fmkbnCodes = $options['fmkbn'] ?? [];
         // フリーコードのフィルタリング
-        if (isset($options['fmkbn'])) {
-            $options['fmkbn'] = array_filter(
-                $options['fmkbn'],
+        if (isset($fmkbnCodes)) {
+            $fmkbnCodes = array_filter(
+                $fmkbnCodes,
                 fn ($v) => !is_null($v) && $v !== ''
             );
-            $options['fmkbn'] = array_values($options['fmkbn']);
+            $options['fmkbn'] = array_values($fmkbnCodes);
         }
-
         $this->options = json_encode($options);
 
         return $this;
