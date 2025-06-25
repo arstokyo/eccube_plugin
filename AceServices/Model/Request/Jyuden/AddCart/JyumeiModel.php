@@ -23,29 +23,30 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  */
 class JyumeiModel extends JyumeiModelGroup1 implements JyumeiModelInterface
 {
-    /**
-     * 商品情報に付随するフリーフィールドを
-     * JSON文字列として保持するプロパティ
-     *
-     * @var string|null
-     */
+    /** @var string|null */
     #[SerializedName('jyumeifree')]
     private ?string $jyumeiFree = null;
 
+    /**
+     * {@inheritDoc}
+     */
     public function getJyumeiFree(): ?string
     {
         return $this->jyumeiFree;
     }
 
     /**
-     * 配列をnull除外してJSONに変換し、プロパティにセットする
+     * {@inheritDoc}
      */
     public function setJyumeiFree(?array $free): self
     {
         $filteredFree = array_filter($free, function ($value) {
-            return $value !== null;
+            return !empty($value) && $value !== '';
         });
-        $this->jyumeiFree = json_encode($filteredFree);
+
+        if (!empty($filteredFree)) {
+            $this->jyumeiFree = json_encode($filteredFree);
+        }
 
         return $this;
     }
