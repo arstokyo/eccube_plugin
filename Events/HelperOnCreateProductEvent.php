@@ -29,6 +29,8 @@ class HelperOnCreateProductEvent extends Event
 
     public array $productModels;
 
+    public array $freeCodeModel;
+
     public ProductClass $productClass;
 
     public array $processedProductsClasses;
@@ -45,6 +47,7 @@ class HelperOnCreateProductEvent extends Event
         ProductClass $productClass,
         GoodModelGroup1Interface $productModel,
         array $productModels,
+        array $freeCodeModel,
         array $processedProductsClasses,
         Member $creator,
         ?OutputInterface $output,
@@ -53,6 +56,7 @@ class HelperOnCreateProductEvent extends Event
         $this->productClass = $productClass;
         $this->productModel = $productModel;
         $this->productModels = $productModels;
+        $this->freeCodeModel = $freeCodeModel;
         $this->processedProductsClasses = $processedProductsClasses;
         $this->output = $output;
         $this->creator = $creator;

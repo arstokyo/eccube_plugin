@@ -41,11 +41,12 @@ class ProductBridge extends BaseBridge
      */
     public function getAll(\DateTime $updatedAtFrom, \DateTime $updatedAtTo, array &$options = []): ?ResponseGetGoods\MasterModelInterface
     {
+        $optionsApi = $options['_get_goods.options'];
         $request = (new RequestGetGoods\GetGoodsRequestModel())
             ->setId($this->getSyid())
             ->setExecDateFrom($updatedAtFrom)
-            ->setExecDateTo($updatedAtTo);
-
+            ->setExecDateTo($updatedAtTo)
+            ->setOptions($optionsApi);
         try {
             $response = $this->goodsService->makeGetGoodsMethod()
                 ->withRequest($request)

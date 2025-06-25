@@ -17,6 +17,7 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Day;
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelAbstract;
 use Plugin\AceClient43\Exception\MissingRequestParameterException;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * Class GetGoodsRequestModel
@@ -31,6 +32,39 @@ class GetGoodsRequestModel extends RequestModelAbstract implements GetGoodsReque
 
     use Day\ExecDateToTrait;
     public const XML_NODE_NAME = 'getGoods';
+
+    /**
+     * @var ?string
+     */
+    #[SerializedName('Options')]
+    private $options;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getOptions(): ?string
+    {
+        return $this->options;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setOptions(?array $options)
+    {
+        // フリーコードのフィルタリング
+        if (isset($options['fmkbn'])) {
+            $options['fmkbn'] = array_filter(
+                $options['fmkbn'],
+                fn ($v) => !is_null($v) && $v !== ''
+            );
+            $options['fmkbn'] = array_values($options['fmkbn']);
+        }
+
+        $this->options = json_encode($options);
+
+        return $this;
+    }
 
     /**
      * {@inheritDoc}
