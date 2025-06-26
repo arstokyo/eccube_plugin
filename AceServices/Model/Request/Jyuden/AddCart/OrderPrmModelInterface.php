@@ -55,6 +55,22 @@ interface OrderPrmModelInterface extends PrmModelInterface
     public function setJyuden(?JyudenModelInterface $jyuden): self;
 
     /**
+     * Get JyudenFree
+     *
+     * @return JyudenFreeModelInterface[]|null
+     */
+    public function getJyudenFree(): ?array;
+
+    /**
+     * Set JyudenFree
+     *
+     * @param JyudenFreeModel[]|null $jyudenFree
+     *
+     * @return self
+     */
+    public function setJyudenFree(?array $jyudenFree): self;
+
+    /**
      * Get 詳細情報
      *
      * @return DetailModelInterface|null

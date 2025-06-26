@@ -15,6 +15,7 @@ namespace Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart;
 
 use Plugin\AceClient43\AceServices\Model\Request\Prm\PrmModelAbstract;
 use Plugin\AceClient43\Exception\MissingRequestParameterException;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 class OrderPrmModel extends PrmModelAbstract implements OrderPrmModelInterface
 {
@@ -39,6 +40,12 @@ class OrderPrmModel extends PrmModelAbstract implements OrderPrmModelInterface
      * @var ?MailJyudenModel
      */
     private ?MailJyudenModel $mailjyuden = null;
+
+    /**
+     * @var ?JyudenFreeModelInterface[]
+     */
+    #[SerializedName('jyudenfree')]
+    private ?array $jyudenFree = null;
 
     /**
      * {@inheritDoc}
@@ -74,6 +81,24 @@ class OrderPrmModel extends PrmModelAbstract implements OrderPrmModelInterface
     public function getJyuden(): ?JyudenModelInterface
     {
         return $this->jyuden;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getJyudenFree(): ?array
+    {
+        return $this->jyudenFree;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setJyudenFree(?array $jyudenFree): self
+    {
+        $this->jyudenFree = $jyudenFree;
+
+        return $this;
     }
 
     /**
