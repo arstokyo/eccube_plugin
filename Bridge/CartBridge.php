@@ -26,7 +26,6 @@ use Plugin\AceClient43\Entity\CustomerTrait;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\OnCalculateFeeCartEvent;
 use Plugin\AceClient43\Events\OnSetJyumeiModelEvent;
-use Plugin\AceClient43\Events\OnSetOrderPrmModelEvent;
 use Plugin\AceClient43\Events\PostAddCartEvent;
 use Plugin\AceClient43\Events\PreAddCartEvent;
 use Plugin\AceClient43\Exception\CouldNotAddCartException;
@@ -188,19 +187,12 @@ class CartBridge extends BaseBridge
             $jyumeis[] = $jyumei;
         }
 
-        $hasEventSubscribed = $this->eventDispatcher->hasListeners(Events::ON_SET_ORDER_PRM_MODEL);
-
         $prm = (new RequestAddCart\OrderPrmModel())
             ->setMember($member)
             ->setJyuden($jyuden)
             ->setDetail((new RequestAddCart\DetailModel())
                 ->setJyumei($jyumeis)
             );
-
-        if ($hasEventSubscribed) {
-            $event = new OnSetOrderPrmModelEvent($prm, $cart, $options);
-            $this->eventDispatcher->dispatch($event, Events::ON_SET_ORDER_PRM_MODEL);
-        }
 
         return (new RequestAddCart\AddCartRequestModel())
             ->setPrm($prm)
