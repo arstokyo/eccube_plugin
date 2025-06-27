@@ -422,6 +422,8 @@ class ProductImportHelper
             $aceProductId = $tankaModel->getGdid();
             $groupedTankaModels[$aceProductId][] = $tankaModel;
         }
+
+        $groupedFreeCodeModels = [];
         foreach ($freeCode as $freeCodeItem) {
             $aceProductId = $freeCodeItem->getGdid();
             $groupedFreeCodeModels[$aceProductId][] = $freeCodeItem;
