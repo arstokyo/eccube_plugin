@@ -99,7 +99,7 @@ class ProductImportHelper
      *
      * @return int インポートされた商品数
      */
-    public function import(Member $creator, \DateTime $updateFrom, \DateTime $updateTo, array &$options = [], ?OutputInterface $output = null): int
+    public function import(Member &$creator, \DateTime $updateFrom, \DateTime $updateTo, array &$options = [], ?OutputInterface $output = null): int
     {
         $options = array_merge([
             '_trigger' => ProductImportHelper::class,
@@ -147,7 +147,7 @@ class ProductImportHelper
      *
      * @return <string, ProductClass>[] 作成された商品モデルの配列
      */
-    private function create(MasterModelInterface $master, Member $creator, ?OutputInterface $output, array &$options = []): array
+    private function create(MasterModelInterface $master, Member &$creator, ?OutputInterface $output, array &$options = []): array
     {
         $settingBag = $this->createSettingBag($master);
         $productModels = $master->getGoods();
@@ -179,6 +179,7 @@ class ProductImportHelper
                     $productStock->setStock($stock);
                     $productClass->setStock($stock);
                 }
+
                 if ($settingBag['has_on_create_product_subscribed']) {
                     /** @var HelperOnCreateProductEvent $onCreateEvent */
                     $onCreateEvent = $settingBag['on_create_product_event'];
@@ -226,7 +227,7 @@ class ProductImportHelper
             } catch (\Throwable $e) {
                 $this->log('error', '商品作成中にエラーが発生しました: '.$e->getMessage(), $output);
                 // エラーが発生した場合は、キャッシュされたエンティティマネージャーをリセット
-                $this->handleCreateProductFailed($productModel, $processedProductClasses, $options, $output, $settingBag);
+                $this->handleCreateProductFailed($productModel, $processedProductClasses, $options, $output, $settingBag, $creator);
             }
         }
 
@@ -378,7 +379,6 @@ class ProductImportHelper
         }
 
         $taxRule = $this->taxRuleRepository->newTaxRule();
-        // TODO: プラグインの設定のTax区分ついか、またはAPI経由でデフォルトの税区分を追加
         $taxRule->setProductClass($productClass);
         $taxRule->setCountry(null);
         $taxRule->setProduct($productClass->getProduct());
@@ -471,9 +471,7 @@ class ProductImportHelper
         ProductClass $productClass,
         array $settingBag,
     ): void {
-        $displayShowStatus = $settingBag['display_show_status'];
         $displayAbolishedStatus = $settingBag['display_abolished_status'];
-        $displayHideStatus = $settingBag['display_hide_status'];
 
         if ($productModel->isSoftDelete()) {
             $product->setStatus($displayAbolishedStatus);
@@ -482,8 +480,9 @@ class ProductImportHelper
             return;
         }
 
-        $status = $displayShowStatus;
         $productClass->setVisible(true);
+        $status = $settingBag['display_show_status'];
+        $displayHideStatus = $settingBag['display_hide_status'];
 
         // 商品の状態に応じてステータスを設定
         switch ($productModel->getTkbn()) {
@@ -532,14 +531,17 @@ class ProductImportHelper
      * @param array $options オプション
      * @param OutputInterface|null $output コンソール出力インターフェース
      * @param array $settingBag 設定情報の配列
+     * @param Member $creator 作成者
      *
      * @return void
      */
-    private function handleCreateProductFailed(GoodModelGroup1Interface $productModel, array $processedProductClasses, array &$options, ?OutputInterface $output, array &$settingBag): void
+    private function handleCreateProductFailed(GoodModelGroup1Interface $productModel, array $processedProductClasses, array &$options, ?OutputInterface $output, array &$settingBag, Member &$creator): void
     {
         $options['_failed_product_codes'][] = $productModel->getGdid();
         $this->entityManager = EntityManagerResetHelper::resetEntityManager($this->entityManager, $this->managerRegistry, $output);
         $settingBag = $this->resetSettingBagEntity($settingBag);
+        $creator = $this->entityManager->getRepository(Member::class)->find($creator->getId());
+        $this->taxRuleRepository->clearCache();
 
         if (!$settingBag['has_on_create_product_failed_subscribed']) {
             return;
