@@ -41,6 +41,7 @@ class Events
     public const POST_PROCESS_DISCOUNT_EVENT = 'ace_client.post_process_discount_event';
     public const COMMAND_PRE_IMPORT_PRODUCT = 'ace_client.command_pre_import_product';
     public const HELPER_PRE_IMPORT_PRODUCT = 'ace_client.helper_pre_import_product';
+    public const HELPER_POST_IMPORT_PRODUCT = 'ace_client.helper_post_import_product';
     public const PRODUCT_IMPORT_HELPER_ON_CREATE_PRODUCT = 'ace_client.product_import_helper_on_create_product';
     public const PRODUCT_IMPORT_HELPER_ON_CREATE_PRODUCT_FAILED = 'ace_client.product_import_helper_on_create_product_failed';
     public const PRODUCT_IMPORT_HELPER_ON_SET_PRICE = 'ace_client.product_import_helper_on_set_price';

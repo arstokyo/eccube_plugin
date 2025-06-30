@@ -34,6 +34,7 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Good\GoodTankaModelGroup1Int
 use Plugin\AceClient43\AceServices\Model\Response\Goods\GetGoods\MasterModelInterface;
 use Plugin\AceClient43\Bridge\ProductBridge;
 use Plugin\AceClient43\Events\Events;
+use Plugin\AceClient43\Events\HelperImportProductEvent;
 use Plugin\AceClient43\Events\HelperOnCreateProductEvent;
 use Plugin\AceClient43\Events\HelperOnCreateProductFailedEvent;
 use Plugin\AceClient43\Events\HelperOnSetPriceEvent;
@@ -128,6 +129,8 @@ class ProductImportHelper
         }
 
         $createdProducts = $this->create($master, $creator, $output, $options);
+        $event = new HelperImportProductEvent($createdProducts, $master, $output, $options);
+        $this->eventDispatcher->dispatch($event, Events::HELPER_POST_IMPORT_PRODUCT);
         if (count($createdProducts) === 0) {
             $this->log('error', '商品が作成されませんでした。', $output);
 
