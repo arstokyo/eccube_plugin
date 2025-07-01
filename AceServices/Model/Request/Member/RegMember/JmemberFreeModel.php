@@ -17,8 +17,11 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 class JmemberFreeModel implements JmemberFreeModelInterface
 {
-    /** @var JmemFreeModel[]|null */
-    #[SerializedName('jmemfree')]
+    /**
+     * @var JmemFreeModel[]|null
+     *
+     * @SerializedName("jmemfree")
+     */
     private ?array $jmemFree = null;
 
     /**

@@ -29,8 +29,11 @@ class MemberPrmModel extends PrmModelAbstract implements MemberPrmModelInterface
     /** @var SmemberModelInterface|null 請求先 */
     private ?SmemberModelInterface $smember = null;
 
-    /** @var JmemberFreeModelInterface|null */
-    #[SerializedName('jmemberfree')]
+    /**
+     * @var JmemberFreeModelInterface|null
+     *
+     * @SerializedName("jmemberfree")
+     */
     private ?JmemberFreeModelInterface $jmemberFree = null;
 
     /**

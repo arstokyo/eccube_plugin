@@ -23,8 +23,11 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  */
 class JyumeiModel extends JyumeiModelGroup1 implements JyumeiModelInterface
 {
-    /** @var string|null */
-    #[SerializedName('jyumeifree')]
+    /**
+     * @var string|null
+     *
+     * @SerializedName("jyumeifree")
+     */
     private ?string $jyumeiFree = null;
 
     /**
