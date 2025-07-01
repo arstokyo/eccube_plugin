@@ -43,8 +43,9 @@ class OrderPrmModel extends PrmModelAbstract implements OrderPrmModelInterface
 
     /**
      * @var ?JyudenFreeModelInterface[]
+     *
+     * @SerializedName("jyudenfree")
      */
-    #[SerializedName('jyudenfree')]
     private ?array $jyudenFree = null;
 
     /**

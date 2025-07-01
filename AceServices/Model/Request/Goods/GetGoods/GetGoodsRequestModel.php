@@ -35,8 +35,9 @@ class GetGoodsRequestModel extends RequestModelAbstract implements GetGoodsReque
 
     /**
      * @var ?string
+     *
+     * @SerializedName("Options")
      */
-    #[SerializedName('Options')]
     private $options;
 
     /**

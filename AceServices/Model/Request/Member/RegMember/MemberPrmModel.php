@@ -14,6 +14,7 @@
 namespace Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 
 use Plugin\AceClient43\AceServices\Model\Request\Prm\PrmModelAbstract;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 class MemberPrmModel extends PrmModelAbstract implements MemberPrmModelInterface
 {
@@ -29,6 +30,13 @@ class MemberPrmModel extends PrmModelAbstract implements MemberPrmModelInterface
     private ?SmemberModelInterface $smember = null;
 
     /**
+     * @var JmemberFreeModelInterface|null
+     *
+     * @SerializedName("jmemberfree")
+     */
+    private ?JmemberFreeModelInterface $jmemberFree = null;
+
+    /**
      * {@inheritDoc}
      */
     public function getJmember(): ?JmemberModelInterface
@@ -42,6 +50,24 @@ class MemberPrmModel extends PrmModelAbstract implements MemberPrmModelInterface
     public function setJmember(?JmemberModelInterface $jmember): self
     {
         $this->jmember = $jmember;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getJmemberFree(): ?JmemberFreeModelInterface
+    {
+        return $this->jmemberFree;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setJmemberFree(?JmemberFreeModelInterface $jmemberFree): self
+    {
+        $this->jmemberFree = $jmemberFree;
 
         return $this;
     }

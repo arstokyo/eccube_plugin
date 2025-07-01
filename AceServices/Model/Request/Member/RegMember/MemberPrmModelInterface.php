@@ -39,6 +39,22 @@ interface MemberPrmModelInterface extends PrmModelInterface
     public function setJmember(?JmemberModelInterface $jmember): self;
 
     /**
+     * Get JmemberFree
+     *
+     * @return JmemberFreeModel|null
+     */
+    public function getJmemberFree(): ?JmemberFreeModelInterface;
+
+    /**
+     * Set JmemberFree
+     *
+     * @param JmemberFreeModel|null $jmemberFree
+     *
+     * @return self
+     */
+    public function setJmemberFree(?JmemberFreeModelInterface $jmemberFree): self;
+
+    /**
      * Get 納品先
      *
      * @return NmemberModelInterface|null
