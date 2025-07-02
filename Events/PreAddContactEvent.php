@@ -38,4 +38,24 @@ class PreAddContactEvent extends Event
         $this->content = $content;
         $this->options = $options;
     }
+
+    public function getRegContactRequestModel(): RegContactRequestModelInterface
+    {
+        return $this->regContactRequestModel;
+    }
+
+    public function getCustomer(): Customer
+    {
+        return $this->customer;
+    }
+
+    public function getContent(): string
+    {
+        return $this->content;
+    }
+
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
 }

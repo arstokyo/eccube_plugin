@@ -60,10 +60,12 @@ class ContactBridge extends BaseBridge
                             ->setNote1($content)
                     )
             );
-        $this->eventDispatcher->dispatch(
-            new PreAddContactEvent($request, $customer, $content, $options),
-            Events::PRE_ADD_CONTACT
-        );
+        $hasEventSubscribed = $this->eventDispatcher->hasListeners(Events::PRE_ADD_CONTACT);
+        if ($hasEventSubscribed) {
+            $event = new PreAddContactEvent($request, $customer, $content, $options);
+            $this->eventDispatcher->dispatch($event, Events::PRE_ADD_CONTACT);
+        }
+
         try {
             $response = $this->contactService->makeRegContactMethod()
                                              ->withRequest($request)
