@@ -46,4 +46,5 @@ class Events
     public const PRODUCT_IMPORT_HELPER_ON_CREATE_PRODUCT_FAILED = 'ace_client.product_import_helper_on_create_product_failed';
     public const PRODUCT_IMPORT_HELPER_ON_SET_PRICE = 'ace_client.product_import_helper_on_set_price';
     public const POST_IMPORT_PRODUCT = 'ace_client.post_import_product';
+    public const PRE_ADD_CONTACT = 'ace_client.pre_add_contact';
 }
