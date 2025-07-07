@@ -47,4 +47,5 @@ class Events
     public const PRODUCT_IMPORT_HELPER_ON_SET_PRICE = 'ace_client.product_import_helper_on_set_price';
     public const POST_IMPORT_PRODUCT = 'ace_client.post_import_product';
     public const PRE_ADD_CONTACT = 'ace_client.pre_add_contact';
+    public const CART_CONTROLLER_SERVICE_PRE_ADD_CART = 'ace_client.cart_controller_service.pre_add_cart';
 }
