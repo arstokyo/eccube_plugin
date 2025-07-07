@@ -104,7 +104,7 @@ class ChargeProcessor implements ItemHolderPreprocessor
                     $Shipping->removeOrderItem($item);
                     $Order->removeOrderItem($item);
                     $this->entityManager->remove($item);
-                } elseif ($config->isUseAceChargeInstead() && $item->isCharge()) {
+                } elseif ($config->isUseAceCharge() && $item->isCharge()) {
                     $Shipping->removeOrderItem($item);
                     $Order->removeOrderItem($item);
                     $this->entityManager->remove($item);
@@ -118,7 +118,7 @@ class ChargeProcessor implements ItemHolderPreprocessor
      */
     private function addChargeItems(Order $Order, Config $config): void
     {
-        if (!$config->isUseAceChargeInstead() || 0 >= $amount = $Order->getAceChargeFee()) {
+        if (!$config->isUseAceCharge() || 0 >= $amount = $Order->getAceChargeFee()) {
             return;
         }
 

@@ -58,13 +58,19 @@ class CartBridge extends BaseBridge
      */
     public function add(Cart $cart, bool $canFlush = false, array $options = []): void
     {
+        $options = array_merge([
+            '_trigger' => CartBridge::class,
+        ], $options);
+
         $config = $this->getConfig();
         $request = $this->createRequest($cart, $config, $canFlush, $options);
 
-        $this->eventDispatcher->dispatch(
-            new PreAddCartEvent($request, $cart, $options, $config),
-            Events::PRE_ADD_CART
-        );
+        if ($this->eventDispatcher->hasListeners(Events::PRE_ADD_CART)) {
+            $this->eventDispatcher->dispatch(
+                new PreAddCartEvent($request, $cart, $options, $config),
+                Events::PRE_ADD_CART
+            );
+        }
 
         try {
             $response = $this->jyudenService->makeAddCartMethod()
@@ -83,28 +89,30 @@ class CartBridge extends BaseBridge
 
             $needFlush = false;
 
-            if ($config->isUseAceDeliveryFeeInstead()) {
+            if ($config->isUseAceDelivery()) {
                 if ($this->attachDeliveryFeeToCart($responseObject, $cart, $canFlush, $options)) {
                     $needFlush = true;
                 }
             }
 
-            if ($config->isUseAceDiscountInstead()) {
+            if ($config->isUseAceDiscount()) {
                 if ($this->attachDiscountToCart($responseObject, $cart, $canFlush, $options)) {
                     $needFlush = true;
                 }
             }
 
-            if ($config->isUseAceChargeInstead()) {
+            if ($config->isUseAceCharge()) {
                 if ($this->attachChargeToCart($responseObject, $cart, $canFlush, $options)) {
                     $needFlush = true;
                 }
             }
 
-            $this->eventDispatcher->dispatch(
-                new PostAddCartEvent($responseObject, $cart, $options, $config),
-                Events::POST_ADD_CART
-            );
+            if ($this->eventDispatcher->hasListeners(Events::POST_ADD_CART)) {
+                $this->eventDispatcher->dispatch(
+                    new PostAddCartEvent($responseObject, $cart, $options, $config),
+                    Events::POST_ADD_CART
+                );
+            }
 
             if ($needFlush) {
                 $this->em->flush($cart);

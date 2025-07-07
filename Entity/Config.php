@@ -1,15 +1,15 @@
 <?php
 
 /*
- * This file is part of EC-CUBE
- *
- * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
- *
- * http://www.ec-cube.co.jp/
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+* This file is part of EC-CUBE
+*
+* Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+*
+* http://www.ec-cube.co.jp/
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+*/
 
 namespace Plugin\AceClient43\Entity;
 
@@ -54,7 +54,7 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         private bool $isLogOn = LoggerFactory::DEFAULT_LOG_ON;
 
         /**
-         * @var string
+         * @var int
          *
          * @ORM\Column(name="syid", type="integer", length=1, options={"default":"1"})
          */
@@ -68,53 +68,53 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         private ?int $order_route_id = null;
 
         /**
-         * @ORM\Column(name="use_ace_delivery_fee_instead", type="boolean", options={"default":false})
-         *
          * @var bool
+         *
+         * @ORM\Column(name="use_ace_delivery", type="boolean", options={"default":false})
          */
-        private bool $use_ace_delivery_fee_instead = false;
+        private bool $use_ace_delivery = false;
 
         /**
-         * @ORM\Column(name="use_ace_discount_instead", type="boolean", options={"default":false})
-         *
          * @var bool
+         *
+         * @ORM\Column(name="use_ace_discount", type="boolean", options={"default":false})
          */
-        private bool $use_ace_discount_instead = false;
+        private bool $use_ace_discount = false;
 
         /**
-         * @ORM\Column(name="use_ace_charge_instead", type="boolean", options={"default":false})
-         *
          * @var bool
+         *
+         * @ORM\Column(name="use_ace_charge", type="boolean", options={"default":false})
          */
-        private bool $use_ace_charge_instead = false;
+        private bool $use_ace_charge = false;
 
         /**
-         * @ORM\Column(name="validate_unique_customer_when_entry", type="boolean", options={"default":true})
-         *
          * @var bool
+         *
+         * @ORM\Column(name="validate_duplicate_entry", type="boolean", options={"default":true})
          */
-        private bool $validate_unique_customer_when_entry = true;
+        private bool $validate_duplicate_entry = true;
 
         /**
-         * @ORM\Column(name="validate_unique_customer_when_admin_edit", type="boolean", options={"default":true})
-         *
          * @var bool
+         *
+         * @ORM\Column(name="validate_duplicate_admin_entry", type="boolean", options={"default":true})
          */
-        private bool $validate_unique_customer_when_admin_edit = true;
+        private bool $validate_duplicate_admin_entry = true;
 
         /**
-         * @ORM\Column(name="redirect_to_forgot_customer", type="boolean", options={"default":false})
-         *
          * @var bool
+         *
+         * @ORM\Column(name="redirect_forgot", type="boolean", options={"default":false})
          */
-        private bool $redirect_to_forgot_customer = false;
+        private bool $redirect_forgot = false;
 
         /**
-         * @ORM\Column(name="forgot_customer_path", type="string", length=255, options={"default":""})
-         *
          * @var string
+         *
+         * @ORM\Column(name="forgot_path", type="string", length=255, options={"default":""})
          */
-        private string $forgot_customer_path = '';
+        private string $forgot_path = '';
 
         /**
          * @var int
@@ -131,9 +131,9 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         private int $default_transaction_type = TransactionType::SINGLE_PAYMENT;
 
         /**
-         * @ORM\Column(name="enable_order_support", type="boolean", options={"default":false})
-         *
          * @var bool
+         *
+         * @ORM\Column(name="enable_order_support", type="boolean", options={"default":false})
          */
         private bool $enable_order_support = false;
 
@@ -156,7 +156,7 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         /**
          * @param string $baseUri
          *
-         * @return $this;
+         * @return $this
          */
         public function setBaseUri($baseUri)
         {
@@ -180,7 +180,7 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         /**
          * @param bool $isLogOn
          *
-         * @return $this;
+         * @return $this
          */
         public function setIsLogOn($isLogOn)
         {
@@ -200,11 +200,13 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         }
 
         /**
-         * 通販AceのシステムIDを取得
+         * 通販AceのシステムIDを設定
          *
-         * @return string
+         * @param int $syid
+         *
+         * @return $this
          */
-        public function setSyid(string $syid)
+        public function setSyid(int $syid)
         {
             $this->syid = $syid;
 
@@ -250,21 +252,31 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
          *
          * @return bool
          */
-        public function isUseAceDeliveryFeeInstead(): bool
+        public function getUseAceDelivery(): bool
         {
-            return $this->use_ace_delivery_fee_instead;
+            return $this->use_ace_delivery;
+        }
+
+        /**
+         * 配送手数料をACE側の値を使用するかどうか
+         *
+         * @return bool
+         */
+        public function isUseAceDelivery(): bool
+        {
+            return $this->getUseAceDelivery();
         }
 
         /**
          * 配送手数料をACE側の値を使用するかどうか設定
          *
-         * @param bool $useAceDeliveryFeeInstead
+         * @param bool $use_ace_delivery
          *
          * @return $this
          */
-        public function setUseAceDeliveryFeeInstead(bool $useAceDeliveryFeeInstead)
+        public function setUseAceDelivery(bool $use_ace_delivery)
         {
-            $this->use_ace_delivery_fee_instead = $useAceDeliveryFeeInstead;
+            $this->use_ace_delivery = $use_ace_delivery;
 
             return $this;
         }
@@ -274,153 +286,208 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
          *
          * @return bool
          */
-        public function isUseAceDiscountInstead(): bool
+        public function getUseAceDiscount(): bool
         {
-            return $this->use_ace_discount_instead;
+            return $this->use_ace_discount;
+        }
+
+        /**
+         * 割引をACE側の値を使用するかどうか
+         *
+         * @return bool
+         */
+        public function isUseAceDiscount(): bool
+        {
+            return $this->getUseAceDiscount();
         }
 
         /**
          * 割引をACE側の値を使用するかどうか設定
          *
-         * @param bool $use_ace_discount_instead
+         * @param bool $use_ace_discount
          *
          * @return $this
          */
-        public function setUseAceDiscountInstead(bool $use_ace_discount_instead)
+        public function setUseAceDiscount(bool $use_ace_discount)
         {
-            $this->use_ace_discount_instead = $use_ace_discount_instead;
+            $this->use_ace_discount = $use_ace_discount;
 
             return $this;
         }
 
         /**
-         * 手数料ACE側の値を使用するかどうか
+         * 手数料をACE側の値を使用するかどうか
          *
          * @return bool
          */
-        public function setUseAceChargeInstead(bool $use_ace_charge_instead)
+        public function getUseAceCharge(): bool
         {
-            $this->use_ace_charge_instead = $use_ace_charge_instead;
+            return $this->use_ace_charge;
+        }
+
+        public function isUseAceCharge(): bool
+        {
+            return $this->getUseAceCharge();
+        }
+
+        /**
+         * 手数料をACE側の値を使用するかどうか設定
+         *
+         * @param bool $use_ace_charge
+         *
+         * @return $this
+         */
+        public function setUseAceCharge(bool $use_ace_charge)
+        {
+            $this->use_ace_charge = $use_ace_charge;
 
             return $this;
         }
 
         /**
-         * 手数料ACE側の値を使用するかどうか
+         * 顧客登録時の顧客重複検証をするかどうか
          *
          * @return bool
          */
-        public function isUseAceChargeInstead(): bool
+        public function getValidateDuplicateEntry(): bool
         {
-            return $this->use_ace_charge_instead;
+            return $this->validate_duplicate_entry;
         }
 
         /**
-         * 顧客登録する時の顧客が存在するかどうかを検証するかどうかを設定
-         *
-         * @param bool $validate_unique_customer_when_entry
-         *
-         * @return $this
-         */
-        public function setValidateUniqueCustomerWhenEntry(bool $validate_unique_customer_when_entry)
-        {
-            $this->validate_unique_customer_when_entry = $validate_unique_customer_when_entry;
-
-            return $this;
-        }
-
-        /**
-         * 顧客登録する時の顧客が存在するかどうかを検証するかどうか
+         * 顧客登録時の顧客重複検証をするかどうか
          *
          * @return bool
          */
-        public function isValidateUniqueCustomerWhenEntry(): bool
+        public function isValidateDuplicateEntry(): bool
         {
-            return $this->validate_unique_customer_when_entry;
+            return $this->getValidateDuplicateEntry();
         }
 
         /**
-         * 管理画面で顧客編集する時の顧客が存在するかどうかを検証するかどうかを設定
+         * 顧客登録時の顧客重複検証をするかどうか設定
          *
-         * @param bool $validate_unique_customer_when_admin_edit
-         *
-         * @return $this
-         */
-        public function isValidateUniqueCustomerWhenAdminEdit(): bool
-        {
-            return $this->validate_unique_customer_when_admin_edit;
-        }
-
-        /**
-         * 管理画面で顧客編集する時の顧客が存在するかどうかを検証するかどうかを設定
-         *
-         * @param bool $validate_unique_customer_when_admin_edit
+         * @param bool $validate_duplicate_entry
          *
          * @return $this
          */
-        public function setValidateUniqueCustomerWhenAdminEdit(bool $validate_unique_customer_when_admin_edit)
+        public function setValidateDuplicateEntry(bool $validate_duplicate_entry)
         {
-            $this->validate_unique_customer_when_admin_edit = $validate_unique_customer_when_admin_edit;
+            $this->validate_duplicate_entry = $validate_duplicate_entry;
 
             return $this;
         }
 
         /**
-         * ロッグイン時、Ec側に顧客存在してないのにAce側に顧客が存在する場合、パスワードを忘れた画面にリダイレクトするかどうか
-         *
-         * @param bool $redirectToForgotCustomer
-         *
-         * @return $this
-         */
-        public function setRedirectToForgotCustomer(bool $redirectToForgotCustomer)
-        {
-            $this->redirect_to_forgot_customer = $redirectToForgotCustomer;
-
-            return $this;
-        }
-
-        /**
-         * ロッグイン時、Ec側に顧客存在してないのにAce側に顧客が存在する場合、パスワードを忘れた画面にリダイレクトするかどうか
+         * 管理画面での顧客編集時の顧客重複検証をするかどうか
          *
          * @return bool
          */
-        public function isRedirectToForgotCustomerIfExistsOnAce(): bool
+        public function getValidateDuplicateAdminEntry(): bool
         {
-            return $this->redirect_to_forgot_customer;
+            return $this->validate_duplicate_admin_entry;
         }
 
         /**
-         * パスワードを忘れた画面のパスを設定
+         * 管理画面での顧客編集時の顧客重複検証をするかどうか
          *
-         * @param string $forgotCustomerPath
+         * @return bool
+         */
+        public function isValidateDuplicateAdminEntry(): bool
+        {
+            return $this->getValidateDuplicateAdminEntry();
+        }
+
+        /**
+         * 管理画面での顧客編集時の顧客重複検証をするかどうか設定
+         *
+         * @param bool $validate_duplicate_admin_entry
          *
          * @return $this
          */
-        public function setForgotCustomerPath(string $forgotCustomerPath)
+        public function setValidateDuplicateAdminEntry(bool $validate_duplicate_admin_entry)
         {
-            $this->forgot_customer_path = $forgotCustomerPath;
+            $this->validate_duplicate_admin_entry = $validate_duplicate_admin_entry;
 
             return $this;
         }
 
         /**
-         * パスワードを忘れた画面のパスを取得
+         * 顧客登録時にEC側に顧客を存在せず、Ace側に顧客が存在する場合、パスワード忘れ画面にリダイレクトするかどうか
+         *
+         * @return bool
+         */
+        public function getRedirectForgot(): bool
+        {
+            return $this->redirect_forgot;
+        }
+
+        /**
+         * 顧客登録時にEC側に顧客を存在せず、Ace側に顧客が存在する場合、パスワード忘れ画面にリダイレクトするかどうか
+         *
+         * @return bool
+         */
+        public function isRedirectForgot(): bool
+        {
+            return $this->getRedirectForgot();
+        }
+
+        /**
+         * パスワード忘れ画面にリダイレクトするかどうか設定
+         *
+         * @param bool $redirect_forgot
+         *
+         * @return $this
+         */
+        public function setRedirectForgot(bool $redirect_forgot)
+        {
+            $this->redirect_forgot = $redirect_forgot;
+
+            return $this;
+        }
+
+        /**
+         * パスワード忘れ画面のパスを取得
          *
          * @return string
          */
-        public function getForgotCustomerPath(): string
+        public function getForgotPath(): string
         {
-            return $this->forgot_customer_path;
+            return $this->forgot_path;
         }
 
         /**
-         * パスワードを忘れた画面のパスが設定されているかどうか
+         * パスワード忘れ画面のパスが設定されているかどうか
          *
          * @return bool
          */
         public function hasForgotCustomerPath(): bool
         {
-            return !empty($this->forgot_customer_path);
+            return !empty($this->forgot_path);
+        }
+
+        /**
+         * パスワード忘れ画面のパスを設定
+         *
+         * @param string $forgot_path
+         *
+         * @return $this
+         */
+        public function setForgotPath(string $forgot_path)
+        {
+            $this->forgot_path = $forgot_path;
+
+            return $this;
+        }
+
+        /**
+         * パスワード忘れ画面のパスが設定されているかどうか
+         *
+         * @return bool
+         */
+        public function hasForgotPath(): bool
+        {
+            return !empty($this->forgot_path);
         }
 
         /**
@@ -482,6 +549,20 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         }
 
         /**
+         * Aceの受注サポート機能を有効にするかどうか設定
+         *
+         * @param bool $enable_order_support
+         *
+         * @return $this
+         */
+        public function setEnableOrderSupport(bool $enable_order_support): self
+        {
+            $this->enable_order_support = $enable_order_support;
+
+            return $this;
+        }
+
+        /**
          * Aceの受注サポート機能が有効かどうかを確認
          *
          * @return bool
@@ -509,20 +590,6 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         public function disableOrderSupport()
         {
             return $this->setEnableOrderSupport(false);
-        }
-
-        /**
-         * Aceの受注サポート機能を有効にするかどうかを設定
-         *
-         * @param bool $enable_order_support
-         *
-         * @return $this
-         */
-        public function setEnableOrderSupport(bool $enable_order_support): self
-        {
-            $this->enable_order_support = $enable_order_support;
-
-            return $this;
         }
     }
 }

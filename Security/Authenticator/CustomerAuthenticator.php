@@ -75,7 +75,7 @@ class CustomerAuthenticator extends AbstractAuthenticator implements Authenticat
         $customer = $this->customerRepository->findOneBy(['email' => $email]);
 
         try {
-            if ($aceConfig->isRedirectToForgotCustomerIfExistsOnAce() && null === $customer) {
+            if ($aceConfig->isRedirectForgot() && null === $customer) {
                 if ($this->customerBridge->has($email)) {
                     $request->getSession()->set(CustomerAuthenticator::RESET_PASSWORD_CUSTOMER, $email);
                     throw new UserNotFoundIsExistingOnAce();
@@ -104,7 +104,7 @@ class CustomerAuthenticator extends AbstractAuthenticator implements Authenticat
     {
         if ($exception instanceof UserNotFoundIsExistingOnAce) {
             $aceConfig = $this->configRepository->get();
-            $forGotPath = $aceConfig->hasForgotCustomerPath() ? $aceConfig->getForgotCustomerPath() : 'forgot';
+            $forGotPath = $aceConfig->hasForgotCustomerPath() ? $aceConfig->getForgotPath() : 'forgot';
 
             return new RedirectResponse($this->router->generate($forGotPath));
         }

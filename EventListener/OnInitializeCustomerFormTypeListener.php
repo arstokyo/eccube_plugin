@@ -66,7 +66,7 @@ class OnInitializeCustomerFormTypeListener implements EventSubscriberInterface
         $aceConfig = $this->configRepository->get();
         $transDomain = null;
         if ($eventName === EccubeEvents::FRONT_ENTRY_INDEX_INITIALIZE) {
-            if (!$aceConfig->isValidateUniqueCustomerWhenEntry()) {
+            if (!$aceConfig->isValidateDuplicateEntry()) {
                 return;
             }
 
@@ -74,7 +74,7 @@ class OnInitializeCustomerFormTypeListener implements EventSubscriberInterface
         }
 
         if ($eventName === EccubeEvents::ADMIN_CUSTOMER_EDIT_INDEX_INITIALIZE) {
-            if (!$aceConfig->isValidateUniqueCustomerWhenAdminEdit()) {
+            if (!$aceConfig->isValidateDuplicateAdminEntry()) {
                 return;
             }
 
