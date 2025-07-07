@@ -72,7 +72,7 @@ class OrderBridge extends BaseBridge
      */
     private function preCreate(Shipping $shipping, array $options): string
     {
-        $config = $this->configRepository->get();
+        $config = $this->config;
 
         try {
             [$order, $customer, $customerAddress, $config] = $this->helper->validatePreCreate($shipping, $config);

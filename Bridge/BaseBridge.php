@@ -38,9 +38,9 @@ class BaseBridge
     protected $session;
 
     /**
-     * @var ConfigRepository
+     * @var Config
      */
-    protected $configRepository;
+    protected $config;
 
     /**
      * @var LoggerInterface
@@ -73,7 +73,7 @@ class BaseBridge
      */
     public function setConfigRepository(ConfigRepository $configRepository): void
     {
-        $this->configRepository = $configRepository;
+        $this->config = $configRepository->get();
     }
 
     /**
@@ -101,7 +101,7 @@ class BaseBridge
      */
     protected function getSyid(): ?string
     {
-        $syid = $this->configRepository->findSyid();
+        $syid = $this->config->getSyid();
         if (null === $syid) {
             throw new \LogicException('システムIDが設定されていません。');
         }
@@ -141,15 +141,5 @@ class BaseBridge
         }
 
         return false;
-    }
-
-    protected function getConfig(): Config
-    {
-        $config = $this->configRepository->get();
-        if (null === $config) {
-            throw new \LogicException('通販Aceの設定が見つかりません。');
-        }
-
-        return $config;
     }
 }

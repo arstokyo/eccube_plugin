@@ -22,7 +22,6 @@ use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart as RequestAddCar
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModelInterface;
 use Plugin\AceClient43\AceServices\Service\JyudenService;
 use Plugin\AceClient43\Entity\Config;
-use Plugin\AceClient43\Entity\CustomerTrait;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\OnCalculateFeeCartEvent;
 use Plugin\AceClient43\Events\OnSetJyumeiModelEvent;
@@ -62,7 +61,7 @@ class CartBridge extends BaseBridge
             '_trigger' => CartBridge::class,
         ], $options);
 
-        $config = $this->getConfig();
+        $config = $this->config;
         $request = $this->createRequest($cart, $config, $canFlush, $options);
 
         if ($this->eventDispatcher->hasListeners(Events::PRE_ADD_CART)) {
@@ -142,7 +141,7 @@ class CartBridge extends BaseBridge
      */
     private function createRequest(Cart $cart, Config $config, bool $canFlush, array $options): RequestAddCart\AddCartRequestModel
     {
-        /** @var CustomerTrait|Customer $customer */
+        /** @var Customer $customer */
         $customer = $cart->getCustomer();
         if (null === $customer->getAceCustomerId()) {
             $this->logger->error('会員IDが設定されていません。', ['customer' => $customer]);
