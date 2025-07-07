@@ -15,7 +15,6 @@ namespace Plugin\AceClient43\Bridge;
 
 use Plugin\AceClient43\AceServices\Model\Request\Master\GetFreeCdWithName as RequestGetFreeCdWithName;
 use Plugin\AceClient43\AceServices\Model\Response\Master\GetFreeCdWithName as ResponseGetFreeCdWithName;
-use Plugin\AceClient43\AceServices\Service\GoodsService;
 use Plugin\AceClient43\AceServices\Service\MasterService;
 use Plugin\AceClient43\Exception\MissingRequestParameterException;
 
@@ -23,11 +22,8 @@ class MasterBridge extends BaseBridge
 {
     private MasterService $masterService;
 
-    private GoodsService $goodsService;
-
-    public function __construct(MasterService $masterService, GoodsService $goodsService)
+    public function __construct(MasterService $masterService)
     {
-        $this->goodsService = $goodsService;
         $this->masterService = $masterService;
     }
 
