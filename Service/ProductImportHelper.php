@@ -129,8 +129,14 @@ class ProductImportHelper
         }
 
         $createdProducts = $this->create($master, $creator, $output, $options);
-        $event = new HelperImportProductEvent($createdProducts, $master, $output, $options);
-        $this->eventDispatcher->dispatch($event, Events::HELPER_POST_IMPORT_PRODUCT);
+
+        if ($this->eventDispatcher->hasListeners(Events::HELPER_POST_IMPORT_PRODUCT)) {
+            $this->eventDispatcher->dispatch(
+                new HelperImportProductEvent($createdProducts, $master, $output, $options),
+                Events::HELPER_POST_IMPORT_PRODUCT
+            );
+        }
+
         if (count($createdProducts) === 0) {
             $this->log('error', '商品が作成されませんでした。', $output);
 
