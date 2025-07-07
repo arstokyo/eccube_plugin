@@ -70,9 +70,9 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         /**
          * @var bool
          *
-         * @ORM\Column(name="use_ace_delivery", type="boolean", options={"default":false})
+         * @ORM\Column(name="use_ace_delivery", type="boolean", options={"default":true})
          */
-        private bool $use_ace_delivery = false;
+        private bool $use_ace_delivery = true;
 
         /**
          * @var bool
@@ -136,6 +136,20 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
          * @ORM\Column(name="enable_order_support", type="boolean", options={"default":false})
          */
         private bool $enable_order_support = false;
+
+        /**
+         * @var bool
+         *
+         * @ORM\Column(name="add_cart_index", type="boolean", options={"default":true})
+         */
+        private bool $add_cart_index = true;
+
+        /**
+         * @var bool
+         *
+         * @ORM\Column(name="add_cart_shopping", type="boolean", options={"default":false})
+         */
+        private bool $add_cart_shopping = false;
 
         /**
          * @return int
@@ -262,7 +276,7 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
          *
          * @return bool
          */
-        public function isUseAceDelivery(): bool
+        public function shouldUseAceDelivery(): bool
         {
             return $this->getUseAceDelivery();
         }
@@ -296,7 +310,7 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
          *
          * @return bool
          */
-        public function isUseAceDiscount(): bool
+        public function shouldUseAceDiscount(): bool
         {
             return $this->getUseAceDiscount();
         }
@@ -325,7 +339,12 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
             return $this->use_ace_charge;
         }
 
-        public function isUseAceCharge(): bool
+        /**
+         * 手数料をACE側の値を使用するかどうか
+         *
+         * @return bool
+         */
+        public function shouldUseAceCharge(): bool
         {
             return $this->getUseAceCharge();
         }
@@ -359,7 +378,7 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
          *
          * @return bool
          */
-        public function isValidateDuplicateEntry(): bool
+        public function shouldValidateDuplicateEntry(): bool
         {
             return $this->getValidateDuplicateEntry();
         }
@@ -393,7 +412,7 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
          *
          * @return bool
          */
-        public function isValidateDuplicateAdminEntry(): bool
+        public function shouldValidateDuplicateAdminEntry(): bool
         {
             return $this->getValidateDuplicateAdminEntry();
         }
@@ -590,6 +609,74 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         public function disableOrderSupport()
         {
             return $this->setEnableOrderSupport(false);
+        }
+
+        /**
+         * カート画面での通販Ace側にカート追加機能を有効にするかどうか
+         *
+         * @return bool
+         */
+        public function getAddCartIndex(): bool
+        {
+            return $this->add_cart_index;
+        }
+
+        /**
+         * カート画面での通販Ace側にカート追加機能を有効にするかどうか
+         *
+         * @return bool
+         */
+        public function shouldAddCartIndex(): bool
+        {
+            return $this->getAddCartIndex();
+        }
+
+        /**
+         * カート画面での通販Ace側にカート追加機能を有効にするかどうか設定
+         *
+         * @param bool $add_cart_index
+         *
+         * @return $this
+         */
+        public function setAddCartIndex(bool $add_cart_index): self
+        {
+            $this->add_cart_index = $add_cart_index;
+
+            return $this;
+        }
+
+        /**
+         * ショッピング画面での通販Ace側にカート追加機能を有効にするかどうか
+         *
+         * @return bool
+         */
+        public function getAddCartShopping(): bool
+        {
+            return $this->add_cart_shopping;
+        }
+
+        /**
+         * ショッピング画面での通販Ace側にカート追加機能を有効にするかどうか
+         *
+         * @return bool
+         */
+        public function shouldAddCartShopping(): bool
+        {
+            return $this->getAddCartShopping();
+        }
+
+        /**
+         * ショッピング画面での通販Ace側にカート追加機能を有効にするかどうか設定
+         *
+         * @param bool $add_cart_shopping
+         *
+         * @return $this
+         */
+        public function setAddCartShopping(bool $add_cart_shopping): self
+        {
+            $this->add_cart_shopping = $add_cart_shopping;
+
+            return $this;
         }
     }
 }

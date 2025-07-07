@@ -91,7 +91,7 @@ class DeliveryFeeProcessor implements ItemHolderPreprocessor
                     $Shipping->removeOrderItem($item);
                     $Order->removeOrderItem($item);
                     $this->entityManager->remove($item);
-                } elseif ($config->isUseAceDelivery() && $item->isDeliveryFee()) {
+                } elseif ($config->shouldUseAceDelivery() && $item->isDeliveryFee()) {
                     $Shipping->removeOrderItem($item);
                     $Order->removeOrderItem($item);
                     $this->entityManager->remove($item);
@@ -105,7 +105,7 @@ class DeliveryFeeProcessor implements ItemHolderPreprocessor
      */
     private function addDeliveryFeeItems(Order $Order, Config $config): void
     {
-        if (!$config->isUseAceDelivery() || 0 >= $fee = $Order->getAceDeliveryFee()) {
+        if (!$config->shouldUseAceDelivery() || 0 >= $fee = $Order->getAceDeliveryFee()) {
             return;
         }
 

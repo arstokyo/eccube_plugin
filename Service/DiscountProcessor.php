@@ -86,7 +86,7 @@ class DiscountProcessor implements DiscountProcessorInterface
                     $Shipping->removeOrderItem($item);
                     $Order->removeOrderItem($item);
                     $this->entityManager->remove($item);
-                } elseif ($this->getAceClientConfig()->isUseAceDiscount() && $item->isDiscount()) {
+                } elseif ($this->getAceClientConfig()->shouldUseAceDiscount() && $item->isDiscount()) {
                     $Shipping->removeOrderItem($item);
                     $Order->removeOrderItem($item);
                     $this->entityManager->remove($item);
@@ -116,7 +116,7 @@ class DiscountProcessor implements DiscountProcessorInterface
         $event = new PreProcessDiscountEvent($Order, $config, $context);
         $this->eventDispatcher->dispatch($event, Events::PRE_PROCESS_DISCOUNT_EVENT);
 
-        if (!$event->continue || !$config->isUseAceDiscount() || 0 >= $amount = $Order->getAceDiscountAmount()) {
+        if (!$event->continue || !$config->shouldUseAceDiscount() || 0 >= $amount = $Order->getAceDiscountAmount()) {
             return;
         }
 

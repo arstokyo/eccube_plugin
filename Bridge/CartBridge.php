@@ -89,19 +89,19 @@ class CartBridge extends BaseBridge
 
             $needFlush = false;
 
-            if ($config->isUseAceDelivery()) {
+            if ($config->shouldUseAceDelivery()) {
                 if ($this->attachDeliveryFeeToCart($responseObject, $cart, $canFlush, $options)) {
                     $needFlush = true;
                 }
             }
 
-            if ($config->isUseAceDiscount()) {
+            if ($config->shouldUseAceDiscount()) {
                 if ($this->attachDiscountToCart($responseObject, $cart, $canFlush, $options)) {
                     $needFlush = true;
                 }
             }
 
-            if ($config->isUseAceCharge()) {
+            if ($config->shouldUseAceCharge()) {
                 if ($this->attachChargeToCart($responseObject, $cart, $canFlush, $options)) {
                     $needFlush = true;
                 }
