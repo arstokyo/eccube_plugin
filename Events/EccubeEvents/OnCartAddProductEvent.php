@@ -14,6 +14,7 @@
 namespace Plugin\AceClient43\Events\EccubeEvents;
 
 use Eccube\Entity\CartItem;
+use Eccube\Entity\ProductClass;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class OnCartAddProductEvent extends Event
@@ -22,9 +23,12 @@ class OnCartAddProductEvent extends Event
 
     public array $options;
 
-    public function __construct(CartItem $cartItem, array $options = [])
+    public ProductClass $productClass;
+
+    public function __construct(CartItem $cartItem, ProductClass $productClass, array $options = [])
     {
         $this->cartItem = $cartItem;
+        $this->productClass = $productClass;
         $this->options = $options;
     }
 }

@@ -94,7 +94,7 @@ class CartService extends BaseCartService
         $newItem->setProductClass($ProductClass);
 
         if ($this->eventDispatcher->hasListeners(Events::ON_CART_ADD_PRODUCT)) {
-            $this->eventDispatcher->dispatch(new OnCartAddProductEvent($newItem, $options), Events::ON_CART_ADD_PRODUCT);
+            $this->eventDispatcher->dispatch(new OnCartAddProductEvent($newItem, $ProductClass, $options), Events::ON_CART_ADD_PRODUCT);
         }
 
         $allCartItems = $this->mergeAllCartItems([$newItem]);
