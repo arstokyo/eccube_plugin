@@ -16,7 +16,7 @@ namespace Plugin\AceClient43\AceServices\AceMethod\Jyuden;
 use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Jyuden\GetDeliveryInfo\GetDeliveryInfoResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Method for GetDeliveryInfo
@@ -41,9 +41,17 @@ class GetDeliveryInfoMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return GetDeliveryInfoResponseModel::class;
+        return Request\Jyuden\GetDeliveryInfo\GetDeliveryInfoRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Jyuden\GetDeliveryInfo\GetDeliveryInfoResponseModelInterface::class;
     }
 
     /**

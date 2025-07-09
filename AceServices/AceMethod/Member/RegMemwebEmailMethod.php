@@ -16,7 +16,7 @@ namespace Plugin\AceClient43\AceServices\AceMethod\Member;
 use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Member\RegMemwebEmail\RegMemwebEmailResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Method for RegMemwebEmail
@@ -41,9 +41,17 @@ class RegMemwebEmailMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return RegMemwebEmailResponseModel::class;
+        return Request\Member\RegMemwebEmail\RegMemwebEmailRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Member\RegMemwebEmail\RegMemwebEmailResponseModelInterface::class;
     }
 
     /**

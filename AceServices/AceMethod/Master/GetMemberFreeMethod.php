@@ -16,7 +16,7 @@ namespace Plugin\AceClient43\AceServices\AceMethod\Master;
 use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Master\GetMemberFree\GetMemberFreeResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Method for GetMemberFree
@@ -41,9 +41,17 @@ class GetMemberFreeMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return GetMemberFreeResponseModel::class;
+        return Request\Master\GetMemberFree\GetMemberFreeRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Master\GetMemberFree\GetMemberFreeResponseModelInterface::class;
     }
 
     /**

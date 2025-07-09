@@ -16,7 +16,7 @@ namespace Plugin\AceClient43\AceServices\AceMethod\Member;
 use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember\GetMemberResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Class GetMemberMethod
@@ -41,9 +41,17 @@ class GetMemberMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return GetMemberResponseModel::class;
+        return Request\Member\GetMember\GetMemberRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Member\GetMember\GetMemberResponseModelInterface::class;
     }
 
     /**

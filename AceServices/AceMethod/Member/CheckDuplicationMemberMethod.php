@@ -16,7 +16,7 @@ namespace Plugin\AceClient43\AceServices\AceMethod\Member;
 use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Member\CheckDuplicationMember\CheckDuplicationMemberResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Method for CheckDuplicationMember
@@ -41,9 +41,17 @@ class CheckDuplicationMemberMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return CheckDuplicationMemberResponseModel::class;
+        return Request\Member\CheckDuplicationMember\CheckDuplicationMemberRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Member\CheckDuplicationMember\CheckDuplicationMemberResponseModelInterface::class;
     }
 
     /**

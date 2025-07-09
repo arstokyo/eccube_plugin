@@ -16,7 +16,7 @@ namespace Plugin\AceClient43\AceServices\AceMethod\Goods;
 use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Goods\GetZaikoAll\GetZaikoAllResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Method for GetZaikoAll
@@ -41,9 +41,17 @@ class GetZaikoAllMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return GetZaikoAllResponseModel::class;
+        return Request\Goods\GetZaikoAll\GetZaikoAllRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Goods\GetZaikoAll\GetZaikoAllResponseModelInterface::class;
     }
 
     /**

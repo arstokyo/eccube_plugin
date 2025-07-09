@@ -16,7 +16,7 @@ namespace Plugin\AceClient43\AceServices\AceMethod\Member;
 use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Member\CheckMailAdress\CheckMailAdressResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Method for CheckMailAdress
@@ -41,9 +41,17 @@ class CheckMailAdressMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return CheckMailAdressResponseModel::class;
+        return Request\Member\CheckMailAdress\CheckMailAdressRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Member\CheckMailAdress\CheckMailAdressResponseModelInterface::class;
     }
 
     /**

@@ -15,7 +15,7 @@ namespace Plugin\AceClient43\AceServices\AceMethod\Master;
 
 use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
-use Plugin\AceClient43\AceServices\Model\Response\Master\GetFreeCdWithName\GetFreeCdWithNameResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Method for GetFreeCdWithName
@@ -42,8 +42,16 @@ class GetFreeCdWithNameMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return GetFreeCdWithNameResponseModel::class;
+        return Request\Master\GetFreeCdWithName\GetFreeCdWithNameRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Master\GetFreeCdWithName\GetFreeCdWithNameResponseModelInterface::class;
     }
 }

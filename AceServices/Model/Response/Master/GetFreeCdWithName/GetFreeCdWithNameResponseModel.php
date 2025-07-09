@@ -14,14 +14,13 @@
 namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetFreeCdWithName;
 
 use Plugin\AceClient43\AceServices\Model\Response\ResponseModelAbtract;
-use Plugin\AceClient43\AceServices\Model\Response\ResponseModelInterface;
 
 /**
  * Class GetHolidayResponseModel
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class GetFreeCdWithNameResponseModel extends ResponseModelAbtract implements ResponseModelInterface
+class GetFreeCdWithNameResponseModel extends ResponseModelAbtract implements GetFreeCdWithNameResponseModelInterface
 {
     /**
      * Master
@@ -41,8 +40,10 @@ class GetFreeCdWithNameResponseModel extends ResponseModelAbtract implements Res
     /**
      * @param MasterModel $master
      */
-    public function setMaster(MasterModel $master): void
+    public function setMaster(MasterModel $master): self
     {
         $this->master = $master;
+
+        return $this;
     }
 }

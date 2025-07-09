@@ -49,6 +49,11 @@ class OrderPrmModel extends PrmModelAbstract implements OrderPrmModelInterface
     private ?array $jyudenFree = null;
 
     /**
+     * @var ?array
+     */
+    private ?array $options = null;
+
+    /**
      * {@inheritDoc}
      */
     public function setMember(?MemberOrderModelInterface $member): self
@@ -136,6 +141,38 @@ class OrderPrmModel extends PrmModelAbstract implements OrderPrmModelInterface
     public function getMailjyuden(): ?MailJyudenModel
     {
         return $this->mailjyuden;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getOptions(): array
+    {
+        return $this->options ?? [];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setOptions(array $options): self
+    {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addOption(string $key, $value): self
+    {
+        if (null === $this->options) {
+            $this->options = [];
+        }
+
+        $this->options[$key] = $value;
+
+        return $this;
     }
 
     /**

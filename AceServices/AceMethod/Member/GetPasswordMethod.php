@@ -16,7 +16,7 @@ namespace Plugin\AceClient43\AceServices\AceMethod\Member;
 use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Member\GetPassword\GetPasswordResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Method for GetPassword
@@ -41,9 +41,17 @@ class GetPasswordMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return GetPasswordResponseModel::class;
+        return Request\Member\GetPassword\GetPasswordRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Member\GetPassword\GetPasswordResponseModelInterface::class;
     }
 
     /**

@@ -16,7 +16,7 @@ namespace Plugin\AceClient43\AceServices\AceMethod\Jyuden;
 use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Jyuden\DecisionCart\DecisionCartResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Method for Decision Cart
@@ -41,9 +41,17 @@ class DecisionCartMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return DecisionCartResponseModel::class;
+        return Request\Jyuden\DecisionCart\DecisionCartRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Jyuden\DecisionCart\DecisionCartResponseModelInterface::class;
     }
 
     /**

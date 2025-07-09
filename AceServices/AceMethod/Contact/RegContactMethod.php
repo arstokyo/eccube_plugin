@@ -16,7 +16,7 @@ namespace Plugin\AceClient43\AceServices\AceMethod\Contact;
 use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Contact\RegContact\RegContactResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Method for RegContact
@@ -41,9 +41,17 @@ class RegContactMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return RegContactResponseModel::class;
+        return Request\Contact\RegContact\RegContactRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Contact\RegContact\RegContactResponseModelInterface::class;
     }
 
     /**

@@ -16,7 +16,7 @@ namespace Plugin\AceClient43\AceServices\AceMethod\Hanpu;
 use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Hanpu\DecisionHanpu\DecisionHanpuResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Method for DecisionHanpu
@@ -41,9 +41,17 @@ class DecisionHanpuMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return DecisionHanpuResponseModel::class;
+        return Request\Hanpu\DecisionHanpu\DecisionHanpuRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Hanpu\DecisionHanpu\DecisionHanpuResponseModelInterface::class;
     }
 
     /**

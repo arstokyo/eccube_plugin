@@ -16,7 +16,7 @@ namespace Plugin\AceClient43\AceServices\AceMethod\Master2;
 use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Master2\GetHaisouDayTime\GetHaisouDayTimeResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Get GetHaisouDayTimeMethod
@@ -41,9 +41,17 @@ class GetHaisouDayTimeMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return GetHaisouDayTimeResponseModel::class;
+        return Request\Master2\GetHaisouDayTime\GetHaisouDayTimeRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Master2\GetHaisouDayTime\GetHaisouDayTimeResponseModelInterface::class;
     }
 
     /**

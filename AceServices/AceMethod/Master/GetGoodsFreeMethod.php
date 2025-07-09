@@ -16,7 +16,7 @@ namespace Plugin\AceClient43\AceServices\AceMethod\Master;
 use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Master\GetGoodsFree\GetGoodsFreeResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Method for GetGoodsFree
@@ -41,9 +41,17 @@ class GetGoodsFreeMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return GetGoodsFreeResponseModel::class;
+        return Request\Master\GetGoodsFree\GetGoodsFreeRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Master\GetGoodsFree\GetGoodsFreeResponseModelInterface::class;
     }
 
     /**

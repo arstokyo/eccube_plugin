@@ -16,7 +16,7 @@ namespace Plugin\AceClient43\AceServices\AceMethod\Member;
 use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Member\RegMember\RegMemberResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Method for RegMember
@@ -41,9 +41,17 @@ class RegMemberMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return RegMemberResponseModel::class;
+        return Request\Member\RegMember\RegMemberRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Member\RegMember\RegMemberResponseModelInterface::class;
     }
 
     /**

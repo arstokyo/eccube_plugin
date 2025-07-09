@@ -16,7 +16,7 @@ namespace Plugin\AceClient43\AceServices\AceMethod\Master;
 use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Master\GetBumonFreemst\GetBumonFreemstResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Method for GetBumonFreemst
@@ -41,9 +41,17 @@ class GetBumonFreemstMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return GetBumonFreemstResponseModel::class;
+        return Request\Master\GetBumonFreemst\GetBumonFreemstRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Master\GetBumonFreemst\GetBumonFreemstResponseModelInterface::class;
     }
 
     /**

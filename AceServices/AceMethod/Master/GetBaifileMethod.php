@@ -16,7 +16,7 @@ namespace Plugin\AceClient43\AceServices\AceMethod\Master;
 use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Master\GetBaifile\GetBaifileResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Method for GetBaifile
@@ -41,9 +41,17 @@ class GetBaifileMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return GetBaifileResponseModel::class;
+        return Request\Master\GetBaifile\GetBaifileRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Master\GetBaifile\GetBaifileResponseModelInterface::class;
     }
 
     /**

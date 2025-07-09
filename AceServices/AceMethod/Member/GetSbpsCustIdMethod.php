@@ -16,6 +16,7 @@ namespace Plugin\AceClient43\AceServices\AceMethod\Member;
 use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetSbpsCustId\GetSbpsCustIdResponseModel;
 
 /**
@@ -44,6 +45,22 @@ class GetSbpsCustIdMethod extends AceMethodAbstract
     protected function setResponseAsObject(): string
     {
         return GetSbpsCustIdResponseModel::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getRequestInterface(): string
+    {
+        return Request\Member\GetSbpsCustId\GetSbpsCustIdRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Member\GetSbpsCustId\GetSbpsCustIdResponseModelInterface::class;
     }
 
     /**

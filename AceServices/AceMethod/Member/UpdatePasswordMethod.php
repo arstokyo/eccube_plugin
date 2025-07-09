@@ -16,7 +16,7 @@ namespace Plugin\AceClient43\AceServices\AceMethod\Member;
 use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Member\UpdatePassword\UpdatePasswordResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Method for UpdatePassword
@@ -41,9 +41,17 @@ class UpdatePasswordMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return UpdatePasswordResponseModel::class;
+        return Request\Member\UpdatePassword\UpdatePasswordRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Member\UpdatePassword\UpdatePasswordResponseModelInterface::class;
     }
 
     /**

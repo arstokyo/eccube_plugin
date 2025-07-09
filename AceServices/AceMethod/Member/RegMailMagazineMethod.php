@@ -16,7 +16,7 @@ namespace Plugin\AceClient43\AceServices\AceMethod\Member;
 use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Member\RegMailMagazine\RegMailMagazineResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Method for RegMailMagazine
@@ -41,9 +41,17 @@ class RegMailMagazineMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return RegMailMagazineResponseModel::class;
+        return Request\Member\RegMailMagazine\RegMailMagazineRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Member\RegMailMagazine\RegMailMagazineResponseModelInterface::class;
     }
 
     /**

@@ -16,7 +16,7 @@ namespace Plugin\AceClient43\AceServices\AceMethod\Master2;
 use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Master2\GetHaisouDay\GetHaisouDayResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Get Haisou Day Method
@@ -26,7 +26,7 @@ use Plugin\AceClient43\AceServices\Model\Response\Master2\GetHaisouDay\GetHaisou
 class GetHaisouDayMethod extends AceMethodAbstract
 {
     /**
-     * The End Point of Service.
+     * The End Point of Service.nse
      */
     private const END_POINT_SERVICE = 'service1.asmx';
 
@@ -41,9 +41,17 @@ class GetHaisouDayMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return GetHaisouDayResponseModel::class;
+        return Request\Master2\GetHaisouDay\GetHaisouDayRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Master2\GetHaisouDay\GetHaisouDayResponseModelInterface::class;
     }
 
     /**

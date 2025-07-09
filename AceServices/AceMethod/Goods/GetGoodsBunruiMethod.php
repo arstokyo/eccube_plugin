@@ -16,6 +16,7 @@ namespace Plugin\AceClient43\AceServices\AceMethod\Goods;
 use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response;
 use Plugin\AceClient43\AceServices\Model\Response\Goods\GetGoodsBunrui\GetGoodsBunruiResponseModel;
 
 /**
@@ -44,6 +45,22 @@ class GetGoodsBunruiMethod extends AceMethodAbstract
     protected function setResponseAsObject(): string
     {
         return GetGoodsBunruiResponseModel::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getRequestInterface(): string
+    {
+        return Request\Goods\GetGoodsBunrui\GetGoodsBunruiRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Goods\GetGoodsBunrui\GetGoodsBunruiResponseModelInterface::class;
     }
 
     /**

@@ -16,7 +16,7 @@ namespace Plugin\AceClient43\AceServices\AceMethod\Hanpu;
 use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Hanpu\AddHanpuNext\AddHanpuNextResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Method for AddHanpuNext
@@ -41,9 +41,17 @@ class AddHanpuNextMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return AddHanpuNextResponseModel::class;
+        return Request\Hanpu\AddHanpuNext\AddHanpuNextRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Hanpu\AddHanpu\AddHanpuResponseModelInterface::class;
     }
 
     /**

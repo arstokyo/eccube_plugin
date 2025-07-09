@@ -16,7 +16,7 @@ namespace Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpuNext;
 use Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu\AddHanpuRequestModel as ParentModel;
 use Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu\HanpuPrmModelInterface;
 
-class AddHanpuNextRequestModel extends ParentModel
+class AddHanpuNextRequestModel extends ParentModel implements AddHanpuNextRequestModelInterface
 {
     public const XML_NODE_NAME = 'addHanpuNext';
 

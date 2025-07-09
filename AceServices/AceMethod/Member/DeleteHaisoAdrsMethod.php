@@ -16,7 +16,7 @@ namespace Plugin\AceClient43\AceServices\AceMethod\Member;
 use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Member\DeleteHaisoAdrs\DeleteHaisoAdrsResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Method for DeleteHaisoAdrs
@@ -41,9 +41,17 @@ class DeleteHaisoAdrsMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return DeleteHaisoAdrsResponseModel::class;
+        return Request\Member\DeleteHaisoAdrs\DeleteHaisoAdrsRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Member\DeleteHaisoAdrs\DeleteHaisoAdrsResponseModelInterface::class;
     }
 
     /**

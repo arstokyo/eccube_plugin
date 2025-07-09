@@ -16,7 +16,7 @@ namespace Plugin\AceClient43\AceServices\AceMethod\Master;
 use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Master\GetId\GetIdResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response;
 use Plugin\AceClient43\ApiClient\Response\ResponseInterface;
 
 /**
@@ -42,9 +42,17 @@ class GetIdMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return GetIdResponseModel::class;
+        return Request\Master\GetId\GetIdRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Master\GetId\GetIdResponseModelInterface::class;
     }
 
     /**
