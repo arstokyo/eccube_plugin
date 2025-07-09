@@ -19,6 +19,7 @@ use Plugin\AceClient43\Exception\InvalidClassNameException;
 use Plugin\AceClient43\Exception\InvalidFuncNameException;
 use Plugin\AceClient43\Util\ClassFactory\ClassFactory;
 use Plugin\AceClient43\Util\Denormalizer\DenormalizerFactory;
+use Plugin\AceClient43\Util\ModelResolver\ModelResolver;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\PropertyInfo\PropertyTypeExtractorInterface;
@@ -74,12 +75,19 @@ final class NormalizerFactory
      *
      * @return NormalizerInterface[]
      */
-    public static function makeDefaultSoapNormalizers(): array
+    public static function makeDefaultSoapNormalizers(ModelResolver $modelResolver): array
     {
         $classMetadataFactory = self::makeAnnotationMetaFactory();
 
-        return \array_merge([new AceDateTimeNormalizer(), new PrmNormalizer(), DenormalizerFactory::makeArrayDenormalizer(), DenormalizerFactory::makeAsListDenormalizer()],
-            self::makeNormalizers($classMetadataFactory, new MetadataAwareNameConverter($classMetadataFactory), null, new ReflectionExtractor()));
+        return \array_merge(
+            [new AceDateTimeNormalizer(), new PrmNormalizer(), DenormalizerFactory::makeArrayDenormalizer(), DenormalizerFactory::makeAsListDenormalizer()],
+            self::makeNormalizers(
+                $classMetadataFactory,
+                new MetadataAwareNameConverter($classMetadataFactory),
+                null,
+                new ModelTypeExtractor($modelResolver)
+            )
+        );
     }
 
     /**
@@ -143,13 +151,13 @@ final class NormalizerFactory
      *
      * @throws InvalidFuncNameException
      */
-    public static function makeNormalizerByFuncNameSuffix($funcSuffixName)
+    public static function makeNormalizerByFuncNameSuffix($funcSuffixName, ...$args)
     {
         $callMethod = 'make'.$funcSuffixName;
         if (!method_exists(self::class, $callMethod)) {
             throw new InvalidFuncNameException(sprintf('Given function name does not exist. Given function suffix name %s', $funcSuffixName));
         }
 
-        return self::{$callMethod}();
+        return self::{$callMethod}(...$args);
     }
 }
