@@ -56,7 +56,6 @@ abstract class AceMethodAbstract implements AceMethodInterface
     public function initializeAssistant(string $baseServiceName, ServiceRetrieverInterface $serviceRetriever): void
     {
         $this->assistant = new AceMethodAssistant(\get_class($this), self::buildEndPoint($baseServiceName), $serviceRetriever);
-        $this->assistant->getApiClient()->withResponseAs(self::getResponseAsObject());
     }
 
     /**
@@ -65,6 +64,7 @@ abstract class AceMethodAbstract implements AceMethodInterface
     public function withRequest(Request\RequestModelInterface $requestModel): self
     {
         $requestModel->ensureParameterNotMissing();
+
         $this->assistant->getApiClient()->withRequest($requestModel);
 
         return $this;
@@ -75,6 +75,8 @@ abstract class AceMethodAbstract implements AceMethodInterface
      */
     public function send(): ResponseInterface
     {
+        $this->assistant->getApiClient()->withResponseAs(self::getResponseAsObject());
+
         return $this->assistant->getApiClient()->send();
     }
 
@@ -105,26 +107,56 @@ abstract class AceMethodAbstract implements AceMethodInterface
      */
     abstract protected function setEndPointService(): string;
 
-    /**
-     * Set the response object.
-     *
-     * @return string
-     */
-    abstract protected function setResponseAsObject(): string;
+    abstract protected function getRequestInterface(): string;
+
+    abstract protected function getResponseInterface(): string;
 
     /**
-     * Get the response object.
-     *
-     * @return string
-     *
      * @throws DataTypeMissMatchException
      * @throws InvalidClassNameException
      */
     private function getResponseAsObject(): string
     {
-        $settedResponseObject = $this->setResponseAsObject();
-        ClassFactory::validateClassExists($settedResponseObject);
+        $responseInterface = $this->getResponseInterface();
 
-        return ClassFactory::validateCompatible($settedResponseObject, ResponseModelInterface::class);
+        // 1. 設定ファイルから検索
+        $responseClass = $this->getResponseClassFromConfig($responseInterface);
+
+        // 2. 設定にない場合は自動検出
+        if (!$responseClass) {
+            $responseClass = $this->resolveResponseClassAutomatically($responseInterface);
+        }
+
+        // 3. 見つからない場合はエラー
+        if (!$responseClass) {
+            throw new InvalidClassNameException("Response class not found for interface: {$responseInterface}");
+        }
+
+        ClassFactory::validateClassExists($responseClass);
+
+        return ClassFactory::validateCompatible($responseClass, ResponseModelInterface::class);
+    }
+
+    private function getResponseClassFromConfig(string $responseInterface): ?string
+    {
+        try {
+            $parameterBag = $this->assistant->getServiceRetriever()->getParameterBag();
+            $mappings = $parameterBag->get('ace.request_response_mapping');
+
+            return $mappings[$responseInterface]['response'] ?? null;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    private function resolveResponseClassAutomatically(string $responseInterface): ?string
+    {
+        try {
+            $modelResolver = $this->assistant->getServiceRetriever()->getModelResolver();
+
+            return $modelResolver->findResponseModelByInterface($responseInterface);
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 }
