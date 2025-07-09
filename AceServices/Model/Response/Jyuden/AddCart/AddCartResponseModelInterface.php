@@ -32,9 +32,9 @@ interface AddCartResponseModelInterface extends Response\ResponseModelInterface
     /**
      * Set order
      *
-     * @param OrderModel $order
+     * @param OrderModelInterface $order
      *
      * @return void
      */
-    public function setOrder(OrderModel $order): void;
+    public function setOrder(OrderModelInterface $order): void;
 }

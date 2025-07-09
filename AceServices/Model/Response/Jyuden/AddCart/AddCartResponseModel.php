@@ -36,7 +36,7 @@ class AddCartResponseModel extends ResponseModelAbtract implements AddCartRespon
     /**
      * {@inheritDoc}
      */
-    public function setOrder(OrderModel $order): void
+    public function setOrder(OrderModelInterface $order): void
     {
         $this->order = $order;
     }
