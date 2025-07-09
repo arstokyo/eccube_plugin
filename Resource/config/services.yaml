@@ -1,11 +1,11 @@
 parameters:
   ace.request_search_paths:
-    - 'Plugin/AceClient43/AceServices/Model/Request'
     - 'Customize/AceClient/Model/Request'
+    - 'Plugin/AceClient43/AceServices/Model/Request'
 
   ace.response_search_paths:
-    - 'Plugin/AceClient43/AceServices/Model/Response'
     - 'Customize/AceClient/Model/Response'
+    - 'Plugin/AceClient43/AceServices/Model/Response'
 
 # Uncomment the following lines if you want to use request-response mapping
 #  ace.request_response_mapping:
