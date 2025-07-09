@@ -184,7 +184,7 @@ class OrderBridge extends BaseBridge
      */
     private function create(string $sessionId, Shipping $shipping, array $options): void
     {
-        $config = $this->configRepository->get();
+        $config = $this->config;
 
         try {
             $decisionRequest = $this->helper->createDecisionCartRequest($sessionId, $config->getSyid());

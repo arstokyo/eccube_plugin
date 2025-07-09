@@ -27,6 +27,8 @@ use Symfony\Contracts\Service\Attribute\Required;
 
 class BaseBridge
 {
+    use CreateRequestModelTrait;
+
     /**
      * @var EntityManager
      */

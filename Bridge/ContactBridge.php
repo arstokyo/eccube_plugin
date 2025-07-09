@@ -14,20 +14,20 @@
 namespace Plugin\AceClient43\Bridge;
 
 use Eccube\Entity\Customer;
+use Plugin\AceClient43\AceServices\AceMethod\Contact\RegContactMethod;
 use Plugin\AceClient43\AceServices\Model\Request\Contact\RegContact as RequestRegContact;
 use Plugin\AceClient43\AceServices\Model\Response\Contact\RegContact as ResponseRegContact;
-use Plugin\AceClient43\AceServices\Service\ContactService;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\PreAddContactEvent;
 use Plugin\AceClient43\Exception\CouldNotAddContactException;
 
 class ContactBridge extends BaseBridge
 {
-    private ContactService $contactService;
+    private RegContactMethod $regContactMethod;
 
-    public function __construct(ContactService $contactService)
+    public function __construct(RegContactMethod $regContactMethod)
     {
-        $this->contactService = $contactService;
+        $this->regContactMethod = $regContactMethod;
     }
 
     /**
@@ -69,9 +69,9 @@ class ContactBridge extends BaseBridge
         }
 
         try {
-            $response = $this->contactService->makeRegContactMethod()
-                                             ->withRequest($request)
-                                             ->send();
+            $response = $this->regContactMethod
+                ->withRequest($request)
+                ->send();
 
             if (!$response->isOk()) {
                 throw new CouldNotAddContactException(sprintf('通販Aceのコンタクト追加処理に失敗しました: %s', $response->getStatusCode()));

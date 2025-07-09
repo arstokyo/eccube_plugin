@@ -16,14 +16,18 @@ namespace Plugin\AceClient43\Bridge\Helper;
 use Eccube\Entity\Customer;
 use Eccube\Repository\Master\PrefRepository;
 use Eccube\Repository\Master\SexRepository;
-use Plugin\AceClient43\AceServices\Model\Request\Member\CheckMailAdress\CheckMailAdressRequestModel;
+use Plugin\AceClient43\AceServices\AceMethod\Member\CheckMailAdressMethod;
+use Plugin\AceClient43\AceServices\AceMethod\Member\GetMemberMcodeMethod;
+use Plugin\AceClient43\AceServices\AceMethod\Member\GetMemberMethod;
+use Plugin\AceClient43\AceServices\Model\Request\Member\CheckMailAdress\CheckMailAdressRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetMember as GetMemberRequest;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetMemberMcode as GetMemberMcodeRequest;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\CheckMailAdress\CheckMailAdressResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember as GetMemberResponse;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode as GetMemberMcodeResponse;
-use Plugin\AceClient43\AceServices\Service\MemberService;
+use Plugin\AceClient43\AceServices\Model\Response\Member\RegMember\RegMemberResponseModelInterface;
+use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
 
 /**
  * CustomerBridgeHelper - 顧客連携ブリッジの複雑なロジックをカプセル化するヘルパークラス
@@ -32,15 +36,28 @@ use Plugin\AceClient43\AceServices\Service\MemberService;
  */
 class CustomerBridgeHelper
 {
-    private MemberService $memberService;
+    use CreateRequestModelTrait;
+
+    private GetMemberMethod $getMemberMethod;
+
+    private GetMemberMcodeMethod $getMemberMcodeMethod;
+
+    private CheckMailAdressMethod $checkMailAdressMethod;
 
     private SexRepository $sexRepository;
 
     private PrefRepository $prefRepository;
 
-    public function __construct(MemberService $memberService, SexRepository $sexRepository, PrefRepository $prefRepository)
-    {
-        $this->memberService = $memberService;
+    public function __construct(
+        GetMemberMethod $getMemberMethod,
+        GetMemberMcodeMethod $getMemberMcodeMethod,
+        CheckMailAdressMethod $checkMailAdressMethod,
+        SexRepository $sexRepository,
+        PrefRepository $prefRepository,
+    ) {
+        $this->getMemberMethod = $getMemberMethod;
+        $this->getMemberMcodeMethod = $getMemberMcodeMethod;
+        $this->checkMailAdressMethod = $checkMailAdressMethod;
         $this->sexRepository = $sexRepository;
         $this->prefRepository = $prefRepository;
     }
@@ -55,7 +72,9 @@ class CustomerBridgeHelper
      */
     public function bindCustomerToRegMember(Customer $customer, string $syid): RegMember\RegMemberRequestModelInterface
     {
-        $jmember = (new RegMember\JmemberModel())
+        /** @var RegMember\JmemberModelInterface $jmemberModel */
+        $jmemberModel = $this->createRequestModel(RegMember\JmemberModelInterface::class);
+        $jmember = $jmemberModel
             ->setSimei(mb_convert_kana(sprintf('%s　%s', $customer->getname01(), $customer->getName02(), 'KVA')))
             ->setKana(mb_convert_kana(sprintf('%s　%s', $customer->getKana01(), $customer->getKana02(), 'KVA')))
             ->setZip($customer->getPostalCode())
@@ -78,9 +97,15 @@ class CustomerBridgeHelper
             $jmember->setCode($customer->getAceCustomerId());
         }
 
-        return (new RegMember\RegMemberRequestModel())
+        /** @var RegMember\RegMemberRequestModelInterface $request */
+        /** @var RegMember\MemberPrmModel $prmModel */
+        $request = $this->createRequestModel(RegMemberResponseModelInterface::class);
+        $prmModel = $this->createRequestModel(RegMember\MemberPrmModelInterface::class);
+        $prmModel->setJmember($jmember);
+
+        return $request
             ->setId($syid)
-            ->setPrm((new RegMember\MemberPrmModel())->setJmember($jmember))
+            ->setPrm($prmModel)
             ->setSessId(session_id());
     }
 
@@ -95,13 +120,16 @@ class CustomerBridgeHelper
      */
     public function getByEmailAndPassword(string $email, string $password, string $syid): ?GetMemberResponse\LoginMemberModelInterface
     {
-        $request = (new GetMemberRequest\GetMemberRequestModel())
+        /** @var GetMemberRequest\GetMemberRequestModelInterface $requestModel */
+        $requestModel = $this->createRequestModel(GetMemberRequest\GetMemberRequestModelInterface::class);
+
+        $request = (new $requestModel())
             ->setId($syid)
             ->setUserid($email)
             ->setPasswd($password);
 
         try {
-            $response = $this->memberService->makeGetMemberMethod()
+            $response = $this->getMemberMethod
                 ->withRequest($request)
                 ->send();
 
@@ -130,12 +158,15 @@ class CustomerBridgeHelper
      */
     public function getByAceCustomerId(string $aceCustomerId, string $syid): ?GetMemberMcodeResponse\LoginMemberModelInterface
     {
-        $request = (new GetMemberMcodeRequest\GetMemberMcodeRequestModel())
+        /** @var GetMemberMcodeRequest\GetMemberMcodeRequestModelInterface $requestModel */
+        $requestModel = $this->createRequestModel(GetMemberMcodeRequest\GetMemberMcodeRequestModelInterface::class);
+
+        $request = $requestModel
             ->setId($syid)
             ->setMcode($aceCustomerId);
 
         try {
-            $response = $this->memberService->makeGetMemberMcodeMethod()
+            $response = $this->getMemberMcodeMethod
                 ->withRequest($request)
                 ->send();
 
@@ -226,11 +257,13 @@ class CustomerBridgeHelper
     public function checkMailAddressInAce(string $email, string $syid): ?CheckMailAdressResponseModelInterface
     {
         try {
-            $request = (new CheckMailAdressRequestModel())
+            /** @var CheckMailAdressRequestModelInterface $requestModel */
+            $requestModel = $this->createRequestModel(CheckMailAdressRequestModelInterface::class);
+            $request = $requestModel
                 ->setId($syid)
                 ->setMailadress($email);
 
-            $response = $this->memberService->makeCheckMailAdressMethod()
+            $response = $this->checkMailAdressMethod
                 ->withRequest($request)
                 ->send();
 

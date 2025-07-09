@@ -17,10 +17,9 @@ use Doctrine\ORM\Exception\ORMException;
 use Eccube\Entity\Cart;
 use Eccube\Entity\CartItem;
 use Eccube\Entity\Customer;
-use Eccube\Entity\ProductClass;
+use Plugin\AceClient43\AceServices\AceMethod\Jyuden\AddCartMethod;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart as RequestAddCart;
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModelInterface;
-use Plugin\AceClient43\AceServices\Service\JyudenService;
 use Plugin\AceClient43\Entity\Config;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\OnCalculateFeeCartEvent;
@@ -28,6 +27,8 @@ use Plugin\AceClient43\Events\OnSetJyumeiModelEvent;
 use Plugin\AceClient43\Events\PostAddCartEvent;
 use Plugin\AceClient43\Events\PreAddCartEvent;
 use Plugin\AceClient43\Exception\CouldNotAddCartException;
+use Plugin\AceClient43\Exception\DataTypeMissMatchException;
+use Plugin\AceClient43\Exception\InvalidClassNameException;
 
 /**
  * 通販Aceのカート追加処理を行うブリッジクラス
@@ -36,11 +37,12 @@ use Plugin\AceClient43\Exception\CouldNotAddCartException;
  */
 class CartBridge extends BaseBridge
 {
-    private JyudenService $jyudenService;
+    private AddCartMethod $addCartMethod;
 
-    public function __construct(JyudenService $jyudenService)
-    {
-        $this->jyudenService = $jyudenService;
+    public function __construct(
+        AddCartMethod $addCartMethod,
+    ) {
+        $this->addCartMethod = $addCartMethod;
     }
 
     /**
@@ -72,9 +74,7 @@ class CartBridge extends BaseBridge
         }
 
         try {
-            $response = $this->jyudenService->makeAddCartMethod()
-                ->withRequest($request)
-                ->send();
+            $response = $this->addCartMethod->withRequest($request)->send();
 
             if (!$response->isOk()) {
                 throw new CouldNotAddCartException(sprintf('通販Aceのカート追加処理に失敗しました: %s', $response->getStatusCode()));
@@ -135,11 +135,9 @@ class CartBridge extends BaseBridge
      * @param bool $canFlush
      * @param array $options
      *
-     * @return RequestAddCart\AddCartRequestModel
-     *
-     * @throws \LogicException
+     * @return RequestAddCart\AddCartRequestModelInterface
      */
-    private function createRequest(Cart $cart, Config $config, bool $canFlush, array $options): RequestAddCart\AddCartRequestModel
+    private function createRequest(Cart $cart, Config $config, bool $canFlush, array $options): RequestAddCart\AddCartRequestModelInterface
     {
         /** @var Customer $customer */
         $customer = $cart->getCustomer();
@@ -148,12 +146,13 @@ class CartBridge extends BaseBridge
             throw new \LogicException('会員IDが設定されていません。');
         }
 
-        $member = (new RequestAddCart\MemberOrderModel())
-            ->setJmember(
-                (new RequestAddCart\JmemberModel())->setCode($customer->getAceCustomerId())
-            );
+        [$request, $memberOrderModel, $jmemberModel, $jyudenModel, $orderPrmModel, $detailModel] = $this->createModels();
 
-        $jyuden = (new RequestAddCart\JyudenModel())
+        $jmemberModel->setCode($customer->getAceCustomerId());
+        $member = $memberOrderModel
+            ->setJmember($jmemberModel);
+
+        $jyuden = $jyudenModel
             ->setTorikbn($cart->getAceTransactionId())
             ->useCampaign($cart->isAceOrderSupportEnabled())
             ->setPcode($cart->getAcePaymentId());
@@ -168,10 +167,11 @@ class CartBridge extends BaseBridge
         $jyumeis = [];
         /** @var CartItem $item */
         foreach ($cart->getCartItems() as $item) {
-            /** @var ProductClass $productClass */
             $productClass = $item->getProductClass();
 
-            $jyumei = (new RequestAddCart\JyumeiModel())
+            /** @var RequestAddCart\JyumeiModelInterface $jyumeiModel */
+            $jyumeiModel = $this->createSubModel(RequestAddCart\JyumeiModelInterface::class);
+            $jyumei = $jyumeiModel
                 ->setGcode($productClass->getAceProductId())
                 ->setSuu($item->getQuantity())
                 ->setTanka($item->getPrice())
@@ -194,17 +194,45 @@ class CartBridge extends BaseBridge
             $jyumeis[] = $jyumei;
         }
 
-        $prm = (new RequestAddCart\OrderPrmModel())
+        $prm = $orderPrmModel
             ->setMember($member)
             ->setJyuden($jyuden)
-            ->setDetail((new RequestAddCart\DetailModel())
+            ->setDetail($detailModel
                 ->setJyumei($jyumeis)
-            );
+            )->setOptions($options['_request_options'] ?? [])
+        ;
 
-        return (new RequestAddCart\AddCartRequestModel())
+        return $request
             ->setPrm($prm)
             ->setId($this->getSyid())
             ->setSessId($this->session->getId());
+    }
+
+    /**
+     * Create models for add cart request
+     *
+     * @return array [RequestAddCart\AddCartRequestModelInterface, RequestAddCart\MemberOrderModelInterface, RequestAddCart\JmemberModel, RequestAddCart\JyudenModelInterface, RequestAddCart\OrderPrmModelInterface, RequestAddCart\DetailModelInterface]
+     *
+     * @throws DataTypeMissMatchException
+     * @throws InvalidClassNameException
+     */
+    private function createModels(): array
+    {
+        $request = $this->createRequestModel(RequestAddCart\AddCartRequestModelInterface::class);
+        $memberOrderModel = $this->createSubModel(RequestAddCart\MemberOrderModelInterface::class);
+        $jmemberModel = $this->createSubModel(RequestAddCart\JmemberModel::class);
+        $jyudenModel = $this->createSubModel(RequestAddCart\JyudenModelInterface::class);
+        $orderPrmModel = $this->createSubModel(RequestAddCart\OrderPrmModelInterface::class);
+        $detailModel = $this->createSubModel(RequestAddCart\DetailModelInterface::class);
+
+        return [
+            $request,
+            $memberOrderModel,
+            $jmemberModel,
+            $jyudenModel,
+            $orderPrmModel,
+            $detailModel,
+        ];
     }
 
     /**

@@ -13,19 +13,25 @@
 
 namespace Plugin\AceClient43\Bridge;
 
+use Plugin\AceClient43\AceServices\AceMethod\Goods\GetGoodsMethod;
+use Plugin\AceClient43\AceServices\AceMethod\Goods\GetZaikoMethod;
 use Plugin\AceClient43\AceServices\Model\Request\Goods\GetGoods as RequestGetGoods;
 use Plugin\AceClient43\AceServices\Model\Request\Goods\GetZaiko as RequestGetZaiko;
 use Plugin\AceClient43\AceServices\Model\Response\Goods\GetGoods as ResponseGetGoods;
 use Plugin\AceClient43\AceServices\Model\Response\Goods\GetZaiko as ResponseGetZaiko;
-use Plugin\AceClient43\AceServices\Service\GoodsService;
 
 class ProductBridge extends BaseBridge
 {
-    private GoodsService $goodsService;
+    private GetGoodsMethod $getGoodsMethod;
 
-    public function __construct(GoodsService $goodsService)
-    {
-        $this->goodsService = $goodsService;
+    private GetZaikoMethod $getZaikoMethod;
+
+    public function __construct(
+        GetGoodsMethod $getGoodsMethod,
+        GetZaikoMethod $getZaikoMethod,
+    ) {
+        $this->getGoodsMethod = $getGoodsMethod;
+        $this->getZaikoMethod = $getZaikoMethod;
     }
 
     /**
@@ -42,13 +48,18 @@ class ProductBridge extends BaseBridge
     public function getAll(\DateTime $updatedAtFrom, \DateTime $updatedAtTo, array &$options = []): ?ResponseGetGoods\MasterModelInterface
     {
         $optionsApi = $options['_get_goods.options'];
-        $request = (new RequestGetGoods\GetGoodsRequestModel())
+
+        /** @var RequestGetGoods\GetGoodsRequestModelInterface $requestModel */
+        $requestModel = $this->createRequestModel(RequestGetGoods\GetGoodsRequestModelInterface::class);
+
+        $request = $requestModel
             ->setId($this->getSyid())
             ->setExecDateFrom($updatedAtFrom)
             ->setExecDateTo($updatedAtTo)
             ->setOptions($optionsApi);
+
         try {
-            $response = $this->goodsService->makeGetGoodsMethod()
+            $response = $this->getGoodsMethod
                 ->withRequest($request)
                 ->send();
 
@@ -83,13 +94,15 @@ class ProductBridge extends BaseBridge
      */
     public function getStock(string $aceProductId, string $warehouseId = '0000000', array &$options = []): int
     {
-        $request = (new RequestGetZaiko\GetZaikoRequestModel())
+        /** @var RequestGetZaiko\GetZaikoRequestModelInterface $requestModel */
+        $requestModel = $this->createRequestModel(RequestGetZaiko\GetZaikoRequestModelInterface::class);
+        $request = $requestModel
             ->setId($this->getSyid())
             ->setGdid($aceProductId)
             ->setSouko($warehouseId);
 
         try {
-            $response = $this->goodsService->makeGetZaikoMethod()
+            $response = $this->getZaikoMethod
                 ->withRequest($request)
                 ->send();
 

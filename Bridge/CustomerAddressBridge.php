@@ -15,11 +15,11 @@ namespace Plugin\AceClient43\Bridge;
 
 use Eccube\Entity\Customer;
 use Eccube\Entity\CustomerAddress;
+use Plugin\AceClient43\AceServices\AceMethod\Member\DeleteHaisoAdrsMethod;
+use Plugin\AceClient43\AceServices\AceMethod\Member\RegMemAdrMethod;
 use Plugin\AceClient43\AceServices\Model\Response\Member\DeleteHaisoAdrs\DeleteHaisoAdrsResponseModel;
 use Plugin\AceClient43\AceServices\Model\Response\Member\RegMemAdr\RegMemAdrResponseModelInterface;
-use Plugin\AceClient43\AceServices\Service\MemberService;
 use Plugin\AceClient43\Bridge\Helper\CustomerAddressBridgeHelper;
-use Plugin\AceClient43\Entity\CustomerTrait;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\PostCreateOrUpdateCustomerAddressEvent;
 use Plugin\AceClient43\Events\PreCreateOrUpdateCustomerAddressEvent;
@@ -33,14 +33,20 @@ use Plugin\AceClient43\Exception\CouldNotRemoveCustomerAddressException;
  */
 class CustomerAddressBridge extends BaseBridge
 {
-    private MemberService $memberService;
-
     private CustomerAddressBridgeHelper $helper;
 
-    public function __construct(MemberService $memberService, CustomerAddressBridgeHelper $helper)
-    {
-        $this->memberService = $memberService;
+    private RegMemAdrMethod $regMemAdrMethod;
+
+    private DeleteHaisoAdrsMethod $deleteHaisoAdrsMethod;
+
+    public function __construct(
+        RegMemAdrMethod $regMemAdrMethod,
+        DeleteHaisoAdrsMethod $deleteHaisoAdrsMethod,
+        CustomerAddressBridgeHelper $helper,
+    ) {
         $this->helper = $helper;
+        $this->regMemAdrMethod = $regMemAdrMethod;
+        $this->deleteHaisoAdrsMethod = $deleteHaisoAdrsMethod;
     }
 
     /**
@@ -82,9 +88,6 @@ class CustomerAddressBridge extends BaseBridge
      */
     public function createOrUpdate(CustomerAddress $address, bool $needFlush = true, array $options = []): bool
     {
-        /**
-         * @var CustomerTrait|Customer $customer
-         */
         $customer = $address->getCustomer();
         if (null === $customer->getAceCustomerId()) {
             $this->logger->error('通販Aceの住所登録に失敗しました: 顧客IDが設定されていません', ['customer' => $customer]);
@@ -99,7 +102,7 @@ class CustomerAddressBridge extends BaseBridge
         );
 
         try {
-            $response = $this->memberService->makeRegMemAdrMethod()
+            $response = $this->regMemAdrMethod
                 ->withRequest($request)
                 ->send();
 
@@ -156,7 +159,7 @@ class CustomerAddressBridge extends BaseBridge
         $request = $this->helper->createDeleteHaisoAdrsRequestModel($customer, $address, $this->getSyid());
 
         try {
-            $response = $this->memberService->makeDeleteHaisoAdrsMethod()
+            $response = $this->deleteHaisoAdrsMethod
                 ->withRequest($request)
                 ->send();
 

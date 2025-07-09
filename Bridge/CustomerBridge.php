@@ -14,13 +14,12 @@
 namespace Plugin\AceClient43\Bridge;
 
 use Doctrine\ORM\Exception\ORMException;
-use Doctrine\ORM\OptimisticLockException;
 use Eccube\Entity\Customer;
+use Plugin\AceClient43\AceServices\AceMethod\Member\RegMemberMethod;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode;
 use Plugin\AceClient43\AceServices\Model\Response\Member\RegMember\RegMemberResponseModelInterface;
-use Plugin\AceClient43\AceServices\Service\MemberService;
 use Plugin\AceClient43\Bridge\Helper\CustomerBridgeHelper;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\OnGetAndUpdateCustomerEvent;
@@ -34,16 +33,16 @@ use Plugin\AceClient43\Exception\CouldNotRegisterNewCustomerException;
  */
 class CustomerBridge extends BaseBridge
 {
-    private MemberService $memberService;
-
     private CustomerBridgeHelper $helper;
 
+    private RegMemberMethod $regMemberMethod;
+
     public function __construct(
-        MemberService $memberService,
+        RegMemberMethod $regMemberMethod,
         CustomerBridgeHelper $helper,
     ) {
-        $this->memberService = $memberService;
         $this->helper = $helper;
+        $this->regMemberMethod = $regMemberMethod;
     }
 
     /**
@@ -105,7 +104,7 @@ class CustomerBridge extends BaseBridge
         );
 
         try {
-            $response = $this->memberService->makeRegMemberMethod()
+            $response = $this->regMemberMethod
                 ->withRequest($regMemberRequest)
                 ->send();
 
@@ -185,7 +184,6 @@ class CustomerBridge extends BaseBridge
      * @return Customer 更新された顧客エンティティ
      *
      * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function getAndUpdateEntity(Customer $customer, bool $needFlush = true): Customer
     {

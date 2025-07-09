@@ -13,18 +13,19 @@
 
 namespace Plugin\AceClient43\Bridge;
 
+use Plugin\AceClient43\AceServices\AceMethod\Master\GetFreeCdWithNameMethod;
 use Plugin\AceClient43\AceServices\Model\Request\Master\GetFreeCdWithName as RequestGetFreeCdWithName;
 use Plugin\AceClient43\AceServices\Model\Response\Master\GetFreeCdWithName as ResponseGetFreeCdWithName;
-use Plugin\AceClient43\AceServices\Service\MasterService;
 use Plugin\AceClient43\Exception\MissingRequestParameterException;
 
 class MasterBridge extends BaseBridge
 {
-    private MasterService $masterService;
+    private GetFreeCdWithNameMethod $getFreeCdWithNameMethod;
 
-    public function __construct(MasterService $masterService)
-    {
-        $this->masterService = $masterService;
+    public function __construct(
+        GetFreeCdWithNameMethod $getFreeCdWithNameMethod,
+    ) {
+        $this->getFreeCdWithNameMethod = $getFreeCdWithNameMethod;
     }
 
     /**
@@ -39,12 +40,15 @@ class MasterBridge extends BaseBridge
      */
     public function getFreeCodeWithName(string $code): ?array
     {
-        $request = (new RequestGetFreeCdWithName\GetFreeCdWithNameRequestModel())
+        /** @var RequestGetFreeCdWithName\GetFreeCdWithNameRequestModelInterface $requestModel */
+        $requestModel = $this->createRequestModel(RequestGetFreeCdWithName\GetFreeCdWithNameRequestModelInterface::class);
+
+        $request = $requestModel
             ->setId($this->getSyid())
             ->setCode($code);
 
         try {
-            $response = $this->masterService->makeGetFreeCdWithNameMethod()
+            $response = $this->getFreeCdWithNameMethod
                 ->withRequest($request)
                 ->send();
 

@@ -20,13 +20,15 @@ use Eccube\Entity\Order;
 use Eccube\Entity\OrderItem;
 use Eccube\Entity\ProductClass;
 use Eccube\Entity\Shipping;
+use Plugin\AceClient43\AceServices\AceMethod\Jyuden\AddCartMethod;
+use Plugin\AceClient43\AceServices\AceMethod\Jyuden\DecisionCartMethod;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\AddCartRequestModel;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart as RequestAddCart;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\JyumeiModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\MemberOrderModel;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\DecisionCart\DecisionCartRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModelInterface;
-use Plugin\AceClient43\AceServices\Service\JyudenService;
+use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
 use Plugin\AceClient43\Entity\Config;
 use Plugin\AceClient43\Entity\Constants\AceTaxType;
 use Plugin\AceClient43\Entity\OrderTrait;
@@ -39,11 +41,18 @@ use Plugin\AceClient43\Entity\ProductClassTrait;
  */
 class OrderBridgeHelper
 {
-    private JyudenService $jyudenService;
+    use CreateRequestModelTrait;
 
-    public function __construct(JyudenService $jyudenService)
-    {
-        $this->jyudenService = $jyudenService;
+    private AddCartMethod $addCartMethod;
+
+    private DecisionCartMethod $decisionCartMethod;
+
+    public function __construct(
+        AddCartMethod $addCartMethod,
+        DecisionCartMethod $decisionCartMethod,
+    ) {
+        $this->addCartMethod = $addCartMethod;
+        $this->decisionCartMethod = $decisionCartMethod;
     }
 
     /**
@@ -132,7 +141,10 @@ class OrderBridgeHelper
                 ->setMail($order->getEmail())
             );
 
-        return (new AddCartRequestModel())
+        /** @var RequestAddCart\AddCartRequestModelInterface $requestModel */
+        $requestModel = $this->createRequestModel(RequestAddCart\AddCartRequestModelInterface::class);
+
+        return $requestModel
             ->setPrm($prm)
             ->setId($systemId)
             ->setSessId($sessionId);
@@ -248,7 +260,7 @@ class OrderBridgeHelper
             $jyuden->setNebiki($discount);
         }
 
-        if (!$config->isUseAceDeliveryFeeInstead() && $deliveryFree > 0) {
+        if (!$config->shouldUseAceDelivery() && $deliveryFree > 0) {
             $jyuden->setSouryou($deliveryFree);
         }
     }
@@ -277,7 +289,7 @@ class OrderBridgeHelper
      */
     public function executeAddCartMethod(AddCartRequestModel $request): AddCartResponseModelInterface
     {
-        $response = $this->jyudenService->makeAddCartMethod()
+        $response = $this->addCartMethod
             ->withRequest($request)
             ->send();
 
@@ -297,7 +309,7 @@ class OrderBridgeHelper
      */
     public function executeDecisionCartMethod(DecisionCartRequestModel $request)
     {
-        $response = $this->jyudenService->makeDecisionCartMethod()
+        $response = $this->decisionCartMethod
             ->withRequest($request)
             ->send();
 
