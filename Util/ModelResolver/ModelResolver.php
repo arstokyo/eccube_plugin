@@ -26,47 +26,44 @@ class ModelResolver
         ];
     }
 
-    public function findRequestModelByInterface(string $interface): ?string
+    public function findRequestModel(string $type): ?string
     {
-        $cacheKey = 'request:'.$interface;
+        $cacheKey = 'request:'.$type;
         if (isset($this->modelCache[$cacheKey])) {
             return $this->modelCache[$cacheKey];
         }
 
-        $modelClass = $this->findModelByNamespaceOptimized($interface, $this->requestSearchPaths, 'RequestModel');
+        $modelClass = $this->findModelByNamespaceOptimized($type, $this->requestSearchPaths, 'RequestModel');
         $this->modelCache[$cacheKey] = $modelClass;
 
         return $modelClass;
     }
 
-    public function findResponseModelByInterface(string $responseInterface): ?string
+    public function findResponseModel(string $type): ?string
     {
-        $cacheKey = 'response:'.$responseInterface;
+        $cacheKey = 'response:'.$type;
         if (isset($this->modelCache[$cacheKey])) {
             return $this->modelCache[$cacheKey];
         }
 
-        $modelClass = $this->findModelByNamespaceOptimized($responseInterface, $this->responseSearchPaths, 'ResponseModel');
+        $modelClass = $this->findModelByNamespaceOptimized($type, $this->responseSearchPaths, 'ResponseModel');
         $this->modelCache[$cacheKey] = $modelClass;
 
         return $modelClass;
     }
 
-    private function findModelByNamespaceOptimized(string $interface, array $searchPaths, string $modelSuffix): ?string
+    private function findModelByNamespaceOptimized(string $type, array $searchPaths, string $modelSuffix): ?string
     {
-        // インターフェースの名前空間から検索パスを特定
-        $namespacePath = $this->extractNamespacePath($interface);
+        $namespacePath = $this->extractNamespacePath($type);
 
         if ($namespacePath) {
-            // 名前空間ベースの最適化された検索
-            $modelClass = $this->findInSpecificNamespace($interface, $searchPaths, $namespacePath, $modelSuffix);
+            $modelClass = $this->findInSpecificNamespace($type, $searchPaths, $namespacePath, $modelSuffix);
             if ($modelClass) {
                 return $modelClass;
             }
         }
 
-        // フォールバック: 全体検索
-        return $this->scanForImplementation($interface, $searchPaths);
+        return $this->scanForImplementation($type, $searchPaths);
     }
 
     private function extractNamespacePath(string $interface): ?string
@@ -92,15 +89,17 @@ class ModelResolver
         return null;
     }
 
-    private function findInSpecificNamespace(string $interface, array $searchPaths, string $namespacePath, string $modelSuffix): ?string
+    private function findInSpecificNamespace(string $type, array $searchPaths, string $namespacePath, string $modelSuffix): ?string
     {
-        $interfaceName = basename(str_replace('\\', '/', $interface));
-        $modelName = str_replace('Interface', '', $interfaceName);
+        $isInterface = interface_exists($type);
+        $typeName = basename(str_replace('\\', '/', $type));
+        $modelName = $isInterface
+            ? str_replace('Interface', '', $typeName)
+            : $typeName;
 
-        // インターフェースと同じディレクトリでモデルクラスを検索
         foreach ($searchPaths as $searchPath) {
             $specificPath = $searchPath.'/'.$namespacePath;
-            $modelClass = $this->findModelInPath($modelName, $specificPath, $interface);
+            $modelClass = $this->findModelInPath($modelName, $specificPath, $type, $isInterface);
 
             if ($modelClass) {
                 return $modelClass;
@@ -110,7 +109,7 @@ class ModelResolver
         return null;
     }
 
-    private function findModelInPath(string $modelName, string $searchPath, string $interface): ?string
+    private function findModelInPath(string $modelName, string $searchPath, string $type, bool $isInterface): ?string
     {
         $basePath = dirname(__DIR__, 4).'/'.$searchPath;
 
@@ -123,8 +122,16 @@ class ModelResolver
         if (file_exists($modelFile)) {
             $className = $this->getClassNameFromFile($modelFile, $searchPath);
 
-            if ($className && class_exists($className) && is_a($className, $interface, true)) {
-                return $className;
+            if ($className && class_exists($className)) {
+                if ($isInterface) {
+                    if (is_a($className, $type, true)) {
+                        return $className;
+                    }
+                } else {
+                    if ($className === $type || is_subclass_of($className, $type)) {
+                        return $className;
+                    }
+                }
             }
         }
 

@@ -143,7 +143,7 @@ abstract class AceMethodAbstract implements AceMethodInterface
         try {
             $modelResolver = $this->assistant->getServiceRetriever()->getModelResolver();
 
-            return $modelResolver->findResponseModelByInterface($responseInterface);
+            return $modelResolver->findResponseModel($responseInterface);
         } catch (\Exception $e) {
             return null;
         }
