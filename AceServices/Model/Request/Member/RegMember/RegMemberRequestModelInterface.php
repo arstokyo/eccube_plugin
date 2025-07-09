@@ -22,16 +22,16 @@ interface RegMemberRequestModelInterface extends RequestModelInterface, NoCatego
     /**
      * Set オーダー情報
      *
-     * @param MemberPrmModel $prm
+     * @param MemberPrmModelInterface $prm
      *
      * @return self
      */
-    public function setPrm(MemberPrmModel $prm): self;
+    public function setPrm(MemberPrmModelInterface $prm): self;
 
     /**
      * Get オーダー情報
      *
-     * @return MemberPrmModel
+     * @return MemberPrmModelInterface
      */
     public function getPrm(): MemberPrmModelInterface;
 

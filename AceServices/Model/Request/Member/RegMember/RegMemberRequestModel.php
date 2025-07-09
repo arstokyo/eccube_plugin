@@ -38,7 +38,7 @@ class RegMemberRequestModel extends Request\RequestModelAbstract implements RegM
     /**
      * {@inheritDoc}
      */
-    public function setPrm(MemberPrmModel $prm): self
+    public function setPrm(MemberPrmModelInterface $prm): self
     {
         $this->prm = $prm;
 
