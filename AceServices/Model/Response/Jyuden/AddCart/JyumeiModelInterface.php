@@ -23,4 +23,23 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Zaiko;
  */
 interface JyumeiModelInterface extends Jyumei\JyumeiModelGroup2Interface, Jyumei\JyumeiModelGroup3Interface, Zaiko\HasIgnoreZaikoInterface, Zaiko\HasZaikoInterface
 {
+    public function setSupportSpid(string $supportSpid): void;
+
+    public function getSupportSpid(): array;
+
+    public function setSupportProvider(string $supportProvider): void;
+
+    public function getSupportProvider(): array;
+
+    public function setSupportSpidQty(string $supportSpidQty): void;
+
+    public function getSupportSpidQty(): array;
+
+    public function setSupportSummary(string $supportSummary): void;
+
+    public function getSupportSummary(): array;
+
+    public function setItemType(string $itemType): void;
+
+    public function getItemType(): string;
 }
