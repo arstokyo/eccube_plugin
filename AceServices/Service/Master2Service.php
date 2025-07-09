@@ -20,6 +20,8 @@ use Plugin\AceClient43\AceServices\AceServiceInterface;
 /**
  * Master2 Service
  *
+ * @deprecated Inject Method as a service instead of using this service. This class will be removed in the future.
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 class Master2Service extends AceServiceAbstract implements AceServiceInterface
@@ -29,20 +31,24 @@ class Master2Service extends AceServiceAbstract implements AceServiceInterface
     /**
      * Make GetHaisouDayMethod
      *
+     * @deprecated Inject GetHaisouDayMethod as service instead of using this method. This method will be removed in the future.
+     *
      * @return AceMethod\Master2\GetHaisouDayMethod
      */
     public function makeGetHaisouDayMethod(): AceMethod\Master2\GetHaisouDayMethod
     {
-        return new AceMethod\Master2\GetHaisouDayMethod($this->baseServiceName, $this->serviceRetriever);
+        return new AceMethod\Master2\GetHaisouDayMethod($this->serviceRetriever);
     }
 
     /**
      * Make GetHaisouDayTimeMethod
      *
+     * @deprecated Inject GetHaisouDayTimeMethod as service instead of using this method. This method will be removed in the future.
+     *
      * @return AceMethod\Master2\GetHaisouDayTimeMethod
      */
     public function makeGetHaisouDayTimeMethod(): AceMethod\Master2\GetHaisouDayTimeMethod
     {
-        return new AceMethod\Master2\GetHaisouDayTimeMethod($this->baseServiceName, $this->serviceRetriever);
+        return new AceMethod\Master2\GetHaisouDayTimeMethod($this->serviceRetriever);
     }
 }

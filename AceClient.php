@@ -20,6 +20,8 @@ use Plugin\AceClient43\Util\ServiceRetriever\ServiceRetrieverInterface;
 /**
  * Class for AceClient
  *
+ * @deprecated Inject Method as service instead of using this service. This class will be removed in the future.
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 class AceClient
@@ -40,6 +42,8 @@ class AceClient
     /**
      * Make AceJyudenService
      *
+     * @deprecated Inject method as service instead of using this method. This method will be removed in the future.
+     *
      * @return Service\JyudenService
      */
     public function makeJyudenService(): Service\JyudenService
@@ -49,6 +53,8 @@ class AceClient
 
     /**
      * Make MemberService
+     *
+     * @deprecated Inject method as service instead of using this method. This method will be removed in the future.
      *
      * @return Service\MemberService
      */
@@ -60,6 +66,8 @@ class AceClient
     /**
      * Make GoodsService
      *
+     * @deprecated Inject method as service instead of using this method. This method will be removed in the future.
+     *
      * @return Service\GoodsService
      */
     public function makeGoodsService(): Service\GoodsService
@@ -69,6 +77,8 @@ class AceClient
 
     /**
      * Make Master2Service
+     *
+     * @deprecated Inject method as service instead of using this method. This method will be removed in the future.
      *
      * @return Service\Master2Service
      */
@@ -80,6 +90,8 @@ class AceClient
     /**
      * Make Master Service
      *
+     * @deprecated Inject method as service instead of using this method. This method will be removed in the future.
+     *
      * @return Service\MasterService
      */
     public function makeMasterService(): Service\MasterService
@@ -90,6 +102,8 @@ class AceClient
     /**
      * Make Hanpu Service
      *
+     * @deprecated Inject method as service instead of using this method. This method will be removed in the future.
+     *
      * @return Service\HanpuService
      */
     public function makeHanpuService(): Service\HanpuService
@@ -99,6 +113,8 @@ class AceClient
 
     /**
      * Make Contact Service
+     *
+     * @deprecated Inject method as service instead of using this method. This method will be removed in the future.
      *
      * @return Service\ContactService
      */

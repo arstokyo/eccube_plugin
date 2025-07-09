@@ -20,6 +20,8 @@ use Plugin\AceClient43\AceServices\AceServiceInterface;
 /**
  * Contact Service
  *
+ * @deprecated Inject Method as service instead of using this service. This class will be removed in the future.
+ *
  * @author Ars-Phuoc <minh.phuoc.le@ar-system.co.jp>
  */
 class ContactService extends AceServiceAbstract implements AceServiceInterface
@@ -29,10 +31,12 @@ class ContactService extends AceServiceAbstract implements AceServiceInterface
     /**
      * Make RegContactMethod
      *
+     * @deprecated Inject RegContactMethod as service instead of using this method. This method will be removed in the future.
+     *
      * @return AceMethod\Contact\RegContactMethod
      */
     public function makeRegContactMethod(): AceMethod\Contact\RegContactMethod
     {
-        return new AceMethod\Contact\RegContactMethod($this->baseServiceName, $this->serviceRetriever);
+        return new AceMethod\Contact\RegContactMethod($this->serviceRetriever);
     }
 }
