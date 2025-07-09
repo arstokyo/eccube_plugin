@@ -17,8 +17,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Eccube\Common\EccubeConfig;
 use Plugin\AceClient43\Repository\ConfigRepository;
 use Plugin\AceClient43\Util\Logger\LoggerProvider;
+use Plugin\AceClient43\Util\ModelResolver\ModelResolver;
 use Plugin\AceClient43\Util\Serializer\AceConfigSerializer;
 use Plugin\AceClient43\Util\Serializer\SoapXmlSerializerProvider;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
@@ -76,4 +78,18 @@ interface ServiceRetrieverInterface
      * @return NormalizerInterface
      */
     public function getNormalizer(): NormalizerInterface;
+
+    /**
+     * Get Model Resolver
+     *
+     * @return ModelResolver
+     */
+    public function getModelResolver(): ModelResolver;
+
+    /**
+     * Get ParameterBag
+     *
+     * @return ParameterBag
+     */
+    public function getParameterBag(): ParameterBag;
 }

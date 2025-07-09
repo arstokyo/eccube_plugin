@@ -17,8 +17,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Eccube\Common\EccubeConfig;
 use Plugin\AceClient43\Repository\ConfigRepository;
 use Plugin\AceClient43\Util\Logger\LoggerProvider;
+use Plugin\AceClient43\Util\ModelResolver\ModelResolver;
 use Plugin\AceClient43\Util\Serializer\AceConfigSerializer;
 use Plugin\AceClient43\Util\Serializer\SoapXmlSerializerProvider;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
@@ -29,28 +32,41 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class ServiceRetriever implements ServiceRetrieverInterface
 {
     private ConfigRepositoryRetriever $configRepositoryRetriever;
+
     private EccubeConfigRetriever $eccubeConfigRetriever;
+
     private AceConfigSerializerRetriever $aceConfigSerializerRetriever;
+
     private ApiComponentRetriever $apiComponentRetriever;
 
+    private ModelResolver $modelResolver;
+
+    private ParameterBagInterface $parameterBag;
+
     /**
-     * ServiceRetriveHelper constructor.
+     * ServiceRetrieveHelper constructor.
      *
      * @param ConfigRepositoryRetriever $configRepositoryRetriever
      * @param EccubeConfigRetriever $eccubeConfigRetriever
      * @param AceConfigSerializerRetriever $aceConfigSerializerRetriever
      * @param ApiComponentRetriever $apiComponentRetriever
+     * @param ModelResolver $modelResolver
+     * @param ParameterBagInterface $parameterBag
      */
     public function __construct(
         ConfigRepositoryRetriever $configRepositoryRetriever,
         EccubeConfigRetriever $eccubeConfigRetriever,
         AceConfigSerializerRetriever $aceConfigSerializerRetriever,
         ApiComponentRetriever $apiComponentRetriever,
+        ModelResolver $modelResolver,
+        ParameterBagInterface $parameterBag,
     ) {
         $this->configRepositoryRetriever = $configRepositoryRetriever;
         $this->eccubeConfigRetriever = $eccubeConfigRetriever;
         $this->aceConfigSerializerRetriever = $aceConfigSerializerRetriever;
         $this->apiComponentRetriever = $apiComponentRetriever;
+        $this->modelResolver = $modelResolver;
+        $this->parameterBag = $parameterBag;
     }
 
     /**
@@ -107,5 +123,21 @@ class ServiceRetriever implements ServiceRetrieverInterface
     public function getNormalizer(): NormalizerInterface
     {
         return $this->apiComponentRetriever->getNormalizer();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getModelResolver(): ModelResolver
+    {
+        return $this->modelResolver;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getParameterBag(): ParameterBag
+    {
+        return $this->parameterBag;
     }
 }
