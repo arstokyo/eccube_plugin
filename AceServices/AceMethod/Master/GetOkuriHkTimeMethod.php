@@ -13,7 +13,6 @@
 
 namespace Plugin\AceClient43\AceServices\AceMethod\Master;
 
-use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response;
@@ -23,7 +22,7 @@ use Plugin\AceClient43\AceServices\Model\Response;
  *
  * @author Ars-PhuongAnh <a-bui@ar-system.co.jp>
  */
-class GetOkuriHkTimeMethod extends AceMethodAbstract
+class GetOkuriHkTimeMethod extends AbstractMasterMethod
 {
     /**
      * The end point of service.

@@ -13,7 +13,6 @@
 
 namespace Plugin\AceClient43\AceServices\AceMethod\Master;
 
-use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Response;
 
@@ -24,7 +23,7 @@ use Plugin\AceClient43\AceServices\Model\Response;
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class GetFreeCdWithNameMethod extends AceMethodAbstract
+class GetFreeCdWithNameMethod extends AbstractMasterMethod
 {
     /**
      * The End Point of Service.

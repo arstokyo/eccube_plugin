@@ -13,7 +13,6 @@
 
 namespace Plugin\AceClient43\AceServices\AceMethod\Master2;
 
-use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response;
@@ -23,7 +22,7 @@ use Plugin\AceClient43\AceServices\Model\Response;
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class GetHaisouDayMethod extends AceMethodAbstract
+class GetHaisouDayMethod extends AbstractMaster2Method
 {
     /**
      * The End Point of Service.nse

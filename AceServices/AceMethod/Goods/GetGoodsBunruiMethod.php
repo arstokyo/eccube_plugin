@@ -13,7 +13,6 @@
 
 namespace Plugin\AceClient43\AceServices\AceMethod\Goods;
 
-use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response;
@@ -24,7 +23,7 @@ use Plugin\AceClient43\AceServices\Model\Response\Goods\GetGoodsBunrui\GetGoodsB
  *
  * @author Ars-Phuoc <minh.phuoc.le@ar-system.co.jp>
  */
-class GetGoodsBunruiMethod extends AceMethodAbstract
+class GetGoodsBunruiMethod extends AbstractGoodsMethod
 {
     /**
      * The End Point of Service.

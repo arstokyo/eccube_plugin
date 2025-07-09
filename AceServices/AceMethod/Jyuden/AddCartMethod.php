@@ -13,7 +13,6 @@
 
 namespace Plugin\AceClient43\AceServices\AceMethod\Jyuden;
 
-use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response;
@@ -24,7 +23,7 @@ use Plugin\AceClient43\Exception\MissingRequestParameterException;
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class AddCartMethod extends AceMethodAbstract
+class AddCartMethod extends AbstractJyudenMethod
 {
     /**
      * The End Point of Service.

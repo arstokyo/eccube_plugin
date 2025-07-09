@@ -13,12 +13,11 @@
 
 namespace Plugin\AceClient43\AceServices\AceMethod\Member;
 
-use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response;
 
-class GetHaisoAdrsMethod extends AceMethodAbstract
+class GetHaisoAdrsMethod extends AbstractMemberMethod
 {
     /**
      * The End Point of Service.

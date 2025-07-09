@@ -37,24 +37,11 @@ abstract class AceMethodAbstract implements AceMethodInterface
     /**
      * AceMethodAbstract Constructor
      *
-     * @param string $baseServiceName
      * @param ServiceRetrieverInterface $serviceRetriever
      */
-    public function __construct(string $baseServiceName, ServiceRetrieverInterface $serviceRetriever)
+    public function __construct(ServiceRetrieverInterface $serviceRetriever)
     {
-        $this->initializeAssistant($baseServiceName, $serviceRetriever);
-    }
-
-    /**
-     * Initialize Assistant
-     *
-     * @param string $baseServiceName
-     * @param ServiceRetrieverInterface $serviceRetriever
-     *
-     * @return void
-     */
-    public function initializeAssistant(string $baseServiceName, ServiceRetrieverInterface $serviceRetriever): void
-    {
+        $baseServiceName = $this->getBaseServiceName();
         $this->assistant = new AceMethodAssistant(\get_class($this), self::buildEndPoint($baseServiceName), $serviceRetriever);
     }
 
@@ -110,6 +97,8 @@ abstract class AceMethodAbstract implements AceMethodInterface
     abstract protected function getRequestInterface(): string;
 
     abstract protected function getResponseInterface(): string;
+
+    abstract protected function getBaseServiceName(): string;
 
     /**
      * @throws DataTypeMissMatchException

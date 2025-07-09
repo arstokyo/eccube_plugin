@@ -13,7 +13,6 @@
 
 namespace Plugin\AceClient43\AceServices\AceMethod\Member;
 
-use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response;
@@ -24,7 +23,7 @@ use Plugin\AceClient43\AceServices\Model\Response\Member\GetSbpsCustId\GetSbpsCu
  *
  * @author Ars-Phuoc <minh.phuoc.le@ar-system.co.jp>
  */
-class GetSbpsCustIdMethod extends AceMethodAbstract
+class GetSbpsCustIdMethod extends AbstractMemberMethod
 {
     /**
      * The End Point of Service.

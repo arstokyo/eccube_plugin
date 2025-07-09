@@ -13,7 +13,6 @@
 
 namespace Plugin\AceClient43\AceServices\AceMethod\Member;
 
-use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response;
@@ -23,7 +22,7 @@ use Plugin\AceClient43\AceServices\Model\Response;
  *
  * @author kmorino
  */
-class DeleteHaisoAdrsMethod extends AceMethodAbstract
+class DeleteHaisoAdrsMethod extends AbstractMemberMethod
 {
     /**
      * The End Point of Service.
