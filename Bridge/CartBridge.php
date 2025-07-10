@@ -16,10 +16,12 @@ namespace Plugin\AceClient43\Bridge;
 use Doctrine\ORM\Exception\ORMException;
 use Eccube\Entity\Cart;
 use Eccube\Entity\CartItem;
+use Eccube\Service\CartService;
 use Plugin\AceClient43\AceServices\AceMethod\Jyuden\AddCartMethod;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart as RequestAddCart;
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModelInterface;
 use Plugin\AceClient43\Entity\Config;
+use Plugin\AceClient43\Events\AddCartPreCreateRequestEvent;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\OnCalculateFeeCartEvent;
 use Plugin\AceClient43\Events\OnSetJyumeiModelEvent;
@@ -41,27 +43,22 @@ class CartBridge extends BaseBridge
 
     private AddCartHelper $addCartHelper;
 
+    private CartService $cartService;
+
     public function __construct(
         AddCartMethod $addCartMethod,
         AddCartHelper $addCartHelper,
+        CartService $cartService,
     ) {
         $this->addCartMethod = $addCartMethod;
         $this->addCartHelper = $addCartHelper;
+        $this->cartService = $cartService;
     }
 
     /**
      * カートを追加
-     *
-     * @param Cart $cart
-     * @param bool $canFlush
-     * @param array $options
-     *
-     * @return void
-     *
-     * @throws \LogicException
-     * @throws CouldNotAddCartException
      */
-    public function add(Cart $cart, bool $canFlush = false, array $options = []): void
+    public function add(Cart $cart, bool $canFlush = false, array &$options = []): void
     {
         $options = array_merge([
             '_trigger' => CartBridge::class,
@@ -69,7 +66,25 @@ class CartBridge extends BaseBridge
         ], $options);
 
         $config = $this->config;
-        $request = $this->createRequest($cart, $config, $canFlush, $options);
+
+        $cartItems = $cart->getCartItems()->toArray();
+        if ($this->eventDispatcher->hasListeners(Events::ADD_CART_PRE_CREATE_REQUEST)) {
+            $preCreateEvent = new AddCartPreCreateRequestEvent($cart, $config, $options);
+            $preCreateEvent->setCartService($this->cartService);
+            $this->eventDispatcher->dispatch($preCreateEvent, Events::ADD_CART_PRE_CREATE_REQUEST);
+
+            $options = $preCreateEvent->options;
+
+            if ($preCreateEvent->shouldSkip) {
+                $this->logger->warning('通販Aceのカート追加処理をスキップしました。');
+
+                return;
+            }
+
+            $cartItems = $preCreateEvent->getFilteredCartItems();
+        }
+
+        $request = $this->createRequest($cart, $config, $canFlush, $options, $cartItems);
 
         if ($this->eventDispatcher->hasListeners(Events::PRE_ADD_CART)) {
             $this->eventDispatcher->dispatch(
@@ -139,15 +154,8 @@ class CartBridge extends BaseBridge
 
     /**
      * Create request for add cart
-     *
-     * @param Cart $cart
-     * @param Config $config
-     * @param bool $canFlush
-     * @param array $options
-     *
-     * @return RequestAddCart\AddCartRequestModelInterface
      */
-    private function createRequest(Cart $cart, Config $config, bool $canFlush, array $options): RequestAddCart\AddCartRequestModelInterface
+    private function createRequest(Cart $cart, Config $config, bool $canFlush, array $options, ?array $cartItems = null): RequestAddCart\AddCartRequestModelInterface
     {
         $customer = $cart->getCustomer();
         if (null === $customer->getAceCustomerId()) {
@@ -158,8 +166,7 @@ class CartBridge extends BaseBridge
         [$request, $memberOrderModel, $jmemberModel, $jyudenModel, $orderPrmModel, $detailModel] = $this->createModels();
 
         $jmemberModel->setCode($customer->getAceCustomerId());
-        $member = $memberOrderModel
-            ->setJmember($jmemberModel);
+        $member = $memberOrderModel->setJmember($jmemberModel);
 
         $jyuden = $jyudenModel
             ->setTorikbn($cart->getAceTransactionId())
@@ -170,24 +177,28 @@ class CartBridge extends BaseBridge
             $jyuden->setJcode($config->getOrderRouteId());
         }
 
+        // Use provided cart items or get them from cart
+        if ($cartItems === null) {
+            $cartItems = $cart->getCartItems()->toArray();
+        }
+
         $hasEventSubscribed = $this->eventDispatcher->hasListeners(Events::ON_SET_JYUMEI_MODEL);
         $event = null;
-
         $jyumeis = [];
+
         /** @var CartItem $item */
-        foreach ($cart->getCartItems() as $item) {
+        foreach ($cartItems as $item) {
             $productClass = $item->getProductClass();
 
             /** @var RequestAddCart\JyumeiModelInterface $jyumeiModel */
-            $jyumeiModel = $this->createSubModel(RequestAddCart\JyumeiModelInterface::class);
-            $jyumei = $jyumeiModel
+            $jyumei = $this->createSubModel(RequestAddCart\JyumeiModelInterface::class);
+            $jyumei = $jyumei
                 ->setGcode($productClass->getAceProductId())
                 ->setSuu($item->getQuantity())
                 ->setTanka($item->getPrice())
                 ->setTaxkbn($item->getAceTaxType())
                 ->setRitu($item->getAceMarkupRate());
 
-            // サブスクライバーがいる場合はON_SET_JYUMEI_MODELイベントをチェックして発行
             if ($hasEventSubscribed) {
                 if (null === $event) {
                     $event = new OnSetJyumeiModelEvent($jyumei, $item, $options);
@@ -206,10 +217,8 @@ class CartBridge extends BaseBridge
         $prm = $orderPrmModel
             ->setMember($member)
             ->setJyuden($jyuden)
-            ->setDetail($detailModel
-                ->setJyumei($jyumeis)
-            )->setOptions($options['_request_options'] ?? [])
-        ;
+            ->setDetail($detailModel->setJyumei($jyumeis))
+            ->setOptions($options['_request_options'] ?? []);
 
         return $request
             ->setPrm($prm)
