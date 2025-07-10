@@ -15,6 +15,7 @@ namespace Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Jyudens\Jyumei;
 use Plugin\AceClient43\AceServices\Model\Dependency\Zaiko;
+use Plugin\AceClient43\Entity\Constants\AceProductType;
 
 /**
  * Model for Jyumei
@@ -27,6 +28,12 @@ class JyumeiModel extends Jyumei\JyumeiModelGroup2 implements JyumeiModelInterfa
     use Zaiko\ZaikoTrait;
     use Zaiko\IgnoreZaikoTrait;
 
+    /** @var string 受注サポートより振られた商品 */
+    public const ITEM_TYPE_SUPPORT = 'product_support';
+
+    /** @var string 受注サポートより振られた商品ではない */
+    public const ITEM_TYPE_NORMAL = 'normal';
+
     private $supportSpid = [];
 
     private $supportProvider = [];
@@ -37,26 +44,41 @@ class JyumeiModel extends Jyumei\JyumeiModelGroup2 implements JyumeiModelInterfa
 
     private $itemType = '';
 
+    /**
+     * {@inheritdoc}
+     */
     public function setSupportSpid(string $supportSpid): void
     {
         $this->supportSpid = $supportSpid === '' ? [] : explode(',', $supportSpid);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getSupportSpid(): array
     {
         return $this->supportSpid;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setSupportProvider(string $supportProvider): void
     {
         $this->supportProvider = $supportProvider === '' ? [] : explode(',', $supportProvider);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getSupportProvider(): array
     {
         return $this->supportProvider;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setSupportSpidQty(string $supportSpidQty): void
     {
         $result = [];
@@ -75,11 +97,17 @@ class JyumeiModel extends Jyumei\JyumeiModelGroup2 implements JyumeiModelInterfa
         $this->supportSpidQty = $result;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getSupportSpidQty(): array
     {
         return $this->supportSpidQty;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setSupportSummary(string $supportSummary): void
     {
         $result = [];
@@ -109,18 +137,67 @@ class JyumeiModel extends Jyumei\JyumeiModelGroup2 implements JyumeiModelInterfa
         $this->supportSummary = $result;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getSupportSummary(): array
     {
         return $this->supportSummary;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setItemType(string $itemType): void
     {
         $this->itemType = $itemType;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getItemType(): string
     {
         return $this->itemType;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isPresent(): bool
+    {
+        return $this->getItemType() === self::ITEM_TYPE_SUPPORT && $this->getGkbn() === AceProductType::PRODUCT;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isProduct(): bool
+    {
+        return $this->getGkbn() === AceProductType::PRODUCT;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isDeliveryFee(): bool
+    {
+        return $this->getGkbn() === AceProductType::DELIVERY_FEE;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isCharge(): bool
+    {
+        return $this->getGkbn() === AceProductType::CHARGE_FEE;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isDiscount(): bool
+    {
+        return $this->getGkbn() === AceProductType::DISCOUNT;
     }
 }
