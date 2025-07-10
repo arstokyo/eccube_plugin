@@ -82,8 +82,9 @@ class AddCartHelper
             if (!in_array($ProductClass->getAceProductId(), $foundProductCodes, true)) {
                 $anySync = true;
                 $notFoundItems[] = $cartItem;
+                $removeOptions['cart_item_data'] = $cartItem;
 
-                $this->cartService->removeProduct($ProductClass);
+                $this->cartService->removeProduct($ProductClass, $removeOptions);
             }
         }
 
