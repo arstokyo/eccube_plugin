@@ -16,7 +16,6 @@ namespace Plugin\AceClient43\Bridge;
 use Doctrine\ORM\Exception\ORMException;
 use Eccube\Entity\Cart;
 use Eccube\Entity\CartItem;
-use Eccube\Entity\Customer;
 use Plugin\AceClient43\AceServices\AceMethod\Jyuden\AddCartMethod;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart as RequestAddCart;
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModelInterface;
@@ -29,6 +28,7 @@ use Plugin\AceClient43\Events\PreAddCartEvent;
 use Plugin\AceClient43\Exception\CouldNotAddCartException;
 use Plugin\AceClient43\Exception\DataTypeMissMatchException;
 use Plugin\AceClient43\Exception\InvalidClassNameException;
+use Plugin\AceClient43\Service\AddCartHelper;
 
 /**
  * 通販Aceのカート追加処理を行うブリッジクラス
@@ -39,10 +39,14 @@ class CartBridge extends BaseBridge
 {
     private AddCartMethod $addCartMethod;
 
+    private AddCartHelper $addCartHelper;
+
     public function __construct(
         AddCartMethod $addCartMethod,
+        AddCartHelper $addCartHelper,
     ) {
         $this->addCartMethod = $addCartMethod;
+        $this->addCartHelper = $addCartHelper;
     }
 
     /**
@@ -61,6 +65,7 @@ class CartBridge extends BaseBridge
     {
         $options = array_merge([
             '_trigger' => CartBridge::class,
+            'should_sync_cart' => true,
         ], $options);
 
         $config = $this->config;
@@ -106,15 +111,20 @@ class CartBridge extends BaseBridge
                 }
             }
 
+            if ($needFlush) {
+                $this->em->flush($cart);
+            }
+
+            // 通販Aceのレスポンスをカートに同期
+            if ($options['should_sync_cart']) {
+                $this->addCartHelper->syncCart($cart, $responseObject->getOrder(), $options) || $needFlush;
+            }
+
             if ($this->eventDispatcher->hasListeners(Events::POST_ADD_CART)) {
                 $this->eventDispatcher->dispatch(
                     new PostAddCartEvent($responseObject, $cart, $options, $config),
                     Events::POST_ADD_CART
                 );
-            }
-
-            if ($needFlush) {
-                $this->em->flush($cart);
             }
         } catch (\Throwable $e) {
             if ($e instanceof CouldNotAddCartException) {
@@ -139,7 +149,6 @@ class CartBridge extends BaseBridge
      */
     private function createRequest(Cart $cart, Config $config, bool $canFlush, array $options): RequestAddCart\AddCartRequestModelInterface
     {
-        /** @var Customer $customer */
         $customer = $cart->getCustomer();
         if (null === $customer->getAceCustomerId()) {
             $this->logger->error('会員IDが設定されていません。', ['customer' => $customer]);
