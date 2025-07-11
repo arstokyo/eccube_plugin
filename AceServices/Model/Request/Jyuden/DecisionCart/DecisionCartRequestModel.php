@@ -22,7 +22,7 @@ use Plugin\AceClient43\Exception\MissingRequestParameterException;
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class DecisionCartRequestModel extends RequestModelAbstract
+class DecisionCartRequestModel extends RequestModelAbstract implements DecisionCartRequestModelInterface
 {
     use NoCategory\SessIdTrait;
 
