@@ -22,12 +22,32 @@ use Plugin\AceClient43\Exception\MissingRequestParameterException;
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class DecisionCartRequestModel extends RequestModelAbstract implements DecisionCartRequestModelInterface
+class DecisionCartRequestModel extends RequestModelAbstract
 {
-    use NoCategory\IdTrait;
     use NoCategory\SessIdTrait;
 
+    /** @var IdPrmModelInterface|null */
+    private ?IdPrmModelInterface $idPrm = null;
+
     public const XML_NODE_NAME = 'decisionCart';
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getIdPrm(): IdPrmModelInterface
+    {
+        return $this->idPrm;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setIdPrm(IdPrmModelInterface $idPrm): self
+    {
+        $this->idPrm = $idPrm;
+
+        return $this;
+    }
 
     /**
      * {@inheritDoc}
@@ -42,8 +62,8 @@ class DecisionCartRequestModel extends RequestModelAbstract implements DecisionC
      */
     public function ensureParameterNotMissing(): void
     {
-        if (empty($this->id)) {
-            throw new MissingRequestParameterException($this->compilePropertyName('id'));
+        if (empty($this->idPrm)) {
+            throw new MissingRequestParameterException($this->compilePropertyName('idPrm'));
         }
         if (empty($this->sessId)) {
             throw new MissingRequestParameterException($this->compilePropertyName('sessId'));
