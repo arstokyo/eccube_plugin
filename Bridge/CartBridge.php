@@ -132,7 +132,7 @@ class CartBridge extends BaseBridge
 
             // 通販Aceのレスポンスをカートに同期
             if ($options['should_sync_cart']) {
-                $this->addCartHelper->syncCart($cart, $responseObject->getOrder(), $options) || $needFlush;
+                $this->addCartHelper->syncCart($cart, $responseObject->getOrder(), $options);
             }
 
             if ($this->eventDispatcher->hasListeners(Events::POST_ADD_CART)) {
