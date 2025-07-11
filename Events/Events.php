@@ -48,4 +48,5 @@ class Events
     public const POST_IMPORT_PRODUCT = 'ace_client.post_import_product';
     public const PRE_ADD_CONTACT = 'ace_client.pre_add_contact';
     public const CART_CONTROLLER_SERVICE_PRE_ADD_CART = 'ace_client.cart_controller_service.pre_add_cart';
+    public const ADD_CART_PRE_CREATE_REQUEST = 'ace_client.add_cart.pre_create_request';
 }
