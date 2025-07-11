@@ -28,6 +28,7 @@ use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\JyumeiModelInter
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\MemberOrderModel;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\DecisionCart;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\DecisionCart\DecisionCartRequestModel;
+use Plugin\AceClient43\AceServices\Model\Request\Jyuden\DecisionCart\DecisionCartRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModelInterface;
 use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
 use Plugin\AceClient43\Entity\Config;
@@ -276,15 +277,20 @@ class OrderBridgeHelper
      */
     public function createDecisionCartRequest(string $sessionId, string $systemId, ?array $returnJdKubun = null, ?array $returnJmKubun = null): DecisionCartRequestModel
     {
-        return (new DecisionCartRequestModel())
-            ->setIdPrm((new DecisionCart\IdPrmModel())
-                ->setSyid($systemId)
-                ->setOptions((new DecisionCart\OptionsModel())
-                    ->setReturnJdKubun($returnJdKubun)
-                    ->setReturnJmKubun($returnJmKubun)
-                )
-            )
-            ->setSessId($sessionId);
+        $optionsModel = $this->createSubModel(DecisionCart\OptionsModelInterface::class);
+        $optionsModel->setReturnJdKubun($returnJdKubun)
+                     ->setReturnJmKubun($returnJmKubun);
+
+        $idPrmModel = $this->createSubModel(DecisionCart\IdPrmModelInterface::class);
+        $idPrmModel->setSyid($systemId)
+                   ->setOptions($optionsModel);
+
+        /** @var DecisionCartRequestModelInterface $requestModel */
+        $requestModel = $this->createRequestModel(DecisionCartRequestModelInterface::class);
+        $requestModel->setIdPrm($idPrmModel)
+                     ->setSessId($sessionId);
+
+        return $requestModel;
     }
 
     /**
