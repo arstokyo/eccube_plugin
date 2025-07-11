@@ -7,10 +7,13 @@ use Plugin\AceClient43\Bridge\CartBridge;
 use Plugin\AceClient43\Events\CartControllerServicePreAddCart;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Exception\CouldNotAddCartException;
+use Plugin\AceClient43\Traits\GetUserTrait;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class CartControllerService
 {
+    use GetUserTrait;
+
     private CartBridge $cartBridge;
 
     private CartService $cartService;
@@ -34,6 +37,11 @@ class CartControllerService
      */
     public function addCart(): void
     {
+        // 非会員の場合は処理を中止
+        if (!$this->isUserAuthenticated()) {
+            return;
+        }
+
         log_info('[ACECLIENT-CART_CONTROLLER_SERVICE] 通販Aceのカートに商品を追加します。');
 
         $Carts = $this->cartService->getCarts();
