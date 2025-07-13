@@ -16,6 +16,7 @@ namespace Plugin\AceClient43\Util\Denormalizer;
 use Plugin\AceClient43\AceServices\Model\Response\AsListDenormalizableInterface;
 use Plugin\AceClient43\Exception\DataTypeMissMatchException;
 use Plugin\AceClient43\Exception\NotDeserializableException;
+use Plugin\AceClient43\Util\ModelResolver\ModelResolver;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
@@ -31,6 +32,14 @@ use Symfony\Component\Serializer\SerializerInterface;
 class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareInterface, DenormalizerInterface
 {
     use DenormalizerAwareTrait;
+
+    private ModelResolver $modelResolver;
+
+    public function __construct(
+        ModelResolver $modelResolver,
+    ) {
+        $this->modelResolver = $modelResolver;
+    }
 
     private array $cachePath = [];
 
@@ -50,6 +59,17 @@ class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareI
 
         $this->cachePath[] = $context['deserialization_path'];
         $asListProperty = $type::fetchAsListProperty();
+
+        foreach ($asListProperty as $key => $value) {
+            if (strpos($value, 'Customize') === 0) {
+                continue;
+            }
+
+            if (!\is_string($value) || !\class_exists($value)) {
+                throw new DataTypeMissMatchException(sprintf('AsListDenormalizer Error: Expected class name for property "%s" in type "%s".', $key, $type));
+            }
+            $asListProperty[$key] = $this->modelResolver->findResponseModel($value);
+        }
 
         try {
             foreach ($data as $key => $value) {
