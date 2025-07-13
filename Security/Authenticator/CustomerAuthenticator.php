@@ -15,7 +15,7 @@ namespace Plugin\AceClient43\Security\Authenticator;
 
 use Eccube\Repository\CustomerRepository;
 use Plugin\AceClient43\Bridge\CustomerBridge;
-use Plugin\AceClient43\Repository\ConfigRepository;
+use Plugin\AceClient43\Service\AceConfigService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,23 +41,23 @@ class CustomerAuthenticator extends AbstractAuthenticator implements Authenticat
 {
     public const RESET_PASSWORD_CUSTOMER = 'ace_client.reset_password_customer';
 
-    private FormLoginAuthenticator $innerAuthenticator;
+    protected FormLoginAuthenticator $innerAuthenticator;
 
-    private ConfigRepository $configRepository;
+    protected AceConfigService $configService;
 
     private CustomerRepository $customerRepository;
 
-    private CustomerBridge $customerBridge;
+    protected CustomerBridge $customerBridge;
 
-    private LoggerInterface $logger;
+    protected LoggerInterface $logger;
 
-    private RouterInterface $router;
+    protected RouterInterface $router;
 
-    public function __construct(FormLoginAuthenticator $innerAuthenticator, RouterInterface $router, ConfigRepository $configRepository, CustomerRepository $customerRepository, CustomerBridge $customerBridge, LoggerInterface $logger)
+    public function __construct(FormLoginAuthenticator $innerAuthenticator, RouterInterface $router, AceConfigService $configService, CustomerRepository $customerRepository, CustomerBridge $customerBridge, LoggerInterface $logger)
     {
         $this->innerAuthenticator = $innerAuthenticator;
         $this->router = $router;
-        $this->configRepository = $configRepository;
+        $this->configService = $configService;
         $this->customerRepository = $customerRepository;
         $this->customerBridge = $customerBridge;
         $this->logger = $logger;
@@ -71,7 +71,7 @@ class CustomerAuthenticator extends AbstractAuthenticator implements Authenticat
     public function authenticate(Request $request): Passport
     {
         $email = $request->get('login_email') ?: $request->get('email') ?: $request->get('username');
-        $aceConfig = $this->configRepository->get();
+        $aceConfig = $this->configService->getConfig();
         $customer = $this->customerRepository->findOneBy(['email' => $email]);
 
         try {
@@ -103,7 +103,7 @@ class CustomerAuthenticator extends AbstractAuthenticator implements Authenticat
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         if ($exception instanceof UserNotFoundIsExistingOnAce) {
-            $aceConfig = $this->configRepository->get();
+            $aceConfig = $this->configService->getConfig();
             $forGotPath = $aceConfig->hasForgotCustomerPath() ? $aceConfig->getForgotPath() : 'forgot';
 
             return new RedirectResponse($this->router->generate($forGotPath));

@@ -42,7 +42,6 @@ services:
         arguments:
             $innerAuthenticator: '@security.authenticator.form_login.customer'
             $router: '@router'
-            $configRepository: '@Plugin\AceClient43\Repository\ConfigRepository'
             $customerRepository: '@Eccube\Repository\CustomerRepository'
             $customerBridge: '@Plugin\AceClient43\Bridge\CustomerBridge'
             $logger: '@monolog.logger.front'

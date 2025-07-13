@@ -15,7 +15,7 @@ namespace Plugin\AceClient43\Util\ServiceRetriever;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Eccube\Common\EccubeConfig;
-use Plugin\AceClient43\Repository\ConfigRepository;
+use Plugin\AceClient43\Service\AceConfigService;
 use Plugin\AceClient43\Util\Logger\LoggerProvider;
 use Plugin\AceClient43\Util\ModelResolver\ModelResolver;
 use Plugin\AceClient43\Util\Serializer\AceConfigSerializer;
@@ -30,13 +30,6 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 interface ServiceRetrieverInterface
 {
-    /**
-     * Get the config repository.
-     *
-     * @return ConfigRepository
-     */
-    public function getConfigRepository(): ConfigRepository;
-
     /**
      * Get the entity manager.
      *
@@ -92,4 +85,6 @@ interface ServiceRetrieverInterface
      * @return ParameterBag
      */
     public function getParameterBag(): ParameterBag;
+
+    public function getConfigService(): AceConfigService;
 }

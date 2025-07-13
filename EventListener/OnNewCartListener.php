@@ -15,19 +15,16 @@ namespace Plugin\AceClient43\EventListener;
 
 use Plugin\AceClient43\Events\EccubeEvents\Events;
 use Plugin\AceClient43\Events\EccubeEvents\OnNewCartEvent;
-use Plugin\AceClient43\Repository\ConfigRepository;
+use Plugin\AceClient43\Service\AceConfigService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class OnNewCartListener implements EventSubscriberInterface
 {
-    /**
-     * @var ConfigRepository
-     */
-    private ConfigRepository $configRepository;
+    private AceConfigService $aceConfigService;
 
-    public function __construct(ConfigRepository $configRepository)
+    public function __construct(AceConfigService $aceConfigService)
     {
-        $this->configRepository = $configRepository;
+        $this->aceConfigService = $aceConfigService;
     }
 
     public static function getSubscribedEvents()
@@ -40,10 +37,9 @@ class OnNewCartListener implements EventSubscriberInterface
     public function onNewCart(OnNewCartEvent $event)
     {
         $cart = $event->getCart();
-        $config = $this->configRepository->get();
 
-        $cart->setAcePaymentId($config->getDefaultPaymentId())
-            ->setAceTransactionId($config->getDefaultTransactionType())
-            ->setEnableAceOrderSupport($config->isOrderSupportEnabled());
+        $cart->setAcePaymentId($this->aceConfigService->getDefaultPaymentId())
+            ->setAceTransactionId($this->aceConfigService->getDefaultTransactionType())
+            ->setEnableAceOrderSupport($this->aceConfigService->isOrderSupportEnabled());
     }
 }

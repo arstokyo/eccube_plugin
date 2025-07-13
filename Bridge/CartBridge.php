@@ -39,11 +39,11 @@ use Plugin\AceClient43\Service\AddCartHelper;
  */
 class CartBridge extends BaseBridge
 {
-    private AddCartMethod $addCartMethod;
+    protected AddCartMethod $addCartMethod;
 
-    private AddCartHelper $addCartHelper;
+    protected AddCartHelper $addCartHelper;
 
-    private CartService $cartService;
+    protected CartService $cartService;
 
     public function __construct(
         AddCartMethod $addCartMethod,

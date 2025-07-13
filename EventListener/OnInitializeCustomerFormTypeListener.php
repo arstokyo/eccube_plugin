@@ -15,7 +15,7 @@ namespace Plugin\AceClient43\EventListener;
 
 use Eccube\Event\EccubeEvents;
 use Eccube\Event\EventArgs;
-use Plugin\AceClient43\Repository\ConfigRepository;
+use Plugin\AceClient43\Service\AceConfigService;
 use Plugin\AceClient43\Validator\UniqueCustomer;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -27,11 +27,11 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class OnInitializeCustomerFormTypeListener implements EventSubscriberInterface
 {
-    private ConfigRepository $configRepository;
+    private AceConfigService $aceConfigService;
 
-    public function __construct(ConfigRepository $configRepository)
+    public function __construct(AceConfigService $configService)
     {
-        $this->configRepository = $configRepository;
+        $this->aceConfigService = $configService;
     }
 
     public static function getSubscribedEvents()
@@ -63,7 +63,7 @@ class OnInitializeCustomerFormTypeListener implements EventSubscriberInterface
      */
     private function processInitialize(EventArgs $event, string $eventName)
     {
-        $aceConfig = $this->configRepository->get();
+        $aceConfig = $this->aceConfigService->getConfig();
         $transDomain = null;
         if ($eventName === EccubeEvents::FRONT_ENTRY_INDEX_INITIALIZE) {
             if (!$aceConfig->shouldValidateDuplicateEntry()) {

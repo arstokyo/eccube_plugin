@@ -13,7 +13,7 @@
 
 namespace Plugin\AceClient43\Util\ConfigBuilder;
 
-use Plugin\AceClient43\Repository\ConfigRepository;
+use Plugin\AceClient43\Service\AceConfigService;
 use Plugin\AceClient43\Util\Logger\LoggerFactory;
 use Plugin\AceClient43\Util\Mapper\ConfigNodeRootNameMapper;
 
@@ -25,14 +25,19 @@ use Plugin\AceClient43\Util\Mapper\ConfigNodeRootNameMapper;
 class AceMethodConfigBuilder implements ConfigBuilderInterface
 {
     /**
-     * @param ConfigRepository|null $options
+     * @param AceConfigService|null $options
      *
      * @throws \RuntimeException
      */
     public static function build($options = null): array
     {
         $srcConfig = DefaultConfigBuilder::build();
-        $optionConfig = $options->get();
+
+        if (!$options instanceof AceConfigService) {
+            throw new \RuntimeException('AceConfigService is not found. Ensure the AceConfigService is inserted.');
+        }
+
+        $optionConfig = $options->getConfig();
 
         if (is_null($optionConfig)) {
             throw new \RuntimeException('AceClientConfig is not found. Ensure the AceClientConfig is inserted.');

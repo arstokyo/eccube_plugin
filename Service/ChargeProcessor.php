@@ -30,7 +30,6 @@ use Plugin\AceClient43\Entity\OrderTrait;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\PostProcessChargeEvent;
 use Plugin\AceClient43\Events\PreProcessChargeEvent;
-use Plugin\AceClient43\Repository\ConfigRepository;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -40,11 +39,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class ChargeProcessor implements ItemHolderPreprocessor
 {
-    private EntityManagerInterface $entityManager;
+    protected EntityManagerInterface $entityManager;
 
-    private EventDispatcherInterface $eventDispatcher;
-
-    private ConfigRepository $configRepository;
+    protected EventDispatcherInterface $eventDispatcher;
 
     protected OrderItemTypeRepository $orderItemTypeRepository;
 
@@ -52,20 +49,22 @@ class ChargeProcessor implements ItemHolderPreprocessor
 
     protected TaxTypeRepository $taxTypeRepository;
 
+    protected AceConfigService $configService;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         EventDispatcherInterface $eventDispatcher,
-        ConfigRepository $config,
+        AceConfigService $configService,
         OrderItemTypeRepository $orderItemTypeRepository,
         TaxDisplayTypeRepository $taxDisplayTypeRepository,
         TaxTypeRepository $taxTypeRepository,
     ) {
         $this->entityManager = $entityManager;
         $this->eventDispatcher = $eventDispatcher;
-        $this->configRepository = $config;
         $this->orderItemTypeRepository = $orderItemTypeRepository;
         $this->taxDisplayTypeRepository = $taxDisplayTypeRepository;
         $this->taxTypeRepository = $taxTypeRepository;
+        $this->configService = $configService;
     }
 
     /**
@@ -78,7 +77,7 @@ class ChargeProcessor implements ItemHolderPreprocessor
             return;
         }
 
-        $config = $this->getAceClientConfig();
+        $config = $this->configService->getConfig();
         $event = new PreProcessChargeEvent($itemHolder, $config, $context);
         $this->eventDispatcher->dispatch($event, Events::PRE_PROCESS_CHARGE_EVENT);
 
@@ -134,10 +133,5 @@ class ChargeProcessor implements ItemHolderPreprocessor
             $taxation,
             ChargeProcessor::class
         );
-    }
-
-    private function getAceClientConfig(): Config
-    {
-        return $this->configRepository->get();
     }
 }
