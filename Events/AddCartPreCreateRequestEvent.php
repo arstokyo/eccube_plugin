@@ -77,6 +77,21 @@ class AddCartPreCreateRequestEvent extends Event
     }
 
     /**
+     * Get removed cart items that are unpurchasable
+     */
+    public function getRemovedUnpurchasableCartItems(): array
+    {
+        $unpurchasableItems = [];
+        foreach ($this->removedCartItems as $cartItem) {
+            if ($cartItem->getProductClass()->getProduct()->isNotPurchasable()) {
+                $unpurchasableItems[] = $cartItem;
+            }
+        }
+
+        return $unpurchasableItems;
+    }
+
+    /**
      * Sync cart by removing filtered items when no items remain
      */
     public function syncCartIfEmpty(): void
@@ -84,10 +99,15 @@ class AddCartPreCreateRequestEvent extends Event
         if (empty($this->getFilteredCartItems()) && !empty($this->removedCartItems) && $this->cartService) {
             log_info('[AddCartPreCreateRequestEvent] カートアイテムが全てフィルタされたため、カートを同期します。');
 
-            // Remove all items from cart and add cart_item_data to options
+            // Only remove present items and unpurchasable items from cart
+            // Keep unpurchasable items in the cart for UI display
             foreach ($this->removedCartItems as $cartItem) {
-                $options['cart_item_data'] = $cartItem;
-                $this->cartService->removeProduct($cartItem->getProductClass(), $options);
+                if ($cartItem->isPresent()) {
+                    $options = $this->options;
+                    $options['cart_item_data'] = $cartItem;
+                    $this->cartService->removeProduct($cartItem->getProductClass(), $options);
+                }
+                // Do not remove unpurchasable items from cart - they should remain for UI
             }
 
             // Mark that we should skip the ace request

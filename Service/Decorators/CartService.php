@@ -28,7 +28,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 class CartService extends BaseCartService
 {
-    private EventDispatcherInterface $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
     /**
      * CartService constructor.
@@ -239,5 +239,41 @@ class CartService extends BaseCartService
         }
 
         $this->carts = array_values($Carts);
+    }
+
+    public function removeProduct($ProductClass, array $options = [])
+    {
+        $removeItem = $options['cart_item_data'] ?? null;
+
+        if (null === $removeItem) {
+            // If no specific CartItem is provided, we will create a new one to find and remove
+            if (!$ProductClass instanceof ProductClass) {
+                $ProductClassId = $ProductClass;
+                $ProductClass = $this->entityManager
+                    ->getRepository(ProductClass::class)
+                    ->find($ProductClassId);
+                if (is_null($ProductClass)) {
+                    return false;
+                }
+            }
+
+            $removeItem = new CartItem();
+            $removeItem->setPrice($ProductClass->getPrice02IncTax());
+            $removeItem->setProductClass($ProductClass);
+        }
+
+        $allCartItems = $this->mergeAllCartItems();
+        $foundIndex = -1;
+        foreach ($allCartItems as $index => $itemInCart) {
+            if ($this->cartItemComparator->compare($itemInCart, $removeItem)) {
+                $foundIndex = $index;
+                break;
+            }
+        }
+
+        array_splice($allCartItems, $foundIndex, 1);
+        $this->restoreCarts($allCartItems);
+
+        return true;
     }
 }
