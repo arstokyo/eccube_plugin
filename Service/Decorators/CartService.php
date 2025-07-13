@@ -86,7 +86,9 @@ class CartService extends BaseCartService
                 ? $this->getPersistedCartsWithJoins()
                 : $this->getPersistedCarts();
         } else {
-            $this->carts = $this->getSessionCarts();
+            $this->carts = $shouldJoin
+                ? $this->getSessionCartsWithJoins()
+                : $this->getSessionCarts();
         }
 
         return $this->carts;
@@ -118,6 +120,30 @@ class CartService extends BaseCartService
 
         // フォールバック: 通常のfindByを使用
         return $this->cartRepository->findBy(['Customer' => $user]);
+    }
+
+    /**
+     * セッションカートを返す (JOIN されたデータを取得)
+     *
+     * CartItem, ProductClass, ClassCategory を JOIN して取得するセッションカートの配列を返します
+     *
+     * @return Cart[] セッションカートの配列
+     */
+    public function getSessionCartsWithJoins(): array
+    {
+        $cartKeys = $this->session->get('cart_keys', []);
+
+        if (empty($cartKeys)) {
+            return [];
+        }
+
+        // CartRepositoryにfindSessionCartsWithJoinsメソッドが存在するかチェック
+        if (method_exists($this->cartRepository, 'findSessionCartsWithJoins')) {
+            return $this->cartRepository->findSessionCartsWithJoins($cartKeys);
+        }
+
+        // フォールバック: 通常のfindByを使用
+        return $this->cartRepository->findBy(['cart_key' => $cartKeys], ['id' => 'ASC']);
     }
 
     /**
@@ -213,44 +239,5 @@ class CartService extends BaseCartService
         }
 
         $this->carts = array_values($Carts);
-    }
-
-    public function removeProduct($ProductClass, $options = [])
-    {
-        $removeItem = $options['cart_item_data'] ?? null;
-
-        if (null === $removeItem) {
-            // カートアイテムデータが渡されていない場合は、商品規格のみで削除を試みる
-            $cartItem = new CartItem();
-            $cartItem->setProductClass($ProductClass);
-
-            if (!$ProductClass instanceof ProductClass) {
-                $ProductClassId = $ProductClass;
-                $ProductClass = $this->entityManager
-                    ->getRepository(ProductClass::class)
-                    ->find($ProductClassId);
-                if (is_null($ProductClass)) {
-                    return false;
-                }
-            }
-
-            $removeItem = new CartItem();
-            $removeItem->setPrice($ProductClass->getPrice02IncTax());
-            $removeItem->setProductClass($ProductClass);
-        }
-
-        $allCartItems = $this->mergeAllCartItems();
-        $foundIndex = -1;
-        foreach ($allCartItems as $index => $itemInCart) {
-            if ($this->cartItemComparator->compare($itemInCart, $removeItem)) {
-                $foundIndex = $index;
-                break;
-            }
-        }
-
-        array_splice($allCartItems, $foundIndex, 1);
-        $this->restoreCarts($allCartItems);
-
-        return true;
     }
 }
