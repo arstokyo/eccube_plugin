@@ -270,7 +270,7 @@ class CustomerBridge extends BaseBridge
             // 永続化
             $this->em->persist($customer);
             if ($needFlush) {
-                $this->em->flush();
+                $this->em->flush($customer);
             }
         }
 
