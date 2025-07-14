@@ -22,6 +22,21 @@ use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
  *
  * @author Ars-Thong <v.t.nguyen@ar-sytem.co.jp>
  */
-interface GetMemberRequestModelInterface extends RequestModelInterface, NoCategory\HasIdInterface, HasUserIdInterface, NoCategory\HasPassWdInterface
+interface GetMemberRequestModelInterface extends RequestModelInterface, HasUserIdInterface, NoCategory\HasPassWdInterface
 {
+    /**
+     * Get IdPrm
+     *
+     * @return IdPrmModelInterface
+     */
+    public function getIdPrm(): IdPrmModelInterface;
+
+    /**
+     * Set IdPrm
+     *
+     * @param IdPrmModelInterface $idPrm
+     *
+     * @return self
+     */
+    public function setIdPrm(IdPrmModelInterface $idPrm): self;
 }
