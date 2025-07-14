@@ -21,6 +21,21 @@ use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-interface DecisionCartRequestModelInterface extends RequestModelInterface, NoCategory\HasIdInterface, NoCategory\HasSessIdInterface
+interface DecisionCartRequestModelInterface extends RequestModelInterface, NoCategory\HasSessIdInterface
 {
+    /**
+     * Get IdPrm
+     *
+     * @return IdPrmModelInterface
+     */
+    public function getIdPrm(): IdPrmModelInterface;
+
+    /**
+     * Set IdPrm
+     *
+     * @param IdPrmModelInterface $idPrm
+     *
+     * @return self
+     */
+    public function setIdPrm(IdPrmModelInterface $idPrm): self;
 }

@@ -25,23 +25,42 @@ use Plugin\AceClient43\Exception\MissingRequestParameterException;
  */
 class GetMemberRequestModel extends RequestModelAbstract implements GetMemberRequestModelInterface
 {
-    use NoCategory\IdTrait;
-
     use User\UserIdTrait;
 
     use NoCategory\PassWdTrait;
 
     public const XML_NODE_NAME = 'getMember';
 
+    /** @var IdPrmModelInterface|null */
+    private ?IdPrmModelInterface $idPrm = null;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getIdPrm(): IdPrmModelInterface
+    {
+        return $this->idPrm;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setIdPrm(IdPrmModelInterface $idPrm): self
+    {
+        $this->idPrm = $idPrm;
+
+        return $this;
+    }
+
     /**
      * {@inheritDoc}
      */
     public function ensureParameterNotMissing(): void
     {
-        if (!$this->id) {
-            throw new MissingRequestParameterException($this->compilePropertyName('id'));
+        if (empty($this->idPrm)) {
+            throw new MissingRequestParameterException($this->compilePropertyName('idPrm'));
         }
-        if (!$this->userid) {
+        if (empty($this->userid)) {
             throw new MissingRequestParameterException($this->compilePropertyName('userid'));
         }
     }

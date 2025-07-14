@@ -21,6 +21,21 @@ use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface GetMemberMcodeRequestModelInterface extends RequestModelInterface, NoCategory\HasIdInterface, NoCategory\HasMcodeInterface
+interface GetMemberMcodeRequestModelInterface extends RequestModelInterface, NoCategory\HasMcodeInterface
 {
+    /**
+     * Get IdPrm
+     *
+     * @return IdPrmModelInterface
+     */
+    public function getIdPrm(): IdPrmModelInterface;
+
+    /**
+     * Set IdPrm
+     *
+     * @param IdPrmModelInterface $idPrm
+     *
+     * @return self
+     */
+    public function setIdPrm(IdPrmModelInterface $idPrm): self;
 }
