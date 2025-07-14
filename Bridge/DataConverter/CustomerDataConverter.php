@@ -90,8 +90,9 @@ class CustomerDataConverter implements CustomerDataConverterInterface
     /**
      * {@inheritdoc}
      */
-    public function convertGetMemberToCustomer(GetMember\LoginMemberModelInterface $aceCustomer, Customer $customer, array $options = []): Customer
+    public function convertGetMemberToCustomer(GetMember\LoginMemberModelInterface $aceCustomer, ?Customer $customer = null, array $options = []): Customer
     {
+        $customer = $customer ?? new Customer();
         $jmember = $aceCustomer->getMember();
 
         // Parse and set name
@@ -123,9 +124,10 @@ class CustomerDataConverter implements CustomerDataConverterInterface
     /**
      * {@inheritdoc}
      */
-    public function convertGetMemberMcodeToCustomer(GetMemberMcode\LoginMemberModelInterface $aceCustomer, Customer $customer, array $options = []): Customer
+    public function convertGetMemberMcodeToCustomer(GetMemberMcode\LoginMemberModelInterface $loginMemberModel, ?Customer $customer = null, array $options = []): Customer
     {
-        $jmember = $aceCustomer->getMember();
+        $customer = $customer ?? new Customer();
+        $jmember = $loginMemberModel->getMember();
 
         // Parse and set name from full name
         $this->parseAndSetFullName($jmember->getSimei(), $customer, 'name');
@@ -140,7 +142,7 @@ class CustomerDataConverter implements CustomerDataConverterInterface
             ->setAddr02($jmember->getAdr3() ?? '')
             ->setPhoneNumber($jmember->getTel() ?? '')
             ->setEmail($jmember->getUserid() ?? '')
-            ->setBirth($jmember->getBirthday())
+            ->setBirth($jmember->getBirthday()->toDateTime())
             ->setAceCustomerId($jmember->getCode());
 
         // Set sex
@@ -259,9 +261,9 @@ class CustomerDataConverter implements CustomerDataConverterInterface
 
     /**
      * @param string $aceCustomerId
-     * @param Customer $customer
      * @param string $syid
      * @param array $options
+     * @param Customer|null $customer
      *
      * @return GetMemberMcodeRequestModelInterface
      *

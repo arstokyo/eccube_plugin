@@ -34,7 +34,7 @@ class OptionsModel implements OptionsModelInterface
     public function setReturnMemFreeKubuns(?array $returnMemFreeKubuns): self
     {
         if (is_array($returnMemFreeKubuns)) {
-            $this->returnMemFreeKubuns = implode(',', $returnMemFreeKubuns);
+            $this->returnMemFreeKubuns = implode(',', array_unique($returnMemFreeKubuns));
         } else {
             $this->returnMemFreeKubuns = '';
         }

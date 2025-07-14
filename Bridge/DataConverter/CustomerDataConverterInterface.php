@@ -7,6 +7,7 @@ use Plugin\AceClient43\AceServices\Model\Request\Member\GetMemberMcode\GetMember
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode\LoginMemberModelInterface;
 
 interface CustomerDataConverterInterface
 {
@@ -47,21 +48,21 @@ interface CustomerDataConverterInterface
      * Convert ACE GetMember response to EC-CUBE Customer
      *
      * @param GetMember\LoginMemberModelInterface $aceCustomer
-     * @param Customer $customer
+     * @param Customer|null $customer
      * @param array $options
      *
      * @return Customer
      */
-    public function convertGetMemberToCustomer(GetMember\LoginMemberModelInterface $aceCustomer, Customer $customer, array $options = []): Customer;
+    public function convertGetMemberToCustomer(GetMember\LoginMemberModelInterface $aceCustomer, ?Customer $customer = null, array $options = []): Customer;
 
     /**
      * Convert ACE GetMemberMcode response to EC-CUBE Customer
      *
-     * @param GetMemberMcode\LoginMemberModelInterface $aceCustomer
-     * @param Customer $customer
+     * @param LoginMemberModelInterface $loginMemberModel
+     * @param Customer|null $customer
      * @param array $options
      *
      * @return Customer
      */
-    public function convertGetMemberMcodeToCustomer(GetMemberMcode\LoginMemberModelInterface $aceCustomer, Customer $customer, array $options = []): Customer;
+    public function convertGetMemberMcodeToCustomer(LoginMemberModelInterface $loginMemberModel, ?Customer $customer = null, array $options = []): Customer;
 }
