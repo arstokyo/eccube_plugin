@@ -21,6 +21,7 @@ class IdPrmModel extends PrmModelAbstract implements IdPrmModelInterface
     private ?string $syid = null;
 
     private ?OptionsModelInterface $options = null;
+
     public const PRM_NODE_NAME = 'id';
 
     /**
@@ -44,7 +45,7 @@ class IdPrmModel extends PrmModelAbstract implements IdPrmModelInterface
     /**
      * {@inheritDoc}
      */
-    public function getOptions(): OptionsModelInterface
+    public function getOptions(): ?OptionsModelInterface
     {
         return $this->options;
     }
@@ -52,7 +53,7 @@ class IdPrmModel extends PrmModelAbstract implements IdPrmModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setOptions(OptionsModelInterface $options): self
+    public function setOptions(?OptionsModelInterface $options): self
     {
         $this->options = $options;
 

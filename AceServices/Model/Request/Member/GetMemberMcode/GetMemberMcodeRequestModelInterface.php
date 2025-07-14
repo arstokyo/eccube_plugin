@@ -15,6 +15,7 @@ namespace Plugin\AceClient43\AceServices\Model\Request\Member\GetMemberMcode;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 
 /**
  * Interface GetMemberMcode Request Model
@@ -34,6 +35,8 @@ interface GetMemberMcodeRequestModelInterface extends RequestModelInterface, NoC
      * Set IdPrm
      *
      * @param IdPrmModelInterface $idPrm
+     *
+     * @SerializedName("id")
      *
      * @return self
      */

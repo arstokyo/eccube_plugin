@@ -36,16 +36,16 @@ interface IdPrmModelInterface extends PrmModelInterface
     /**
      * Get Options
      *
-     * @return OptionsModelInterface
+     * @return OptionsModelInterface|null
      */
-    public function getOptions(): OptionsModelInterface;
+    public function getOptions(): ?OptionsModelInterface;
 
     /**
      * Set Options
      *
-     * @param OptionsModelInterface $options
+     * @param OptionsModelInterface|null $options
      *
      * @return self
      */
-    public function setOptions(OptionsModelInterface $options): self;
+    public function setOptions(?OptionsModelInterface $options): self;
 }
