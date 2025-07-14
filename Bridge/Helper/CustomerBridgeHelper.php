@@ -1,21 +1,8 @@
 <?php
 
-/*
- * This file is part of EC-CUBE
- *
- * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
- *
- * http://www.ec-cube.co.jp/
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Plugin\AceClient43\Bridge\Helper;
 
 use Eccube\Entity\Customer;
-use Eccube\Repository\Master\PrefRepository;
-use Eccube\Repository\Master\SexRepository;
 use Plugin\AceClient43\AceServices\AceMethod\Member\CheckMailAdressMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\GetMemberMcodeMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\GetMemberMethod;
@@ -26,13 +13,11 @@ use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\CheckMailAdress\CheckMailAdressResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember as GetMemberResponse;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode as GetMemberMcodeResponse;
-use Plugin\AceClient43\AceServices\Model\Response\Member\RegMember\RegMemberResponseModelInterface;
 use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
+use Plugin\AceClient43\Bridge\DataConverter\CustomerDataConverterInterface;
 
 /**
  * CustomerBridgeHelper - 顧客連携ブリッジの複雑なロジックをカプセル化するヘルパークラス
- *
- * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 class CustomerBridgeHelper
 {
@@ -44,86 +29,37 @@ class CustomerBridgeHelper
 
     private CheckMailAdressMethod $checkMailAdressMethod;
 
-    private SexRepository $sexRepository;
-
-    private PrefRepository $prefRepository;
+    private CustomerDataConverterInterface $customerDataConverter;
 
     public function __construct(
         GetMemberMethod $getMemberMethod,
         GetMemberMcodeMethod $getMemberMcodeMethod,
         CheckMailAdressMethod $checkMailAdressMethod,
-        SexRepository $sexRepository,
-        PrefRepository $prefRepository,
+        CustomerDataConverterInterface $customerDataConverter,
     ) {
         $this->getMemberMethod = $getMemberMethod;
         $this->getMemberMcodeMethod = $getMemberMcodeMethod;
         $this->checkMailAdressMethod = $checkMailAdressMethod;
-        $this->sexRepository = $sexRepository;
-        $this->prefRepository = $prefRepository;
+        $this->customerDataConverter = $customerDataConverter;
     }
 
     /**
      * 顧客データをRegMemberモデルにバインドする
-     *
-     * @param Customer $customer
-     * @param string $syid システムID
-     *
-     * @return RegMember\RegMemberRequestModelInterface
      */
-    public function bindCustomerToRegMember(Customer $customer, string $syid): RegMember\RegMemberRequestModelInterface
+    public function bindCustomerToRegMember(Customer $customer, string $syid, array $options = []): RegMember\RegMemberRequestModelInterface
     {
-        /** @var RegMember\JmemberModelInterface $jmemberModel */
-        $jmemberModel = $this->createRequestModel(RegMember\JmemberModelInterface::class);
-        $jmember = $jmemberModel
-            ->setSimei(mb_convert_kana(sprintf('%s　%s', $customer->getname01(), $customer->getName02(), 'KVA')))
-            ->setKana(mb_convert_kana(sprintf('%s　%s', $customer->getKana01(), $customer->getKana02(), 'KVA')))
-            ->setZip($customer->getPostalCode())
-            ->setAdr1($customer->getPref()->getName())
-            ->setAdr2($customer->getAddr01())
-            ->setAdr3($customer->getAddr02())
-            ->setTel($customer->getPhoneNumber())
-            ->setUserid($customer->getEmail())
-            ->setSexByClass($customer->getSex())
-            ->setBirthday($customer->getBirth())
-            ->setPoint((int) $customer->getPoint() ?? 0)
-            ->setPasswd($customer->getPassword())
-            ->setMemmail((new RegMember\MemMailModel())
-                ->setMail($customer->getEmail())
-                ->setIdx(1)
-            );
-
-        // 更新用にAceMemberIdを設定
-        if ($customer->getAceCustomerId()) {
-            $jmember->setCode($customer->getAceCustomerId());
-        }
-
-        /** @var RegMember\RegMemberRequestModelInterface $request */
-        /** @var RegMember\MemberPrmModel $prmModel */
-        $request = $this->createRequestModel(RegMemberResponseModelInterface::class);
-        $prmModel = $this->createRequestModel(RegMember\MemberPrmModelInterface::class);
-        $prmModel->setJmember($jmember);
-
-        return $request
-            ->setId($syid)
-            ->setPrm($prmModel)
-            ->setSessId(session_id());
+        return $this->customerDataConverter->convertCustomerToRegMemberRequest($customer, $syid, $options);
     }
 
     /**
      * メールアドレスとパスワードによる顧客情報の取得
-     *
-     * @param string $email 顧客のメールアドレス
-     * @param string $password 顧客のパスワード
-     * @param string $syid システムID
-     *
-     * @return GetMemberResponse\LoginMemberModelInterface|null
      */
     public function getByEmailAndPassword(string $email, string $password, string $syid): ?GetMemberResponse\LoginMemberModelInterface
     {
         /** @var GetMemberRequest\GetMemberRequestModelInterface $requestModel */
         $requestModel = $this->createRequestModel(GetMemberRequest\GetMemberRequestModelInterface::class);
 
-        $request = (new $requestModel())
+        $request = $requestModel
             ->setId($syid)
             ->setUserid($email)
             ->setPasswd($password);
@@ -150,11 +86,6 @@ class CustomerBridgeHelper
 
     /**
      * 会員IDによる顧客情報の取得
-     *
-     * @param string $aceCustomerId 通販Aceの顧客ID
-     * @param string $syid システムID
-     *
-     * @return GetMemberMcodeResponse\LoginMemberModelInterface|null
      */
     public function getByAceCustomerId(string $aceCustomerId, string $syid): ?GetMemberMcodeResponse\LoginMemberModelInterface
     {
@@ -187,54 +118,28 @@ class CustomerBridgeHelper
 
     /**
      * ログインメンバーモデルから顧客エンティティを更新する
-     *
-     * @param Customer $customer 更新対象の顧客エンティティ
-     * @param GetMemberResponse\LoginMemberModelInterface|GetMemberMcodeResponse\LoginMemberModelInterface|null $loginMemberModel ログインメンバーモデル
-     *
-     * @return Customer 更新された顧客エンティティ
      */
     public function updateCustomerFromLoginMember(
         Customer $customer,
         $loginMemberModel,
+        array $options = [],
     ): Customer {
         if (null === $loginMemberModel) {
             return $customer;
         }
 
-        $jmember = $loginMemberModel->getMember();
-
-        // 基本情報の更新
-        $customer->setName01($jmember->getName1())
-            ->setName02($jmember->getName2())
-            ->setKana01($jmember->getKana1())
-            ->setKana02($jmember->getKana2())
-            ->setPostalCode($jmember->getZipEccubeFormat())
-            ->setAddr01($jmember->getAdr2())
-            ->setAddr02($jmember->getAdr3())
-            ->setPhoneNumber($jmember->getTel())
-            ->setEmail($jmember->getUserid())
-            ->setBirth($jmember->getBirthday()->toDateTime())
-            ->setPoint($jmember->getPoint())
-            ->setAceCustomerId($jmember->getCode());
-
-        // 性別設定
-        $sexFound = $this->sexRepository->find($jmember->getSex());
-        $customer->setSex($sexFound);
-
-        // 都道府県設定
-        $prefFound = $this->prefRepository->findOneBy(['name' => $jmember->getAdr1()]);
-        $customer->setPref($prefFound);
+        // Use data converter based on the type of login member model
+        if ($loginMemberModel instanceof GetMemberResponse\LoginMemberModelInterface) {
+            return $this->customerDataConverter->convertGetMemberToCustomer($loginMemberModel, $customer, $options);
+        } elseif ($loginMemberModel instanceof GetMemberMcodeResponse\LoginMemberModelInterface) {
+            return $this->customerDataConverter->convertGetMemberMcodeToCustomer($loginMemberModel, $customer, $options);
+        }
 
         return $customer;
     }
 
     /**
      * メールアドレスからACE顧客IDを取得し、顧客情報を作成する処理
-     *
-     * @param string $email メールアドレス
-     * @param string $syid システムID
-     *
-     * @return string|null ACE顧客ID
      */
     public function getAceCustomerIdByEmail(string $email, string $syid): ?string
     {
@@ -248,21 +153,17 @@ class CustomerBridgeHelper
 
     /**
      * 通販Aceシステムに対してメールアドレスの存在確認を行う
-     *
-     * @param string $email チェックするメールアドレス
-     * @param string $syid システムID
-     *
-     * @return CheckMailAdressResponseModelInterface|null API応答オブジェクト、エラー時はnull
      */
     public function checkMailAddressInAce(string $email, string $syid): ?CheckMailAdressResponseModelInterface
     {
-        try {
-            /** @var CheckMailAdressRequestModelInterface $requestModel */
-            $requestModel = $this->createRequestModel(CheckMailAdressRequestModelInterface::class);
-            $request = $requestModel
-                ->setId($syid)
-                ->setMailadress($email);
+        /** @var CheckMailAdressRequestModelInterface $requestModel */
+        $requestModel = $this->createRequestModel(CheckMailAdressRequestModelInterface::class);
 
+        $request = $requestModel
+            ->setId($syid)
+            ->setMailadress($email);
+
+        try {
             $response = $this->checkMailAdressMethod
                 ->withRequest($request)
                 ->send();
@@ -271,7 +172,6 @@ class CustomerBridgeHelper
                 return null;
             }
 
-            /* @var CheckMailAdressResponseModelInterface $responseObject */
             return $response->getResponse();
         } catch (\Throwable $e) {
             return null;

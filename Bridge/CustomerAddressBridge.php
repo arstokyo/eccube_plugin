@@ -94,7 +94,7 @@ class CustomerAddressBridge extends BaseBridge
             throw new \LogicException('先に顧客を登録してください。');
         }
 
-        $request = $this->helper->createRegMemAdrRequestModel($address, $this->getSyid());
+        $request = $this->helper->createRegMemAdrRequestModel($address, $this->getSyid(), $options);
 
         $this->eventDispatcher->dispatch(
             new PreCreateOrUpdateCustomerAddressEvent($request, $address, $options),
@@ -145,18 +145,19 @@ class CustomerAddressBridge extends BaseBridge
      *
      * @param Customer $customer
      * @param CustomerAddress $address
+     * @param array $options
      *
      * @return bool
      *
      * @throws CouldNotRemoveCustomerAddressException
      */
-    public function remove(Customer $customer, CustomerAddress $address): bool
+    public function remove(Customer $customer, CustomerAddress $address, array $options = []): bool
     {
         if (null === $address->getAceEdaNo()) {
             return false;
         }
 
-        $request = $this->helper->createDeleteHaisoAdrsRequestModel($customer, $address, $this->getSyid());
+        $request = $this->helper->createDeleteHaisoAdrsRequestModel($customer, $address, $this->getSyid(), $options);
 
         try {
             $response = $this->deleteHaisoAdrsMethod
@@ -169,9 +170,15 @@ class CustomerAddressBridge extends BaseBridge
 
             /** @var DeleteHaisoAdrsResponseModel $responseObject */
             $responseObject = $response->getResponse();
+
             if ($this->hasErrorMessage($responseObject->getMember())) {
                 throw new CouldNotRemoveCustomerAddressException('通販Aceの住所削除に失敗しました。');
             }
+
+            $address->setAceEdaNo(null);
+
+            $this->em->persist($address);
+            $this->em->flush($address);
         } catch (\Throwable $e) {
             if ($e instanceof CouldNotRemoveCustomerAddressException) {
                 $this->logger->error('通販Aceの住所削除に失敗しました', ['exception' => $e]);
