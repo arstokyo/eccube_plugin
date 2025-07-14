@@ -96,10 +96,12 @@ class CustomerAddressBridge extends BaseBridge
 
         $request = $this->helper->createRegMemAdrRequestModel($address, $this->getSyid(), $options);
 
-        $this->eventDispatcher->dispatch(
-            new PreCreateOrUpdateCustomerAddressEvent($request, $address, $options),
-            Events::PRE_CREATE_OR_UPDATE_CUSTOMER_ADDRESS
-        );
+        if ($this->eventDispatcher->hasListeners(Events::PRE_CREATE_OR_UPDATE_CUSTOMER_ADDRESS)) {
+            $this->eventDispatcher->dispatch(
+                new PreCreateOrUpdateCustomerAddressEvent($request, $address, $options),
+                Events::PRE_CREATE_OR_UPDATE_CUSTOMER_ADDRESS
+            );
+        }
 
         try {
             $response = $this->regMemAdrMethod
@@ -118,10 +120,12 @@ class CustomerAddressBridge extends BaseBridge
 
             $address->setAceEdaNo($responseObject->getMember()->getNmember()->getEda());
 
-            $this->eventDispatcher->dispatch(
-                new PostCreateOrUpdateCustomerAddressEvent($responseObject, $address, $options),
-                Events::POST_CREATE_OR_UPDATE_CUSTOMER_ADDRESS
-            );
+            if ($this->eventDispatcher->hasListeners(Events::POST_CREATE_OR_UPDATE_CUSTOMER_ADDRESS)) {
+                $this->eventDispatcher->dispatch(
+                    new PostCreateOrUpdateCustomerAddressEvent($responseObject, $address, $options),
+                    Events::POST_CREATE_OR_UPDATE_CUSTOMER_ADDRESS
+                );
+            }
 
             $this->em->persist($address);
             if ($needFlush) {

@@ -98,10 +98,12 @@ class CustomerBridge extends BaseBridge
      */
     private function sendCustomerToAce($regMemberRequest, Customer $customer, string $eventName, bool $needFlush, array $options): void
     {
-        $this->eventDispatcher->dispatch(
-            new PreRegisterCustomerEvent($regMemberRequest, $customer, $options),
-            $eventName
-        );
+        if ($this->eventDispatcher->hasListeners($eventName)) {
+            $this->eventDispatcher->dispatch(
+                new PreRegisterCustomerEvent($regMemberRequest, $customer, $options),
+                $eventName
+            );
+        }
 
         try {
             $response = $this->regMemberMethod
@@ -125,10 +127,12 @@ class CustomerBridge extends BaseBridge
                 ? Events::POST_REGISTER_CUSTOMER
                 : Events::POST_UPDATE_CUSTOMER;
 
-            $this->eventDispatcher->dispatch(
-                new PostRegisterCustomerEvent($responseObject, $customer, $options),
-                $postEventName
-            );
+            if ($this->eventDispatcher->hasListeners($postEventName)) {
+                $this->eventDispatcher->dispatch(
+                    new PostRegisterCustomerEvent($responseObject, $customer, $options),
+                    $postEventName
+                );
+            }
 
             $this->em->persist($customer);
 
@@ -262,10 +266,12 @@ class CustomerBridge extends BaseBridge
 
         if ($loginMemberModel !== null) {
             // イベント発火
-            $this->eventDispatcher->dispatch(
-                new OnGetAndUpdateCustomerEvent($loginMemberModel, $customer),
-                Events::ON_GET_AND_UPDATE_CUSTOMER
-            );
+            if ($this->eventDispatcher->hasListeners(Events::ON_GET_AND_UPDATE_CUSTOMER)) {
+                $this->eventDispatcher->dispatch(
+                    new OnGetAndUpdateCustomerEvent($loginMemberModel, $customer),
+                    Events::ON_GET_AND_UPDATE_CUSTOMER
+                );
+            }
 
             // 永続化
             $this->em->persist($customer);
