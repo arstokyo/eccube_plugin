@@ -13,12 +13,11 @@
 
 namespace Plugin\AceClient43\Bridge;
 
-use Doctrine\ORM\Exception\ORMException;
 use Eccube\Entity\Customer;
 use Plugin\AceClient43\AceServices\AceMethod\Member\RegMemberMethod;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
-use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode\LoginMemberModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\RegMember\RegMemberResponseModelInterface;
 use Plugin\AceClient43\Bridge\Helper\CustomerBridgeHelper;
 use Plugin\AceClient43\Events\Events;
@@ -154,12 +153,14 @@ class CustomerBridge extends BaseBridge
      * 会員IDによる顧客情報の取得
      *
      * @param string $aceCustomerId - 通販Aceの顧客ID
+     * @param array $options - オプションパラメータ
+     * @param Customer|null $customer
      *
-     * @return GetMemberMcode\LoginMemberModelInterface|null
+     * @return LoginMemberModelInterface|null
      */
-    public function getByAceCustomerId(string $aceCustomerId): ?GetMemberMcode\LoginMemberModelInterface
+    public function getByAceCustomerId(string $aceCustomerId, array $options = [], ?Customer $customer = null): ?LoginMemberModelInterface
     {
-        return $this->helper->getByAceCustomerId($aceCustomerId, $this->getSyid());
+        return $this->helper->getByAceCustomerId($aceCustomerId, $this->getSyid(), $options, $customer);
     }
 
     /**
@@ -186,8 +187,6 @@ class CustomerBridge extends BaseBridge
      * @param bool $needFlush エンティティマネージャーの変更をフラッシュするかどうか
      *
      * @return Customer 更新された顧客エンティティ
-     *
-     * @throws ORMException
      */
     public function getAndUpdateEntity(Customer $customer, bool $needFlush = true, array $options = []): Customer
     {
@@ -196,7 +195,7 @@ class CustomerBridge extends BaseBridge
         if (null === $aceCustomerId = $customer->getAceCustomerId()) {
             $loginMemberModel = $this->getByEmailAndPassword($customer->getEmail(), $customer->getPassword());
         } else {
-            $loginMemberModel = $this->getByAceCustomerId($aceCustomerId);
+            $loginMemberModel = $this->getByAceCustomerId($aceCustomerId, $options, $customer);
         }
 
         return $this->updateCustomerEntityFromLoginMember($customer, $loginMemberModel, $needFlush, $options);
@@ -254,7 +253,7 @@ class CustomerBridge extends BaseBridge
      * ログインメンバーモデルから顧客エンティティを更新する
      *
      * @param Customer $customer 更新対象の顧客エンティティ
-     * @param GetMember\LoginMemberModelInterface|GetMemberMcode\LoginMemberModelInterface|null $loginMemberModel 通販Aceから取得したログインメンバーモデル
+     * @param GetMember\LoginMemberModelInterface|LoginMemberModelInterface|null $loginMemberModel 通販Aceから取得したログインメンバーモデル
      * @param bool $needFlush 更新後にエンティティマネージャーの変更をフラッシュするかどうか
      *
      * @return Customer 更新された顧客エンティティ

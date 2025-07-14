@@ -3,6 +3,7 @@
 namespace Plugin\AceClient43\Bridge\DataConverter;
 
 use Eccube\Entity\Customer;
+use Plugin\AceClient43\AceServices\Model\Request\Member\GetMemberMcode\GetMemberMcodeRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode;
@@ -29,6 +30,18 @@ interface CustomerDataConverterInterface
      * @return RegMember\RegMemberRequestModelInterface
      */
     public function convertCustomerToRegMemberRequest(Customer $customer, string $syid, array $options = []): RegMember\RegMemberRequestModelInterface;
+
+    /**
+     * Convert EC-CUBE Customer to ACE GetMember request
+     *
+     * @param string $aceCustomerId
+     * @param string $syid
+     * @param array $options
+     * @param Customer|null $customer
+     *
+     * @return GetMemberMcodeRequestModelInterface
+     */
+    public function convertCustomerToGetMemberMcodeRequest(string $aceCustomerId, string $syid, array $options = [], ?Customer $customer = null): GetMemberMcodeRequestModelInterface;
 
     /**
      * Convert ACE GetMember response to EC-CUBE Customer

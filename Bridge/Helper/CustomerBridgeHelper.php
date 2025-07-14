@@ -8,7 +8,6 @@ use Plugin\AceClient43\AceServices\AceMethod\Member\GetMemberMcodeMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\GetMemberMethod;
 use Plugin\AceClient43\AceServices\Model\Request\Member\CheckMailAdress\CheckMailAdressRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetMember as GetMemberRequest;
-use Plugin\AceClient43\AceServices\Model\Request\Member\GetMemberMcode as GetMemberMcodeRequest;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\CheckMailAdress\CheckMailAdressResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember as GetMemberResponse;
@@ -23,13 +22,13 @@ class CustomerBridgeHelper
 {
     use CreateRequestModelTrait;
 
-    private GetMemberMethod $getMemberMethod;
+    protected GetMemberMethod $getMemberMethod;
 
-    private GetMemberMcodeMethod $getMemberMcodeMethod;
+    protected GetMemberMcodeMethod $getMemberMcodeMethod;
 
-    private CheckMailAdressMethod $checkMailAdressMethod;
+    protected CheckMailAdressMethod $checkMailAdressMethod;
 
-    private CustomerDataConverterInterface $customerDataConverter;
+    protected CustomerDataConverterInterface $customerDataConverter;
 
     public function __construct(
         GetMemberMethod $getMemberMethod,
@@ -87,14 +86,9 @@ class CustomerBridgeHelper
     /**
      * 会員IDによる顧客情報の取得
      */
-    public function getByAceCustomerId(string $aceCustomerId, string $syid): ?GetMemberMcodeResponse\LoginMemberModelInterface
+    public function getByAceCustomerId(string $aceCustomerId, string $syid, array $options = [], ?Customer $customer = null): ?GetMemberMcodeResponse\LoginMemberModelInterface
     {
-        /** @var GetMemberMcodeRequest\GetMemberMcodeRequestModelInterface $requestModel */
-        $requestModel = $this->createRequestModel(GetMemberMcodeRequest\GetMemberMcodeRequestModelInterface::class);
-
-        $request = $requestModel
-            ->setId($syid)
-            ->setMcode($aceCustomerId);
+        $request = $this->customerDataConverter->convertCustomerToGetMemberMcodeRequest($aceCustomerId, $syid, $options, $customer);
 
         try {
             $response = $this->getMemberMcodeMethod

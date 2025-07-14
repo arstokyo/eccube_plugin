@@ -5,10 +5,14 @@ namespace Plugin\AceClient43\Bridge\DataConverter;
 use Eccube\Entity\Customer;
 use Eccube\Repository\Master\PrefRepository;
 use Eccube\Repository\Master\SexRepository;
+use Plugin\AceClient43\AceServices\Model\Request\Member\GetMemberMcode as GetMemberMcodeRequest;
+use Plugin\AceClient43\AceServices\Model\Request\Member\GetMemberMcode\GetMemberMcodeRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode;
 use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
+use Plugin\AceClient43\Exception\DataTypeMissMatchException;
+use Plugin\AceClient43\Exception\InvalidClassNameException;
 
 class CustomerDataConverter implements CustomerDataConverterInterface
 {
@@ -131,7 +135,6 @@ class CustomerDataConverter implements CustomerDataConverterInterface
 
         // Set basic information
         $customer
-            ->setCompanyName($jmember->getCompany() ?? '')
             ->setPostalCode($jmember->getZip() ?? '')
             ->setAddr01($jmember->getAdr2() ?? '')
             ->setAddr02($jmember->getAdr3() ?? '')
@@ -252,5 +255,30 @@ class CustomerDataConverter implements CustomerDataConverterInterface
                 $customer->setPref($pref);
             }
         }
+    }
+
+    /**
+     * @param string $aceCustomerId
+     * @param Customer $customer
+     * @param string $syid
+     * @param array $options
+     *
+     * @return GetMemberMcodeRequestModelInterface
+     *
+     * @throws DataTypeMissMatchException
+     * @throws InvalidClassNameException
+     */
+    public function convertCustomerToGetMemberMcodeRequest(string $aceCustomerId, string $syid, array $options = [], ?Customer $customer = null): GetMemberMcodeRequestModelInterface
+    {
+        /** @var GetMemberMcodeRequestModelInterface $requestModel */
+        /** @var GetMemberMcodeRequest\IdPrmModelInterface $prmModel */
+        $requestModel = $this->createRequestModel(GetMemberMcodeRequestModelInterface::class);
+        $prmModel = $this->createSubModel(GetMemberMcodeRequest\IdPrmModelInterface::class);
+
+        $prmModel->setSyid($syid);
+
+        return $requestModel
+            ->setIdPrm($prmModel)
+            ->setMcode($aceCustomerId);
     }
 }
