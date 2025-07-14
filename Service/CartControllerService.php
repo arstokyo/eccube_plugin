@@ -44,7 +44,7 @@ class CartControllerService
 
         log_info('[ACECLIENT-CART_CONTROLLER_SERVICE] 通販Aceのカートに商品を追加します。');
 
-        $Carts = $this->cartService->getCarts();
+        $Carts = $this->cartService->getCarts(false, true);
         $Cart = current($Carts);
 
         // カートが空であるか、顧客が未設定の場合は処理を中止

@@ -2,9 +2,8 @@
 
 namespace Plugin\AceClient43\EventListener;
 
-use Plugin\AceClient43\Entity\Config;
 use Plugin\AceClient43\Exception\CouldNotAddCartException;
-use Plugin\AceClient43\Repository\ConfigRepository;
+use Plugin\AceClient43\Service\AceConfigService;
 use Plugin\AceClient43\Service\CartControllerService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
@@ -13,14 +12,14 @@ class KernelControllerListener implements EventSubscriberInterface
 {
     private CartControllerService $cartControllerService;
 
-    private Config $config;
+    private AceConfigService $aceConfigService;
 
     public function __construct(
         CartControllerService $cartControllerService,
-        ConfigRepository $configRepository,
+        AceConfigService $aceConfigService,
     ) {
         $this->cartControllerService = $cartControllerService;
-        $this->config = $configRepository->get();
+        $this->aceConfigService = $aceConfigService;
     }
 
     public static function getSubscribedEvents()
@@ -37,7 +36,7 @@ class KernelControllerListener implements EventSubscriberInterface
     {
         $route = $event->getRequest()->attributes->get('_route');
 
-        if ($route === 'cart' && $this->config->shouldAddCartIndex()) {
+        if ($route === 'cart' && $this->aceConfigService->shouldAddCartIndex()) {
             $this->cartControllerService->addCart();
         }
     }

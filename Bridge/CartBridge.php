@@ -39,11 +39,11 @@ use Plugin\AceClient43\Service\AddCartHelper;
  */
 class CartBridge extends BaseBridge
 {
-    private AddCartMethod $addCartMethod;
+    protected AddCartMethod $addCartMethod;
 
-    private AddCartHelper $addCartHelper;
+    protected AddCartHelper $addCartHelper;
 
-    private CartService $cartService;
+    protected CartService $cartService;
 
     public function __construct(
         AddCartMethod $addCartMethod,
@@ -97,13 +97,15 @@ class CartBridge extends BaseBridge
             $response = $this->addCartMethod->withRequest($request)->send();
 
             if (!$response->isOk()) {
-                throw new CouldNotAddCartException(sprintf('通販Aceのカート追加処理に失敗しました: %s', $response->getStatusCode()));
+                throw new CouldNotAddCartException(null, new \RuntimeException(sprintf('通販Aceのカート追加処理に失敗しました: %s', $response->getStatusCode())));
             }
 
             /** @var AddCartResponseModelInterface $responseObject */
             $responseObject = $response->getResponse();
+
+            // Check for error messages in the response
             if ($this->hasErrorMessage($responseObject->getOrder())) {
-                throw new CouldNotAddCartException('通販Aceのカート追加に失敗しました。');
+                throw new CouldNotAddCartException($responseObject->getOrder());
             }
 
             $needFlush = false;
@@ -132,7 +134,7 @@ class CartBridge extends BaseBridge
 
             // 通販Aceのレスポンスをカートに同期
             if ($options['should_sync_cart']) {
-                $this->addCartHelper->syncCart($cart, $responseObject->getOrder(), $options) || $needFlush;
+                $this->addCartHelper->syncCart($cart, $responseObject->getOrder(), $options);
             }
 
             if ($this->eventDispatcher->hasListeners(Events::POST_ADD_CART)) {
@@ -148,7 +150,7 @@ class CartBridge extends BaseBridge
             }
 
             $this->logger->error('通販Aceのカート追加に失敗しました。', ['exception' => $e]);
-            throw new CouldNotAddCartException('通販Aceのカート追加に失敗しました。', $e);
+            throw new CouldNotAddCartException(null, $e);
         }
     }
 

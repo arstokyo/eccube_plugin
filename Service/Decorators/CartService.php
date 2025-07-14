@@ -1,21 +1,11 @@
 <?php
 
-/*
- * This file is part of EC-CUBE
- *
- * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
- *
- * http://www.ec-cube.co.jp/
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Plugin\AceClient43\Service\Decorators;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Eccube\Entity\Cart;
 use Eccube\Entity\CartItem;
+use Eccube\Entity\Customer;
 use Eccube\Entity\ProductClass;
 use Eccube\Repository\CartRepository;
 use Eccube\Repository\OrderRepository;
@@ -38,7 +28,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 class CartService extends BaseCartService
 {
-    private EventDispatcherInterface $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
     /**
      * CartService constructor.
@@ -60,10 +50,108 @@ class CartService extends BaseCartService
     }
 
     /**
+     * 現在のカートの配列を取得する.
+     *
+     * 本サービスのインスタンスのメンバーが空の場合は、DBまたはセッションからカートを取得する
+     *
+     * @param bool $empty_delete true の場合、商品明細が空のカートが存在した場合は削除する
+     * @param bool $shouldJoin true の場合、JOIN されたデータを取得する
+     *
+     * @return Cart[]
+     */
+    public function getCarts($empty_delete = false, bool $shouldJoin = false)
+    {
+        if (null !== $this->carts) {
+            if ($empty_delete) {
+                $cartKeys = [];
+                foreach (array_keys($this->carts) as $index) {
+                    $Cart = $this->carts[$index];
+                    if ($Cart->getItems()->count() > 0) {
+                        $cartKeys[] = $Cart->getCartKey();
+                    } else {
+                        $this->entityManager->remove($this->carts[$index]);
+                        $this->entityManager->flush();
+                        unset($this->carts[$index]);
+                    }
+                }
+
+                $this->session->set('cart_keys', $cartKeys);
+            }
+
+            return $this->carts;
+        }
+
+        if ($this->getUser()) {
+            $this->carts = $shouldJoin
+                ? $this->getPersistedCartsWithJoins()
+                : $this->getPersistedCarts();
+        } else {
+            $this->carts = $shouldJoin
+                ? $this->getSessionCartsWithJoins()
+                : $this->getSessionCarts();
+        }
+
+        return $this->carts;
+    }
+
+    /**
+     * 永続化されたカートを返す (JOIN されたデータを取得)
+     *
+     * CartItem, ProductClass, ClassCategory を JOIN して取得する永続化されたカートの配列を返します
+     *
+     * @return Cart[] 永続化されたカートの配列
+     */
+    public function getPersistedCartsWithJoins(): array
+    {
+        $user = $this->getUser();
+
+        if (!$user) {
+            return [];
+        }
+
+        if (!$user instanceof Customer) {
+            throw new \RuntimeException('User must be Customer');
+        }
+
+        // CartRepositoryにfindPersistedCartsByCustomerWithJoinsメソッドが存在するかチェック
+        if (method_exists($this->cartRepository, 'findPersistedCartsByCustomerWithJoins')) {
+            return $this->cartRepository->findPersistedCartsByCustomerWithJoins($user);
+        }
+
+        // フォールバック: 通常のfindByを使用
+        return $this->cartRepository->findBy(['Customer' => $user]);
+    }
+
+    /**
+     * セッションカートを返す (JOIN されたデータを取得)
+     *
+     * CartItem, ProductClass, ClassCategory を JOIN して取得するセッションカートの配列を返します
+     *
+     * @return Cart[] セッションカートの配列
+     */
+    public function getSessionCartsWithJoins(): array
+    {
+        $cartKeys = $this->session->get('cart_keys', []);
+
+        if (empty($cartKeys)) {
+            return [];
+        }
+
+        // CartRepositoryにfindSessionCartsWithJoinsメソッドが存在するかチェック
+        if (method_exists($this->cartRepository, 'findSessionCartsWithJoins')) {
+            return $this->cartRepository->findSessionCartsWithJoins($cartKeys);
+        }
+
+        // フォールバック: 通常のfindByを使用
+        return $this->cartRepository->findBy(['cart_key' => $cartKeys], ['id' => 'ASC']);
+    }
+
+    /**
      * カートに商品を追加します.
      *
      * @param $ProductClass ProductClass 商品規格
      * @param $quantity int 数量
+     * @param array $options オプション
      *
      * @return bool 商品を追加できた場合はtrue
      */
@@ -142,7 +230,7 @@ class CartService extends BaseCartService
                 $Cart->addCartItem($item);
                 $item->setCart($Cart);
 
-                if ($this->eventDispatcher->hasListeners(Events::ON_CART_ADD_PRODUCT)) {
+                if ($this->eventDispatcher->hasListeners(Events::ON_NEW_CART)) {
                     $this->eventDispatcher->dispatch(new OnNewCartEvent($Cart), Events::ON_NEW_CART);
                 }
 
@@ -153,15 +241,12 @@ class CartService extends BaseCartService
         $this->carts = array_values($Carts);
     }
 
-    public function removeProduct($ProductClass, $options = [])
+    public function removeProduct($ProductClass, array $options = [])
     {
         $removeItem = $options['cart_item_data'] ?? null;
 
         if (null === $removeItem) {
-            // カートアイテムデータが渡されていない場合は、商品規格のみで削除を試みる
-            $cartItem = new CartItem();
-            $cartItem->setProductClass($ProductClass);
-
+            // If no specific CartItem is provided, we will create a new one to find and remove
             if (!$ProductClass instanceof ProductClass) {
                 $ProductClassId = $ProductClass;
                 $ProductClass = $this->entityManager

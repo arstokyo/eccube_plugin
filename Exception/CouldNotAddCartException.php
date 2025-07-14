@@ -13,16 +13,25 @@
 
 namespace Plugin\AceClient43\Exception;
 
-class CouldNotAddCartException extends AceClientBaseException
+use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelExtend1Interface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelInterface;
+
+class CouldNotAddCartException extends AceApiMessageException
 {
     /**
      * CouldNotAddCartException constructor.
      *
-     * @param string $message  Exception message.
-     * @param \Throwable|null $previous Previous exception.
+     * @param HasMessageModelInterface|HasMessageModelExtend1Interface|null $messageModel APIレスポンスのメッセージモデル
+     * @param \Throwable|null $previous 前の例外
      */
-    public function __construct(string $message = '通販Aceにカートを追加できませんでした', ?\Throwable $previous = null)
-    {
-        parent::__construct($message, $previous);
+    public function __construct(
+        $messageModel = null,
+        ?\Throwable $previous = null,
+    ) {
+        parent::__construct(
+            '通販Aceにカートを追加できませんでした',
+            $messageModel,
+            $previous
+        );
     }
 }

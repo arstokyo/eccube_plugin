@@ -26,7 +26,6 @@ use Plugin\AceClient43\Entity\OrderTrait;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\PostProcessDeliveryFeeEvent;
 use Plugin\AceClient43\Events\PreProcessDeliveryFeeEvent;
-use Plugin\AceClient43\Repository\ConfigRepository;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -39,23 +38,23 @@ class DeliveryFeeProcessor implements ItemHolderPreprocessor
     /**
      * @var EntityManagerInterface
      */
-    private EntityManagerInterface $entityManager;
+    protected EntityManagerInterface $entityManager;
 
     /**
      * @var EventDispatcherInterface
      */
-    private EventDispatcherInterface $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
-    private ConfigRepository $configRepository;
+    protected AceConfigService $configService;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         EventDispatcherInterface $eventDispatcher,
-        ConfigRepository $config,
+        AceConfigService $configService,
     ) {
         $this->entityManager = $entityManager;
         $this->eventDispatcher = $eventDispatcher;
-        $this->configRepository = $config;
+        $this->configService = $configService;
     }
 
     /**
@@ -66,7 +65,7 @@ class DeliveryFeeProcessor implements ItemHolderPreprocessor
      */
     public function process(ItemHolderInterface $itemHolder, PurchaseContext $context)
     {
-        $config = $this->getAceClientConfig();
+        $config = $this->configService->getConfig();
         $event = new PreProcessDeliveryFeeEvent($itemHolder, $config, $context);
         $this->eventDispatcher->dispatch($event, Events::PRE_PROCESS_DELIVERY_FEE_EVENT);
 
@@ -121,10 +120,5 @@ class DeliveryFeeProcessor implements ItemHolderPreprocessor
             $Taxation,
             DeliveryFeeProcessor::class
         );
-    }
-
-    private function getAceClientConfig(): Config
-    {
-        return $this->configRepository->get();
     }
 }

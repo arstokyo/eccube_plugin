@@ -68,7 +68,7 @@ final class AceMethodAssistant implements AceMethodAssistantInterface
     public function __construct(string $currentClassName, string $endPoint, ServiceRetrieverInterface $serviceRetriever)
     {
         $this->serviceRetriever = $serviceRetriever;
-        $this->config = $this->loadConfig($this->serviceRetriever->getAceConfigSerializer(), AceMethodConfigBuilder::class, $this->serviceRetriever->getConfigRepository())
+        $this->config = $this->loadConfig($this->serviceRetriever->getAceConfigSerializer(), AceMethodConfigBuilder::class, $this->serviceRetriever->getConfigService())
                              ->getOverridedConfig($currentClassName);
         $this->apiClient = $this->buildApiClient($endPoint);
     }

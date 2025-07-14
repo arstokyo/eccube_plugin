@@ -25,12 +25,10 @@ use Eccube\Repository\Master\TaxDisplayTypeRepository;
 use Eccube\Repository\Master\TaxTypeRepository;
 use Eccube\Service\PurchaseFlow\DiscountProcessor as DiscountProcessorInterface;
 use Eccube\Service\PurchaseFlow\PurchaseContext;
-use Plugin\AceClient43\Entity\Config;
 use Plugin\AceClient43\Entity\OrderTrait;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\PostProcessDiscountEvent;
 use Plugin\AceClient43\Events\PreProcessDiscountEvent;
-use Plugin\AceClient43\Repository\ConfigRepository;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -40,11 +38,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class DiscountProcessor implements DiscountProcessorInterface
 {
-    private EntityManagerInterface $entityManager;
+    protected EntityManagerInterface $entityManager;
 
-    private EventDispatcherInterface $eventDispatcher;
-
-    private ConfigRepository $configRepository;
+    protected EventDispatcherInterface $eventDispatcher;
 
     protected OrderItemTypeRepository $orderItemTypeRepository;
 
@@ -52,20 +48,22 @@ class DiscountProcessor implements DiscountProcessorInterface
 
     protected TaxTypeRepository $taxTypeRepository;
 
+    protected AceConfigService $configService;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         EventDispatcherInterface $eventDispatcher,
-        ConfigRepository $config,
         OrderItemTypeRepository $orderItemTypeRepository,
         TaxDisplayTypeRepository $taxDisplayTypeRepository,
         TaxTypeRepository $taxTypeRepository,
+        AceConfigService $configService,
     ) {
         $this->entityManager = $entityManager;
         $this->eventDispatcher = $eventDispatcher;
-        $this->configRepository = $config;
         $this->orderItemTypeRepository = $orderItemTypeRepository;
         $this->taxDisplayTypeRepository = $taxDisplayTypeRepository;
         $this->taxTypeRepository = $taxTypeRepository;
+        $this->configService = $configService;
     }
 
     public function removeDiscountItem(ItemHolderInterface $itemHolder, PurchaseContext $context)
@@ -86,7 +84,7 @@ class DiscountProcessor implements DiscountProcessorInterface
                     $Shipping->removeOrderItem($item);
                     $Order->removeOrderItem($item);
                     $this->entityManager->remove($item);
-                } elseif ($this->getAceClientConfig()->shouldUseAceDiscount() && $item->isDiscount()) {
+                } elseif ($this->configService->shouldUseAceDiscount() && $item->isDiscount()) {
                     $Shipping->removeOrderItem($item);
                     $Order->removeOrderItem($item);
                     $this->entityManager->remove($item);
@@ -112,7 +110,7 @@ class DiscountProcessor implements DiscountProcessorInterface
      */
     private function addDiscountItems(Order $Order, PurchaseContext $context): void
     {
-        $config = $this->getAceClientConfig();
+        $config = $this->configService->getConfig();
         $event = new PreProcessDiscountEvent($Order, $config, $context);
         $this->eventDispatcher->dispatch($event, Events::PRE_PROCESS_DISCOUNT_EVENT);
 
@@ -138,10 +136,5 @@ class DiscountProcessor implements DiscountProcessorInterface
             new PostProcessDiscountEvent($Order, $config, $context),
             Events::POST_PROCESS_DISCOUNT_EVENT
         );
-    }
-
-    private function getAceClientConfig(): Config
-    {
-        return $this->configRepository->get();
     }
 }

@@ -19,7 +19,7 @@ use Eccube\Session\Session;
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelExtend1Interface;
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelInterface;
 use Plugin\AceClient43\Entity\Config;
-use Plugin\AceClient43\Repository\ConfigRepository;
+use Plugin\AceClient43\Service\AceConfigService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -55,6 +55,11 @@ class BaseBridge
     protected $eventDispatcher;
 
     /**
+     * @var AceConfigService
+     */
+    protected $aceConfigService;
+
+    /**
      * @Required
      */
     public function setEntityManger(EntityManagerInterface $entityManager): void
@@ -73,9 +78,10 @@ class BaseBridge
     /**
      * @Required
      */
-    public function setConfigRepository(ConfigRepository $configRepository): void
+    public function setAceConfigService(AceConfigService $aceConfigService): void
     {
-        $this->config = $configRepository->get();
+        $this->aceConfigService = $aceConfigService;
+        $this->config = $aceConfigService->getConfig();
     }
 
     /**
@@ -97,18 +103,23 @@ class BaseBridge
     /**
      * システムIDを取得
      *
-     * @return int|null
+     * @return string|null
      *
      * @throws \LogicException
      */
     protected function getSyid(): ?string
     {
-        $syid = $this->config->getSyid();
-        if (null === $syid) {
-            throw new \LogicException('システムIDが設定されていません。');
-        }
+        return $this->aceConfigService->getSyid();
+    }
 
-        return $syid;
+    /**
+     * AceClient設定を取得
+     *
+     * @return Config|null
+     */
+    protected function getAceConfig(): ?Config
+    {
+        return $this->aceConfigService->getConfig();
     }
 
     /**

@@ -13,6 +13,7 @@
 
 namespace Plugin\AceClient43\Util\Denormalizer;
 
+use Plugin\AceClient43\Util\ModelResolver\ModelResolver;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
@@ -38,8 +39,8 @@ final class DenormalizerFactory
      *
      * @return DenormalizerInterface
      */
-    public static function makeAsListDenormalizer(): DenormalizerInterface
+    public static function makeAsListDenormalizer(ModelResolver $modelResolver): DenormalizerInterface
     {
-        return new AsListDenormalizer();
+        return new AsListDenormalizer($modelResolver);
     }
 }

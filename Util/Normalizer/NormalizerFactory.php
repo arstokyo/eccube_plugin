@@ -80,7 +80,7 @@ final class NormalizerFactory
         $classMetadataFactory = self::makeAnnotationMetaFactory();
 
         return \array_merge(
-            [new AceDateTimeNormalizer(), new PrmNormalizer(), DenormalizerFactory::makeArrayDenormalizer(), DenormalizerFactory::makeAsListDenormalizer()],
+            [new AceDateTimeNormalizer(), new PrmNormalizer(), DenormalizerFactory::makeArrayDenormalizer(), DenormalizerFactory::makeAsListDenormalizer($modelResolver)],
             self::makeNormalizers(
                 $classMetadataFactory,
                 new MetadataAwareNameConverter($classMetadataFactory),

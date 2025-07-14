@@ -66,6 +66,8 @@ class AddCartHelper
                 continue;
             }
 
+            $foundProductCodes[] = $productCode;
+
             $options = [
                 '_trigger' => AddCartHelper::class,
                 'jyumei_model' => $jyumei,
@@ -75,6 +77,7 @@ class AddCartHelper
             $anySync = true;
         }
 
+        $Cart = $this->cartService->getCart();
         // カートアイテムの中で、jyumeiに存在しないものを削除
         $notFoundItems = [];
         foreach ($Cart->getCartItems() as $cartItem) {
