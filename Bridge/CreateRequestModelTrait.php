@@ -33,6 +33,8 @@ trait CreateRequestModelTrait
     }
 
     /**
+     * リクエストモデルを作成する
+     *
      * @throws DataTypeMissMatchException
      * @throws InvalidClassNameException
      */
@@ -60,6 +62,8 @@ trait CreateRequestModelTrait
      * サブリクエストモデルを作成する
      *
      * @param string $class
+     *
+     * @return mixed
      *
      * @throws DataTypeMissMatchException
      * @throws InvalidClassNameException

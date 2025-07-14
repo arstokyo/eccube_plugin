@@ -5,6 +5,7 @@ namespace Plugin\AceClient43\Bridge\DataConverter;
 use Eccube\Entity\Customer;
 use Eccube\Entity\CustomerAddress;
 use Plugin\AceClient43\AceServices\Model\Request\Member\DeleteHaisoAdrs\DeleteHaisoAdrsRequestModel;
+use Plugin\AceClient43\AceServices\Model\Request\Member\DeleteHaisoAdrs\DeleteHaisoAdrsRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr as RequestRegMemAdr;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr\RegMemAdrRequestModel;
 use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
@@ -23,13 +24,13 @@ class CustomerAddressDataConverter implements CustomerAddressDataConverterInterf
         $fullKana = $this->formatFullName($address->getKana01(), $address->getKana02());
 
         /** @var RegMemAdrRequestModel $requestModel */
-        $requestModel = $this->createRequestModel(RegMemAdrRequestModel::class);
+        $requestModel = $this->createRequestModel(RequestRegMemAdr\RegMemAdrRequestModelInterface::class);
 
         /** @var RequestRegMemAdr\MemberPrmModel $prmModel */
-        $prmModel = $this->createSubModel(RequestRegMemAdr\MemberPrmModel::class);
+        $prmModel = $this->createSubModel(RequestRegMemAdr\MemberPrmModelInterface::class);
 
         /** @var RequestRegMemAdr\NmemberModel $nmemberModel */
-        $nmemberModel = $this->createSubModel(RequestRegMemAdr\NmemberModel::class);
+        $nmemberModel = $this->createSubModel(RequestRegMemAdr\NmemberModelInterface::class);
 
         $nmemberModel
             ->setCode($customer->getAceCustomerId())
@@ -56,7 +57,7 @@ class CustomerAddressDataConverter implements CustomerAddressDataConverterInterf
     public function convertCustomerAddressToDeleteRequest(Customer $customer, CustomerAddress $address, string $syid, array $options = []): DeleteHaisoAdrsRequestModel
     {
         /** @var DeleteHaisoAdrsRequestModel $requestModel */
-        $requestModel = $this->createRequestModel(DeleteHaisoAdrsRequestModel::class);
+        $requestModel = $this->createRequestModel(DeleteHaisoAdrsRequestModelInterface::class);
 
         return $requestModel
             ->setId($syid)

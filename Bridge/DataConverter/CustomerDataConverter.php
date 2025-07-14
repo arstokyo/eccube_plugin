@@ -8,7 +8,6 @@ use Eccube\Repository\Master\SexRepository;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode;
-use Plugin\AceClient43\AceServices\Model\Response\Member\RegMember\RegMemberResponseModelInterface;
 use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
 
 class CustomerDataConverter implements CustomerDataConverterInterface
@@ -33,7 +32,7 @@ class CustomerDataConverter implements CustomerDataConverterInterface
     public function convertCustomerToJmember(Customer $customer, array $options = []): RegMember\JmemberModelInterface
     {
         /** @var RegMember\JmemberModelInterface $jmemberModel */
-        $jmemberModel = $this->createRequestModel(RegMember\JmemberModelInterface::class);
+        $jmemberModel = $this->createSubModel(RegMember\JmemberModelInterface::class);
 
         /** @var RegMember\MemMailModel $memMailModel */
         $memMailModel = $this->createSubModel(RegMember\MemMailModel::class);
@@ -56,11 +55,6 @@ class CustomerDataConverter implements CustomerDataConverterInterface
             ->setPasswd($customer->getPassword())
             ->setMemmail($memMailModel);
 
-        // Set company name if available
-        if ($customer->getCompanyName()) {
-            $jmember->setCompany($customer->getCompanyName());
-        }
-
         // Set ACE customer ID for updates
         if ($customer->getAceCustomerId()) {
             $jmember->setCode($customer->getAceCustomerId());
@@ -77,10 +71,10 @@ class CustomerDataConverter implements CustomerDataConverterInterface
         $jmember = $this->convertCustomerToJmember($customer, $options);
 
         /** @var RegMember\RegMemberRequestModelInterface $request */
-        $request = $this->createRequestModel(RegMemberResponseModelInterface::class);
+        $request = $this->createRequestModel(RegMember\RegMemberRequestModelInterface::class);
 
         /** @var RegMember\MemberPrmModelInterface $prmModel */
-        $prmModel = $this->createRequestModel(RegMember\MemberPrmModelInterface::class);
+        $prmModel = $this->createSubModel(RegMember\MemberPrmModelInterface::class);
         $prmModel->setJmember($jmember);
 
         return $request
