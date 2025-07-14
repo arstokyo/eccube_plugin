@@ -68,6 +68,7 @@ class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareI
             if (!\is_string($value) || !\class_exists($value)) {
                 throw new DataTypeMissMatchException(sprintf('AsListDenormalizer Error: Expected class name for property "%s" in type "%s".', $key, $type));
             }
+
             $asListProperty[$key] = $this->modelResolver->findResponseModel($value);
         }
 
