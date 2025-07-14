@@ -18,25 +18,25 @@ namespace Plugin\AceClient43\AceServices\Model\Request\Member\GetMemberMcode;
  */
 class OptionsModel implements OptionsModelInterface
 {
-    private ?string $returnMemFreeKubun = null;
+    private ?string $returnMemFreeKubuns = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getReturnMemFreeKubun(): ?string
+    public function getReturnMemFreeKubuns(): ?string
     {
-        return $this->returnMemFreeKubun;
+        return $this->returnMemFreeKubuns;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setReturnMemFreeKubun(?array $returnMemFreeKubun): self
+    public function setReturnMemFreeKubuns(?array $returnMemFreeKubuns): self
     {
-        if (is_array($returnMemFreeKubun)) {
-            $this->returnMemFreeKubun = implode(',', $returnMemFreeKubun);
+        if (is_array($returnMemFreeKubuns)) {
+            $this->returnMemFreeKubuns = implode(',', $returnMemFreeKubuns);
         } else {
-            $this->returnMemFreeKubun = '';
+            $this->returnMemFreeKubuns = '';
         }
 
         return $this;

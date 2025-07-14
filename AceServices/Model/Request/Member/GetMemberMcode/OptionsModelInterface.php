@@ -13,6 +13,8 @@
 
 namespace Plugin\AceClient43\AceServices\Model\Request\Member\GetMemberMcode;
 
+use Symfony\Component\Serializer\Attribute\SerializedName;
+
 interface OptionsModelInterface
 {
     /**
@@ -20,14 +22,16 @@ interface OptionsModelInterface
      *
      * @return string
      */
-    public function getReturnMemFreeKubun(): ?string;
+    public function getReturnMemFreeKubuns(): ?string;
 
     /**
      * Set ReturnMemFreeKubun
      *
-     * @param array $returnJdKubun
+     * @param array|null $returnMemFreeKubuns
+     *
+     * @SerializedName("return_memfree_kubuns")
      *
      * @return self
      */
-    public function setReturnMemFreeKubun(?array $returnMemFreeKubun): self;
+    public function setReturnMemFreeKubuns(?array $returnMemFreeKubuns): self;
 }
