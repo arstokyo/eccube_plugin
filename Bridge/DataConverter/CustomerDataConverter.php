@@ -14,9 +14,9 @@ class CustomerDataConverter implements CustomerDataConverterInterface
 {
     use CreateRequestModelTrait;
 
-    private SexRepository $sexRepository;
+    protected SexRepository $sexRepository;
 
-    private PrefRepository $prefRepository;
+    protected PrefRepository $prefRepository;
 
     public function __construct(
         SexRepository $sexRepository,
@@ -157,7 +157,7 @@ class CustomerDataConverter implements CustomerDataConverterInterface
      *
      * @return string
      */
-    private function formatFullName(?string $name01, ?string $name02): string
+    protected function formatFullName(?string $name01, ?string $name02): string
     {
         return mb_convert_kana(sprintf('%s　%s', $name01 ?? '', $name02 ?? ''), 'KVA');
     }
@@ -169,7 +169,7 @@ class CustomerDataConverter implements CustomerDataConverterInterface
      * @param string|null $name02
      * @param Customer $customer
      */
-    private function parseAndSetName(?string $name01, ?string $name02, Customer $customer): void
+    protected function parseAndSetName(?string $name01, ?string $name02, Customer $customer): void
     {
         $customer->setName01($name01 ?? '');
         $customer->setName02($name02 ?? '');
@@ -182,7 +182,7 @@ class CustomerDataConverter implements CustomerDataConverterInterface
      * @param string|null $kana02
      * @param Customer $customer
      */
-    private function parseAndSetKana(?string $kana01, ?string $kana02, Customer $customer): void
+    protected function parseAndSetKana(?string $kana01, ?string $kana02, Customer $customer): void
     {
         $customer->setKana01($kana01 ?? '');
         $customer->setKana02($kana02 ?? '');
@@ -195,7 +195,7 @@ class CustomerDataConverter implements CustomerDataConverterInterface
      * @param Customer $customer
      * @param string $type
      */
-    private function parseAndSetFullName(?string $fullName, Customer $customer, string $type): void
+    protected function parseAndSetFullName(?string $fullName, Customer $customer, string $type): void
     {
         if (!$fullName) {
             if ($type === 'name') {
@@ -228,7 +228,7 @@ class CustomerDataConverter implements CustomerDataConverterInterface
      * @param mixed $sexValue
      * @param Customer $customer
      */
-    private function setSex($sexValue, Customer $customer): void
+    protected function setSex($sexValue, Customer $customer): void
     {
         if ($sexValue) {
             $sex = $this->sexRepository->find($sexValue);
@@ -244,7 +244,7 @@ class CustomerDataConverter implements CustomerDataConverterInterface
      * @param string|null $prefName
      * @param Customer $customer
      */
-    private function setPrefecture(?string $prefName, Customer $customer): void
+    protected function setPrefecture(?string $prefName, Customer $customer): void
     {
         if ($prefName) {
             $pref = $this->prefRepository->findOneBy(['name' => $prefName]);

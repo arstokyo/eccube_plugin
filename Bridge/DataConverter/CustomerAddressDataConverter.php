@@ -73,7 +73,7 @@ class CustomerAddressDataConverter implements CustomerAddressDataConverterInterf
      *
      * @return string
      */
-    private function formatFullName(?string $name01, ?string $name02): string
+    protected function formatFullName(?string $name01, ?string $name02): string
     {
         return mb_convert_kana(sprintf('%s　%s', $name01 ?? '', $name02 ?? ''), 'KVA');
     }
