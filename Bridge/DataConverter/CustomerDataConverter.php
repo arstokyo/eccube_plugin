@@ -141,7 +141,7 @@ class CustomerDataConverter implements CustomerDataConverterInterface
             ->setAddr01($jmember->getAdr2() ?? '')
             ->setAddr02($jmember->getAdr3() ?? '')
             ->setPhoneNumber($jmember->getTel() ?? '')
-            ->setEmail($jmember->getUserid() ?? '')
+            ->setEmail($jmember->getUserid())
             ->setBirth($jmember->getBirthday()->toDateTime())
             ->setAceCustomerId($jmember->getCode());
 
