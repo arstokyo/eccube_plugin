@@ -24,18 +24,18 @@ interface JmemberModelInterface extends Person\PersonLevel4Interface, Person\Per
     /**
      * Get メールアドレス
      *
-     * @return MemMailModelInterface|null メールアドレス
+     * @return MemMailModelInterface[]
      */
-    public function getMemmail(): ?MemMailModelInterface;
+    public function getMemmail(): array;
 
     /**
      * Set メールアドレス
      *
-     * @param Request\Member\Regmember\MemMailModel|null $memmail メールアドレス
+     * @param Request\Member\Regmember\MemMailModel[] $memmail メールアドレス
      *
      * @return self
      */
-    public function setMemmail(?MemMailModelInterface $memmail): self;
+    public function setMemmail(array $memmail): self;
 
     /**
      * Get パスワードリマインダー

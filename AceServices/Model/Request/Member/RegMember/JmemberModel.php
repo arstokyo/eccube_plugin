@@ -35,8 +35,8 @@ class JmemberModel implements JmemberModelInterface
     use Point\PointTrait;
     use Point\PointKindTrait;
 
-    /** @var MemMailModelInterface|null */
-    private ?MemMailModelInterface $memmail = null;
+    /** @var MemMailModel[] */
+    private array $memmail = [];
 
     /** @var PassWdRemModelInterface|null */
     private ?PassWdRemModelInterface $passwdrem = null;
@@ -44,7 +44,7 @@ class JmemberModel implements JmemberModelInterface
     /**
      * {@inheritDoc}
      */
-    public function getMemmail(): ?MemMailModelInterface
+    public function getMemmail(): array
     {
         return $this->memmail;
     }
@@ -52,7 +52,7 @@ class JmemberModel implements JmemberModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setMemmail(?MemMailModelInterface $memmail): self
+    public function setMemmail(array $memmail): self
     {
         $this->memmail = $memmail;
 
