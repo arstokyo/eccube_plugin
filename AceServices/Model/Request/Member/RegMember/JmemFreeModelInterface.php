@@ -36,14 +36,14 @@ interface JmemFreeModelInterface
      *
      * @return string
      */
-    public function getFree(): string;
+    public function getFree(): ?string;
 
     /**
      * Set Free
      *
-     * @param string $free
+     * @param string|null $free
      *
      * @return self
      */
-    public function setFree(string $free): self;
+    public function setFree(?string $free): self;
 }

@@ -19,7 +19,7 @@ class JmemFreeModel implements JmemFreeModelInterface
     private int $kubun;
 
     /** @var string */
-    private string $free;
+    private ?string $free;
 
     /**
      * {@inheritDoc}
@@ -42,7 +42,7 @@ class JmemFreeModel implements JmemFreeModelInterface
     /**
      * {@inheritDoc}
      */
-    public function getFree(): string
+    public function getFree(): ?string
     {
         return $this->free;
     }
@@ -50,7 +50,7 @@ class JmemFreeModel implements JmemFreeModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setFree(string $free): self
+    public function setFree(?string $free): self
     {
         $this->free = $free;
 
