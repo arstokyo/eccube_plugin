@@ -20,7 +20,7 @@ class MemMailModel implements MemMailModelInterface
     use MailTrait;
 
     /** @var ?int */
-    protected ?int $dmailkbn;
+    protected ?int $dmmailkbn;
 
     /** @var ?int */
     protected ?int $idx;
@@ -28,17 +28,17 @@ class MemMailModel implements MemMailModelInterface
     /**
      * {@inheritDoc}
      */
-    public function getDmailkbn(): ?int
+    public function getDmmailkbn(): ?int
     {
-        return $this->dmailkbn;
+        return $this->dmmailkbn;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setDmailkbn(?int $dmailkbn)
+    public function setDmmailkbn(?int $dmmailkbn)
     {
-        $this->dmailkbn = $dmailkbn;
+        $this->dmmailkbn = $dmmailkbn;
 
         return $this;
     }

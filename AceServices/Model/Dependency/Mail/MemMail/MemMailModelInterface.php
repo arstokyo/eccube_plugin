@@ -43,14 +43,14 @@ interface MemMailModelInterface extends HasMailInterface
      *
      * @return int|null
      */
-    public function getDmailkbn(): ?int;
+    public function getDmmailkbn(): ?int;
 
     /**
      * Set DMメール配信区分
      *
-     * @param int|null $dmailkbn
+     * @param int|null $dmmailkbn
      *
      * @return $this
      */
-    public function setDmailkbn(?int $dmailkbn);
+    public function setDmmailkbn(?int $dmmailkbn);
 }

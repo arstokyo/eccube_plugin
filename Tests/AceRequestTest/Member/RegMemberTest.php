@@ -23,8 +23,11 @@ use Plugin\AceClient43\Util\Serializer;
 class RegMemberTest extends AceRequestTestAbtract
 {
     private ?string $sessionid = '1234';
+
     private ?string $testJmemid = '111';
+
     private ?string $testNmemid = '111';
+
     private ?string $testSmemid = '116';
 
     public function getRegmemberRequestModelCase1(): RegMember\RegMemberRequestModel
@@ -79,7 +82,7 @@ class RegMemberTest extends AceRequestTestAbtract
                                                 (new RegMember\MemMailModel())
                                                   ->setMail('regMemberJmem@AceClient.v1.0')
                                                   ->setIdx(1)
-                                                  ->setDmailkbn(1)
+                                                  ->setDmmailkbn(1)
                                             )
                                             ->setUserid($this->testJmemid)
                                             ->setPasswd('password')
@@ -173,7 +176,7 @@ class RegMemberTest extends AceRequestTestAbtract
                                                         (new RegMember\MemMailModel())
                                                         ->setMail('regMemberSmem@AceClient.v1.0')
                                                         ->setIdx(1)
-                                                        ->setDmailkbn(1)
+                                                        ->setDmmailkbn(1)
                                                     )
                                                 )
         );
