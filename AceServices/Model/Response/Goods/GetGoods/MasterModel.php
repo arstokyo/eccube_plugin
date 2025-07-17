@@ -36,11 +36,6 @@ class MasterModel implements MasterModelInterface
     private ?array $Gtanka = null;
 
     /**
-     * @var Model\Dependency\Good\GoodFreeModelGroupInterface[]|null Gfree
-     */
-    private ?array $Gfree = null;
-
-    /**
      * {@inheritDoc}
      */
     public function getGoods(): ?array
@@ -75,28 +70,11 @@ class MasterModel implements MasterModelInterface
     /**
      * {@inheritDoc}
      */
-    public function getGfree(): ?array
-    {
-        return $this->Gfree;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setGfree(?array $gfree): void
-    {
-        $this->Gfree = $gfree;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public static function fetchAsListProperty(): array
     {
         return [
             'Goods' => Model\Dependency\Good\GoodModelGroup1::class,
             'Gtanka' => Model\Dependency\Good\GoodTankaModelGroup1::class,
-            'Gfree' => Model\Dependency\Good\GoodFreeModelGroup::class,
         ];
     }
 }
