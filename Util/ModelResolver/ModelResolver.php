@@ -42,9 +42,9 @@ class ModelResolver
 
         // Check if this is a dependency model
         if ($this->isDependencyModel($type)) {
-            $modelClass = $this->findModelByNamespaceOptimized($type, $this->dependencySearchPaths, 'DependencyModel');
+            $modelClass = $this->findModelByNamespaceOptimized($type, $this->dependencySearchPaths);
         } else {
-            $modelClass = $this->findModelByNamespaceOptimized($type, $this->requestSearchPaths, 'RequestModel');
+            $modelClass = $this->findModelByNamespaceOptimized($type, $this->requestSearchPaths);
         }
 
         $this->modelCache[$cacheKey] = $modelClass;
@@ -61,9 +61,9 @@ class ModelResolver
 
         // Check if this is a dependency model
         if ($this->isDependencyModel($type)) {
-            $modelClass = $this->findModelByNamespaceOptimized($type, $this->dependencySearchPaths, 'DependencyModel');
+            $modelClass = $this->findModelByNamespaceOptimized($type, $this->dependencySearchPaths);
         } else {
-            $modelClass = $this->findModelByNamespaceOptimized($type, $this->responseSearchPaths, 'ResponseModel');
+            $modelClass = $this->findModelByNamespaceOptimized($type, $this->responseSearchPaths);
         }
 
         $this->modelCache[$cacheKey] = $modelClass;
@@ -76,12 +76,12 @@ class ModelResolver
         return strpos($type, '\\Model\\Dependency\\') !== false;
     }
 
-    private function findModelByNamespaceOptimized(string $type, array $searchPaths, string $modelSuffix): ?string
+    private function findModelByNamespaceOptimized(string $type, array $searchPaths): ?string
     {
         $namespacePath = $this->extractNamespacePath($type);
 
         if ($namespacePath) {
-            $modelClass = $this->findInSpecificNamespace($type, $searchPaths, $namespacePath, $modelSuffix);
+            $modelClass = $this->findInSpecificNamespace($type, $searchPaths, $namespacePath);
             if ($modelClass) {
                 return $modelClass;
             }
@@ -137,7 +137,7 @@ class ModelResolver
         return null;
     }
 
-    private function findInSpecificNamespace(string $type, array $searchPaths, string $namespacePath, string $modelSuffix): ?string
+    private function findInSpecificNamespace(string $type, array $searchPaths, string $namespacePath): ?string
     {
         $isInterface = interface_exists($type);
         $typeName = basename(str_replace('\\', '/', $type));
