@@ -13,6 +13,8 @@ class ModelResolver
 
     private array $responseSearchPaths;
 
+    private array $dependencySearchPaths;
+
     public function __construct(array $requestSearchPaths = [], array $responseSearchPaths = [])
     {
         $this->requestSearchPaths = $requestSearchPaths ?: [
@@ -24,6 +26,11 @@ class ModelResolver
             'Plugin/'.OverviewMapper::PLUGIN_NAME.'/AceServices/Model/Response',
             'Customize/AceClient/Model/Response',
         ];
+
+        $this->dependencySearchPaths = [
+            'Customize/AceClient/Model/Dependency',
+            'Plugin/'.OverviewMapper::PLUGIN_NAME.'/AceServices/Model/Dependency',
+        ];
     }
 
     public function findRequestModel(string $type): ?string
@@ -33,7 +40,13 @@ class ModelResolver
             return $this->modelCache[$cacheKey];
         }
 
-        $modelClass = $this->findModelByNamespaceOptimized($type, $this->requestSearchPaths, 'RequestModel');
+        // Check if this is a dependency model
+        if ($this->isDependencyModel($type)) {
+            $modelClass = $this->findModelByNamespaceOptimized($type, $this->dependencySearchPaths, 'DependencyModel');
+        } else {
+            $modelClass = $this->findModelByNamespaceOptimized($type, $this->requestSearchPaths, 'RequestModel');
+        }
+
         $this->modelCache[$cacheKey] = $modelClass;
 
         return $modelClass;
@@ -46,10 +59,21 @@ class ModelResolver
             return $this->modelCache[$cacheKey];
         }
 
-        $modelClass = $this->findModelByNamespaceOptimized($type, $this->responseSearchPaths, 'ResponseModel');
+        // Check if this is a dependency model
+        if ($this->isDependencyModel($type)) {
+            $modelClass = $this->findModelByNamespaceOptimized($type, $this->dependencySearchPaths, 'DependencyModel');
+        } else {
+            $modelClass = $this->findModelByNamespaceOptimized($type, $this->responseSearchPaths, 'ResponseModel');
+        }
+
         $this->modelCache[$cacheKey] = $modelClass;
 
         return $modelClass;
+    }
+
+    private function isDependencyModel(string $type): bool
+    {
+        return strpos($type, '\\Model\\Dependency\\') !== false;
     }
 
     private function findModelByNamespaceOptimized(string $type, array $searchPaths, string $modelSuffix): ?string
@@ -70,19 +94,43 @@ class ModelResolver
     {
         // Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\AddCartRequestModelInterface
         // から Jyuden\AddCart を抽出
+        // Handle Request models
         if (preg_match('/Plugin\\\\'.OverviewMapper::PLUGIN_NAME.'\\\\AceServices\\\\Model\\\\Request\\\\(.+)\\\\[^\\\\]+Interface$/', $interface, $matches)) {
             return str_replace('\\', '/', $matches[1]);
         }
 
+        // Handle Response models
         if (preg_match('/Plugin\\\\'.OverviewMapper::PLUGIN_NAME.'\\\\AceServices\\\\Model\\\\Response\\\\(.+)\\\\[^\\\\]+Interface$/', $interface, $matches)) {
             return str_replace('\\', '/', $matches[1]);
         }
 
+        // Handle Customize Request models
         if (preg_match('/Customize\\\\AceClient\\\\Model\\\\Request\\\\(.+)\\\\[^\\\\]+Interface$/', $interface, $matches)) {
             return str_replace('\\', '/', $matches[1]);
         }
 
+        // Handle Customize Response models
         if (preg_match('/Customize\\\\AceClient\\\\Model\\\\Response\\\\(.+)\\\\[^\\\\]+Interface$/', $interface, $matches)) {
+            return str_replace('\\', '/', $matches[1]);
+        }
+
+        // Handle Plugin Dependency models with Interface
+        if (preg_match('/Plugin\\\\'.OverviewMapper::PLUGIN_NAME.'\\\\AceServices\\\\Model\\\\Dependency\\\\(.+)\\\\[^\\\\]+Interface$/', $interface, $matches)) {
+            return str_replace('\\', '/', $matches[1]);
+        }
+
+        // Handle Plugin Dependency models without Interface
+        if (preg_match('/Plugin\\\\'.OverviewMapper::PLUGIN_NAME.'\\\\AceServices\\\\Model\\\\Dependency\\\\(.+)$/', $interface, $matches)) {
+            return str_replace('\\', '/', $matches[1]);
+        }
+
+        // Handle Customize Dependency models with Interface
+        if (preg_match('/Customize\\\\AceClient\\\\Model\\\\Dependency\\\\(.+)\\\\[^\\\\]+Interface$/', $interface, $matches)) {
+            return str_replace('\\', '/', $matches[1]);
+        }
+
+        // Handle Customize Dependency models without Interface
+        if (preg_match('/Customize\\\\AceClient\\\\Model\\\\Dependency\\\\(.+)$/', $interface, $matches)) {
             return str_replace('\\', '/', $matches[1]);
         }
 
