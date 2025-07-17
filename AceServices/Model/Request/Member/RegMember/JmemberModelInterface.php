@@ -52,4 +52,20 @@ interface JmemberModelInterface extends Person\PersonLevel4Interface, Person\Per
      * @return self
      */
     public function setPasswdrem(?PassWdRemModelInterface $passwdrem): self;
+
+    /**
+     * Get URL
+     *
+     * @return string|null URL
+     */
+    public function getUrl(): ?string;
+
+    /**
+     * Set URL
+     *
+     * @param string|null $url URL
+     *
+     * @return self
+     */
+    public function setUrl(?string $url): self;
 }
