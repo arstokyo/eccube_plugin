@@ -14,7 +14,6 @@
 namespace Plugin\AceClient43\AceServices\Model\Request\Goods\GetGoods;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Day;
-use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelAbstract;
 use Plugin\AceClient43\Exception\MissingRequestParameterException;
 use Symfony\Component\Serializer\Annotation\SerializedName;
@@ -26,43 +25,32 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  */
 class GetGoodsRequestModel extends RequestModelAbstract implements GetGoodsRequestModelInterface
 {
-    use NoCategory\IdTrait;
-
     use Day\ExecDateFromTrait;
 
     use Day\ExecDateToTrait;
     public const XML_NODE_NAME = 'getGoods';
 
     /**
-     * @var ?string
+     * @var IdPrmModelInterface|null
      *
-     * @SerializedName("Options")
+     * @SerializedName("id")
      */
-    private $options;
+    private ?IdPrmModelInterface $idPrm = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getOptions(): ?string
+    public function getIdPrm(): IdPrmModelInterface
     {
-        return $this->options;
+        return $this->idPrm;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setOptions(?array $options)
+    public function setIdPrm(IdPrmModelInterface $idPrm): self
     {
-        $fmkbnCodes = $options['fmkbn'] ?? [];
-        // フリーコードのフィルタリング
-        if (!empty($fmkbnCodes)) {
-            $fmkbnCodes = array_filter(
-                $fmkbnCodes,
-                fn ($v) => !is_null($v) && $v !== ''
-            );
-            $options['fmkbn'] = array_values($fmkbnCodes);
-        }
-        $this->options = json_encode($options);
+        $this->idPrm = $idPrm;
 
         return $this;
     }
@@ -72,8 +60,8 @@ class GetGoodsRequestModel extends RequestModelAbstract implements GetGoodsReque
      */
     public function ensureParameterNotMissing(): void
     {
-        if (!$this->id) {
-            throw new MissingRequestParameterException($this->compilePropertyName('id'));
+        if (empty($this->idPrm)) {
+            throw new MissingRequestParameterException($this->compilePropertyName('idPrm'));
         }
     }
 

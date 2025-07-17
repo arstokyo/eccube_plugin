@@ -14,7 +14,6 @@
 namespace Plugin\AceClient43\AceServices\Model\Request\Goods\GetGoods;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Day;
-use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
 
 /**
@@ -22,21 +21,21 @@ use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface GetGoodsRequestModelInterface extends RequestModelInterface, NoCategory\HasIdInterface, Day\HasExecDateFromInterface, Day\HasExecDateToInterface
+interface GetGoodsRequestModelInterface extends RequestModelInterface, Day\HasExecDateFromInterface, Day\HasExecDateToInterface
 {
     /**
-     * Get Options (JSON string)
+     * Get IdPrm
      *
-     * @return ?string
+     * @return IdPrmModelInterface
      */
-    public function getOptions(): ?string;
+    public function getIdPrm(): IdPrmModelInterface;
 
     /**
-     * Set Options
+     * Set IdPrm
      *
-     * @param ?array $options
+     * @param IdPrmModelInterface $idPrm
      *
-     * @return $this
+     * @return self
      */
-    public function setOptions(?array $options);
+    public function setIdPrm(IdPrmModelInterface $idPrm): self;
 }
