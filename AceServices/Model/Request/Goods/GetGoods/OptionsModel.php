@@ -41,7 +41,8 @@ class OptionsModel implements OptionsModelInterface
     public function setReturnGoodsKubun(?array $returnGoodsKubun): self
     {
         if (is_array($returnGoodsKubun)) {
-            $this->returnGoodsKubun = implode(',', $returnGoodsKubun);
+            $unique = array_unique($returnGoodsKubun);
+            $this->returnGoodsKubun = implode(',', $unique);
         } else {
             $this->returnGoodsKubun = '';
         }
