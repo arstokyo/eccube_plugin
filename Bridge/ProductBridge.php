@@ -16,6 +16,8 @@ namespace Plugin\AceClient43\Bridge;
 use Plugin\AceClient43\AceServices\AceMethod\Goods\GetGoodsMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Goods\GetZaikoMethod;
 use Plugin\AceClient43\AceServices\Model\Request\Goods\GetGoods as RequestGetGoods;
+use Plugin\AceClient43\AceServices\Model\Request\Goods\GetGoods\IdPrmModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\Goods\GetGoods\OptionsModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Goods\GetZaiko as RequestGetZaiko;
 use Plugin\AceClient43\AceServices\Model\Response\Goods\GetGoods as ResponseGetGoods;
 use Plugin\AceClient43\AceServices\Model\Response\Goods\GetZaiko as ResponseGetZaiko;
@@ -47,16 +49,23 @@ class ProductBridge extends BaseBridge
      */
     public function getAll(\DateTime $updatedAtFrom, \DateTime $updatedAtTo, array &$options = []): ?ResponseGetGoods\MasterModelInterface
     {
-        $optionsApi = $options['_get_goods.options'];
+        $freeCode = $options['_get_goods.options_freecode'];
 
         /** @var RequestGetGoods\GetGoodsRequestModelInterface $requestModel */
         $requestModel = $this->createRequestModel(RequestGetGoods\GetGoodsRequestModelInterface::class);
+        /** @var IdPrmModelInterface $prmModel */
+        $prmModel = $this->createSubModel(IdPrmModelInterface::class);
+        /** @var OptionsModelInterface $optionModel */
+        $optionModel = $this->createSubModel(OptionsModelInterface::class);
 
-        $request = $requestModel
-            ->setId($this->getSyid())
-            ->setExecDateFrom($updatedAtFrom)
-            ->setExecDateTo($updatedAtTo)
-            ->setOptions($optionsApi);
+        $optionModel->setReturnGoodsKubun($freeCode);
+
+        $prmModel->setSyid($this->getSyid())
+                 ->setOptions($optionModel);
+
+        $request = $requestModel->setIdPrm($prmModel)
+                                ->setExecDateFrom($updatedAtFrom)
+                                ->setExecDateTo($updatedAtTo);
 
         try {
             $response = $this->getGoodsMethod
