@@ -41,6 +41,8 @@ class JmemberModel implements JmemberModelInterface
     /** @var PassWdRemModelInterface|null */
     private ?PassWdRemModelInterface $passwdrem = null;
 
+    private ?string $url = null;
+
     /**
      * {@inheritDoc}
      */
@@ -73,6 +75,24 @@ class JmemberModel implements JmemberModelInterface
     public function setPasswdrem(?PassWdRemModelInterface $passwdrem): self
     {
         $this->passwdrem = $passwdrem;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setUrl(?string $url): self
+    {
+        $this->url = $url;
 
         return $this;
     }
