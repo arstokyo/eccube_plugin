@@ -24,6 +24,9 @@ class MemberPrmModel extends PrmModelAbstract implements MemberPrmModelInterface
     /** @var NmemberModel|null 納品先 */
     private ?NmemberModelInterface $nmember = null;
 
+    /** @var OptionsModelInterface|null オプション */
+    private ?OptionsModelInterface $options = null;
+
     /**
      * {@inheritDoc}
      */
@@ -40,6 +43,24 @@ class MemberPrmModel extends PrmModelAbstract implements MemberPrmModelInterface
         $this->nmember = $nmember;
 
         return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setOptions(?OptionsModelInterface $options): self
+    {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getOptions(): ?OptionsModelInterface
+    {
+        return $this->options;
     }
 
     /**

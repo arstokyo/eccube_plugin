@@ -34,4 +34,20 @@ interface MemberPrmModelInterface extends PrmModelInterface
      * @return self
      */
     public function setNmember(?NmemberModelInterface $nmember): self;
+
+    /**
+     * Get オプション
+     *
+     * @return OptionsModelInterface
+     */
+    public function getOptions(): ?OptionsModelInterface;
+
+    /**
+     * Set オプション
+     *
+     * @param OptionsModelInterface $options
+     *
+     * @return self
+     */
+    public function setOptions(?OptionsModelInterface $options): self;
 }
