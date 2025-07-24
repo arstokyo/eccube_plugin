@@ -13,6 +13,7 @@
 
 namespace Plugin\AceClient43\Security\Authenticator;
 
+use Eccube\Entity\Customer;
 use Eccube\Repository\CustomerRepository;
 use Plugin\AceClient43\Bridge\CustomerBridge;
 use Plugin\AceClient43\Service\AceConfigService;
@@ -53,8 +54,14 @@ class CustomerAuthenticator extends AbstractAuthenticator implements Authenticat
 
     protected RouterInterface $router;
 
-    public function __construct(FormLoginAuthenticator $innerAuthenticator, RouterInterface $router, AceConfigService $configService, CustomerRepository $customerRepository, CustomerBridge $customerBridge, LoggerInterface $logger)
-    {
+    public function __construct(
+        FormLoginAuthenticator $innerAuthenticator,
+        RouterInterface $router,
+        AceConfigService $configService,
+        CustomerRepository $customerRepository,
+        CustomerBridge $customerBridge,
+        LoggerInterface $logger,
+    ) {
         $this->innerAuthenticator = $innerAuthenticator;
         $this->router = $router;
         $this->configService = $configService;
@@ -81,6 +88,20 @@ class CustomerAuthenticator extends AbstractAuthenticator implements Authenticat
                     throw new UserNotFoundIsExistingOnAce();
                 }
             }
+
+            if (null !== $customer) {
+                if (!$customer instanceof Customer) {
+                    throw new AuthenticationException('ユーザー情報が不正です。');
+                }
+
+                if (!$customer->hasAceCustomerId()) {
+                    $this->logger->warning('通販Aceの顧客IDが存在しません。', [
+                        'customer' => $customer,
+                        'email' => $email,
+                    ]);
+                    throw new AuthenticationException('顧客情報が存在しません。');
+                }
+            }
         } catch (\Throwable $exception) {
             if ($exception instanceof UserNotFoundIsExistingOnAce) {
                 throw $exception;
@@ -97,6 +118,8 @@ class CustomerAuthenticator extends AbstractAuthenticator implements Authenticat
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+        $this->syncCustomer($token);
+
         return $this->innerAuthenticator->onAuthenticationSuccess($request, $token, $firewallName);
     }
 
@@ -120,5 +143,26 @@ class CustomerAuthenticator extends AbstractAuthenticator implements Authenticat
     public function isInteractive(): bool
     {
         return $this->innerAuthenticator->isInteractive();
+    }
+
+    private function syncCustomer(TokenInterface $token): void
+    {
+        $customer = $token->getUser();
+
+        // we expect Customer entity
+        if (!$customer instanceof Customer) {
+            return;
+        }
+
+        try {
+            $this->customerBridge->syncCustomerFromAce($customer);
+        } catch (\Throwable $e) {
+            $this->logger->error('顧客情報の更新に失敗しました。', [
+                'exception' => $e,
+                'customer' => $customer,
+            ]);
+
+            throw new \RuntimeException('顧客情報の更新に失敗しました。', 0, $e);
+        }
     }
 }

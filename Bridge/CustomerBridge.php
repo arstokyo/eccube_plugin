@@ -53,7 +53,7 @@ class CustomerBridge extends BaseBridge
      *
      * @throws CouldNotRegisterNewCustomerException
      */
-    public function new(Customer $customer, bool $needFlush = false, array $options = []): void
+    public function createCustomerInAce(Customer $customer, bool $needFlush = false, array $options = []): void
     {
         if (null !== $customer->getAceCustomerId()) {
             $this->logger->error('通販Aceの顧客登録に失敗しました: 顧客IDが既に存在します', ['customer' => $customer]);
@@ -73,7 +73,7 @@ class CustomerBridge extends BaseBridge
      *
      * @throws CouldNotRegisterNewCustomerException
      */
-    public function update(Customer $customer, bool $needFlush = true, array $options = []): void
+    public function updateCustomerInAce(Customer $customer, bool $needFlush = true, array $options = []): void
     {
         if (null === $customer->getAceCustomerId()) {
             $this->logger->error('通販Aceの顧客更新に失敗しました: 顧客IDが設定されていません', ['customer' => $customer]);
@@ -188,10 +188,8 @@ class CustomerBridge extends BaseBridge
      *
      * @return Customer 更新された顧客エンティティ
      */
-    public function getAndUpdateEntity(Customer $customer, bool $needFlush = true, array $options = []): Customer
+    public function syncCustomerFromAce(Customer $customer, bool $needFlush = true, array $options = []): Customer
     {
-        $loginMemberModel = null;
-
         if (null === $aceCustomerId = $customer->getAceCustomerId()) {
             $loginMemberModel = $this->getByEmailAndPassword($customer->getEmail(), $customer->getPassword());
         } else {
@@ -325,12 +323,12 @@ class CustomerBridge extends BaseBridge
      *
      * @throws CouldNotRegisterNewCustomerException
      */
-    public function createOrUpdate(Customer $customer, bool $needFlush = true, array $options = []): void
+    public function syncCustomerToAce(Customer $customer, bool $needFlush = true, array $options = []): void
     {
         if ($customer->getAceCustomerId()) {
-            $this->update($customer, $needFlush, $options);
+            $this->updateCustomerInAce($customer, $needFlush, $options);
         } else {
-            $this->new($customer, $needFlush, $options);
+            $this->createCustomerInAce($customer, $needFlush, $options);
         }
     }
 }
