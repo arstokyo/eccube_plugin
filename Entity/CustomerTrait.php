@@ -51,4 +51,14 @@ trait CustomerTrait
 
         return $this;
     }
+
+    /**
+     * mem_idの値が設定されているかどうかを返す
+     *
+     * @return bool
+     */
+    public function hasAceCustomerId(): bool
+    {
+        return !empty($this->ace_customer_id);
+    }
 }

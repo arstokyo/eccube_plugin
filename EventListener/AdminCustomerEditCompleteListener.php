@@ -64,7 +64,7 @@ class AdminCustomerEditCompleteListener implements EventSubscriberInterface
         ]);
 
         try {
-            $this->customerBridge->createOrUpdate($Customer);
+            $this->customerBridge->syncCustomerToAce($Customer);
         } catch (\Throwable $e) {
             $this->logger->error('[AdminCustomerEditCompleteListener] 通販Aceの顧客情報登録に失敗しました。', [
                 'exception' => $e,
