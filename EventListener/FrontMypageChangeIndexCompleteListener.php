@@ -43,7 +43,7 @@ class FrontMypageChangeIndexCompleteListener implements EventSubscriberInterface
     {
         try {
             $Customer = $event->getArgument('Customer');
-            $this->customerBridge->update($Customer);
+            $this->customerBridge->updateCustomerInAce($Customer);
         } catch (\Throwable $e) {
             $this->logger->error('[FrontMypageChangeIndexCompleteListener] 会員情報更新に失敗しました。', [
                 'exception' => $e,
