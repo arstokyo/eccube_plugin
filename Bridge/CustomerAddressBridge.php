@@ -21,9 +21,9 @@ use Plugin\AceClient43\AceServices\Model\Response\Member\DeleteHaisoAdrs\DeleteH
 use Plugin\AceClient43\AceServices\Model\Response\Member\RegMemAdr\RegMemAdrResponseModelInterface;
 use Plugin\AceClient43\Bridge\Helper\CustomerAddressBridgeHelper;
 use Plugin\AceClient43\Events\Events;
-use Plugin\AceClient43\Events\PostCreateOrUpdateCustomerAddressEvent;
-use Plugin\AceClient43\Events\PreCreateOrUpdateCustomerAddressEvent;
-use Plugin\AceClient43\Exception\CouldNotCreateOrUpdateCustomerAddressException;
+use Plugin\AceClient43\Events\PostCreateInAceCustomerAddressEvent;
+use Plugin\AceClient43\Events\PreCreateInAceCustomerAddressEvent;
+use Plugin\AceClient43\Exception\CouldNotCreateInAceCustomerAddressException;
 use Plugin\AceClient43\Exception\CouldNotRemoveCustomerAddressException;
 
 /**
@@ -65,7 +65,7 @@ class CustomerAddressBridge extends BaseBridge
         }
 
         foreach ($addresses as $address) {
-            $this->createOrUpdate($address, false, $options);
+            $this->createInAce($address, false, $options);
         }
 
         if ($needFlush) {
@@ -84,9 +84,9 @@ class CustomerAddressBridge extends BaseBridge
      *
      * @return bool
      *
-     * @throws CouldNotCreateOrUpdateCustomerAddressException
+     * @throws CouldNotCreateInAceCustomerAddressException
      */
-    public function createOrUpdate(CustomerAddress $address, bool $needFlush = true, array $options = []): bool
+    public function createInAce(CustomerAddress $address, bool $needFlush = true, array $options = []): bool
     {
         $customer = $address->getCustomer();
         if (null === $customer->getAceCustomerId()) {
@@ -96,10 +96,10 @@ class CustomerAddressBridge extends BaseBridge
 
         $request = $this->helper->createRegMemAdrRequestModel($address, $this->getSyid(), $options);
 
-        if ($this->eventDispatcher->hasListeners(Events::PRE_CREATE_OR_UPDATE_CUSTOMER_ADDRESS)) {
+        if ($this->eventDispatcher->hasListeners(Events::PRE_CREATE_IN_ACE_CUSTOMER_ADDRESS)) {
             $this->eventDispatcher->dispatch(
-                new PreCreateOrUpdateCustomerAddressEvent($request, $address, $options),
-                Events::PRE_CREATE_OR_UPDATE_CUSTOMER_ADDRESS
+                new PreCreateInAceCustomerAddressEvent($request, $address, $options),
+                Events::PRE_CREATE_IN_ACE_CUSTOMER_ADDRESS
             );
         }
 
@@ -115,15 +115,15 @@ class CustomerAddressBridge extends BaseBridge
             /** @var RegMemAdrResponseModelInterface $responseObject */
             $responseObject = $response->getResponse();
             if ($this->hasErrorMessage($responseObject->getMember())) {
-                throw new CouldNotCreateOrUpdateCustomerAddressException('通販Aceの住所登録に失敗しました。');
+                throw new CouldNotCreateInAceCustomerAddressException('通販Aceの住所登録に失敗しました。');
             }
 
             $address->setAceEdaNo($responseObject->getMember()->getNmember()->getEda());
 
-            if ($this->eventDispatcher->hasListeners(Events::POST_CREATE_OR_UPDATE_CUSTOMER_ADDRESS)) {
+            if ($this->eventDispatcher->hasListeners(Events::POST_CREATE_IN_ACE_CUSTOMER_ADDRESS)) {
                 $this->eventDispatcher->dispatch(
-                    new PostCreateOrUpdateCustomerAddressEvent($responseObject, $address, $options),
-                    Events::POST_CREATE_OR_UPDATE_CUSTOMER_ADDRESS
+                    new PostCreateInAceCustomerAddressEvent($responseObject, $address, $options),
+                    Events::POST_CREATE_IN_ACE_CUSTOMER_ADDRESS
                 );
             }
 
@@ -132,13 +132,13 @@ class CustomerAddressBridge extends BaseBridge
                 $this->em->flush($address);
             }
         } catch (\Throwable $e) {
-            if ($e instanceof CouldNotCreateOrUpdateCustomerAddressException) {
+            if ($e instanceof CouldNotCreateInAceCustomerAddressException) {
                 $this->logger->error('通販Aceの住所登録に失敗しました', ['exception' => $e]);
                 throw $e;
             }
 
             $this->logger->error('通販Aceの住所登録に失敗しました', ['exception' => $e]);
-            throw new CouldNotCreateOrUpdateCustomerAddressException('通販Aceの住所登録時にエラーが発生しました', $e);
+            throw new CouldNotCreateInAceCustomerAddressException('通販Aceの住所登録時にエラーが発生しました', $e);
         }
 
         return true;

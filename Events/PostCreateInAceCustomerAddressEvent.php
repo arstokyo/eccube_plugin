@@ -18,7 +18,7 @@ use Plugin\AceClient43\AceServices\Model\Response\Member\RegMemAdr\RegMemAdrResp
 use Plugin\AceClient43\AceServices\Model\Response\Member\RegMemAdr\RegMemAdrResponseModelInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
-class PostCreateOrUpdateCustomerAddressEvent extends Event
+class PostCreateInAceCustomerAddressEvent extends Event
 {
     /**
      * @var RegMemAdrResponseModelInterface

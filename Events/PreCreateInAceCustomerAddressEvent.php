@@ -17,7 +17,7 @@ use Eccube\Entity\CustomerAddress;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr\RegMemAdrRequestModel;
 use Symfony\Contracts\EventDispatcher\Event;
 
-class PreCreateOrUpdateCustomerAddressEvent extends Event
+class PreCreateInAceCustomerAddressEvent extends Event
 {
     /**
      * @var RegMemAdrRequestModel
