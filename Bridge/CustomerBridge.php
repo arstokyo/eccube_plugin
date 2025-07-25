@@ -36,12 +36,16 @@ class CustomerBridge extends BaseBridge
 
     private RegMemberMethod $regMemberMethod;
 
+    private CustomerAddressBridge $customerAddressBridge;
+
     public function __construct(
         RegMemberMethod $regMemberMethod,
         CustomerBridgeHelper $helper,
+        CustomerAddressBridge $customerAddressBridge,
     ) {
         $this->helper = $helper;
         $this->regMemberMethod = $regMemberMethod;
+        $this->customerAddressBridge = $customerAddressBridge;
     }
 
     /**
@@ -195,6 +199,8 @@ class CustomerBridge extends BaseBridge
         } else {
             $loginMemberModel = $this->getByAceCustomerId($aceCustomerId, $options, $customer);
         }
+
+        $this->customerAddressBridge->updateCustomerAddressEntityFromAce($loginMemberModel->getGetHaisouAdrs(), $customer, $needFlush, $options);
 
         return $this->updateCustomerEntityFromLoginMember($customer, $loginMemberModel, $needFlush, $options);
     }

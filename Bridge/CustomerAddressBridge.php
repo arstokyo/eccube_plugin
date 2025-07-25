@@ -15,9 +15,12 @@ namespace Plugin\AceClient43\Bridge;
 
 use Eccube\Entity\Customer;
 use Eccube\Entity\CustomerAddress;
+use Eccube\Repository\CustomerAddressRepository;
+use Eccube\Repository\Master\PrefRepository;
 use Plugin\AceClient43\AceServices\AceMethod\Member\DeleteHaisoAdrsMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\RegMemAdrMethod;
 use Plugin\AceClient43\AceServices\Model\Response\Member\DeleteHaisoAdrs\DeleteHaisoAdrsResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetHaisoAdrs\GetHaisoAdrsResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\RegMemAdr\RegMemAdrResponseModelInterface;
 use Plugin\AceClient43\Bridge\Helper\CustomerAddressBridgeHelper;
 use Plugin\AceClient43\Events\Events;
@@ -39,14 +42,22 @@ class CustomerAddressBridge extends BaseBridge
 
     private DeleteHaisoAdrsMethod $deleteHaisoAdrsMethod;
 
+    private CustomerAddressRepository $customerAddressRepository;
+
+    private PrefRepository $prefRepository;
+
     public function __construct(
         RegMemAdrMethod $regMemAdrMethod,
         DeleteHaisoAdrsMethod $deleteHaisoAdrsMethod,
         CustomerAddressBridgeHelper $helper,
+        CustomerAddressRepository $customerAddressRepository,
+        PrefRepository $prefRepository,
     ) {
         $this->helper = $helper;
         $this->regMemAdrMethod = $regMemAdrMethod;
         $this->deleteHaisoAdrsMethod = $deleteHaisoAdrsMethod;
+        $this->customerAddressRepository = $customerAddressRepository;
+        $this->prefRepository = $prefRepository;
     }
 
     /**
@@ -194,5 +205,49 @@ class CustomerAddressBridge extends BaseBridge
         }
 
         return true;
+    }
+
+    /**
+     * 通販Aceの住所情報を顧客エンティティに反映する
+     *
+     * @param GetHaisoAdrsResponseModelInterface[] $aceCustomerAddresses
+     * @param Customer $customer
+     * @param bool $needFlush
+     * @param array $options
+     */
+    public function updateCustomerAddressEntityFromAce(array $aceCustomerAddresses, Customer $customer, bool $needFlush = true, array $options = [])
+    {
+        /** @var GetHaisoAdrsResponseModelInterface $aceCustomerAddress */
+        foreach ($aceCustomerAddresses as $aceCustomerAddress) {
+            if ($aceCustomerAddress->getEda() !== '1') {
+                $customerAddress = $this->customerAddressRepository->findOneBy(['Customer' => $customer, 'ace_eda_no' => $aceCustomerAddress->getEda()]);
+                $pref = $this->prefRepository->findOneBy(['name' => $aceCustomerAddress->getAdr1()]);
+
+                if (!$pref) {
+                    throw new \Exception('[updateCustomerAddressEntityFromAce] Pref not found: '.$aceCustomerAddress->getAdr1());
+                }
+
+                if (!$customerAddress) {
+                    $customerAddress = new CustomerAddress();
+                    $customerAddress->setCreateDate(new \DateTime());
+                    $customerAddress->setUpdateDate(new \DateTime());
+                }
+
+                $customerAddress->setAceEdaNo($aceCustomerAddress->getEda());
+                $customerAddress->setCustomer($customer);
+                $customerAddress->setPostalCode($aceCustomerAddress->getZip());
+                $customerAddress->setAddr01($aceCustomerAddress->getAdr2());
+                $customerAddress->setAddr02($aceCustomerAddress->getAdr3());
+                $customerAddress->setPhoneNumber($aceCustomerAddress->getTel());
+                $customerAddress->setPhoneNumber2($aceCustomerAddress->getAdrBikou1());
+                $customerAddress->setName01($aceCustomerAddress->getSimei());
+                $customerAddress->setIsForeigner($aceCustomerAddress->getAdrBikou2());
+                $customerAddress->setPref($pref);
+                $this->em->persist($customerAddress);
+                if ($needFlush) {
+                    $this->em->flush($customerAddress);
+                }
+            }
+        }
     }
 }
