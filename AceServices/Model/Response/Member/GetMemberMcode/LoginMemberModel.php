@@ -16,6 +16,7 @@ namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode;
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelExtend1Trait;
 use Plugin\AceClient43\AceServices\Model\Dependency\Point;
 use Plugin\AceClient43\AceServices\Model\Dependency\Reminder;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetHaisoAdrs\GetHaisouAdrsModel;
 
 /**
  * Class for Login Member Model
@@ -45,6 +46,11 @@ class LoginMemberModel implements LoginMemberModelInterface
      * @var ?OrderInfoModel OrderInfo
      */
     private ?OrderInfoModel $OrderInfo;
+
+    /**
+     * @var ?GetHaisouAdrsModel[] GetHaisouAdrs
+     */
+    private ?array $getHaisouAdrs = null;
 
     /**
      * {@inheritDoc}
@@ -108,5 +114,31 @@ class LoginMemberModel implements LoginMemberModelInterface
     public function setOrderInfo(?OrderInfoModel $orderInfo): void
     {
         $this->OrderInfo = $orderInfo;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getGetHaisouAdrs(): ?array
+    {
+        return $this->getHaisouAdrs;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setGetHaisouAdrs(?array $getHaisouAdrs): self
+    {
+        $this->getHaisouAdrs = $getHaisouAdrs;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function fetchAsListProperty(): array
+    {
+        return ['getHaisouAdrs' => GetHaisouAdrsModel::class];
     }
 }

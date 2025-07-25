@@ -21,6 +21,11 @@ class OptionsModel implements OptionsModelInterface
     private ?string $returnMemFreeKubuns = null;
 
     /**
+     * @var bool|null
+     */
+    private ?bool $returnAllAdr = null;
+
+    /**
      * {@inheritDoc}
      */
     public function getReturnMemFreeKubuns(): ?string
@@ -38,6 +43,24 @@ class OptionsModel implements OptionsModelInterface
         } else {
             $this->returnMemFreeKubuns = '';
         }
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getReturnAllAdr(): ?bool
+    {
+        return $this->returnAllAdr;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setReturnAllAdr(?bool $returnAllAdr): self
+    {
+        $this->returnAllAdr = $returnAllAdr;
 
         return $this;
     }

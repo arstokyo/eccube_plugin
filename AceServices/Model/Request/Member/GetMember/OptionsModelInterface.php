@@ -30,4 +30,22 @@ interface OptionsModelInterface
      * @return self
      */
     public function setReturnMemFreeKubun(?array $returnMemFreeKubun): self;
+
+    /**
+     * Get ReturnAllAdr
+     *
+     * @return bool
+     */
+    public function getReturnAllAdr(): ?bool;
+
+    /**
+     * Set ReturnAllAdr
+     *
+     * @param bool $returnAllAdr
+     *
+     * @SerializedName("return_alladr")
+     *
+     * @return self
+     */
+    public function setReturnAllAdr(?bool $returnAllAdr): self;
 }
