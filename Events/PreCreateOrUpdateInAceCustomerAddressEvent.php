@@ -14,16 +14,15 @@
 namespace Plugin\AceClient43\Events;
 
 use Eccube\Entity\CustomerAddress;
-use Plugin\AceClient43\AceServices\Model\Response\Member\RegMemAdr\RegMemAdrResponseModel;
-use Plugin\AceClient43\AceServices\Model\Response\Member\RegMemAdr\RegMemAdrResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr\RegMemAdrRequestModel;
 use Symfony\Contracts\EventDispatcher\Event;
 
-class PostCreateInAceCustomerAddressEvent extends Event
+class PreCreateOrUpdateInAceCustomerAddressEvent extends Event
 {
     /**
-     * @var RegMemAdrResponseModelInterface
+     * @var RegMemAdrRequestModel
      */
-    private $regMemAdrResponseModel;
+    private $regMemAdrRequestModel;
 
     /**
      * @var CustomerAddress
@@ -33,22 +32,22 @@ class PostCreateInAceCustomerAddressEvent extends Event
     private array $options;
 
     /**
-     * @param RegMemAdrResponseModel $regMemAdrResponseModel
-     * @param CustomerAddress $customer
+     * @param RegMemAdrRequestModel $regMemAdrRequestModel
+     * @param \Eccube\Entity\Customer $customer
      */
     public function __construct(
-        RegMemAdrResponseModelInterface $regMemAdrResponseModel,
-        CustomerAddress $customer,
+        RegMemAdrRequestModel $regMemAdrRequestModel,
+        CustomerAddress $customerAddress,
         array $options,
     ) {
-        $this->regMemAdrResponseModel = $regMemAdrResponseModel;
-        $this->customerAddress = $customer;
+        $this->regMemAdrRequestModel = $regMemAdrRequestModel;
+        $this->customerAddress = $customerAddress;
         $this->options = $options;
     }
 
-    public function getRegMemAdrResponseModel(): RegMemAdrResponseModelInterface
+    public function getRegMemAdrRequestModel(): RegMemAdrRequestModel
     {
-        return $this->regMemAdrResponseModel;
+        return $this->regMemAdrRequestModel;
     }
 
     public function getCustomerAddress(): CustomerAddress

@@ -19,7 +19,7 @@ use Eccube\Event\EventArgs;
 use Plugin\AceClient43\Bridge\CustomerAddressBridge;
 use Plugin\AceClient43\Events\EccubeEvents\Events;
 use Plugin\AceClient43\Events\EccubeEvents\OnEditCustomerDeliveryEvent;
-use Plugin\AceClient43\Exception\CouldNotCreateInAceCustomerAddressException;
+use Plugin\AceClient43\Exception\CouldNotCreateOrUpdateInAceCustomerAddressException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -54,7 +54,7 @@ class CustomerDeliveryEditCompleteListener implements EventSubscriberInterface
      *
      * @param OnEditCustomerDeliveryEvent $event
      *
-     * @throws CouldNotCreateInAceCustomerAddressException
+     * @throws CouldNotCreateOrUpdateInAceCustomerAddressException
      */
     public function onEditCustomerDelivery(OnEditCustomerDeliveryEvent $event)
     {
@@ -67,7 +67,7 @@ class CustomerDeliveryEditCompleteListener implements EventSubscriberInterface
      *
      * @param EventArgs $event
      *
-     * @throws CouldNotCreateInAceCustomerAddressException
+     * @throws CouldNotCreateOrUpdateInAceCustomerAddressException
      */
     public function onEditComplete(EventArgs $event)
     {
@@ -81,15 +81,15 @@ class CustomerDeliveryEditCompleteListener implements EventSubscriberInterface
      *
      * @param CustomerAddress $CustomerAddress
      *
-     * @throws CouldNotCreateInAceCustomerAddressException
+     * @throws CouldNotCreateOrUpdateInAceCustomerAddressException
      */
     private function process(CustomerAddress $CustomerAddress)
     {
         $this->logger->info('通販Aceの顧客住所を編集しています。', ['customer_address' => $CustomerAddress]);
 
         try {
-            $this->customerAddressBridge->createInAce($CustomerAddress, true);
-        } catch (CouldNotCreateInAceCustomerAddressException $e) {
+            $this->customerAddressBridge->createOrUpdateInAce($CustomerAddress, true);
+        } catch (CouldNotCreateOrUpdateInAceCustomerAddressException $e) {
             $this->logger->error('通販Aceの顧客住所の編集に失敗しました。', [
                 'customer_address' => $CustomerAddress,
                 'exception' => $e,
