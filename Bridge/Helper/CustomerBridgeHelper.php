@@ -79,7 +79,7 @@ class CustomerBridgeHelper
                 ? $responseModel->getLoginMember()
                 : null;
         } catch (\Throwable $e) {
-            return null;
+            throw new \RuntimeException('メールアドレスとパスワードによる顧客情報の取得に失敗しました。', 0, $e);
         }
     }
 
@@ -106,7 +106,7 @@ class CustomerBridgeHelper
                 ? $responseModel->getLoginMember()
                 : null;
         } catch (\Throwable $e) {
-            return null;
+            throw new \RuntimeException('会員IDによる顧客情報の取得に失敗しました。', 0, $e);
         }
     }
 
@@ -168,7 +168,7 @@ class CustomerBridgeHelper
 
             return $response->getResponse();
         } catch (\Throwable $e) {
-            return null;
+            throw new \RuntimeException('メールアドレスの存在確認に失敗しました。', 0, $e);
         }
     }
 }

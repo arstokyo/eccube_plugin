@@ -50,11 +50,12 @@ class ProductBridge extends BaseBridge
     public function getAll(\DateTime $updatedAtFrom, \DateTime $updatedAtTo, array &$options = []): ?ResponseGetGoods\MasterModelInterface
     {
         $freeCode = $options['_get_goods.options_freecode'] ?? [];
+
         /** @var RequestGetGoods\GetGoodsRequestModelInterface $requestModel */
-        $requestModel = $this->createRequestModel(RequestGetGoods\GetGoodsRequestModelInterface::class);
         /** @var IdPrmModelInterface $prmModel */
-        $prmModel = $this->createSubModel(IdPrmModelInterface::class);
         /** @var OptionsModelInterface $optionModel */
+        $requestModel = $this->createRequestModel(RequestGetGoods\GetGoodsRequestModelInterface::class);
+        $prmModel = $this->createSubModel(IdPrmModelInterface::class);
         $optionModel = $this->createSubModel(OptionsModelInterface::class);
 
         $optionModel->setReturnGoodsKubun($freeCode);
