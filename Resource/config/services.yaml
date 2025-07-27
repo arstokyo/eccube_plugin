@@ -1,11 +1,25 @@
 parameters:
-  ace.request_search_paths:
-    - 'Customize/AceClient/Model/Request'
-    - 'Plugin/AceClient43/AceServices/Model/Request'
+    ace.request_search_paths:
+        - 'Customize/AceClient/Model/Request'
+        - 'Plugin/AceClient43/AceServices/Model/Request'
 
-  ace.response_search_paths:
-    - 'Customize/AceClient/Model/Response'
-    - 'Plugin/AceClient43/AceServices/Model/Response'
+    ace.response_search_paths:
+        - 'Customize/AceClient/Model/Response'
+        - 'Plugin/AceClient43/AceServices/Model/Response'
+
+    # PRM Serialization Configuration (moved from Config.yaml)
+    ace.prm_serialization:
+        default_format: 'xml'
+        default_options:
+            xml_format_output: false
+            xml_encoding: 'UTF-8'
+            skip_null_values: true
+        overrides:
+            # Example override for specific PRM models
+            # 'Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\OrderPrmModel':
+            #   format: 'json'
+            #   options:
+            #     xml_format_output: true
 
 services:
     # default configuration for services in *this* file
@@ -64,6 +78,10 @@ services:
     Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer:
 
     Plugin\AceClient43\Util\Normalizer\PrmNormalizer:
+        arguments:
+            $prmConfig: '%ace.prm_serialization%'
+        calls:
+            - setSerializerResolver: ['@ace_serializer_resolver']
 
     # Array Denormalizer
     soap_xml_array_denormalizer:
@@ -71,10 +89,10 @@ services:
 
     # AsListDenormalizer with ModelResolver dependency
     ace_as_list_denormalizer:
-        alias: Plugin\AceClient43\Util\Denormalizer\AsListDenormalizer
+        alias: Plugin\AceClient43\Util\Normalizer\AsListDenormalizer
         public: false
 
-    Plugin\AceClient43\Util\Denormalizer\AsListDenormalizer:
+    Plugin\AceClient43\Util\Normalizer\AsListDenormalizer:
         arguments:
             $modelResolver: '@ace_model_resolver'
 
@@ -136,7 +154,7 @@ services:
             $encoders:
                 - '@xml_encoder'
 
-    # Serializers
+    # Serializers with configuration moved from Config.yaml
     ace_default_serializer:
         alias: Plugin\AceClient43\Util\Serializer\DefaultSerializer
         public: false
@@ -161,6 +179,7 @@ services:
                     xml_format_output: false
                     xml_encoding: 'utf-8'
                     encoder_ignored_node_types: [ 7 ]
+                    skip_null_values: true
                 request_soap_head: |
                     <?xml version="1.0" encoding="utf-8"?>
                     <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
@@ -211,7 +230,6 @@ services:
         arguments:
             $serializers: !tagged_iterator { tag: 'ace_client.serializer' }
 
-    # Remaining services...
     ace_logger:
         alias: Plugin\AceClient43\Util\Logger\SoapXmlLogger
         public: false
