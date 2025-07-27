@@ -230,17 +230,6 @@ services:
         arguments:
             $serializers: !tagged_iterator { tag: 'ace_client.serializer' }
 
-    ace_logger:
-        alias: Plugin\AceClient43\Util\Logger\SoapXmlLogger
-        public: false
-
-    Plugin\AceClient43\Util\Logger\SoapXmlLogger:
-        calls:
-            - setLogger: ['@monolog.logger']
-            - setFrontLogger: ['@monolog.logger.front']
-            - setAdminLogger: ['@monolog.logger.admin']
-            - setContext: ['@Eccube\Request\Context']
-
     Plugin\AceClient43\Security\Authenticator\CustomerAuthenticator:
         arguments:
             $innerAuthenticator: '@security.authenticator.form_login.customer'
@@ -248,10 +237,6 @@ services:
             $customerRepository: '@Eccube\Repository\CustomerRepository'
             $customerBridge: '@Plugin\AceClient43\Bridge\CustomerBridge'
             $logger: '@monolog.logger.front'
-
-    Plugin\AceClient43\Util\Logger\LoggerProvider:
-        arguments:
-            - '@ace_logger'
 
     # Processors
     Plugin\AceClient43\Service\ChargeProcessor:

@@ -15,7 +15,6 @@ namespace Plugin\AceClient43\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Plugin\AceClient43\Entity\Constants\TransactionType;
-use Plugin\AceClient43\Util\Logger\LoggerFactory;
 
 if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
     /**
@@ -50,7 +49,7 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
          *
          * @ORM\Column(name="is_log_on", type="boolean", options={"default":false})
          */
-        private bool $isLogOn = LoggerFactory::DEFAULT_LOG_ON;
+        private bool $isLogOn = true;
 
         /**
          * @var int
