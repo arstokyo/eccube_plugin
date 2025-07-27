@@ -15,6 +15,7 @@ namespace Plugin\AceClient43\Util\Denormalizer\OTD;
 
 use Plugin\AceClient43\Exception\NotSerializableException;
 use Plugin\AceClient43\Util\Mapper\EncodeDefineMapper;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 
 /**
  * Denormalizer for Object To Data.
@@ -32,10 +33,13 @@ class OTDXmlDenormalizer extends OTDDenormalizerAbstract
             throw new \RuntimeException('OTDXmlDenormalizer Error: Serializer is not set in delegate.');
         }
 
+        $options = $this->getDelegate()->getDenomarlizeOptions() ?? [];
+        $options = array_merge([AbstractObjectNormalizer::SKIP_NULL_VALUES => true], $options);
+
         try {
             $context = $this->delegate->getSerializer()->serialize($this->getDelegate()->getObject(),
                 EncodeDefineMapper::XML,
-                $this->getDelegate()->getDenomarlizeOptions() ?? []);
+                $options);
         } catch (\Throwable $e) {
             throw new NotSerializableException(sprintf('Could not serialize class "%s" to XML', self::class), $e);
         }

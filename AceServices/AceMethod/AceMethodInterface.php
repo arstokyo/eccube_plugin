@@ -14,7 +14,7 @@
 namespace Plugin\AceClient43\AceServices\AceMethod;
 
 use Plugin\AceClient43\AceServices\Model\Request;
-use Plugin\AceClient43\ApiClient\Api\Client\ClientMetadataInterface;
+use Plugin\AceClient43\ApiClient\Client\ClientMetadataInterface;
 use Plugin\AceClient43\ApiClient\Response\ResponseInterface;
 use Plugin\AceClient43\Exception\MissingRequestParameterException;
 

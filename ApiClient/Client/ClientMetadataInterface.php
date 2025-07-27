@@ -11,7 +11,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Plugin\AceClient43\ApiClient\Api\Client;
+namespace Plugin\AceClient43\ApiClient\Client;
 
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
 
@@ -23,7 +23,7 @@ use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
 interface ClientMetadataInterface
 {
     /**
-     * Get client requestmethod
+     * Get client requestMethod
      *
      * @return string
      */

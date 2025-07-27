@@ -1,0 +1,85 @@
+<?php
+
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Plugin\AceClient43\ApiClient\Client;
+
+use Plugin\AceClient43\Exception;
+
+/**
+ * GetJsonClient - JSON GET implementation
+ *
+ * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ */
+class GetJsonClient extends AbstractClient
+{
+    /**
+     * {@inheritDoc}
+     */
+    public function getHttpMethod(): string
+    {
+        return self::HTTP_METHOD_GET;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getApiType(): string
+    {
+        return self::API_TYPE_JSON;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRequestFormat(): string
+    {
+        return self::FORMAT_JSON;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function supports(string $apiType, string $format): bool
+    {
+        return $apiType === self::API_TYPE_JSON && $format === self::FORMAT_JSON;
+    }
+
+    /**
+     * Build the request URL with query parameters for GET
+     *
+     * @return string
+     *
+     * @throws Exception\CanNotBuildRequestException
+     */
+    protected function buildUri(): string
+    {
+        $baseUri = parent::buildUri();
+        if (empty($this->request)) {
+            return $baseUri;
+        }
+
+        try {
+            // シリアライザを使用して配列データに変換
+            $data = $this->serializeRequestToArray();
+            $query = str_contains($baseUri, '?') ? '&' : '?';
+            $query .= array_is_list($data)
+                ? implode('&', $data)
+                : http_build_query($data);
+        } catch (\Throwable $t) {
+            $this->logger->error("API Client error: {$t->getMessage()}");
+            throw new Exception\CanNotBuildRequestException('Cannot build GET query string', $t);
+        }
+
+        return sprintf('%s%s', $baseUri, $query);
+    }
+}
