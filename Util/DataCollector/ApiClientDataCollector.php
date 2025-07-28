@@ -169,11 +169,12 @@ class ApiClientDataCollector extends DataCollector implements LateDataCollectorI
                 $httpData['request']['body_formatted'] ?? $httpData['request']['body'] ?? '(No request body)'
             );
 
-            // Raw Response Data with XML formatting
+            // Raw Response Data with XML formatting and HTML entity decoding for Japanese characters
             $processedTrace['raw_response_data'] = $httpData['response']['content'] ?? '';
-            $processedTrace['raw_response_data_formatted'] = $this->formatXmlContent(
-                $httpData['response']['content_formatted'] ?? $httpData['response']['content'] ?? '(No response content)'
-            );
+            $rawResponseContent = $httpData['response']['content_formatted'] ?? $httpData['response']['content'] ?? '(No response content)';
+            $formattedResponseContent = $this->formatXmlContent($rawResponseContent);
+            // Decode HTML entities specifically for raw response data display (fixes Japanese character encoding)
+            $processedTrace['raw_response_data_formatted'] = $this->decodeXmlEntitiesForDisplay($formattedResponseContent);
 
             // HTTP specific info
             $processedTrace['http_method'] = $httpData['request']['method'] ?? '';

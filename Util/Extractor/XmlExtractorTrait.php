@@ -285,6 +285,26 @@ trait XmlExtractorTrait
     }
 
     /**
+     * Decode HTML entities in XML content for better display (especially Japanese characters)
+     * This method is used for profiler display purposes only
+     */
+    protected function decodeXmlEntitiesForDisplay(string $content): string
+    {
+        // Decode numeric HTML entities (like &#x30B0; for Japanese characters)
+        $content = html_entity_decode($content, ENT_QUOTES | ENT_XML1, 'UTF-8');
+
+        // Also decode hexadecimal entities manually if html_entity_decode doesn't catch them all
+        $content = preg_replace_callback('/&#x([0-9A-Fa-f]+);/', function ($matches) {
+            return mb_chr(hexdec($matches[1]), 'UTF-8');
+        }, $content);
+
+        // Decode decimal entities
+        return preg_replace_callback('/&#([0-9]+);/', function ($matches) {
+            return mb_chr((int) $matches[1], 'UTF-8');
+        }, $content);
+    }
+
+    /**
      * Extract key information from SOAP response for summary (fallback)
      */
     protected function extractSoapSummary(string $content): string
