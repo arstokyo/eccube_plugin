@@ -16,23 +16,43 @@ namespace Plugin\AceClient43\Util\Normalizer;
 use Plugin\AceClient43\AceServices\Model\Request\Prm\PrmModelInterface;
 use Plugin\AceClient43\Exception\DataTypeMissMatchException;
 use Plugin\AceClient43\Exception\NotSerializableException;
+use Plugin\AceClient43\Util\Serializer\SerializerResolver;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Symfony\Component\Serializer\SerializerAwareInterface;
-use Symfony\Component\Serializer\SerializerInterface;
 
 /**
- * Normalizer for Prm
+ * Ace Prm Normalizer with injected config and serializer resolver
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class PrmNormalizer implements NormalizerInterface, SerializerAwareInterface
+class PrmNormalizer implements NormalizerInterface
 {
-    /**
-     * @var SerializerInterface
-     */
-    private SerializerInterface $serializer;
+    private SerializerResolver $serializerResolver;
+
+    private array $prmConfig;
 
     private array $cacheObj = [];
+
+    /**
+     * Constructor
+     *
+     * @param array $prmConfig
+     */
+    public function __construct(
+        array $prmConfig,
+    ) {
+        $this->prmConfig = $prmConfig;
+    }
+
+    /**
+     * @param SerializerResolver $serializerResolver
+     *
+     * @return void
+     */
+    public function setSerializerResolver(SerializerResolver $serializerResolver): void
+    {
+        $this->serializerResolver = $serializerResolver;
+    }
 
     /**
      * @param PrmModelInterface $object
@@ -45,11 +65,29 @@ class PrmNormalizer implements NormalizerInterface, SerializerAwareInterface
             throw new DataTypeMissMatchException('Prm normalize Error: Expected PrmModelInterface object');
         }
 
-        $object->parseSerializer($this->serializer);
         $this->cacheObj[] = $object::class;
 
         try {
-            $result = $object->toData();
+            // Resolve serializer using injected resolver
+            $apiType = '*'; // Use wildcard for all API types
+            $serializeFormat = $object->getSerializeFormat();
+
+            // Get serialization options from model and configuration
+            $modelOptions = $object->getSerializeOptions();
+            $configOptions = $this->getConfigOptionsForModel($object);
+
+            // Merge options: model options take precedence over config
+            // Ignore the parsed context options
+            $options = array_merge($configOptions, $modelOptions);
+
+            $serializer = $this->serializerResolver->resolveForSerialization($apiType, $serializeFormat);
+
+            if (!$serializer) {
+                throw new NotSerializableException(sprintf('Could not resolve serializer for format "%s"', $serializeFormat));
+            }
+
+            // Direct serialization without passing serializer to the model
+            $result = $serializer->serialize($object, $serializeFormat, $options);
         } catch (\Throwable $e) {
             $this->unsetCacheObj($object::class);
             throw new NotSerializableException(sprintf('Could not normalize object "%s". %s', $object::class, $e->getMessage()), $e);
@@ -63,23 +101,44 @@ class PrmNormalizer implements NormalizerInterface, SerializerAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function supportsNormalization($data, ?string $format = null)
+    public function supportsNormalization($data, ?string $format = null): bool
     {
         return ($data instanceof PrmModelInterface) && (!in_array(get_class($data), $this->cacheObj));
     }
 
     /**
-     * {@inheritdoc}
+     * Get configuration options for a specific model
+     *
+     * @param PrmModelInterface $model
+     *
+     * @return array
      */
-    public function setSerializer(SerializerInterface $serializer): void
+    private function getConfigOptionsForModel(PrmModelInterface $model): array
     {
-        $this->serializer = $serializer;
+        $className = get_class($model);
+
+        // Check for model-specific overrides
+        if (isset($this->prmConfig['overrides'][$className])) {
+            $override = $this->prmConfig['overrides'][$className];
+
+            return $override['options'] ?? [];
+        }
+
+        // Return default options
+        $defaultOptions = $this->prmConfig['default_options'] ?? [];
+
+        // Add standard serialization options
+        if (!isset($defaultOptions[AbstractObjectNormalizer::SKIP_NULL_VALUES])) {
+            $defaultOptions[AbstractObjectNormalizer::SKIP_NULL_VALUES] = true;
+        }
+
+        return $defaultOptions;
     }
 
     /**
      * Unset the cache path
      *
-     * @param string $path
+     * @param string $class
      */
     private function unsetCacheObj(string $class)
     {
@@ -88,6 +147,13 @@ class PrmNormalizer implements NormalizerInterface, SerializerAwareInterface
         }
     }
 
+    /**
+     * Keep for backward compatibility
+     *
+     * @param string|null $format
+     *
+     * @return false[]
+     */
     public function getSupportedTypes(?string $format)
     {
         return [

@@ -20,7 +20,6 @@ use Plugin\AceClient43\Exception\DataTypeMissMatchException;
 use Plugin\AceClient43\Exception\NotDeserializableException;
 use Plugin\AceClient43\Util\Mapper\EncodeDefineMapper;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
-use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
@@ -140,8 +139,7 @@ class SoapXmlSerializer implements SerializerInterface, SerializerSupportInterfa
         // Prepare context options - add root node name from request model
         $contextOptions = $context ?: [];
         $contextOptions = array_merge(
-            [EncodeDefineMapper::XML_ROOT_NODE_NAME => $data->fetchRequestNodeName(),
-                AbstractObjectNormalizer::SKIP_NULL_VALUES => true],
+            [EncodeDefineMapper::XML_ROOT_NODE_NAME => $data->fetchRequestNodeName()],
             $defaultOptions,
             $contextOptions
         );

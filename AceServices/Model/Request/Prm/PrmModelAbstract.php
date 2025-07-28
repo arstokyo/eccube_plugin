@@ -13,10 +13,8 @@
 
 namespace Plugin\AceClient43\AceServices\Model\Request\Prm;
 
-use Plugin\AceClient43\Util\Denormalizer\OTD;
 use Plugin\AceClient43\Util\Mapper\EncodeDefineMapper;
-use Symfony\Component\Serializer\Annotation\Ignore;
-use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 
 /**
  * Abstract class for Prm Model
@@ -28,66 +26,23 @@ abstract class PrmModelAbstract implements PrmModelInterface
     public const XML_FORMAT_NAME = EncodeDefineMapper::XML;
     public const JSON_FORMAT_NAME = EncodeDefineMapper::JSON;
 
-    /**
-     * @var PrmModelAssistantInterface
-     */
-    /** @Ignore */
-    private PrmModelAssistantInterface $assistant;
-
-    /**
-     * Constructor.
-     */
-    public function __construct()
+    public function getSerializeFormat(): string
     {
-        $this->assistant = new PrmModelAssistant(get_class($this));
-        self::initializeDenormalizer();
+        return self::XML_FORMAT_NAME; // default to XML
     }
 
-    /**
-     * Initializes the Denormalizer.
-     *
-     * @return void
-     */
-    private function initializeDenormalizer(): void
+    public function getSerializeOptions(): array
     {
-        switch ($this->assistant->getConfig()->getFormat()) {
-            case self::XML_FORMAT_NAME:
-                $this->assistant->setOTDDenormalizer(OTD\OTDDenormalizerFactory::makeOTDXmlDenormalizer(
-                    new OTD\OTDDelegate($this, $this->buildXMlDenormalizeOptions())
-                ));
-                break;
-            case self::JSON_FORMAT_NAME:
-                $this->assistant->setOTDDenormalizer(OTD\OTDDenormalizerFactory::makeOTDJsonDenormalizer(
-                    new OTD\OTDDelegate($this, $this->buildJsonDenormalizeOptions())
-                ));
-                break;
-            default:
-                $this->assistant->setOTDDenormalizer(OTD\OTDDenormalizerFactory::makeOTDObjectDenormalizer(
-                    new OTD\OTDDelegate($this)
-                ));
+        $options = [];
+        $nodeName = $this->fetchPrmNodeName();
+
+        if (!empty($nodeName)) {
+            $options[EncodeDefineMapper::XML_ROOT_NODE_NAME] = $nodeName;
         }
-    }
 
-    /**
-     * Builds the XML Denormalize Options.
-     *
-     * @return array
-     */
-    private function buildXMlDenormalizeOptions(): array
-    {
-        return \array_merge([EncodeDefineMapper::XML_ROOT_NODE_NAME => $this->fetchPrmNodeName()],
-            $this->assistant->getConfig()->getOptions() ?? []);
-    }
+        $options[AbstractObjectNormalizer::SKIP_NULL_VALUES] = true;
 
-    /**
-     * Builds the JSON Denormalize Options.
-     *
-     * @return array
-     */
-    private function buildJsonDenormalizeOptions(): array
-    {
-        // TODO: Implement buildJsonDenormalizeOptions() method.
-        return [];
+        return $options;
     }
 
     /**
@@ -96,14 +51,6 @@ abstract class PrmModelAbstract implements PrmModelInterface
      * @return string
      */
     abstract protected function fetchPrmNodeName(): string;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function toData()
-    {
-        return $this->assistant->getOTDDenormarlizer()->denormalizeOTD();
-    }
 
     /**
      * Compile the Property Name with the class name.
@@ -115,13 +62,5 @@ abstract class PrmModelAbstract implements PrmModelInterface
     protected function compilePropertyName(string $propertyName): string
     {
         return get_class($this).'.'.$propertyName;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function parseSerializer(SerializerInterface $serializer): void
-    {
-        $this->assistant->getOTDDenormarlizer()->getDelegate()->setSerializer($serializer);
     }
 }

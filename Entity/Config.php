@@ -15,8 +15,6 @@ namespace Plugin\AceClient43\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Plugin\AceClient43\Entity\Constants\TransactionType;
-use Plugin\AceClient43\Util\HttpClient\HttpClientFactory;
-use Plugin\AceClient43\Util\Logger\LoggerFactory;
 
 if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
     /**
@@ -44,14 +42,14 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
          *
          * @ORM\Column(name="base_uri", type="string", length=255, options={"default":"http://localhost:8080"})
          */
-        private $baseUri = HttpClientFactory::DEFAULT_BASE_URL;
+        private $baseUri = 'http://localhost:8080/';
 
         /**
          * @var bool
          *
          * @ORM\Column(name="is_log_on", type="boolean", options={"default":false})
          */
-        private bool $isLogOn = LoggerFactory::DEFAULT_LOG_ON;
+        private bool $isLogOn = true;
 
         /**
          * @var int

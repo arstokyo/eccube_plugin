@@ -11,7 +11,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Plugin\AceClient43\Util\Denormalizer;
+namespace Plugin\AceClient43\Util\Normalizer;
 
 use Plugin\AceClient43\AceServices\Model\Response\AsListDenormalizableInterface;
 use Plugin\AceClient43\Exception\DataTypeMissMatchException;
