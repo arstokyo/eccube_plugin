@@ -119,6 +119,7 @@ class CustomerAddressDataConverter implements CustomerAddressDataConverterInterf
         $customerAddress->setAceEdaNo($aceCustomerAddress->getEda());
         $customerAddress->setCustomer($customer);
         $customerAddress->setName01($aceCustomerAddress->getSimei());
+        $customerAddress->setKana01($aceCustomerAddress->getKana());
         $customerAddress->setPref($pref);
         $customerAddress->setPostalCode($aceCustomerAddress->getZip());
         $customerAddress->setAddr01($aceCustomerAddress->getAdr2());
