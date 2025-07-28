@@ -59,6 +59,9 @@ class MasterBridge extends BaseBridge
             /** @var ResponseGetFreeCdWithName\GetFreeCdWithNameResponseModel $responseObject */
             $responseObject = $response->getResponse();
             if ($this->hasErrorMessage($responseObject->getMaster())) {
+                if ($responseObject->getMaster()->getMessage()->getMessage1() == '該当商品がありません') {
+                    return [];
+                }
                 throw new \RuntimeException('名称付きのフリーコードの取得に失敗しました: ');
             }
 
