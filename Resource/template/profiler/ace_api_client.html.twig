@@ -282,6 +282,7 @@
             height: 600px;
             border: 1px solid #ddd;
             margin-top: 10px;
+            position: relative;
         }
 
         .ace-split-pane {
@@ -289,10 +290,46 @@
             display: flex;
             flex-direction: column;
             border-right: 1px solid #ddd;
+            min-width: 200px; /* FIXED: Added minimum width */
+            overflow: hidden;
         }
 
         .ace-split-pane:last-child {
             border-right: none;
+        }
+
+        /* FIXED: Added resizer styles */
+        .ace-split-resizer {
+            width: 6px;
+            background: #ddd;
+            cursor: col-resize;
+            flex-shrink: 0;
+            position: relative;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            transition: background-color 0.2s ease;
+        }
+
+        .ace-split-resizer:hover {
+            background: #bbb;
+        }
+
+        .ace-split-resizer:active {
+            background: #999;
+        }
+
+        /* Dark mode support for resizer */
+        [data-theme="dark"] .ace-split-resizer {
+            background: #404040;
+            border-color: #555;
+        }
+
+        [data-theme="dark"] .ace-split-resizer:hover {
+            background: #555;
+        }
+
+        [data-theme="dark"] .ace-split-resizer:active {
+            background: #666;
         }
 
         .ace-split-header {
@@ -1141,7 +1178,7 @@
             }
 
             splitContainer.innerHTML = `
-                <div class="ace-split-pane">
+                <div class="ace-split-pane" style="flex: 1;">
                     <div class="ace-split-header">
                         Current: ${requestId1.replace('_', ' ')} (${type1})
                         <button onclick="closeSplitView('${requestId1}', '${type1}')" style="background: none; border: none; color: inherit; cursor: pointer; float: right;">✕</button>
@@ -1152,7 +1189,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="ace-split-pane">
+                <div class="ace-split-resizer"></div>
+                <div class="ace-split-pane" style="flex: 1;">
                     <div class="ace-split-header">
                         Compare: ${requestId2.replace('_', ' ')} (${type2})
                     </div>
@@ -1172,10 +1210,77 @@
             // Append split container to the tab
             targetTab.appendChild(splitContainer);
 
+            // FIXED: Initialize resizer functionality
+            initializeSplitResizer(splitContainer);
+
             // Re-initialize dump handlers for the split view content with proper event delegation
             initializeDumpHandlersForSplitView(splitContainer);
 
             console.log('Split view created successfully');
+        }
+
+        function initializeSplitResizer(splitContainer) {
+            const resizer = splitContainer.querySelector('.ace-split-resizer');
+            const leftPane = splitContainer.querySelector('.ace-split-pane:first-child');
+            const rightPane = splitContainer.querySelector('.ace-split-pane:last-child');
+
+            if (!resizer || !leftPane || !rightPane) {
+                console.warn('Split resizer elements not found');
+                return;
+            }
+
+            let isResizing = false;
+            let startX = 0;
+            let startLeftWidth = 0;
+            let startRightWidth = 0;
+            let containerWidth = 0;
+
+            resizer.addEventListener('mousedown', function(e) {
+                isResizing = true;
+                startX = e.clientX;
+
+                const containerRect = splitContainer.getBoundingClientRect();
+                containerWidth = containerRect.width;
+
+                const leftRect = leftPane.getBoundingClientRect();
+                const rightRect = rightPane.getBoundingClientRect();
+
+                startLeftWidth = leftRect.width;
+                startRightWidth = rightRect.width;
+
+                document.body.style.cursor = 'col-resize';
+                document.body.style.userSelect = 'none';
+
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (!isResizing) return;
+
+                const deltaX = e.clientX - startX;
+                const newLeftWidth = startLeftWidth + deltaX;
+                const newRightWidth = startRightWidth - deltaX;
+
+                // Enforce minimum widths
+                const minWidth = 200;
+                if (newLeftWidth >= minWidth && newRightWidth >= minWidth) {
+                    const leftFlex = newLeftWidth / containerWidth;
+                    const rightFlex = newRightWidth / containerWidth;
+
+                    leftPane.style.flex = `${leftFlex}`;
+                    rightPane.style.flex = `${rightFlex}`;
+                }
+
+                e.preventDefault();
+            });
+
+            document.addEventListener('mouseup', function() {
+                if (isResizing) {
+                    isResizing = false;
+                    document.body.style.cursor = '';
+                    document.body.style.userSelect = '';
+                }
+            });
         }
 
         // FIXED: Enhanced function to make IDs unique and ensure proper onclick updating
