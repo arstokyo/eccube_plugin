@@ -1,4 +1,12 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        # Bind ace_client logger to all services by default in dev environment
+        bind:
+            Psr\Log\LoggerInterface $logger: '@monolog.logger.ace_client'
+
     # Traceable Guzzle client for development profiling
     Plugin\AceClient43\Util\HttpClient\TraceableGuzzleClient:
         arguments:
@@ -23,7 +31,6 @@ services:
         arguments:
             $serializerResolver: '@ace_serializer_resolver'
             $httpClient: '@ace_client_http_client'
-            $logger: '@logger'
             $normalizer: '@serializer'
             $aceConfigService: '@ace_config_service'
 
@@ -32,7 +39,6 @@ services:
         arguments:
             $serializerResolver: '@ace_serializer_resolver'
             $httpClient: '@ace_client_http_client'
-            $logger: '@logger'
             $normalizer: '@serializer'
             $aceConfigService: '@ace_config_service'
 
@@ -41,7 +47,6 @@ services:
         arguments:
             $serializerResolver: '@ace_serializer_resolver'
             $httpClient: '@ace_client_http_client'
-            $logger: '@logger'
             $normalizer: '@serializer'
             $aceConfigService: '@ace_config_service'
 

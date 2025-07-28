@@ -1,4 +1,92 @@
+# ACE API Client System Documentation
+# =====================================
+#
+# The ACE API Client system provides a flexible, resolver-based architecture for communicating
+# with the ACE API. It consists of four main components:
+#
+# 1. MODEL RESOLVER (ace_model_resolver)
+#    - Dynamically discovers and resolves Request/Response model classes
+#    - Searches in configurable paths (ace.request_search_paths, ace.response_search_paths)
+#    - Supports both customization layer and plugin layer models
+#    - Caches resolved models for performance
+#
+# 2. SERIALIZER RESOLVER (ace_serializer_resolver)
+#    - Selects appropriate serializer based on API type (SOAP/REST) and format (XML/JSON)
+#    - Uses priority-based selection (higher priority = preferred)
+#    - SoapXmlSerializer (priority: 100) for SOAP XML requests
+#    - DefaultSerializer (priority: 0) as fallback for other formats
+#    - Caches serializer instances for performance
+#
+# 3. API CLIENT RESOLVER (ace_api_client_resolver)
+#    - Selects appropriate HTTP client based on API type and format
+#    - PostSoapXmlClient for SOAP XML requests (most common)
+#    - PostJsonClient for REST JSON POST requests
+#    - GetJsonClient for REST JSON GET requests
+#    - Each client handles specific protocol requirements
+#
+# 4. REQUEST FLOW
+#    a) Bridge layer creates Request model using ModelResolver
+#    b) ApiClientResolver selects appropriate client
+#    c) SerializerResolver provides serializer for request format
+#    d) Client serializes request, sends HTTP request, deserializes response
+#    e) Response model is returned to bridge layer
+#
+# This architecture allows easy extension with new API types, formats, and serializers
+# without modifying existing code.
+
+# ===================================================================================================
+# ACE APIクライアントシステム ドキュメント
+# ===================================================================================================
+#
+# ACE APIクライアントシステムは、柔軟なリゾルバーベースのアーキテクチャを採用し、
+# ACE APIとの通信を効率的に行うシステムです。主に4つのコンポーネントで構成されています：
+#
+# 1. モデルリゾルバー (ModelResolver) - ace_model_resolver
+#    ───────────────────────────────────────────────────────────────────────────────────────
+#    役割：リクエスト・レスポンスモデルクラスの動的検索と解決
+#    機能：
+#    - 設定可能なパス（ace.request_search_paths, ace.response_search_paths）でモデルを検索
+#    - カスタマイゼーション層とプラグイン層の両方をサポート
+#    - パフォーマンス向上のためにモデル解決結果をキャッシュ
+#    - API メソッド名から完全修飾クラス名への変換
+#    例: "Member.LoginMember" → "Plugin\AceClient43\AceServices\Model\Request\Member\LoginMember\LoginMemberRequestModel"
+#
+# 2. シリアライザーリゾルバー (SerializerResolver) - ace_serializer_resolver
+#    ───────────────────────────────────────────────────────────────────────────────────────
+#    役割：APIタイプ（SOAP/REST）とフォーマット（XML/JSON）に基づく適切なシリアライザーの選択
+#    機能：
+#    - 優先順位ベースの選択（高い優先順位 = 優先されるシリアライザー）
+#    - SoapXmlSerializer（優先順位：100）：SOAP XMLリクエスト用
+#    - DefaultSerializer（優先順位：0）：その他フォーマット用フォールバック
+#    - パフォーマンス向上のためにシリアライザーインスタンスをキャッシュ
+#
+# 3. APIクライアントリゾルバー (ApiClientResolver) - ace_api_client_resolver
+#    ───────────────────────────────────────────────────────────────────────────────────────
+#    役割：APIタイプとフォーマットに基づく適切なHTTPクライアントの選択
+#    機能：
+#    - PostSoapXmlClient：SOAP XMLリクエスト用（最も一般的）
+#    - PostJsonClient：REST JSON POSTリクエスト用
+#    - GetJsonClient：REST JSON GETリクエスト用
+#    - 各クライアントは特定のプロトコル要件を処理
+#
+# 4. リクエストフロー
+#    ───────────────────────────────────────────────────────────────────────────────────────
+#    a) Bridgeレイヤーが ModelResolver を使用してリクエストモデルを作成
+#    b) ApiClientResolver が適切なクライアントを選択
+#    c) SerializerResolver がリクエストフォーマット用のシリアライザーを提供
+#    d) クライアントがリクエストをシリアライズ、HTTPリクエスト送信、レスポンスをデシリアライズ
+#    e) レスポンスモデルがブリッジレイヤーに返される
+#
+# 拡張性：
+# このアーキテクチャにより、既存コードを変更することなく、新しいAPIタイプ、フォーマット、
+# シリアライザーを簡単に追加できます。
+# ===================================================================================================
+
 parameters:
+    ace.method:
+        default_api_type: 'soap'
+        default_request_format: 'xml'
+
     ace.request_search_paths:
         - 'Customize/AceClient/Model/Request'
         - 'Plugin/AceClient43/AceServices/Model/Request'
@@ -21,14 +109,56 @@ parameters:
             #   options:
             #     xml_format_output: true
 
+monolog:
+    channels: ['ace_client']
+
+    handlers:
+        ace_client:
+            type: rotating_file
+            path: '%kernel.logs_dir%/%kernel.environment%/ace_client.log'
+            formatter: eccube.log.formatter.line
+            level: debug
+            channels: ['ace_client']
+            max_files: 60
+
+        main:
+            channels: ['!ace_client']
+
 services:
     # default configuration for services in *this* file
     _defaults:
         autowire: true
         autoconfigure: true
         public: false
+        # Bind ace_client logger to all services by default
+        bind:
+            Psr\Log\LoggerInterface $logger: '@monolog.logger.ace_client'
 
-    # ACE Services - Version Independent Aliases
+    # Exception: CustomerAuthenticator explicitly uses front logger
+    Plugin\AceClient43\Security\Authenticator\CustomerAuthenticator:
+        arguments:
+            $innerAuthenticator: '@security.authenticator.form_login.customer'
+            $router: '@router'
+            $customerRepository: '@Eccube\Repository\CustomerRepository'
+            $customerBridge: '@Plugin\AceClient43\Bridge\CustomerBridge'
+            $logger: '@monolog.logger.front'  # Explicitly override to use front logger
+
+    # All other services will automatically use ace_client logger through _defaults bind
+    Plugin\AceClient43\Bridge\BaseBridge:
+
+    Plugin\AceClient43\Bridge\MasterBridge:
+        parent: Plugin\AceClient43\Bridge\BaseBridge
+
+    Plugin\AceClient43\Bridge\ContactBridge:
+        parent: Plugin\AceClient43\Bridge\BaseBridge
+
+    Plugin\AceClient43\Bridge\CustomerBridge:
+        parent: Plugin\AceClient43\Bridge\BaseBridge
+
+    Plugin\AceClient43\Bridge\CartBridge:
+        parent: Plugin\AceClient43\Bridge\BaseBridge
+
+    # ACE Services - Version Independent Aliases (will use ace_client logger)
     ace_config_service:
         alias: Plugin\AceClient43\Service\AceConfigService
         public: true
@@ -56,7 +186,28 @@ services:
                   User-Agent: 'Plugin\AceClient43\Util\Mapper\OverviewMapper::USER_AGENT_HEADER'
         public: false
 
-    # Core ACE services
+    # ===================================================================================================
+    # コアACEサービス - リゾルバーシステム
+    # ===================================================================================================
+
+    # モデルリゾルバー - リクエスト・レスポンスモデルクラスの動的検索・解決
+    # ───────────────────────────────────────────────────────────────────────────────────────
+    # 動作概要：
+    # - 設定されたパスでモデルを検索（カスタマイゼーション層を優先、次にプラグイン層）
+    # - APIメソッド名を完全修飾クラス名に変換
+    # - パフォーマンス向上のために解決されたクラス名をキャッシュ
+    # - リクエストとレスポンスの両方のモデル解決をサポート
+    #
+    # 検索パス例：
+    # リクエスト: Customize/AceClient/Model/Request → Plugin/AceClient43/AceServices/Model/Request
+    # レスポンス: Customize/AceClient/Model/Response → Plugin/AceClient43/AceServices/Model/Response
+    #
+    # MODEL RESOLVER - Dynamically discovers and resolves Request/Response model classes
+    # - Searches for models in configured paths (customization layer first, then plugin layer)
+    # - Converts API method names to fully qualified class names
+    # - Example: "Member.LoginMember" -> "Plugin\AceClient43\AceServices\Model\Request\Member\LoginMember\LoginMemberRequestModel"
+    # - Caches resolved class names for performance
+    # - Supports both Request and Response model resolution
     Plugin\AceClient43\Util\ModelResolver\ModelResolver:
         arguments:
             $requestSearchPaths: '%ace.request_search_paths%'
@@ -154,7 +305,9 @@ services:
             $encoders:
                 - '@xml_encoder'
 
-    # Serializers with configuration moved from Config.yaml
+    # SERIALIZERS - Handle request/response serialization for different API formats
+    # Priority system: Higher priority = preferred serializer for matching API type/format
+    # SerializerResolver selects based on supports() method and priority
     ace_default_serializer:
         alias: Plugin\AceClient43\Util\Serializer\DefaultSerializer
         public: false
@@ -163,12 +316,19 @@ services:
         alias: Plugin\AceClient43\Util\Serializer\SoapXmlSerializer
         public: false
 
+    # DefaultSerializer - Fallback serializer for non-SOAP requests (priority: 0)
+    # Uses standard Symfony serializer component
+    # Handles JSON and other standard formats
     Plugin\AceClient43\Util\Serializer\DefaultSerializer:
         arguments:
             $symfonySerializer: '@serializer'
         tags:
             - { name: 'ace_client.serializer', priority: 0 }
 
+    # SoapXmlSerializer - Specialized serializer for SOAP XML requests (priority: 100)
+    # Wraps request data in SOAP envelope with proper namespaces
+    # Handles ACE-specific XML structure and diffgr namespaces
+    # Extracts response data from SOAP envelope for deserialization
     Plugin\AceClient43\Util\Serializer\SoapXmlSerializer:
         arguments:
             $serializer: '@soap_xml_symfony_serializer'
@@ -190,55 +350,78 @@ services:
         tags:
             - { name: 'ace_client.serializer', priority: 100 }
 
-    # API Clients
+    # ===================================================================================================
+    # APIクライアント - 異なるプロトコル・フォーマット用のHTTPクライアント
+    # ===================================================================================================
+
+    # PostSoapXmlClient - SOAP XMLリクエスト用クライアント（最も一般的）
+    # ───────────────────────────────────────────────────────────────────────────────────────
+    # - SOAP 1.2プロトコルでHTTP POSTリクエストを送信
+    # - Content-Type: application/soap+xml を設定
+    # - SOAPエンベロープの作成と解析を処理
+    # - ACE APIの主要なインターフェース
     Plugin\AceClient43\ApiClient\Client\PostSoapXmlClient:
         arguments:
             $serializerResolver: '@ace_serializer_resolver'
             $httpClient: '@ace_client_http_client'
-            $logger: '@logger'
             $normalizer: '@serializer'
             $aceConfigService: '@ace_config_service'
         tags:
             - { name: 'ace_client.api_client' }
 
+    # PostJsonClient - REST JSON POSTリクエスト用クライアント
+    # ───────────────────────────────────────────────────────────────────────────────────────
+    # - Content-Type: application/json でHTTP POSTリクエストを送信
+    # - REST API エンドポイント用
     Plugin\AceClient43\ApiClient\Client\PostJsonClient:
         arguments:
             $serializerResolver: '@ace_serializer_resolver'
             $httpClient: '@ace_client_http_client'
-            $logger: '@logger'
             $normalizer: '@serializer'
             $aceConfigService: '@ace_config_service'
         tags:
             - { name: 'ace_client.api_client' }
 
+    # GetJsonClient - REST JSON GETリクエスト用クライアント
+    # ───────────────────────────────────────────────────────────────────────────────────────
+    # - HTTP GETリクエストでデータを取得
+    # - クエリパラメータ経由でパラメータを送信
+    # - 読み取り専用操作用
     Plugin\AceClient43\ApiClient\Client\GetJsonClient:
         arguments:
             $serializerResolver: '@ace_serializer_resolver'
             $httpClient: '@ace_client_http_client'
-            $logger: '@logger'
             $normalizer: '@serializer'
             $aceConfigService: '@ace_config_service'
         tags:
             - { name: 'ace_client.api_client' }
 
-    # Resolver Services
+    # ===================================================================================================
+    # リゾルバーサービス - コンポーネント選択システム
+    # ===================================================================================================
+
+    # ApiClientResolver - APIタイプ・フォーマットに基づく適切なHTTPクライアントの選択
+    # ───────────────────────────────────────────────────────────────────────────────────────
+    # 選択ロジック：
+    # - 登録されたすべてのクライアントのsupports()メソッドをチェック
+    # - APIタイプ（soap/rest）とフォーマット（xml/json）の組み合わせで判定
+    # - 最初にマッチしたクライアントを返す
     Plugin\AceClient43\ApiClient\ApiClientResolver:
         arguments:
             $clients: !tagged_iterator { tag: 'ace_client.api_client' }
 
+    # SerializerResolver - APIタイプ・フォーマットに基づく適切なシリアライザーの選択
+    # ───────────────────────────────────────────────────────────────────────────────────────
+    # 選択ロジック：
+    # - 登録されたすべてのシリアライザーのsupports()メソッドをチェック
+    # - 優先順位の高いシリアライザーを優先して選択
+    # - APIタイプとフォーマットの組み合わせで判定
+    # - パフォーマンス向上のために選択結果をキャッシュ
     Plugin\AceClient43\Util\Serializer\SerializerResolver:
         arguments:
             $serializers: !tagged_iterator { tag: 'ace_client.serializer' }
 
-    Plugin\AceClient43\Security\Authenticator\CustomerAuthenticator:
-        arguments:
-            $innerAuthenticator: '@security.authenticator.form_login.customer'
-            $router: '@router'
-            $customerRepository: '@Eccube\Repository\CustomerRepository'
-            $customerBridge: '@Plugin\AceClient43\Bridge\CustomerBridge'
-            $logger: '@monolog.logger.front'
-
-    # Processors
+    # Processors - will use ace_client logger
     Plugin\AceClient43\Service\ChargeProcessor:
         tags:
             - { name: eccube.item.holder.preprocessor, flow_type: shopping, priority: 550 }

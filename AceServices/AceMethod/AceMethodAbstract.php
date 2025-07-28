@@ -94,8 +94,10 @@ abstract class AceMethodAbstract implements AceMethodInterface
      */
     public function getMetadata(): ClientMetadataInterface
     {
+        $endpoint = $this->buildEndPoint();
+
         // Ensure endpoint is set when getting metadata
-        $this->apiClient->withEndpoint($this->buildEndPoint());
+        $this->apiClient->withEndpoint($endpoint);
 
         return $this->apiClient->getMetadata();
     }
@@ -125,22 +127,36 @@ abstract class AceMethodAbstract implements AceMethodInterface
 
     /**
      * Get API type for this method
+     * Returns configured default from ace.method parameters or can be overridden by subclasses
      *
      * @return string
      */
     protected function getApiType(): string
     {
-        return ClientInterface::API_TYPE_SOAP; // Default, can be overridden
+        try {
+            $methodConfig = $this->parameterBag->get('ace.method');
+
+            return $methodConfig['default_api_type'] ?? ClientInterface::API_TYPE_SOAP;
+        } catch (\Exception $e) {
+            return ClientInterface::API_TYPE_SOAP; // Fallback default
+        }
     }
 
     /**
      * Get request format for this method
+     * Returns configured default from ace.method parameters or can be overridden by subclasses
      *
      * @return string
      */
     protected function getRequestFormat(): string
     {
-        return ClientInterface::FORMAT_XML; // Default, can be overridden
+        try {
+            $methodConfig = $this->parameterBag->get('ace.method');
+
+            return $methodConfig['default_request_format'] ?? ClientInterface::FORMAT_XML;
+        } catch (\Exception $e) {
+            return ClientInterface::FORMAT_XML; // Fallback default
+        }
     }
 
     /**

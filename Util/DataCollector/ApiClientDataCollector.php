@@ -3,6 +3,7 @@
 namespace Plugin\AceClient43\Util\DataCollector;
 
 use Plugin\AceClient43\Service\AceConfigService;
+use Plugin\AceClient43\Util\Extractor\XmlExtractorTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
@@ -13,6 +14,8 @@ use Symfony\Component\HttpKernel\DataCollector\LateDataCollectorInterface;
  */
 class ApiClientDataCollector extends DataCollector implements LateDataCollectorInterface
 {
+    use XmlExtractorTrait;
+
     private array $traceableClients = [];
 
     private AceConfigService $aceConfigService;
@@ -185,57 +188,6 @@ class ApiClientDataCollector extends DataCollector implements LateDataCollectorI
             $processedTrace['raw_request_data_formatted'] = '(Raw HTTP data not available)';
             $processedTrace['raw_response_data'] = '';
             $processedTrace['raw_response_data_formatted'] = '(Raw HTTP data not available)';
-        }
-    }
-
-    /**
-     * Format XML content with proper indentation (similar to HttpClientDataCollector)
-     */
-    private function formatXmlContent(string $content): string
-    {
-        if (empty($content) || !str_contains($content, '<')) {
-            return $content;
-        }
-
-        try {
-            // Remove extra whitespace and format
-            $content = trim($content);
-
-            // Add line breaks between tags
-            $formatted = preg_replace('/>\s*</', ">\n<", $content);
-
-            // Split into lines and add indentation
-            $lines = explode("\n", $formatted);
-            $indentLevel = 0;
-            $indentedLines = [];
-
-            foreach ($lines as $line) {
-                $trimmed = trim($line);
-                if (empty($trimmed)) {
-                    continue;
-                }
-
-                // Decrease indent for closing tags
-                if (preg_match('/^<\//', $trimmed)) {
-                    $indentLevel = max(0, $indentLevel - 1);
-                }
-
-                // Add current line with indentation
-                $indentedLines[] = str_repeat('  ', $indentLevel).$trimmed;
-
-                // Increase indent for opening tags (but not self-closing or already closed)
-                if (preg_match('/^<[^\/]/', $trimmed) && !preg_match('/\/>$/', $trimmed)) {
-                    // Only increase if this line doesn't also contain the closing tag
-                    if (!preg_match('/<[^>]+>.*<\/[^>]+>/', $trimmed)) {
-                        $indentLevel++;
-                    }
-                }
-            }
-
-            return implode("\n", $indentedLines);
-        } catch (\Throwable $e) {
-            // If formatting fails, return original content
-            return $content;
         }
     }
 
