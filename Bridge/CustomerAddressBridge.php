@@ -20,14 +20,15 @@ use Eccube\Repository\Master\PrefRepository;
 use Plugin\AceClient43\AceServices\AceMethod\Member\DeleteHaisoAdrsMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\RegMemAdrMethod;
 use Plugin\AceClient43\AceServices\Model\Response\Member\DeleteHaisoAdrs\DeleteHaisoAdrsResponseModel;
-use Plugin\AceClient43\AceServices\Model\Response\Member\GetHaisoAdrs\GetHaisoAdrsResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetHaisoAdrs\GetHaisouAdrsModel;
 use Plugin\AceClient43\AceServices\Model\Response\Member\RegMemAdr\RegMemAdrResponseModelInterface;
+use Plugin\AceClient43\Bridge\DataConverter\CustomerAddressDataConverterInterface;
 use Plugin\AceClient43\Bridge\Helper\CustomerAddressBridgeHelper;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\PostCreateOrUpdateInAceCustomerAddressEvent;
 use Plugin\AceClient43\Events\PreCreateOrUpdateInAceCustomerAddressEvent;
-use Plugin\AceClient43\Exception\CouldNotCreateOrUpdateInAceCustomerAddressException;
 use Plugin\AceClient43\Exception\CouldNotRemoveCustomerAddressException;
+use Plugin\AceClient43\Exception\CouldNotSyncInAceCustomerAddressException;
 
 /**
  * 顧客住所連携ブリッジクラス
@@ -46,18 +47,22 @@ class CustomerAddressBridge extends BaseBridge
 
     private PrefRepository $prefRepository;
 
+    private CustomerAddressDataConverterInterface $customerAddressDataConverter;
+
     public function __construct(
         RegMemAdrMethod $regMemAdrMethod,
         DeleteHaisoAdrsMethod $deleteHaisoAdrsMethod,
         CustomerAddressBridgeHelper $helper,
         CustomerAddressRepository $customerAddressRepository,
         PrefRepository $prefRepository,
+        CustomerAddressDataConverterInterface $customerAddressDataConverter,
     ) {
         $this->helper = $helper;
         $this->regMemAdrMethod = $regMemAdrMethod;
         $this->deleteHaisoAdrsMethod = $deleteHaisoAdrsMethod;
         $this->customerAddressRepository = $customerAddressRepository;
         $this->prefRepository = $prefRepository;
+        $this->customerAddressDataConverter = $customerAddressDataConverter;
     }
 
     /**
@@ -76,7 +81,7 @@ class CustomerAddressBridge extends BaseBridge
         }
 
         foreach ($addresses as $address) {
-            $this->createOrUpdateInAce($address, false, $options);
+            $this->syncCustomerAddressToAce($address, false, $options);
         }
 
         if ($needFlush) {
@@ -95,9 +100,9 @@ class CustomerAddressBridge extends BaseBridge
      *
      * @return bool
      *
-     * @throws CouldNotCreateOrUpdateInAceCustomerAddressException
+     * @throws CouldNotSyncInAceCustomerAddressException
      */
-    public function createOrUpdateInAce(CustomerAddress $address, bool $needFlush = true, array $options = []): bool
+    public function syncCustomerAddressToAce(CustomerAddress $address, bool $needFlush = true, array $options = []): bool
     {
         $customer = $address->getCustomer();
         if (null === $customer->getAceCustomerId()) {
@@ -126,7 +131,7 @@ class CustomerAddressBridge extends BaseBridge
             /** @var RegMemAdrResponseModelInterface $responseObject */
             $responseObject = $response->getResponse();
             if ($this->hasErrorMessage($responseObject->getMember())) {
-                throw new CouldNotCreateOrUpdateInAceCustomerAddressException('通販Aceの住所登録に失敗しました。');
+                throw new CouldNotSyncInAceCustomerAddressException('通販Aceの住所登録に失敗しました。');
             }
 
             $address->setAceEdaNo($responseObject->getMember()->getNmember()->getEda());
@@ -143,13 +148,13 @@ class CustomerAddressBridge extends BaseBridge
                 $this->em->flush($address);
             }
         } catch (\Throwable $e) {
-            if ($e instanceof CouldNotCreateOrUpdateInAceCustomerAddressException) {
+            if ($e instanceof CouldNotSyncInAceCustomerAddressException) {
                 $this->logger->error('通販Aceの住所登録に失敗しました', ['exception' => $e]);
                 throw $e;
             }
 
             $this->logger->error('通販Aceの住所登録に失敗しました', ['exception' => $e]);
-            throw new CouldNotCreateOrUpdateInAceCustomerAddressException('通販Aceの住所登録時にエラーが発生しました', $e);
+            throw new CouldNotSyncInAceCustomerAddressException('通販Aceの住所登録時にエラーが発生しました', $e);
         }
 
         return true;
@@ -210,39 +215,17 @@ class CustomerAddressBridge extends BaseBridge
     /**
      * 通販Aceの住所情報を顧客エンティティに反映する
      *
-     * @param GetHaisoAdrsResponseModelInterface[] $aceCustomerAddresses
+     * @param GetHaisouAdrsModel[] $aceCustomerAddresses
      * @param Customer $customer
      * @param bool $needFlush
      * @param array $options
      */
-    public function updateCustomerAddressEntityFromAce(array $aceCustomerAddresses, Customer $customer, bool $needFlush = true, array $options = [])
+    public function syncCustomerAddressFromAce(array $aceCustomerAddresses, Customer $customer, bool $needFlush = true, array $options = [])
     {
-        /** @var GetHaisoAdrsResponseModelInterface $aceCustomerAddress */
+        /** @var GetHaisouAdrsModel $aceCustomerAddress */
         foreach ($aceCustomerAddresses as $aceCustomerAddress) {
             if ($aceCustomerAddress->getEda() !== '1') {
-                $customerAddress = $this->customerAddressRepository->findOneBy(['Customer' => $customer, 'ace_eda_no' => $aceCustomerAddress->getEda()]);
-                $pref = $this->prefRepository->findOneBy(['name' => $aceCustomerAddress->getAdr1()]);
-
-                if (!$pref) {
-                    throw new \Exception('[updateCustomerAddressEntityFromAce] Pref not found: '.$aceCustomerAddress->getAdr1());
-                }
-
-                if (!$customerAddress) {
-                    $customerAddress = new CustomerAddress();
-                    $customerAddress->setCreateDate(new \DateTime());
-                    $customerAddress->setUpdateDate(new \DateTime());
-                }
-
-                $customerAddress->setAceEdaNo($aceCustomerAddress->getEda());
-                $customerAddress->setCustomer($customer);
-                $customerAddress->setPostalCode($aceCustomerAddress->getZip());
-                $customerAddress->setAddr01($aceCustomerAddress->getAdr2());
-                $customerAddress->setAddr02($aceCustomerAddress->getAdr3());
-                $customerAddress->setPhoneNumber($aceCustomerAddress->getTel());
-                $customerAddress->setPhoneNumber2($aceCustomerAddress->getAdrBikou1());
-                $customerAddress->setName01($aceCustomerAddress->getSimei());
-                $customerAddress->setIsForeigner($aceCustomerAddress->getAdrBikou2());
-                $customerAddress->setPref($pref);
+                $customerAddress = $this->customerAddressDataConverter->convertCustomerAddressAceToEntity($aceCustomerAddress, $customer);
                 $this->em->persist($customerAddress);
                 if ($needFlush) {
                     $this->em->flush($customerAddress);

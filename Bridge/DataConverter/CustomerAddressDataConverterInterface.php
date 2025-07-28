@@ -6,6 +6,7 @@ use Eccube\Entity\Customer;
 use Eccube\Entity\CustomerAddress;
 use Plugin\AceClient43\AceServices\Model\Request\Member\DeleteHaisoAdrs\DeleteHaisoAdrsRequestModel;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr\RegMemAdrRequestModel;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetHaisoAdrs\GetHaisouAdrsModelInterface;
 
 interface CustomerAddressDataConverterInterface
 {
@@ -31,4 +32,14 @@ interface CustomerAddressDataConverterInterface
      * @return DeleteHaisoAdrsRequestModel
      */
     public function convertCustomerAddressToDeleteRequest(Customer $customer, CustomerAddress $address, string $syid, array $options = []): DeleteHaisoAdrsRequestModel;
+
+    /**
+     * Convert ACE CustomerAddress to EC-CUBE CustomerAddress
+     *
+     * @param GetHaisouAdrsModelInterface $aceCustomerAddress
+     * @param Customer $customer
+     *
+     * @return CustomerAddress
+     */
+    public function convertCustomerAddressAceToEntity(GetHaisouAdrsModelInterface $aceCustomerAddress, Customer $customer): CustomerAddress;
 }

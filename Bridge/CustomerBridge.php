@@ -200,7 +200,10 @@ class CustomerBridge extends BaseBridge
             $loginMemberModel = $this->getByAceCustomerId($aceCustomerId, $options, $customer);
         }
 
-        $this->customerAddressBridge->updateCustomerAddressEntityFromAce($loginMemberModel->getGetHaisouAdrs(), $customer, $needFlush, $options);
+        // `request`に`return_alladr` オプションを設定している場合
+        if ($loginMemberModel->getGetHaisouAdrs()) {
+            $this->customerAddressBridge->syncCustomerAddressFromAce($loginMemberModel->getGetHaisouAdrs(), $customer, $needFlush, $options);
+        }
 
         return $this->updateCustomerEntityFromLoginMember($customer, $loginMemberModel, $needFlush, $options);
     }
