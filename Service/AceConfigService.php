@@ -299,4 +299,24 @@ class AceConfigService
 
         return $config ? $config->getForgotPath() : null;
     }
+
+    /**
+     * ベースURIを取得
+     *
+     * @return string
+     */
+    public function getBaseUri(): string
+    {
+        $config = $this->getConfig();
+        if (!$config) {
+            throw new \LogicException('AceClient設定が見つかりません。');
+        }
+
+        $baseUri = $config->getBaseUri();
+        if (null === $baseUri || empty($baseUri)) {
+            throw new \LogicException('ベースURIが設定されていません。');
+        }
+
+        return $baseUri;
+    }
 }

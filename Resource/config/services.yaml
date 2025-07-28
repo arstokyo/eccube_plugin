@@ -7,29 +7,214 @@ parameters:
     - 'Customize/AceClient/Model/Response'
     - 'Plugin/AceClient43/AceServices/Model/Response'
 
-# Uncomment the following lines if you want to use request-response mapping
-#  ace.request_response_mapping:
-#    Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\AddCartRequestModelInterface:
-#      response: Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModel
-#      request: Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\AddCartRequestModel
-
 services:
     # default configuration for services in *this* file
     _defaults:
-        # automatically injects dependencies in your services
         autowire: true
-        # automatically registers your services as commands, event subscribers, etc.
         autoconfigure: true
-        # this means you cannot fetch services directly from the container via $container->get()
-        # if you need to do this, you can override this setting on individual services
         public: false
 
+    # ACE Services - Version Independent Aliases
+    ace_config_service:
+        alias: Plugin\AceClient43\Service\AceConfigService
+        public: true
+
+    ace_model_resolver:
+        alias: Plugin\AceClient43\Util\ModelResolver\ModelResolver
+        public: false
+
+    ace_serializer_resolver:
+        alias: Plugin\AceClient43\Util\Serializer\SerializerResolver
+        public: false
+
+    ace_api_client_resolver:
+        alias: Plugin\AceClient43\ApiClient\ApiClientResolver
+        public: false
+
+    # Base Guzzle HTTP Client (production)
+    ace_client_http_client:
+        class: GuzzleHttp\Client
+        arguments:
+            - base_uri: '@=service("ace_config_service").getBaseUri()'
+              timeout: 600
+              verify: false
+              headers:
+                  User-Agent: 'Plugin\AceClient43\Util\Mapper\OverviewMapper::USER_AGENT_HEADER'
+        public: false
+
+    # Core ACE services
     Plugin\AceClient43\Util\ModelResolver\ModelResolver:
-      arguments:
-        $requestSearchPaths: '%ace.request_search_paths%'
-        $responseSearchPaths: '%ace.response_search_paths%'
-      tags:
-          - { name: 'ace.model_resolver' }
+        arguments:
+            $requestSearchPaths: '%ace.request_search_paths%'
+            $responseSearchPaths: '%ace.response_search_paths%'
+        tags:
+            - { name: 'ace.model_resolver' }
+
+    Plugin\AceClient43\Service\AceConfigService:
+
+    # Normalizers for SOAP XML Serializer
+    ace_datetime_normalizer:
+        alias: Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer
+        public: false
+
+    ace_prm_normalizer:
+        alias: Plugin\AceClient43\Util\Normalizer\PrmNormalizer
+        public: false
+
+    Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer:
+
+    Plugin\AceClient43\Util\Normalizer\PrmNormalizer:
+
+    # Array Denormalizer
+    soap_xml_array_denormalizer:
+        class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
+
+    # AsListDenormalizer with ModelResolver dependency
+    ace_as_list_denormalizer:
+        alias: Plugin\AceClient43\Util\Denormalizer\AsListDenormalizer
+        public: false
+
+    Plugin\AceClient43\Util\Denormalizer\AsListDenormalizer:
+        arguments:
+            $modelResolver: '@ace_model_resolver'
+
+    # ModelTypeExtractor
+    soap_xml_type_extractor:
+        class: Plugin\AceClient43\Util\Normalizer\ModelTypeExtractor
+        arguments:
+            $modelResolver: '@ace_model_resolver'
+
+    # Modern AttributeLoader
+    soap_xml_attribute_loader:
+        class: Symfony\Component\Serializer\Mapping\Loader\AttributeLoader
+
+    # ChainLoader for backward compatibility
+    soap_xml_chain_loader:
+        class: Symfony\Component\Serializer\Mapping\Loader\LoaderChain
+        arguments:
+            $loaders:
+                - '@soap_xml_attribute_loader'
+
+    # Metadata factory for SOAP XML
+    soap_xml_metadata_factory:
+        class: Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory
+        arguments:
+            $loader: '@soap_xml_chain_loader'
+
+    # Name converter with metadata support
+    soap_xml_name_converter:
+        class: Symfony\Component\Serializer\NameConverter\MetadataAwareNameConverter
+        arguments:
+            $metadataFactory: '@soap_xml_metadata_factory'
+
+    # Object Normalizer with all dependencies
+    soap_xml_object_normalizer:
+        class: Symfony\Component\Serializer\Normalizer\ObjectNormalizer
+        arguments:
+            $classMetadataFactory: '@soap_xml_metadata_factory'
+            $nameConverter: '@soap_xml_name_converter'
+            $propertyAccessor: null
+            $propertyTypeExtractor: '@soap_xml_type_extractor'
+            $classDiscriminatorResolver: null
+            $objectClassResolver: null
+            $defaultContext: [ ]
+
+    # XML Encoder
+    xml_encoder:
+        class: Symfony\Component\Serializer\Encoder\XmlEncoder
+
+    # Dedicated Symfony Serializer for SOAP XML
+    soap_xml_symfony_serializer:
+        class: Symfony\Component\Serializer\Serializer
+        arguments:
+            $normalizers:
+                - '@ace_datetime_normalizer'
+                - '@ace_prm_normalizer'
+                - '@soap_xml_array_denormalizer'
+                - '@ace_as_list_denormalizer'
+                - '@soap_xml_object_normalizer'
+            $encoders:
+                - '@xml_encoder'
+
+    # Serializers
+    ace_default_serializer:
+        alias: Plugin\AceClient43\Util\Serializer\DefaultSerializer
+        public: false
+
+    ace_soap_xml_serializer:
+        alias: Plugin\AceClient43\Util\Serializer\SoapXmlSerializer
+        public: false
+
+    Plugin\AceClient43\Util\Serializer\DefaultSerializer:
+        arguments:
+            $symfonySerializer: '@serializer'
+        tags:
+            - { name: 'ace_client.serializer', priority: 0 }
+
+    Plugin\AceClient43\Util\Serializer\SoapXmlSerializer:
+        arguments:
+            $serializer: '@soap_xml_symfony_serializer'
+            $config:
+                xmlns:
+                    '@xmlns': 'http://ar-system-api.co.jp/'
+                default_serialize_options:
+                    xml_format_output: false
+                    xml_encoding: 'utf-8'
+                    encoder_ignored_node_types: [ 7 ]
+                request_soap_head: |
+                    <?xml version="1.0" encoding="utf-8"?>
+                    <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+                    <soap12:Body>
+                request_soap_end: |
+                    </soap12:Body>
+                    </soap12:Envelope>
+        tags:
+            - { name: 'ace_client.serializer', priority: 100 }
+
+    # API Clients
+    Plugin\AceClient43\ApiClient\Client\PostSoapXmlClient:
+        arguments:
+            $serializerResolver: '@ace_serializer_resolver'
+            $httpClient: '@ace_client_http_client'
+            $logger: '@logger'
+            $normalizer: '@serializer'
+            $aceConfigService: '@ace_config_service'
+        tags:
+            - { name: 'ace_client.api_client' }
+
+    Plugin\AceClient43\ApiClient\Client\PostJsonClient:
+        arguments:
+            $serializerResolver: '@ace_serializer_resolver'
+            $httpClient: '@ace_client_http_client'
+            $logger: '@logger'
+            $normalizer: '@serializer'
+            $aceConfigService: '@ace_config_service'
+        tags:
+            - { name: 'ace_client.api_client' }
+
+    Plugin\AceClient43\ApiClient\Client\GetJsonClient:
+        arguments:
+            $serializerResolver: '@ace_serializer_resolver'
+            $httpClient: '@ace_client_http_client'
+            $logger: '@logger'
+            $normalizer: '@serializer'
+            $aceConfigService: '@ace_config_service'
+        tags:
+            - { name: 'ace_client.api_client' }
+
+    # Resolver Services
+    Plugin\AceClient43\ApiClient\ApiClientResolver:
+        arguments:
+            $clients: !tagged_iterator { tag: 'ace_client.api_client' }
+
+    Plugin\AceClient43\Util\Serializer\SerializerResolver:
+        arguments:
+            $serializers: !tagged_iterator { tag: 'ace_client.serializer' }
+
+    # Remaining services...
+    ace_logger:
+        alias: Plugin\AceClient43\Util\Logger\SoapXmlLogger
+        public: false
 
     Plugin\AceClient43\Util\Logger\SoapXmlLogger:
         calls:
@@ -48,8 +233,9 @@ services:
 
     Plugin\AceClient43\Util\Logger\LoggerProvider:
         arguments:
-            - '@Plugin\AceClient43\Util\Logger\SoapXmlLogger'
+            - '@ace_logger'
 
+    # Processors
     Plugin\AceClient43\Service\ChargeProcessor:
         tags:
             - { name: eccube.item.holder.preprocessor, flow_type: shopping, priority: 550 }
@@ -60,8 +246,9 @@ services:
 
     Plugin\AceClient43\Service\DiscountProcessor:
         tags:
-          - { name: eccube.discount.processor, flow_type: shopping, priority: 950 }
+            - { name: eccube.discount.processor, flow_type: shopping, priority: 950 }
 
+    # Decorators
     Plugin\AceClient43\Service\Decorators\ProductClassComparator:
         decorates: Eccube\Service\Cart\ProductClassComparator
         decoration_priority: 10

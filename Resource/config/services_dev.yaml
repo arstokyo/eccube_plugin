@@ -1,0 +1,92 @@
+services:
+    # Traceable Guzzle client for development profiling
+    Plugin\AceClient43\Util\HttpClient\TraceableGuzzleClient:
+        arguments:
+            $aceConfigService: '@ace_config_service'
+            $stopwatch: '@debug.stopwatch'
+
+    # Data dumper utility
+    Plugin\AceClient43\Util\DataCollector\DataDumper:
+        public: false
+
+    # API client data collector that filters profiler requests
+    Plugin\AceClient43\Util\DataCollector\ApiClientDataCollector:
+        arguments:
+            $aceConfigService: '@ace_config_service'
+            $dataDumper: '@Plugin\AceClient43\Util\DataCollector\DataDumper'
+        tags:
+            - { name: 'data_collector', template: '@AceClient43/profiler/ace_api_client.html.twig', id: 'ace_api_client' }
+
+    # Original client services
+    ace_original_post_soap_xml_client:
+        class: Plugin\AceClient43\ApiClient\Client\PostSoapXmlClient
+        arguments:
+            $serializerResolver: '@ace_serializer_resolver'
+            $httpClient: '@ace_client_http_client'
+            $logger: '@logger'
+            $normalizer: '@serializer'
+            $aceConfigService: '@ace_config_service'
+
+    ace_original_post_json_client:
+        class: Plugin\AceClient43\ApiClient\Client\PostJsonClient
+        arguments:
+            $serializerResolver: '@ace_serializer_resolver'
+            $httpClient: '@ace_client_http_client'
+            $logger: '@logger'
+            $normalizer: '@serializer'
+            $aceConfigService: '@ace_config_service'
+
+    ace_original_get_json_client:
+        class: Plugin\AceClient43\ApiClient\Client\GetJsonClient
+        arguments:
+            $serializerResolver: '@ace_serializer_resolver'
+            $httpClient: '@ace_client_http_client'
+            $logger: '@logger'
+            $normalizer: '@serializer'
+            $aceConfigService: '@ace_config_service'
+
+    # Traceable decorators
+    ace_traceable_post_soap_xml_client:
+        class: Plugin\AceClient43\Util\DataCollector\TraceableApiClient
+        arguments:
+            $client: '@ace_original_post_soap_xml_client'
+            $stopwatch: '@debug.stopwatch'
+            $collector: '@Plugin\AceClient43\Util\DataCollector\ApiClientDataCollector'
+            $collectorName: 'post_soap_xml'
+        tags:
+            - { name: 'ace_client.api_client' }
+
+    ace_traceable_post_json_client:
+        class: Plugin\AceClient43\Util\DataCollector\TraceableApiClient
+        arguments:
+            $client: '@ace_original_post_json_client'
+            $stopwatch: '@debug.stopwatch'
+            $collector: '@Plugin\AceClient43\Util\DataCollector\ApiClientDataCollector'
+            $collectorName: 'post_json'
+        tags:
+            - { name: 'ace_client.api_client' }
+
+    ace_traceable_get_json_client:
+        class: Plugin\AceClient43\Util\DataCollector\TraceableApiClient
+        arguments:
+            $client: '@ace_original_get_json_client'
+            $stopwatch: '@debug.stopwatch'
+            $collector: '@Plugin\AceClient43\Util\DataCollector\ApiClientDataCollector'
+            $collectorName: 'get_json'
+        tags:
+            - { name: 'ace_client.api_client' }
+
+    # HTTP client alias
+    ace_client_http_client:
+        alias: Plugin\AceClient43\Util\HttpClient\TraceableGuzzleClient
+        public: false
+
+    # Client aliases
+    Plugin\AceClient43\ApiClient\Client\PostSoapXmlClient:
+        alias: ace_traceable_post_soap_xml_client
+
+    Plugin\AceClient43\ApiClient\Client\PostJsonClient:
+        alias: ace_traceable_post_json_client
+
+    Plugin\AceClient43\ApiClient\Client\GetJsonClient:
+        alias: ace_traceable_get_json_client

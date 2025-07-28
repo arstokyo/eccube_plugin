@@ -11,7 +11,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Plugin\AceClient43\ApiClient\Api\Client;
+namespace Plugin\AceClient43\ApiClient\Client;
 
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
 
@@ -22,24 +22,26 @@ use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
  */
 class ClientMetadata implements ClientMetadataInterface
 {
-    private string $requestmethod;
+    private string $requestMethod;
+
     private string $uri;
+
     /** @var RequestModelInterface|\JsonSerializable|array<int|string, mixed> */
     private $data;
 
     /**
      * ClientMetadata constructor
      *
-     * @param string                                                           $requestmethod Client requestmethod to use.
+     * @param string                                                           $requestmethod Client requestMethod to use.
      * @param string                                                           $uri           Client target URI.
      * @param RequestModelInterface|\JsonSerializable|array<int|string, mixed> $data          Client request data.
      */
     public function __construct(
-        string $requestmethod,
+        string $requestMethod,
         string $uri,
         $data,
     ) {
-        $this->requestmethod = $requestmethod;
+        $this->requestMethod = $requestMethod;
         $this->uri = $uri;
         $this->data = $data;
     }
@@ -49,7 +51,7 @@ class ClientMetadata implements ClientMetadataInterface
      */
     public function getRequestMethod(): string
     {
-        return $this->requestmethod;
+        return $this->requestMethod;
     }
 
     /**
