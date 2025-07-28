@@ -17,13 +17,15 @@ use Plugin\AceClient43\AceServices\Model;
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelExtend1Interface;
 use Plugin\AceClient43\AceServices\Model\Dependency\Point;
 use Plugin\AceClient43\AceServices\Model\Dependency\Reminder;
+use Plugin\AceClient43\AceServices\Model\Response\AsListDenormalizableInterface;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetHaisoAdrs\GetHaisouAdrsModel;
 
 /**
  * Interface for Login Member Model
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-interface LoginMemberModelInterface extends HasMessageModelExtend1Interface
+interface LoginMemberModelInterface extends HasMessageModelExtend1Interface, AsListDenormalizableInterface
 {
     /**
      * Get Member
@@ -88,4 +90,20 @@ interface LoginMemberModelInterface extends HasMessageModelExtend1Interface
      * @return void
      */
     public function setOrderInfo(?OrderInfoModel $orderInfo): void;
+
+    /**
+     * Get HaisouAdrs
+     *
+     * @return GetHaisouAdrsModel[]|null
+     */
+    public function getGetHaisouAdrs(): ?array;
+
+    /**
+     * Set HaisouAdrs
+     *
+     * @param GetHaisouAdrsModel[]|null $haisouAdrs
+     *
+     * @return self
+     */
+    public function setGetHaisouAdrs(?array $getHaisouAdrs): self;
 }

@@ -16,6 +16,7 @@ namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetHaisoAdrs;
 use Plugin\AceClient43\AceServices\Model\Dependency\Address\FourAdrTrait;
 use Plugin\AceClient43\AceServices\Model\Dependency\Address\FourCdvAdrTrait;
 use Plugin\AceClient43\AceServices\Model\Dependency\Bikou\ThreeAdrBikouTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory\EdaTrait;
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory\KanaTrait;
 use Plugin\AceClient43\AceServices\Model\Dependency\Person\PersonLevel3ExtractTrait;
 
@@ -31,6 +32,7 @@ class GetHaisouAdrsModel implements GetHaisouAdrsModelInterface
     use FourCdvAdrTrait;
     use FourAdrTrait;
     use KanaTrait;
+    use EdaTrait;
 
     /** @var string 氏名 */
     private ?string $cnvname = null;

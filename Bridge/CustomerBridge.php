@@ -36,12 +36,16 @@ class CustomerBridge extends BaseBridge
 
     private RegMemberMethod $regMemberMethod;
 
+    private CustomerAddressBridge $customerAddressBridge;
+
     public function __construct(
         RegMemberMethod $regMemberMethod,
         CustomerBridgeHelper $helper,
+        CustomerAddressBridge $customerAddressBridge,
     ) {
         $this->helper = $helper;
         $this->regMemberMethod = $regMemberMethod;
+        $this->customerAddressBridge = $customerAddressBridge;
     }
 
     /**
@@ -194,6 +198,11 @@ class CustomerBridge extends BaseBridge
             $loginMemberModel = $this->getByEmailAndPassword($customer->getEmail(), $customer->getPassword());
         } else {
             $loginMemberModel = $this->getByAceCustomerId($aceCustomerId, $options, $customer);
+        }
+
+        // `request`に`return_alladr` オプションを設定している場合
+        if ($loginMemberModel->getGetHaisouAdrs()) {
+            $this->customerAddressBridge->syncCustomerAddressFromAce($loginMemberModel->getGetHaisouAdrs(), $customer, $needFlush, $options);
         }
 
         return $this->updateCustomerEntityFromLoginMember($customer, $loginMemberModel, $needFlush, $options);

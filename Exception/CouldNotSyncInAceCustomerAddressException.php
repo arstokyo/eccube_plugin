@@ -13,7 +13,7 @@
 
 namespace Plugin\AceClient43\Exception;
 
-class CouldNotCreateOrUpdateCustomerAddressException extends AceClientBaseException
+class CouldNotSyncInAceCustomerAddressException extends AceClientBaseException
 {
     /**
      * CouldnotRegisterNewCustomerException constructor.

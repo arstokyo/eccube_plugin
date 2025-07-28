@@ -53,10 +53,14 @@ class CustomerBridgeHelper
     /**
      * メールアドレスとパスワードによる顧客情報の取得
      */
-    public function getByEmailAndPassword(string $email, string $password, string $syid): ?GetMemberResponse\LoginMemberModelInterface
+    public function getByEmailAndPassword(string $email, string $password, string $syid, array $options = []): ?GetMemberResponse\LoginMemberModelInterface
     {
         /** @var GetMemberRequest\GetMemberRequestModelInterface $requestModel */
         $requestModel = $this->createRequestModel(GetMemberRequest\GetMemberRequestModelInterface::class);
+
+        if (isset($options['return_alladr']) && $options['return_alladr']) {
+            $requestModel->getIdPrm()->getOptions()->setReturnAllAdr(true);
+        }
 
         $request = $requestModel
             ->setId($syid)
@@ -89,6 +93,10 @@ class CustomerBridgeHelper
     public function getByAceCustomerId(string $aceCustomerId, string $syid, array $options = [], ?Customer $customer = null): ?GetMemberMcodeResponse\LoginMemberModelInterface
     {
         $request = $this->customerDataConverter->convertCustomerToGetMemberMcodeRequest($aceCustomerId, $syid, $options, $customer);
+
+        if (isset($options['return_alladr']) && $options['return_alladr']) {
+            $request->getIdPrm()->getOptions()->setReturnAllAdr(true);
+        }
 
         try {
             $response = $this->getMemberMcodeMethod
