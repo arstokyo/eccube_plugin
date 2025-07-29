@@ -60,6 +60,32 @@ class ProductBridge extends BaseBridge
 
         $optionModel->setReturnGoodsKubun($freeCode);
 
+        // フィルターが設定されている場合
+        if (isset($options['_get_goods.filters']) && count($options['_get_goods.filters']) > 0) {
+            /** @var RequestGetGoods\FiltersModelInterface $filters */
+            $filters = $this->createSubModel(RequestGetGoods\FiltersModelInterface::class);
+
+            /** @var RequestGetGoods\FilterModelInterface[] $arrayFilters */
+            $arrayFilters = [];
+
+            foreach ($options['_get_goods.filters'] as $filter) {
+                /** @var RequestGetGoods\FilterModelInterface $filterModel */
+                $filterModel = $this->createSubModel(RequestGetGoods\FilterModelInterface::class);
+
+                $filterModel->setValue($filter['value'])
+                            ->setType($filter['type']);
+                $arrayFilters[] = $filterModel;
+            }
+
+            $filters->setFilter($arrayFilters);
+            $optionModel->setFilters($filters);
+        }
+
+        // 更新日時を無視する場合
+        if (isset($options['_get_goods.ignore_udate']) && $options['_get_goods.ignore_udate']) {
+            $optionModel->setIgnoreUdate($options['_get_goods.ignore_udate']);
+        }
+
         $prmModel->setSyid($this->getSyid())
                  ->setOptions($optionModel);
 
@@ -69,8 +95,8 @@ class ProductBridge extends BaseBridge
 
         try {
             $response = $this->getGoodsMethod
-                ->withRequest($request)
-                ->send();
+                             ->withRequest($request)
+                             ->send();
             if (!$response->isOk()) {
                 throw new \RuntimeException(sprintf('商品情報の取得に失敗しました。(レスポンスコード：%s)', $response->getStatusCode()));
             }

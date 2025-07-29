@@ -15,6 +15,7 @@ namespace Plugin\AceClient43\Events;
 
 use Eccube\Entity\Member;
 use Eccube\Entity\ProductClass;
+use Eccube\Entity\ProductStock;
 use Plugin\AceClient43\AceServices\Model\Dependency\Good\GoodModelGroup1Interface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Contracts\EventDispatcher\Event;
@@ -43,8 +44,11 @@ class HelperOnCreateProductEvent extends Event
     /** 商品作成に失敗しました。  */
     public bool $failed = false;
 
+    public ProductStock $productStock;
+
     public function __construct(
         ProductClass $productClass,
+        ProductStock $productStock,
         GoodModelGroup1Interface $productModel,
         array $productModels,
         array $processedProductsClasses,
@@ -53,6 +57,7 @@ class HelperOnCreateProductEvent extends Event
         array $options,
     ) {
         $this->productClass = $productClass;
+        $this->productStock = $productStock;
         $this->productModel = $productModel;
         $this->productModels = $productModels;
         $this->processedProductsClasses = $processedProductsClasses;

@@ -193,10 +193,11 @@ class ProductImportHelper
                     /** @var HelperOnCreateProductEvent $onCreateEvent */
                     $onCreateEvent = $settingBag['on_create_product_event'];
                     if (null === $onCreateEvent) {
-                        $onCreateEvent = new HelperOnCreateProductEvent($productClass, $productModel, $productModels, $processedProductClasses, $creator, $output, $options);
+                        $onCreateEvent = new HelperOnCreateProductEvent($productClass, $productStock, $productModel, $productModels, $processedProductClasses, $creator, $output, $options);
                         $settingBag['on_create_product_event'] = $onCreateEvent;
                     } else {
                         $onCreateEvent->productClass = $productClass;
+                        $onCreateEvent->productStock = $productStock;
                         $onCreateEvent->productModel = $productModel;
                         $onCreateEvent->processedProductsClasses = $processedProductClasses;
                         $onCreateEvent->options = $options;
