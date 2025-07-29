@@ -30,4 +30,36 @@ interface OptionsModelInterface
      * @return self
      */
     public function setReturnGoodsKubun(?array $returnGoodsKubun): self;
+
+    /**
+     * Get Filters
+     *
+     * @return FiltersModelInterface|null
+     */
+    public function getFilters(): ?FiltersModelInterface;
+
+    /**
+     * Set Filters
+     *
+     * @param FiltersModelInterface|null $filters
+     *
+     * @return self
+     */
+    public function setFilters(?FiltersModelInterface $filters): self;
+
+    /**
+     * Get IgnoreUdate
+     *
+     * @return bool|null
+     */
+    public function getIgnoreUdate(): ?bool;
+
+    /**
+     * Set IgnoreUdate
+     *
+     * @param bool|null $ignoreUdate
+     *
+     * @return self
+     */
+    public function setIgnoreUdate(?bool $ignoreUdate): self;
 }

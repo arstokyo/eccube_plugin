@@ -28,6 +28,18 @@ class OptionsModel implements OptionsModelInterface
     private ?string $returnGoodsKubun = null;
 
     /**
+     * @var FiltersModelInterface|null
+     */
+    private ?FiltersModelInterface $filters = null;
+
+    /**
+     * @var bool|null
+     *
+     * @SerializedName("ignore_udate")
+     */
+    private ?bool $ignoreUdate = null;
+
+    /**
      * {@inheritDoc}
      */
     public function getReturnGoodsKubun(): ?string
@@ -46,6 +58,42 @@ class OptionsModel implements OptionsModelInterface
         } else {
             $this->returnGoodsKubun = '';
         }
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getFilters(): ?FiltersModelInterface
+    {
+        return $this->filters;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setFilters(?FiltersModelInterface $filters): self
+    {
+        $this->filters = $filters;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getIgnoreUdate(): ?bool
+    {
+        return $this->ignoreUdate;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setIgnoreUdate(?bool $ignoreUdate): self
+    {
+        $this->ignoreUdate = $ignoreUdate;
 
         return $this;
     }
