@@ -58,18 +58,7 @@ class ProductBridge extends BaseBridge
         $prmModel = $this->createSubModel(IdPrmModelInterface::class);
         $optionModel = $this->createSubModel(OptionsModelInterface::class);
 
-        // $filters = $this->createSubModel(RequestGetGoods\FiltersModelInterface::class);
-        // $filters->setFilter([
-        //     $this->createSubModel(RequestGetGoods\FilterModelInterface::class)
-        //         ->setValue("goods.gdid = '49'")
-        //         ->setType('and'),
-        //     $this->createSubModel(RequestGetGoods\FilterModelInterface::class)
-        //         ->setValue("gtanka.gdid = '49'")
-        //         ->setType('and'),
-        // ]);
-        // $optionModel->setReturnGoodsKubun($freeCode);
-        // $optionModel->setFilters($filters);
-        // $optionModel->setIgnoreUdate(true);
+        $optionModel->setReturnGoodsKubun($freeCode);
 
         $prmModel->setSyid($this->getSyid())
                  ->setOptions($optionModel);
@@ -82,7 +71,6 @@ class ProductBridge extends BaseBridge
             $response = $this->getGoodsMethod
                 ->withRequest($request)
                 ->send();
-            dd($response);
             if (!$response->isOk()) {
                 throw new \RuntimeException(sprintf('商品情報の取得に失敗しました。(レスポンスコード：%s)', $response->getStatusCode()));
             }
