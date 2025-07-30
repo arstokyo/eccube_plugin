@@ -13,51 +13,29 @@
 
 namespace Plugin\AceClient43\Command;
 
-use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\Persistence\ObjectManager;
-use Eccube\Entity\Member;
 use Eccube\Repository\MemberRepository;
-use Plugin\AceClient43\Events\Events;
-use Plugin\AceClient43\Events\PreImportProductEvent;
-use Plugin\AceClient43\Exception\CouldNotImportProductException;
-use Plugin\AceClient43\Service\EntityManagerResetHelper;
-use Plugin\AceClient43\Service\ProductImportHelper;
+use Plugin\AceClient43\Traits\ProductImportTrait;
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ProductRepeatImportCommand extends Command
 {
-    protected static $defaultName = 'eccube:aceclient:import-product-repeat';
+    use ProductImportTrait;
 
-    private EventDispatcherInterface $eventDispatcher;
+    protected static $defaultName = 'eccube:aceclient:import-product-repeat';
 
     private MemberRepository $memberRepository;
 
-    private ObjectManager $entityManager;
-
-    private ProductImportHelper $productImportHelper;
-
-    private ManagerRegistry $managerRegistry;
-
     public function __construct(
-        EventDispatcherInterface $eventDispatcher,
         MemberRepository $memberRepository,
-        EntityManagerInterface $entityManager,
-        ProductImportHelper $productImportHelper,
-        ManagerRegistry $managerRegistry,
     ) {
         parent::__construct();
-        $this->eventDispatcher = $eventDispatcher;
         $this->memberRepository = $memberRepository;
-        $this->entityManager = $entityManager;
-        $this->productImportHelper = $productImportHelper;
-        $this->managerRegistry = $managerRegistry;
     }
 
     protected function configure()
@@ -74,7 +52,7 @@ class ProductRepeatImportCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $creator = $this->validateCreatorId($input, $output);
+        $creator = $this->validateCreatorId($input, $output, $this->memberRepository);
         if (null === $creator) {
             return Command::FAILURE;
         }
@@ -89,7 +67,7 @@ class ProductRepeatImportCommand extends Command
             return Command::FAILURE;
         }
 
-        $updateDates = $this->validateDateTimeOptions($input, $output);
+        $updateDates = $this->validateDateTimeOptions($input, $output, '-1 year', '+1 day');
         if (null === $updateDates) {
             return Command::FAILURE;
         }
@@ -122,12 +100,9 @@ class ProductRepeatImportCommand extends Command
         }
         $output->writeln('<comment>================================================================</comment>');
 
-        $totalImported = [];
-
         // 全体処理をrepeat回数分実行
         for ($repeatRound = 1; $repeatRound <= $totalRounds; $repeatRound++) {
             $output->writeln(sprintf('<comment>===== 全体実行 %d/%d =====</comment>', $repeatRound, $totalRounds));
-            $totalImported[$repeatRound] = 0;
             // 各期間を順番に実行
             foreach ($timeChunks as $chunkIndex => $chunk) {
                 $chunkFrom = $chunk['from'];
@@ -140,11 +115,10 @@ class ProductRepeatImportCommand extends Command
                 ));
 
                 try {
-                    $result = $this->executeImport($creator, $chunkFrom, $chunkTo, $input, $output);
-                    if ($result['success']) {
-                        $totalImported[$repeatRound] += $result['count'];
-                        $output->writeln(sprintf('<info>期間 %d 完了: インポートされた商品数: %d</info>',
-                            $chunkIndex + 1, $result['count']));
+                    $result = $this->executeProductImportCommand($creator->getId(), $chunkFrom, $chunkTo, $output);
+                    if ($result) {
+                        $output->writeln(sprintf('<info>期間 %d 完了</info>',
+                            $chunkIndex + 1));
                     } else {
                         $output->writeln(sprintf('<error>期間 %d でエラーが発生しました</error>', $chunkIndex + 1));
 
@@ -162,73 +136,52 @@ class ProductRepeatImportCommand extends Command
         }
 
         $output->writeln(sprintf('<info>===== リピートインポート完了 =====</info>'));
-        foreach ($totalImported as $repeatRound => $count) {
-            $output->writeln(sprintf('<info>全体実行 %d 完了: インポートされた商品数: %d</info>', $repeatRound, $count));
-        }
 
         return Command::SUCCESS;
     }
 
     /**
-     * 単一のインポート処理を実行する
+     * 単一のインポート処理を実行する（コマンド呼び出し）
      *
-     * @param Member $creator
+     * @param int $creatorId
      * @param \DateTime $updateFrom
      * @param \DateTime $updateTo
-     * @param InputInterface $input
      * @param OutputInterface $output
      *
-     * @return array ['success' => bool, 'count' => int]
+     * @return bool
      */
-    private function executeImport(Member $creator, \DateTime $updateFrom, \DateTime $updateTo, InputInterface $input, OutputInterface $output): array
+    private function executeProductImportCommand(int $creatorId, \DateTime $updateFrom, \DateTime $updateTo, OutputInterface $output): bool
     {
-        $options = [
-            '_trigger' => ProductRepeatImportCommand::class,
-            '_remove_entities' => [],
-            '_failed_product_codes' => [],
-        ];
-
         try {
-            if ($this->eventDispatcher->hasListeners(Events::COMMAND_PRE_IMPORT_PRODUCT)) {
-                $event = new PreImportProductEvent($creator, $updateFrom, $updateTo, $input, $output, $options);
-                $this->eventDispatcher->dispatch($event, Events::COMMAND_PRE_IMPORT_PRODUCT);
+            // コマンドの引数を準備
+            $arguments = [
+                'command' => 'eccube:aceclient:import-product',
+                'creatorId' => $creatorId,
+                '--updateFrom' => $updateFrom->format('Y-m-d H:i:s'),
+                '--updateTo' => $updateTo->format('Y-m-d H:i:s'),
+            ];
 
-                if (!$event->continue) {
-                    $output->writeln('<comment>インポート処理が中止されました。</comment>');
+            $arrayInput = new ArrayInput($arguments);
 
-                    return ['success' => false, 'count' => 0];
-                }
-                $options = $event->options;
+            // Get application instance
+            $application = $this->getApplication();
+            if (!$application instanceof Application) {
+                throw new \RuntimeException('Application instance not available');
             }
 
-            $importedCount = $this->productImportHelper->import($creator, $updateFrom, $updateTo, $options, $output);
-            $this->entityManager->flush();
+            // コマンドを実行
+            $returnCode = $application->doRun($arrayInput, $output);
 
-            return ['success' => true, 'count' => $importedCount];
-        } catch (CouldNotImportProductException $e) {
-            $output->writeln(sprintf('<error>商品インポート中にエラーが発生しました: %s</error>', $e->getMessage()));
-
-            return ['success' => false, 'count' => 0];
+            if ($returnCode === Command::SUCCESS) {
+                // 成功時は適当な数値を返す（実際の数は取得困難）
+                return true;
+            } else {
+                return false;
+            }
         } catch (\Throwable $e) {
-            $output->writeln(sprintf('<error>予期しないエラーが発生しました: %s</error>', $e->getMessage()));
+            $output->writeln(sprintf('<error>コマンド実行中にエラーが発生しました: %s</error>', $e->getMessage()));
 
-            // トランザクションがアクティブな場合のみロールバックを実行
-            if ($this->entityManager->getConnection()->isTransactionActive()) {
-                $this->entityManager->rollback();
-            }
-
-            return ['success' => false, 'count' => 0];
-        } finally {
-            if (\count($options['_failed_product_codes']) > 0) {
-                $output->writeln('<error>以下の商品のインポートに失敗しました:</error>');
-                foreach ($options['_failed_product_codes'] as $code) {
-                    $output->writeln(sprintf('<error> - %s</error>', $code));
-                }
-            }
-
-            if (\count($options['_remove_entities']) > 0) {
-                $this->removeEntities($options['_remove_entities'], $output);
-            }
+            return false;
         }
     }
 
@@ -330,159 +283,5 @@ class ProductRepeatImportCommand extends Command
 
             return null;
         }
-    }
-
-    /**
-     * 文字列を DateTime オブジェクトに変換する
-     *
-     * @param string|null $dateTime 日時文字列（例: '2024-06-01', '-1 month', '+1 year', 'now'）
-     * @param string $default
-     *
-     * @return \DateTime|null 変換された DateTime オブジェクト、変換失敗時は null
-     */
-    private function toDateTime(?string $dateTime, string $default): ?\DateTime
-    {
-        if (empty($dateTime)) {
-            $dateTime = $default;
-        }
-
-        try {
-            return new \DateTime($dateTime);
-        } catch (\Exception $e) {
-            return null;
-        }
-    }
-
-    /**
-     * 入力された日時パラメータを検証して DateTime オブジェクトに変換する
-     *
-     * @param InputInterface $input コマンド入力
-     * @param OutputInterface $output コマンド出力
-     *
-     * @return array|null [$updateFrom, $updateTo] の配列、検証失敗時は null
-     */
-    private function validateDateTimeOptions(InputInterface $input, OutputInterface $output): ?array
-    {
-        $updateFromInput = $input->getOption('updateFrom');
-        $updateToInput = $input->getOption('updateTo');
-
-        $updateFrom = $this->toDateTime($updateFromInput, '-1 year');
-        if ($updateFrom === null) {
-            $output->writeln(sprintf('<error>更新対象開始日が無効です: %s</error>', $updateFromInput));
-
-            return null;
-        }
-
-        $updateTo = $this->toDateTime($updateToInput, '+1 day');
-        if ($updateTo === null) {
-            $output->writeln(sprintf('<error>更新対象終了日が無効です: %s</error>', $updateToInput));
-
-            return null;
-        }
-
-        // 開始日が終了日より後の場合はエラー
-        if ($updateFrom > $updateTo) {
-            $output->writeln(sprintf(
-                '<error>更新対象日時の範囲が無効です: %s から %s</error>',
-                $updateFrom->format('Y-m-d H:i:s'),
-                $updateTo->format('Y-m-d H:i:s')
-            ));
-
-            return null;
-        }
-
-        return [$updateFrom, $updateTo];
-    }
-
-    private function validateCreatorId(InputInterface $input, OutputInterface $output): ?Member
-    {
-        $creatorId = $input->getArgument('creatorId');
-        if (!is_numeric($creatorId)) {
-            $output->writeln('<error>作成者IDは数値でなければなりません。</error>');
-
-            return null;
-        }
-
-        $creator = $this->memberRepository->find($creatorId);
-        if (null == $creator) {
-            $output->writeln('<error>指定された作成者IDに該当するメンバーが見つかりません。</error>');
-
-            return null;
-        }
-
-        return $creator;
-    }
-
-    /**
-     * エンティティを削除する
-     *
-     * @param array $entities 削除対象のエンティティの配列
-     * @param OutputInterface $output 出力インターフェース
-     */
-    private function removeEntities(array $entities, OutputInterface $output): void
-    {
-        $removed = 0;
-        $failed = 0;
-
-        foreach ($entities as $entity) {
-            try {
-                $entityManager = $this->entityManager;
-                $entityManager = EntityManagerResetHelper::resetIfNotOpen($entityManager, $this->managerRegistry, $output);
-
-                // エンティティがデタッチされている場合は再読み込み
-                $className = get_class($entity);
-                $id = method_exists($entity, 'getId') ? $entity->getId() : null;
-
-                if ($id === null) {
-                    $output->writeln('<comment>エンティティにIDがないためスキップします</comment>');
-                    $failed++;
-                    continue;
-                }
-
-                // 毎回新しいエンティティを取得する
-                $refreshedEntity = $entityManager->find($className, $id);
-                if ($refreshedEntity === null) {
-                    $output->writeln(sprintf('<comment>エンティティが存在しないためスキップします: %s (ID: %s)</comment>', $className, $id));
-                    $failed++;
-                    continue;
-                }
-
-                // トランザクションを開始して削除操作を実行
-                $entityManager->beginTransaction();
-
-                try {
-                    $entityManager->remove($refreshedEntity);
-                    $entityManager->flush();
-                    $entityManager->commit();
-
-                    $removed++;
-                    $output->writeln(sprintf('<info>エンティティを削除しました: %s (ID: %s)</info>', $className, $id));
-                } catch (\Exception $e) {
-                    // このトランザクション内でのみロールバック
-                    if ($entityManager->getConnection()->isTransactionActive()) {
-                        $entityManager->rollback();
-                    }
-
-                    throw $e; // 外部のcatchブロックで処理するために再スロー
-                }
-            } catch (ForeignKeyConstraintViolationException $e) {
-                $output->writeln(sprintf('<error>外部キー制約違反のため削除できません: %s (ID: %s): %s</error>',
-                    get_class($entity), method_exists($entity, 'getId') ? $entity->getId() : '不明', $e->getMessage()));
-                $failed++;
-
-                // 問題が発生した場合はエンティティマネージャーをリセット
-                $this->entityManager = EntityManagerResetHelper::resetEntityManager($entityManager, $this->managerRegistry, $output);
-            } catch (\Throwable $e) {
-                $output->writeln(sprintf('<error>エンティティの削除中にエラーが発生しました: %s (ID: %s): %s</error>',
-                    get_class($entity), method_exists($entity, 'getId') ? $entity->getId() : '不明', $e->getMessage()));
-                $failed++;
-
-                // 問題が発生した場合はエンティティマネージャーをリセット
-                $this->entityManager = EntityManagerResetHelper::resetEntityManager($entityManager, $this->managerRegistry, $output);
-            }
-        }
-
-        // 処理結果の集計を表示
-        $output->writeln(sprintf('<info>削除処理完了: 成功=%d件, 失敗=%d件</info>', $removed, $failed));
     }
 }
