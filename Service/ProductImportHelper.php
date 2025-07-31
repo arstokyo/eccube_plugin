@@ -184,7 +184,7 @@ class ProductImportHelper
 
                 // import_stockがtrueの場合のみ在庫を更新する
                 if ($options['_product_import_helper.import_stock']) {
-                    $stock = $this->productBridge->getStock($aceProductId, '0000000', $options);
+                    $stock = $productModel->getZaiko();
                     $productStock->setStock($stock);
                     $productClass->setStock($stock);
                 }

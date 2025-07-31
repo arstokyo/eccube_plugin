@@ -60,7 +60,7 @@ class ProductBridge extends BaseBridge
 
         $optionModel->setReturnGoodsKubun($freeCode);
 
-        if (isset($options['_get_goods.include_zaiko']) && $options['_get_goods.include_zaiko']) {
+        if (isset($options['_product_import_helper.import_stock']) && $options['_product_import_helper.import_stock']) {
             $optionModel->setIncludeZaiko(true);
         }
 
