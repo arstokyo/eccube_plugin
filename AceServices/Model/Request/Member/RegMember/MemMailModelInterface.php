@@ -13,13 +13,26 @@
 
 namespace Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 
-use Plugin\AceClient43\AceServices\Model\Dependency\Mail\MemMail\MemMailModelInterface as ParentInterface;
-
 /**
  * interface for メールアドレスModel
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-interface MemMailModelInterface extends ParentInterface
+interface MemMailModelInterface
 {
+    /**
+     * Get メールアドレス子モデル
+     *
+     * @return MemMailChildModelInterface[]|null メールアドレス子モデル
+     */
+    public function getMemmailChild(): array;
+
+    /**
+     * Set メールアドレス子モデル
+     *
+     * @param MemMailChildModelInterface[] $memmailChild メールアドレス子モデル
+     *
+     * @return self
+     */
+    public function setMemmailChild(array $memmailChild): self;
 }

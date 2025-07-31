@@ -13,13 +13,37 @@
 
 namespace Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 
-use Plugin\AceClient43\AceServices\Model\Dependency\Mail\MemMail\MemMailModel as ParentModel;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * Class for メールアドレスModel
  *
  * @author v.t.nguyen@ar-system.co.jp
  */
-class MemMailModel extends ParentModel implements MemMailModelInterface
+class MemMailModel implements MemMailModelInterface
 {
+    /**
+     * @var MemMailChildModelInterface[]
+     *
+     * @SerializedName("memmail_child")
+     */
+    private array $memmailChild = [];
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getMemmailChild(): array
+    {
+        return $this->memmailChild;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setMemmailChild(array $memmailChild): self
+    {
+        $this->memmailChild = $memmailChild;
+
+        return $this;
+    }
 }
