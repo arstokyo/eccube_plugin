@@ -60,6 +60,14 @@ class ProductBridge extends BaseBridge
 
         $optionModel->setReturnGoodsKubun($freeCode);
 
+        if (isset($options['_get_goods.include_zaiko']) && $options['_get_goods.include_zaiko']) {
+            $optionModel->setIncludeZaiko(true);
+        }
+
+        if (isset($options['_get_goods.extra_fields']) && $options['_get_goods.extra_fields']) {
+            $optionModel->setExtraFields($options['_get_goods.extra_fields']);
+        }
+
         // フィルターが設定されている場合
         if (isset($options['_get_goods.filters']) && count($options['_get_goods.filters']) > 0) {
             /** @var RequestGetGoods\FiltersModelInterface $filters */

@@ -40,6 +40,20 @@ class OptionsModel implements OptionsModelInterface
     private ?bool $ignoreUdate = null;
 
     /**
+     * @var string|null
+     *
+     * @SerializedName("extra_fields")
+     */
+    private ?string $extraFields = null;
+
+    /**
+     * @var bool|null
+     *
+     * @SerializedName("include_zaiko")
+     */
+    private ?bool $includeZaiko = null;
+
+    /**
      * {@inheritDoc}
      */
     public function getReturnGoodsKubun(): ?string
@@ -94,6 +108,42 @@ class OptionsModel implements OptionsModelInterface
     public function setIgnoreUdate(?bool $ignoreUdate): self
     {
         $this->ignoreUdate = $ignoreUdate;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getExtraFields(): ?string
+    {
+        return $this->extraFields;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setExtraFields(?string $extraFields): self
+    {
+        $this->extraFields = $extraFields;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getIncludeZaiko(): ?bool
+    {
+        return $this->includeZaiko;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setIncludeZaiko(?bool $includeZaiko): self
+    {
+        $this->includeZaiko = $includeZaiko;
 
         return $this;
     }

@@ -62,4 +62,36 @@ interface OptionsModelInterface
      * @return self
      */
     public function setIgnoreUdate(?bool $ignoreUdate): self;
+
+    /**
+     * Get ExtraFields
+     *
+     * @return string|null
+     */
+    public function getExtraFields(): ?string;
+
+    /**
+     * Set ExtraFields
+     *
+     * @param string|null $extraFields
+     *
+     * @return self
+     */
+    public function setExtraFields(?string $extraFields): self;
+
+    /**
+     * Get IncludeZaiko
+     *
+     * @return bool|null
+     */
+    public function getIncludeZaiko(): ?bool;
+
+    /**
+     * Set IncludeZaiko
+     *
+     * @param bool|null $includeZaiko
+     *
+     * @return self
+     */
+    public function setIncludeZaiko(?bool $includeZaiko): self;
 }
