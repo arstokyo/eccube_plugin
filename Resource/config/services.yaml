@@ -118,7 +118,7 @@ monolog:
         ace_client:
             type: rotating_file
             path: '%kernel.logs_dir%/%kernel.environment%/ace_client.log'
-            formatter: eccube.log.formatter.line
+            formatter: Plugin\AceClient43\Util\Logger\LineFormatter
             level: debug
             channels: ['ace_client']
             max_files: 60
@@ -368,7 +368,6 @@ services:
             $httpClient: '@ace_client_http_client'
             $normalizer: '@serializer'
             $aceConfigService: '@ace_config_service'
-            $maxLineLength: '%ace.log.max_line_length%'
         tags:
             - { name: 'ace_client.api_client' }
 
@@ -451,6 +450,13 @@ services:
     Plugin\AceClient43\Service\Decorators\OrderHelper:
         decorates: Eccube\Service\OrderHelper
         decoration_priority: 10
+
+    # Logger
+    Plugin\AceClient43\Util\Logger\LineFormatter:
+        arguments:
+            $maxLineLength: '%ace.log.max_line_length%'
+        tags:
+            - { name: 'monolog.formatter', channel: 'ace_client' }
 
 security:
     firewalls:
