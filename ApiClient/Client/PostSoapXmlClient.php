@@ -5,6 +5,7 @@ namespace Plugin\AceClient43\ApiClient\Client;
 use Plugin\AceClient43\ApiClient\Response;
 use Plugin\AceClient43\Exception;
 use Plugin\AceClient43\Util\Extractor\XmlExtractorTrait;
+use Plugin\AceClient43\Util\Logger\LineFormatter;
 use Psr\Http\Message\ResponseInterface as PsrResponse;
 
 /**
@@ -15,6 +16,20 @@ use Psr\Http\Message\ResponseInterface as PsrResponse;
 class PostSoapXmlClient extends AbstractClient
 {
     use XmlExtractorTrait;
+
+    private int $maxLineLength;
+
+    public function __construct(
+        \Plugin\AceClient43\Util\Serializer\SerializerResolver $serializerResolver,
+        \GuzzleHttp\ClientInterface $httpClient,
+        \Psr\Log\LoggerInterface $logger,
+        \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer,
+        \Plugin\AceClient43\Service\AceConfigService $aceConfigService,
+        int $maxLineLength,
+    ) {
+        parent::__construct($serializerResolver, $httpClient, $logger, $normalizer, $aceConfigService);
+        $this->maxLineLength = $maxLineLength;
+    }
 
     public function getHttpMethod(): string
     {
@@ -71,10 +86,12 @@ class PostSoapXmlClient extends AbstractClient
 
             $cleanResponseContent = $this->extractCleanResponseContent($responseContent);
 
+            $formatedRequestContent = LineFormatter::format($cleanResponseContent, $this->maxLineLength);
+
             $this->logger->debug(sprintf(
                 '[AceClient] SOAP APIレスポンス - ステータス: %s, クリーンコンテンツ: %s',
                 $psrResponse->getStatusCode(),
-                $cleanResponseContent ?: 'empty'
+                $formatedRequestContent ?: 'empty'
             ));
 
             // Use the FULL response content for deserialization (not the extracted content)

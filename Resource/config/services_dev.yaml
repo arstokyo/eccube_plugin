@@ -33,6 +33,7 @@ services:
             $httpClient: '@ace_client_http_client'
             $normalizer: '@serializer'
             $aceConfigService: '@ace_config_service'
+            $maxLineLength: '%ace.log.max_line_length%'
 
     ace_original_post_json_client:
         class: Plugin\AceClient43\ApiClient\Client\PostJsonClient
