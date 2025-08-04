@@ -101,7 +101,7 @@ class ProductRepeatImportCommand extends Command
         $output->writeln('<comment>================================================================</comment>');
 
         // 全体処理をrepeat回数分実行
-        for ($repeatRound = 1; $repeatRound <= $totalRounds; $repeatRound++) {
+        for ($repeatRound = 0; $repeatRound <= $totalRounds; $repeatRound++) {
             $output->writeln(sprintf('<comment>===== 全体実行 %d/%d =====</comment>', $repeatRound, $totalRounds));
             // 各期間を順番に実行
             foreach ($timeChunks as $chunkIndex => $chunk) {
