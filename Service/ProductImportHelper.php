@@ -349,7 +349,8 @@ class ProductImportHelper
         $product = $productClass ? $productClass->getProduct() : null;
 
         if (null === $productClass) {
-            $this->log('info', sprintf('商品を作成しています: %s (%s)', $productModel->getGname(), $aceProductId), $output);
+            // todo: instead of print out the message, we should log out it.
+            // $this->log('info', sprintf('商品を作成しています: %s (%s)', $productModel->getGname(), $aceProductId), $output);
 
             $product = new Product();
             $productClass = new ProductClass();
@@ -366,7 +367,8 @@ class ProductImportHelper
             $productStock->setProductClass($productClass);
             $productStock->setCreator($creator);
         } else {
-            $output->writeln('<info>[ProductImportHelper] 商品を更新しています: '.$aceProductId.' (ID: '.$productModel->getGdid().')</info>');
+            // todo: instead of print out the message, we should log out it.
+            // $output->writeln('<info>[ProductImportHelper] 商品を更新しています: '.$aceProductId.' (ID: '.$productModel->getGdid().')</info>');
         }
 
         return [$aceProductId, $productClass, $product, $productStock];
