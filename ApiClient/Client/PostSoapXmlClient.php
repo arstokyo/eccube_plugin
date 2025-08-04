@@ -67,20 +67,29 @@ class PostSoapXmlClient extends AbstractClient
     protected function deserializeResponse(PsrResponse $psrResponse): Response\ResponseInterface
     {
         try {
-            $responseContent = $psrResponse->getBody()->getContents();
+            $body = $psrResponse->getBody();
+            $contentLength = $body->getSize();
 
-            $cleanResponseContent = $this->extractCleanResponseContent($responseContent);
+            // If size is unknown or too large, don't extract clean content
+            // todo: autowring the max length
+            $shouldExtractClean = $contentLength !== null && $contentLength <= 200000;
+
+            $responseContent = $body->getContents();
+
+            $cleanResponseContent = $shouldExtractClean ? $this->extractCleanResponseContent($responseContent) : ($contentLength !== null
+                ? sprintf('[Content too large: %d bytes]', $contentLength)
+                : '[Content size unknown - skipping extraction]');
 
             $this->logger->debug(sprintf(
                 '[AceClient] SOAP APIレスポンス - ステータス: %s, クリーンコンテンツ: %s',
                 $psrResponse->getStatusCode(),
-                $cleanResponseContent ?: 'empty'
+                $cleanResponseContent
             ));
 
-            // Use the FULL response content for deserialization (not the extracted content)
+            // Use the FULL response content for deserialization
             $response = empty($this->responseObject)
-                        ? $responseContent
-                        : $this->deserializeResponseContent($responseContent, $psrResponse);
+                ? $responseContent
+                : $this->deserializeResponseContent($responseContent, $psrResponse);
         } catch (\Throwable $t) {
             $this->logger->error("[AceClient] SOAP エラー: {$t->getMessage()}");
             throw new Exception\CanNotBuildResponseException('レスポンスコンテンツの取得と逆シリアル化に失敗しました', $t);

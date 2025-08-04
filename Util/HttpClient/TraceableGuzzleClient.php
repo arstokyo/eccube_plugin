@@ -6,7 +6,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\TransferException;
 use Plugin\AceClient43\Service\AceConfigService;
-use Plugin\AceClient43\Util\DataCollector\ApiClientDataCollector;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
@@ -34,14 +33,6 @@ class TraceableGuzzleClient implements ClientInterface
                 'User-Agent' => 'AceClient/4.3',
             ],
         ]);
-    }
-
-    /**
-     * Register this HTTP client with the data collector
-     */
-    public function registerWithCollector(ApiClientDataCollector $collector): void
-    {
-        $collector->addHttpClient('ace_http_client', $this);
     }
 
     public function request(string $method, $uri = '', array $options = []): ResponseInterface

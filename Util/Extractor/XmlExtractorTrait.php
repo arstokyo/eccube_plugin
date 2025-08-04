@@ -7,35 +7,35 @@ trait XmlExtractorTrait
     /**
      * Extract clean request content for logging (removes SOAP envelope)
      */
-    protected function extractCleanRequestContent(string $content): string
+    protected function extractCleanRequestContent(string $content, bool $needFormat = false): string
     {
         if (empty($content) || !$this->isSoapContent($content)) {
             return $content;
         }
 
         $innerContent = $this->extractRequestInnerContent($content);
-        if ($innerContent) {
-            return $this->formatXmlContent($innerContent);
+        if (empty($innerContent) || !$needFormat) {
+            return $innerContent;
         }
 
-        return $content;
+        return $this->formatXmlContent($innerContent);
     }
 
     /**
      * Extract clean response content for logging (removes SOAP envelope)
      */
-    protected function extractCleanResponseContent(string $content): string
+    protected function extractCleanResponseContent(string $content, bool $needFormat = false): string
     {
         if (empty($content) || !$this->isSoapContent($content)) {
             return $content;
         }
 
         $innerContent = $this->extractResponseInnerContent($content);
-        if ($innerContent) {
-            return $this->formatXmlContent($innerContent);
+        if (empty($innerContent) || !$needFormat) {
+            return $innerContent;
         }
 
-        return $content;
+        return $this->formatXmlContent($innerContent);
     }
 
     /**

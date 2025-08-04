@@ -64,6 +64,7 @@ class LineFormatter extends BaseLineFormatter
             $record['extra'] = $this->truncate($record['extra']);
         }
 
+        // todo: we should truncate the data after parent format done.
         return parent::format($record);
     }
 
