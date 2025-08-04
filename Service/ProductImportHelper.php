@@ -105,7 +105,7 @@ class ProductImportHelper
         $options = array_merge([
             '_trigger' => ProductImportHelper::class,
             '_failed_product_codes' => [],
-            '_product_import_helper.import_stock' => false,
+            '_product_import_helper.import_stock' => true,
         ], $options);
         $master = $this->productBridge->getAll($updateFrom, $updateTo, $options);
 

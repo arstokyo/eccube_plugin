@@ -43,7 +43,7 @@ class ProductRepeatImportCommand extends Command
         $this
             ->addArgument('creatorId', InputArgument::REQUIRED, '作成者ID')
             ->addOption('duration', null, InputOption::VALUE_OPTIONAL, '時間区間の分割 (例: 6 months, 1 year)', '6 months')
-            ->addOption('repeat', null, InputOption::VALUE_OPTIONAL, 'リピート回数 (0 = 1回のみ実行)', 0)
+            ->addOption('repeat', null, InputOption::VALUE_OPTIONAL, 'リピート回数 (0 = 1回のみ実行)', 1)
             ->addOption('updateFrom', null, InputOption::VALUE_OPTIONAL, '更新対象開始日 (例: -1 year, -6 months)', '-1 year')
             ->addOption('updateTo', null, InputOption::VALUE_OPTIONAL, '更新対象終了日 (例: now, -6 months)', 'now')
             ->setHelp('このコマンドは通販Aceから商品を繰り返しインポートします。')
@@ -101,7 +101,7 @@ class ProductRepeatImportCommand extends Command
         $output->writeln('<comment>================================================================</comment>');
 
         // 全体処理をrepeat回数分実行
-        for ($repeatRound = 1; $repeatRound <= $totalRounds; $repeatRound++) {
+        for ($repeatRound = 0; $repeatRound <= $totalRounds; $repeatRound++) {
             $output->writeln(sprintf('<comment>===== 全体実行 %d/%d =====</comment>', $repeatRound, $totalRounds));
             // 各期間を順番に実行
             foreach ($timeChunks as $chunkIndex => $chunk) {
