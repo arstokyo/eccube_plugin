@@ -108,8 +108,8 @@ parameters:
             #   format: 'json'
             #   options:
             #     xml_format_output: true
-    
-    ace.log.max_line_length: 2000  # Maximum line length for log messages
+
+    ace.log.max_line_length: 50000  # Maximum line length for log messages
 
 monolog:
     channels: ['ace_client']

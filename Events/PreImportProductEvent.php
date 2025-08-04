@@ -53,14 +53,19 @@ class PreImportProductEvent extends Event
         $this->repeatRound = $repeatRound;
     }
 
+    public function isRepeatRound(): bool
+    {
+        return $this->repeatRound !== null;
+    }
+
     public function isFirstChunkOfRepeatRound(): bool
     {
         return $this->chunkIndex === 0;
     }
 
-    public function shouldImportMaster(): bool
+    public function shouldSkipImportMaster(): bool
     {
         // Import master only for the first chunk of each repeat round
-        return $this->isFirstChunkOfRepeatRound();
+        return $this->isRepeatRound() && !$this->isFirstChunkOfRepeatRound();
     }
 }
