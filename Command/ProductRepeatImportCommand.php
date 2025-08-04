@@ -43,7 +43,7 @@ class ProductRepeatImportCommand extends Command
         $this
             ->addArgument('creatorId', InputArgument::REQUIRED, '作成者ID')
             ->addOption('duration', null, InputOption::VALUE_OPTIONAL, '時間区間の分割 (例: 6 months, 1 year)', '6 months')
-            ->addOption('repeat', null, InputOption::VALUE_OPTIONAL, 'リピート回数 (0 = 1回のみ実行)', 0)
+            ->addOption('repeat', null, InputOption::VALUE_OPTIONAL, 'リピート回数 (0 = 1回のみ実行)', 1)
             ->addOption('updateFrom', null, InputOption::VALUE_OPTIONAL, '更新対象開始日 (例: -1 year, -6 months)', '-1 year')
             ->addOption('updateTo', null, InputOption::VALUE_OPTIONAL, '更新対象終了日 (例: now, -6 months)', 'now')
             ->setHelp('このコマンドは通販Aceから商品を繰り返しインポートします。')
