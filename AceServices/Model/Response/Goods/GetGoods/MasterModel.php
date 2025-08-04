@@ -51,12 +51,25 @@ class MasterModel implements MasterModelInterface
         $this->Goods = $goods;
     }
 
+    public function hasGoods(): bool
+    {
+        return !empty($this->Goods);
+    }
+
     /**
      * {@inheritDoc}
      */
     public function getGtanka(): ?array
     {
         return $this->Gtanka;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasGtanka(): bool
+    {
+        return !empty($this->Gtanka);
     }
 
     /**

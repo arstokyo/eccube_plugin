@@ -115,7 +115,15 @@ class ProductRepeatImportCommand extends Command
                 ));
 
                 try {
-                    $result = $this->executeProductImportCommand($creator->getId(), $chunkFrom, $chunkTo, $output);
+                    $result = $this->executeProductImportCommand(
+                        $creator->getId(),
+                        $chunkFrom,
+                        $chunkTo,
+                        $output,
+                        $chunkIndex,
+                        count($timeChunks),
+                        $repeatRound
+                    );
                     if ($result) {
                         $output->writeln(sprintf('<info>期間 %d 完了</info>',
                             $chunkIndex + 1));
@@ -147,10 +155,13 @@ class ProductRepeatImportCommand extends Command
      * @param \DateTime $updateFrom
      * @param \DateTime $updateTo
      * @param OutputInterface $output
+     * @param int $chunkIndex
+     * @param int $totalChunks
+     * @param int $repeatRound
      *
      * @return bool
      */
-    private function executeProductImportCommand(int $creatorId, \DateTime $updateFrom, \DateTime $updateTo, OutputInterface $output): bool
+    private function executeProductImportCommand(int $creatorId, \DateTime $updateFrom, \DateTime $updateTo, OutputInterface $output, int $chunkIndex = 0, int $totalChunks = 1, int $repeatRound = 1): bool
     {
         try {
             // コマンドの引数を準備
@@ -159,6 +170,9 @@ class ProductRepeatImportCommand extends Command
                 'creatorId' => $creatorId,
                 '--updateFrom' => $updateFrom->format('Y-m-d H:i:s'),
                 '--updateTo' => $updateTo->format('Y-m-d H:i:s'),
+                '--chunkIndex' => $chunkIndex,
+                '--totalChunks' => $totalChunks,
+                '--repeatRound' => $repeatRound,
             ];
 
             $arrayInput = new ArrayInput($arguments);

@@ -34,7 +34,13 @@ class PreImportProductEvent extends Event
 
     public array $options;
 
-    public function __construct(Member $creator, \DateTime $updateFrom, \DateTime $updateTo, InputInterface $input, OutputInterface $output, array $options)
+    public ?int $chunkIndex;
+
+    public ?int $totalChunks;
+
+    public ?int $repeatRound;
+
+    public function __construct(Member $creator, \DateTime $updateFrom, \DateTime $updateTo, InputInterface $input, OutputInterface $output, array $options, ?int $chunkIndex = null, ?int $totalChunks = null, ?int $repeatRound = null)
     {
         $this->updateFrom = $updateFrom;
         $this->updateTo = $updateTo;
@@ -42,5 +48,19 @@ class PreImportProductEvent extends Event
         $this->output = $output;
         $this->creator = $creator;
         $this->options = $options;
+        $this->chunkIndex = $chunkIndex;
+        $this->totalChunks = $totalChunks;
+        $this->repeatRound = $repeatRound;
+    }
+
+    public function isFirstChunkOfRepeatRound(): bool
+    {
+        return $this->chunkIndex === 0;
+    }
+
+    public function shouldImportMaster(): bool
+    {
+        // Import master only for the first chunk of each repeat round
+        return $this->isFirstChunkOfRepeatRound();
     }
 }

@@ -109,7 +109,7 @@ class ProductImportHelper
         ], $options);
         $master = $this->productBridge->getAll($updateFrom, $updateTo, $options);
 
-        if (null === $master || count($master->getGoods()) === 0 || count($master->getGtanka()) === 0) {
+        if (null === $master || !$master->hasGoods() || !$master->hasGtanka()) {
             $this->log('error', '商品または単価がありませんため、インポート処理を中止します。', $output);
 
             return 0;

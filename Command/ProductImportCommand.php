@@ -66,6 +66,9 @@ class ProductImportCommand extends Command
             ->addArgument('creatorId', InputArgument::REQUIRED, '作成者ID')
             ->addOption('updateFrom', null, InputOption::VALUE_OPTIONAL, '更新対象開始日 (例: 2024-06-01, -1 month, -1 year)')
             ->addOption('updateTo', null, InputOption::VALUE_OPTIONAL, '更新対象終了日 (例: 2024-06-30, now, +1 month)、未指定時は+1 year')
+            ->addOption('chunkIndex', null, InputOption::VALUE_OPTIONAL, 'チャンクインデックス（リピートコマンド用）')
+            ->addOption('totalChunks', null, InputOption::VALUE_OPTIONAL, '総チャンク数（リピートコマンド用）')
+            ->addOption('repeatRound', null, InputOption::VALUE_OPTIONAL, 'リピートラウンド（リピートコマンド用）')
             ->setHelp('このコマンドは通販Aceから商品をインポートします。')
             ->setDescription('通販Aceから商品をインポートするコマンド');
     }
@@ -83,10 +86,19 @@ class ProductImportCommand extends Command
         }
 
         [$updateFrom, $updateTo] = $updateDates;
+
+        // Extract chunk information if provided
+        $chunkIndex = $input->getOption('chunkIndex') !== null ? (int) $input->getOption('chunkIndex') : null;
+        $totalChunks = $input->getOption('totalChunks') !== null ? (int) $input->getOption('totalChunks') : null;
+        $repeatRound = $input->getOption('repeatRound') !== null ? (int) $input->getOption('repeatRound') : null;
+
         $options = [
             '_trigger' => ProductImportCommand::class,
             '_remove_entities' => [],
             '_failed_product_codes' => [],
+            '_chunk_index' => $chunkIndex,
+            '_total_chunks' => $totalChunks,
+            '_repeat_round' => $repeatRound,
         ];
 
         $output->writeln('<info>通販Aceの商品をインポートしています</info>');
@@ -96,9 +108,18 @@ class ProductImportCommand extends Command
             $updateTo->format('Y-m-d H:i:s')
         ));
 
+        if ($chunkIndex !== null && $totalChunks !== null && $repeatRound !== null) {
+            $output->writeln(sprintf(
+                '<info>チャンク情報: %d/%d (リピートラウンド: %d)</info>',
+                $chunkIndex + 1,
+                $totalChunks,
+                $repeatRound
+            ));
+        }
+
         try {
             if ($this->eventDispatcher->hasListeners(Events::COMMAND_PRE_IMPORT_PRODUCT)) {
-                $event = new PreImportProductEvent($creator, $updateFrom, $updateTo, $input, $output, $options);
+                $event = new PreImportProductEvent($creator, $updateFrom, $updateTo, $input, $output, $options, $chunkIndex, $totalChunks, $repeatRound);
                 $this->eventDispatcher->dispatch($event, Events::COMMAND_PRE_IMPORT_PRODUCT);
 
                 if (!$event->continue) {

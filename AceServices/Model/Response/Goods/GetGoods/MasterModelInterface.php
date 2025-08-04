@@ -16,6 +16,7 @@ namespace Plugin\AceClient43\AceServices\Model\Response\Goods\GetGoods;
 use Plugin\AceClient43\AceServices\Model;
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\AsListDenormalizableInterface;
+use Symfony\Component\Serializer\Attribute\Ignore;
 
 /**
  * Interface for MasterModel
@@ -55,4 +56,18 @@ interface MasterModelInterface extends HasMessageModelInterface, AsListDenormali
      * @return void
      */
     public function setGtanka(?array $gtanka): void;
+
+    /**
+     * @Ignore()
+     *
+     * @return bool
+     */
+    public function hasGtanka(): bool;
+
+    /**
+     * @Ignore()
+     *
+     * @return bool
+     */
+    public function hasGoods(): bool;
 }
