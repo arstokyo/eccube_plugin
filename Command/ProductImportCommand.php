@@ -158,6 +158,25 @@ class ProductImportCommand extends Command
             if (\count($options['_remove_entities']) > 0) {
                 $this->removeEntities($options['_remove_entities'], $output, $this->entityManager, $this->managerRegistry);
             }
+
+            // clear the EntityManager for memory cleanup
+            try {
+                if ($this->entityManager->isOpen()) {
+                    // Clear all managed entities to free memory
+                    $this->entityManager->clear();
+                    $output->writeln('<info>エンティティマネージャーをクリアしました</info>');
+
+                    // Optional: Report memory usage
+                    $memoryUsage = memory_get_usage(true);
+                    $peakMemory = memory_get_peak_usage(true);
+                    $output->writeln(sprintf('<info>メモリ使用量: 現在 %s MB, ピーク %s MB</info>',
+                        round($memoryUsage / 1024 / 1024, 2),
+                        round($peakMemory / 1024 / 1024, 2)
+                    ));
+                }
+            } catch (\Throwable $e) {
+                $output->writeln(sprintf('<error>エンティティマネージャーのクリア中にエラーが発生しました: %s</error>', $e->getMessage()));
+            }
         }
 
         return Command::SUCCESS;
