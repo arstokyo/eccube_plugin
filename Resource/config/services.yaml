@@ -454,6 +454,7 @@ services:
     # Logger
     Plugin\AceClient43\Util\Logger\LineFormatter:
         arguments:
+            $format: "[%%datetime%%] %%channel%%.%%level_name%% [%%extra.session_id%%] [%%extra.uid%%] [%%extra.user_id%%] [%%extra.class%%:%%extra.function%%:%%extra.line%%] - %%message%% %%context%% [%%extra.http_method%%, %%extra.url%%, %%extra.ip%%, %%extra.referrer%%, %%extra.user_agent%%]\n"
             $maxLineLength: '%ace.log.max_line_length%'
         tags:
             - { name: 'monolog.formatter', channel: 'ace_client' }

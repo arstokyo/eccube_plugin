@@ -33,11 +33,13 @@ class LineFormatter extends BaseLineFormatter
         bool $includeStacktraces = false,
     ) {
         // Mirror BaseLineFormatter defaults
-        $this->format = $format ?? static::SIMPLE_FORMAT;
-        $this->allowInlineLineBreaks = $allowInlineLineBreaks;
-        $this->ignoreEmptyContextAndExtra = $ignoreEmptyContextAndExtra;
-        $this->includeStacktraces($includeStacktraces);
-        parent::__construct($dateFormat);
+        parent::__construct(
+            $format ?? static::SIMPLE_FORMAT,
+            $dateFormat,
+            $allowInlineLineBreaks,
+            $ignoreEmptyContextAndExtra,
+            $includeStacktraces
+        );
 
         $this->maxLineLength = $maxLineLength;
     }
