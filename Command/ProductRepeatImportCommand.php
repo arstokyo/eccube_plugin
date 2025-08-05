@@ -80,6 +80,9 @@ class ProductRepeatImportCommand extends Command
         // repeat=0なら1回、repeat=2なら2回実行
         $totalRounds = max(1, $repeatCount);
 
+        // エラー情報を格納する配列
+        $errors = [];
+
         $output->writeln('<info>通販Aceの商品リピートインポートを開始します</info>');
         $output->writeln(sprintf('<info>全体実行回数: %d</info>', $totalRounds));
         $output->writeln(sprintf('<info>期間数: %d</info>', count($timeChunks)));
@@ -101,51 +104,78 @@ class ProductRepeatImportCommand extends Command
         $output->writeln('<comment>================================================================</comment>');
 
         // 全体処理をrepeat回数分実行
-        for ($repeatRound = 0; $repeatRound <= $totalRounds; $repeatRound++) {
-            $output->writeln(sprintf('<comment>===== 全体実行 %d/%d =====</comment>', $repeatRound, $totalRounds));
-            // 各期間を順番に実行
-            foreach ($timeChunks as $chunkIndex => $chunk) {
-                $chunkFrom = $chunk['from'];
-                $chunkTo = $chunk['to'];
+        try {
+            for ($repeatRound = 0; $repeatRound <= $totalRounds; $repeatRound++) {
+                $output->writeln(sprintf('<comment>===== 全体実行 %d/%d =====</comment>', $repeatRound, $totalRounds));
+                // 各期間を順番に実行
+                foreach ($timeChunks as $chunkIndex => $chunk) {
+                    $chunkFrom = $chunk['from'];
+                    $chunkTo = $chunk['to'];
 
-                $output->writeln(sprintf('<comment>--- 期間 %d/%d (全体実行 %d)---</comment>', $chunkIndex + 1, count($timeChunks), $repeatRound));
-                $output->writeln(sprintf('<info>期間時間範囲: %s から %s まで</info>',
-                    $chunkFrom->format('Y-m-d H:i:s'),
-                    $chunkTo->format('Y-m-d H:i:s')
-                ));
+                    $output->writeln(sprintf('<comment>--- 期間 %d/%d (全体実行 %d)---</comment>', $chunkIndex + 1, count($timeChunks), $repeatRound));
+                    $output->writeln(sprintf('<info>期間時間範囲: %s から %s まで</info>',
+                        $chunkFrom->format('Y-m-d H:i:s'),
+                        $chunkTo->format('Y-m-d H:i:s')
+                    ));
 
-                try {
-                    $result = $this->executeProductImportCommand(
-                        $creator->getId(),
-                        $chunkFrom,
-                        $chunkTo,
-                        $output,
-                        $chunkIndex,
-                        count($timeChunks),
-                        $repeatRound
-                    );
-                    if ($result) {
-                        $output->writeln(sprintf('<info>期間 %d 完了</info>',
-                            $chunkIndex + 1));
-                    } else {
-                        $output->writeln(sprintf('<error>期間 %d でエラーが発生しました</error>', $chunkIndex + 1));
+                    try {
+                        $result = $this->executeProductImportCommand(
+                            $creator->getId(),
+                            $chunkFrom,
+                            $chunkTo,
+                            $output,
+                            $chunkIndex,
+                            count($timeChunks),
+                            $repeatRound
+                        );
 
-                        return Command::FAILURE;
+                        if ($result) {
+                            $output->writeln(sprintf('<info>期間 %d 完了</info>', $chunkIndex + 1));
+                        } else {
+                            $message = 'executeProductImportCommand failure';
+                            $errors[] = [
+                                'round' => $repeatRound,
+                                'chunk' => $chunkIndex + 1,
+                                'from' => $chunkFrom->format('Y-m-d H:i:s'),
+                                'to' => $chunkTo->format('Y-m-d H:i:s'),
+                                'message' => $message,
+                            ];
+                            $output->writeln(sprintf('<error>期間 %d でエラーが発生しました</error>', $chunkIndex + 1));
+                        }
+                    } catch (\Throwable $e) {
+                        $errors[] = [
+                            'round' => $repeatRound,
+                            'chunk' => $chunkIndex + 1,
+                            'from' => $chunkFrom->format('Y-m-d H:i:s'),
+                            'to' => $chunkTo->format('Y-m-d H:i:s'),
+                            'message' => $e->getMessage(),
+                        ];
+                        $output->writeln(sprintf('<error>期間 %d で予期しないエラーが発生しました: %s</error>',
+                            $chunkIndex + 1, $e->getMessage()));
                     }
-                } catch (\Throwable $e) {
-                    $output->writeln(sprintf('<error>期間 %d で予期しないエラーが発生しました: %s</error>',
-                        $chunkIndex + 1, $e->getMessage()));
+                }
 
-                    return Command::FAILURE;
+                $output->writeln(sprintf('<info>全体実行 %d 完了</info>', $repeatRound));
+            }
+        } finally {
+            if (!empty($errors)) {
+                $output->writeln('<error>===== エラー一覧 =====</error>');
+                foreach ($errors as $err) {
+                    $output->writeln(sprintf(
+                        '<error>全体実行 %d, 期間 %d (%s ～ %s): %s</error>',
+                        $err['round'],
+                        $err['chunk'],
+                        $err['from'],
+                        $err['to'],
+                        $err['message']
+                    ));
                 }
             }
-
-            $output->writeln(sprintf('<info>全体実行 %d 完了</info>', $repeatRound));
         }
 
         $output->writeln(sprintf('<info>===== リピートインポート完了 =====</info>'));
 
-        return Command::SUCCESS;
+        return empty($errors) ? Command::SUCCESS : Command::FAILURE;
     }
 
     /**
