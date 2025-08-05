@@ -15,6 +15,7 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Good;
 
 use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
 use Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
+use Plugin\AceClient43\AceServices\Model\Dependency\Zaiko\ZaikoTrait;
 use Plugin\AceClient43\Util\Converter\NumberConverter;
 
 /**
@@ -25,6 +26,8 @@ use Plugin\AceClient43\Util\Converter\NumberConverter;
 class GoodModelGroup1 implements GoodModelGroup1Interface
 {
     use Bikou\ThreeNotesTrait;
+
+    use ZaikoTrait;
 
     use GoodModelBaseTrait;
 
