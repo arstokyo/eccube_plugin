@@ -33,6 +33,8 @@ services:
             $httpClient: '@ace_client_http_client'
             $normalizer: '@serializer'
             $aceConfigService: '@ace_config_service'
+        calls:
+            - setExtractMaxLength: ['%ace_client.post_soap_client.extract_max_length%']
 
     ace_original_post_json_client:
         class: Plugin\AceClient43\ApiClient\Client\PostJsonClient

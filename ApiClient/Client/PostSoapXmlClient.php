@@ -6,8 +6,6 @@ use Plugin\AceClient43\ApiClient\Response;
 use Plugin\AceClient43\Exception;
 use Plugin\AceClient43\Util\Extractor\XmlExtractorTrait;
 use Psr\Http\Message\ResponseInterface as PsrResponse;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Contracts\Service\Attribute\Required;
 
 /**
  * PostSoapXmlClient - SOAP XML POST実装
@@ -25,12 +23,14 @@ class PostSoapXmlClient extends AbstractClient
      */
     private int $extractMaxLength;
 
-    #[Required]
-    public function setExtractMaxLength(
-        #[Autowire('%ace_client.post_soap_client.extract_max_length%')]
-        int $length,
-    ): void {
-        $this->extractMaxLength = $length;
+    /**
+     * @param int $extractMaxLength
+     *
+     * @return void
+     */
+    public function setExtractMaxLength(int $extractMaxLength): void
+    {
+        $this->extractMaxLength = $extractMaxLength;
     }
 
     public function getHttpMethod(): string
