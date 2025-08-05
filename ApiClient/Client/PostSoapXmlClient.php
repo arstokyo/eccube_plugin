@@ -16,6 +16,20 @@ class PostSoapXmlClient extends AbstractClient
 {
     use XmlExtractorTrait;
 
+    private int $extractMaxLength;
+
+    public function __construct(
+        \Plugin\AceClient43\Util\Serializer\SerializerResolver $serializerResolver,
+        \GuzzleHttp\ClientInterface $httpClient,
+        \Psr\Log\LoggerInterface $logger,
+        \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer,
+        \Plugin\AceClient43\Service\AceConfigService $aceConfigService,
+        int $extractMaxLength,
+    ) {
+        parent::__construct($serializerResolver, $httpClient, $logger, $normalizer, $aceConfigService);
+        $this->extractMaxLength = $extractMaxLength;
+    }
+
     public function getHttpMethod(): string
     {
         return self::HTTP_METHOD_POST;
@@ -71,8 +85,7 @@ class PostSoapXmlClient extends AbstractClient
             $contentLength = $body->getSize();
 
             // If size is unknown or too large, don't extract clean content
-            // todo: autowring the max length
-            $shouldExtractClean = $contentLength !== null && $contentLength <= 200000;
+            $shouldExtractClean = $contentLength !== null && $contentLength <= $this->extractMaxLength;
 
             $responseContent = $body->getContents();
 

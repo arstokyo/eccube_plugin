@@ -111,6 +111,8 @@ parameters:
 
     ace.log.max_line_length: 50000  # Maximum line length for log messages
 
+    ace_client.post_soap_client.extract_max_length: 200000  # Maximum length for SOAP XML response extraction
+
 monolog:
     channels: ['ace_client']
 
@@ -368,6 +370,7 @@ services:
             $httpClient: '@ace_client_http_client'
             $normalizer: '@serializer'
             $aceConfigService: '@ace_config_service'
+            $extractMaxLength: '%ace_client.post_soap_client.extract_max_length%'
         tags:
             - { name: 'ace_client.api_client' }
 
