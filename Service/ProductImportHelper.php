@@ -106,6 +106,7 @@ class ProductImportHelper
             '_trigger' => ProductImportHelper::class,
             '_failed_product_codes' => [],
             '_product_import_helper.import_stock' => true,
+            '_product_import_helper.set_product_status' => true,
         ], $options);
         $master = $this->productBridge->getAll($updateFrom, $updateTo, $options);
 
@@ -179,7 +180,11 @@ class ProductImportHelper
                 $productClass->setAceProductType($productModel->getGkbn());
                 $productClass->setSaleType($settingBag['normal_sale_type']);
 
-                $this->setStatus($productModel, $product, $productClass, $settingBag);
+                // set_product_statusがtrueの場合のみStatusを設定
+                if ($options['_product_import_helper.set_product_status']) {
+                    $this->setStatus($productModel, $product, $productClass, $settingBag);
+                }
+
                 $this->setPrice($productModel, $productClass, $creator, $settingBag, $options, $output);
 
                 // import_stockがtrueの場合のみ在庫を更新する
