@@ -6,6 +6,8 @@ use Plugin\AceClient43\ApiClient\Response;
 use Plugin\AceClient43\Exception;
 use Plugin\AceClient43\Util\Extractor\XmlExtractorTrait;
 use Psr\Http\Message\ResponseInterface as PsrResponse;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Contracts\Service\Attribute\Required;
 
 /**
  * PostSoapXmlClient - SOAP XML POST実装
@@ -16,18 +18,19 @@ class PostSoapXmlClient extends AbstractClient
 {
     use XmlExtractorTrait;
 
+    /**
+     * Extract maximum length for logging clean content.
+     *
+     * @var int
+     */
     private int $extractMaxLength;
 
-    public function __construct(
-        \Plugin\AceClient43\Util\Serializer\SerializerResolver $serializerResolver,
-        \GuzzleHttp\ClientInterface $httpClient,
-        \Psr\Log\LoggerInterface $logger,
-        \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer,
-        \Plugin\AceClient43\Service\AceConfigService $aceConfigService,
-        int $extractMaxLength,
-    ) {
-        parent::__construct($serializerResolver, $httpClient, $logger, $normalizer, $aceConfigService);
-        $this->extractMaxLength = $extractMaxLength;
+    #[Required]
+    public function setExtractMaxLength(
+        #[Autowire('%ace_client.post_soap_client.extract_max_length%')]
+        int $length,
+    ): void {
+        $this->extractMaxLength = $length;
     }
 
     public function getHttpMethod(): string
