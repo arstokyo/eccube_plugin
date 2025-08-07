@@ -6,6 +6,8 @@ use Eccube\Entity\Customer;
 use Plugin\AceClient43\AceServices\AceMethod\Member\CheckMailAdressMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\GetMemberMcodeMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\GetMemberMethod;
+use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelExtend1Interface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Member\CheckMailAdress\CheckMailAdressRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetMember as GetMemberRequest;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
@@ -14,6 +16,7 @@ use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember as GetMemberR
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode as GetMemberMcodeResponse;
 use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
 use Plugin\AceClient43\Bridge\DataConverter\CustomerDataConverterInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * CustomerBridgeHelper - 顧客連携ブリッジの複雑なロジックをカプセル化するヘルパークラス
@@ -30,16 +33,20 @@ class CustomerBridgeHelper
 
     protected CustomerDataConverterInterface $customerDataConverter;
 
+    protected LoggerInterface $logger;
+
     public function __construct(
         GetMemberMethod $getMemberMethod,
         GetMemberMcodeMethod $getMemberMcodeMethod,
         CheckMailAdressMethod $checkMailAdressMethod,
         CustomerDataConverterInterface $customerDataConverter,
+        LoggerInterface $logger,
     ) {
         $this->getMemberMethod = $getMemberMethod;
         $this->getMemberMcodeMethod = $getMemberMcodeMethod;
         $this->checkMailAdressMethod = $checkMailAdressMethod;
         $this->customerDataConverter = $customerDataConverter;
+        $this->logger = $logger;
     }
 
     /**
@@ -76,6 +83,10 @@ class CustomerBridgeHelper
                 return null;
             }
 
+            if ($this->hasErrorMessage($response->getResponse()->getLoginMember())) {
+                return null;
+            }
+
             /** @var GetMemberResponse\GetMemberResponseModelInterface $responseModel */
             $responseModel = $response->getResponse();
 
@@ -104,6 +115,10 @@ class CustomerBridgeHelper
                 ->send();
 
             if (!$response->isOk()) {
+                return null;
+            }
+
+            if ($this->hasErrorMessage($response->getResponse()->getLoginMember())) {
                 return null;
             }
 
@@ -178,5 +193,37 @@ class CustomerBridgeHelper
         } catch (\Throwable $e) {
             throw new \RuntimeException('メールアドレスの存在確認に失敗しました。', 0, $e);
         }
+    }
+
+    /**
+     * レスポンスがエラーかどうかを判定
+     *
+     * @param HasMessageModelInterface|HasMessageModelExtend1Interface $response
+     *
+     * @return bool
+     */
+    protected function hasErrorMessage($response): bool
+    {
+        if (method_exists($response->getMessage(), 'getResult')) {
+            $this->logger->error('通販Ace側の処理でエラーが発生しました', [
+                'result' => $response->getMessage()->getResult(),
+                'message1' => $response->getMessage()->getMessage1() ?? 'N/A',
+                'message2' => $response->getMessage()->getMessage2() ?? 'N/A',
+            ]);
+
+            return 'OK' !== $response->getMessage()->getResult();
+        }
+        $hasMessage1 = $response->getMessage()->getMessage1();
+        $hasMessage2 = $response->getMessage()->getMessage2();
+        if ($hasMessage1 || $hasMessage2) {
+            $this->logger->error('通販Ace側の処理でエラーが発生しました', [
+                'message1' => $hasMessage1,
+                'message2' => $hasMessage2,
+            ]);
+
+            return true;
+        }
+
+        return false;
     }
 }
