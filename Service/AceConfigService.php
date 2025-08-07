@@ -319,4 +319,16 @@ class AceConfigService
 
         return $baseUri;
     }
+
+    /**
+     * マイページでの通販Ace側に顧客情報同期機能を有効にするかどうか
+     *
+     * @return bool
+     */
+    public function shouldSyncCustomerMypage(): bool
+    {
+        $config = $this->getConfig();
+
+        return $config ? $config->shouldSyncCustomerMypage() : false;
+    }
 }

@@ -150,6 +150,13 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         private bool $add_cart_shopping = false;
 
         /**
+         * @var bool
+         *
+         * @ORM\Column(name="sync_customer_mypage", type="boolean", options={"default":true})
+         */
+        private bool $sync_customer_mypage = true;
+
+        /**
          * @return int
          */
         public function getId()
@@ -673,6 +680,40 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         public function setAddCartShopping(bool $add_cart_shopping): self
         {
             $this->add_cart_shopping = $add_cart_shopping;
+
+            return $this;
+        }
+
+        /**
+         * マイページでの通販Ace側に顧客情報同期機能を有効にするかどうか
+         *
+         * @return bool
+         */
+        public function getSyncCustomerMypage(): bool
+        {
+            return $this->sync_customer_mypage;
+        }
+
+        /**
+         * マイページでの通販Ace側に顧客情報同期機能を有効にするかどうか
+         *
+         * @return bool
+         */
+        public function shouldSyncCustomerMypage(): bool
+        {
+            return $this->getSyncCustomerMypage();
+        }
+
+        /**
+         * マイページでの通販Ace側に顧客情報同期機能を有効にするかどうか設定
+         *
+         * @param bool $sync_customer_mypage
+         *
+         * @return $this
+         */
+        public function setSyncCustomerMypage(bool $sync_customer_mypage): self
+        {
+            $this->sync_customer_mypage = $sync_customer_mypage;
 
             return $this;
         }
