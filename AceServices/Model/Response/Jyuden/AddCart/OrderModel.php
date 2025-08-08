@@ -25,19 +25,19 @@ class OrderModel implements OrderModelInterface
     use HasMessageModelTrait;
 
     /** @var JyusubModel|null */
-    private ?JyusubModel $jyusub = null;
+    protected ?JyusubModel $jyusub = null;
 
     /** @var JyudenModel|null */
-    private ?JyudenModel $jyuden = null;
+    protected ?JyudenModel $jyuden = null;
 
     /** @var JyumeiModel[]|null */
-    private ?array $jyumei = null;
+    protected ?array $jyumei = null;
 
     /** @var PointModel|null */
-    private ?PointModel $point = null;
+    protected ?PointModel $point = null;
 
     /** @var MailJyudenModel|null */
-    private ?MailJyudenModel $mailjyuden = null;
+    protected ?MailJyudenModel $mailjyuden = null;
 
     /**
      * {@inheritDoc}
