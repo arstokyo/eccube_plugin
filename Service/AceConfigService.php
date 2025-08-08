@@ -321,14 +321,30 @@ class AceConfigService
     }
 
     /**
-     * マイページでの通販Ace側に顧客情報同期機能を有効にするかどうか
+     * 指定ルートで顧客同期を実施すべきか
+     *
+     * @param string $route
      *
      * @return bool
      */
-    public function shouldSyncCustomerMypage(): bool
+    public function shouldSyncCustomerRoute(string $route): bool
     {
         $config = $this->getConfig();
+        if (!$config) {
+            return false;
+        }
 
-        return $config ? $config->shouldSyncCustomerMypage() : false;
+        $routes = $config->getSyncCustomerRoutes();
+        if (empty($routes)) {
+            return false;
+        }
+
+        foreach ($routes as $configuredRoute) {
+            if ($configuredRoute === $route) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

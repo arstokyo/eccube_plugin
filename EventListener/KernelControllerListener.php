@@ -48,7 +48,7 @@ class KernelControllerListener implements EventSubscriberInterface
             $this->cartControllerService->addCart();
         }
 
-        if ($route === 'mypage_top' && $this->aceConfigService->shouldSyncCustomerMypage()) {
+        if ($route === 'mypage_top' && $this->aceConfigService->shouldSyncCustomerRoute($route)) {
             $this->customerBridge->syncCustomerFromAce($this->getUser(), true);
         }
     }

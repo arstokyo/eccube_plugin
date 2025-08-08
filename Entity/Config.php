@@ -150,11 +150,13 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         private bool $add_cart_shopping = false;
 
         /**
-         * @var bool
+         * 顧客同期対象のルート一覧（配列で保存）
          *
-         * @ORM\Column(name="sync_customer_mypage", type="boolean", options={"default":true})
+         * @var string[]|null
+         *
+         * @ORM\Column(name="sync_customer_routes", type="json", nullable=true, options={"comment":"顧客同期対象ルート"})
          */
-        private bool $sync_customer_mypage = true;
+        private ?array $sync_customer_routes = null;
 
         /**
          * @return int
@@ -685,35 +687,49 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         }
 
         /**
-         * マイページでの通販Ace側に顧客情報同期機能を有効にするかどうか
+         * 顧客同期対象のルート一覧を取得
          *
-         * @return bool
+         * @return string[] ルート名の配列（未設定時は空配列）
          */
-        public function getSyncCustomerMypage(): bool
+        public function getSyncCustomerRoutes(): array
         {
-            return $this->sync_customer_mypage;
+            if ($this->sync_customer_routes === null) {
+                return [];
+            }
+
+            $routes = [];
+            foreach ($this->sync_customer_routes as $route) {
+                if (is_string($route) && $route !== '') {
+                    $routes[] = $route;
+                }
+            }
+
+            return $routes;
         }
 
         /**
-         * マイページでの通販Ace側に顧客情報同期機能を有効にするかどうか
+         * 顧客同期対象のルート一覧を設定
          *
-         * @return bool
-         */
-        public function shouldSyncCustomerMypage(): bool
-        {
-            return $this->getSyncCustomerMypage();
-        }
-
-        /**
-         * マイページでの通販Ace側に顧客情報同期機能を有効にするかどうか設定
-         *
-         * @param bool $sync_customer_mypage
+         * @param string[]|null $routes ルート名の配列
          *
          * @return $this
          */
-        public function setSyncCustomerMypage(bool $sync_customer_mypage): self
+        public function setSyncCustomerRoutes(?array $routes): self
         {
-            $this->sync_customer_mypage = $sync_customer_mypage;
+            if ($routes === null) {
+                $this->sync_customer_routes = null;
+
+                return $this;
+            }
+
+            $normalized = [];
+            foreach ($routes as $route) {
+                if (is_string($route) && $route !== '') {
+                    $normalized[] = $route;
+                }
+            }
+
+            $this->sync_customer_routes = empty($normalized) ? null : array_values(array_unique($normalized));
 
             return $this;
         }
