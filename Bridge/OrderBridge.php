@@ -72,7 +72,7 @@ class OrderBridge extends BaseBridge
      */
     private function preCreate(Shipping $shipping, array $options): string
     {
-        $config = $this->config;
+        $config = $this->aceConfigService->getConfig();
 
         try {
             [$order, $customer, $customerAddress, $config] = $this->helper->validatePreCreate($shipping, $config);
@@ -184,7 +184,7 @@ class OrderBridge extends BaseBridge
      */
     private function create(string $sessionId, Shipping $shipping, array $options): void
     {
-        $config = $this->config;
+        $config = $this->aceConfigService->getConfig();
 
         try {
             $decisionRequest = $this->helper->createDecisionCartRequest($sessionId, $config->getSyid());

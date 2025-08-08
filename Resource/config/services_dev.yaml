@@ -12,6 +12,7 @@ services:
         arguments:
             $aceConfigService: '@ace_config_service'
             $stopwatch: '@debug.stopwatch'
+        lazy: true
 
     # Data dumper utility
     Plugin\AceClient43\Util\DataCollector\DataDumper:

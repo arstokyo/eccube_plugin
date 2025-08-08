@@ -40,11 +40,6 @@ class BaseBridge
     protected $session;
 
     /**
-     * @var Config
-     */
-    protected $config;
-
-    /**
      * @var LoggerInterface
      */
     protected $logger;
@@ -81,7 +76,6 @@ class BaseBridge
     public function setAceConfigService(AceConfigService $aceConfigService): void
     {
         $this->aceConfigService = $aceConfigService;
-        $this->config = $aceConfigService->getConfig();
     }
 
     /**

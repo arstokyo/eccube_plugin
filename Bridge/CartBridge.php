@@ -65,7 +65,7 @@ class CartBridge extends BaseBridge
             'should_sync_cart' => true,
         ], $options);
 
-        $config = $this->config;
+        $config = $this->aceConfigService->getConfig();
 
         $cartItems = $cart->getCartItems()->toArray();
         if ($this->eventDispatcher->hasListeners(Events::ADD_CART_PRE_CREATE_REQUEST)) {
