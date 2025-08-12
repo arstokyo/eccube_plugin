@@ -56,6 +56,15 @@ trait BaseCartOrderTrait
     private float $ace_charge_fee = 0;
 
     /**
+     * ACEから返却された付与予定ポイント（自動加算用）
+     *
+     * @var float
+     *
+     * @ORM\Column(name="ace_earnable_point", type="decimal", precision=12, scale=2, options={"default":0, "comment":"ACEから返却された付与予定ポイント"})
+     */
+    private float $ace_earnable_point = 0;
+
+    /**
      * Ace取引区分を設定
      *
      * @param int $ace_transaction_type
@@ -173,5 +182,29 @@ trait BaseCartOrderTrait
     public function getAceChargeFee(): float
     {
         return $this->ace_charge_fee;
+    }
+
+    /**
+     * ACEから返却された付与予定ポイントを設定
+     *
+     * @param float $point
+     *
+     * @return $this
+     */
+    public function setAceEarnablePoint(float $point)
+    {
+        $this->ace_earnable_point = max(0, (float) $point);
+
+        return $this;
+    }
+
+    /**
+     * ACEから返却された付与予定ポイントを取得
+     *
+     * @return float
+     */
+    public function getAceEarnablePoint(): float
+    {
+        return (float) $this->ace_earnable_point;
     }
 }

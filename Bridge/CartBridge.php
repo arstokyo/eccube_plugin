@@ -128,6 +128,11 @@ class CartBridge extends BaseBridge
                 }
             }
 
+            if ($config->shouldAddPoint()) {
+                $cart->setAceEarnablePoint($responseObject->getOrder()->getEarnablePoints());
+                $needFlush = true;
+            }
+
             if ($needFlush) {
                 $this->em->flush($cart);
             }

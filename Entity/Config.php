@@ -159,6 +159,15 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         private ?array $sync_customer_routes = null;
 
         /**
+         * ACEからの付与ポイントを自動反映するかどうか
+         *
+         * @var bool
+         *
+         * @ORM\Column(name="add_point_from_ace", type="boolean", options={"default":false})
+         */
+        private bool $add_point_from_ace = false;
+
+        /**
          * @return int
          */
         public function getId()
@@ -730,6 +739,26 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
             }
 
             $this->sync_customer_routes = empty($normalized) ? null : array_values(array_unique($normalized));
+
+            return $this;
+        }
+
+        /**
+         * ACEからの付与ポイント自動反映が有効かどうか
+         */
+        public function shouldAddPoint(): bool
+        {
+            return $this->add_point_from_ace;
+        }
+
+        /**
+         * ACEからの付与ポイント自動反映の有効/無効を設定
+         *
+         * @return $this
+         */
+        public function setAddPointFromAce(bool $enabled): self
+        {
+            $this->add_point_from_ace = $enabled;
 
             return $this;
         }

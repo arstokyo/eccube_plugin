@@ -15,10 +15,18 @@ namespace Plugin\AceClient43\EventListener;
 
 use Plugin\AceClient43\Events\EccubeEvents\Events;
 use Plugin\AceClient43\Events\EccubeEvents\OnNewOrderEvent;
+use Plugin\AceClient43\Service\Decorators\OrderHelper;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class OnNewOrderListener implements EventSubscriberInterface
 {
+    private OrderHelper $orderHelper;
+
+    public function __construct(OrderHelper $orderHelper)
+    {
+        $this->orderHelper = $orderHelper;
+    }
+
     public static function getSubscribedEvents()
     {
         return [
@@ -30,11 +38,6 @@ class OnNewOrderListener implements EventSubscriberInterface
     {
         $order = $event->order;
         $cart = $event->cart;
-
-        $order->setAceTransactionId($cart->getAceTransactionId())
-            ->setAcePaymentId($cart->getAcePaymentId())
-            ->setAceDiscountAmount($cart->getAceDiscountAmount())
-            ->setAceDeliveryFee($cart->getAceDeliveryFee())
-            ->setAceChargeFee($cart->getAceChargeFee());
+        $this->orderHelper->syncOrderFromCart($cart, $order);
     }
 }

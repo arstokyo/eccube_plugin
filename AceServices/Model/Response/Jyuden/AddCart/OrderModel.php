@@ -30,8 +30,11 @@ class OrderModel implements OrderModelInterface
     /** @var JyudenModel|null */
     protected ?JyudenModel $jyuden = null;
 
-    /** @var JyumeiModel[]|null */
+    /** @var JyumeiModel[]|null 受注明細（行） */
     protected ?array $jyumei = null;
+
+    /** @var SupportModel[]|null 受注サポート行（ACE拡張） */
+    protected ?array $support = null;
 
     /** @var PointModel|null */
     protected ?PointModel $point = null;
@@ -120,12 +123,47 @@ class OrderModel implements OrderModelInterface
     }
 
     /**
+     * 受注サポート行（support）を取得
+     *
+     * @return SupportModel[]|null
+     */
+    public function getSupport(): ?array
+    {
+        return $this->support;
+    }
+
+    /**
+     * 受注サポート行（support）を設定
+     *
+     * @param SupportModel[]|null $support
+     *
+     * @return void
+     */
+    public function setSupport(?array $support): void
+    {
+        $this->support = $support;
+    }
+
+    public function getEarnablePoints(): ?float
+    {
+        $points = 0.0;
+
+        $supports = $this->getSupport() ?? [];
+        foreach ($supports as $support) {
+            $points += (float) $support->getEarnablePoints();
+        }
+
+        return max($points, 0.0);
+    }
+
+    /**
      * {@inheritDoc}
      */
     public static function fetchAsListProperty(): array
     {
         return [
             'jyumei' => JyumeiModel::class,
+            'support' => SupportModel::class,
         ];
     }
 }

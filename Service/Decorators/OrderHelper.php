@@ -217,4 +217,36 @@ class OrderHelper extends BaseOrderHelper
 
         return $Shipping;
     }
+
+    public function syncOrderFromCart(Cart $Cart, Order $Order): void
+    {
+        $Order->setAceTransactionId($Cart->getAceTransactionId())
+            ->setAcePaymentId($Cart->getAcePaymentId())
+            ->setAceDiscountAmount($Cart->getAceDiscountAmount())
+            ->setAceDeliveryFee($Cart->getAceDeliveryFee())
+            ->setAceChargeFee($Cart->getAceChargeFee())
+            ->setAceEarnablePoint($Cart->getAceEarnablePoint());
+    }
+
+    /**
+     * @param Cart $Cart
+     * @param Customer $Customer
+     *
+     * @return Order|null
+     */
+    public function initializeOrder(Cart $Cart, Customer $Customer)
+    {
+        // 購入処理中の受注情報を取得
+        if ($Order = $this->getPurchaseProcessingOrder($Cart->getPreOrderId())) {
+            $this->syncOrderFromCart($Cart, $Order);
+
+            return $Order;
+        }
+
+        // 受注情報を作成
+        $Order = $this->createPurchaseProcessingOrder($Cart, $Customer);
+        $Cart->setPreOrderId($Order->getPreOrderId());
+
+        return $Order;
+    }
 }

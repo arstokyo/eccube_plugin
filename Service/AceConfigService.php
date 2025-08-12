@@ -205,6 +205,16 @@ class AceConfigService
     }
 
     /**
+     * ACEからの付与ポイント自動反映を行うか
+     */
+    public function shouldAddPoint(): bool
+    {
+        $config = $this->getConfig();
+
+        return $config ? $config->shouldAddPoint() : false;
+    }
+
+    /**
      * カートインデックスに追加するかチェック
      *
      * @return bool

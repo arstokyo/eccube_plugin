@@ -440,6 +440,12 @@ services:
         tags:
             - { name: eccube.discount.processor, flow_type: shopping, priority: 950 }
 
+    # ACE AddPointProcessor - 加算ポイント（ACE連携）
+    Plugin\AceClient43\Service\AddPointProcessor:
+        tags:
+            - { name: eccube.item.holder.post.validator, flow_type: shopping, priority: 850 }
+            - { name: eccube.item.holder.post.validator, flow_type: order, priority: 9500 }
+
     # Decorators
     Plugin\AceClient43\Service\Decorators\ProductClassComparator:
         decorates: Eccube\Service\Cart\ProductClassComparator

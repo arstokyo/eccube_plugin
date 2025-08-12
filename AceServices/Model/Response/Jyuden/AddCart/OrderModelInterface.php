@@ -15,6 +15,7 @@ namespace Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response;
+use Symfony\Component\Serializer\Attribute\Ignore;
 
 /**
  * Interface for OrderModel.
@@ -102,4 +103,29 @@ interface OrderModelInterface extends HasMessageModelInterface, Response\AsListD
      * @return void
      */
     public function setPoint(?PointModel $point): void;
+
+    /**
+     * 受注サポート行（support）を取得
+     *
+     * @return SupportModel[]|null
+     */
+    public function getSupport(): ?array;
+
+    /**
+     * 受注サポート行（support）を設定
+     *
+     * @param SupportModel[]|null $support
+     *
+     * @return void
+     */
+    public function setSupport(array $support): void;
+
+    /**
+     * ユーザーが獲得可能なポイント数を取得します。
+     *
+     * @Ignore()
+     *
+     * @return float|null 獲得可能なポイント数（小数点を含む場合あり）、またはnull
+     */
+    public function getEarnablePoints(): ?float;
 }
