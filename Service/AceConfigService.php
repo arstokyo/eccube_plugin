@@ -357,4 +357,39 @@ class AceConfigService
 
         return false;
     }
+
+    /**
+     * 指定ルートで住所も同期すべきか
+     *
+     * @param string $route
+     *
+     * @return bool
+     */
+    public function shouldSyncCustomerAddress(string $route): bool
+    {
+        $config = $this->getConfig();
+        if (!$config) {
+            return false;
+        }
+
+        return $config->shouldSyncCustomerAddress($route);
+    }
+
+    /**
+     * 顧客同期のオプションを取得（ルート別）
+     *
+     * 現状は住所同期の有無のみを制御し、住所同期が必要な場合に
+     *
+     * 'return_alladr' => true を付与する。
+     *
+     * @param string $route
+     *
+     * @return array<string, mixed>
+     */
+    public function getCustomerSyncOptions(string $route): array
+    {
+        return $this->shouldSyncCustomerAddress($route)
+            ? ['return_alladr' => true]
+            : [];
+    }
 }

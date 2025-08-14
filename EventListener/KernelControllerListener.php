@@ -49,7 +49,8 @@ class KernelControllerListener implements EventSubscriberInterface
         }
 
         if ($route && $this->aceConfigService->shouldSyncCustomerRoute($route)) {
-            $this->customerBridge->syncCustomerFromAce($this->getUser(), true);
+            $options = $this->aceConfigService->getCustomerSyncOptions($route);
+            $this->customerBridge->syncCustomerFromAce($this->getUser(), true, $options);
         }
     }
 }

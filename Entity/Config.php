@@ -150,9 +150,16 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         private bool $add_cart_shopping = false;
 
         /**
-         * 顧客同期対象のルート一覧（配列で保存）
+         * 顧客同期対象のルート一覧（JSON で保存）
          *
-         * @var string[]|null
+         * 保存形式の例：
+         * [
+         *   {"name": "mypage_top", "sync_address": true},
+         *   {"name": "shopping",   "sync_address": false}
+         * ]
+         * 旧形式（文字列配列）も許容し、その場合は sync_address=true として扱う。
+         *
+         * @var array|null
          *
          * @ORM\Column(name="sync_customer_routes", type="json", nullable=true, options={"comment":"顧客同期対象ルート"})
          */
@@ -696,20 +703,64 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         }
 
         /**
-         * 顧客同期対象のルート一覧を取得
+         * 顧客同期対象のルート設定一覧を取得（正規化）
          *
-         * @return string[] ルート名の配列（未設定時は空配列）
+         * 返却形式：
+         * [
+         *   ["name" => string, "sync_address" => bool],
+         *   ...
+         * ]
+         *
+         * 旧形式（文字列配列）は ["name" => 文字列, "sync_address" => true] として返却する。
+         * name 重複時は後勝ちで統合する。
+         *
+         * @return array<int, array{name: string, sync_address: bool}>
          */
-        public function getSyncCustomerRoutes(): array
+        public function getSyncCustomerRouteConfigs(): array
         {
             if ($this->sync_customer_routes === null) {
                 return [];
             }
 
+            $normalizedByName = [];
+            foreach ($this->sync_customer_routes as $item) {
+                $name = null;
+                $syncAddress = true; // 旧形式互換：未指定は true
+
+                if (is_string($item)) {
+                    $name = $item;
+                } elseif (is_array($item)) {
+                    if (isset($item['name']) && is_string($item['name']) && $item['name'] !== '') {
+                        $name = $item['name'];
+                    }
+                    if (array_key_exists('sync_address', $item)) {
+                        $syncAddress = (bool) $item['sync_address'];
+                    }
+                }
+
+                if ($name !== null && $name !== '') {
+                    $normalizedByName[$name] = [
+                        'name' => $name,
+                        'sync_address' => $syncAddress,
+                    ];
+                }
+            }
+
+            return array_values($normalizedByName);
+        }
+
+        /**
+         * 顧客同期対象のルート名一覧を取得
+         *
+         * @return string[] ルート名の配列（未設定時は空配列）
+         */
+        public function getSyncCustomerRoutes(): array
+        {
+            $configs = $this->getSyncCustomerRouteConfigs();
             $routes = [];
-            foreach ($this->sync_customer_routes as $route) {
-                if (is_string($route) && $route !== '') {
-                    $routes[] = $route;
+            foreach ($configs as $cfg) {
+                if (isset($cfg['name']) && is_string($cfg['name']) && $cfg['name'] !== '') {
+                    $routes[] = $cfg['name'];
                 }
             }
 
@@ -719,7 +770,11 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         /**
          * 顧客同期対象のルート一覧を設定
          *
-         * @param string[]|null $routes ルート名の配列
+         * 許容する入力：
+         * - 旧形式: string[]（ルート名の配列）
+         * - 新形式: array<int, array{name: string, sync_address: bool}>
+         *
+         * @param array|null $routes
          *
          * @return $this
          */
@@ -731,14 +786,31 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
                 return $this;
             }
 
-            $normalized = [];
+            $normalizedByName = [];
             foreach ($routes as $route) {
-                if (is_string($route) && $route !== '') {
-                    $normalized[] = $route;
+                $name = null;
+                $syncAddress = true; // デフォルトは true（互換性維持）
+
+                if (is_string($route)) {
+                    $name = $route;
+                } elseif (is_array($route)) {
+                    if (isset($route['name']) && is_string($route['name']) && $route['name'] !== '') {
+                        $name = $route['name'];
+                    }
+                    if (array_key_exists('sync_address', $route)) {
+                        $syncAddress = (bool) $route['sync_address'];
+                    }
+                }
+
+                if ($name !== null && $name !== '') {
+                    $normalizedByName[$name] = [
+                        'name' => $name,
+                        'sync_address' => $syncAddress,
+                    ];
                 }
             }
 
-            $this->sync_customer_routes = empty($normalized) ? null : array_values(array_unique($normalized));
+            $this->sync_customer_routes = empty($normalizedByName) ? null : array_values($normalizedByName);
 
             return $this;
         }
@@ -761,6 +833,24 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
             $this->add_point_from_ace = $enabled;
 
             return $this;
+        }
+
+        /**
+         * 指定ルートで住所も同期すべきか
+         *
+         * @param string $route
+         *
+         * @return bool 見つからない場合は false
+         */
+        public function shouldSyncCustomerAddress(string $route): bool
+        {
+            foreach ($this->getSyncCustomerRouteConfigs() as $cfg) {
+                if (isset($cfg['name']) && $cfg['name'] === $route) {
+                    return (bool) ($cfg['sync_address'] ?? true);
+                }
+            }
+
+            return false;
         }
     }
 }
