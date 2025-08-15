@@ -16,6 +16,7 @@ namespace Plugin\AceClient43\AceServices\Model\Request\Jyuden\DecisionCart;
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelAbstract;
 use Plugin\AceClient43\Exception\MissingRequestParameterException;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * Decision Cart Request Model
@@ -26,7 +27,11 @@ class DecisionCartRequestModel extends RequestModelAbstract implements DecisionC
 {
     use NoCategory\SessIdTrait;
 
-    /** @var IdPrmModelInterface|null */
+    /**
+     * @var IdPrmModelInterface|null
+     *
+     * @SerializedName("id")
+     * */
     private ?IdPrmModelInterface $idPrm = null;
 
     public const XML_NODE_NAME = 'decisionCart';

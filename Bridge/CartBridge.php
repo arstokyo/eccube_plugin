@@ -20,11 +20,11 @@ use Eccube\Service\CartService;
 use Plugin\AceClient43\AceServices\AceMethod\Jyuden\AddCartMethod;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart as RequestAddCart;
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModelInterface;
+use Plugin\AceClient43\Bridge\DataConverter\JyumeiDataConverterInterface;
 use Plugin\AceClient43\Entity\Config;
 use Plugin\AceClient43\Events\AddCartPreCreateRequestEvent;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\OnCalculateFeeCartEvent;
-use Plugin\AceClient43\Events\OnSetJyumeiModelEvent;
 use Plugin\AceClient43\Events\PostAddCartEvent;
 use Plugin\AceClient43\Events\PreAddCartEvent;
 use Plugin\AceClient43\Exception\CouldNotAddCartException;
@@ -45,14 +45,18 @@ class CartBridge extends BaseBridge
 
     protected CartService $cartService;
 
+    protected JyumeiDataConverterInterface $jyumeiDataConverter;
+
     public function __construct(
         AddCartMethod $addCartMethod,
         AddCartHelper $addCartHelper,
         CartService $cartService,
+        JyumeiDataConverterInterface $jyumeiDataConverter,
     ) {
         $this->addCartMethod = $addCartMethod;
         $this->addCartHelper = $addCartHelper;
         $this->cartService = $cartService;
+        $this->jyumeiDataConverter = $jyumeiDataConverter;
     }
 
     /**
@@ -189,35 +193,11 @@ class CartBridge extends BaseBridge
             $cartItems = $cart->getCartItems()->toArray();
         }
 
-        $hasEventSubscribed = $this->eventDispatcher->hasListeners(Events::ON_SET_JYUMEI_MODEL);
-        $event = null;
         $jyumeis = [];
 
         /** @var CartItem $item */
         foreach ($cartItems as $item) {
-            $productClass = $item->getProductClass();
-
-            /** @var RequestAddCart\JyumeiModelInterface $jyumeiModel */
-            $jyumei = $this->createSubModel(RequestAddCart\JyumeiModelInterface::class);
-            $jyumei = $jyumei
-                ->setGcode($productClass->getAceProductId())
-                ->setSuu($item->getQuantity())
-                ->setTanka($item->getPrice())
-                ->setTaxkbn($item->getAceTaxType())
-                ->setRitu($item->getAceMarkupRate());
-
-            if ($hasEventSubscribed) {
-                if (null === $event) {
-                    $event = new OnSetJyumeiModelEvent($jyumei, $item, $options);
-                } else {
-                    $event->jyumeiModel = $jyumei;
-                    $event->cartItem = $item;
-                    $event->options = $options;
-                }
-
-                $this->eventDispatcher->dispatch($event, Events::ON_SET_JYUMEI_MODEL);
-            }
-
+            $jyumei = $this->jyumeiDataConverter->convertCartItemToJyumei($item, $options);
             $jyumeis[] = $jyumei;
         }
 
