@@ -102,7 +102,27 @@ class OrderPrmModel extends PrmModelAbstract implements OrderPrmModelInterface
      */
     public function setJyudenFree(?array $jyudenFree): self
     {
-        $this->jyudenFree = $jyudenFree;
+        if ($jyudenFree === null) {
+            $this->jyudenFree = null;
+
+            return $this;
+        }
+
+        // 型チェック
+        foreach ($jyudenFree as $idx => $model) {
+            if (!$model instanceof JyudenFreeModelInterface) {
+                throw new \InvalidArgumentException(sprintf('jyudenFree[%s] must be instance of %s, %s given.', (string) $idx, JyudenFreeModelInterface::class, is_object($model) ? get_class($model) : gettype($model)));
+            }
+        }
+
+        // null / 空文字（トリム後）を除外
+        $filtered = array_values(array_filter($jyudenFree, function (JyudenFreeModelInterface $m): bool {
+            $v = $m->getFree();
+
+            return $v !== null && trim((string) $v) !== '';
+        }));
+
+        $this->jyudenFree = empty($filtered) ? null : $filtered;
 
         return $this;
     }

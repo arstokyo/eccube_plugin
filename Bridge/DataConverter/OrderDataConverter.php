@@ -8,6 +8,7 @@ use Eccube\Entity\Order;
 use Eccube\Entity\Shipping;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\AddCartRequestModel;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart as RequestAddCart;
+use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\JyudenFreeModel;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\DecisionCart;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\DecisionCart\DecisionCartRequestModel;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\DecisionCart\DecisionCartRequestModelInterface;
@@ -222,5 +223,28 @@ class OrderDataConverter implements OrderDataConverterInterface
         if (!$config->shouldUseAceDelivery() && $deliveryFee > 0) {
             $jyuden->setSouryou($deliveryFee);
         }
+    }
+
+    /**
+     * 受注フリーマップを JyudenFreeModel 配列へ変換
+     *
+     * @param array<int, string|int|bool|null> $freeMap [Fmkbn => value]
+     *
+     * @return JyudenFreeModel[]
+     */
+    protected function buildJyudenFreeModels(array $freeMap): array
+    {
+        $models = [];
+        foreach ($freeMap as $fmkbn => $free) {
+            if ($free === null || $free === '') {
+                continue;
+            }
+            $model = new JyudenFreeModel();
+            $model->setFmkbn($fmkbn)
+                  ->setFree((string) $free);
+            $models[] = $model;
+        }
+
+        return $models;
     }
 }
