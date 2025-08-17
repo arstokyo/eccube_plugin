@@ -25,7 +25,7 @@ interface AddCartRequestModelInterface extends RequestModelInterface, NoCategory
      *
      * @return AddCartRequestModel
      */
-    public function setPrm(OrderPrmModel $prm): self;
+    public function setPrm(OrderPrmModelInterface $prm): self;
 
     /**
      * Get オーダー情報

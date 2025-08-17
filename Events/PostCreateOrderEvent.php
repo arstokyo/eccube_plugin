@@ -6,29 +6,33 @@
  * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
  * http://www.ec-cube.co.jp/
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
  */
 
 namespace Plugin\AceClient43\Events;
 
 use Eccube\Entity\Shipping;
-use Plugin\AceClient43\AceServices\Model\Response\Jyuden\DecisionCart\DecisionCartResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\Jyuden\CreateOrder\CreateOrderResponseModelInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
+/**
+ * 注文確定（DecisionCart）完了後のイベント
+ *
+ * 統合API（CreateOrder）のレスポンスを受け取ります。
+ */
 class PostCreateOrderEvent extends Event
 {
-    private DecisionCartResponseModelInterface $decisionCartResponse;
+    private CreateOrderResponseModelInterface $createOrderResponse;
+
     private Shipping $shipping;
+
     private array $options;
 
     public function __construct(
-        DecisionCartResponseModelInterface $decisionCartResponse,
+        CreateOrderResponseModelInterface $createOrderResponse,
         Shipping $shipping,
         array $options,
     ) {
-        $this->decisionCartResponse = $decisionCartResponse;
+        $this->createOrderResponse = $createOrderResponse;
         $this->shipping = $shipping;
         $this->options = $options;
     }
@@ -38,9 +42,12 @@ class PostCreateOrderEvent extends Event
         return $this->shipping;
     }
 
-    public function getDecisionCartResponse(): DecisionCartResponseModelInterface
+    /**
+     * 統合APIのレスポンスを返します。
+     */
+    public function getCreateOrderResponse(): CreateOrderResponseModelInterface
     {
-        return $this->decisionCartResponse;
+        return $this->createOrderResponse;
     }
 
     public function getOptions(): array

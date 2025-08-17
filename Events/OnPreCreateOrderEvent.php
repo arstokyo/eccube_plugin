@@ -14,7 +14,7 @@
 namespace Plugin\AceClient43\Events;
 
 use Eccube\Entity\Shipping;
-use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\AddCartRequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\Jyuden\CreateOrder\CreateOrderRequestModelInterface;
 use Plugin\AceClient43\Entity\Config;
 use Symfony\Contracts\EventDispatcher\Event;
 
@@ -35,7 +35,7 @@ class OnPreCreateOrderEvent extends Event
     /** @var Config */
     private Config $config;
 
-    private AddCartRequestModelInterface $addCartRequest;
+    private CreateOrderRequestModelInterface $createOrderRequest;
 
     private array $options;
 
@@ -43,7 +43,7 @@ class OnPreCreateOrderEvent extends Event
         float $charge,
         float $discount,
         float $deliveryFee,
-        AddCartRequestModelInterface $addCartRequest,
+        CreateOrderRequestModelInterface $createOrderRequest,
         Shipping $shipping,
         Config $config,
         array $options,
@@ -53,7 +53,7 @@ class OnPreCreateOrderEvent extends Event
         $this->deliveryFee = $deliveryFee;
         $this->config = $config;
         $this->shipping = $shipping;
-        $this->addCartRequest = $addCartRequest;
+        $this->createOrderRequest = $createOrderRequest;
         $this->options = $options;
     }
 
@@ -82,9 +82,9 @@ class OnPreCreateOrderEvent extends Event
         return $this->config;
     }
 
-    public function getAddCartRequest(): AddCartRequestModelInterface
+    public function getCreateOrderRequest(): CreateOrderRequestModelInterface
     {
-        return $this->addCartRequest;
+        return $this->createOrderRequest;
     }
 
     public function getOptions(): array

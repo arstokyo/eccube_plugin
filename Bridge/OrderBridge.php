@@ -6,107 +6,97 @@
  * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
  * http://www.ec-cube.co.jp/
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
  */
 
 namespace Plugin\AceClient43\Bridge;
 
 use Eccube\Entity\Shipping;
 use Plugin\AceClient43\AceServices\AceMethod\Jyuden\AddCartMethod;
+use Plugin\AceClient43\AceServices\AceMethod\Jyuden\CreateOrderMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Jyuden\DecisionCartMethod;
+use Plugin\AceClient43\AceServices\Model\Request\Jyuden\CreateOrder\CreateOrderRequestModelInterface;
 use Plugin\AceClient43\Bridge\DataConverter\OrderDataConverterInterface;
 use Plugin\AceClient43\Events\Events;
-use Plugin\AceClient43\Events\OnCreateOrderEvent;
 use Plugin\AceClient43\Events\OnPreCreateOrderEvent;
 use Plugin\AceClient43\Events\PostCreateOrderEvent;
-use Plugin\AceClient43\Events\PostPreCreateOrderEvent;
 use Plugin\AceClient43\Exception\CouldNotCreateOrderException;
-use Plugin\AceClient43\Exception\CouldNotPreCreateOrderException;
 
 /**
  * 注文関連の処理を行うブリッジクラス
  *
- * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ * - 既存の2段階処理（AddCart -> DecisionCart）を保持
+ * - 統合API（CreateOrder）による1回呼び出しの新処理も提供
  */
 class OrderBridge extends BaseBridge
 {
+    use CreateRequestModelTrait;
+
     private OrderDataConverterInterface $orderDataConverter;
 
     private AddCartMethod $addCartMethod;
 
     private DecisionCartMethod $decisionCartMethod;
 
+    /** @var CreateOrderMethod 統合API用メソッド */
+    private CreateOrderMethod $createOrderMethod;
+
     public function __construct(
         OrderDataConverterInterface $orderDataConverter,
         AddCartMethod $addCartMethod,
         DecisionCartMethod $decisionCartMethod,
+        CreateOrderMethod $createOrderMethod,
     ) {
         $this->orderDataConverter = $orderDataConverter;
         $this->addCartMethod = $addCartMethod;
         $this->decisionCartMethod = $decisionCartMethod;
+        $this->createOrderMethod = $createOrderMethod;
     }
 
     /**
-     * カート作成
+     * 統合API（CreateOrder）で注文を作成します。
+     *
+     * - AddCart 相当の prm はコンバータで生成したものを流用
+     * - DecisionCart のオプションは既存の OptionsModel（DecisionCart 用）をそのまま利用
+     * - OnCreateOrder イベントは廃止、OnPreCreate/POST_CREATE のみ発火
      *
      * @param Shipping $shipping
-     * @param array $options
+     * @param array $decisionOptions DecisionCart 用オプション（例: ['returnJdKubun' => [100001], 'returnJmKubun' => [200001]]）
+     * @param array $options 任意の追加オプション（イベントリスナ用）
      *
-     * @return void
-     *
-     * @throws CouldNotPreCreateOrderException
      * @throws CouldNotCreateOrderException
-     * @throws \LogicException
      */
-    public function new(Shipping $shipping, array $options = []): void
-    {
-        $sessionId = $this->preCreate($shipping, $options);
-        $this->create($sessionId, $shipping, $options);
-    }
-
-    /**
-     * カートを事前作成
-     *
-     * @param Shipping $shipping
-     * @param array $options
-     *
-     * @return string Session ID
-     *
-     * @throws CouldNotPreCreateOrderException
-     * @throws \LogicException
-     */
-    private function preCreate(Shipping $shipping, array $options): string
+    public function create(Shipping $shipping, array $decisionOptions = [], array $options = []): void
     {
         $config = $this->aceConfigService->getConfig();
 
         try {
-            // データコンバーターでバリデーション
+            // 受注明細や顧客情報の妥当性をチェック（AddCart 前提と同一）
             [$order, $customer, $customerAddress, $config] = $this->orderDataConverter->validatePreCreate($shipping, $config);
 
             $sessionId = $this->session->getId();
 
-            // データコンバーターでリクエストを作成
-            $request = $this->orderDataConverter->convertToAddCartRequest(
+            // 統合リクエストをコンバータで生成（prm と Decision オプションの両方を内包）
+            /** @var CreateOrderRequestModelInterface $createOrderReq */
+            $createOrderReq = $this->orderDataConverter->convertToRequest(
                 $shipping,
                 $order,
                 $customer,
                 $customerAddress,
                 $config,
                 $this->getSyid(),
-                $sessionId
+                $sessionId,
+                $decisionOptions
             );
 
-            // イベント発火（事前作成前）- パフォーマンス向上のためリスナーの存在をチェック
+            // 事前作成前イベント（AddCart 相当の調整。Options などをここで上書き可能）
             if ($this->eventDispatcher->hasListeners(Events::ON_PRE_CREATE_ORDER)) {
-                $jyuden = $request->getPrm()->getJyuden();
+                $jyuden = $createOrderReq->getPrm()->getJyuden();
                 $this->eventDispatcher->dispatch(
                     new OnPreCreateOrderEvent(
                         $jyuden->getTesuu() ?? 0,
                         $jyuden->getNebiki() ?? 0,
                         $jyuden->getSouryou() ?? 0,
-                        $request,
+                        $createOrderReq,
                         $shipping,
                         $config,
                         $options
@@ -115,73 +105,19 @@ class OrderBridge extends BaseBridge
                 );
             }
 
-            // API呼び出し
-            $responseObject = $this->executeAddCartMethod($request);
+            // API 呼び出し
+            $apiResponse = $this->executeCreateOrderMethod($createOrderReq);
 
-            // エラーチェック
-            if ($this->hasErrorMessage($responseObject->getOrder())) {
-                throw new CouldNotPreCreateOrderException('通販Aceの注文事前作成に失敗しました。');
+            // エラーチェック（AddCart/DecisionCart それぞれのメッセージも考慮）
+            if ($this->hasErrorInCreateOrderResponse($apiResponse)) {
+                $errors = $this->extractErrorMessages($apiResponse);
+                throw new CouldNotCreateOrderException('通販Aceの注文作成に失敗しました: '.implode(' / ', $errors));
             }
 
-            // イベント発火（事前作成後）- パフォーマンス向上のためリスナーの存在をチェック
-            if ($this->eventDispatcher->hasListeners(Events::POST_PRE_CREATE_ORDER)) {
-                $this->eventDispatcher->dispatch(
-                    new PostPreCreateOrderEvent($responseObject, $shipping, $config, $options),
-                    Events::POST_PRE_CREATE_ORDER
-                );
-            }
-
-            return $sessionId;
-        } catch (\Throwable $e) {
-            if ($e instanceof CouldNotPreCreateOrderException) {
-                $this->logger->error('通販Aceの注文事前作成に失敗しました。', ['exception' => $e]);
-                throw $e;
-            }
-
-            $this->logger->error('通販Aceの注文事前作成に失敗しました。', ['exception' => $e]);
-            throw new CouldNotPreCreateOrderException('通販Aceの注文事前作成に失敗しました。', $e);
-        }
-    }
-
-    /**
-     * カートを確定
-     *
-     * @param string $sessionId
-     * @param Shipping $shipping
-     * @param array $options
-     *
-     * @return void
-     *
-     * @throws CouldNotCreateOrderException
-     */
-    private function create(string $sessionId, Shipping $shipping, array $options): void
-    {
-        $config = $this->aceConfigService->getConfig();
-
-        try {
-            // データコンバーターでデシジョンリクエストを作成
-            $decisionRequest = $this->orderDataConverter->convertToDecisionCartRequest($sessionId, $config->getSyid());
-
-            // イベント発火（注文作成前）- パフォーマンス向上のためリスナーの存在をチェック
-            if ($this->eventDispatcher->hasListeners(Events::ON_CREATE_ORDER)) {
-                $this->eventDispatcher->dispatch(
-                    new OnCreateOrderEvent($decisionRequest, $shipping, $options),
-                    Events::ON_CREATE_ORDER
-                );
-            }
-
-            // API呼び出し
-            $decisionResponseObject = $this->executeDecisionCartMethod($decisionRequest);
-
-            // エラーチェック
-            if ($this->hasErrorMessage($decisionResponseObject->getOrder())) {
-                throw new CouldNotCreateOrderException('通販Aceの注文作成に失敗しました。');
-            }
-
-            // イベント発火（注文作成後）- パフォーマンス向上のためリスナーの存在をチェック
+            // 注文作成後イベント
             if ($this->eventDispatcher->hasListeners(Events::POST_CREATE_ORDER)) {
                 $this->eventDispatcher->dispatch(
-                    new PostCreateOrderEvent($decisionResponseObject, $shipping, $options),
+                    new PostCreateOrderEvent($apiResponse, $shipping, $options),
                     Events::POST_CREATE_ORDER
                 );
             }
@@ -197,42 +133,95 @@ class OrderBridge extends BaseBridge
     }
 
     /**
-     * AddCartメソッドを実行
+     * 統合API CreateOrder を実行します。
      *
-     * @param mixed $request
+     * @param CreateOrderRequestModelInterface $request
      *
-     * @return mixed
+     * @return mixed レスポンスモデル
      */
-    private function executeAddCartMethod($request)
+    private function executeCreateOrderMethod(CreateOrderRequestModelInterface $request)
     {
-        $response = $this->addCartMethod
+        $response = $this->createOrderMethod
             ->withRequest($request)
             ->send();
 
         if (!$response->isOk()) {
-            throw new \RuntimeException(sprintf('通販Aceの注文事前作成処理に失敗しました: %s', $response->getStatusCode()));
+            throw new \RuntimeException(sprintf('通販Aceの統合注文作成処理に失敗しました: %s', $response->getStatusCode()));
         }
 
         return $response->getResponse();
     }
 
     /**
-     * DecisionCartメソッドを実行
-     *
-     * @param mixed $request
-     *
-     * @return mixed
+     * 統合APIレスポンスにエラーが含まれているか判定します。
      */
-    private function executeDecisionCartMethod($request)
+    private function hasErrorInCreateOrderResponse($response): bool
     {
-        $response = $this->decisionCartMethod
-            ->withRequest($request)
-            ->send();
-
-        if (!$response->isOk()) {
-            throw new \RuntimeException(sprintf('通販Aceの注文作成処理に失敗しました: %s', $response->getStatusCode()));
+        if (!$response) {
+            return true;
         }
 
-        return $response->getResponse();
+        // AddCart/DecisionCart の個別メッセージを直接確認
+        $add1 = (string) $response->getAddCartMessage1();
+        $add2 = (string) $response->getAddCartMessage2();
+        $dec1 = (string) $response->getDecisionCartMessage1();
+        $dec2 = (string) $response->getDecisionCartMessage2();
+
+        if ($add1 !== '' || $add2 !== '' || $dec1 !== '' || $dec2 !== '') {
+            return true;
+        }
+
+        // 最終メッセージ（DecisionCart 側のメッセージ）も確認
+        $msg = $response->getOrder()->getMessage();
+        if ($msg) {
+            $m1 = (string) $msg->getMessage1();
+            $m2 = (string) $msg->getMessage2();
+
+            return $m1 !== '' || $m2 !== '';
+        }
+
+        return false;
+    }
+
+    /**
+     * 統合APIレスポンスからエラーメッセージを抽出します。
+     *
+     * @return string[]
+     */
+    private function extractErrorMessages($response): array
+    {
+        $messages = [];
+
+        $add1 = (string) $response->getAddCartMessage1();
+        $add2 = (string) $response->getAddCartMessage2();
+        $dec1 = (string) $response->getDecisionCartMessage1();
+        $dec2 = (string) $response->getDecisionCartMessage2();
+
+        if ($add1 !== '') {
+            $messages[] = 'AddCart: '.$add1;
+        }
+        if ($add2 !== '') {
+            $messages[] = 'AddCart: '.$add2;
+        }
+        if ($dec1 !== '') {
+            $messages[] = 'DecisionCart: '.$dec1;
+        }
+        if ($dec2 !== '') {
+            $messages[] = 'DecisionCart: '.$dec2;
+        }
+
+        $msg = $response->getOrder()->getMessage();
+        if ($msg) {
+            $m1 = (string) $msg->getMessage1();
+            $m2 = (string) $msg->getMessage2();
+            if ($m1 !== '') {
+                $messages[] = $m1;
+            }
+            if ($m2 !== '') {
+                $messages[] = $m2;
+            }
+        }
+
+        return $messages ?: ['不明なエラーが発生しました'];
     }
 }

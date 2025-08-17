@@ -6,15 +6,12 @@ use Eccube\Entity\Customer;
 use Eccube\Entity\CustomerAddress;
 use Eccube\Entity\Order;
 use Eccube\Entity\Shipping;
-use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\AddCartRequestModel;
+use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\AddCartRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart as RequestAddCart;
-use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\JyudenFreeModel;
+use Plugin\AceClient43\AceServices\Model\Request\Jyuden\CreateOrder\CreateOrderRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\DecisionCart;
-use Plugin\AceClient43\AceServices\Model\Request\Jyuden\DecisionCart\DecisionCartRequestModel;
-use Plugin\AceClient43\AceServices\Model\Request\Jyuden\DecisionCart\DecisionCartRequestModelInterface;
 use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
 use Plugin\AceClient43\Entity\Config;
-use Plugin\AceClient43\Entity\OrderTrait;
 
 class OrderDataConverter implements OrderDataConverterInterface
 {
@@ -61,19 +58,14 @@ class OrderDataConverter implements OrderDataConverterInterface
     }
 
     /**
-     * 配送/注文データをAddCartリクエストに変換
+     * 配送/注文データから CreateOrder リクエストを作成
+     * - AddCart 相当の prm を作成
+     * - DecisionCart 用のオプションを生成
+     * - 両者を束ねた CreateOrderRequest を返却
      *
-     * @param Shipping $shipping
-     * @param Order $order
-     * @param Customer $customer
-     * @param CustomerAddress|null $customerAddress
-     * @param Config $config
-     * @param string $systemId
-     * @param string $sessionId
-     *
-     * @return AddCartRequestModel
+     * @param array<string,mixed> $decisionOptions
      */
-    public function convertToAddCartRequest(
+    public function convertToRequest(
         Shipping $shipping,
         Order $order,
         Customer $customer,
@@ -81,7 +73,61 @@ class OrderDataConverter implements OrderDataConverterInterface
         Config $config,
         string $systemId,
         string $sessionId,
-    ): AddCartRequestModel {
+        array $decisionOptions = [],
+    ): CreateOrderRequestModelInterface {
+        // 1) AddCart 相当のリクエスト（prm）を作成
+        $addCartRequest = $this->buildAddCartRequest(
+            $shipping,
+            $order,
+            $customer,
+            $customerAddress,
+            $config,
+            $systemId,
+            $sessionId
+        );
+
+        // 2) DecisionCart 用のオプションを作成
+        $optionsModel = $this->createSubModel(DecisionCart\OptionsModelInterface::class);
+        if (isset($decisionOptions['returnJdKubun'])) {
+            $optionsModel->setReturnJdKubun($decisionOptions['returnJdKubun']);
+        }
+        if (isset($decisionOptions['returnJmKubun'])) {
+            $optionsModel->setReturnJmKubun($decisionOptions['returnJmKubun']);
+        }
+
+        // 3) CreateOrder リクエストを組み立て（Trait のファクトリを使用）
+        /** @var CreateOrderRequestModelInterface $createOrder */
+        $createOrder = $this->createRequestModel(CreateOrderRequestModelInterface::class);
+        $createOrder
+            ->setId($systemId)
+            ->setSessId($sessionId)
+            ->setPrm($addCartRequest->getPrm())
+            ->setDecisionOptions($optionsModel);
+
+        // AddCart のレスポンス省略フラグ（no_response）を、必要に応じて Options に設定する実装は
+        // WebMethod 側でも補完しているため、ここでは既存の OptionsModel 実装にメソッドがあれば設定します。
+        if (method_exists($addCartRequest->getPrm(), 'getOptions') && $addCartRequest->getPrm()->getOptions() !== null) {
+            $opt = $addCartRequest->getPrm()->getOptions();
+            if (method_exists($opt, 'setNoResponse')) {
+                $opt->setNoResponse(true);
+            }
+        }
+
+        return $createOrder;
+    }
+
+    /**
+     * AddCart 相当のリクエストを作成（必要に応じてフリー項目も付与）
+     */
+    protected function buildAddCartRequest(
+        Shipping $shipping,
+        Order $order,
+        Customer $customer,
+        ?CustomerAddress $customerAddress,
+        Config $config,
+        string $systemId,
+        string $sessionId,
+    ): AddCartRequestModelInterface {
         $member = $this->createMemberOrderModel($customer, $customerAddress);
         $jyuden = $this->createJyudenModel($order, $shipping, $config);
 
@@ -104,17 +150,23 @@ class OrderDataConverter implements OrderDataConverterInterface
 
         $this->applyOrderTotals($jyuden, $charge, $discount, $deliveryFee, $config);
 
-        $prm = (new RequestAddCart\OrderPrmModel())
+        /** @var RequestAddCart\OrderPrmModelInterface $prm */
+        $prm = $this->createSubModel(RequestAddCart\OrderPrmModelInterface::class);
+        /** @var RequestAddCart\DetailModelInterface $detail */
+        $detail = $this->createSubModel(RequestAddCart\DetailModelInterface::class);
+        $detail->setJyumei($jyumeis);
+        /** @var RequestAddCart\MailJyudenModel $mailJyuden */
+        $mailJyuden = $this->createSubModel(RequestAddCart\MailJyudenModel::class);
+        $mailJyuden->setMail($order->getEmail());
+
+        $prm
             ->setMember($member)
             ->setJyuden($jyuden)
-            ->setDetail((new RequestAddCart\DetailModel())
-                ->setJyumei($jyumeis)
-            )->setMailjyuden((new RequestAddCart\MailJyudenModel())
-                ->setMail($order->getEmail())
-            );
+            ->setDetail($detail)
+            ->setMailjyuden($mailJyuden);
 
-        /** @var RequestAddCart\AddCartRequestModelInterface $requestModel */
-        $requestModel = $this->createRequestModel(RequestAddCart\AddCartRequestModelInterface::class);
+        /** @var AddCartRequestModelInterface $requestModel */
+        $requestModel = $this->createRequestModel(AddCartRequestModelInterface::class);
 
         return $requestModel
             ->setPrm($prm)
@@ -123,53 +175,30 @@ class OrderDataConverter implements OrderDataConverterInterface
     }
 
     /**
-     * DecisionCartリクエストに変換
-     *
-     * @param string $sessionId
-     * @param string $systemId
-     * @param array|null $returnJdKubun
-     * @param array|null $returnJmKubun
-     *
-     * @return DecisionCartRequestModel
-     */
-    public function convertToDecisionCartRequest(
-        string $sessionId,
-        string $systemId,
-        ?array $returnJdKubun = null,
-        ?array $returnJmKubun = null,
-    ): DecisionCartRequestModel {
-        $optionsModel = $this->createSubModel(DecisionCart\OptionsModelInterface::class);
-        $optionsModel->setReturnJdKubun($returnJdKubun)
-            ->setReturnJmKubun($returnJmKubun);
-
-        $idPrmModel = $this->createSubModel(DecisionCart\IdPrmModelInterface::class);
-        $idPrmModel->setSyid($systemId)
-            ->setOptions($optionsModel);
-
-        /** @var DecisionCartRequestModelInterface $requestModel */
-        $requestModel = $this->createRequestModel(DecisionCartRequestModelInterface::class);
-        $requestModel->setIdPrm($idPrmModel)
-            ->setSessId($sessionId);
-
-        return $requestModel;
-    }
-
-    /**
      * MemberOrderModelを作成
-     *
-     * @param Customer $customer
-     * @param CustomerAddress|null $customerAddress
-     *
-     * @return RequestAddCart\MemberOrderModel
      */
-    protected function createMemberOrderModel(Customer $customer, ?CustomerAddress $customerAddress): RequestAddCart\MemberOrderModel
+    protected function createMemberOrderModel(Customer $customer, ?CustomerAddress $customerAddress): RequestAddCart\MemberOrderModelInterface
     {
-        $memberOrderModel = (new RequestAddCart\MemberOrderModel())
-            ->setJmember((new RequestAddCart\JmemberModel())->setCode($customer->getAceCustomerId()))
-            ->setSmember((new RequestAddCart\SmemberModel())->setCode($customer->getAceCustomerId()));
+        /** @var RequestAddCart\MemberOrderModelInterface $memberOrderModel */
+        $memberOrderModel = $this->createSubModel(RequestAddCart\MemberOrderModelInterface::class);
+
+        /** @var RequestAddCart\JmemberModel $jmember */
+        $jmember = $this->createSubModel(RequestAddCart\JmemberModel::class);
+        $jmember->setCode($customer->getAceCustomerId());
+
+        /** @var RequestAddCart\SmemberModel $smember */
+        $smember = $this->createSubModel(RequestAddCart\SmemberModel::class);
+        $smember->setCode($customer->getAceCustomerId());
+
+        $memberOrderModel
+            ->setJmember($jmember)
+            ->setSmember($smember);
 
         if ($customerAddress !== null) {
-            $memberOrderModel->setNmember((new RequestAddCart\NmemberModel())->setEda($customerAddress->getAceEdaNo()));
+            /** @var RequestAddCart\NmemberModel $nmember */
+            $nmember = $this->createSubModel(RequestAddCart\NmemberModel::class);
+            $nmember->setEda($customerAddress->getAceEdaNo());
+            $memberOrderModel->setNmember($nmember);
         }
 
         return $memberOrderModel;
@@ -177,16 +206,13 @@ class OrderDataConverter implements OrderDataConverterInterface
 
     /**
      * JyudenModelを作成
-     *
-     * @param Order|OrderTrait $order
-     * @param Shipping $shipping
-     * @param Config $config
-     *
-     * @return RequestAddCart\JyudenModel
      */
-    protected function createJyudenModel($order, Shipping $shipping, Config $config): RequestAddCart\JyudenModel
+    protected function createJyudenModel($order, Shipping $shipping, Config $config): RequestAddCart\JyudenModelInterface
     {
-        return (new RequestAddCart\JyudenModel())
+        /** @var RequestAddCart\JyudenModelInterface $jyuden */
+        $jyuden = $this->createSubModel(RequestAddCart\JyudenModelInterface::class);
+
+        return $jyuden
             ->setTorikbn($order->getAceTransactionId())
             ->setJcode($config->getOrderRouteId())
             ->setNbikou1($shipping->getNote())
@@ -206,7 +232,7 @@ class OrderDataConverter implements OrderDataConverterInterface
      * @param Config $config
      */
     protected function applyOrderTotals(
-        RequestAddCart\JyudenModel $jyuden,
+        RequestAddCart\JyudenModelInterface $jyuden,
         float $charge,
         float $discount,
         float $deliveryFee,
@@ -230,7 +256,7 @@ class OrderDataConverter implements OrderDataConverterInterface
      *
      * @param array<int, string|int|bool|null> $freeMap [Fmkbn => value]
      *
-     * @return JyudenFreeModel[]
+     * @return RequestAddCart\JyudenFreeModelInterface[]
      */
     protected function buildJyudenFreeModels(array $freeMap): array
     {
@@ -239,7 +265,8 @@ class OrderDataConverter implements OrderDataConverterInterface
             if ($free === null || $free === '') {
                 continue;
             }
-            $model = new JyudenFreeModel();
+            /** @var RequestAddCart\JyudenFreeModelInterface $model */
+            $model = $this->createSubModel(RequestAddCart\JyudenFreeModelInterface::class);
             $model->setFmkbn($fmkbn)
                   ->setFree((string) $free);
             $models[] = $model;

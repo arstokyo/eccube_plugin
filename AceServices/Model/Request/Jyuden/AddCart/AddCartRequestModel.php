@@ -36,7 +36,7 @@ class AddCartRequestModel extends Request\RequestModelAbstract implements AddCar
     /**
      * {@inheritDoc}
      */
-    public function setPrm(OrderPrmModel $prm): self
+    public function setPrm(OrderPrmModelInterface $prm): self
     {
         $this->prm = $prm;
 

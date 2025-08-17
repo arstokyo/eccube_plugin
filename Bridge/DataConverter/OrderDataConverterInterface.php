@@ -6,8 +6,7 @@ use Eccube\Entity\Customer;
 use Eccube\Entity\CustomerAddress;
 use Eccube\Entity\Order;
 use Eccube\Entity\Shipping;
-use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\AddCartRequestModel;
-use Plugin\AceClient43\AceServices\Model\Request\Jyuden\DecisionCart\DecisionCartRequestModel;
+use Plugin\AceClient43\AceServices\Model\Request\Jyuden\CreateOrder\CreateOrderRequestModelInterface;
 use Plugin\AceClient43\Entity\Config;
 
 interface OrderDataConverterInterface
@@ -25,7 +24,8 @@ interface OrderDataConverterInterface
     public function validatePreCreate(Shipping $shipping, ?Config $config): array;
 
     /**
-     * 配送/注文データをAddCartリクエストに変換
+     * 配送/注文データをCreateOrderリクエストに変換
+     * - AddCart相当のprmと、DecisionCartのオプション生成を内包して作成します。
      *
      * @param Shipping $shipping
      * @param Order $order
@@ -34,10 +34,11 @@ interface OrderDataConverterInterface
      * @param Config $config
      * @param string $systemId
      * @param string $sessionId
+     * @param array<string,mixed> $decisionOptions
      *
-     * @return AddCartRequestModel
+     * @return CreateOrderRequestModelInterface
      */
-    public function convertToAddCartRequest(
+    public function convertToRequest(
         Shipping $shipping,
         Order $order,
         Customer $customer,
@@ -45,22 +46,6 @@ interface OrderDataConverterInterface
         Config $config,
         string $systemId,
         string $sessionId,
-    ): AddCartRequestModel;
-
-    /**
-     * DecisionCartリクエストに変換
-     *
-     * @param string $sessionId
-     * @param string $systemId
-     * @param array|null $returnJdKubun
-     * @param array|null $returnJmKubun
-     *
-     * @return DecisionCartRequestModel
-     */
-    public function convertToDecisionCartRequest(
-        string $sessionId,
-        string $systemId,
-        ?array $returnJdKubun = null,
-        ?array $returnJmKubun = null,
-    ): DecisionCartRequestModel;
+        array $decisionOptions = [],
+    ): CreateOrderRequestModelInterface;
 }
