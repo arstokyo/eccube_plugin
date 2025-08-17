@@ -24,34 +24,36 @@ class OrderPrmModel extends PrmModelAbstract implements OrderPrmModelInterface
     /**
      * @var ?MemberOrderModelInterface
      */
-    private ?MemberOrderModelInterface $member = null;
+    protected ?MemberOrderModelInterface $member = null;
 
     /**
      * @var ?JyudenModelInterface
      */
-    private ?JyudenModelInterface $jyuden = null;
+    protected ?JyudenModelInterface $jyuden = null;
 
     /**
      * @var ?DetailModelInterface
      */
-    private ?DetailModelInterface $detail = null;
+    protected ?DetailModelInterface $detail = null;
 
     /**
      * @var ?MailJyudenModel
      */
-    private ?MailJyudenModel $mailjyuden = null;
+    protected ?MailJyudenModel $mailjyuden = null;
 
     /**
      * @var ?JyudenFreeModelInterface[]
      *
      * @SerializedName("jyudenfree")
      */
-    private ?array $jyudenFree = null;
+    protected ?array $jyudenFree = null;
 
     /**
-     * @var ?array
+     * @var ?OptionsModelInterface
+     *
+     * @SerializedName("options")
      */
-    private ?array $options = null;
+    protected ?OptionsModelInterface $options = null;
 
     /**
      * {@inheritDoc}
@@ -164,33 +166,19 @@ class OrderPrmModel extends PrmModelAbstract implements OrderPrmModelInterface
     }
 
     /**
-     * {@inheritDoc}
+     * @return OptionsModelInterface|null
      */
-    public function getOptions(): array
+    public function getOptions(): ?OptionsModelInterface
     {
-        return $this->options ?? [];
+        return $this->options;
     }
 
     /**
-     * {@inheritDoc}
+     * @param OptionsModelInterface|null $options
      */
-    public function setOptions(array $options): self
+    public function setOptions(?OptionsModelInterface $options): self
     {
         $this->options = $options;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function addOption(string $key, $value): self
-    {
-        if (null === $this->options) {
-            $this->options = [];
-        }
-
-        $this->options[$key] = $value;
 
         return $this;
     }

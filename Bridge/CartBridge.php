@@ -205,7 +205,7 @@ class CartBridge extends BaseBridge
             ->setMember($member)
             ->setJyuden($jyuden)
             ->setDetail($detailModel->setJyumei($jyumeis))
-            ->setOptions($options['_request_options'] ?? []);
+            ->setOptions($options['_request_options'] ?? null);
 
         return $request
             ->setPrm($prm)

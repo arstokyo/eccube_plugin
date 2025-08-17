@@ -107,22 +107,12 @@ interface OrderPrmModelInterface extends PrmModelInterface
      *
      * @return array
      */
-    public function setOptions(array $options): self;
+    public function setOptions(?OptionsModelInterface $options): self;
 
     /**
      * Get オプション情報
      *
      * @return array
      */
-    public function getOptions(): array;
-
-    /**
-     * Add オプション情報
-     *
-     * @param string $key
-     * @param $value
-     *
-     * @return self
-     */
-    public function addOption(string $key, $value): self;
+    public function getOptions(): ?OptionsModelInterface;
 }
