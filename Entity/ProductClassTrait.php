@@ -41,6 +41,17 @@ trait ProductClassTrait
     private int $ace_product_type = AceProductType::PRODUCT;
 
     /**
+     * Ace税区分（AceTaxType）
+     *
+     * null の場合は未設定を表す
+     *
+     * @var int|null
+     *
+     * @ORM\Column(name="ace_tax_type", type="integer", nullable=true, options={"comment":"Ace税区分"})
+     */
+    private ?int $ace_tax_type = null;
+
+    /**
      * Aceの商品IDを取得する
      *
      * @return string|null
@@ -84,6 +95,30 @@ trait ProductClassTrait
     public function setAceProductType(int $ace_product_type)
     {
         $this->ace_product_type = $ace_product_type;
+
+        return $this;
+    }
+
+    /**
+     * Ace税区分を取得する（AceTaxType 定数）
+     *
+     * @return int|null
+     */
+    public function getAceTaxType(): ?int
+    {
+        return $this->ace_tax_type;
+    }
+
+    /**
+     * Ace税区分を設定する（AceTaxType 定数）
+     *
+     * @param int|null $ace_tax_type
+     *
+     * @return $this
+     */
+    public function setAceTaxType(?int $ace_tax_type)
+    {
+        $this->ace_tax_type = $ace_tax_type;
 
         return $this;
     }

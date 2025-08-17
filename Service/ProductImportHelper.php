@@ -282,6 +282,7 @@ class ProductImportHelper
         // 税金と税込みは勝手に計算されるため、see@TaxRuleEventSubscriber::prePersist
         $productClass->setPrice01($tankaModel->getRevtanka());
         $productClass->setPrice02($tankaModel->getRevtanka());
+        $productClass->setAceTaxType($tankaModel->getTaxkbn());
 
         $taxRule = $this->getOrCreateTaxRule($productClass, $creator);
         $taxRule->setTaxRate($tankaModel->getTaxrate());

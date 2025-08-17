@@ -216,7 +216,7 @@ class OrderDataConverter implements OrderDataConverterInterface
             $jyuden->setTesuu($charge);
         }
 
-        if ($discount > 0) {
+        if ($discount < 0) {
             $jyuden->setNebiki($discount);
         }
 
