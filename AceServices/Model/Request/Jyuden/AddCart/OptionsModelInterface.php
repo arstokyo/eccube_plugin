@@ -92,4 +92,20 @@ interface OptionsModelInterface
      * @param string|null $mode self::CALC_SUPPORT_MODE_* 定数を指定
      */
     public function setCalcSupportMode(?string $mode): self;
+
+    /**
+     * キャンペーンフラグを削除するかどうか
+     * 型: Boolean
+     * true の場合、受注サポート計算後にキャンペーンフラグを立てない（既存レコードの再記録抑止等の用途）。
+     *
+     * @SerializedName("remove_campaign_flg")
+     */
+    public function getRemoveCampaignFlg(): ?bool;
+
+    /**
+     * キャンペーンフラグの削除設定
+     *
+     * @param bool|null $remove true でキャンペーンフラグを立てない
+     */
+    public function setRemoveCampaignFlg(?bool $remove): self;
 }

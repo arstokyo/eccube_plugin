@@ -11,6 +11,11 @@ class OptionsModel implements OptionsModelInterface
     protected bool $groupSupport = false;
 
     /**
+     * キャンペーンフラグを削除するかどうか（true で削除）
+     */
+    protected ?bool $removeCampaignFlg = null;
+
+    /**
      * 返却受注伝票フリー区分のリスト（例: "100001,100002"）
      * カンマ区切りの数字リスト
      */
@@ -90,6 +95,24 @@ class OptionsModel implements OptionsModelInterface
     public function setCalcSupportMode(?string $mode): self
     {
         $this->calcSupportMode = $mode;
+
+        return $this;
+    }
+
+    /**
+     * remove_campaign_flg の取得
+     */
+    public function getRemoveCampaignFlg(): ?bool
+    {
+        return $this->removeCampaignFlg;
+    }
+
+    /**
+     * remove_campaign_flg の設定（true でキャンペーンフラグを立てない）
+     */
+    public function setRemoveCampaignFlg(?bool $remove): OptionsModelInterface
+    {
+        $this->removeCampaignFlg = $remove;
 
         return $this;
     }
