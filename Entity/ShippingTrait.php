@@ -45,6 +45,14 @@ trait ShippingTrait
     }
 
     /**
+     * 顧客住所が設定されているか判定するショートカット
+     */
+    public function hasCustomerAddress(): bool
+    {
+        return null !== $this->customer_address;
+    }
+
+    /**
      * 顧客住所を設定する
      *
      * @param CustomerAddress|CustomerAddressTrait|null $customer_address

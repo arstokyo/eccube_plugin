@@ -120,12 +120,6 @@ class CartBridge extends BaseBridge
                 }
             }
 
-            if ($config->shouldUseAceDiscount()) {
-                if ($this->attachDiscountToCart($responseObject, $cart, $canFlush, $options)) {
-                    $needFlush = true;
-                }
-            }
-
             if ($config->shouldUseAceCharge()) {
                 if ($this->attachChargeToCart($responseObject, $cart, $canFlush, $options)) {
                     $needFlush = true;
@@ -264,35 +258,6 @@ class CartBridge extends BaseBridge
         }
 
         $cart->setAceDeliveryFee($deliveryFee);
-        $this->em->persist($cart);
-
-        return true;
-    }
-
-    /**
-     * @param Cart $cart
-     * @param AddCartResponseModelInterface $responseObject
-     * @param bool $canFlush
-     * @param array $options
-     *
-     * @return bool needFlush
-     *
-     * @throws ORMException
-     */
-    private function attachDiscountToCart(AddCartResponseModelInterface $responseObject, Cart $cart, bool $canFlush, array $options): bool
-    {
-        $event = new OnCalculateFeeCartEvent($responseObject, $cart, $options, $canFlush);
-        $this->eventDispatcher->dispatch($event, Events::ON_CALCULATE_DISCOUNT_CART);
-
-        if ($event->needFlush) {
-            return true;
-        }
-
-        if (!$event->continue || 0 >= $discount = $responseObject->getOrder()->getJyuden()->getNebikizn()) {
-            return false;
-        }
-
-        $cart->setAceDiscountAmount($discount);
         $this->em->persist($cart);
 
         return true;
