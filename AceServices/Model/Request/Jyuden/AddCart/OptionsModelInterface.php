@@ -17,14 +17,14 @@ interface OptionsModelInterface
      *
      * @SerializedName("group_support")
      */
-    public function isGroupSupport(): bool;
+    public function isGroupSupport(): ?bool;
 
     /**
      * レスポンスグループ化を設定
      *
      * @param bool $groupSupport true/1 でグループ化有効
      */
-    public function setGroupSupport(bool $groupSupport): self;
+    public function setGroupSupport(?bool $groupSupport): self;
 
     /**
      * 返却受注伝票フリー区分のリスト

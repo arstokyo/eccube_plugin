@@ -8,7 +8,7 @@ class OptionsModel implements OptionsModelInterface
      * レスポンスグループ化フラグ
      * true/1: レスポンス時に、受注サポートで振られた商品をグループ化
      */
-    protected bool $groupSupport = false;
+    protected ?bool $groupSupport = null;
 
     /**
      * キャンペーンフラグを削除するかどうか（true で削除）
@@ -39,12 +39,12 @@ class OptionsModel implements OptionsModelInterface
      */
     protected ?string $calcSupportMode = null;
 
-    public function isGroupSupport(): bool
+    public function isGroupSupport(): ?bool
     {
         return $this->groupSupport;
     }
 
-    public function setGroupSupport(bool $groupSupport): self
+    public function setGroupSupport(?bool $groupSupport): self
     {
         $this->groupSupport = $groupSupport;
 
