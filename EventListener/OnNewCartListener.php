@@ -37,6 +37,19 @@ class OnNewCartListener implements EventSubscriberInterface
     public function onNewCart(OnNewCartEvent $event)
     {
         $cart = $event->getCart();
+        $prevCart = $event->getPrevCart();
+
+        if ($prevCart) {
+            $cart->setAcePaymentId($prevCart->getAcePaymentId());
+            $cart->setAceTransactionId($prevCart->getAceTransactionId());
+            $cart->setEnableAceOrderSupport($prevCart->isAceOrderSupportEnabled());
+            $cart->setAceDeliveryFee($prevCart->getAceDeliveryFee());
+            $cart->setAceDiscountAmount($prevCart->getAceDiscountAmount());
+            $cart->setAceChargeFee($prevCart->getAceChargeFee());
+            $cart->setAceEarnablePoint($prevCart->getAceEarnablePoint());
+
+            return;
+        }
 
         $cart->setAcePaymentId($this->aceConfigService->getDefaultPaymentId())
             ->setAceTransactionId($this->aceConfigService->getDefaultTransactionType())

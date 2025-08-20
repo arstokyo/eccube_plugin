@@ -193,6 +193,7 @@ class CartService extends BaseCartService
 
     protected function restoreCarts($cartItems)
     {
+        $prevCart = $this->getCarts()[0] ?? null;
         foreach ($this->getCarts() as $Cart) {
             foreach ($Cart->getCartItems() as $i) {
                 $this->entityManager->remove($i);
@@ -231,7 +232,7 @@ class CartService extends BaseCartService
                 $item->setCart($Cart);
 
                 if ($this->eventDispatcher->hasListeners(Events::ON_NEW_CART)) {
-                    $this->eventDispatcher->dispatch(new OnNewCartEvent($Cart), Events::ON_NEW_CART);
+                    $this->eventDispatcher->dispatch(new OnNewCartEvent($Cart, $prevCart), Events::ON_NEW_CART);
                 }
 
                 $Carts[$cartKey] = $Cart;

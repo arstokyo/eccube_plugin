@@ -20,9 +20,12 @@ class OnNewCartEvent extends Event
 {
     private Cart $cart;
 
-    public function __construct(Cart $cart)
+    private ?Cart $prevCart;
+
+    public function __construct(Cart $cart, ?Cart $prevCart = null)
     {
         $this->cart = $cart;
+        $this->prevCart = $prevCart;
     }
 
     /**
@@ -33,5 +36,15 @@ class OnNewCartEvent extends Event
     public function getCart(): Cart
     {
         return $this->cart;
+    }
+
+    /**
+     * 前回のカートを取得
+     *
+     * @return Cart|null
+     */
+    public function getPrevCart(): ?Cart
+    {
+        return $this->prevCart;
     }
 }
