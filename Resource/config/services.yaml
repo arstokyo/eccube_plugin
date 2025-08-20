@@ -155,6 +155,9 @@ services:
             $customerBridge: '@Plugin\AceClient43\Bridge\CustomerBridge'
             $logger: '@monolog.logger.front'  # Explicitly override to use front logger
 
+    Plugin\AceClient43\Repository\CustomerAddressRepository:
+        decorates: Eccube\Repository\CustomerAddressRepository
+
     # All other services will automatically use ace_client logger through _defaults bind
     Plugin\AceClient43\Bridge\BaseBridge:
 
