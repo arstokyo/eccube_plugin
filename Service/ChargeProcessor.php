@@ -16,8 +16,6 @@ namespace Plugin\AceClient43\Service;
 use Doctrine\ORM\EntityManagerInterface;
 use Eccube\Entity\ItemHolderInterface;
 use Eccube\Entity\Master\OrderItemType;
-use Eccube\Entity\Master\TaxDisplayType;
-use Eccube\Entity\Master\TaxType;
 use Eccube\Entity\Order;
 use Eccube\Entity\OrderItem;
 use Eccube\Repository\Master\OrderItemTypeRepository;
@@ -51,6 +49,13 @@ class ChargeProcessor implements ItemHolderPreprocessor
 
     protected AceConfigService $configService;
 
+    /**
+     * Injected master IDs (from parameters)
+     */
+    private int $taxDisplayTypeId;
+
+    private int $taxTypeId;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         EventDispatcherInterface $eventDispatcher,
@@ -58,6 +63,8 @@ class ChargeProcessor implements ItemHolderPreprocessor
         OrderItemTypeRepository $orderItemTypeRepository,
         TaxDisplayTypeRepository $taxDisplayTypeRepository,
         TaxTypeRepository $taxTypeRepository,
+        int $taxDisplayTypeId,
+        int $taxTypeId,
     ) {
         $this->entityManager = $entityManager;
         $this->eventDispatcher = $eventDispatcher;
@@ -65,6 +72,8 @@ class ChargeProcessor implements ItemHolderPreprocessor
         $this->taxDisplayTypeRepository = $taxDisplayTypeRepository;
         $this->taxTypeRepository = $taxTypeRepository;
         $this->configService = $configService;
+        $this->taxDisplayTypeId = $taxDisplayTypeId;
+        $this->taxTypeId = $taxTypeId;
     }
 
     /**
@@ -122,8 +131,8 @@ class ChargeProcessor implements ItemHolderPreprocessor
         }
 
         $orderItemType = $this->orderItemTypeRepository->find(OrderItemType::CHARGE);
-        $taxDisplayType = $this->taxDisplayTypeRepository->find(TaxDisplayType::INCLUDED);
-        $taxation = $this->taxTypeRepository->find(TaxType::TAXATION);
+        $taxDisplayType = $this->taxDisplayTypeRepository->find($this->taxDisplayTypeId);
+        $taxation = $this->taxTypeRepository->find($this->taxTypeId);
 
         FeeSeparateHelper::separate(
             $amount,
