@@ -121,7 +121,7 @@ trait BaseCartOrderTrait
      */
     public function setAceDeliveryFee(float $ace_delivery_fee)
     {
-        $this->ace_delivery_fee = $ace_delivery_fee;
+        $this->ace_delivery_fee = max(0, $ace_delivery_fee);
 
         return $this;
     }
@@ -169,7 +169,7 @@ trait BaseCartOrderTrait
      */
     public function setAceChargeFee(float $ace_charge_fee)
     {
-        $this->ace_charge_fee = $ace_charge_fee;
+        $this->ace_charge_fee = max(0, $ace_charge_fee);
 
         return $this;
     }

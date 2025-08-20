@@ -13,7 +13,6 @@
 
 namespace Plugin\AceClient43\Bridge;
 
-use Doctrine\ORM\Exception\ORMException;
 use Eccube\Entity\Cart;
 use Eccube\Entity\CartItem;
 use Eccube\Service\CartService;
@@ -24,7 +23,6 @@ use Plugin\AceClient43\Bridge\DataConverter\JyumeiDataConverterInterface;
 use Plugin\AceClient43\Entity\Config;
 use Plugin\AceClient43\Events\AddCartPreCreateRequestEvent;
 use Plugin\AceClient43\Events\Events;
-use Plugin\AceClient43\Events\OnCalculateFeeCartEvent;
 use Plugin\AceClient43\Events\PostAddCartEvent;
 use Plugin\AceClient43\Events\PreAddCartEvent;
 use Plugin\AceClient43\Exception\CouldNotAddCartException;
@@ -115,15 +113,15 @@ class CartBridge extends BaseBridge
             $needFlush = false;
 
             if ($config->shouldUseAceDelivery()) {
-                if ($this->attachDeliveryFeeToCart($responseObject, $cart, $canFlush, $options)) {
-                    $needFlush = true;
-                }
+                $deliveryFree = $responseObject->getOrder()->getJyuden()->getSouryouzn();
+                $cart->setAceDeliveryFee($deliveryFree);
+                $needFlush = true;
             }
 
             if ($config->shouldUseAceCharge()) {
-                if ($this->attachChargeToCart($responseObject, $cart, $canFlush, $options)) {
-                    $needFlush = true;
-                }
+                $chargeFee = $responseObject->getOrder()->getJyuden()->getTesuuzn();
+                $cart->setAceChargeFee($chargeFee);
+                $needFlush = true;
             }
 
             if ($config->shouldAddPoint()) {
@@ -132,6 +130,7 @@ class CartBridge extends BaseBridge
             }
 
             if ($needFlush) {
+                $this->em->persist($cart);
                 $this->em->flush($cart);
             }
 
@@ -232,63 +231,5 @@ class CartBridge extends BaseBridge
             $orderPrmModel,
             $detailModel,
         ];
-    }
-
-    /**
-     * @param AddCartResponseModelInterface $responseObject
-     * @param Cart $cart
-     * @param bool $canFlush
-     * @param array $options
-     *
-     * @return bool
-     *
-     * @throws ORMException
-     */
-    private function attachDeliveryFeeToCart(AddCartResponseModelInterface $responseObject, Cart $cart, bool $canFlush, array $options): bool
-    {
-        $event = new OnCalculateFeeCartEvent($responseObject, $cart, $options, $canFlush);
-        $this->eventDispatcher->dispatch($event, Events::ON_CALCULATE_DELIVERY_FEE_CART);
-
-        if ($event->needFlush) {
-            return true;
-        }
-
-        if (!$event->continue || 0 >= $deliveryFee = $responseObject->getOrder()->getJyuden()->getSouryouzn()) {
-            return false;
-        }
-
-        $cart->setAceDeliveryFee($deliveryFee);
-        $this->em->persist($cart);
-
-        return true;
-    }
-
-    /**
-     * @param Cart $cart
-     * @param AddCartResponseModelInterface $responseObject
-     * @param bool $canFlush
-     * @param array $options
-     *
-     * @return bool needFlush
-     *
-     * @throws ORMException
-     */
-    private function attachChargeToCart(AddCartResponseModelInterface $responseObject, Cart $cart, bool $canFlush, array $options): bool
-    {
-        $event = new OnCalculateFeeCartEvent($responseObject, $cart, $options, $canFlush);
-        $this->eventDispatcher->dispatch($event, Events::ON_CALCULATE_CHARGE_CART);
-
-        if ($event->needFlush) {
-            return true;
-        }
-
-        if (!$event->continue || 0 >= $charge = $responseObject->getOrder()->getJyuden()->getTesuuzn()) {
-            return false;
-        }
-
-        $cart->setAceChargeFee($charge);
-        $this->em->persist($cart);
-
-        return true;
     }
 }
