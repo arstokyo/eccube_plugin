@@ -47,14 +47,25 @@ class DeliveryFeeProcessor implements ItemHolderPreprocessor
 
     protected AceConfigService $configService;
 
+    /**
+     * Injected master IDs (from parameters)
+     */
+    private int $taxDisplayTypeId;
+
+    private int $taxTypeId;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         EventDispatcherInterface $eventDispatcher,
         AceConfigService $configService,
+        int $taxDisplayTypeId,
+        int $taxTypeId,
     ) {
         $this->entityManager = $entityManager;
         $this->eventDispatcher = $eventDispatcher;
         $this->configService = $configService;
+        $this->taxDisplayTypeId = $taxDisplayTypeId;
+        $this->taxTypeId = $taxTypeId;
     }
 
     /**
@@ -109,14 +120,14 @@ class DeliveryFeeProcessor implements ItemHolderPreprocessor
         }
 
         $DeliveryFeeType = $this->entityManager->find(OrderItemType::class, OrderItemType::DELIVERY_FEE);
-        $TaxInclude = $this->entityManager->find(TaxDisplayType::class, TaxDisplayType::INCLUDED);
-        $Taxation = $this->entityManager->find(TaxType::class, TaxType::TAXATION);
+        $TaxDisplay = $this->entityManager->find(TaxDisplayType::class, $this->taxDisplayTypeId);
+        $Taxation = $this->entityManager->find(TaxType::class, $this->taxTypeId);
 
         FeeSeparateHelper::separate(
             $fee,
             $Order,
             $DeliveryFeeType,
-            $TaxInclude,
+            $TaxDisplay,
             $Taxation,
             DeliveryFeeProcessor::class
         );

@@ -83,6 +83,14 @@
 # ===================================================================================================
 
 parameters:
+    # Default tax display/type for processors (IDs are from master tables)
+    # TaxDisplayType: 1=EXCLUDED, 2=INCLUDED
+    # TaxType: 1=TAXATION, 2=NON_TAXABLE, 3=TAX_EXEMPT
+    ace.processor.charge_tax_display_type: 2
+    ace.processor.charge_tax_type: 1
+    ace.processor.delivery_tax_display_type: 1
+    ace.processor.delivery_tax_type: 1
+
     ace.method:
         default_api_type: 'soap'
         default_request_format: 'xml'
@@ -146,6 +154,9 @@ services:
             $customerRepository: '@Eccube\Repository\CustomerRepository'
             $customerBridge: '@Plugin\AceClient43\Bridge\CustomerBridge'
             $logger: '@monolog.logger.front'  # Explicitly override to use front logger
+
+    Plugin\AceClient43\Repository\CustomerAddressRepository:
+        decorates: Eccube\Repository\CustomerAddressRepository
 
     # All other services will automatically use ace_client logger through _defaults bind
     Plugin\AceClient43\Bridge\BaseBridge:
@@ -429,10 +440,16 @@ services:
 
     # Processors - will use ace_client logger
     Plugin\AceClient43\Service\ChargeProcessor:
+        arguments:
+            $taxDisplayTypeId: '@=container.hasParameter("ace.processor.charge_tax_display_type") ? parameter("ace.processor.charge_tax_display_type") : 2'
+            $taxTypeId: '@=container.hasParameter("ace.processor.charge_tax_type") ? parameter("ace.processor.charge_tax_type") : 1'
         tags:
             - { name: eccube.item.holder.preprocessor, flow_type: shopping, priority: 550 }
 
     Plugin\AceClient43\Service\DeliveryFeeProcessor:
+        arguments:
+            $taxDisplayTypeId: '@=container.hasParameter("ace.processor.delivery_tax_display_type") ? parameter("ace.processor.delivery_tax_display_type") : 2'
+            $taxTypeId: '@=container.hasParameter("ace.processor.delivery_tax_type") ? parameter("ace.processor.delivery_tax_type") : 1'
         tags:
             - { name: eccube.item.holder.preprocessor, flow_type: shopping, priority: 750 }
 
