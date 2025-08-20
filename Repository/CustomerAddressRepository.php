@@ -48,8 +48,19 @@ class CustomerAddressRepository extends BaseRepository
                 ->getQuery()
                 ->execute();
 
+            $Customer = $CustomerAddress->getCustomer();
+            foreach ($Customer->getCustomerAddresses() as $customerAddress) {
+                if ($customerAddress->getId() == $CustomerAddress->getId()) {
+                    $Customer->removeCustomerAddress($customerAddress);
+                    $CustomerAddress->setCustomer(null);
+                    break;
+                }
+            }
+
+            $em->persist($Customer);
             // Then remove the CustomerAddress
             $em->remove($CustomerAddress);
+
             $em->flush();
             $em->commit();
         } catch (\Exception $e) {
