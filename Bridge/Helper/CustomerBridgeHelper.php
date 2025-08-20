@@ -241,12 +241,11 @@ class CustomerBridgeHelper
 
     public function getCustomerOrderHistory(string $aceCustomerId, string $syid): ?GetRirekiResponse\GetRirekiResponseModelInterface
     {
-        // $aceCustomerId = '10000170'; // TODO: テスト用
         $request = $this->customerDataConverter->convertCustomerToGetRirekiRequest($aceCustomerId, $syid);
         $response = $this->getRirekiMethod->withRequest($request)->send();
 
         if (!$response->isOk()) {
-            return null;
+            throw new \RuntimeException('通販Ace側の処理でエラーが発生しました');
         }
 
         return $response->getResponse();
@@ -254,13 +253,12 @@ class CustomerBridgeHelper
 
     public function getCustomerOrderHistoryDetail(string $aceCustomerId, string $orderId, string $syid): ?GetRirekiDetailResponse\GetRirekiDetailResponseModelInterface
     {
-        // $aceCustomerId = '10000170'; // TODO: テスト用
         $request = $this->customerDataConverter->convertCustomerToGetRirekiDetailRequest($aceCustomerId, $orderId, $syid);
 
         $response = $this->getRirekiDetailMethod->withRequest($request)->send();
 
         if (!$response->isOk()) {
-            return null;
+            throw new \RuntimeException('通販Ace側の処理でエラーが発生しました');
         }
 
         return $response->getResponse();
