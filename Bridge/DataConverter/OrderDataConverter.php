@@ -137,6 +137,9 @@ class OrderDataConverter implements OrderDataConverterInterface
         $deliveryFee = 0;
 
         foreach ($order->getOrderItems() as $item) {
+            if (method_exists($this, 'shouldExcludeJyumei') && $this->shouldExcludeJyumei($item)) {
+                continue;
+            }
             if ($item->isCharge()) {
                 $charge += $item->getPriceIncTax();
             } elseif ($item->isDiscount() || $item->isPoint()) {
