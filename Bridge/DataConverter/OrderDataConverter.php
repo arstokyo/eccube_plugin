@@ -246,7 +246,7 @@ class OrderDataConverter implements OrderDataConverterInterface
             $jyuden->setNebiki($discount);
         }
 
-        if (!$config->shouldUseAceDelivery() && $deliveryFee > 0) {
+        if ($config->shouldUseAceDelivery() && $deliveryFee > 0) {
             $jyuden->setSouryou($deliveryFee);
         }
     }
