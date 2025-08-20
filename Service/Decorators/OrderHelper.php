@@ -50,7 +50,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 class OrderHelper extends BaseOrderHelper
 {
-    private EventDispatcherInterface $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
         EntityManagerInterface $entityManager,
