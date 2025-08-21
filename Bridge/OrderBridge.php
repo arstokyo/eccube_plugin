@@ -15,7 +15,6 @@ use Doctrine\ORM\OptimisticLockException;
 use Eccube\Entity\CustomerAddress;
 use Eccube\Entity\Shipping;
 use Eccube\Service\CartService;
-use Eccube\Service\OrderHelper;
 use Eccube\Service\PurchaseFlow\PurchaseContext;
 use Eccube\Service\PurchaseFlow\PurchaseFlow;
 use Eccube\Service\PurchaseFlow\PurchaseFlowResult;
@@ -29,6 +28,7 @@ use Plugin\AceClient43\Events\OnPreCreateOrderEvent;
 use Plugin\AceClient43\Events\PostCreateOrderEvent;
 use Plugin\AceClient43\Exception\CouldNotAddCartException;
 use Plugin\AceClient43\Exception\CouldNotCreateOrderException;
+use Plugin\AceClient43\Service\CartOrderSyncService;
 use Plugin\AceClient43\Service\DeliveryFeeProcessor;
 use Plugin\AceClient43\Traits\GetUserTrait;
 
@@ -58,7 +58,7 @@ class OrderBridge extends BaseBridge
 
     protected PurchaseFlow $purchaseFlow;
 
-    protected OrderHelper $orderHelper;
+    protected CartOrderSyncService $cartOrderSyncService;
 
     protected CartService $cartService;
 
@@ -70,7 +70,7 @@ class OrderBridge extends BaseBridge
         CreateOrderMethod $createOrderMethod,
         CartBridge $cartBridge,
         DeliveryFeeProcessor $deliveryFeeProcessor,
-        OrderHelper $orderHelper,
+        CartOrderSyncService $cartOrderSyncService,
         CartService $cartService,
     ) {
         $this->orderDataConverter = $orderDataConverter;
@@ -80,8 +80,8 @@ class OrderBridge extends BaseBridge
         $this->cartBridge = $cartBridge;
         $this->deliveryFeeProcessor = $deliveryFeeProcessor;
         $this->purchaseFlow = $purchaseFlow;
-        $this->orderHelper = $orderHelper;
         $this->cartService = $cartService;
+        $this->cartOrderSyncService = $cartOrderSyncService;
     }
 
     /**
@@ -218,7 +218,7 @@ class OrderBridge extends BaseBridge
         }
 
         $cart = $this->cartService->getCart();
-        $this->orderHelper->syncCartFromOrder($order, $cart);
+        $this->cartOrderSyncService->syncCartFromOrder($order, $cart);
 
         $this->em->persist($order);
         $this->em->persist($cart);

@@ -35,10 +35,7 @@ use Eccube\Repository\OrderRepository;
 use Eccube\Repository\PaymentRepository;
 use Eccube\Service\OrderHelper as BaseOrderHelper;
 use Eccube\Session\Session;
-use Plugin\AceClient43\Events\EccubeEvents\Events;
-use Plugin\AceClient43\Events\EccubeEvents\OnNewOrderEvent;
-use Plugin\AceClient43\Events\EccubeEvents\OnNewOrderItemFromCartItemEvent;
-use Plugin\AceClient43\Events\EccubeEvents\OnNewShippingFromCustomerEvent;
+use Plugin\AceClient43\Service\CartOrderSyncService;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -51,6 +48,8 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 class OrderHelper extends BaseOrderHelper
 {
     protected EventDispatcherInterface $eventDispatcher;
+
+    protected CartOrderSyncService $cartOrderSyncService;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -66,6 +65,7 @@ class OrderHelper extends BaseOrderHelper
         AuthorizationCheckerInterface $authorizationChecker,
         TokenStorageInterface $tokenStorage,
         EventDispatcherInterface $eventDispatcher,
+        CartOrderSyncService $cartOrderSyncService,
     ) {
         parent::__construct(
             $entityManager,
@@ -82,6 +82,7 @@ class OrderHelper extends BaseOrderHelper
             $tokenStorage
         );
         $this->eventDispatcher = $eventDispatcher;
+        $this->cartOrderSyncService = $cartOrderSyncService;
     }
 
     /**
@@ -127,9 +128,7 @@ class OrderHelper extends BaseOrderHelper
 
         $this->setDefaultPayment($Order);
 
-        if ($this->eventDispatcher->hasListeners(Events::ON_NEW_ORDER)) {
-            $this->eventDispatcher->dispatch(new OnNewOrderEvent($Order, $Cart, $Customer), Events::ON_NEW_ORDER);
-        }
+        $this->cartOrderSyncService->syncOrderFromCart($Cart, $Order);
 
         $this->entityManager->persist($Order);
 
@@ -144,10 +143,8 @@ class OrderHelper extends BaseOrderHelper
     protected function createOrderItemsFromCartItems($CartItems)
     {
         $ProductItemType = $this->orderItemTypeRepository->find(OrderItemType::PRODUCT);
-        $hasEventSubscriber = $this->eventDispatcher->hasListeners(Events::ON_NEW_ORDER_ITEM_FROM_CART_ITEM);
-        $event = null;
 
-        return array_map(function ($item) use ($ProductItemType, $hasEventSubscriber, &$event) {
+        return array_map(function ($item) use ($ProductItemType) {
             /** @var CartItem $item */
             /** @var \Eccube\Entity\ProductClass $ProductClass */
             $ProductClass = $item->getProductClass();
@@ -175,17 +172,7 @@ class OrderHelper extends BaseOrderHelper
                 $OrderItem->setClassName2($ClassCategory2->getClassName()->getName());
             }
 
-            if ($hasEventSubscriber) {
-                /** @var OnNewOrderItemFromCartItemEvent $event */
-                if (is_null($event)) {
-                    $event = new OnNewOrderItemFromCartItemEvent($OrderItem, $item);
-                } else {
-                    $event->cartItem = $item;
-                    $event->orderItem = $OrderItem;
-                }
-
-                $this->eventDispatcher->dispatch(new OnNewOrderItemFromCartItemEvent($OrderItem, $item), Events::ON_NEW_ORDER_ITEM_FROM_CART_ITEM);
-            }
+            $this->cartOrderSyncService->syncOrderItemFromCartItem($item, $OrderItem);
 
             return $OrderItem;
         }, $CartItems instanceof Collection ? $CartItems->toArray() : $CartItems);
@@ -211,31 +198,7 @@ class OrderHelper extends BaseOrderHelper
             ->setAddr01($Customer->getAddr01())
             ->setAddr02($Customer->getAddr02());
 
-        if ($this->eventDispatcher->hasListeners(Events::ON_NEW_SHIPPING_FROM_CUSTOMER)) {
-            $this->eventDispatcher->dispatch(new OnNewShippingFromCustomerEvent($Shipping, $Customer), Events::ON_NEW_SHIPPING_FROM_CUSTOMER);
-        }
-
         return $Shipping;
-    }
-
-    public function syncOrderFromCart(Cart $Cart, Order $Order): void
-    {
-        $Order->setAceTransactionId($Cart->getAceTransactionId())
-            ->setAcePaymentId($Cart->getAcePaymentId())
-            ->setAceDiscountAmount($Cart->getAceDiscountAmount())
-            ->setAceDeliveryFee($Cart->getAceDeliveryFee())
-            ->setAceChargeFee($Cart->getAceChargeFee())
-            ->setAceEarnablePoint($Cart->getAceEarnablePoint());
-    }
-
-    public function syncCartFromOrder(Order $Order, Cart $Cart): void
-    {
-        $Cart->setAceTransactionId($Order->getAceTransactionId())
-            ->setAcePaymentId($Order->getAcePaymentId())
-            ->setAceDiscountAmount($Order->getAceDiscountAmount())
-            ->setAceDeliveryFee($Order->getAceDeliveryFee())
-            ->setAceChargeFee($Order->getAceChargeFee())
-            ->setAceEarnablePoint($Order->getAceEarnablePoint());
     }
 
     /**
@@ -248,7 +211,7 @@ class OrderHelper extends BaseOrderHelper
     {
         // 購入処理中の受注情報を取得
         if ($Order = $this->getPurchaseProcessingOrder($Cart->getPreOrderId())) {
-            $this->syncOrderFromCart($Cart, $Order);
+            $this->cartOrderSyncService->syncOrderFromCart($Cart, $Order);
 
             return $Order;
         }

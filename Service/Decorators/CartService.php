@@ -16,7 +16,7 @@ use Eccube\Service\CartService as BaseCartService;
 use Eccube\Session\Session;
 use Plugin\AceClient43\Events\EccubeEvents\Events;
 use Plugin\AceClient43\Events\EccubeEvents\OnCartAddProductEvent;
-use Plugin\AceClient43\Events\EccubeEvents\OnNewCartEvent;
+use Plugin\AceClient43\Service\CartOrderSyncService;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -30,8 +30,22 @@ class CartService extends BaseCartService
 {
     protected EventDispatcherInterface $eventDispatcher;
 
+    protected CartOrderSyncService $cartOrderSyncService;
+
     /**
      * CartService constructor.
+     *
+     * @param Session $session
+     * @param EntityManagerInterface $entityManager
+     * @param ProductClassRepository $productClassRepository
+     * @param CartRepository $cartRepository
+     * @param CartItemComparator $cartItemComparator
+     * @param CartItemAllocator $cartItemAllocator
+     * @param OrderRepository $orderRepository
+     * @param TokenStorageInterface $tokenStorage
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param CartOrderSyncService $cartOrderSyncService
      */
     public function __construct(
         Session $session,
@@ -44,9 +58,11 @@ class CartService extends BaseCartService
         TokenStorageInterface $tokenStorage,
         AuthorizationCheckerInterface $authorizationChecker,
         EventDispatcherInterface $eventDispatcher,
+        CartOrderSyncService $cartOrderSyncService,
     ) {
         parent::__construct($session, $entityManager, $productClassRepository, $cartRepository, $cartItemComparator, $cartItemAllocator, $orderRepository, $tokenStorage, $authorizationChecker);
         $this->eventDispatcher = $eventDispatcher;
+        $this->cartOrderSyncService = $cartOrderSyncService;
     }
 
     /**
@@ -231,9 +247,7 @@ class CartService extends BaseCartService
                 $Cart->addCartItem($item);
                 $item->setCart($Cart);
 
-                if ($this->eventDispatcher->hasListeners(Events::ON_NEW_CART)) {
-                    $this->eventDispatcher->dispatch(new OnNewCartEvent($Cart, $prevCart), Events::ON_NEW_CART);
-                }
+                $this->cartOrderSyncService->syncCartFromPrevCart($Cart, $prevCart);
 
                 $Carts[$cartKey] = $Cart;
             }
