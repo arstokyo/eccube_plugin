@@ -23,9 +23,6 @@ use Eccube\Service\PurchaseFlow\ItemHolderPreprocessor;
 use Eccube\Service\PurchaseFlow\PurchaseContext;
 use Plugin\AceClient43\Entity\Config;
 use Plugin\AceClient43\Entity\OrderTrait;
-use Plugin\AceClient43\Events\Events;
-use Plugin\AceClient43\Events\PostProcessDeliveryFeeEvent;
-use Plugin\AceClient43\Events\PreProcessDeliveryFeeEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -77,20 +74,9 @@ class DeliveryFeeProcessor implements ItemHolderPreprocessor
     public function process(ItemHolderInterface $itemHolder, PurchaseContext $context)
     {
         $config = $this->configService->getConfig();
-        $event = new PreProcessDeliveryFeeEvent($itemHolder, $config, $context);
-        $this->eventDispatcher->dispatch($event, Events::PRE_PROCESS_DELIVERY_FEE_EVENT);
-
-        if (!$event->continue) {
-            return;
-        }
 
         $this->removeDeliveryFeeItems($itemHolder, $config);
         $this->addDeliveryFeeItems($itemHolder, $config);
-
-        $this->eventDispatcher->dispatch(
-            new PostProcessDeliveryFeeEvent($itemHolder, $config, $context),
-            Events::POST_PROCESS_DELIVERY_FEE_EVENT
-        );
     }
 
     private function removeDeliveryFeeItems(Order $Order, Config $config): void

@@ -228,6 +228,16 @@ class OrderHelper extends BaseOrderHelper
             ->setAceEarnablePoint($Cart->getAceEarnablePoint());
     }
 
+    public function syncCartFromOrder(Order $Order, Cart $Cart): void
+    {
+        $Cart->setAceTransactionId($Order->getAceTransactionId())
+            ->setAcePaymentId($Order->getAcePaymentId())
+            ->setAceDiscountAmount($Order->getAceDiscountAmount())
+            ->setAceDeliveryFee($Order->getAceDeliveryFee())
+            ->setAceChargeFee($Order->getAceChargeFee())
+            ->setAceEarnablePoint($Order->getAceEarnablePoint());
+    }
+
     /**
      * @param Cart $Cart
      * @param Customer $Customer

@@ -6,6 +6,7 @@ use Eccube\Entity\Customer;
 use Eccube\Entity\CustomerAddress;
 use Eccube\Entity\Order;
 use Eccube\Entity\Shipping;
+use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\AddCartRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\CreateOrder\CreateOrderRequestModelInterface;
 use Plugin\AceClient43\Entity\Config;
 
@@ -48,4 +49,18 @@ interface OrderDataConverterInterface
         string $sessionId,
         array $decisionOptions = [],
     ): CreateOrderRequestModelInterface;
+
+    /**
+     * AddCart 相当のリクエストを作成（必要に応じてフリー項目も付与）
+     */
+    public function buildAddCartRequest(
+        Shipping $shipping,
+        Order $order,
+        Customer $customer,
+        ?CustomerAddress $customerAddress,
+        Config $config,
+        string $systemId,
+        string $sessionId,
+        array $options = [],
+    ): AddCartRequestModelInterface;
 }

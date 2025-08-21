@@ -17,6 +17,7 @@ use Eccube\Entity\Cart;
 use Eccube\Entity\CartItem;
 use Eccube\Service\CartService;
 use Plugin\AceClient43\AceServices\AceMethod\Jyuden\AddCartMethod;
+use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\AddCartRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart as RequestAddCart;
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModelInterface;
 use Plugin\AceClient43\Bridge\DataConverter\JyumeiDataConverterInterface;
@@ -28,7 +29,9 @@ use Plugin\AceClient43\Events\PreAddCartEvent;
 use Plugin\AceClient43\Exception\CouldNotAddCartException;
 use Plugin\AceClient43\Exception\DataTypeMissMatchException;
 use Plugin\AceClient43\Exception\InvalidClassNameException;
+use Plugin\AceClient43\Exception\MissingRequestParameterException;
 use Plugin\AceClient43\Service\AddCartHelper;
+use Plugin\AceClient43\Service\DeliveryFeeProcessor;
 
 /**
  * 通販Aceのカート追加処理を行うブリッジクラス
@@ -45,16 +48,20 @@ class CartBridge extends BaseBridge
 
     protected JyumeiDataConverterInterface $jyumeiDataConverter;
 
+    protected DeliveryFeeProcessor $deliveryFeeProcessor;
+
     public function __construct(
         AddCartMethod $addCartMethod,
         AddCartHelper $addCartHelper,
         CartService $cartService,
         JyumeiDataConverterInterface $jyumeiDataConverter,
+        DeliveryFeeProcessor $deliveryFeeProcessor,
     ) {
         $this->addCartMethod = $addCartMethod;
         $this->addCartHelper = $addCartHelper;
         $this->cartService = $cartService;
         $this->jyumeiDataConverter = $jyumeiDataConverter;
+        $this->deliveryFeeProcessor = $deliveryFeeProcessor;
     }
 
     /**
@@ -96,22 +103,9 @@ class CartBridge extends BaseBridge
         }
 
         try {
-            $response = $this->addCartMethod->withRequest($request)->send();
-
-            if (!$response->isOk()) {
-                throw new CouldNotAddCartException(null, new \RuntimeException(sprintf('通販Aceのカート追加処理に失敗しました: %s', $response->getStatusCode())));
-            }
-
-            /** @var AddCartResponseModelInterface $responseObject */
-            $responseObject = $response->getResponse();
-
-            // Check for error messages in the response
-            if ($this->hasErrorMessage($responseObject->getOrder())) {
-                throw new CouldNotAddCartException($responseObject->getOrder());
-            }
+            $responseObject = $this->executeAddCartRequest($request, $config);
 
             $needFlush = false;
-
             if ($config->shouldUseAceDelivery()) {
                 $deliveryFree = $responseObject->getOrder()->getJyuden()->getSouryouzn();
                 $cart->setAceDeliveryFee($deliveryFree);
@@ -157,9 +151,37 @@ class CartBridge extends BaseBridge
     }
 
     /**
+     * @param AddCartRequestModelInterface $request
+     * @param Config $config
+     *
+     * @return AddCartResponseModelInterface
+     *
+     * @throws CouldNotAddCartException
+     * @throws MissingRequestParameterException
+     */
+    public function executeAddCartRequest(AddCartRequestModelInterface $request, Config $config): AddCartResponseModelInterface
+    {
+        $response = $this->addCartMethod->withRequest($request)->send();
+
+        if (!$response->isOk()) {
+            throw new CouldNotAddCartException(null, new \RuntimeException(sprintf('通販Aceのカート追加処理に失敗しました: %s', $response->getStatusCode())));
+        }
+
+        /** @var AddCartResponseModelInterface $responseObject */
+        $responseObject = $response->getResponse();
+
+        // Check for error messages in the response
+        if ($this->hasErrorMessage($responseObject->getOrder())) {
+            throw new CouldNotAddCartException($responseObject->getOrder());
+        }
+
+        return $responseObject;
+    }
+
+    /**
      * Create request for add cart
      */
-    private function createRequest(Cart $cart, Config $config, bool $canFlush, array $options, ?array $cartItems = null): RequestAddCart\AddCartRequestModelInterface
+    private function createRequest(Cart $cart, Config $config, bool $canFlush, array $options, ?array $cartItems = null): AddCartRequestModelInterface
     {
         $customer = $cart->getCustomer();
         if (null === $customer->getAceCustomerId()) {
@@ -216,7 +238,7 @@ class CartBridge extends BaseBridge
      */
     private function createModels(): array
     {
-        $request = $this->createRequestModel(RequestAddCart\AddCartRequestModelInterface::class);
+        $request = $this->createRequestModel(AddCartRequestModelInterface::class);
         $memberOrderModel = $this->createSubModel(RequestAddCart\MemberOrderModelInterface::class);
         $jmemberModel = $this->createSubModel(RequestAddCart\JmemberModel::class);
         $jyudenModel = $this->createSubModel(RequestAddCart\JyudenModelInterface::class);

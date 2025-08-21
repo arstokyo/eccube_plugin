@@ -173,6 +173,11 @@ services:
     Plugin\AceClient43\Bridge\CartBridge:
         parent: Plugin\AceClient43\Bridge\BaseBridge
 
+    Plugin\AceClient43\Bridge\OrderBridge:
+        parent: Plugin\AceClient43\Bridge\BaseBridge
+        arguments:
+            $purchaseFlow: '@eccube.purchase.flow.order'
+
     # ACE Services - Version Independent Aliases (will use ace_client logger)
     ace_config_service:
         alias: Plugin\AceClient43\Service\AceConfigService
@@ -473,6 +478,13 @@ services:
     Plugin\AceClient43\Service\Decorators\OrderHelper:
         decorates: Eccube\Service\OrderHelper
         decoration_priority: 10
+
+    # Inject a service locator into Customize\Service\Order\OrderHelperDecorator to break circular ref with OrderBridge
+    Customize\Service\Order\OrderHelperDecorator:
+        calls:
+            - setOrderBridgeLocator:
+                - !service_locator
+                  orderBridge: '@Plugin\AceClient43\Bridge\OrderBridge'
 
     # Logger
     Plugin\AceClient43\Util\Logger\LineFormatter:
