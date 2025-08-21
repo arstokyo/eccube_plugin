@@ -119,7 +119,7 @@ class OrderDataConverter implements OrderDataConverterInterface
     /**
      * AddCart 相当のリクエストを作成（必要に応じてフリー項目も付与）
      */
-    protected function buildAddCartRequest(
+    public function buildAddCartRequest(
         Shipping $shipping,
         Order $order,
         Customer $customer,
@@ -127,9 +127,10 @@ class OrderDataConverter implements OrderDataConverterInterface
         Config $config,
         string $systemId,
         string $sessionId,
+        array $options = [],
     ): AddCartRequestModelInterface {
         $member = $this->createMemberOrderModel($customer, $customerAddress);
-        $jyuden = $this->createJyudenModel($order, $shipping, $config);
+        $jyuden = $this->createJyudenModel($order, $shipping, $config, $options);
 
         $jyumeis = [];
         $charge = 0;
@@ -140,14 +141,15 @@ class OrderDataConverter implements OrderDataConverterInterface
             if (method_exists($this, 'shouldExcludeJyumei') && $this->shouldExcludeJyumei($item)) {
                 continue;
             }
-            if ($item->isCharge()) {
+
+            if ($item->isProduct()) {
+                $jyumeis[] = $this->jyumeiDataConverter->convertOrderItemToJyumei($item);
+            } elseif ($item->isCharge()) {
                 $charge += $item->getPriceIncTax();
             } elseif ($item->isDiscount() || $item->isPoint()) {
                 $discount += $item->getPriceIncTax();
             } elseif ($item->isDeliveryFee()) {
                 $deliveryFee += $item->getPriceIncTax();
-            } elseif ($item->isProduct()) {
-                $jyumeis[] = $this->jyumeiDataConverter->convertOrderItemToJyumei($item);
             }
         }
 
@@ -210,10 +212,11 @@ class OrderDataConverter implements OrderDataConverterInterface
     /**
      * JyudenModelを作成
      */
-    protected function createJyudenModel($order, Shipping $shipping, Config $config): RequestAddCart\JyudenModelInterface
+    protected function createJyudenModel($order, Shipping $shipping, Config $config, array $options): RequestAddCart\JyudenModelInterface
     {
         /** @var RequestAddCart\JyudenModelInterface $jyuden */
         $jyuden = $this->createSubModel(RequestAddCart\JyudenModelInterface::class);
+        $acePaymentId = $options['ace_payment_id'] ?? $order->getPayment()->getAcePaymentId();
 
         return $jyuden
             ->setTorikbn($order->getAceTransactionId())
@@ -221,7 +224,7 @@ class OrderDataConverter implements OrderDataConverterInterface
             ->setNbikou1($shipping->getNote())
             ->setHday($shipping->getShippingDeliveryDate())
             ->setWeborderno($order->getId())
-            ->setPcode($order->getPayment()->getAcePaymentId())
+            ->setPcode($acePaymentId)
             ->setPointm($order->getUsePoint());
     }
 

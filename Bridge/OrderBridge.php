@@ -10,7 +10,15 @@
 
 namespace Plugin\AceClient43\Bridge;
 
+use Doctrine\ORM\Exception\ORMException;
+use Doctrine\ORM\OptimisticLockException;
+use Eccube\Entity\CustomerAddress;
 use Eccube\Entity\Shipping;
+use Eccube\Service\CartService;
+use Eccube\Service\OrderHelper;
+use Eccube\Service\PurchaseFlow\PurchaseContext;
+use Eccube\Service\PurchaseFlow\PurchaseFlow;
+use Eccube\Service\PurchaseFlow\PurchaseFlowResult;
 use Plugin\AceClient43\AceServices\AceMethod\Jyuden\AddCartMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Jyuden\CreateOrderMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Jyuden\DecisionCartMethod;
@@ -19,7 +27,10 @@ use Plugin\AceClient43\Bridge\DataConverter\OrderDataConverterInterface;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\OnPreCreateOrderEvent;
 use Plugin\AceClient43\Events\PostCreateOrderEvent;
+use Plugin\AceClient43\Exception\CouldNotAddCartException;
 use Plugin\AceClient43\Exception\CouldNotCreateOrderException;
+use Plugin\AceClient43\Service\DeliveryFeeProcessor;
+use Plugin\AceClient43\Traits\GetUserTrait;
 
 /**
  * 注文関連の処理を行うブリッジクラス
@@ -30,26 +41,47 @@ use Plugin\AceClient43\Exception\CouldNotCreateOrderException;
 class OrderBridge extends BaseBridge
 {
     use CreateRequestModelTrait;
+    use GetUserTrait;
 
-    private OrderDataConverterInterface $orderDataConverter;
+    protected OrderDataConverterInterface $orderDataConverter;
 
-    private AddCartMethod $addCartMethod;
+    protected AddCartMethod $addCartMethod;
 
-    private DecisionCartMethod $decisionCartMethod;
+    protected DecisionCartMethod $decisionCartMethod;
 
     /** @var CreateOrderMethod 統合API用メソッド */
-    private CreateOrderMethod $createOrderMethod;
+    protected CreateOrderMethod $createOrderMethod;
+
+    protected CartBridge $cartBridge;
+
+    protected DeliveryFeeProcessor $deliveryFeeProcessor;
+
+    protected PurchaseFlow $purchaseFlow;
+
+    protected OrderHelper $orderHelper;
+
+    protected CartService $cartService;
 
     public function __construct(
+        PurchaseFlow $purchaseFlow,
         OrderDataConverterInterface $orderDataConverter,
         AddCartMethod $addCartMethod,
         DecisionCartMethod $decisionCartMethod,
         CreateOrderMethod $createOrderMethod,
+        CartBridge $cartBridge,
+        DeliveryFeeProcessor $deliveryFeeProcessor,
+        OrderHelper $orderHelper,
+        CartService $cartService,
     ) {
         $this->orderDataConverter = $orderDataConverter;
         $this->addCartMethod = $addCartMethod;
         $this->decisionCartMethod = $decisionCartMethod;
         $this->createOrderMethod = $createOrderMethod;
+        $this->cartBridge = $cartBridge;
+        $this->deliveryFeeProcessor = $deliveryFeeProcessor;
+        $this->purchaseFlow = $purchaseFlow;
+        $this->orderHelper = $orderHelper;
+        $this->cartService = $cartService;
     }
 
     /**
@@ -130,6 +162,72 @@ class OrderBridge extends BaseBridge
             $this->logger->error('通販Aceの注文作成に失敗しました。', ['exception' => $e]);
             throw new CouldNotCreateOrderException('通販Aceの注文作成に失敗しました。', $e);
         }
+    }
+
+    /**
+     * @param Shipping $shipping
+     * @param CustomerAddress|null $customerAddress
+     * @param bool $shouldExecutePurchaseFlow
+     * @param bool $canFlush
+     * @param array $options
+     *
+     * @return PurchaseFlowResult|null
+     *
+     * @throws CouldNotAddCartException
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function syncDeliveryFee(Shipping $shipping, ?CustomerAddress $customerAddress, bool $shouldExecutePurchaseFlow = false, bool $canFlush = true, array $options = []): ?PurchaseFlowResult
+    {
+        $config = $this->aceConfigService->getConfig();
+        $order = $shipping->getOrder();
+        $customer = $order->getCustomer();
+
+        $addCartRequest = $this->orderDataConverter->buildAddCartRequest(
+            $shipping,
+            $order,
+            $customer,
+            $customerAddress,
+            $config,
+            $this->getSyid(),
+            $this->session->getId(),
+            $options,
+        );
+        $addCartRequest->getPrm()->getJyuden()->useCampaign();
+
+        try {
+            $addCartResponse = $this->cartBridge->executeAddCartRequest($addCartRequest, $config);
+        } catch (\Throwable $e) {
+            if ($e instanceof CouldNotAddCartException) {
+                $this->logger->error('通販Aceのカート追加に失敗しました。', ['exception' => $e]);
+                throw $e;
+            }
+
+            $this->logger->error('通販Aceのカート追加に失敗しました。', ['exception' => $e]);
+            throw new CouldNotAddCartException(null, $e);
+        }
+
+        $deliveryFree = $addCartResponse->getOrder()->getJyuden()->getSouryouzn();
+        $order->setAceDeliveryFee($deliveryFree);
+
+        $result = null;
+        if ($shouldExecutePurchaseFlow) {
+            $Customer = $this->getUser();
+            $context = new PurchaseContext($order, $Customer);
+            $result = $this->purchaseFlow->validate(clone $order, $context);
+        }
+
+        $cart = $this->cartService->getCart();
+        $this->orderHelper->syncCartFromOrder($order, $cart);
+
+        $this->em->persist($order);
+        $this->em->persist($cart);
+
+        if ($canFlush) {
+            $this->em->flush();
+        }
+
+        return $result;
     }
 
     /**
