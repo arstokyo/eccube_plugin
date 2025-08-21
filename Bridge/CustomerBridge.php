@@ -340,4 +340,18 @@ class CustomerBridge extends BaseBridge
             $this->createCustomerInAce($customer, $needFlush, $options);
         }
     }
+
+    public function getCustomerOrderHistory(Customer $customer): array
+    {
+        $responseObject = $this->helper->getCustomerOrderHistory($customer->getAceCustomerId(), $this->getSyid());
+
+        return $responseObject->getMember()->getRireki() ? $responseObject->getMember()->getRireki() : [];
+    }
+
+    public function getCustomerOrderHistoryDetail(Customer $customer, string $orderId): array
+    {
+        $responseObject = $this->helper->getCustomerOrderHistoryDetail($customer->getAceCustomerId(), $orderId, $this->getSyid());
+
+        return $responseObject->getMember()->getRirekiDetail() ? $responseObject->getMember()->getRirekiDetail() : [];
+    }
 }

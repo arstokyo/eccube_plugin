@@ -6,6 +6,8 @@ use Eccube\Entity\Customer;
 use Plugin\AceClient43\AceServices\AceMethod\Member\CheckMailAdressMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\GetMemberMcodeMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\GetMemberMethod;
+use Plugin\AceClient43\AceServices\AceMethod\Member\GetRirekiDetailMethod;
+use Plugin\AceClient43\AceServices\AceMethod\Member\GetRirekiMethod;
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelExtend1Interface;
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Member\CheckMailAdress\CheckMailAdressRequestModelInterface;
@@ -14,6 +16,8 @@ use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\CheckMailAdress\CheckMailAdressResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember as GetMemberResponse;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode as GetMemberMcodeResponse;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetRireki as GetRirekiResponse;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetRirekiDetail as GetRirekiDetailResponse;
 use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
 use Plugin\AceClient43\Bridge\DataConverter\CustomerDataConverterInterface;
 use Psr\Log\LoggerInterface;
@@ -33,6 +37,10 @@ class CustomerBridgeHelper
 
     protected CustomerDataConverterInterface $customerDataConverter;
 
+    protected GetRirekiMethod $getRirekiMethod;
+
+    protected GetRirekiDetailMethod $getRirekiDetailMethod;
+
     protected LoggerInterface $logger;
 
     public function __construct(
@@ -40,12 +48,16 @@ class CustomerBridgeHelper
         GetMemberMcodeMethod $getMemberMcodeMethod,
         CheckMailAdressMethod $checkMailAdressMethod,
         CustomerDataConverterInterface $customerDataConverter,
+        GetRirekiMethod $getRirekiMethod,
+        GetRirekiDetailMethod $getRirekiDetailMethod,
         LoggerInterface $logger,
     ) {
         $this->getMemberMethod = $getMemberMethod;
         $this->getMemberMcodeMethod = $getMemberMcodeMethod;
         $this->checkMailAdressMethod = $checkMailAdressMethod;
         $this->customerDataConverter = $customerDataConverter;
+        $this->getRirekiMethod = $getRirekiMethod;
+        $this->getRirekiDetailMethod = $getRirekiDetailMethod;
         $this->logger = $logger;
     }
 
@@ -225,5 +237,30 @@ class CustomerBridgeHelper
         }
 
         return false;
+    }
+
+    public function getCustomerOrderHistory(string $aceCustomerId, string $syid): ?GetRirekiResponse\GetRirekiResponseModelInterface
+    {
+        $request = $this->customerDataConverter->convertCustomerToGetRirekiRequest($aceCustomerId, $syid);
+        $response = $this->getRirekiMethod->withRequest($request)->send();
+
+        if (!$response->isOk()) {
+            throw new \RuntimeException('通販Ace側の処理でエラーが発生しました');
+        }
+
+        return $response->getResponse();
+    }
+
+    public function getCustomerOrderHistoryDetail(string $aceCustomerId, string $orderId, string $syid): ?GetRirekiDetailResponse\GetRirekiDetailResponseModelInterface
+    {
+        $request = $this->customerDataConverter->convertCustomerToGetRirekiDetailRequest($aceCustomerId, $orderId, $syid);
+
+        $response = $this->getRirekiDetailMethod->withRequest($request)->send();
+
+        if (!$response->isOk()) {
+            throw new \RuntimeException('通販Ace側の処理でエラーが発生しました');
+        }
+
+        return $response->getResponse();
     }
 }
