@@ -179,6 +179,10 @@ class OrderBridge extends BaseBridge
      */
     public function syncDeliveryFee(Shipping $shipping, ?CustomerAddress $customerAddress, bool $shouldExecutePurchaseFlow = false, bool $canFlush = true, array $options = []): ?PurchaseFlowResult
     {
+        $options = array_merge([
+            '_trigger' => OrderBridge::class.'::syncDeliveryFee',
+        ], $options);
+
         $config = $this->aceConfigService->getConfig();
         $order = $shipping->getOrder();
         $customer = $order->getCustomer();
