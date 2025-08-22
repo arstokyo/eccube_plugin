@@ -23,13 +23,15 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Jyudens\Jyuden\JyudenModelGr
 class JyudenModel extends JyudenModelGroup1 implements JyudenModelInterface
 {
     /** @var CardInfoModel|null */
-    private ?CardInfoModel $cardinfo = null;
+    protected ?CardInfoModel $cardinfo = null;
 
     /** @var CvsInfoModel|null */
-    private ?CvsInfoModel $cvsinfo = null;
+    protected ?CvsInfoModel $cvsinfo = null;
 
     /** @var DpsInfoModel|null */
-    private ?DpsInfoModel $dpsinfo = null;
+    protected ?DpsInfoModel $dpsinfo = null;
+
+    protected ?string $skkbn = null;
 
     /**
      * {@inheritDoc}
@@ -83,5 +85,33 @@ class JyudenModel extends JyudenModelGroup1 implements JyudenModelInterface
         $this->dpsinfo = $dpsinfo;
 
         return $this;
+    }
+
+    /**
+     * 請求書発送区分を指定
+     *
+     * 0:請求書同梱 1:請求書別送
+     *
+     * @param int $skkbn
+     *
+     * @return self
+     */
+    public function setSkkbn(string $skkbn): self
+    {
+        $this->skkbn = $skkbn;
+
+        return $this;
+    }
+
+    /**
+     * 請求書発送区分を取得
+     *
+     * 0:請求書同梱 1:請求書別送
+     *
+     * @return string
+     */
+    public function getSkkbn(): ?string
+    {
+        return $this->skkbn;
     }
 }

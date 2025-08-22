@@ -73,4 +73,24 @@ interface JyudenModelInterface extends JyudenModelGroup1Interface
      */
     /** @SerializedName("dps_info") */
     public function setDpsInfo(?DpsInfoModelInterface $dpsInfo): self;
+
+    /**
+     * 請求書発送区分を指定
+     *
+     * 0:請求書同梱 1:請求書別送
+     *
+     * @param int $skkbn
+     *
+     * @return self
+     */
+    public function setSkkbn(string $skkbn): self;
+
+    /**
+     * 請求書発送区分を取得
+     *
+     * 0:請求書同梱 1:請求書別送
+     *
+     * @return string|null
+     */
+    public function getSkkbn(): ?string;
 }
