@@ -126,13 +126,17 @@ class BaseBridge
     protected function hasErrorMessage($response): bool
     {
         if (method_exists($response->getMessage(), 'getResult')) {
-            $this->logger->error('通販Ace側の処理でエラーが発生しました', [
-                'result' => $response->getMessage()->getResult(),
-                'message1' => $response->getMessage()->getMessage1() ?? 'N/A',
-                'message2' => $response->getMessage()->getMessage2() ?? 'N/A',
-            ]);
+            $isResultOk = 'OK' === $response->getMessage()->getResult();
 
-            return 'OK' !== $response->getMessage()->getResult();
+            if (!$isResultOk) {
+                $this->logger->error('通販Ace側の処理でエラーが発生しました', [
+                    'result' => $response->getMessage()->getResult(),
+                    'message1' => $response->getMessage()->getMessage1() ?? 'N/A',
+                    'message2' => $response->getMessage()->getMessage2() ?? 'N/A',
+                ]);
+            }
+
+            return !$isResultOk;
         }
 
         $hasMessage1 = $response->getMessage()->getMessage1();

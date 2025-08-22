@@ -13,6 +13,8 @@
 
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Point;
 
+use Symfony\Component\Serializer\Attribute\Ignore;
+
 /**
  * Trait for ポイント
  *
@@ -27,6 +29,15 @@ trait PointTrait
      * {@inheritDoc}
      */
     public function getPoint(): ?int
+    {
+        return max($this->point, 0);
+    }
+
+    /***
+     * @Ignore()
+     * @return int|null
+     */
+    public function getPurePoint(): ?int
     {
         return $this->point;
     }
