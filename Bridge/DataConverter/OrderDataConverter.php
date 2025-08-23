@@ -6,11 +6,13 @@ use Eccube\Entity\Customer;
 use Eccube\Entity\CustomerAddress;
 use Eccube\Entity\Order;
 use Eccube\Entity\Shipping;
+use Eccube\Repository\DeliveryTimeRepository;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\AddCartRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart as RequestAddCart;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\CreateOrder\CreateOrderRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\DecisionCart;
 use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
+use Plugin\AceClient43\Bridge\OrderBridge;
 use Plugin\AceClient43\Entity\Config;
 
 class OrderDataConverter implements OrderDataConverterInterface
@@ -19,9 +21,14 @@ class OrderDataConverter implements OrderDataConverterInterface
 
     protected JyumeiDataConverterInterface $jyumeiDataConverter;
 
-    public function __construct(JyumeiDataConverterInterface $jyumeiDataConverter)
-    {
+    protected DeliveryTimeRepository $deliveryTimeRepository;
+
+    public function __construct(
+        JyumeiDataConverterInterface $jyumeiDataConverter,
+        DeliveryTimeRepository $deliveryTimeRepository,
+    ) {
         $this->jyumeiDataConverter = $jyumeiDataConverter;
+        $this->deliveryTimeRepository = $deliveryTimeRepository;
     }
 
     /**
@@ -129,8 +136,9 @@ class OrderDataConverter implements OrderDataConverterInterface
         string $sessionId,
         array $options = [],
     ): AddCartRequestModelInterface {
-        $member = $this->createMemberOrderModel($customer, $customerAddress);
-        $jyuden = $this->createJyudenModel($order, $shipping, $config, $options);
+        $trigger = $options['trigger'] ?? '';
+        $member = $this->createMemberOrderModel($customer, $customerAddress, $options);
+        $jyuden = $this->createJyudenModel($order, $shipping, $config, $options, $trigger);
 
         $jyumeis = [];
         $charge = 0;
@@ -182,7 +190,7 @@ class OrderDataConverter implements OrderDataConverterInterface
     /**
      * MemberOrderModelを作成
      */
-    protected function createMemberOrderModel(Customer $customer, ?CustomerAddress $customerAddress): RequestAddCart\MemberOrderModelInterface
+    protected function createMemberOrderModel(Customer $customer, ?CustomerAddress $customerAddress, array $options): RequestAddCart\MemberOrderModelInterface
     {
         /** @var RequestAddCart\MemberOrderModelInterface $memberOrderModel */
         $memberOrderModel = $this->createSubModel(RequestAddCart\MemberOrderModelInterface::class);
@@ -212,20 +220,43 @@ class OrderDataConverter implements OrderDataConverterInterface
     /**
      * JyudenModelを作成
      */
-    protected function createJyudenModel($order, Shipping $shipping, Config $config, array $options): RequestAddCart\JyudenModelInterface
+    protected function createJyudenModel($order, Shipping $shipping, Config $config, array $options, string $trigger): RequestAddCart\JyudenModelInterface
     {
         /** @var RequestAddCart\JyudenModelInterface $jyuden */
         $jyuden = $this->createSubModel(RequestAddCart\JyudenModelInterface::class);
         $acePaymentId = $options['ace_payment_id'] ?? $order->getPayment()->getAcePaymentId();
 
-        return $jyuden
+        $jyuden
             ->setTorikbn($order->getAceTransactionId())
             ->setJcode($config->getOrderRouteId())
-            ->setNbikou1($shipping->getNote())
-            ->setHday($shipping->getShippingDeliveryDate())
-            ->setWeborderno($order->getId())
             ->setPcode($acePaymentId)
-            ->setPointm($order->getUsePoint());
+        ;
+
+        // 配送料更新時ではない場合
+        if ($trigger !== OrderBridge::class.'::syncDeliveryFee') {
+            $jyuden->setPointm($order->getUsePoint())
+                ->setNbikou1($shipping->getNote())
+                ->setHday($shipping->getShippingDeliveryDate())
+                ->setWeborderno($order->getId());
+            $this->setDeliveryTime($jyuden, $shipping);
+        }
+
+        return $jyuden;
+    }
+
+    protected function setDeliveryTime(RequestAddCart\JyudenModelInterface $jyuden, Shipping $shipping): void
+    {
+        $deliveryTime = $shipping->getTimeId();
+        if ($deliveryTime === null) {
+            return;
+        }
+
+        $deliveryTimeEntity = $this->deliveryTimeRepository->findOneBy(['id' => $deliveryTime]);
+        if ($deliveryTimeEntity === null || !$deliveryTimeEntity->getAceDeliveryTimeId()) {
+            return;
+        }
+
+        $jyuden->setHtime($deliveryTimeEntity->getAceDeliveryTimeId());
     }
 
     /**
