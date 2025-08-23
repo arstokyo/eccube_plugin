@@ -18,4 +18,5 @@ class Events
     public const ON_CART_ADD_PRODUCT = 'eccube.on_cart_add_product';
     public const ON_COMPARE_CART_ITEM_PRODUCT_CLASS = 'eccube.on_compare_cart_item_product_class';
     public const ON_EDIT_CUSTOMER_DELIVERY = 'eccube.on_edit_customer_delivery';
+    public const ON_PURCHASE_COMPLETE = 'eccube.on_purchase_complete';
 }
