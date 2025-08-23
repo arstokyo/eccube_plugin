@@ -2,6 +2,7 @@
 
 namespace Plugin\AceClient43\EventListener;
 
+use Eccube\Entity\Customer;
 use Plugin\AceClient43\Bridge\CustomerBridge;
 use Plugin\AceClient43\Exception\CouldNotAddCartException;
 use Plugin\AceClient43\Service\AceConfigService;
@@ -44,13 +45,24 @@ class KernelControllerListener implements EventSubscriberInterface
     {
         $route = $event->getRequest()->attributes->get('_route');
 
-        if ($route === 'cart' && $this->aceConfigService->shouldAddCartIndex()) {
-            $this->cartControllerService->addCart();
+        if (!$route) {
+            return;
         }
 
-        if ($route && $this->aceConfigService->shouldSyncCustomerRoute($route)) {
+        if ($route === 'cart' && $this->aceConfigService->shouldAddCartIndex()) {
+            $this->cartControllerService->addCart();
+
+            return;
+        }
+
+        $customer = $this->getUser();
+        if (!$customer instanceof Customer) {
+            return;
+        }
+
+        if ($this->aceConfigService->shouldSyncCustomerRoute($route)) {
             $options = $this->aceConfigService->getCustomerSyncOptions($route);
-            $this->customerBridge->syncCustomerFromAce($this->getUser(), true, $options);
+            $this->customerBridge->syncCustomerFromAce($customer, true, $options);
         }
     }
 }

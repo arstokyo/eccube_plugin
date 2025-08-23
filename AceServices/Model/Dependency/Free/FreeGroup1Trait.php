@@ -21,53 +21,74 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 trait FreeGroup1Trait
 {
     use FiveFseikyuMailTrait;
-    use FiveFshouHinMailTrait;
+    use FiveFshouhinMailTrait;
     use FiveFdenshiMailTrait;
     use FiveForderMailTrait;
     use FiveFshukkaMailTrait;
 
     /** @var ?string 紹介者顧客メモ */
     protected ?string $freeshokaishamemo = null;
+
     /** @var ?int 移行元 */
     protected ?int $freeikomoto = null;
+
     /** @var ?string 代表者姓 */
     protected ?string $freedaihyoshasei = null;
+
     /** @var ?string 代表者名 */
     protected ?string $freedaihyoshamei = null;
+
     /** @var ?string 代表者姓カナ */
     protected ?string $freedaihyoshaseifuri = null;
+
     /** @var ?string 代表者名カナ */
     protected ?string $freedaihyoshameifuri = null;
+
     /** @var ?string 代表者郵便番号 */
     protected ?string $freeyubinbango = null;
+
     /** @var ?string 代表者都道府県 */
     protected ?string $freetodofuken = null;
+
     /** @var ?string 代表者市区町村 */
     protected ?string $freeshikuchouson = null;
+
     /** @var ?string 代表者町名番地 */
     protected ?string $freechomeibanchi = null;
+
     /** @var ?string 代表者建物名 */
     protected ?string $freetatemonomei = null;
+
     /** @var ?string 代表者会社名 */
     protected ?string $freekaishamei = null;
+
     /** @var ?string 代表者お届先名称 */
     protected ?string $freetodokesaki = null;
+
     /** @var ?string 代表者電話番号1 */
     protected ?string $freedenwabango1 = null;
+
     /** @var ?string 代表者電話番号2 */
     protected ?string $freedenwabango2 = null;
+
     /** @var ?string 代表者電話番号3 */
     protected ?string $freedenwabango3 = null;
+
     /** @var ?string 代表者FAX番号 */
     protected ?string $freefax = null;
+
     /** @var ?string 定休日 */
     protected ?string $freeteikyubi = null;
+
     /** @var ?int DM送付後説明 */
     protected ?int $freedmsofukbn = null;
+
     /** @var ?int ｴﾝﾄﾞﾕｰｻﾞｰ店舗案内 */
     protected ?int $freeenduserkbn = null;
+
     /** @var ?int 反社チェック */
     protected ?int $freehanshakbn = null;
+
     /** @var ?int 取引区分 */
     protected ?int $thflg = null;
 

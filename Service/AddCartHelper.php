@@ -52,6 +52,7 @@ class AddCartHelper
                     $anySync = true;
                     $foundProductCodes[] = $productCode;
                     $cartItem->setQuantity($jyumei->getSuu());
+                    $cartItem->setPrice($jyumei->getTintanka());
 
                     continue 2; // 内側のループを抜けて外側のループへ
                 }
