@@ -200,4 +200,20 @@ class JyumeiModel extends Jyumei\JyumeiModelGroup2 implements JyumeiModelInterfa
     {
         return $this->getGkbn() === AceProductType::DISCOUNT;
     }
+
+    /**
+     * 合計金額が0円の場合は0を返す・その以外は税抜単価を返す
+     */
+    public function getPreferTouttanka(): ?float
+    {
+        return $this->getToutmoney() === 0 ? 0 : $this->getTouttanka();
+    }
+
+    /**
+     * 合計金額が0円の場合は0を返す・その以外は税込単価を返す
+     */
+    public function getPreferTinmoney(): ?float
+    {
+        return $this->getTinmoney() === 0 ? 0 : $this->getTinmoney();
+    }
 }
