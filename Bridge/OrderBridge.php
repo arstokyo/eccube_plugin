@@ -22,6 +22,7 @@ use Plugin\AceClient43\AceServices\AceMethod\Jyuden\AddCartMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Jyuden\CreateOrderMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Jyuden\DecisionCartMethod;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\CreateOrder\CreateOrderRequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\Jyuden\CreateOrder\CreateOrderResponseModelInterface;
 use Plugin\AceClient43\Bridge\DataConverter\OrderDataConverterInterface;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\OnPreCreateOrderEvent;
@@ -140,10 +141,9 @@ class OrderBridge extends BaseBridge
             // API 呼び出し
             $apiResponse = $this->executeCreateOrderMethod($createOrderReq);
 
-            // エラーチェック（AddCart/DecisionCart それぞれのメッセージも考慮）
-            if ($this->hasErrorInCreateOrderResponse($apiResponse)) {
-                $errors = $this->extractErrorMessages($apiResponse);
-                throw new CouldNotCreateOrderException('通販Aceの注文作成に失敗しました: '.implode(' / ', $errors));
+            // エラーチェック（message1/message2 のみを使用）
+            if ($this->hasErrorMessage($apiResponse->getOrder())) {
+                throw new CouldNotCreateOrderException($apiResponse->getOrder());
             }
 
             // 注文作成後イベント
@@ -160,7 +160,8 @@ class OrderBridge extends BaseBridge
             }
 
             $this->logger->error('通販Aceの注文作成に失敗しました。', ['exception' => $e]);
-            throw new CouldNotCreateOrderException('通販Aceの注文作成に失敗しました。', $e);
+            // メッセージモデルがない場合は null を渡し、前段の例外のみを連結
+            throw new CouldNotCreateOrderException(null, $e);
         }
     }
 
@@ -239,7 +240,7 @@ class OrderBridge extends BaseBridge
      *
      * @param CreateOrderRequestModelInterface $request
      *
-     * @return mixed レスポンスモデル
+     * @return CreateOrderResponseModelInterface レスポンスモデル
      */
     private function executeCreateOrderMethod(CreateOrderRequestModelInterface $request)
     {
@@ -252,78 +253,5 @@ class OrderBridge extends BaseBridge
         }
 
         return $response->getResponse();
-    }
-
-    /**
-     * 統合APIレスポンスにエラーが含まれているか判定します。
-     */
-    private function hasErrorInCreateOrderResponse($response): bool
-    {
-        if (!$response) {
-            return true;
-        }
-
-        // AddCart/DecisionCart の個別メッセージを直接確認
-        $add1 = (string) $response->getAddCartMessage1();
-        $add2 = (string) $response->getAddCartMessage2();
-        $dec1 = (string) $response->getDecisionCartMessage1();
-        $dec2 = (string) $response->getDecisionCartMessage2();
-
-        if ($add1 !== '' || $add2 !== '' || $dec1 !== '' || $dec2 !== '') {
-            return true;
-        }
-
-        // 最終メッセージ（DecisionCart 側のメッセージ）も確認
-        $msg = $response->getOrder()->getMessage();
-        if ($msg) {
-            $m1 = (string) $msg->getMessage1();
-            $m2 = (string) $msg->getMessage2();
-
-            return $m1 !== '' || $m2 !== '';
-        }
-
-        return false;
-    }
-
-    /**
-     * 統合APIレスポンスからエラーメッセージを抽出します。
-     *
-     * @return string[]
-     */
-    private function extractErrorMessages($response): array
-    {
-        $messages = [];
-
-        $add1 = (string) $response->getAddCartMessage1();
-        $add2 = (string) $response->getAddCartMessage2();
-        $dec1 = (string) $response->getDecisionCartMessage1();
-        $dec2 = (string) $response->getDecisionCartMessage2();
-
-        if ($add1 !== '') {
-            $messages[] = 'AddCart: '.$add1;
-        }
-        if ($add2 !== '') {
-            $messages[] = 'AddCart: '.$add2;
-        }
-        if ($dec1 !== '') {
-            $messages[] = 'DecisionCart: '.$dec1;
-        }
-        if ($dec2 !== '') {
-            $messages[] = 'DecisionCart: '.$dec2;
-        }
-
-        $msg = $response->getOrder()->getMessage();
-        if ($msg) {
-            $m1 = (string) $msg->getMessage1();
-            $m2 = (string) $msg->getMessage2();
-            if ($m1 !== '') {
-                $messages[] = $m1;
-            }
-            if ($m2 !== '') {
-                $messages[] = $m2;
-            }
-        }
-
-        return $messages ?: ['不明なエラーが発生しました'];
     }
 }

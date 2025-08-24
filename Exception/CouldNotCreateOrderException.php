@@ -13,16 +13,24 @@
 
 namespace Plugin\AceClient43\Exception;
 
-class CouldNotCreateOrderException extends AceClientBaseException
+/**
+ * CreateOrder 失敗時の例外
+ * CouldNotAddCartException の機能（メッセージ解析ヘルパーなど）を継承します。
+ */
+class CouldNotCreateOrderException extends CouldNotAddCartException
 {
     /**
      * CouldNotCreateOrderException constructor.
      *
-     * @param string $message  Exception message.
-     * @param \Throwable|null $previous Previous exception.
+     * 第1引数には API レスポンスのメッセージモデル（HasMessageModelInterface 等）を渡すことを想定しています。
+     * 例外チェーンからの包み直しの場合は null を渡し、第2引数に前段の例外を渡してください。
+     *
+     * @param mixed $messageModel HasMessageModelInterface|HasMessageModelExtend1Interface|null
+     * @param \Throwable|null $previous
      */
-    public function __construct(string $message = '通販Aceに注文を作成できませんでした', ?\Throwable $previous = null)
+    public function __construct($messageModel = null, ?\Throwable $previous = null)
     {
-        parent::__construct($message, $previous);
+        // 既定メッセージを注文作成向けに変更して親コンストラクタへ
+        parent::__construct($messageModel, $previous, '通販Aceに注文を作成できませんでした');
     }
 }

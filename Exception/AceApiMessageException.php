@@ -51,7 +51,7 @@ abstract class AceApiMessageException extends AceClientBaseException
     /**
      * メッセージモデルからメッセージを抽出
      *
-     * @param HasMessageModelInterface|HasMessageModelExtend1Interface $messageModel
+     * @param mixed $messageModel HasMessageModelInterface|HasMessageModelExtend1Interface|string|array|null
      */
     private function extractMessages($messageModel): void
     {
@@ -59,13 +59,98 @@ abstract class AceApiMessageException extends AceClientBaseException
             return;
         }
 
-        $message = $messageModel->getMessage();
-        if ($message === null) {
+        // 文字列が渡された場合はそのままユーザー向けメッセージとして扱う
+        if (is_string($messageModel)) {
+            $text = trim($messageModel);
+            if ($text !== '') {
+                $this->message1 = $text;
+            }
+
             return;
         }
 
-        $this->message1 = $message->getMessage1();
-        $this->message2 = $message->getMessage2();
+        // 配列の場合は message1/message2 キーを優先して取り出す
+        if (is_array($messageModel)) {
+            $m1 = $messageModel['message1'] ?? $messageModel['Message1'] ?? null;
+            $m2 = $messageModel['message2'] ?? $messageModel['Message2'] ?? null;
+            if (is_string($m1) && $m1 !== '') {
+                $this->message1 = $m1;
+            }
+            if (is_string($m2) && $m2 !== '') {
+                $this->message2 = $m2;
+            }
+
+            return;
+        }
+
+        // オブジェクトの場合の取り扱い
+        if (is_object($messageModel)) {
+            // 直接 getMessage1()/getMessage2() を持つ場合
+            if (method_exists($messageModel, 'getMessage1') || method_exists($messageModel, 'getMessage2')) {
+                $m1 = method_exists($messageModel, 'getMessage1') ? $messageModel->getMessage1() : null;
+                $m2 = method_exists($messageModel, 'getMessage2') ? $messageModel->getMessage2() : null;
+                if (is_string($m1) && $m1 !== '') {
+                    $this->message1 = $m1;
+                }
+                if (is_string($m2) && $m2 !== '') {
+                    $this->message2 = $m2;
+                }
+
+                return;
+            }
+
+            // ラッパーが getMessage() を返す場合（従来のインターフェイス）
+            if (method_exists($messageModel, 'getMessage')) {
+                $message = $messageModel->getMessage();
+                if ($message === null) {
+                    return;
+                }
+
+                // ネストされたメッセージが文字列
+                if (is_string($message)) {
+                    $text = trim($message);
+                    if ($text !== '') {
+                        $this->message1 = $text;
+                    }
+
+                    return;
+                }
+
+                // ネストされたメッセージが配列
+                if (is_array($message)) {
+                    $m1 = $message['message1'] ?? $message['Message1'] ?? null;
+                    $m2 = $message['message2'] ?? $message['Message2'] ?? null;
+                    if (is_string($m1) && $m1 !== '') {
+                        $this->message1 = $m1;
+                    }
+                    if (is_string($m2) && $m2 !== '') {
+                        $this->message2 = $m2;
+                    }
+
+                    return;
+                }
+
+                // ネストされたメッセージがオブジェクト（getMessage1/getMessage2 を期待）
+                if (is_object($message)) {
+                    if (method_exists($message, 'getMessage1')) {
+                        $m1 = $message->getMessage1();
+                        if (is_string($m1) && $m1 !== '') {
+                            $this->message1 = $m1;
+                        }
+                    }
+                    if (method_exists($message, 'getMessage2')) {
+                        $m2 = $message->getMessage2();
+                        if (is_string($m2) && $m2 !== '') {
+                            $this->message2 = $m2;
+                        }
+                    }
+                }
+
+                return;
+            }
+        }
+
+        // ここまでで取得できない場合は何もしない（デフォルトメッセージを使用）
     }
 
     /**
