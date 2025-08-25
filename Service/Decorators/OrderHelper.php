@@ -211,7 +211,7 @@ class OrderHelper extends BaseOrderHelper
     {
         // 購入処理中の受注情報を取得
         if ($Order = $this->getPurchaseProcessingOrder($Cart->getPreOrderId())) {
-            $this->cartOrderSyncService->syncOrderFromCart($Cart, $Order);
+            $this->cartOrderSyncService->syncOrderFromCart($Cart, $Order, true);
 
             return $Order;
         }

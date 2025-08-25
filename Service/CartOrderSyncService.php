@@ -6,20 +6,24 @@ use Eccube\Entity\Cart;
 use Eccube\Entity\CartItem;
 use Eccube\Entity\Order;
 use Eccube\Entity\OrderItem;
+use Plugin\AceClient43\Service\Contract\ItemCompareInterface;
 
 class CartOrderSyncService
 {
     protected AceConfigService $aceConfigService;
 
-    public function __construct(AceConfigService $aceConfigService)
+    protected ItemCompareInterface $itemCompare;
+
+    public function __construct(AceConfigService $aceConfigService, ItemCompareInterface $itemCompare)
     {
         $this->aceConfigService = $aceConfigService;
+        $this->itemCompare = $itemCompare;
     }
 
     /**
      * Cart -> Order の同期
      */
-    public function syncOrderFromCart(Cart $Cart, Order $Order): void
+    public function syncOrderFromCart(Cart $Cart, Order $Order, bool $shouldSyncOrderItem = false): void
     {
         $Order->setAceTransactionId($Cart->getAceTransactionId())
             ->setAcePaymentId($Cart->getAcePaymentId())
@@ -27,6 +31,18 @@ class CartOrderSyncService
             ->setAceDeliveryFee($Cart->getAceDeliveryFee())
             ->setAceChargeFee($Cart->getAceChargeFee())
             ->setAceEarnablePoint($Cart->getAceEarnablePoint());
+
+        if ($shouldSyncOrderItem) {
+            foreach ($Cart->getCartItems() as $CartItem) {
+                foreach ($Order->getProductOrderItems() as $OrderItem) {
+                    if ($this->itemCompare->compareCartItemWithOrderItem($CartItem, $OrderItem)) {
+                        $this->syncOrderItemFromCartItem($CartItem, $OrderItem);
+
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -46,12 +62,19 @@ class CartOrderSyncService
      * CartItem -> OrderItem の同期（内容コピー）
      *
      * 既存の OrderItem インスタンスへ CartItem の情報を反映します。
+     * deep=true の場合は数量も同期します。
      *
      * @return OrderItem 同期後の OrderItem
      */
-    public function syncOrderItemFromCartItem(CartItem $CartItem, OrderItem $OrderItem): OrderItem
+    public function syncOrderItemFromCartItem(CartItem $CartItem, OrderItem $OrderItem, bool $deep = true): OrderItem
     {
+        // マークアップ率の同期
         $OrderItem->setAceMarkupRate($CartItem->getAceMarkupRate());
+
+        // deep 同期時は数量も同期
+        if ($deep) {
+            $OrderItem->setQuantity($CartItem->getQuantity());
+        }
 
         return $OrderItem;
     }
