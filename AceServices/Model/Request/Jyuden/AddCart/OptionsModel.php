@@ -2,6 +2,8 @@
 
 namespace Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart;
 
+use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\SupportModel;
+
 class OptionsModel implements OptionsModelInterface
 {
     /**
@@ -80,6 +82,17 @@ class OptionsModel implements OptionsModelInterface
         return $this->returnSpGiveKbns;
     }
 
+    public function addReturnSpGiveKbn(int $kbn): self
+    {
+        if ($this->returnSpGiveKbns === null) {
+            $this->returnSpGiveKbns = [];
+        }
+
+        $this->returnSpGiveKbns[] = $kbn;
+
+        return $this;
+    }
+
     public function setReturnSpGiveKbns(?array $kbns): self
     {
         $this->returnSpGiveKbns = $kbns;
@@ -95,6 +108,10 @@ class OptionsModel implements OptionsModelInterface
     public function setCalcSupportMode(?string $mode): self
     {
         $this->calcSupportMode = $mode;
+
+        if ($mode === self::CALC_SUPPORT_MODE_POINT) {
+            $this->addReturnSpGiveKbn(SupportModel::POINT_GIVE_KBN);
+        }
 
         return $this;
     }
