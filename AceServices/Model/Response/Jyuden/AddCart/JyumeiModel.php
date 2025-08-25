@@ -212,8 +212,8 @@ class JyumeiModel extends Jyumei\JyumeiModelGroup2 implements JyumeiModelInterfa
     /**
      * 合計金額が0円の場合は0を返す・その以外は税込単価を返す
      */
-    public function getPreferTinmoney(): ?float
+    public function getPreferTintanka(): ?float
     {
-        return $this->getTinmoney() === 0 ? 0 : $this->getTinmoney();
+        return $this->getTintanka() === 0 ? 0 : $this->getTintanka();
     }
 }

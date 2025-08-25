@@ -132,4 +132,14 @@ interface JyumeiModelInterface extends Jyumei\JyumeiModelGroup2Interface, Jyumei
      * @return bool 割引の場合はtrue
      */
     public function isDiscount(): bool;
+
+    /**
+     * 合計金額が0円の場合は0を返す・その以外は税抜単価を返す
+     */
+    public function getPreferTouttanka(): ?float;
+
+    /**
+     * 合計金額が0円の場合は0を返す・その以外は税込単価を返す
+     */
+    public function getPreferTintanka(): ?float;
 }
