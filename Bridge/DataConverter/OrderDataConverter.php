@@ -145,7 +145,7 @@ class OrderDataConverter implements OrderDataConverterInterface
         $deliveryFee = 0;
 
         foreach ($order->getOrderItems() as $item) {
-            if (method_exists($this, 'shouldExcludeJyumei') && $this->shouldExcludeJyumei($item)) {
+            if (method_exists($this, 'shouldExcludeJyumei') && $this->shouldExcludeJyumei($item, $options)) {
                 continue;
             }
 
@@ -160,7 +160,7 @@ class OrderDataConverter implements OrderDataConverterInterface
             }
         }
 
-        $this->applyOrderTotals($jyuden, $charge, $discount, $deliveryFee, $config);
+        $this->applyOrderTotals($jyuden, $charge, $discount, $deliveryFee, $config, $options);
 
         /** @var RequestAddCart\OrderPrmModelInterface $prm */
         $prm = $this->createSubModel(RequestAddCart\OrderPrmModelInterface::class);
@@ -266,6 +266,7 @@ class OrderDataConverter implements OrderDataConverterInterface
      * @param float $discount
      * @param float $deliveryFee
      * @param Config $config
+     * @param array $options
      */
     protected function applyOrderTotals(
         RequestAddCart\JyudenModelInterface $jyuden,
@@ -273,6 +274,7 @@ class OrderDataConverter implements OrderDataConverterInterface
         float $discount,
         float $deliveryFee,
         Config $config,
+        array $options,
     ): void {
         if ($charge > 0) {
             $jyuden->setTesuu($charge);
