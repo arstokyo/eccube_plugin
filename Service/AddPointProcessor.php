@@ -4,7 +4,6 @@ namespace Plugin\AceClient43\Service;
 
 use Eccube\Entity\ItemHolderInterface;
 use Eccube\Entity\Order;
-use Eccube\Repository\BaseInfoRepository;
 use Eccube\Service\PurchaseFlow\ItemHolderPostValidator;
 use Eccube\Service\PurchaseFlow\PurchaseContext;
 

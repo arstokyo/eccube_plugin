@@ -176,7 +176,9 @@ services:
     Plugin\AceClient43\Bridge\OrderBridge:
         parent: Plugin\AceClient43\Bridge\BaseBridge
         arguments:
-            $purchaseFlow: '@eccube.purchase.flow.order'
+            $purchaseFlow: '@eccube.purchase.flow.shopping'
+        calls:
+            - setShoppingPurchaseFlow: ['@eccube.purchase.flow.shopping']
 
     # ACE Services - Version Independent Aliases (will use ace_client logger)
     ace_config_service:

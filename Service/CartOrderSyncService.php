@@ -47,15 +47,47 @@ class CartOrderSyncService
 
     /**
      * Order -> Cart の同期
+     *
+     * options:
+     * - include_fields: 同期対象フィールドのリスト（指定がある場合はこちらを優先）
+     * - exclude_fields: 除外フィールドのリスト（include_fields 未指定時のみ有効）
      */
-    public function syncCartFromOrder(Order $Order, Cart $Cart): void
+    public function syncCartFromOrder(Order $Order, Cart $Cart, array $options = []): void
     {
-        $Cart->setAceTransactionId($Order->getAceTransactionId())
-            ->setAcePaymentId($Order->getAcePaymentId())
-            ->setAceDiscountAmount($Order->getAceDiscountAmount())
-            ->setAceDeliveryFee($Order->getAceDeliveryFee())
-            ->setAceChargeFee($Order->getAceChargeFee())
-            ->setAceEarnablePoint($Order->getAceEarnablePoint());
+        $include = isset($options['include_fields']) && is_array($options['include_fields']) ? $options['include_fields'] : null;
+        $exclude = isset($options['exclude_fields']) && is_array($options['exclude_fields']) ? $options['exclude_fields'] : [];
+
+        $sync = function (string $field, callable $setter) use ($include, $exclude) {
+            if (is_array($include)) {
+                if (!in_array($field, $include, true)) {
+                    return;
+                }
+            } else {
+                if (in_array($field, $exclude, true)) {
+                    return;
+                }
+            }
+            $setter();
+        };
+
+        $sync('ace_transaction_id', function () use ($Order, $Cart) {
+            $Cart->setAceTransactionId($Order->getAceTransactionId());
+        });
+        $sync('ace_payment_id', function () use ($Order, $Cart) {
+            $Cart->setAcePaymentId($Order->getAcePaymentId());
+        });
+        $sync('ace_discount_amount', function () use ($Order, $Cart) {
+            $Cart->setAceDiscountAmount($Order->getAceDiscountAmount());
+        });
+        $sync('ace_delivery_fee', function () use ($Order, $Cart) {
+            $Cart->setAceDeliveryFee($Order->getAceDeliveryFee());
+        });
+        $sync('ace_charge_fee', function () use ($Order, $Cart) {
+            $Cart->setAceChargeFee($Order->getAceChargeFee());
+        });
+        $sync('ace_earnable_point', function () use ($Order, $Cart) {
+            $Cart->setAceEarnablePoint($Order->getAceEarnablePoint());
+        });
     }
 
     /**

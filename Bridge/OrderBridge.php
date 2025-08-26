@@ -15,12 +15,13 @@ use Doctrine\ORM\OptimisticLockException;
 use Eccube\Entity\CustomerAddress;
 use Eccube\Entity\Shipping;
 use Eccube\Service\CartService;
-use Eccube\Service\PurchaseFlow\PurchaseContext;
 use Eccube\Service\PurchaseFlow\PurchaseFlow;
 use Eccube\Service\PurchaseFlow\PurchaseFlowResult;
 use Plugin\AceClient43\AceServices\AceMethod\Jyuden\AddCartMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Jyuden\CreateOrderMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Jyuden\DecisionCartMethod;
+use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\AddCartRequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\OptionsModel;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\CreateOrder\CreateOrderRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\CreateOrder\CreateOrderResponseModelInterface;
 use Plugin\AceClient43\Bridge\DataConverter\OrderDataConverterInterface;
@@ -29,9 +30,11 @@ use Plugin\AceClient43\Events\OnPreCreateOrderEvent;
 use Plugin\AceClient43\Events\PostCreateOrderEvent;
 use Plugin\AceClient43\Exception\CouldNotAddCartException;
 use Plugin\AceClient43\Exception\CouldNotCreateOrderException;
+use Plugin\AceClient43\Exception\MissingRequestParameterException;
 use Plugin\AceClient43\Service\CartOrderSyncService;
 use Plugin\AceClient43\Service\DeliveryFeeProcessor;
 use Plugin\AceClient43\Traits\GetUserTrait;
+use Plugin\AceClient43\Traits\ShoppingPurchaseFlowTrait;
 
 /**
  * 注文関連の処理を行うブリッジクラス
@@ -43,6 +46,7 @@ class OrderBridge extends BaseBridge
 {
     use CreateRequestModelTrait;
     use GetUserTrait;
+    use ShoppingPurchaseFlowTrait;
 
     protected OrderDataConverterInterface $orderDataConverter;
 
@@ -184,20 +188,9 @@ class OrderBridge extends BaseBridge
             '_trigger' => OrderBridge::class.'::syncDeliveryFee',
         ], $options);
 
-        $config = $this->aceConfigService->getConfig();
-        $order = $shipping->getOrder();
-        $customer = $order->getCustomer();
-
-        $addCartRequest = $this->orderDataConverter->buildAddCartRequest(
-            $shipping,
-            $order,
-            $customer,
-            $customerAddress,
-            $config,
-            $this->getSyid(),
-            $this->session->getId(),
-            $options,
-        );
+        // 中央化した組み立て
+        [$addCartRequest, $config] = $this->createAddCartRequest($shipping, $customerAddress, $options, null);
+        // 送料計算時はキャンペーンを適用
         $addCartRequest->getPrm()->getJyuden()->useCampaign();
 
         try {
@@ -212,16 +205,14 @@ class OrderBridge extends BaseBridge
             throw new CouldNotAddCartException(null, $e);
         }
 
+        $order = $shipping->getOrder();
         $deliveryFree = $addCartResponse->getOrder()->getJyuden()->getSouryouzn();
         $order->setAceDeliveryFee($deliveryFree);
 
-        $result = null;
-        if ($shouldExecutePurchaseFlow) {
-            $Customer = $this->getUser();
-            $context = new PurchaseContext($order, $Customer);
-            $result = $this->purchaseFlow->validate(clone $order, $context);
-        }
+        // PurchaseFlow（必要時のみ）
+        $result = $this->executeShoppingPurchaseFlow($order, 'delivery_update', $shouldExecutePurchaseFlow);
 
+        // Cart へ同期（通常のフィールドをすべて同期）
         $cart = $this->cartService->getCart();
         $this->cartOrderSyncService->syncCartFromOrder($order, $cart);
 
@@ -236,11 +227,123 @@ class OrderBridge extends BaseBridge
     }
 
     /**
+     * 付与予定ポイントを Ace 側で再計算し、Order へ反映する.
+     *
+     * @param Shipping $shipping 対象の配送（受注は shipping->getOrder() から辿る）
+     * @param bool $shouldExecutePurchaseFlow 購入フローの再計算を行うか
+     * @param bool $canFlush flush 実行可否
+     * @param array $options 任意オプション
+     *
+     * @return PurchaseFlowResult|null
+     *
+     * @throws CouldNotAddCartException
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function syncEarnablePoint(Shipping $shipping, bool $shouldExecutePurchaseFlow = false, bool $canFlush = true, array $options = []): ?PurchaseFlowResult
+    {
+        $options = array_merge([
+            '_trigger' => OrderBridge::class.'::syncEarnablePoint',
+        ], $options);
+
+        // 中央化した組み立て（ポイント再計算）
+        [$addCartRequest, $config] = $this->createAddCartRequest($shipping, $shipping->getOrder()->getFirstCustomerAddress(), $options, 'point');
+
+        try {
+            $addCartResponse = $this->cartBridge->executeAddCartRequest($addCartRequest, $config);
+        } catch (\Throwable $e) {
+            if ($e instanceof CouldNotAddCartException) {
+                $this->logger->error('通販Aceのカート追加（ポイント再計算）に失敗しました。', ['exception' => $e]);
+                throw $e;
+            }
+
+            $this->logger->error('通販Aceのカート追加（ポイント再計算）に失敗しました。', ['exception' => $e]);
+            throw new CouldNotAddCartException(null, $e);
+        }
+
+        $order = $shipping->getOrder();
+
+        // Ace 側の付与予定ポイントを Order へ反映
+        $earnablePoint = $addCartResponse->getOrder()->getEarnablePoints();
+        $order->setAceEarnablePoint($earnablePoint);
+
+        // PurchaseFlow（必要時のみ）
+        $result = $this->executeShoppingPurchaseFlow($order, 'point_update', $shouldExecutePurchaseFlow);
+
+        // Cart へは付与予定ポイントのみ同期（その他の項目は除外）
+        $cart = $this->cartService->getCart();
+        $this->cartOrderSyncService->syncCartFromOrder($order, $cart, [
+            'include_fields' => [
+                'ace_earnable_point',
+            ],
+        ]);
+
+        $this->em->persist($order);
+        $this->em->persist($cart);
+
+        if ($canFlush) {
+            $this->em->flush();
+        }
+
+        return $result;
+    }
+
+    /**
+     * AddCart リクエストを中央化して生成する.
+     *
+     * @param Shipping $shipping
+     * @param CustomerAddress|null $customerAddress
+     * @param array $options
+     * @param string|null $calcSupportMode 'point'|'message'|'all'|null
+     *
+     * @return array{0:AddCartRequestModelInterface,1:\Plugin\AceClient43\Entity\Config}
+     */
+    private function createAddCartRequest(Shipping $shipping, ?CustomerAddress $customerAddress, array $options = [], ?string $calcSupportMode = null): array
+    {
+        $config = $this->aceConfigService->getConfig();
+        $order = $shipping->getOrder();
+        $customer = $order->getCustomer();
+
+        // 最小構成でAceへ問い合わせたい場合（ポイント再計算/送料更新）は Jyuden 拡張生成を抑制
+        $trigger = $options['_trigger'] ?? null;
+        if ($calcSupportMode === 'point' || $trigger === OrderBridge::class.'::syncDeliveryFee') {
+            $options['_exclude_jyuden_build'] = true;
+        }
+
+        /** @var AddCartRequestModelInterface $request */
+        $request = $this->orderDataConverter->buildAddCartRequest(
+            $shipping,
+            $order,
+            $customer,
+            $customerAddress,
+            $config,
+            $this->getSyid(),
+            $this->session->getId(),
+            $options
+        );
+
+        if ($calcSupportMode !== null) {
+            $prm = $request->getPrm();
+            $opts = $prm->getOptions();
+            if ($opts === null) {
+                $opts = new OptionsModel();
+                $prm->setOptions($opts);
+            }
+            $opts->setCalcSupportMode($calcSupportMode);
+            $request->getPrm()->getJyuden()->setPointm($order->getUsePoint());
+        }
+
+        return [$request, $config];
+    }
+
+    /**
      * 統合API CreateOrder を実行します。
      *
      * @param CreateOrderRequestModelInterface $request
      *
      * @return CreateOrderResponseModelInterface レスポンスモデル
+     *
+     * @throws MissingRequestParameterException
      */
     private function executeCreateOrderMethod(CreateOrderRequestModelInterface $request)
     {

@@ -12,7 +12,6 @@ use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart as RequestAddCar
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\CreateOrder\CreateOrderRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\DecisionCart;
 use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
-use Plugin\AceClient43\Bridge\OrderBridge;
 use Plugin\AceClient43\Entity\Config;
 
 class OrderDataConverter implements OrderDataConverterInterface
@@ -225,6 +224,7 @@ class OrderDataConverter implements OrderDataConverterInterface
         /** @var RequestAddCart\JyudenModelInterface $jyuden */
         $jyuden = $this->createSubModel(RequestAddCart\JyudenModelInterface::class);
         $acePaymentId = $options['ace_payment_id'] ?? $order->getPayment()->getAcePaymentId();
+        $excludeBuild = !empty($options['_exclude_jyuden_build']);
 
         $jyuden
             ->setTorikbn($order->getAceTransactionId())
@@ -232,8 +232,7 @@ class OrderDataConverter implements OrderDataConverterInterface
             ->setPcode($acePaymentId)
         ;
 
-        // 配送料更新時ではない場合
-        if ($trigger !== OrderBridge::class.'::syncDeliveryFee') {
+        if (!$excludeBuild) {
             $jyuden->setPointm($order->getUsePoint())
                 ->setNbikou1($shipping->getNote())
                 ->setHday($shipping->getShippingDeliveryDate())
