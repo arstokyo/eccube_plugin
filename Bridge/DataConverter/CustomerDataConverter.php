@@ -7,6 +7,7 @@ use Eccube\Repository\Master\PrefRepository;
 use Eccube\Repository\Master\SexRepository;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetMemberMcode as GetMemberMcodeRequest;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetMemberMcode\GetMemberMcodeRequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\Member\GetRireki as GetRirekiRequest;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetRireki\GetRirekiRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetRirekiDetail\GetRirekiDetailRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
@@ -292,12 +293,15 @@ class CustomerDataConverter implements CustomerDataConverterInterface
         /** @var GetRirekiRequestModelInterface $requestModel */
         $requestModel = $this->createRequestModel(GetRirekiRequestModelInterface::class);
 
+        $idPrmModel = $this->createSubModel(GetRirekiRequest\IdPrmModelInterface::class);
+        $idPrmModel->setSyid($syid);
+
         return $requestModel
-            ->setId($syid)
+            ->setIdPrm($idPrmModel)
             ->setMcode($aceCustomerId)
             ->setDispRow(100)
             ->setDispPage(1)
-            ->setSort(1);
+            ->setSort(0);
     }
 
     public function convertCustomerToGetRirekiDetailRequest(string $aceCustomerId, string $orderId, string $syid): GetRirekiDetailRequestModelInterface

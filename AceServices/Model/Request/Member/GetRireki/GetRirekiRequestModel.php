@@ -16,6 +16,7 @@ namespace Plugin\AceClient43\AceServices\Model\Request\Member\GetRireki;
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelAbstract;
 use Plugin\AceClient43\Exception\MissingRequestParameterException;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * Class GetRirekiRequestModel
@@ -24,8 +25,15 @@ use Plugin\AceClient43\Exception\MissingRequestParameterException;
  */
 class GetRirekiRequestModel extends RequestModelAbstract implements GetRirekiRequestModelInterface
 {
-    use NoCategory\IdTrait;
     use NoCategory\McodeTrait;
+
+    /**
+     * @var IdPrmModelInterface
+     *
+     * @SerializedName("id")
+     */
+    protected IdPrmModelInterface $idPrm;
+
     public const XML_NODE_NAME = 'getRireki';
 
     /** @var ?int 表示行数 */
@@ -36,6 +44,24 @@ class GetRirekiRequestModel extends RequestModelAbstract implements GetRirekiReq
 
     /** @var int ソートコード */
     protected int $sort;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getIdPrm(): IdPrmModelInterface
+    {
+        return $this->idPrm;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setIdPrm(IdPrmModelInterface $idPrm): self
+    {
+        $this->idPrm = $idPrm;
+
+        return $this;
+    }
 
     /**
      * {@inheritDoc}
@@ -96,9 +122,10 @@ class GetRirekiRequestModel extends RequestModelAbstract implements GetRirekiReq
      */
     public function ensureParameterNotMissing(): void
     {
-        if (!$this->id) {
-            throw new MissingRequestParameterException($this->compilePropertyName('id'));
+        if (empty($this->idPrm)) {
+            throw new MissingRequestParameterException($this->compilePropertyName('idPrm'));
         }
+
         if (!$this->mcode) {
             throw new MissingRequestParameterException($this->compilePropertyName('mcode'));
         }
