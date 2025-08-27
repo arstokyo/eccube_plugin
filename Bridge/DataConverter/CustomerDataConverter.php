@@ -104,13 +104,19 @@ class CustomerDataConverter implements CustomerDataConverterInterface
         // Parse and set kana
         $this->parseAndSetKana($jmember->getKana1(), $jmember->getKana2(), $customer);
 
+        // Resolve email: prefer UserId if it is a valid email, otherwise use Mail
+        $email = $this->resolveEmail(
+            $jmember->getUserid(),
+            method_exists($jmember, 'getMail') ? $jmember->getMail() : null
+        );
+
         // Set basic information
         $customer
             ->setPostalCode($jmember->getZipEccubeFormat())
             ->setAddr01($jmember->getAdr2())
             ->setAddr02($jmember->getAdr3())
             ->setPhoneNumber($jmember->getTel())
-            ->setEmail($jmember->getUserid())
+            ->setEmail($email)
             ->setBirth($jmember->getBirthday() ? $jmember->getBirthday()->toDateTime() : null)
             ->setPoint($jmember->getPoint())
             ->setAceCustomerId($jmember->getCode());
@@ -138,13 +144,16 @@ class CustomerDataConverter implements CustomerDataConverterInterface
         // Parse and set kana from full kana
         $this->parseAndSetFullName($jmember->getKana(), $customer, 'kana');
 
+        // Resolve email: prefer UserId if it is a valid email, otherwise use Mail
+        $email = $this->resolveEmail($jmember->getUserid(), $jmember->getMail());
+
         // Set basic information
         $customer
             ->setPostalCode($jmember->getZip() ?? '')
             ->setAddr01($jmember->getAdr2() ?? '')
             ->setAddr02($jmember->getAdr3() ?? '')
             ->setPhoneNumber($jmember->getTel() ?? '')
-            ->setEmail($jmember->getUserid())
+            ->setEmail($email)
             ->setBirth($jmember->getBirthday() ? $jmember->getBirthday()->toDateTime() : null)
             ->setCompanyName($jmember->getBikou2())
             ->setAceCustomerId($jmember->getCode());
@@ -218,6 +227,13 @@ class CustomerDataConverter implements CustomerDataConverterInterface
             return;
         }
 
+        if ($type !== 'name') {
+            $fullName = mb_convert_kana($fullName, 'a', 'utf-8');
+        }
+
+        // Normalize spaces to full-width space before splitting
+        $fullName = str_replace(' ', '　', $fullName);
+
         $nameParts = explode('　', $fullName);
         $firstName = isset($nameParts[0]) ? trim($nameParts[0]) : '';
         $lastName = isset($nameParts[1]) ? trim($nameParts[1]) : '';
@@ -261,6 +277,24 @@ class CustomerDataConverter implements CustomerDataConverterInterface
                 $customer->setPref($pref);
             }
         }
+    }
+
+    /**
+     * Prefer $userid if it is a valid email; otherwise, fall back to $mail.
+     *
+     * @param string|null $userid
+     * @param string|null $mail
+     *
+     * @return string
+     */
+    protected function resolveEmail(?string $userid, ?string $mail): string
+    {
+        $userid = trim((string) $userid);
+        if ($userid !== '' && filter_var($userid, FILTER_VALIDATE_EMAIL)) {
+            return $userid;
+        }
+
+        return trim((string) $mail);
     }
 
     /**

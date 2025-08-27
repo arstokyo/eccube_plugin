@@ -14,11 +14,15 @@
 namespace Plugin\AceClient43\Bridge;
 
 use Eccube\Entity\Customer;
+use Eccube\Entity\Master\CustomerStatus;
 use Plugin\AceClient43\AceServices\AceMethod\Member\RegMemberMethod;
+use Plugin\AceClient43\AceServices\AceMethod\Member\UpdateTaikaiMethod;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
+use Plugin\AceClient43\AceServices\Model\Request\Member\UpdateTaikai\UpdateTaikaiRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode\LoginMemberModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\RegMember\RegMemberResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\Member\UpdateTaikai\UpdateTaikaiResponseModelInterface;
 use Plugin\AceClient43\Bridge\Helper\CustomerBridgeHelper;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\OnGetAndUpdateCustomerEvent;
@@ -32,20 +36,24 @@ use Plugin\AceClient43\Exception\CouldNotRegisterNewCustomerException;
  */
 class CustomerBridge extends BaseBridge
 {
-    private CustomerBridgeHelper $helper;
+    protected CustomerBridgeHelper $helper;
 
-    private RegMemberMethod $regMemberMethod;
+    protected RegMemberMethod $regMemberMethod;
 
-    private CustomerAddressBridge $customerAddressBridge;
+    protected CustomerAddressBridge $customerAddressBridge;
+
+    protected UpdateTaikaiMethod $updateTaikaiMethod;
 
     public function __construct(
         RegMemberMethod $regMemberMethod,
         CustomerBridgeHelper $helper,
         CustomerAddressBridge $customerAddressBridge,
+        UpdateTaikaiMethod $updateTaikaiMethod,
     ) {
         $this->helper = $helper;
         $this->regMemberMethod = $regMemberMethod;
         $this->customerAddressBridge = $customerAddressBridge;
+        $this->updateTaikaiMethod = $updateTaikaiMethod;
     }
 
     /**
@@ -86,6 +94,102 @@ class CustomerBridge extends BaseBridge
 
         $regMemberRequest = $this->helper->bindCustomerToRegMember($customer, $this->getSyid(), $options);
         $this->sendCustomerToAce($regMemberRequest, $customer, Events::PRE_UPDATE_CUSTOMER, $needFlush, $options);
+    }
+
+    /**
+     * 退会フラグをACE側に更新する
+     *
+     * - id: 通販プロID（システム設定のsyid）
+     * - mcode: 顧客コード（ACE顧客ID）
+     * - taikai: 退会フラグ
+     *   - '0': 入会中
+     *   - '1': 退会済
+     *   - '2': 非会員
+     *
+     * @param $customer
+     * @param int|string|null $overrideTaikai 上書き用の退会フラグ（'0'|'1'|'2' または 0|1|2）。省略時は顧客ステータスから算出
+     */
+    public function updateCustomerStatusInAce($customer, $overrideTaikai = null): void
+    {
+        if ($customer instanceof Customer) {
+            $aceCustomerId = $customer->getAceCustomerId();
+        } elseif (method_exists($customer, 'getCode')) {
+            $aceCustomerId = $customer->getCode();
+        } else {
+            throw new \InvalidArgumentException('引数の型が不正です。Customer型か、getCodeメソッドを持つオブジェクトを渡してください。');
+        }
+
+        if ($aceCustomerId === null) {
+            $this->logger->error('通販Aceの退会フラグ更新に失敗しました: 顧客IDが設定されていません', ['customer' => $customer]);
+            throw new \LogicException('顧客IDが設定されていません。');
+        }
+
+        // 上書き指定があればそれを優先（数値で渡されても文字列へ）
+        if ($overrideTaikai !== null) {
+            $taikai = (string) $overrideTaikai;
+        } elseif ($customer instanceof Customer) {
+            $taikai = $this->mapCustomerStatusToTaikai($customer);
+        } else {
+            throw new \InvalidArgumentException('退会フラグをしてください。');
+        }
+
+        /** @var UpdateTaikaiRequestModelInterface $taikaiRequestModel */
+        $taikaiRequestModel = $this->createRequestModel(UpdateTaikaiRequestModelInterface::class);
+        $taikaiRequestModel->setId($this->getSyid())
+            ->setMcode($aceCustomerId)
+            ->setTaikai($taikai);
+
+        try {
+            $response = $this->updateTaikaiMethod
+                ->withRequest($taikaiRequestModel)
+                ->send();
+
+            if (!$response->isOk()) {
+                throw new \RuntimeException(sprintf('通販Aceの退会フラグ更新に失敗しました: %s', $response->getStatusCode()));
+            }
+
+            /** @var UpdateTaikaiResponseModelInterface $responseObject */
+            $responseObject = $response->getResponse();
+
+            if ($this->hasErrorMessage($responseObject->getMember())) {
+                throw new \RuntimeException('通販Aceの退会フラグ更新に失敗しました(メッセージあり)。');
+            }
+
+            $this->logger->info('通販Aceの退会フラグを更新しました', [
+                'ace_customer_id' => $aceCustomerId,
+                'taikai' => $taikai,
+            ]);
+        } catch (\Throwable $e) {
+            $this->logger->error('通販Aceの退会フラグ更新に失敗しました', ['exception' => $e]);
+            throw $e;
+        }
+    }
+
+    /**
+     * EC-CUBEの会員ステータスから、ACEの退会フラグへ変換する
+     *
+     * @param Customer $customer
+     *
+     * @return string '0'|'1'|'2'
+     */
+    private function mapCustomerStatusToTaikai(Customer $customer): string
+    {
+        $status = $customer->getStatus();
+        $statusId = $status ? $status->getId() : null;
+
+        if ($statusId === CustomerStatus::REGULAR) {
+            // 入会中
+            return UpdateTaikaiRequestModelInterface::TAIKAI_ACTIVE;
+        } elseif ($statusId === CustomerStatus::WITHDRAWING) {
+            // 退会済
+            return UpdateTaikaiRequestModelInterface::TAIKAI_WITHDRAWN;
+        } elseif ($statusId === CustomerStatus::PROVISIONAL) {
+            // 非会員
+            return UpdateTaikaiRequestModelInterface::TAIKAI_NON_MEMBER;
+        }
+
+        // デフォルトは入会中
+        return UpdateTaikaiRequestModelInterface::TAIKAI_ACTIVE;
     }
 
     /**

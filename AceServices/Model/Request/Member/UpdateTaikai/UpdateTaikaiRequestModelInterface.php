@@ -23,4 +23,18 @@ use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
  */
 interface UpdateTaikaiRequestModelInterface extends RequestModelInterface, NoCategory\HasIdInterface, NoCategory\HasMcodeInterface, NoCategory\HasTaikaiInterface
 {
+    /**
+     * 退会フラグ: 入会中
+     */
+    public const TAIKAI_ACTIVE = '0';
+
+    /**
+     * 退会フラグ: 退会済
+     */
+    public const TAIKAI_WITHDRAWN = '1';
+
+    /**
+     * 退会フラグ: 非会員
+     */
+    public const TAIKAI_NON_MEMBER = '2';
 }
