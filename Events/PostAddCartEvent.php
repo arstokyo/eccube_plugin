@@ -25,6 +25,7 @@ class PostAddCartEvent extends Event
     private Cart $cart;
 
     private array $options;
+
     private Config $config;
 
     public function __construct(
@@ -57,5 +58,10 @@ class PostAddCartEvent extends Event
     public function getConfig(): Config
     {
         return $this->config;
+    }
+
+    public function getTrigger(): string
+    {
+        return $this->options['trigger'] ?? '';
     }
 }

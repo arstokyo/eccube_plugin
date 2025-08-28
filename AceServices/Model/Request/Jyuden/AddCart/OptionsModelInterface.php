@@ -94,6 +94,22 @@ interface OptionsModelInterface
     public function setCalcSupportMode(?string $mode): self;
 
     /**
+     * 返却受注予定出荷日を返却するかどうか
+     * 型: Boolean
+     * true の場合、返却受注伝票の出荷日を返却受注予定出荷日に設定します。
+     *
+     * @SerializedName("return_calc_hday")
+     */
+    public function getReturnPlannedShippingDay(): ?bool;
+
+    /**
+     * 返却受注予定出荷日を返却するかどうかを設定
+     *
+     * @param bool|null $return true で返却受注予定出荷日を返却
+     */
+    public function setReturnPlannedShippingDay(?bool $return): self;
+
+    /**
      * キャンペーンフラグを削除するかどうか
      * 型: Boolean
      * true の場合、受注サポート計算後にキャンペーンフラグを立てない（既存レコードの再記録抑止等の用途）。

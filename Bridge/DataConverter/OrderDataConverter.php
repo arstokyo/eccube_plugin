@@ -135,7 +135,7 @@ class OrderDataConverter implements OrderDataConverterInterface
         string $sessionId,
         array $options = [],
     ): AddCartRequestModelInterface {
-        $trigger = $options['trigger'] ?? '';
+        $trigger = $options['_trigger'] ?? '';
         $member = $this->createMemberOrderModel($customer, $customerAddress, $options);
         $jyuden = $this->createJyudenModel($order, $shipping, $config, $options, $trigger);
 
@@ -176,6 +176,10 @@ class OrderDataConverter implements OrderDataConverterInterface
             ->setJyuden($jyuden)
             ->setDetail($detail)
             ->setMailjyuden($mailJyuden);
+
+        if (method_exists($this, 'buildOptionsModel')) {
+            $prm->setOptions($this->buildOptionsModel($order, $shipping, $config, $options, $trigger));
+        }
 
         /** @var AddCartRequestModelInterface $requestModel */
         $requestModel = $this->createRequestModel(AddCartRequestModelInterface::class);

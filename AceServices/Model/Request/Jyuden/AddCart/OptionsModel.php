@@ -41,6 +41,8 @@ class OptionsModel implements OptionsModelInterface
      */
     protected ?string $calcSupportMode = null;
 
+    protected ?bool $shouldReturnPlannedShippingDay = null;
+
     public function isGroupSupport(): ?bool
     {
         return $this->groupSupport;
@@ -160,5 +162,17 @@ class OptionsModel implements OptionsModelInterface
         }
 
         return implode(',', $nums);
+    }
+
+    public function getReturnPlannedShippingDay(): ?bool
+    {
+        return $this->shouldReturnPlannedShippingDay;
+    }
+
+    public function setReturnPlannedShippingDay(?bool $return): OptionsModelInterface
+    {
+        $this->shouldReturnPlannedShippingDay = $return;
+
+        return $this;
     }
 }

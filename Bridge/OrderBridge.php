@@ -48,6 +48,9 @@ class OrderBridge extends BaseBridge
     use GetUserTrait;
     use ShoppingPurchaseFlowTrait;
 
+    public const SYNC_DELIVERY_FEE_TRIGGER = OrderBridge::class.'::syncDeliveryFee';
+    public const SYNC_EARNABLE_POINT_TRIGGER = OrderBridge::class.'::syncEarnablePoint';
+
     protected OrderDataConverterInterface $orderDataConverter;
 
     protected AddCartMethod $addCartMethod;
@@ -185,7 +188,7 @@ class OrderBridge extends BaseBridge
     public function syncDeliveryFee(Shipping $shipping, ?CustomerAddress $customerAddress, bool $shouldExecutePurchaseFlow = false, bool $canFlush = true, array $options = []): ?PurchaseFlowResult
     {
         $options = array_merge([
-            '_trigger' => OrderBridge::class.'::syncDeliveryFee',
+            '_trigger' => self::SYNC_DELIVERY_FEE_TRIGGER,
         ], $options);
 
         // 中央化した組み立て
@@ -194,7 +197,7 @@ class OrderBridge extends BaseBridge
         $addCartRequest->getPrm()->getJyuden()->useCampaign();
 
         try {
-            $addCartResponse = $this->cartBridge->executeAddCartRequest($addCartRequest, $config);
+            $addCartResponse = $this->cartBridge->executeAddCartRequest($addCartRequest, $config, $options);
         } catch (\Throwable $e) {
             if ($e instanceof CouldNotAddCartException) {
                 $this->logger->error('通販Aceのカート追加に失敗しました。', ['exception' => $e]);
@@ -243,14 +246,14 @@ class OrderBridge extends BaseBridge
     public function syncEarnablePoint(Shipping $shipping, bool $shouldExecutePurchaseFlow = false, bool $canFlush = true, array $options = []): ?PurchaseFlowResult
     {
         $options = array_merge([
-            '_trigger' => OrderBridge::class.'::syncEarnablePoint',
+            '_trigger' => self::SYNC_EARNABLE_POINT_TRIGGER,
         ], $options);
 
         // 中央化した組み立て（ポイント再計算）
         [$addCartRequest, $config] = $this->createAddCartRequest($shipping, $shipping->getOrder()->getFirstCustomerAddress(), $options, 'point');
 
         try {
-            $addCartResponse = $this->cartBridge->executeAddCartRequest($addCartRequest, $config);
+            $addCartResponse = $this->cartBridge->executeAddCartRequest($addCartRequest, $config, $options);
         } catch (\Throwable $e) {
             if ($e instanceof CouldNotAddCartException) {
                 $this->logger->error('通販Aceのカート追加（ポイント再計算）に失敗しました。', ['exception' => $e]);
