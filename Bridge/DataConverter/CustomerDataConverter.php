@@ -25,12 +25,16 @@ class CustomerDataConverter implements CustomerDataConverterInterface
 
     protected PrefRepository $prefRepository;
 
+    protected CustomerAceNormalizer $normalizer;
+
     public function __construct(
         SexRepository $sexRepository,
         PrefRepository $prefRepository,
+        CustomerAceNormalizer $normalizer,
     ) {
         $this->sexRepository = $sexRepository;
         $this->prefRepository = $prefRepository;
+        $this->normalizer = $normalizer;
     }
 
     /**
@@ -48,8 +52,8 @@ class CustomerDataConverter implements CustomerDataConverterInterface
             ->setIdx(1);
 
         $jmember = $jmemberModel
-            ->setSimei($this->formatFullName($customer->getName01(), $customer->getName02()))
-            ->setKana($this->formatFullName($customer->getKana01(), $customer->getKana02()))
+            ->setSimei($this->normalizer->formatAceFullNameFromEcName($customer->getName01(), $customer->getName02()))
+            ->setKana($this->normalizer->formatAceFullNameFromEcName($customer->getKana01(), $customer->getKana02()))
             ->setZip($customer->getPostalCode())
             ->setAdr1($customer->getPref() ? $customer->getPref()->getName() : '')
             ->setAdr2($customer->getAddr01() ?? '')
@@ -98,11 +102,9 @@ class CustomerDataConverter implements CustomerDataConverterInterface
         $customer = $customer ?? new Customer();
         $jmember = $aceCustomer->getMember();
 
-        // Parse and set name
-        $this->parseAndSetName($jmember->getName1(), $jmember->getName2(), $customer);
-
-        // Parse and set kana
-        $this->parseAndSetKana($jmember->getKana1(), $jmember->getKana2(), $customer);
+        // Parse and set full-name/kana using normalizer
+        $this->normalizer->parseAceFullNameToEc($jmember->getSimei(), $customer, 'name');
+        $this->normalizer->parseAceFullNameToEc($jmember->getKana(), $customer, 'kana');
 
         // Resolve email: prefer UserId if it is a valid email, otherwise use Mail
         $email = $this->resolveEmail(
@@ -138,11 +140,9 @@ class CustomerDataConverter implements CustomerDataConverterInterface
         $customer = $customer ?? new Customer();
         $jmember = $loginMemberModel->getMember();
 
-        // Parse and set name from full name
-        $this->parseAndSetFullName($jmember->getSimei(), $customer, 'name');
-
-        // Parse and set kana from full kana
-        $this->parseAndSetFullName($jmember->getKana(), $customer, 'kana');
+        // Parse and set full-name/kana using normalizer
+        $this->normalizer->parseAceFullNameToEc($jmember->getSimei(), $customer, 'name');
+        $this->normalizer->parseAceFullNameToEc($jmember->getKana(), $customer, 'kana');
 
         // Resolve email: prefer UserId if it is a valid email, otherwise use Mail
         $email = $this->resolveEmail($jmember->getUserid(), $jmember->getMail());
@@ -165,86 +165,6 @@ class CustomerDataConverter implements CustomerDataConverterInterface
         $this->setPrefecture($jmember->getAdr1(), $customer);
 
         return $customer;
-    }
-
-    /**
-     * Format full name for ACE
-     *
-     * @param string|null $name01
-     * @param string|null $name02
-     *
-     * @return string
-     */
-    protected function formatFullName(?string $name01, ?string $name02): string
-    {
-        return mb_convert_kana(sprintf('%s　%s', $name01 ?? '', $name02 ?? ''), 'KVA');
-    }
-
-    /**
-     * Parse and set name from individual components
-     *
-     * @param string|null $name01
-     * @param string|null $name02
-     * @param Customer $customer
-     */
-    protected function parseAndSetName(?string $name01, ?string $name02, Customer $customer): void
-    {
-        $customer->setName01($name01 ?? '');
-        $customer->setName02($name02 ?? '');
-    }
-
-    /**
-     * Parse and set kana from individual components
-     *
-     * @param string|null $kana01
-     * @param string|null $kana02
-     * @param Customer $customer
-     */
-    protected function parseAndSetKana(?string $kana01, ?string $kana02, Customer $customer): void
-    {
-        $customer->setKana01($kana01 ?? '');
-        $customer->setKana02($kana02 ?? '');
-    }
-
-    /**
-     * Parse and set full name from combined string
-     *
-     * @param string|null $fullName
-     * @param Customer $customer
-     * @param string $type
-     */
-    protected function parseAndSetFullName(?string $fullName, Customer $customer, string $type): void
-    {
-        if (!$fullName) {
-            if ($type === 'name') {
-                $customer->setName01('');
-                $customer->setName02('');
-            } else {
-                $customer->setKana01('');
-                $customer->setKana02('');
-            }
-
-            return;
-        }
-
-        if ($type !== 'name') {
-            $fullName = mb_convert_kana($fullName, 'a', 'utf-8');
-        }
-
-        // Normalize spaces to full-width space before splitting
-        $fullName = str_replace(' ', '　', $fullName);
-
-        $nameParts = explode('　', $fullName);
-        $firstName = isset($nameParts[0]) ? trim($nameParts[0]) : '';
-        $lastName = isset($nameParts[1]) ? trim($nameParts[1]) : '';
-
-        if ($type === 'name') {
-            $customer->setName01($firstName);
-            $customer->setName02($lastName);
-        } else {
-            $customer->setKana01($firstName);
-            $customer->setKana02($lastName);
-        }
     }
 
     /**
