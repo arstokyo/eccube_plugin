@@ -410,10 +410,10 @@ class TraceableApiClient implements ClientInterface, ApiTypeSupportInterface, Tr
         return 'unknown';
     }
 
-    public function supports(string $apiType, string $format): bool
+    public function supports(string $apiType, string $format, string $httpMethod): bool
     {
         if ($this->client instanceof ApiTypeSupportInterface) {
-            return $this->client->supports($apiType, $format);
+            return $this->client->supports($apiType, $format, $httpMethod);
         }
 
         return false;

@@ -48,10 +48,14 @@ class GetJsonClient extends AbstractClient
 
     /**
      * {@inheritDoc}
+     *
+     * @param string $apiType
+     * @param string $format
+     * @param string $httpMethod
      */
-    public function supports(string $apiType, string $format): bool
+    public function supports(string $apiType, string $format, string $httpMethod): bool
     {
-        return $apiType === self::API_TYPE_JSON && $format === self::FORMAT_JSON;
+        return $apiType === self::API_TYPE_JSON && $format === self::FORMAT_JSON && $httpMethod === self::HTTP_METHOD_GET;
     }
 
     /**

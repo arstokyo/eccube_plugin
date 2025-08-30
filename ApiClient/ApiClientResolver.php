@@ -45,13 +45,14 @@ class ApiClientResolver
      *
      * @param string $apiType
      * @param string $format
+     * @param string $httpMethod
      *
      * @return ClientInterface|null
      */
-    public function resolve(string $apiType, string $format): ?ClientInterface
+    public function resolve(string $apiType, string $format, string $httpMethod): ?ClientInterface
     {
         foreach ($this->clients as $client) {
-            if ($client instanceof ApiTypeSupportInterface && $client->supports($apiType, $format)) {
+            if ($client instanceof ApiTypeSupportInterface && $client->supports($apiType, $format, $httpMethod)) {
                 return clone $client; // Return a clone to avoid state pollution
             }
         }

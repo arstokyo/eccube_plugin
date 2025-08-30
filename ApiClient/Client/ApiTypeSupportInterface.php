@@ -23,8 +23,9 @@ interface ApiTypeSupportInterface
      *
      * @param string $apiType
      * @param string $format
+     * @param string $httpMethod
      *
      * @return bool
      */
-    public function supports(string $apiType, string $format): bool;
+    public function supports(string $apiType, string $format, string $httpMethod): bool;
 }

@@ -48,9 +48,9 @@ class PostSoapXmlClient extends AbstractClient
         return self::FORMAT_XML;
     }
 
-    public function supports(string $apiType, string $format): bool
+    public function supports(string $apiType, string $format, string $httpMethod): bool
     {
-        return $apiType === self::API_TYPE_SOAP && $format === self::FORMAT_XML;
+        return $apiType === self::API_TYPE_SOAP && $format === self::FORMAT_XML && $httpMethod === self::HTTP_METHOD_POST;
     }
 
     public function send(): Response\ResponseInterface

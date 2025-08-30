@@ -115,8 +115,9 @@ abstract class AceMethodAbstract implements AceMethodInterface
     {
         $apiType = $this->getApiType();
         $format = $this->getRequestFormat();
+        $httpMethod = $this->getHttpMethod();
 
-        $client = $clientResolver->resolve($apiType, $format);
+        $client = $clientResolver->resolve($apiType, $format, $httpMethod);
 
         if (!$client) {
             throw new InvalidClassNameException(sprintf('No suitable client found for API type: %s, format: %s', $apiType, $format));
@@ -156,6 +157,23 @@ abstract class AceMethodAbstract implements AceMethodInterface
             return $methodConfig['default_request_format'] ?? ClientInterface::FORMAT_XML;
         } catch (\Exception $e) {
             return ClientInterface::FORMAT_XML; // Fallback default
+        }
+    }
+
+    /**
+     * Get request HTTP method for this method
+     * Returns configured default from ace.method parameters or can be overridden by subclasses
+     *
+     * @return string
+     */
+    protected function getHttpMethod(): string
+    {
+        try {
+            $methodConfig = $this->parameterBag->get('ace.method');
+
+            return $methodConfig['default_request_httpMethod'] ?? ClientInterface::HTTP_METHOD_POST;
+        } catch (\Exception $e) {
+            return ClientInterface::HTTP_METHOD_POST; // Fallback default
         }
     }
 
