@@ -30,12 +30,13 @@ class AceDateTime implements AceDateTimeInterface
         '平成' => 1988,
         '令和' => 2018,
     ];
+
     private array $aceDateTimeFormats = ['!Ymd', 'YmdHis', '!Ym'];
 
     /**
-     * @var \DateTime
+     * @var \DateTimeInterface
      */
-    private \DateTime $dateTime;
+    private \DateTimeInterface $dateTime;
 
     /**
      * @var string
@@ -61,15 +62,15 @@ class AceDateTime implements AceDateTimeInterface
     /**
      * Create new DateTime object
      *
-     * @param string|\DateTime $dateTime
+     * @param string|\DateTimeInterface $dateTime
      *
      * @return \DateTime
      *
      * @throws AceDateTimeCreateFailedException
      */
-    private function createNewDateTime($dateTime): \DateTime
+    private function createNewDateTime($dateTime): \DateTimeInterface
     {
-        if ($dateTime instanceof \DateTime) {
+        if ($dateTime instanceof \DateTimeInterface) {
             return $dateTime;
         }
 
@@ -172,6 +173,11 @@ class AceDateTime implements AceDateTimeInterface
     public function toApiDateTime(): string
     {
         return $this->dateTime->format($this->targetNormalizeFormat);
+    }
+
+    public function toWebApiDateTime(): string
+    {
+        return $this->dateTime->format('Y-m-d\TH:i:s');
     }
 
     /**

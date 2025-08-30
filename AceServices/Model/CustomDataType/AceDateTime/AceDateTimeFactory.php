@@ -39,7 +39,7 @@ class AceDateTimeFactory
             return null;
         }
 
-        if (!(is_string($dateTime) || $dateTime instanceof \DateTime)) {
+        if (!(is_string($dateTime) || $dateTime instanceof \DateTimeInterface)) {
             throw new DataTypeMissMatchException(sprintf('The dateTime must be a string or an instance of %s', \DateTime::class));
         }
 

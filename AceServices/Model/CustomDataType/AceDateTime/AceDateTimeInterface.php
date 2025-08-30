@@ -105,4 +105,6 @@ interface AceDateTimeInterface extends \Stringable
      * @return \DateTime
      */
     public function toDateTime(): \DateTime;
+
+    public function toWebApiDateTime(): string;
 }
