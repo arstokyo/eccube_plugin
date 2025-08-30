@@ -57,7 +57,10 @@ class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareI
             throw new DataTypeMissMatchException('AsListDenormalizer Error: Expected AsListDenormalizableInterface object');
         }
 
-        $this->cachePath[] = $context['deserialization_path'];
+        if (isset($context['deserialization_path'])) {
+            $this->cachePath[] = $context['deserialization_path'];
+        }
+
         $asListProperty = $type::fetchAsListProperty();
 
         foreach ($asListProperty as $key => $value) {
@@ -84,13 +87,22 @@ class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareI
                     $data[$key] = $this->denormalizer->denormalize($value, $asListProperty[$key].'[]', $format, $subContext);
                 }
             }
-            $result = $this->denormalizer->denormalize($data, $type, $format, $context);
+
+            // 一度配列→オブジェクト配列への展開が完了した印としてフラグを付与し、再入を防止
+            $finalContext = $context;
+            $finalContext['__as_list_done'] = true;
+
+            $result = $this->denormalizer->denormalize($data, $type, $format, $finalContext);
         } catch (\Throwable $e) {
-            $this->unsetCachePath($context['deserialization_path']);
+            if (isset($context['deserialization_path'])) {
+                $this->unsetCachePath($context['deserialization_path']);
+            }
             throw new NotDeserializableException(sprintf('Could not deserialize as list response. %s', $e->getMessage()), $e);
         }
 
-        $this->unsetCachePath($context['deserialization_path']);
+        if (isset($context['deserialization_path'])) {
+            $this->unsetCachePath($context['deserialization_path']);
+        }
 
         return $result;
     }
@@ -112,11 +124,29 @@ class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareI
     /**
      * {@inheritdoc}
      *
-     * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+     * 1) 対象クラスが AsListDenormalizableInterface を実装しているか確認
+     * 2) 既に一次展開済みの場合は、ただ委譲する（再入防止・後続処理継続）
+     * 3) 無限ループ回避のため、キャッシュ済みの deserialization_path と一致する場合は false を返す
      */
     public function supportsDenormalization($data, string $type, ?string $format = null, array $context = []): bool
     {
-        return \in_array(AsListDenormalizableInterface::class, class_implements($type), true) && isset($context['deserialization_path']) && !\in_array($context['deserialization_path'], $this->cachePath);
+        // 1) インターフェース実装確認
+        if (!\in_array(AsListDenormalizableInterface::class, class_implements($type), true)) {
+            return false;
+        }
+
+        // 2) 既に一次展開済みの場合は、ただ委譲する（再入防止・後続処理継続）
+        if (isset($context['__as_list_done']) && $context['__as_list_done'] === true) {
+            return false;
+        }
+
+        // 3) 無限ループ回避: キャッシュと現在のパスが一致していれば処理しない
+        if (isset($context['deserialization_path'])) {
+            return !\in_array($context['deserialization_path'], $this->cachePath, true);
+        }
+
+        // パス情報がない場合は許可
+        return true;
     }
 
     /**
