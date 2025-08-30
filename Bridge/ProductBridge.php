@@ -15,12 +15,16 @@ namespace Plugin\AceClient43\Bridge;
 
 use Plugin\AceClient43\AceServices\AceMethod\Goods\GetGoodsMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Goods\GetZaikoMethod;
+use Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GetStockByUpdateMethod;
 use Plugin\AceClient43\AceServices\Model\Request\Goods\GetGoods as RequestGetGoods;
 use Plugin\AceClient43\AceServices\Model\Request\Goods\GetGoods\IdPrmModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Goods\GetGoods\OptionsModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Goods\GetZaiko as RequestGetZaiko;
+use Plugin\AceClient43\AceServices\Model\Request\WebApi\Goods\V1\GetStockByUpdate\V1GetStockByUpdateRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Goods\GetGoods as ResponseGetGoods;
 use Plugin\AceClient43\AceServices\Model\Response\Goods\GetZaiko as ResponseGetZaiko;
+use Plugin\AceClient43\AceServices\Model\Response\WebApi\Goods\V1\GetStockByUpdate\V1GetStockByUpdateItemModel;
+use Plugin\AceClient43\AceServices\Model\Response\WebApi\Goods\V1\GetStockByUpdate\V1GetStockByUpdateResponseModelInterface;
 
 class ProductBridge extends BaseBridge
 {
@@ -28,12 +32,16 @@ class ProductBridge extends BaseBridge
 
     private GetZaikoMethod $getZaikoMethod;
 
+    private V1GetStockByUpdateMethod $v1GetStockByUpdateMethod;
+
     public function __construct(
         GetGoodsMethod $getGoodsMethod,
         GetZaikoMethod $getZaikoMethod,
+        V1GetStockByUpdateMethod $v1GetStockByUpdateMethod,
     ) {
         $this->getGoodsMethod = $getGoodsMethod;
         $this->getZaikoMethod = $getZaikoMethod;
+        $this->v1GetStockByUpdateMethod = $v1GetStockByUpdateMethod;
     }
 
     /**
@@ -166,5 +174,89 @@ class ProductBridge extends BaseBridge
         } catch (\Throwable $e) {
             throw new \RuntimeException('在庫情報の取得に失敗しました。', 0, $e);
         }
+    }
+
+    /**
+     * 更新日時で在庫一覧（WebApi v1）を取得します（JSON GET）。
+     *
+     * @param \DateTimeInterface $updateFrom
+     * @param \DateTimeInterface|null $toDate
+     * @param string|null $skid
+     * @param int $page
+     * @param int $limit
+     *
+     * @return V1GetStockByUpdateItemModel[]
+     */
+    public function getStockByUpdateV1(
+        \DateTimeInterface $updateFrom,
+        ?\DateTimeInterface $toDate = null,
+        ?string $skid = null,
+        int $page = 1,
+        int $limit = 300,
+    ): array {
+        /** @var V1GetStockByUpdateRequestModelInterface $requestModel */
+        $requestModel = $this->createRequestModel(V1GetStockByUpdateRequestModelInterface::class);
+        $request = $requestModel
+            ->setSyid($this->getSyid())
+            ->setUpdateFrom($updateFrom)
+            ->setToDate($toDate)
+            ->setSkid($skid)
+            ->setPage($page)
+            ->setLimit($limit);
+
+        try {
+            $response = $this->v1GetStockByUpdateMethod
+                ->withRequest($request)
+                ->send();
+
+            if (!$response->isOk()) {
+                throw new \RuntimeException(sprintf('在庫一覧（更新日）取得に失敗しました。(レスポンスコード：%s)', $response->getStatusCode()));
+            }
+
+            /** @var V1GetStockByUpdateResponseModelInterface $model */
+            $model = $response->getResponse();
+
+            return $model->getItems();
+        } catch (\Throwable $e) {
+            throw new \RuntimeException('在庫一覧（更新日）の取得に失敗しました。', 0, $e);
+        }
+    }
+
+    /**
+     * 更新日時で在庫一覧（WebApi v1）を取得します（ページ情報付きレスポンス）。
+     *
+     * ループ処理などでページネーション制御が必要な場合に使用してください。
+     *
+     * @return V1GetStockByUpdateResponseModelInterface
+     */
+    public function getStockByUpdateV1Response(
+        \DateTimeInterface $updateFrom,
+        ?\DateTimeInterface $toDate = null,
+        ?string $skid = null,
+        int $page = 1,
+        int $limit = 300,
+    ): V1GetStockByUpdateResponseModelInterface {
+        /** @var V1GetStockByUpdateRequestModelInterface $requestModel */
+        $requestModel = $this->createRequestModel(V1GetStockByUpdateRequestModelInterface::class);
+        $request = $requestModel
+            ->setSyid($this->getSyid())
+            ->setUpdateFrom($updateFrom)
+            ->setToDate($toDate)
+            ->setSkid($skid)
+            ->setPage($page)
+            ->setLimit($limit);
+
+        $response = $this->v1GetStockByUpdateMethod
+            ->withRequest($request)
+            ->send();
+
+        if (!$response->isOk()) {
+            throw new \RuntimeException(sprintf('在庫一覧（更新日）取得に失敗しました。(レスポンスコード：%s)', $response->getStatusCode()));
+        }
+
+        /** @var V1GetStockByUpdateResponseModelInterface $model */
+        $model = $response->getResponse();
+
+        return $model;
     }
 }
