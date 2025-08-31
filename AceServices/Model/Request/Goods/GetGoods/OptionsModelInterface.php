@@ -94,4 +94,8 @@ interface OptionsModelInterface
      * @return self
      */
     public function setIncludeZaiko(?bool $includeZaiko): self;
+
+    public function setIncludeZaikoSkid(?int $includeZaikoSkid): self;
+
+    public function getIncludeZaikoSkid(): ?int;
 }

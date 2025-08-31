@@ -54,6 +54,13 @@ class OptionsModel implements OptionsModelInterface
     private ?bool $includeZaiko = null;
 
     /**
+     * @var int|null
+     *
+     * @SerializedName("include_zaiko_skid")
+     */
+    protected ?int $includeZaikoSkid = null;
+
+    /**
      * {@inheritDoc}
      */
     public function getReturnGoodsKubun(): ?string
@@ -146,5 +153,17 @@ class OptionsModel implements OptionsModelInterface
         $this->includeZaiko = $includeZaiko;
 
         return $this;
+    }
+
+    public function setIncludeZaikoSkid(?int $includeZaikoSkid): self
+    {
+        $this->includeZaikoSkid = $includeZaikoSkid;
+
+        return $this;
+    }
+
+    public function getIncludeZaikoSkid(): ?int
+    {
+        return $this->includeZaikoSkid;
     }
 }

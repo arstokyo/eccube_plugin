@@ -72,6 +72,11 @@ class ProductBridge extends BaseBridge
             $optionModel->setIncludeZaiko(true);
         }
 
+        // TODO: Change the domain _product_import_helper to _get_goods on local domain (getAll)
+        if (isset($options['_product_import_helper.import_stock_skid']) && 0 < $importSkid = (int) $options['_product_import_helper.import_stock_skid']) {
+            $optionModel->setIncludeZaikoSkid($importSkid);
+        }
+
         if (isset($options['_get_goods.extra_fields']) && $options['_get_goods.extra_fields']) {
             $optionModel->setExtraFields($options['_get_goods.extra_fields']);
         }
