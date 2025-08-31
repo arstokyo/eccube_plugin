@@ -4,7 +4,7 @@ namespace Plugin\AceClient43\Bridge\DataConverter;
 
 use Eccube\Entity\Customer;
 
-class CustomerAceNormalizer
+class CustomerAceNormalizer implements CustomerAceNormalizerInterface
 {
     /**
      * EC -> ACE: 氏名をACE送信用の形式へ整形（姓　名の結合 + KVA）

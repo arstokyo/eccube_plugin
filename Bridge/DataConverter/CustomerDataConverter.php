@@ -25,12 +25,12 @@ class CustomerDataConverter implements CustomerDataConverterInterface
 
     protected PrefRepository $prefRepository;
 
-    protected CustomerAceNormalizer $normalizer;
+    protected CustomerAceNormalizerInterface $normalizer;
 
     public function __construct(
         SexRepository $sexRepository,
         PrefRepository $prefRepository,
-        CustomerAceNormalizer $normalizer,
+        CustomerAceNormalizerInterface $normalizer,
     ) {
         $this->sexRepository = $sexRepository;
         $this->prefRepository = $prefRepository;
