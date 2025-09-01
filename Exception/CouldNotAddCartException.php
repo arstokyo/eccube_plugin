@@ -418,4 +418,76 @@ class CouldNotAddCartException extends AceApiMessageException
                 || mb_strpos($m1, '受注枝番が未指定です') !== false
             );
     }
+
+    /**
+     * ユーザー向けの表示メッセージを取得（フレンドリー文言に変換）
+     *
+     * - 個人/全体販売数の上限超過エラー時は、翻訳キーへGDIDと上限数量を埋め込んだ文言を返す。
+     *   - 個人販売数: ace_client.add_cart.error.perCustomerSale
+     *   - 全体販売数: ace_client.add_cart.error.globalSale
+     * - 上記以外は message1（なければ例外のメッセージ）を返す。
+     *
+     * @return string
+     */
+    public function getUserMessage(): string
+    {
+        $info = $this->getExceededLimitInfo();
+
+        if ($this->isPerCustomerSalesLimitExceededError() && is_array($info)) {
+            return trans('ace_client.add_cart.error.perCustomerSale', [
+                '%gdid%' => (string) $info['gdid'],
+                '%quantity%' => (int) $info['max'],
+            ]);
+        }
+
+        if ($this->isGlobalSalesLimitExceededError() && is_array($info)) {
+            return trans('ace_client.add_cart.error.globalSale', [
+                '%gdid%' => (string) $info['gdid'],
+                '%quantity%' => (int) $info['max'],
+            ]);
+        }
+
+        // fallback: 元のメッセージを返す
+        return $this->message1 ?: $this->getMessage();
+    }
+
+    /**
+     * 購入上限超過（個人/全体）エラーのメッセージから、対象商品GDIDと上限数量を抽出する。
+     *
+     * 想定メッセージ形式:
+     *  - 「この商品 (GDID) GNAME は合計(X)です。全体販売数(Y)を超えています。」
+     *  - 「この商品 (GDID) GNAME は合計(X)です。個人販売数(Y)を超えています。」
+     *
+     * 返却値:
+     *  - ['gdid' => string, 'max' => int] を返す。抽出できない場合は null を返す。
+     *
+     * 注意:
+     *  - GDID は括弧内「この商品 ( ... )」から抽出する。
+     *  - 上限数量は「全体販売数(…)」または「個人販売数(…)」の括弧内の数値を抽出する。
+     */
+    public function getExceededLimitInfo(): ?array
+    {
+        $m1 = (string) ($this->getMessage1() ?? '');
+        if ($m1 === '') {
+            return null;
+        }
+
+        // GDID を抽出: 「この商品 (XXXX)」
+        $gdid = null;
+        if (preg_match('/この商品\s*\(\s*([^)]+)\s*\)/u', $m1, $gm)) {
+            $gdid = trim($gm[1]);
+        }
+
+        // 上限数量を抽出: 「全体販売数(N)」または「個人販売数(N)」
+        $max = null;
+        if (preg_match('/(全体販売数|個人販売数)\(\s*([0-9]+)\s*\)/u', $m1, $mm)) {
+            $max = (int) $mm[2];
+        }
+
+        if ($gdid !== null && $max !== null) {
+            return ['gdid' => $gdid, 'max' => $max];
+        }
+
+        return null;
+    }
 }
