@@ -448,6 +448,14 @@ class CouldNotAddCartException extends AceApiMessageException
         }
 
         // fallback: 元のメッセージを返す
+        return $this->getOriginalMessage();
+    }
+
+    /**
+     * オリジナルメッセージを取得する
+     */
+    public function getOriginalMessage(): string
+    {
         return $this->message1 ?: $this->getMessage();
     }
 
