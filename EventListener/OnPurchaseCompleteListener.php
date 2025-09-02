@@ -38,6 +38,10 @@ class OnPurchaseCompleteListener implements EventSubscriberInterface
             } catch (\Throwable $e) {
                 log_error('[注文処理] 注文処理中にエラーが発生しました.', [$e->getMessage()]);
 
+                if ($e instanceof CouldNotCreateOrderException) {
+                    throw $e;
+                }
+
                 throw new CouldNotCreateOrderException('通販Aceの注文処理中にエラーが発生しました.', $e);
             }
         }

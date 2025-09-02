@@ -15,6 +15,7 @@ namespace Plugin\AceClient43\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Eccube\Annotation\EntityExtension;
+use Eccube\Entity\CustomerAddress;
 
 /**
  * @EntityExtension("Eccube\Entity\Customer")
@@ -60,5 +61,12 @@ trait CustomerTrait
     public function hasAceCustomerId(): bool
     {
         return !empty($this->ace_customer_id);
+    }
+
+    public function getCustomerAddressByEdaNo(int $edaNo): ?CustomerAddress
+    {
+        return $this->getCustomerAddresses()->filter(function ($customerAddress) use ($edaNo) {
+            return $customerAddress->getEdaNo() === $edaNo;
+        })->first();
     }
 }
