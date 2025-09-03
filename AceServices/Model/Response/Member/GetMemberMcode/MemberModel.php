@@ -16,7 +16,6 @@ namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode;
 use Plugin\AceClient43\AceServices\Model\Dependency\Mail\FiveMelmagaTrait;
 use Plugin\AceClient43\AceServices\Model\Dependency\Person\PersonLevel6ExtractTrait;
 use Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC\MobileIdTrait;
-use Plugin\AceClient43\AceServices\Model\Request\Member\UpdateTaikai\UpdateTaikaiRequestModelInterface;
 
 /**
  * Class for Member Model
@@ -28,22 +27,4 @@ class MemberModel implements MemberModelInterface
     use PersonLevel6ExtractTrait;
     use FiveMelmagaTrait;
     use MobileIdTrait;
-
-    /**
-     *  入会中
-     */
-    public function isActiveMember(): bool
-    {
-        return $this->getTaikai() == UpdateTaikaiRequestModelInterface::TAIKAI_ACTIVE;
-    }
-
-    public function hasUserId(): bool
-    {
-        return !empty($this->getUserId());
-    }
-
-    public function resolveEmail(): ?string
-    {
-        return !empty($this->getMail()) ? $this->getMail() : ($this->getMail1() ?: null);
-    }
 }

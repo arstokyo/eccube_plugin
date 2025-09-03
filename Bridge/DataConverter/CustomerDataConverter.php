@@ -107,10 +107,7 @@ class CustomerDataConverter implements CustomerDataConverterInterface
         $this->normalizer->parseAceFullNameToEc($jmember->getKana(), $customer, 'kana');
 
         // Resolve email: prefer UserId if it is a valid email, otherwise use Mail
-        $email = $this->resolveEmail(
-            $jmember->getUserid(),
-            method_exists($jmember, 'getMail') ? $jmember->getMail() : null
-        );
+        $email = $jmember->resolveEmail();
 
         // Set basic information
         $customer
@@ -145,7 +142,7 @@ class CustomerDataConverter implements CustomerDataConverterInterface
         $this->normalizer->parseAceFullNameToEc($jmember->getKana(), $customer, 'kana');
 
         // Resolve email: prefer UserId if it is a valid email, otherwise use Mail
-        $email = $this->resolveEmail($jmember->getUserid(), $jmember->getMail());
+        $email = $jmember->resolveEmail();
 
         // Set basic information
         $customer
@@ -197,24 +194,6 @@ class CustomerDataConverter implements CustomerDataConverterInterface
                 $customer->setPref($pref);
             }
         }
-    }
-
-    /**
-     * Prefer $userid if it is a valid email; otherwise, fall back to $mail.
-     *
-     * @param string|null $userid
-     * @param string|null $mail
-     *
-     * @return string
-     */
-    protected function resolveEmail(?string $userid, ?string $mail): string
-    {
-        $userid = trim((string) $userid);
-        if ($userid !== '' && filter_var($userid, FILTER_VALIDATE_EMAIL)) {
-            return $userid;
-        }
-
-        return trim((string) $mail);
     }
 
     /**
