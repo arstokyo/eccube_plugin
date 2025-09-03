@@ -24,4 +24,5 @@ use Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC\HasMobileIdInterf
  */
 interface MemberModelInterface extends PersonLevel6ExtractInterface, HasFiveMelmagaInterface, HasMobileIdInterface
 {
+    public function resolveEmail(): ?string;
 }

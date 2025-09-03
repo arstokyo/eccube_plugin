@@ -41,4 +41,9 @@ class MemberModel implements MemberModelInterface
     {
         return !empty($this->getUserId());
     }
+
+    public function resolveEmail(): ?string
+    {
+        return !empty($this->getMail()) ? $this->getMail() : ($this->getMail1() ?: null);
+    }
 }
