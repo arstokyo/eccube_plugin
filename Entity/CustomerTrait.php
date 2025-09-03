@@ -65,8 +65,8 @@ trait CustomerTrait
 
     public function getCustomerAddressByEdaNo(int $edaNo): ?CustomerAddress
     {
-        return $this->getCustomerAddresses()->filter(function ($customerAddress) use ($edaNo) {
-            return $customerAddress->getEdaNo() === $edaNo;
+        return $this->getCustomerAddresses()->filter(function (CustomerAddress $customerAddress) use ($edaNo) {
+            return $customerAddress->getAceEdaNo() === $edaNo;
         })->first();
     }
 }

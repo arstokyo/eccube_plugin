@@ -15,7 +15,6 @@ namespace Plugin\AceClient43\Bridge;
 
 use Eccube\Entity\Cart;
 use Eccube\Entity\CartItem;
-use Eccube\Entity\Shipping;
 use Eccube\Service\CartService;
 use Plugin\AceClient43\AceServices\AceMethod\Jyuden\AddCartMethod;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\AddCartRequestModelInterface;
@@ -155,16 +154,13 @@ class CartBridge extends BaseBridge
     /**
      * @param AddCartRequestModelInterface $request
      * @param Config $config
-     * @param array $options
-     * @param Cart|null $cart
-     * @param Shipping|null $shipping
      *
      * @return AddCartResponseModelInterface
      *
      * @throws CouldNotAddCartException
      * @throws MissingRequestParameterException
      */
-    public function executeAddCartRequest(AddCartRequestModelInterface $request, Config $config, array $options, ?Cart $cart = null, ?Shipping $shipping = null): AddCartResponseModelInterface
+    public function executeAddCartRequest(AddCartRequestModelInterface $request, Config $config, array $options): AddCartResponseModelInterface
     {
         $response = $this->addCartMethod->withRequest($request)->send();
 
