@@ -146,7 +146,7 @@ class CustomerDataConverter implements CustomerDataConverterInterface
 
         // Set basic information
         $customer
-            ->setPostalCode($jmember->getZip() ?? '')
+            ->setPostalCode($jmember->getZipEccubeFormat())
             ->setAddr01($jmember->getAdr2() ?? '')
             ->setAddr02($jmember->getAdr3() ?? '')
             ->setPhoneNumber($jmember->getTel() ?? '')

@@ -35,7 +35,11 @@ trait ZipTrait
 
     public function getZipEccubeFormat(): ?string
     {
-        return $this->zip ? PostalCodeConverter::FromAceFormat($this->zip) : null;
+        if (!$this->hasZip()) {
+            return null;
+        }
+
+        return PostalCodeConverter::FromAceFormat($this->zip);
     }
 
     /**
@@ -46,5 +50,10 @@ trait ZipTrait
         $this->zip = $zip ? PostalCodeConverter::ToAceFormat($zip) : null;
 
         return $this;
+    }
+
+    public function hasZip(): bool
+    {
+        return !empty($this->zip) && !in_array($this->zip, ['000000', '000-000']);
     }
 }

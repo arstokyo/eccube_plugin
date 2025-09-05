@@ -107,10 +107,6 @@ class CustomerAddressDataConverter implements CustomerAddressDataConverterInterf
         $customerAddress = $this->customerAddressRepository->findOneBy(['Customer' => $customer, 'ace_eda_no' => $aceCustomerAddress->getEda()]);
         $pref = $this->prefRepository->findOneBy(['name' => $aceCustomerAddress->getAdr1()]);
 
-        if (!$pref) {
-            throw new \Exception('[updateCustomerAddressEntityFromAce] Pref not found: '.$aceCustomerAddress->getAdr1());
-        }
-
         if (!$customerAddress) {
             $customerAddress = new CustomerAddress();
             $customerAddress->setCreateDate(new \DateTime());
@@ -121,7 +117,7 @@ class CustomerAddressDataConverter implements CustomerAddressDataConverterInterf
         $customerAddress->setName01($aceCustomerAddress->getSimei());
         $customerAddress->setKana01($aceCustomerAddress->getKana());
         $customerAddress->setPref($pref);
-        $customerAddress->setPostalCode($aceCustomerAddress->getZip());
+        $customerAddress->setPostalCode($aceCustomerAddress->getZipEccubeFormat());
         $customerAddress->setAddr01($aceCustomerAddress->getAdr2());
         $customerAddress->setAddr02($aceCustomerAddress->getAdr3());
         $customerAddress->setPhoneNumber($aceCustomerAddress->getTel());

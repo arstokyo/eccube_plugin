@@ -35,7 +35,7 @@ class GetHaisouAdrsModel implements GetHaisouAdrsModelInterface
     use EdaTrait;
 
     /** @var string 氏名 */
-    private ?string $cnvname = null;
+    protected ?string $cnvname = null;
 
     /**
      * {@inheritDoc}

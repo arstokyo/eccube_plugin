@@ -35,4 +35,8 @@ interface HasZipInterface
      * @return $this
      */
     public function setZip(?string $zip);
+
+    public function hasZip(): bool;
+
+    public function getZipEccubeFormat(): ?string;
 }
