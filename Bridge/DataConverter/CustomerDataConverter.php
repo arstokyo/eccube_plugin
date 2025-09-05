@@ -9,6 +9,7 @@ use Plugin\AceClient43\AceServices\Model\Request\Member\GetMemberMcode as GetMem
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetMemberMcode\GetMemberMcodeRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetRireki as GetRirekiRequest;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetRireki\GetRirekiRequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\Member\GetRirekiDetail as GetRirekiDetailRequest;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetRirekiDetail\GetRirekiDetailRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
@@ -232,7 +233,7 @@ class CustomerDataConverter implements CustomerDataConverterInterface
         return $requestModel
             ->setIdPrm($idPrmModel)
             ->setMcode($aceCustomerId)
-            ->setDispRow(100)
+            ->setDispRow(1000)
             ->setDispPage(1)
             ->setSort(0);
     }
@@ -242,8 +243,11 @@ class CustomerDataConverter implements CustomerDataConverterInterface
         /** @var GetRirekiDetailRequestModelInterface $requestModel */
         $requestModel = $this->createRequestModel(GetRirekiDetailRequestModelInterface::class);
 
+        $idPrmModel = $this->createSubModel(GetRirekiDetailRequest\IdPrmModelInterface::class);
+        $idPrmModel->setSyid($syid);
+
         return $requestModel
-            ->setId($syid)
+            ->setIdPrm($idPrmModel)
             ->setMcode($aceCustomerId)
             ->setDenno($orderId)
             ->setDenku(10);

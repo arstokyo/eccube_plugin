@@ -14,6 +14,7 @@
 namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetRirekiDetail;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelTrait;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetRireki\RirekiModelInterface;
 
 /**
  * Class for MemberModel
@@ -25,6 +26,11 @@ class MemberModel implements MemberModelInterface
     use HasMessageModelTrait;
 
     /**
+     * @var RirekiModelInterface Rireki
+     */
+    private ?RirekiModelInterface $Rireki = null;
+
+    /**
      * @var RirekiDetailModelInterface[]|null RirekiDetail
      */
     private ?array $RirekiDetail = null;
@@ -33,6 +39,22 @@ class MemberModel implements MemberModelInterface
      * @var MailJyudenModelInterface[]|null MailJyuden
      */
     private ?array $MailJyuden = null;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRireki(): RirekiModelInterface
+    {
+        return $this->Rireki;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setRireki(RirekiModelInterface $rireki): void
+    {
+        $this->Rireki = $rireki;
+    }
 
     /**
      * {@inheritDoc}

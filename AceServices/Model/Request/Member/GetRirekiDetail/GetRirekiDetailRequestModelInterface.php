@@ -22,6 +22,21 @@ use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface GetRirekiDetailRequestModelInterface extends RequestModelInterface, NoCategory\HasIdInterface, Denpyo\HasDennoInterface, Denpyo\HasDenkuInterface, NoCategory\HasMcodeInterface
+interface GetRirekiDetailRequestModelInterface extends RequestModelInterface, Denpyo\HasDennoInterface, Denpyo\HasDenkuInterface, NoCategory\HasMcodeInterface
 {
+    /**
+     * Get IdPrm
+     *
+     * @return IdPrmModelInterface
+     */
+    public function getIdPrm(): IdPrmModelInterface;
+
+    /**
+     * Set IdPrm
+     *
+     * @param IdPrmModelInterface $idPrm
+     *
+     * @return self
+     */
+    public function setIdPrm(IdPrmModelInterface $idPrm): self;
 }

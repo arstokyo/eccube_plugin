@@ -11,7 +11,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Plugin\AceClient43\AceServices\Model\Request\Member\GetRireki;
+namespace Plugin\AceClient43\AceServices\Model\Request\Member\GetRirekiDetail;
 
 use Plugin\AceClient43\AceServices\Model\Request\Prm\PrmModelAbstract;
 use Plugin\AceClient43\Exception\MissingRequestParameterException;

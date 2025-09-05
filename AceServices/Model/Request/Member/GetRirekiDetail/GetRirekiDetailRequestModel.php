@@ -17,6 +17,7 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelAbstract;
 use Plugin\AceClient43\Exception\MissingRequestParameterException;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * Class GetRirekiDetailRequestModel
@@ -25,7 +26,6 @@ use Plugin\AceClient43\Exception\MissingRequestParameterException;
  */
 class GetRirekiDetailRequestModel extends RequestModelAbstract implements GetRirekiDetailRequestModelInterface
 {
-    use NoCategory\IdTrait;
     use NoCategory\McodeTrait;
     use Denpyo\DennoTrait;
     use Denpyo\DenkuTrait;
@@ -33,11 +33,36 @@ class GetRirekiDetailRequestModel extends RequestModelAbstract implements GetRir
     public const XML_NODE_NAME = 'getRirekiDetail';
 
     /**
+     * @var IdPrmModelInterface
+     *
+     * @SerializedName("id")
+    */
+    private IdPrmModelInterface $idPrm;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getIdPrm(): IdPrmModelInterface
+    {
+        return $this->idPrm;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setIdPrm(IdPrmModelInterface $idPrm): self
+    {
+        $this->idPrm = $idPrm;
+
+        return $this;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function ensureParameterNotMissing(): void
     {
-        if (!$this->id) {
+        if (!($this->idPrm)) {
             throw new MissingRequestParameterException($this->compilePropertyName('id'));
         }
         if (!$this->mcode) {

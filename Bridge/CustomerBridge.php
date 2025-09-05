@@ -22,6 +22,7 @@ use Plugin\AceClient43\AceServices\Model\Request\Member\UpdateTaikai\UpdateTaika
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode\LoginMemberModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\RegMember\RegMemberResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetRirekiDetail\MemberModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\UpdateTaikai\UpdateTaikaiResponseModelInterface;
 use Plugin\AceClient43\Bridge\Helper\CustomerBridgeHelper;
 use Plugin\AceClient43\Events\Events;
@@ -452,10 +453,10 @@ class CustomerBridge extends BaseBridge
         return $responseObject->getMember()->getRireki() ? $responseObject->getMember()->getRireki() : [];
     }
 
-    public function getCustomerOrderHistoryDetail(Customer $customer, string $orderId): array
+    public function getCustomerOrderHistoryDetail(Customer $customer, string $orderId): ?MemberModelInterface
     {
         $responseObject = $this->helper->getCustomerOrderHistoryDetail($customer->getAceCustomerId(), $orderId, $this->getSyid());
 
-        return $responseObject->getMember()->getRirekiDetail() ? $responseObject->getMember()->getRirekiDetail() : [];
+        return $responseObject->getMember()->getRirekiDetail() ? $responseObject->getMember() : null;
     }
 }
