@@ -3,3 +3,6 @@ ace_client.add_cart:
         perCustomerSale: "この商品（%gdid%）は、お一人様あたり上限（%quantity%）点までご購入いただけます。数量をご確認ください。"
         globalSale: "この商品（%gdid%）は、全体の販売上限（%quantity%）点までご購入いただけます。数量をご確認ください。"
 
+ace_client.admin:
+    customer:
+        label.ace_customer_id: Ace顧客ID
