@@ -20,8 +20,17 @@ class OnPurchaseCompleteEvent extends Event
 {
     public Order $Order;
 
-    public function __construct(Order $Order)
+    public array $decisionOptions = [];
+
+    public bool $shouldFlush = false;
+
+    public array $options = [];
+
+    public function __construct(Order $Order, array $decisionOptions = [], bool $shouldFlush = false, array $options = [])
     {
         $this->Order = $Order;
+        $this->decisionOptions = $decisionOptions;
+        $this->shouldFlush = $shouldFlush;
+        $this->options = $options;
     }
 }

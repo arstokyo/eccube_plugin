@@ -101,11 +101,12 @@ class OrderBridge extends BaseBridge
      *
      * @param Shipping $shipping
      * @param array $decisionOptions DecisionCart 用オプション（例: ['returnJdKubun' => [100001], 'returnJmKubun' => [200001]]）
+     * @param bool $shouldFlush
      * @param array $options 任意の追加オプション（イベントリスナ用）
      *
      * @throws CouldNotCreateOrderException
      */
-    public function create(Shipping $shipping, array $decisionOptions = [], array $options = []): void
+    public function create(Shipping $shipping, array $decisionOptions = [], bool $shouldFlush = false, array $options = []): void
     {
         $config = $this->aceConfigService->getConfig();
 
@@ -159,6 +160,12 @@ class OrderBridge extends BaseBridge
                     new PostCreateOrderEvent($apiResponse, $shipping, $options),
                     Events::POST_CREATE_ORDER
                 );
+            }
+
+            $this->em->persist($order);
+
+            if ($shouldFlush) {
+                $this->em->flush();
             }
         } catch (\Throwable $e) {
             if ($e instanceof CouldNotCreateOrderException) {

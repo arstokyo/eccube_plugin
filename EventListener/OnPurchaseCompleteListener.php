@@ -31,10 +31,13 @@ class OnPurchaseCompleteListener implements EventSubscriberInterface
     public function onComplete(OnPurchaseCompleteEvent $event): void
     {
         $Order = $event->Order;
+        $decisionOptions = $event->decisionOptions;
+        $options = $event->options;
+        $shouldFlush = $event->shouldFlush;
 
         foreach ($Order->getShippings() as $Shipping) {
             try {
-                $this->orderBridge->create($Shipping);
+                $this->orderBridge->create($Shipping, $decisionOptions, $shouldFlush, $options);
             } catch (\Throwable $e) {
                 log_error('[注文処理] 注文処理中にエラーが発生しました.', [$e->getMessage()]);
 
