@@ -17,7 +17,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 interface OptionsModelInterface
 {
-    public const DENKU = 10;
+    /**
+     * 伝票区分: 10 受注
+     */
+    public const DENKU_ORDER = 10;
 
     /**
      * Get ReturnJdFreeKubuns
