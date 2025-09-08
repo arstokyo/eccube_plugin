@@ -20,6 +20,8 @@ class OptionsModel implements OptionsModelInterface
 {
     private ?string $returnJdFreeKubuns = null;
 
+    private ?int $denku = null;
+
     /**
      * {@inheritDoc}
      */
@@ -39,6 +41,17 @@ class OptionsModel implements OptionsModelInterface
             $this->returnJdFreeKubuns = '';
         }
 
+        return $this;
+    }
+
+    public function getDenku(): ?int
+    {
+        return $this->denku;
+    }
+
+    public function setDenku(?int $denku): self
+    {
+        $this->denku = $denku;
         return $this;
     }
 }

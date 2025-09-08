@@ -34,4 +34,20 @@ interface OptionsModelInterface
      * @return self
      */
     public function setReturnJdFreeKubuns(?array $returnJdFreeKubuns): self;
+
+    /**
+     * Get Denku
+     *
+     * @return int
+     */
+    public function getDenku(): ?int;
+
+    /**
+     * Set Denku
+     *
+     * @param int $denku
+     *
+     * @return self
+     */
+    public function setDenku(?int $denku): self;
 }
