@@ -17,6 +17,8 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 interface OptionsModelInterface
 {
+    public const DENKU = 10;
+
     /**
      * Get ReturnJdFreeKubuns
      *
