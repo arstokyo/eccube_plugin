@@ -204,13 +204,14 @@ class OrderHelper extends BaseOrderHelper
     /**
      * @param Cart $Cart
      * @param Customer $Customer
+     * @param bool $shouldJoin JOIN を利用して受注情報を取得する場合は true
      *
      * @return Order|null
      */
-    public function initializeOrder(Cart $Cart, Customer $Customer)
+    public function initializeOrder(Cart $Cart, Customer $Customer, bool $shouldJoin = false)
     {
         // 購入処理中の受注情報を取得
-        if ($Order = $this->getPurchaseProcessingOrder($Cart->getPreOrderId())) {
+        if ($Order = $this->getPurchaseProcessingOrder($Cart->getPreOrderId(), $shouldJoin)) {
             $this->cartOrderSyncService->syncOrderFromCart($Cart, $Order, true);
 
             return $Order;
@@ -221,5 +222,29 @@ class OrderHelper extends BaseOrderHelper
         $Cart->setPreOrderId($Order->getPreOrderId());
 
         return $Order;
+    }
+
+    /**
+     * 購入処理中の受注を取得する.
+     *
+     * @param string|null $preOrderId
+     * @param bool $shouldJoin JOIN を利用して受注情報を取得する場合は true
+     *
+     * @return Order|null
+     */
+    public function getPurchaseProcessingOrder($preOrderId = null, bool $shouldJoin = false)
+    {
+        if (null === $preOrderId) {
+            return null;
+        }
+
+        if ($shouldJoin && method_exists($this->orderRepository, 'getPurchaseProcessingOrderWithJoin')) {
+            return $this->orderRepository->getPurchaseProcessingOrderWithJoin($preOrderId);
+        }
+
+        return $this->orderRepository->findOneBy([
+            'pre_order_id' => $preOrderId,
+            'OrderStatus' => OrderStatus::PROCESSING,
+        ]);
     }
 }
