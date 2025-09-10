@@ -111,6 +111,37 @@ class CartService extends BaseCartService
     }
 
     /**
+     * カート情報を取得します.
+     *
+     * @param bool $shouldJoin カート取得時に結合を行うかどうか
+     *
+     * @return Cart|null カート情報が存在する場合はCartオブジェクト、存在しない場合はnull
+     */
+    public function getCart(bool $shouldJoin = false)
+    {
+        $Carts = $this->getCarts(false, $shouldJoin);
+
+        if (empty($Carts)) {
+            return null;
+        }
+
+        $cartKeys = $this->session->get('cart_keys', []);
+        $Cart = null;
+        if (count($cartKeys) > 0) {
+            foreach ($Carts as $cart) {
+                if ($cart->getCartKey() === current($cartKeys)) {
+                    $Cart = $cart;
+                    break;
+                }
+            }
+        } else {
+            $Cart = $Carts[0];
+        }
+
+        return $Cart;
+    }
+
+    /**
      * 永続化されたカートを返す (JOIN されたデータを取得)
      *
      * CartItem, ProductClass, ClassCategory を JOIN して取得する永続化されたカートの配列を返します

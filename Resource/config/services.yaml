@@ -483,13 +483,6 @@ services:
         decorates: Eccube\Service\OrderHelper
         decoration_priority: 10
 
-    # Inject a service locator into Customize\Service\Order\OrderHelperDecorator to break circular ref with OrderBridge
-    Customize\Service\Order\OrderHelperDecorator:
-        calls:
-            - setOrderBridgeLocator:
-                - !service_locator
-                  orderBridge: '@Plugin\AceClient43\Bridge\OrderBridge'
-
     # Logger
     Plugin\AceClient43\Util\Logger\LineFormatter:
         arguments:
