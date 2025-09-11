@@ -14,10 +14,13 @@
 namespace Plugin\AceClient43\Events\EccubeEvents;
 
 use Eccube\Entity\Order;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class OnPurchaseCompleteEvent extends Event
 {
+    public Request $request;
+
     public Order $Order;
 
     public array $decisionOptions = [];
@@ -26,8 +29,9 @@ class OnPurchaseCompleteEvent extends Event
 
     public array $options = [];
 
-    public function __construct(Order $Order, array $decisionOptions = [], bool $shouldFlush = false, array $options = [])
+    public function __construct(Order $Order, Request $request, array $decisionOptions = [], bool $shouldFlush = false, array $options = [])
     {
+        $this->request = $request;
         $this->Order = $Order;
         $this->decisionOptions = $decisionOptions;
         $this->shouldFlush = $shouldFlush;
