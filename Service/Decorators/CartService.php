@@ -261,17 +261,32 @@ class CartService extends BaseCartService
 
     protected function restoreCarts($cartItems)
     {
-        $maxRetries = $this->saveMaxRetries;
-        $attempt = 0;
+        $prevCart = $this->getCarts()[0] ?? null;
+        foreach ($this->getCarts() as $Cart) {
+            foreach ($Cart->getCartItems() as $i) {
+                $this->entityManager->remove($i);
+                $this->entityManager->flush();
+            }
+            $this->entityManager->remove($Cart);
+            $this->entityManager->flush();
+        }
+        $this->carts = [];
 
-        while (true) {
-            $conn = $this->entityManager->getConnection();
+        /** @var Cart[] $Carts */
+        $Carts = [];
 
-            try {
-                $conn->beginTransaction();
+        foreach ($cartItems as $item) {
+            $allocatedId = $this->cartItemAllocator->allocate($item);
+            $cartKey = $this->createCartKey($allocatedId, $this->getUser());
 
-                $prevCart = $this->getCarts()[0] ?? null;
-                foreach ($this->getCarts() as $Cart) {
+            if (isset($Carts[$cartKey])) {
+                $Cart = $Carts[$cartKey];
+                $Cart->addCartItem($item);
+                $item->setCart($Cart);
+            } else {
+                /** @var Cart $Cart */
+                $Cart = $this->cartRepository->findOneBy(['cart_key' => $cartKey]);
+                if ($Cart) {
                     foreach ($Cart->getCartItems() as $i) {
                         $this->entityManager->remove($i);
                         $this->entityManager->flush();
@@ -279,86 +294,18 @@ class CartService extends BaseCartService
                     $this->entityManager->remove($Cart);
                     $this->entityManager->flush();
                 }
-                $this->carts = [];
+                $Cart = new Cart();
+                $Cart->setCartKey($cartKey);
+                $Cart->addCartItem($item);
+                $item->setCart($Cart);
 
-                /** @var Cart[] $Carts */
-                $Carts = [];
+                $this->cartOrderSyncService->syncCartFromPrevCart($Cart, $prevCart);
 
-                foreach ($cartItems as $item) {
-                    $allocatedId = $this->cartItemAllocator->allocate($item);
-                    $cartKey = $this->createCartKey($allocatedId, $this->getUser());
-
-                    if (isset($Carts[$cartKey])) {
-                        $Cart = $Carts[$cartKey];
-                        $Cart->addCartItem($item);
-                        $item->setCart($Cart);
-                    } else {
-                        /** @var Cart $Cart */
-                        $Cart = $this->cartRepository->findOneBy(['cart_key' => $cartKey]);
-                        if ($Cart) {
-                            foreach ($Cart->getCartItems() as $i) {
-                                $this->entityManager->remove($i);
-                                $this->entityManager->flush();
-                            }
-                            $this->entityManager->remove($Cart);
-                            $this->entityManager->flush();
-                        }
-                        $Cart = new Cart();
-                        $Cart->setCartKey($cartKey);
-                        $Cart->addCartItem($item);
-                        $item->setCart($Cart);
-
-                        $this->cartOrderSyncService->syncCartFromPrevCart($Cart, $prevCart);
-
-                        $Carts[$cartKey] = $Cart;
-                    }
-                }
-
-                $this->carts = array_values($Carts);
-
-                $conn->commit();
-
-                return;
-            } catch (DeadlockException|LockWaitTimeoutException $e) {
-                log_warning('カート復元時のデッドロック/ロック待ちタイムアウト', [
-                    'attempt' => $attempt + 1,
-                    'max_retries' => $maxRetries,
-                    'exception' => $e,
-                ]);
-
-                if ($conn->isTransactionActive()) {
-                    $conn->rollBack();
-                }
-
-                // 閉じている EM はヘルパーで再初期化、それ以外はクリア
-                if (method_exists($this->entityManager, 'isOpen') && !$this->entityManager->isOpen()) {
-                    log_warning('カート復元時のデッドロック/ロック待ちタイムアウト: EntityManager が close されました。再試行前に復旧します。');
-                    $this->entityManager = EntityManagerResetHelper::resetIfNotOpen(
-                        $this->entityManager,
-                        $this->managerRegistry,
-                        new NullOutput()
-                    );
-                } else {
-                    $this->entityManager->clear();
-                }
-
-                $attempt++;
-                if ($attempt >= $maxRetries) {
-                    log_error('カート復元時のデッドロック/ロック待ちタイムアウト: 最大リトライ回数を超えました。');
-                    throw $e;
-                }
-
-                // エクスポネンシャルバックオフ（ジッター付き 50–250ms × 試行回数）
-                usleep(random_int(50_000, 250_000) * $attempt);
-
-                continue;
-            } catch (\Throwable $e) {
-                if ($conn->isTransactionActive()) {
-                    $conn->rollBack();
-                }
-                throw $e;
+                $Carts[$cartKey] = $Cart;
             }
         }
+
+        $this->carts = array_values($Carts);
     }
 
     public function removeProduct($ProductClass, array $options = [])
@@ -456,7 +403,6 @@ class CartService extends BaseCartService
 
                 $attempt++;
                 if ($attempt >= $maxRetries) {
-                    log_error('カート保存時のデッドロック/ロック待ちタイムアウト: 最大リトライ回数を超えました。');
                     throw $e;
                 }
 
