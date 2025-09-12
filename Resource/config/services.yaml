@@ -120,8 +120,6 @@ parameters:
     ace.log.max_line_length: 50000  # Maximum line length for log messages
 
     ace_client.post_soap_client.extract_max_length: 200000  # Maximum length for SOAP XML response extraction
-    # カート保存時のデッドロック等に対する最大リトライ回数
-    ace.cart.save.max_retries: 3
 
 monolog:
     channels: ['ace_client']
@@ -479,7 +477,6 @@ services:
         decorates: Eccube\Service\CartService
         arguments:
             $cartItemComparator: '@Plugin\AceClient43\Service\Decorators\ProductClassComparator'
-            $cartSaveMaxRetries: '%ace.cart.save.max_retries%'
         decoration_priority: 10
 
     Plugin\AceClient43\Service\Decorators\OrderHelper:

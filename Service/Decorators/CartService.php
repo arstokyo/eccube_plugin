@@ -2,8 +2,6 @@
 
 namespace Plugin\AceClient43\Service\Decorators;
 
-use Doctrine\DBAL\Exception\DeadlockException;
-use Doctrine\DBAL\Exception\LockWaitTimeoutException;
 use Doctrine\ORM\EntityManagerInterface;
 use Eccube\Entity\Cart;
 use Eccube\Entity\CartItem;
@@ -35,11 +33,6 @@ class CartService extends BaseCartService
     protected CartOrderSyncService $cartOrderSyncService;
 
     /**
-     * save() リトライ回数（services.yaml の ace.cart.save.max_retries より注入）
-     */
-    protected int $saveMaxRetries;
-
-    /**
      * CartService constructor.
      *
      * @param Session $session
@@ -66,14 +59,10 @@ class CartService extends BaseCartService
         AuthorizationCheckerInterface $authorizationChecker,
         EventDispatcherInterface $eventDispatcher,
         CartOrderSyncService $cartOrderSyncService,
-        int $cartSaveMaxRetries = 3,
     ) {
         parent::__construct($session, $entityManager, $productClassRepository, $cartRepository, $cartItemComparator, $cartItemAllocator, $orderRepository, $tokenStorage, $authorizationChecker);
         $this->eventDispatcher = $eventDispatcher;
         $this->cartOrderSyncService = $cartOrderSyncService;
-
-        // リトライ回数（設定値から注入、最低1回にクランプ）
-        $this->saveMaxRetries = max(1, (int) $cartSaveMaxRetries);
     }
 
     /**
@@ -332,63 +321,5 @@ class CartService extends BaseCartService
         $this->restoreCarts($allCartItems);
 
         return true;
-    }
-
-    /**
-     * カートを保存する（デッドロック／ロック待ちタイムアウト時はリトライ）
-     *
-     * - リトライ回数は services.yaml の ace.cart.save.max_retries で設定可能
-     * - トランザクションが正常にコミットされた場合のみ、セッションに cart_keys を反映
-     */
-    public function save()
-    {
-        $maxRetries = $this->saveMaxRetries;
-        $attempt = 0;
-        $conn = $this->entityManager->getConnection();
-
-        while (true) {
-            try {
-                $conn->beginTransaction();
-
-                $cartKeys = [];
-                foreach ($this->carts as $Cart) {
-                    $Cart->setCustomer($this->getUser());
-                    $this->entityManager->persist($Cart);
-                    foreach ($Cart->getCartItems() as $item) {
-                        $this->entityManager->persist($item);
-                    }
-                    // 既存のフラッシュ単位（カート単位）は維持
-                    $this->entityManager->flush();
-                    $cartKeys[] = $Cart->getCartKey();
-                }
-
-                $conn->commit();
-
-                // コミット成功後のみセッションへ反映
-                $this->session->set('cart_keys', $cartKeys);
-
-                return;
-            } catch (DeadlockException|LockWaitTimeoutException $e) {
-                // 既知の一時的な同時実行エラーはロールバックして再試行
-                if ($conn->isTransactionActive()) {
-                    $conn->rollBack();
-                }
-                $attempt++;
-                if ($attempt >= $maxRetries) {
-                    throw $e;
-                }
-
-                // エクスポネンシャルバックオフ（ジッター付き 50–250ms × 試行回数）
-                usleep(random_int(50_000, 250_000) * $attempt);
-
-                continue;
-            } catch (\Throwable $e) {
-                // その他の例外はロールバックして即時再送しない
-                if ($conn->isTransactionActive()) {
-                    $conn->rollBack();
-                }
-                throw $e;
-            }
-        }
     }
 }
