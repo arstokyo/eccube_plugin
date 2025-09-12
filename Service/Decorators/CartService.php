@@ -5,6 +5,7 @@ namespace Plugin\AceClient43\Service\Decorators;
 use Doctrine\DBAL\Exception\DeadlockException;
 use Doctrine\DBAL\Exception\LockWaitTimeoutException;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Eccube\Entity\Cart;
 use Eccube\Entity\CartItem;
 use Eccube\Entity\Customer;
@@ -19,6 +20,8 @@ use Eccube\Session\Session;
 use Plugin\AceClient43\Events\EccubeEvents\Events;
 use Plugin\AceClient43\Events\EccubeEvents\OnCartAddProductEvent;
 use Plugin\AceClient43\Service\CartOrderSyncService;
+use Plugin\AceClient43\Service\EntityManagerResetHelper;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -33,6 +36,11 @@ class CartService extends BaseCartService
     protected EventDispatcherInterface $eventDispatcher;
 
     protected CartOrderSyncService $cartOrderSyncService;
+
+    /**
+     * Doctrine レジストリ（EM リセット用）
+     */
+    protected ManagerRegistry $managerRegistry;
 
     /**
      * save() リトライ回数（services.yaml の ace.cart.save.max_retries より注入）
@@ -66,11 +74,13 @@ class CartService extends BaseCartService
         AuthorizationCheckerInterface $authorizationChecker,
         EventDispatcherInterface $eventDispatcher,
         CartOrderSyncService $cartOrderSyncService,
+        ManagerRegistry $managerRegistry,
         int $cartSaveMaxRetries = 3,
     ) {
         parent::__construct($session, $entityManager, $productClassRepository, $cartRepository, $cartItemComparator, $cartItemAllocator, $orderRepository, $tokenStorage, $authorizationChecker);
         $this->eventDispatcher = $eventDispatcher;
         $this->cartOrderSyncService = $cartOrderSyncService;
+        $this->managerRegistry = $managerRegistry;
 
         // リトライ回数（設定値から注入、最低1回にクランプ）
         $this->saveMaxRetries = max(1, (int) $cartSaveMaxRetries);
@@ -369,10 +379,28 @@ class CartService extends BaseCartService
 
                 return;
             } catch (DeadlockException|LockWaitTimeoutException $e) {
+                log_warning('カート保存時のデッドロック/ロック待ちタイムアウト', ['exception' => $e]);
                 // 既知の一時的な同時実行エラーはロールバックして再試行
                 if ($conn->isTransactionActive()) {
                     $conn->rollBack();
                 }
+
+                // 例外発生時に EntityManager が close される場合があるため、再試行前に復旧
+                if (method_exists($this->entityManager, 'isOpen') && !$this->entityManager->isOpen()) {
+                    log_warning('カート保存時のデッドロック/ロック待ちタイムアウト: EntityManager が close されました。再試行前に復旧します。');
+                    // ProductImportHelper と同様にヘルパーで再初期化（Web文脈なので NullOutput を使用）
+                    $this->entityManager = EntityManagerResetHelper::resetIfNotOpen(
+                        $this->entityManager,
+                        $this->managerRegistry,
+                        new NullOutput()
+                    );
+                } else {
+                    // 開いている場合は UnitOfWork をクリアしてクリーンな状態で再試行
+                    $this->entityManager->clear();
+                }
+                // コネクションは念のため取り直す
+                $conn = $this->entityManager->getConnection();
+
                 $attempt++;
                 if ($attempt >= $maxRetries) {
                     throw $e;

@@ -479,6 +479,7 @@ services:
         decorates: Eccube\Service\CartService
         arguments:
             $cartItemComparator: '@Plugin\AceClient43\Service\Decorators\ProductClassComparator'
+            $managerRegistry: '@doctrine'
             $cartSaveMaxRetries: '%ace.cart.save.max_retries%'
         decoration_priority: 10
 
