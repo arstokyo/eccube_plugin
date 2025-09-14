@@ -28,9 +28,9 @@ trait OrderItemTrait
      *
      * @ORM\Column(name="ace_ignore_stock", type="integer", length="1", options={"comment":"通販Aceの在庫を無視するフラグ", "default":true})
      *
-     * @var bool
+     * @var int
      */
-    private bool $ace_ignore_stock = true;
+    private int $ace_ignore_stock = 1;
 
     /**
      * 通販Aceの在庫を無視するフラグを取得
@@ -39,7 +39,7 @@ trait OrderItemTrait
      */
     public function isAceIgnoreStock(): bool
     {
-        return $this->ace_ignore_stock;
+        return (bool) $this->ace_ignore_stock;
     }
 
     /**
@@ -49,9 +49,9 @@ trait OrderItemTrait
      *
      * @return self
      */
-    public function setAceIgnoreStock(bool $ace_ignore_stock): self
+    public function setAceIgnoreStock(bool $ace_ignore_stock): static
     {
-        $this->ace_ignore_stock = $ace_ignore_stock;
+        $this->ace_ignore_stock = $ace_ignore_stock ? 1 : 0;
 
         return $this;
     }
