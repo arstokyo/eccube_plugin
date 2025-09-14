@@ -67,4 +67,13 @@ class NumberConverter
     {
         return (int) str_replace(['.', '。'], '', $value);
     }
+
+    public static function normalizeFloatToString(?float $value, int $scale = 2): ?string
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        return number_format($value, $scale, '.', '');
+    }
 }

@@ -15,6 +15,7 @@ namespace Plugin\AceClient43\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Plugin\AceClient43\Entity\Constants\TransactionType;
+use Plugin\AceClient43\Util\Converter\NumberConverter;
 
 trait BaseCartOrderTrait
 {
@@ -35,34 +36,34 @@ trait BaseCartOrderTrait
     private int $ace_payment_id;
 
     /**
-     * @var float
+     * @var string Ace配送料金（DB decimal を文字列で保持）
      *
      * @ORM\Column(name="ace_delivery_fee", type="decimal", precision=12, scale=2, options={"default":0})
      */
-    private float $ace_delivery_fee = 0;
+    private string $ace_delivery_fee = '0.00';
 
     /**
-     * @var float
+     * @var string Ace割引金額（DB decimal を文字列で保持）
      *
      * @ORM\Column(name="ace_discount_amount", type="decimal", precision=12, scale=2, options={"default":0})
      */
-    private float $ace_discount_amount = 0;
+    private string $ace_discount_amount = '0.00';
 
     /**
-     * @var float
+     * @var string Ace手数料（DB decimal を文字列で保持）
      *
      * @ORM\Column(name="ace_charge_fee", type="decimal", precision=12, scale=2, options={"default":0})
      */
-    private float $ace_charge_fee = 0;
+    private string $ace_charge_fee = '0.00';
 
     /**
      * ACEから返却された付与予定ポイント（自動加算用）
      *
-     * @var float
+     * @var string DB decimal を文字列で保持
      *
      * @ORM\Column(name="ace_earnable_point", type="decimal", precision=12, scale=2, options={"default":0, "comment":"ACEから返却された付与予定ポイント"})
      */
-    private float $ace_earnable_point = 0;
+    private string $ace_earnable_point = '0.00';
 
     /**
      * Ace取引区分を設定
@@ -71,7 +72,7 @@ trait BaseCartOrderTrait
      *
      * @return $this
      */
-    public function setAceTransactionId(int $ace_transaction_type)
+    public function setAceTransactionId(int $ace_transaction_type): static
     {
         $this->ace_transaction_type = $ace_transaction_type;
 
@@ -105,7 +106,7 @@ trait BaseCartOrderTrait
      *
      * @return $this
      */
-    public function setAcePaymentId(int $ace_payment_id)
+    public function setAcePaymentId(int $ace_payment_id): static
     {
         $this->ace_payment_id = $ace_payment_id;
 
@@ -115,13 +116,21 @@ trait BaseCartOrderTrait
     /**
      * Ace配送料金を設定する
      *
+     * - decimal(scale=2) に合わせて小数点以下 2 桁へ正規化して保存します。
+     * - 0 未満は 0 として扱います。
+     * - 同一値の場合は変更しません。
+     *
      * @param float $ace_delivery_fee
      *
      * @return self
      */
-    public function setAceDeliveryFee(float $ace_delivery_fee)
+    public function setAceDeliveryFee(float $ace_delivery_fee): static
     {
-        $this->ace_delivery_fee = max(0, $ace_delivery_fee);
+        $normalized = NumberConverter::normalizeFloatToString(max(0, $ace_delivery_fee));
+        if ($this->ace_delivery_fee === $normalized) {
+            return $this;
+        }
+        $this->ace_delivery_fee = $normalized;
 
         return $this;
     }
@@ -133,19 +142,26 @@ trait BaseCartOrderTrait
      */
     public function getAceDeliveryFee(): ?float
     {
-        return $this->ace_delivery_fee;
+        return (float) $this->ace_delivery_fee;
     }
 
     /**
      * Ace割引金額を設定する
      *
+     * - decimal(scale=2) に合わせて小数点以下 2 桁へ正規化して保存します。
+     * - 同一値の場合は変更しません。
+     *
      * @param float $ace_discount_amount
      *
      * @return $this
      */
-    public function setAceDiscountAmount(float $ace_discount_amount)
+    public function setAceDiscountAmount(float $ace_discount_amount): static
     {
-        $this->ace_discount_amount = $ace_discount_amount;
+        $normalized = NumberConverter::normalizeFloatToString($ace_discount_amount);
+        if ($this->ace_discount_amount === $normalized) {
+            return $this;
+        }
+        $this->ace_discount_amount = $normalized;
 
         return $this;
     }
@@ -157,19 +173,27 @@ trait BaseCartOrderTrait
      */
     public function getAceDiscountAmount(): float
     {
-        return $this->ace_discount_amount;
+        return (float) $this->ace_discount_amount;
     }
 
     /**
      * Ace手数料を設定する
      *
+     * - decimal(scale=2) に合わせて正規化します。
+     * - 0 未満は 0 として扱います。
+     * - 同一値の場合は変更しません。
+     *
      * @param float $ace_charge_fee
      *
      * @return $this
      */
-    public function setAceChargeFee(float $ace_charge_fee)
+    public function setAceChargeFee(float $ace_charge_fee): static
     {
-        $this->ace_charge_fee = max(0, $ace_charge_fee);
+        $normalized = NumberConverter::normalizeFloatToString(max(0, $ace_charge_fee));
+        if ($this->ace_charge_fee === $normalized) {
+            return $this;
+        }
+        $this->ace_charge_fee = $normalized;
 
         return $this;
     }
@@ -181,19 +205,27 @@ trait BaseCartOrderTrait
      */
     public function getAceChargeFee(): float
     {
-        return $this->ace_charge_fee;
+        return (float) $this->ace_charge_fee;
     }
 
     /**
      * ACEから返却された付与予定ポイントを設定
      *
+     * - decimal(scale=2) に合わせて正規化します。
+     * - 0 未満は 0 として扱います。
+     * - 同一値の場合は変更しません。
+     *
      * @param float $point
      *
      * @return $this
      */
-    public function setAceEarnablePoint(float $point)
+    public function setAceEarnablePoint(float $point): static
     {
-        $this->ace_earnable_point = max(0, (float) $point);
+        $normalized = NumberConverter::normalizeFloatToString(max(0, $point));
+        if ($this->ace_earnable_point === $normalized) {
+            return $this;
+        }
+        $this->ace_earnable_point = $normalized;
 
         return $this;
     }
