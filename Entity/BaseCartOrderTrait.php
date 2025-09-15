@@ -239,4 +239,17 @@ trait BaseCartOrderTrait
     {
         return (float) $this->ace_earnable_point;
     }
+
+    /**
+     * Normalize number-like inputs to decimal string with given scale.
+     *
+     * @param mixed $value string|int|float|null
+     * @param int $scale
+     *
+     * @return string
+     */
+    protected function normalizeNumberToDecimalString($value, int $scale = 2): string
+    {
+        return NumberConverter::convertNumberToDecimalString($value, $scale);
+    }
 }
