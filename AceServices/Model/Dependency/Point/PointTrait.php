@@ -51,4 +51,13 @@ trait PointTrait
 
         return $this;
     }
+
+    /***
+     * @Ignore()
+     * @return string|null
+     */
+    public function getPointAsString(): ?string
+    {
+        return null === $this->point ? null : (string) $this->point;
+    }
 }

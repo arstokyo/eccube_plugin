@@ -122,7 +122,6 @@ class CustomerAddressDataConverter implements CustomerAddressDataConverterInterf
         $customerAddress->setAddr02($aceCustomerAddress->getAdr3());
         $customerAddress->setPhoneNumber($aceCustomerAddress->getTel());
         $customerAddress->setPhoneNumber2($aceCustomerAddress->getAdrBikou1());
-        $customerAddress->setUpdateDate(new \DateTime());
 
         return $customerAddress;
     }

@@ -35,4 +35,6 @@ interface HasPointInterface
      * @return $this
      */
     public function setPoint(?int $point);
+
+    public function getPointAsString(): ?string;
 }
