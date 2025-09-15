@@ -16,6 +16,7 @@ namespace Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart;
 use Plugin\AceClient43\AceServices\Model\Dependency\Jyudens\Jyumei;
 use Plugin\AceClient43\AceServices\Model\Dependency\Zaiko;
 use Plugin\AceClient43\Entity\Constants\AceProductType;
+use Plugin\AceClient43\Util\Converter\NumberConverter;
 
 /**
  * Model for Jyumei
@@ -34,15 +35,15 @@ class JyumeiModel extends Jyumei\JyumeiModelGroup2 implements JyumeiModelInterfa
     /** @var string 受注サポートより振られた商品ではない */
     public const ITEM_TYPE_NORMAL = 'normal';
 
-    private $supportSpid = [];
+    protected $supportSpid = [];
 
-    private $supportProvider = [];
+    protected $supportProvider = [];
 
-    private $supportSpidQty = [];
+    protected $supportSpidQty = [];
 
-    private $supportSummary = [];
+    protected $supportSummary = [];
 
-    private $itemType = '';
+    protected $itemType = '';
 
     /**
      * {@inheritdoc}
@@ -215,5 +216,29 @@ class JyumeiModel extends Jyumei\JyumeiModelGroup2 implements JyumeiModelInterfa
     public function getPreferTintanka(): ?float
     {
         return $this->getTintanka() === 0 ? 0 : $this->getTintanka();
+    }
+
+    /**
+     * 正規化済みの税抜単価を文字列で返す（scale=2）.
+     */
+    public function getPreferTouttankaAsString(): ?string
+    {
+        return NumberConverter::normalizeFloatToString($this->getPreferTouttanka(), 2);
+    }
+
+    /**
+     * 正規化済みの税込単価を文字列で返す（scale=2）.
+     */
+    public function getPreferTintankaAsString(): ?string
+    {
+        return NumberConverter::normalizeFloatToString($this->getPreferTintanka(), 2);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSuuAsString(): ?string
+    {
+        return (string) max(0, $this->getSuu());
     }
 }

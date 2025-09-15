@@ -142,4 +142,21 @@ interface JyumeiModelInterface extends Jyumei\JyumeiModelGroup2Interface, Jyumei
      * 合計金額が0円の場合は0を返す・その以外は税込単価を返す
      */
     public function getPreferTintanka(): ?float;
+
+    /**
+     * 正規化済みの税抜単価を文字列で返す（scale=2, '.' 区切り）.
+     */
+    public function getPreferTouttankaAsString(): ?string;
+
+    /**
+     * 正規化済みの税込単価を文字列で返す（scale=2, '.' 区切り）.
+     */
+    public function getPreferTintankaAsString(): ?string;
+
+    /**
+     * 数値を文字列として取得します。
+     *
+     * @return string|null 数値を表す文字列、または null
+     */
+    public function getSuuAsString(): ?string;
 }
