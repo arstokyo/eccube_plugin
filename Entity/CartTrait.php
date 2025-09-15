@@ -15,6 +15,7 @@ namespace Plugin\AceClient43\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Eccube\Annotation\EntityExtension;
+use Plugin\AceClient43\Util\Converter\NumberConverter;
 
 /**
  * @EntityExtension("Eccube\Entity\Cart")
@@ -74,5 +75,18 @@ trait CartTrait
         $this->enable_ace_order_support = $enable;
 
         return $this;
+    }
+
+    /**
+     * Normalize number-like inputs to decimal string with given scale.
+     *
+     * @param mixed $value string|int|float|null
+     * @param int $scale
+     *
+     * @return string
+     */
+    protected function normalizeNumberToDecimalString($value, int $scale = 2): string
+    {
+        return NumberConverter::convertNumberToDecimalString($value, $scale);
     }
 }

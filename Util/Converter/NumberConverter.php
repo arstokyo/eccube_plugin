@@ -76,4 +76,41 @@ class NumberConverter
 
         return number_format($value, $scale, '.', '');
     }
+
+    /**
+     * Convert a number-like value to a normalized decimal string.
+     *
+     * - Accepts string|int|float|null (PHP 7.4 compatible signature).
+     * - For strings: remove thousands separators (',' and '、') before converting.
+     * - For int/float: delegate to normalizeFloatToString().
+     *
+     * @param mixed $value
+     * @param int $scale
+     *
+     * @return string|null
+     */
+    public static function convertNumberToDecimalString($value, int $scale = 2): ?string
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        if (is_string($value)) {
+            $clean = str_replace([',', '、'], '', trim($value));
+            if ($clean === '' || $clean === '-' || $clean === '+') {
+                $num = 0.0;
+            } else {
+                $num = (float) $clean;
+            }
+
+            return self::normalizeFloatToString($num, $scale);
+        }
+
+        if (is_int($value) || is_float($value)) {
+            return self::normalizeFloatToString((float) $value, $scale);
+        }
+
+        // Fallback for other scalars
+        return self::normalizeFloatToString((float) $value, $scale);
+    }
 }
