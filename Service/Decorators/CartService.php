@@ -14,8 +14,6 @@ use Eccube\Service\Cart\CartItemAllocator;
 use Eccube\Service\Cart\CartItemComparator;
 use Eccube\Service\CartService as BaseCartService;
 use Eccube\Session\Session;
-use Plugin\AceClient43\Events\EccubeEvents\Events;
-use Plugin\AceClient43\Events\EccubeEvents\OnCartAddProductEvent;
 use Plugin\AceClient43\Service\CartOrderSyncService;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -23,6 +21,19 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * カートサービスのデコレータ
+ *
+ * 目的:
+ * - 既存の addProduct/removeProduct は、全明細の再構築（restoreCarts）に依存しており、
+ *   大量の DELETE/INSERT と広範なロック取得を引き起こすため、性能劣化やデッドロックの原因となり得る。
+ * - 本デコレータでは options['skip_restore_cart']=true を受け取った場合、restoreCarts を呼ばずに
+ *   既存のカート/明細へ差分適用（in-place 更新）を行う。
+ *
+ * 効果:
+ * - 書き込み量とロック競合を抑制し、同期処理（syncCart）時の安定性とスループットを改善。
+ *
+ * 注意:
+ * - skip_restore_cart は addProduct/removeProduct の呼び出し元で明示的に指定する。
+ * - flush タイミングは呼び出し側で制御（CartService::save など）する前提。
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
@@ -196,6 +207,9 @@ class CartService extends BaseCartService
     /**
      * カートに商品を追加します.
      *
+     * options 仕様:
+     * - skip_restore_cart (bool): true の場合、restoreCarts を呼び出さず、既存カートへ差分適用で追加します。
+     *
      * @param $ProductClass ProductClass 商品規格
      * @param $quantity int 数量
      * @param array $options オプション
@@ -228,14 +242,48 @@ class CartService extends BaseCartService
         $newItem->setPrice($ProductClass->getPrice02IncTax());
         $newItem->setProductClass($ProductClass);
 
-        if ($this->eventDispatcher->hasListeners(Events::ON_CART_ADD_PRODUCT)) {
-            $this->eventDispatcher->dispatch(new OnCartAddProductEvent($newItem, $ProductClass, $options), Events::ON_CART_ADD_PRODUCT);
+        // cart_item_data が CartItem の場合のみ反映する
+        $cartItemData = $options['cart_item_data'] ?? null;
+        if ($cartItemData instanceof CartItem) {
+            // プラグイン側の責務: isPresent と税込価格
+            $this->setCartItemFromCartItemData($newItem, $cartItemData, $options);
         }
 
+        // 差分適用（restoreCartsをスキップ）
+        if (!empty($options['skip_restore_cart'])) {
+            return $this->inPlaceAdd($newItem, $ProductClass);
+        }
+
+        // 従来の再構築パス
         $allCartItems = $this->mergeAllCartItems([$newItem]);
         $this->restoreCarts($allCartItems);
 
         return true;
+    }
+
+    /**
+     * cart_item_data に基づき、新規追加する CartItem に必要な属性を反映します.
+     *
+     * 役割（プラグイン側）:
+     * - isPresent フラグの反映
+     * - 税込価格（price）の反映
+     *
+     * 注意:
+     * - PriceExcludeTax やギフト系の付与はカスタマイズ側で行います（責務分離）。
+     *
+     * @param CartItem      $item           追加対象の CartItem
+     * @param CartItem $cartItemData   オプションで渡される元データ
+     * @param array         $options        追加時のオプション
+     */
+    protected function setCartItemFromCartItemData(CartItem $item, CartItem $cartItemData, array $options): void
+    {
+        // プレゼント判定（フラグ）
+        $item->setIsPresent($cartItemData->isPresent());
+
+        // 税込価格（基本価格）。未設定であれば既定の ProductClass 価格が利用される
+        if (null !== $cartItemData->getPrice()) {
+            $item->setPrice($cartItemData->getPrice());
+        }
     }
 
     protected function restoreCarts($cartItems)
@@ -287,10 +335,23 @@ class CartService extends BaseCartService
         $this->carts = array_values($Carts);
     }
 
+    /**
+     * カートから商品を削除します.
+     *
+     * options 仕様:
+     * - skip_restore_cart (bool): true の場合、restoreCarts を呼び出さず、既存カートから対象明細のみを削除します。
+     * - cart_item_data (?CartItem): 削除対象の CartItem が特定済みの場合に直接指定できます。
+     */
     public function removeProduct($ProductClass, array $options = [])
     {
         $removeItem = $options['cart_item_data'] ?? null;
 
+        // 差分適用（restoreCartsをスキップ）
+        if (!empty($options['skip_restore_cart'])) {
+            return $this->inPlaceRemove($ProductClass, $removeItem);
+        }
+
+        // 従来の再構築パス
         if (null === $removeItem) {
             // If no specific CartItem is provided, we will create a new one to find and remove
             if (!$ProductClass instanceof ProductClass) {
@@ -321,5 +382,108 @@ class CartService extends BaseCartService
         $this->restoreCarts($allCartItems);
 
         return true;
+    }
+
+    /**
+     * 差分適用で明細を追加する（restoreCarts 不使用）.
+     *
+     * @param CartItem $newItem 追加対象の一時アイテム（数量/価格は ProductClass に基づく）
+     * @param ProductClass $ProductClass
+     *
+     * @return bool
+     */
+    protected function inPlaceAdd(CartItem $newItem, ProductClass $ProductClass): bool
+    {
+        $Cart = $this->getCart(true);
+
+        // カートが存在しない場合は新規作成
+        if (!$Cart) {
+            $Cart = new Cart();
+            // 既存のキー生成仕様に倣い、割り当てIDを使ってキーを生成
+            $allocatedId = $this->cartItemAllocator->allocate($newItem);
+            $cartKey = $this->createCartKey($allocatedId, $this->getUser());
+            $Cart->setCartKey($cartKey);
+            $Cart->addCartItem($newItem);
+            $newItem->setCart($Cart);
+
+            $this->entityManager->persist($Cart);
+            $this->entityManager->persist($newItem);
+
+            return true;
+        }
+
+        // 既存明細にマージ（同一明細があれば数量加算＋価格更新）
+        foreach ($Cart->getCartItems() as $itemInCart) {
+            if ($this->cartItemComparator->compare($itemInCart, $newItem)) {
+                $itemInCart->setQuantity($itemInCart->getQuantity() + $newItem->getQuantity());
+                if (null !== $newItem->getPrice()) {
+                    $itemInCart->setPrice($newItem->getPrice());
+                }
+                $this->entityManager->persist($itemInCart);
+
+                return true;
+            }
+        }
+
+        // 見つからなければ新規明細として追加
+        $Cart->addCartItem($newItem);
+        $newItem->setCart($Cart);
+        $this->entityManager->persist($newItem);
+
+        return true;
+    }
+
+    /**
+     * 差分適用で明細を削除する（restoreCarts 不使用）.
+     *
+     * @param ProductClass|mixed $ProductClass
+     * @param CartItem|null $removeItem
+     *
+     * @return bool
+     */
+    protected function inPlaceRemove($ProductClass, ?CartItem $removeItem): bool
+    {
+        // cart_item_data が指定されていればそれを優先して削除
+        if ($removeItem instanceof CartItem) {
+            $Cart = $removeItem->getCart();
+            if ($Cart) {
+                $Cart->removeItem($removeItem);
+            }
+            $this->entityManager->remove($removeItem);
+
+            return true;
+        }
+
+        // 指定が無ければ、現在のカートから比較して該当明細を探す
+        if (!$ProductClass instanceof ProductClass) {
+            $ProductClassId = $ProductClass;
+            $ProductClass = $this->entityManager
+                ->getRepository(ProductClass::class)
+                ->find($ProductClassId);
+            if (is_null($ProductClass)) {
+                return false;
+            }
+        }
+
+        $probe = new CartItem();
+        $probe->setPrice($ProductClass->getPrice02IncTax());
+        $probe->setProductClass($ProductClass);
+
+        $Cart = $this->getCart(true);
+        if (!$Cart) {
+            return false;
+        }
+
+        foreach ($Cart->getCartItems() as $itemInCart) {
+            if ($this->cartItemComparator->compare($itemInCart, $probe)) {
+                $Cart->removeItem($itemInCart);
+                $this->entityManager->remove($itemInCart);
+
+                return true;
+            }
+        }
+
+        // 該当なし
+        return false;
     }
 }
