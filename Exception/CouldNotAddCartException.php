@@ -436,14 +436,18 @@ class CouldNotAddCartException extends AceApiMessageException
         if ($this->isPerCustomerSalesLimitExceededError() && is_array($info)) {
             return trans('ace_client.add_cart.error.perCustomerSale', [
                 '%gdid%' => (string) $info['gdid'],
-                '%quantity%' => (int) $info['max'],
+                '%gdname%' => (string) ($info['gdname'] ?? ''),
+                '%x%' => (int) ($info['x'] ?? 0),
+                '%y%' => (int) ($info['y'] ?? 0),
             ]);
         }
 
         if ($this->isGlobalSalesLimitExceededError() && is_array($info)) {
             return trans('ace_client.add_cart.error.globalSale', [
                 '%gdid%' => (string) $info['gdid'],
-                '%quantity%' => (int) $info['max'],
+                '%gdname%' => (string) ($info['gdname'] ?? ''),
+                '%x%' => (int) ($info['x'] ?? 0),
+                '%y%' => (int) ($info['y'] ?? 0),
             ]);
         }
 
@@ -486,14 +490,31 @@ class CouldNotAddCartException extends AceApiMessageException
             $gdid = trim($gm[1]);
         }
 
-        // 上限数量を抽出: 「全体販売数(N)」または「個人販売数(N)」
-        $max = null;
-        if (preg_match('/(全体販売数|個人販売数)\(\s*([0-9]+)\s*\)/u', $m1, $mm)) {
-            $max = (int) $mm[2];
+        // GNAME を抽出: 「この商品 (GDID) GNAME は合計」
+        $gdname = null;
+        if (preg_match('/この商品\s*\(\s*[^)]+\s*\)\s*(.+?)\s*は合計/u', $m1, $nm)) {
+            $gdname = trim($nm[1]);
         }
 
-        if ($gdid !== null && $max !== null) {
-            return ['gdid' => $gdid, 'max' => $max];
+        // 合計 X を抽出: 「合計(X)です」
+        $x = null;
+        if (preg_match('/合計\(\s*([0-9]+)\s*\)\s*です/u', $m1, $xm)) {
+            $x = (int) $xm[1];
+        }
+
+        // 上限数量 Y を抽出: 「全体販売数(N)」または「個人販売数(N)」
+        $y = null;
+        if (preg_match('/(全体販売数|個人販売数)\(\s*([0-9]+)\s*\)/u', $m1, $mm)) {
+            $y = (int) $mm[2];
+        }
+
+        if ($gdid !== null && $y !== null) {
+            return [
+                'gdid' => $gdid,
+                'gdname' => $gdname,
+                'x' => $x,
+                'y' => $y,
+            ];
         }
 
         return null;
