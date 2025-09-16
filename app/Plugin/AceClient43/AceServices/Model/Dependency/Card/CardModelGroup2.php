@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Card;
 
 /**
@@ -9,20 +20,19 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Card;
  */
 class CardModelGroup2 extends CardModelGroup1 implements CardModelGroup2Interface
 {
-
-    /** @var ?string $inkokyakuid 通販AceSyID */
+    /** @var ?string 通販AceSyID */
     protected ?string $inkokyakuid = null;
 
-    /** @var ?string $inchumonid 顧客コード */
+    /** @var ?string 顧客コード */
     protected ?string $inchumonid = null;
 
-    /** @var ?string $intokushu1 セッションID */
+    /** @var ?string セッションID */
     protected ?string $intokushu1 = null;
 
-    /** @var ?string $intokushu2 枝番号 */
+    /** @var ?string 枝番号 */
     protected ?string $intokushu2 = null;
 
-    /** @var ?string $ukeno EC受付番号 */
+    /** @var ?string EC受付番号 */
     protected ?string $ukeno = null;
 
     /**
@@ -39,9 +49,10 @@ class CardModelGroup2 extends CardModelGroup1 implements CardModelGroup2Interfac
     public function setInkokyakuid(?string $inkokyakuid)
     {
         $this->inkokyakuid = $inkokyakuid;
+
         return $this;
     }
- 
+
     /**
      * {@inheritDoc}
      */
@@ -56,6 +67,7 @@ class CardModelGroup2 extends CardModelGroup1 implements CardModelGroup2Interfac
     public function setInchumonid(?string $inchumonid)
     {
         $this->inchumonid = $inchumonid;
+
         return $this;
     }
 
@@ -73,6 +85,7 @@ class CardModelGroup2 extends CardModelGroup1 implements CardModelGroup2Interfac
     public function setIntokushu1(?string $intokushu1)
     {
         $this->intokushu1 = $intokushu1;
+
         return $this;
     }
 
@@ -90,6 +103,7 @@ class CardModelGroup2 extends CardModelGroup1 implements CardModelGroup2Interfac
     public function setIntokushu2(?string $intokushu2)
     {
         $this->intokushu2 = $intokushu2;
+
         return $this;
     }
 
@@ -107,6 +121,7 @@ class CardModelGroup2 extends CardModelGroup1 implements CardModelGroup2Interfac
     public function setUkeno(?string $ukeno)
     {
         $this->ukeno = $ukeno;
+
         return $this;
     }
 }

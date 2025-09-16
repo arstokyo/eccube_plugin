@@ -1,9 +1,20 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Hanpu\DecisionHanpu;
 
-use Plugin\AceClient43\AceServices\Model\Dependency\Hanpu\Handen;
 use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
+use Plugin\AceClient43\AceServices\Model\Dependency\Hanpu\Handen;
 
 /**
  * Class for HandenModel
@@ -12,9 +23,9 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
  */
 class HandenModel implements HandenModelInterface
 {
-    use Handen\HandenModelGroup1Trait,
-        Handen\HandenModelGroup2Trait,
-        Handen\ThreeDbikouhTrait,
-        Handen\ThreeDfmemohTrait,
-        Denpyo\DennoTrait;
+    use Handen\HandenModelGroup1Trait;
+    use Handen\HandenModelGroup2Trait;
+    use Handen\ThreeDbikouhTrait;
+    use Handen\ThreeDfmemohTrait;
+    use Denpyo\DennoTrait;
 }

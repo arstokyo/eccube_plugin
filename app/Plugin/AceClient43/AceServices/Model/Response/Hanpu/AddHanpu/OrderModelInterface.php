@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Hanpu\AddHanpu;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelInterface;
@@ -10,8 +21,7 @@ use Plugin\AceClient43\AceServices\Model\Response;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface OrderModelInterface extends HasMessageModelInterface,
-                                      Response\AsListDenormalizableInterface
+interface OrderModelInterface extends HasMessageModelInterface, Response\AsListDenormalizableInterface
 {
     /**
      * Get Handen
@@ -24,6 +34,7 @@ interface OrderModelInterface extends HasMessageModelInterface,
      * Set Handen
      *
      * @param HandenModel|null $handen
+     *
      * @return void
      */
     public function setHanden(?HandenModel $handen): void;
@@ -39,6 +50,7 @@ interface OrderModelInterface extends HasMessageModelInterface,
      * Set Hanmei
      *
      * @param HanmeiModel[]|null $hanmei
+     *
      * @return void
      */
     public function setHanmei(?array $hanmei): void;
@@ -54,6 +66,7 @@ interface OrderModelInterface extends HasMessageModelInterface,
      * Set Jyusub
      *
      * @param JyusubModel|null $jyusub
+     *
      * @return void
      */
     public function setJyusub(?JyusubModel $jyusub): void;
@@ -69,6 +82,7 @@ interface OrderModelInterface extends HasMessageModelInterface,
      * Set Jyuden
      *
      * @param JyudenModel|null $jyuden
+     *
      * @return void
      */
     public function setJyuden(?JyudenModel $jyuden): void;
@@ -84,6 +98,7 @@ interface OrderModelInterface extends HasMessageModelInterface,
      * Set Jyumei
      *
      * @param JyumeiModel[]|null $jyumei
+     *
      * @return void
      */
     public function setJyumei(?array $jyumei): void;
@@ -99,6 +114,7 @@ interface OrderModelInterface extends HasMessageModelInterface,
      * Set Point
      *
      * @param PointModel|null $point
+     *
      * @return void
      */
     public function setPoint(?PointModel $point): void;
@@ -114,6 +130,7 @@ interface OrderModelInterface extends HasMessageModelInterface,
      * Set MailJyuden
      *
      * @param MailJyudenModel|null $mailJyuden
+     *
      * @return void
      */
     public function setMailJyuden(?MailJyudenModel $mailJyuden): void;
@@ -129,6 +146,7 @@ interface OrderModelInterface extends HasMessageModelInterface,
      * Set Coupon
      *
      * @param CouponModel|null coupon
+     *
      * @return void
      */
     public function setCoupon(?CouponModel $coupon): void;

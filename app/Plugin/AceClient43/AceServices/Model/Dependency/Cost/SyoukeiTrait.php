@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Cost;
 
 use Plugin\AceClient43\Util\Converter\NumberConverter;
@@ -11,8 +22,7 @@ use Plugin\AceClient43\Util\Converter\NumberConverter;
  */
 trait SyoukeiTrait
 {
-
-    /** @var ?float $syoukei 小計 */
+    /** @var ?float 小計 */
     protected ?float $syoukei = null;
 
     /**
@@ -29,6 +39,7 @@ trait SyoukeiTrait
     public function setSyoukei(?string $syoukei)
     {
         $this->syoukei = NumberConverter::stringWithCommaToFloat($syoukei);
+
         return $this;
     }
 }

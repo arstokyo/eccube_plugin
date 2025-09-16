@@ -1,13 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Goods;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Goods\GetZaiko\GetZaikoRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Goods\GetZaiko\GetZaikoResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 
 class GetZaikoRequestModelTest extends AceRequestTestAbtract
 {
@@ -35,13 +46,13 @@ class GetZaikoRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
-
     public function getZaikoRequestForSerialize(): GetZaikoRequestModel
     {
         $zaiko = new GetZaikoRequestModel();
         $getZaiko = $zaiko->setId(OverviewMapper::ACE_TEST_SYID)
-                          ->setGdid("idabc")
-                          ->setSouko("111");
+                          ->setGdid('idabc')
+                          ->setSouko('111');
+
         return $getZaiko;
     }
 
@@ -49,18 +60,22 @@ class GetZaikoRequestModelTest extends AceRequestTestAbtract
     {
         $zaiko = new GetZaikoRequestModel();
         $getZaiko = $zaiko->setId(OverviewMapper::ACE_TEST_SYID)
-                          ->setGdid("301")
-                          ->setSouko("100");
+                          ->setGdid('301')
+                          ->setSouko('100');
+
         return $getZaiko;
     }
+
     public function getZaikoRequestNG(): GetZaikoRequestModel
     {
         $zaiko = new GetZaikoRequestModel();
         $getZaiko = $zaiko->setId(-1)
-                          ->setGdid("idabc")
-                          ->setSouko("111");
+                          ->setGdid('idabc')
+                          ->setSouko('111');
+
         return $getZaiko;
     }
+
     public function testRequestGetZaikoOK()
     {
         try {
@@ -77,17 +92,16 @@ class GetZaikoRequestModelTest extends AceRequestTestAbtract
                 // $goods2 = $responseObj->getMaster()->getGoods()[1];
                 // $goods3 = $responseObj->getMaster()->getGoods()[2];
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(1500, $goods->getZaiko());
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestGetZaikoNG()
@@ -104,16 +118,15 @@ class GetZaikoRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMaster()->getMessage()->getMessage1();
                 $goods = $responseObj->getMaster()->getGoods();
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(null, $goods);
-        $this->assertEquals("ＷＥＢ初期設定がありません", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('ＷＥＢ初期設定がありません', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

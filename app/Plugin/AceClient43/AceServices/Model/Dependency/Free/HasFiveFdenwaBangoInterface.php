@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 /**
@@ -20,6 +31,7 @@ interface HasFiveFdenwaBangoInterface
      * Set 代表者電話番号1
      *
      * @param ?string $freedenwabango1
+     *
      * @return $this
      */
     public function setFreeDenwaBango1(?string $freedenwabango1);
@@ -35,6 +47,7 @@ interface HasFiveFdenwaBangoInterface
      * Set 代表者電話番号2
      *
      * @param ?string $freedenwabango2
+     *
      * @return $this
      */
     public function setFreeDenwaBango2(?string $freedenwabango2);
@@ -50,6 +63,7 @@ interface HasFiveFdenwaBangoInterface
      * Set 代表者電話番号3
      *
      * @param ?string $freedenwabango3
+     *
      * @return $this
      */
     public function setFreeDenwaBango3(?string $freedenwabango3);

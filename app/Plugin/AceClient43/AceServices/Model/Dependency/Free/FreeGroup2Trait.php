@@ -1,8 +1,17 @@
 <?php
 
-namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
-use Plugin\AceClient43\AceServices\Model\Dependency\Free\FreeGroup1Trait;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 /**
  * Trait For FreeGroup2
@@ -12,26 +21,30 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Free\FreeGroup1Trait;
 class FreeGroup2Trait implements HasFreeGroup2Interface
 {
     use FreeGroup1Trait;
-    /** @var ?int $kessaishubetsu 決済種別種類 */
+    /** @var ?int 決済種別種類 */
     protected ?int $kessaishubetsu = null;
-    /** @var ?int $freesouryoukubun 送料区分 */
+    /** @var ?int 送料区分 */
     protected ?int $freesouryoukubun = null;
-    /** @var ?string $freedispkbnid 表示区分ID */
+    /** @var ?string 表示区分ID */
     protected ?string $freedispkbnid = null;
-    /** @var ?string $freedispkbnname 表示区分名 */
+    /** @var ?string 表示区分名 */
     protected ?string $freedispkbnname = null;
+
     public function getKessaishubetsu(): ?int
     {
         return $this->kessaishubetsu;
     }
+
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     public function setKessaishubetsu(?int $kessaishubetsu)
     {
         $this->kessaishubetsu = $kessaishubetsu;
+
         return $this;
     }
+
     /**
      * {@inheritDoc}
      */
@@ -46,6 +59,7 @@ class FreeGroup2Trait implements HasFreeGroup2Interface
     public function setFreesouryoukubun(?int $freesouryoukubun)
     {
         $this->freesouryoukubun = $freesouryoukubun;
+
         return $this;
     }
 
@@ -63,6 +77,7 @@ class FreeGroup2Trait implements HasFreeGroup2Interface
     public function setFreedispkbnid(?string $freedispkbnid)
     {
         $this->freedispkbnid = $freedispkbnid;
+
         return $this;
     }
 
@@ -80,6 +95,7 @@ class FreeGroup2Trait implements HasFreeGroup2Interface
     public function setFreedispkbnname(?string $freedispkbnname)
     {
         $this->freedispkbnname = $freedispkbnname;
+
         return $this;
     }
 }

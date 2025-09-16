@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Baitai;
 
 /**
@@ -20,6 +31,7 @@ interface HasBaitaiCodeInterface
      * Set 媒体
      *
      * @param ?string $baitai
+     *
      * @return $this
      */
     public function setBaitai(?string $baitai);
@@ -35,6 +47,7 @@ interface HasBaitaiCodeInterface
      * Set 管理番号
      *
      * @param ?string $baifile
+     *
      * @return $this
      */
     public function setBaifile(?string $baifile);

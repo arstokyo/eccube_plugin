@@ -1,9 +1,19 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Hanpu\DecisionHanpu;
 
 use Plugin\AceClient43\AceServices\Model\Response\ResponseModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Interface for DecisionHanpuResponseModel
@@ -15,14 +25,14 @@ interface DecisionHanpuResponseModelInterface extends ResponseModelInterface
     /**
      * Get OrderModel
      *
-     * @return Response\Hanpu\DecisionHanpu\OrderModelInterface
+     * @return OrderModelInterface
      */
     public function getOrder(): OrderModelInterface;
 
     /**
      * Set OrderModel
      *
-     * @param Response\Hanpu\DecisionHanpu\OrderModel $order
+     * @param OrderModel $order
      */
     public function setOrder(OrderModel $order): void;
 }

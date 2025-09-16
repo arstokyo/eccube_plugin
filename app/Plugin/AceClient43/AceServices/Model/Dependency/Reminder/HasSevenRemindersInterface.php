@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Reminder;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory\HasCodeInterface;
@@ -22,6 +33,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * Set 質問1
      *
      * @param ?string $question1
+     *
      * @return $this
      */
     public function setQuestion1(?string $question1);
@@ -37,6 +49,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * Set 回答1
      *
      * @param ?string $answer1
+     *
      * @return $this
      */
     public function setAnswer1(?string $answer1);
@@ -52,6 +65,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * Set 質問2
      *
      * @param ?string $question2
+     *
      * @return $this
      */
     public function setQuestion2(?string $question2);
@@ -67,6 +81,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * Set 回答2
      *
      * @param ?string $answer2
+     *
      * @return $this
      */
     public function setAnswer2(?string $answer2);
@@ -82,6 +97,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * Set 質問3
      *
      * @param ?string $question3
+     *
      * @return $this
      */
     public function setQuestion3(?string $question3);
@@ -97,6 +113,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * Set 回答3
      *
      * @param ?string $answer3
+     *
      * @return $this
      */
     public function setAnswer3(?string $answer3);
@@ -112,6 +129,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * Set 質問4
      *
      * @param ?string $question4
+     *
      * @return $this
      */
     public function setQuestion4(?string $question4);
@@ -127,6 +145,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * Set 回答4
      *
      * @param ?string $answer4
+     *
      * @return $this
      */
     public function setAnswer4(?string $answer4);
@@ -142,6 +161,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * Set 質問5
      *
      * @param ?string $question5
+     *
      * @return $this
      */
     public function setQuestion5(?string $question5);
@@ -157,6 +177,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * Set 回答5
      *
      * @param ?string $answer5
+     *
      * @return $this
      */
     public function setAnswer5(?string $answer5);
@@ -172,6 +193,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * Set 質問6
      *
      * @param ?string $question6
+     *
      * @return $this
      */
     public function setQuestion6(?string $question6);
@@ -187,6 +209,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * Set 回答6
      *
      * @param ?string $answer6
+     *
      * @return $this
      */
     public function setAnswer6(?string $answer6);
@@ -202,6 +225,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * Set 回答7
      *
      * @param ?string $question7
+     *
      * @return $this
      */
     public function setQuestion7(?string $question7);
@@ -217,6 +241,7 @@ interface HasSevenRemindersInterface extends HasCodeInterface
      * Set 回答7
      *
      * @param ?string $answer7
+     *
      * @return $this
      */
     public function setAnswer7(?string $answer7);

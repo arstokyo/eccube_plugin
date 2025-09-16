@@ -1,15 +1,25 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Member;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Member\CheckDuplicationMember\CheckDuplicationMemberRequestModel;
 use Plugin\AceClient43\AceServices\Model\Request\Member\CheckDuplicationMember\MemberPrmModel;
 use Plugin\AceClient43\AceServices\Model\Response\Member\CheckDuplicationMember\CheckDuplicationMemberResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
-
 
 class CheckDuplicationMemberRequestModelTest extends AceRequestTestAbtract
 {
@@ -48,42 +58,47 @@ class CheckDuplicationMemberRequestModelTest extends AceRequestTestAbtract
     public function CheckDuplicationMemberRequestForSerialize(): CheckDuplicationMemberRequestModel
     {
         $memberPrm = (new MemberPrmModel())
-                    ->setName("noExistUser")
-                    ->setKana("ソンザイナイ")
-                    ->setZip("399-3802")
-                    ->setAdr("長野県住所2住所3住所4")
-                    ->setMail("checkDuplicationMember@AceClient.v1.0")
-                    ->setTel("09876543210");
+                    ->setName('noExistUser')
+                    ->setKana('ソンザイナイ')
+                    ->setZip('399-3802')
+                    ->setAdr('長野県住所2住所3住所4')
+                    ->setMail('checkDuplicationMember@AceClient.v1.0')
+                    ->setTel('09876543210');
         $duplicationMember = new CheckDuplicationMemberRequestModel();
         $checkDuplicationMember = $duplicationMember->setSyid(OverviewMapper::ACE_TEST_SYID)
                                                     ->setPrm($memberPrm);
+
         return $checkDuplicationMember;
     }
 
     public function CheckDuplicationMemberRequestOK(): CheckDuplicationMemberRequestModel
     {
         $memberPrm = new MemberPrmModel();
-        $memberPrm->setName("noExistUser")
-                  ->setKana("ソンザイナイ")
-                  ->setZip("399-3802")
-                  ->setAdr("長野県住所2住所3住所4")
-                  ->setMail("checkDuplicationMember@AceClient.v1.0")
-                  ->setTel("09876543210");
+        $memberPrm->setName('noExistUser')
+                  ->setKana('ソンザイナイ')
+                  ->setZip('399-3802')
+                  ->setAdr('長野県住所2住所3住所4')
+                  ->setMail('checkDuplicationMember@AceClient.v1.0')
+                  ->setTel('09876543210');
         $duplicationMember = new CheckDuplicationMemberRequestModel();
         $checkDuplicationMember = $duplicationMember->setSyid(OverviewMapper::ACE_TEST_SYID)
                                                     ->setPrm($memberPrm);
+
         return $checkDuplicationMember;
     }
+
     public function CheckDuplicationMemberRequestNG(): CheckDuplicationMemberRequestModel
     {
         $memberPrm = new MemberPrmModel();
-        $memberPrm->setName("checkDuplicationMemberTest")
-                  ->setKana("ｃｈｅｃｋＤｕｐｌｉｃａｔｉｏｎＭｅｍｂｅｒＴｅｓｔ");
+        $memberPrm->setName('checkDuplicationMemberTest')
+                  ->setKana('ｃｈｅｃｋＤｕｐｌｉｃａｔｉｏｎＭｅｍｂｅｒＴｅｓｔ');
         $duplicationMember = new CheckDuplicationMemberRequestModel();
         $checkDuplicationMember = $duplicationMember->setSyid(OverviewMapper::ACE_TEST_SYID)
                                                     ->setPrm($memberPrm);
+
         return $checkDuplicationMember;
     }
+
     public function testRequestCheckDuplicationMemberOK()
     {
         try {
@@ -98,14 +113,14 @@ class CheckDuplicationMemberRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMember()->getMessage()->getMessage1();
                 $message = $responseObj->getMember()->getMessage();
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
-        $this->assertEquals("OK", $message->getResult());
-        $this->assertEquals("", $message->getMessage1());
+        $this->assertEquals('OK', $message->getResult());
+        $this->assertEquals('', $message->getMessage1());
     }
 
     public function testRequestCheckDuplicationMemberNG()
@@ -121,15 +136,14 @@ class CheckDuplicationMemberRequestModelTest extends AceRequestTestAbtract
                 $responseObj = $response->getResponse();
                 $message1 = $responseObj->getMember()->getMessage()->getMessage1();
                 $message = $responseObj->getMember()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
-        $this->assertEquals("NG", $message->getResult());
-        $this->assertEquals("", $message->getMessage1());
+        $this->assertEquals('NG', $message->getResult());
+        $this->assertEquals('', $message->getMessage1());
     }
 }

@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
 
 /**
@@ -9,8 +20,7 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
  */
 trait TcodeTrait
 {
-
-    /** @var ?string $tcode 担当者コード */
+    /** @var ?string 担当者コード */
     protected ?string $tcode = null;
 
     /**
@@ -27,7 +37,7 @@ trait TcodeTrait
     public function setTcode(?string $tcode)
     {
         $this->tcode = $tcode;
+
         return $this;
     }
-    
 }

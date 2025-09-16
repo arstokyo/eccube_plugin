@@ -1,32 +1,42 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Card;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Card\GMO\GMOModelGroup1Trait;
 
 /**
  * Model for Card Level 2
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait CardModelLevel2Trait 
+trait CardModelLevel2Trait
 {
-    use CardModelLevel1Trait,
-        GMOModelGroup1Trait;
+    use CardModelLevel1Trait;
+    use GMOModelGroup1Trait;
 
-    /** @var ?string $spscustomerid SPS会員ID */
+    /** @var ?string SPS会員ID */
     protected ?string $spscustomerid = null;
 
-    /** @var ?string $spstid SPSトランザクションID */
+    /** @var ?string SPSトランザクションID */
     protected ?string $spstid = null;
 
-    /** @var ?string $veristatus VeriTransステータス */
+    /** @var ?string VeriTransステータス */
     protected ?string $veristatus = null;
 
-    /** @var ?string $veriorderid VeriTrans取引ID */
+    /** @var ?string VeriTrans取引ID */
     protected ?string $veriorderid = null;
 
-        
     /**
      * {@inheritDoc}
      */
@@ -41,6 +51,7 @@ trait CardModelLevel2Trait
     public function setSpscustomerid(?string $spscustomerid)
     {
         $this->spscustomerid = $spscustomerid;
+
         return $this;
     }
 
@@ -58,6 +69,7 @@ trait CardModelLevel2Trait
     public function setSpstid(?string $spstid)
     {
         $this->spstid = $spstid;
+
         return $this;
     }
 
@@ -75,9 +87,10 @@ trait CardModelLevel2Trait
     public function setVeristatus(?string $veristatus)
     {
         $this->veristatus = $veristatus;
+
         return $this;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -92,7 +105,7 @@ trait CardModelLevel2Trait
     public function setVeriorderid(?string $veriorderid)
     {
         $this->veriorderid = $veriorderid;
+
         return $this;
     }
-
 }

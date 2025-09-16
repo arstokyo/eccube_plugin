@@ -1,30 +1,41 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Card;
 
 /**
  * Model for カード情報 Group1
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 class CardModelGroup1 extends CardModelLevel2 implements CardModelGroup1Interface
 {
-    /** @var ?string $pgtmemid PGT顧客ID */
+    /** @var ?string PGT顧客ID */
     protected ?string $pgtmemid = null;
 
-    /** @var ?string $pgtmemcdid PGT顧客カードID */
+    /** @var ?string PGT顧客カードID */
     protected ?string $pgtmemcdid = null;
 
-    /** @var ?string $pgttid PGT取引ID */
+    /** @var ?string PGT取引ID */
     protected ?string $pgttid = null;
 
-    /** @var ?string $pgtid PGT決済ID */
+    /** @var ?string PGT決済ID */
     protected ?string $pgtid = null;
 
-    /** @var ?string $pgticls PGTイシュア区分 */
+    /** @var ?string PGTイシュア区分 */
     protected ?string $pgticls = null;
 
-    /** @var ?string $gmocardeda GMOカード有効期限 */
+    /** @var ?string GMOカード有効期限 */
     protected ?string $gmocardeda = null;
 
     /**
@@ -41,6 +52,7 @@ class CardModelGroup1 extends CardModelLevel2 implements CardModelGroup1Interfac
     public function setPgtmemid(?string $pgtmemid)
     {
         $this->pgtmemid = $pgtmemid;
+
         return $this;
     }
 
@@ -58,6 +70,7 @@ class CardModelGroup1 extends CardModelLevel2 implements CardModelGroup1Interfac
     public function setPgtmemcdid(?string $pgtmemcdid)
     {
         $this->pgtmemcdid = $pgtmemcdid;
+
         return $this;
     }
 
@@ -75,6 +88,7 @@ class CardModelGroup1 extends CardModelLevel2 implements CardModelGroup1Interfac
     public function setPgttid(?string $pgttid)
     {
         $this->pgttid = $pgttid;
+
         return $this;
     }
 
@@ -92,6 +106,7 @@ class CardModelGroup1 extends CardModelLevel2 implements CardModelGroup1Interfac
     public function setPgtid(?string $pgtid)
     {
         $this->pgtid = $pgtid;
+
         return $this;
     }
 
@@ -109,6 +124,7 @@ class CardModelGroup1 extends CardModelLevel2 implements CardModelGroup1Interfac
     public function setPgticls(?string $pgticls)
     {
         $this->pgticls = $pgticls;
+
         return $this;
     }
 
@@ -126,7 +142,7 @@ class CardModelGroup1 extends CardModelLevel2 implements CardModelGroup1Interfac
     public function setGmocardeda(?string $gmocardeda)
     {
         $this->gmocardeda = $gmocardeda;
+
         return $this;
     }
-
 }

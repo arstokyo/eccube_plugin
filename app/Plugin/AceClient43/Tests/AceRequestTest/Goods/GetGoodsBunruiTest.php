@@ -1,13 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Goods;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Goods\GetGoodsBunrui\GetGoodsBunruiRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Goods\GetGoodsBunrui\GetGoodsBunruiResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 
 class GetGoodsBunruiRequestModelTest extends AceRequestTestAbtract
 {
@@ -34,12 +45,12 @@ class GetGoodsBunruiRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
-
     public function GetGoodsBunruiRequestForSerialize(): GetGoodsBunruiRequestModel
     {
         $goodsBunrui = new GetGoodsBunruiRequestModel();
         $getGoodsBunrui = $goodsBunrui->setId(OverviewMapper::ACE_TEST_SYID)
-                                      ->setKubun("1");
+                                      ->setKubun('1');
+
         return $getGoodsBunrui;
     }
 
@@ -47,16 +58,20 @@ class GetGoodsBunruiRequestModelTest extends AceRequestTestAbtract
     {
         $goodsBunrui = new GetGoodsBunruiRequestModel();
         $getGoodsBunrui = $goodsBunrui->setId(OverviewMapper::ACE_TEST_SYID)
-                                      ->setKubun("1");
+                                      ->setKubun('1');
+
         return $getGoodsBunrui;
     }
+
     public function GetGoodsBunruiRequestNG(): GetGoodsBunruiRequestModel
     {
         $goodsBunrui = new GetGoodsBunruiRequestModel();
         $getGoodsBunrui = $goodsBunrui->setId(-1)
-                                      ->setKubun("1");
+                                      ->setKubun('1');
+
         return $getGoodsBunrui;
     }
+
     public function testRequestGetGoodsBunruiOK()
     {
         try {
@@ -73,37 +88,36 @@ class GetGoodsBunruiRequestModelTest extends AceRequestTestAbtract
                 $goods2 = $responseObj->getMaster()->getGoods()[1];
                 $goods3 = $responseObj->getMaster()->getGoods()[2];
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
-        $this->assertEquals("100004", $goods1->getKubun());
-        $this->assertEquals("100", $goods1->getFcid());
-        $this->assertEquals("大分類100", $goods1->getName());
-        $this->assertEquals("ノート１", $goods1->getNote1());
-        $this->assertEquals("ノート２", $goods1->getNote2());
-        $this->assertEquals("ノート３", $goods1->getNote3());
+        $this->assertEquals('100004', $goods1->getKubun());
+        $this->assertEquals('100', $goods1->getFcid());
+        $this->assertEquals('大分類100', $goods1->getName());
+        $this->assertEquals('ノート１', $goods1->getNote1());
+        $this->assertEquals('ノート２', $goods1->getNote2());
+        $this->assertEquals('ノート３', $goods1->getNote3());
 
-        $this->assertEquals("100004", $goods2->getKubun());
-        $this->assertEquals("101", $goods2->getFcid());
-        $this->assertEquals("大分類101", $goods2->getName());
-        $this->assertEquals("ノート００００００１", $goods2->getNote1());
-        $this->assertEquals("ノート００００００２", $goods2->getNote2());
-        $this->assertEquals("ノート００００００３", $goods2->getNote3());
+        $this->assertEquals('100004', $goods2->getKubun());
+        $this->assertEquals('101', $goods2->getFcid());
+        $this->assertEquals('大分類101', $goods2->getName());
+        $this->assertEquals('ノート００００００１', $goods2->getNote1());
+        $this->assertEquals('ノート００００００２', $goods2->getNote2());
+        $this->assertEquals('ノート００００００３', $goods2->getNote3());
 
-        $this->assertEquals("100004", $goods3->getKubun());
-        $this->assertEquals("50", $goods3->getFcid());
-        $this->assertEquals("大分類50", $goods3->getName());
-        $this->assertEquals("", $goods3->getNote1());
-        $this->assertEquals("", $goods3->getNote2());
-        $this->assertEquals("", $goods3->getNote3());
+        $this->assertEquals('100004', $goods3->getKubun());
+        $this->assertEquals('50', $goods3->getFcid());
+        $this->assertEquals('大分類50', $goods3->getName());
+        $this->assertEquals('', $goods3->getNote1());
+        $this->assertEquals('', $goods3->getNote2());
+        $this->assertEquals('', $goods3->getNote3());
 
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestGetGoodsBunruiNG()
@@ -120,16 +134,15 @@ class GetGoodsBunruiRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMaster()->getMessage()->getMessage1();
                 $goods = $responseObj->getMaster()->getGoods();
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(null, $goods);
-        $this->assertEquals("ＷＥＢ初期設定がありません", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('ＷＥＢ初期設定がありません', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

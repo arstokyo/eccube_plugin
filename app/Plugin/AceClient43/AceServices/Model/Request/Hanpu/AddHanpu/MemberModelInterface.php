@@ -1,8 +1,17 @@
 <?php
 
-namespace Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu;
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
-use Plugin\AceClient43\AceServices\Model\Request;
+namespace Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu;
 
 /**
  * Interface MemberModel
@@ -14,14 +23,15 @@ interface MemberModelInterface
     /**
      * Get 受注顧客情報
      *
-     * @return Request\Hanpu\AddHanpu\JmemberModel|null
+     * @return JmemberModel|null
      */
     public function getJmember(): ?JmemberModelInterface;
 
     /**
      * Set 受注顧客情報
      *
-     * @param Request\Hanpu\AddHanpu\JmemberModel|null $jmember
+     * @param JmemberModel|null $jmember
+     *
      * @return self
      */
     public function setJmember(?JmemberModelInterface $jmember): self;
@@ -29,14 +39,15 @@ interface MemberModelInterface
     /**
      * Get 納品先顧客情報
      *
-     * @return Request\Hanpu\AddHanpu\NmemberModelInterface|null
+     * @return NmemberModelInterface|null
      */
     public function getNmember(): ?NmemberModelInterface;
 
     /**
      * Set 納品先顧客情報
      *
-     * @param Request\Hanpu\AddHanpu\NmemberModel|null $nmember
+     * @param NmemberModel|null $nmember
+     *
      * @return self
      */
     public function setNmember(?NmemberModelInterface $nmember): self;
@@ -44,16 +55,16 @@ interface MemberModelInterface
     /**
      * Get 請求先顧客情報
      *
-     * @return Request\Hanpu\AddHanpu\SmemberModelInterface|null
+     * @return SmemberModelInterface|null
      */
     public function getSmember(): ?SmemberModelInterface;
 
     /**
      * Set 請求先顧客情報
      *
-     * @param Request\Hanpu\AddHanpu\SmemberModel|null $smember
+     * @param SmemberModel|null $smember
+     *
      * @return self
      */
     public function setSmember(?SmemberModelInterface $smember): self;
-
 }

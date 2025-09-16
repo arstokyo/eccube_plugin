@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
 
 /**
@@ -9,9 +20,9 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
  */
 trait TwoOBikouTrait
 {
-    /** @var ?string $obikou1 送り状備考1 */
+    /** @var ?string 送り状備考1 */
     protected ?string $obikou1 = null;
-    /** @var ?string $obikou2 送り状備考2 */
+    /** @var ?string 送り状備考2 */
     protected ?string $obikou2 = null;
 
     /**
@@ -28,6 +39,7 @@ trait TwoOBikouTrait
     public function setObikou1(?string $obikou1)
     {
         $this->obikou1 = $obikou1;
+
         return $this;
     }
 
@@ -45,6 +57,7 @@ trait TwoOBikouTrait
     public function setObikou2(?string $obikou2)
     {
         $this->obikou2 = $obikou2;
+
         return $this;
     }
 }

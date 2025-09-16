@@ -1,43 +1,41 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Jyuden\GetDeliveryInfo;
 
-use Plugin\AceClient43\AceServices\Model\Dependency\Mail;
+use Plugin\AceClient43\AceServices\Model\Dependency\Day;
 use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
 use Plugin\AceClient43\AceServices\Model\Dependency\Good;
+use Plugin\AceClient43\AceServices\Model\Dependency\Haiso;
+use Plugin\AceClient43\AceServices\Model\Dependency\Mail;
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient43\AceServices\Model\Dependency\OkuriAndNouhin;
 use Plugin\AceClient43\AceServices\Model\Dependency\Person;
-use Plugin\AceClient43\AceServices\Model\Dependency\Day;
-use Plugin\AceClient43\AceServices\Model\Dependency\Haiso;
 
 /**
  * Interface for DeliveryModel
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface DeliveryModelInterface extends Mail\HasMailInterface,
-                                         Denpyo\HasDennoInterface,
-                                         Denpyo\HasLineInterface,
-                                         Good\HasGdidInterface,
-                                         Good\HasGNameInterface,
-                                         NoCategory\HasSuuInterface,
-                                         OkuriAndNouhin\HasOkuriNoInterface,
-                                         Person\Nmember\HasNadrInterface,
-                                         Day\HasSdayInterface,
-                                         Day\HasHdayInterface,
-                                         Haiso\HasHkNameInterface,
-                                         NoCategory\HasJmemidInterface
+interface DeliveryModelInterface extends Mail\HasMailInterface, Denpyo\HasDennoInterface, Denpyo\HasLineInterface, Good\HasGdidInterface, Good\HasGNameInterface, NoCategory\HasSuuInterface, OkuriAndNouhin\HasOkuriNoInterface, Person\Nmember\HasNadrInterface, Day\HasSdayInterface, Day\HasHdayInterface, Haiso\HasHkNameInterface, NoCategory\HasJmemidInterface
 {
     /**
      * Get 受付先顧客ID
-     *
      */
     public function getJmemid(): ?string;
 
     /**
      * Set 受付先顧客ID
-     *
      */
     public function setJmemid(?string $jmemid);
 
@@ -52,6 +50,7 @@ interface DeliveryModelInterface extends Mail\HasMailInterface,
      * Set 氏名
      *
      * @param ?string $jname
+     *
      * @return $this
      */
     public function setJname(?string $jname);
@@ -67,6 +66,7 @@ interface DeliveryModelInterface extends Mail\HasMailInterface,
      * Set カナ
      *
      * @param ?string $jkana
+     *
      * @return $this
      */
     public function setJkana(?string $jkana);
@@ -82,6 +82,7 @@ interface DeliveryModelInterface extends Mail\HasMailInterface,
      * Set 郵便番号
      *
      * @param ?string $jzip
+     *
      * @return $this
      */
     public function setJzip(?string $jzip);
@@ -97,6 +98,7 @@ interface DeliveryModelInterface extends Mail\HasMailInterface,
      * Set 住所
      *
      * @param ?string $jadr
+     *
      * @return $this
      */
     public function setJadr(?string $jadr);
@@ -112,6 +114,7 @@ interface DeliveryModelInterface extends Mail\HasMailInterface,
      * Set 電話番号
      *
      * @param ?string $jtel
+     *
      * @return $this
      */
     public function setJtel(?string $jtel);
@@ -127,6 +130,7 @@ interface DeliveryModelInterface extends Mail\HasMailInterface,
      * Set お届先顧客ID
      *
      * @param ?string $nmemid
+     *
      * @return $this
      */
     public function setNmemid(?string $nmemid);
@@ -142,6 +146,7 @@ interface DeliveryModelInterface extends Mail\HasMailInterface,
      * Set 氏名
      *
      * @param ?string $nname
+     *
      * @return $this
      */
     public function setNname(?string $nname);
@@ -157,6 +162,7 @@ interface DeliveryModelInterface extends Mail\HasMailInterface,
      * Set カナ
      *
      * @param ?string $nkana
+     *
      * @return $this
      */
     public function setNkana(?string $nkana);
@@ -172,6 +178,7 @@ interface DeliveryModelInterface extends Mail\HasMailInterface,
      * Set 郵便番号
      *
      * @param ?string $nzip
+     *
      * @return $this
      */
     public function setNzip(?string $nzip);
@@ -187,6 +194,7 @@ interface DeliveryModelInterface extends Mail\HasMailInterface,
      * Set 電話番号
      *
      * @param ?string $ntel
+     *
      * @return $this
      */
     public function setNtel(?string $ntel);

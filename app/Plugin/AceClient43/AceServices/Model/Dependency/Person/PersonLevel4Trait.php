@@ -1,60 +1,72 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Person;
 
-use Plugin\AceClient43\AceServices\Model\Dependency\Free;
-use Plugin\AceClient43\AceServices\Model\Dependency\Baitai;
-use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
-use Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
-use Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC;
+use Eccube\Entity\Master\Sex;
 use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
+use Plugin\AceClient43\AceServices\Model\Dependency\Baitai;
+use Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
 use Plugin\AceClient43\AceServices\Model\Dependency\Cost;
 use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
+use Plugin\AceClient43\AceServices\Model\Dependency\Free;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC;
 
 /**
  * Trait for Person Level 4
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait PersonLevel4Trait 
+trait PersonLevel4Trait
 {
-    use Free\ThreeFreeTrait,
-        Free\ThreeFdayTrait,
-        Free\ThreeFmemoTrait,
-        Free\ThreeFcodeTrait,
-        Bikou\ThreeBikouTrait,
-        Baitai\BaitaiCodeTrait,
-        PhoneAndPC\FaxTrait,
-        NoCategory\DmKbnTrait,
-        Cost\RituTrait,
-        Cost\Tanka\TankaKbnTrait,
-        Denpyo\ToriKbnTrait;
+    use Free\ThreeFreeTrait;
+    use Free\ThreeFdayTrait;
+    use Free\ThreeFmemoTrait;
+    use Free\ThreeFcodeTrait;
+    use Bikou\ThreeBikouTrait;
+    use Baitai\BaitaiCodeTrait;
+    use PhoneAndPC\FaxTrait;
+    use NoCategory\DmKbnTrait;
+    use Cost\RituTrait;
+    use Cost\Tanka\TankaKbnTrait;
+    use Denpyo\ToriKbnTrait;
 
-    /** @var ?AceDateTime\AceDateTime $birthday 生年月日 */
+    /** @var ?AceDateTime\AceDateTime 生年月日 */
     protected ?AceDateTime\AceDateTime $birthday = null;
 
-    /** @var ?string $tel2 電話番号 */
+    /** @var ?string 電話番号 */
     protected ?string $tel2 = null;
 
-    /** @var ?string $upcode 紹介者 */
+    /** @var ?string 紹介者 */
     protected ?string $upcode = null;
 
-    /** @var ?int $inday 入会日 */
+    /** @var ?int 入会日 */
     protected ?int $inday = null;
 
-    /** @var ?int $khasuu 掛率端数処理区分 */
+    /** @var ?int 掛率端数処理区分 */
     protected ?int $khasuu = null;
 
-    /** @var ?int $sex 性別 */
+    /** @var ?int 性別 */
     protected ?int $sex = null;
 
-    /** @var ?int $sime 締日 */
+    /** @var ?int 締日 */
     protected ?int $sime = null;
 
-    /** @var ?int $site 入金サイト */
+    /** @var ?int 入金サイト */
     protected ?int $site = null;
 
-    /** @var ?string $code2 リスト番号 */
+    /** @var ?string リスト番号 */
     protected ?string $code2 = null;
 
     /**
@@ -71,6 +83,7 @@ trait PersonLevel4Trait
     public function setBirthday($birthday)
     {
         $this->birthday = AceDateTime\AceDateTimeFactory::makeAceDateTime($birthday);
+
         return $this;
     }
 
@@ -88,6 +101,7 @@ trait PersonLevel4Trait
     public function setTel2(?string $tel2)
     {
         $this->tel2 = $tel2;
+
         return $this;
     }
 
@@ -105,6 +119,7 @@ trait PersonLevel4Trait
     public function setUpcode(?string $upcode)
     {
         $this->upcode = $upcode;
+
         return $this;
     }
 
@@ -122,6 +137,7 @@ trait PersonLevel4Trait
     public function setInday(?int $inday)
     {
         $this->inday = $inday;
+
         return $this;
     }
 
@@ -139,6 +155,7 @@ trait PersonLevel4Trait
     public function setKhasuu(?int $khasuu)
     {
         $this->khasuu = $khasuu;
+
         return $this;
     }
 
@@ -151,11 +168,33 @@ trait PersonLevel4Trait
     }
 
     /**
+     * Ec-Cubeの性別IDを取得します。
+     *
+     * @return int|null
+     */
+    public function getEccubeSexId(): ?int
+    {
+        $sex = $this->getSex();
+
+        return (null === $sex || !in_array($sex, [1, 2])) ? null : $sex;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function setSex(?int $sex)
     {
         $this->sex = $sex;
+
+        return $this;
+    }
+
+    public function setSexByClass(?Sex $sexClass)
+    {
+        $sex = (null === $sexClass || !in_array($sexClass->getId(), [1, 2])) ? 0 : $sexClass->getId();
+
+        $this->setSex($sex);
+
         return $this;
     }
 
@@ -173,6 +212,7 @@ trait PersonLevel4Trait
     public function setSime(?int $sime)
     {
         $this->sime = $sime;
+
         return $this;
     }
 
@@ -190,6 +230,7 @@ trait PersonLevel4Trait
     public function setSite(?int $site)
     {
         $this->site = $site;
+
         return $this;
     }
 
@@ -207,7 +248,7 @@ trait PersonLevel4Trait
     public function setCode2(?string $code2)
     {
         $this->code2 = $code2;
+
         return $this;
     }
-
 }

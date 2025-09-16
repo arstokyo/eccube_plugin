@@ -1,43 +1,54 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Cvs;
 
+use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory\OrderIdTrait;
 use Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC\TelTrait;
-use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
 
 /**
  * Model for CVS Group 1
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 class CvsModelGroup1 implements CvsModelGroup1Interface
 {
-    use OrderIdTrait,
-        TelTrait;
+    use OrderIdTrait;
+    use TelTrait;
 
-    /** @var string|null $serviceoptiontype 決済サービスオプション */
+    /** @var string|null 決済サービスオプション */
     protected ?string $serviceoptiontype = null;
 
-    /** @var int|null $amount 金額 */
+    /** @var int|null 金額 */
     protected ?int $amount = null;
 
-    /** @var string|null $name1 氏名１ */
+    /** @var string|null 氏名１ */
     protected ?string $name1 = null;
 
-    /** @var string|null $name2 氏名２ */
+    /** @var string|null 氏名２ */
     protected ?string $name2 = null;
 
-    /** @var AceDateTime\AceDateTime|null $paylimit 支払期限 */
+    /** @var AceDateTime\AceDateTime|null 支払期限 */
     protected ?AceDateTime\AceDateTime $paylimit = null;
 
-    /** @var string|null $mstatus 処理結果コード */
+    /** @var string|null 処理結果コード */
     protected ?string $mstatus = null;
 
-    /** @var string|null $vresultcode 詳細結果コード */
+    /** @var string|null 詳細結果コード */
     protected ?string $vresultcode = null;
 
-    /** @var string|null $receiptno 受付番号 */
+    /** @var string|null 受付番号 */
     protected ?string $receiptno = null;
 
     /**
@@ -54,6 +65,7 @@ class CvsModelGroup1 implements CvsModelGroup1Interface
     public function setServiceoptiontype(?string $serviceoptiontype)
     {
         $this->serviceoptiontype = $serviceoptiontype;
+
         return $this;
     }
 
@@ -71,6 +83,7 @@ class CvsModelGroup1 implements CvsModelGroup1Interface
     public function setAmount(?int $amount)
     {
         $this->amount = $amount;
+
         return $this;
     }
 
@@ -88,6 +101,7 @@ class CvsModelGroup1 implements CvsModelGroup1Interface
     public function setName1(?string $name1)
     {
         $this->name1 = $name1;
+
         return $this;
     }
 
@@ -105,6 +119,7 @@ class CvsModelGroup1 implements CvsModelGroup1Interface
     public function setName2(?string $name2)
     {
         $this->name2 = $name2;
+
         return $this;
     }
 
@@ -122,6 +137,7 @@ class CvsModelGroup1 implements CvsModelGroup1Interface
     public function setPaylimit($paylimit)
     {
         $this->paylimit = AceDateTime\AceDatetimeFactory::makeAceDateTime($paylimit, 'Y/m/d');
+
         return $this;
     }
 
@@ -139,6 +155,7 @@ class CvsModelGroup1 implements CvsModelGroup1Interface
     public function setMstatus(?string $mstatus)
     {
         $this->mstatus = $mstatus;
+
         return $this;
     }
 
@@ -156,6 +173,7 @@ class CvsModelGroup1 implements CvsModelGroup1Interface
     public function setVresultcode(?string $vresultcode)
     {
         $this->vresultcode = $vresultcode;
+
         return $this;
     }
 
@@ -173,7 +191,7 @@ class CvsModelGroup1 implements CvsModelGroup1Interface
     public function setReceiptno(?string $receiptno)
     {
         $this->receiptno = $receiptno;
+
         return $this;
     }
-    
 }

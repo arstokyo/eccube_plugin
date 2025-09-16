@@ -1,30 +1,39 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetPoint;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Member\GetPoint\PointModel;
-use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Interface MemberModelInterface
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-
 interface MemberModelInterface extends HasMessageModelInterface
 {
     /**
-    * Get Point
-    *
-    * @return ?Response\Member\GetPoint\PointModel
-    */
+     * Get Point
+     *
+     * @return ?PointModel
+     */
     public function getPoint(): ?PointModel;
 
     /**
      * Set Point
      *
-     * @param ?Response\Member\GetPoint\PointModel $point
+     * @param ?PointModel $point
+     *
      * @return void
      */
     public function setPoint(?PointModel $point): void;

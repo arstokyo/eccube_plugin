@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 /**
@@ -9,19 +20,19 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
  */
 trait FiveFshukkaMailTrait
 {
-    /** @var ?string $fshukkamail1 出荷報告ﾒｰﾙｱﾄﾞﾚｽ1 */
+    /** @var ?string 出荷報告ﾒｰﾙｱﾄﾞﾚｽ1 */
     protected ?string $fshukkamail1 = null;
 
-    /** @var ?string $fshukkamail2 出荷報告ﾒｰﾙｱﾄﾞﾚｽ2 */
+    /** @var ?string 出荷報告ﾒｰﾙｱﾄﾞﾚｽ2 */
     protected ?string $fshukkamail2 = null;
 
-    /** @var ?string $fshukkamail3 出荷報告ﾒｰﾙｱﾄﾞﾚｽ3 */
+    /** @var ?string 出荷報告ﾒｰﾙｱﾄﾞﾚｽ3 */
     protected ?string $fshukkamail3 = null;
 
-    /** @var ?string $fshukkamail4 出荷報告ﾒｰﾙｱﾄﾞﾚｽ4 */
+    /** @var ?string 出荷報告ﾒｰﾙｱﾄﾞﾚｽ4 */
     protected ?string $fshukkamail4 = null;
 
-    /** @var ?string $fshukkamail5 出荷報告ﾒｰﾙｱﾄﾞﾚｽ5 */
+    /** @var ?string 出荷報告ﾒｰﾙｱﾄﾞﾚｽ5 */
     protected ?string $fshukkamail5 = null;
 
     /**
@@ -38,6 +49,7 @@ trait FiveFshukkaMailTrait
     public function setFShukkaMail1(?string $fshukkamail1)
     {
         $this->fshukkamail1 = $fshukkamail1;
+
         return $this;
     }
 
@@ -55,6 +67,7 @@ trait FiveFshukkaMailTrait
     public function setFShukkaMail2(?string $fshukkamail2)
     {
         $this->fshukkamail2 = $fshukkamail2;
+
         return $this;
     }
 
@@ -72,6 +85,7 @@ trait FiveFshukkaMailTrait
     public function setFShukkaMail3(?string $fshukkamail3)
     {
         $this->fshukkamail3 = $fshukkamail3;
+
         return $this;
     }
 
@@ -89,6 +103,7 @@ trait FiveFshukkaMailTrait
     public function setFShukkaMail4(?string $fshukkamail4)
     {
         $this->fshukkamail4 = $fshukkamail4;
+
         return $this;
     }
 
@@ -106,7 +121,7 @@ trait FiveFshukkaMailTrait
     public function setFShukkaMail5(?string $fshukkamail5)
     {
         $this->fshukkamail5 = $fshukkamail5;
+
         return $this;
     }
-
 }

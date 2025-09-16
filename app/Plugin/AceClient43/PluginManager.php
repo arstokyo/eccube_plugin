@@ -15,8 +15,8 @@ namespace Plugin\AceClient43;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Eccube\Plugin\AbstractPluginManager;
-use Plugin\AceClient43\Repository\ConfigRepository;
 use Plugin\AceClient43\Entity\Config as AceClientConfig;
+use Plugin\AceClient43\Repository\ConfigRepository;
 
 /**
  * Class PluginManager.
@@ -33,7 +33,7 @@ class PluginManager extends AbstractPluginManager
 
     /**
      * Insert default config.
-     * 
+     *
      * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
      */
     public function insertDefaultConfig($container)
@@ -51,5 +51,4 @@ class PluginManager extends AbstractPluginManager
             $entityManager->flush();
         }
     }
-    
 }

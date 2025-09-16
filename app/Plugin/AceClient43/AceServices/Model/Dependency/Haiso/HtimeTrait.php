@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Haiso;
 
 /**
@@ -9,7 +20,7 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Haiso;
  */
 trait HtimeTrait
 {
-    /** @var ?int $htime 配送希望時間コード */
+    /** @var ?int 配送希望時間コード */
     protected ?int $htime = null;
 
     /**
@@ -26,6 +37,7 @@ trait HtimeTrait
     public function setHtime(?int $htime)
     {
         $this->htime = $htime;
+
         return $this;
     }
 }

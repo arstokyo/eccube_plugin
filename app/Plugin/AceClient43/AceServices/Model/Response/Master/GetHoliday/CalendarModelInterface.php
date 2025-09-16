@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetHoliday;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Day;
@@ -11,7 +22,6 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Day;
  */
 interface CalendarModelInterface extends Day\HasDayInterface
 {
-
     /**
      * Get 倉庫ID
      *
@@ -23,6 +33,7 @@ interface CalendarModelInterface extends Day\HasDayInterface
      * Set 倉庫ID
      *
      * @param ?string $skid
+     *
      * @return $this
      */
     public function setSkid(?string $skid);
@@ -38,6 +49,7 @@ interface CalendarModelInterface extends Day\HasDayInterface
      * Set 休日区分
      *
      * @param ?int $holkbn
+     *
      * @return $this
      */
     public function setHolkbn(?int $holkbn);
@@ -53,6 +65,7 @@ interface CalendarModelInterface extends Day\HasDayInterface
      * Set メモ
      *
      * @param ?string $memo
+     *
      * @return $this
      */
     public function setMemo(?string $memo);
@@ -68,6 +81,7 @@ interface CalendarModelInterface extends Day\HasDayInterface
      * Set 色
      *
      * @param ?string $frcolor
+     *
      * @return $this
      */
     public function setFrcolor(?string $frcolor);
@@ -83,6 +97,7 @@ interface CalendarModelInterface extends Day\HasDayInterface
      * Set メモの表示日数
      *
      * @param ?int $showdays
+     *
      * @return $this
      */
     public function setShowdays(?int $showdays);

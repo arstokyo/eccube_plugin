@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Request\Contact\RegContact;
 
 use Plugin\AceClient43\AceServices\Model\Request\Prm\PrmModelAbstract;
@@ -9,10 +20,9 @@ use Plugin\AceClient43\AceServices\Model\Request\Prm\PrmModelAbstract;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-
 class InquiryPrmModel extends PrmModelAbstract implements InquiryPrmModelInterface
 {
-    const PRM_NODE_NAME = 'inquiry';
+    public const PRM_NODE_NAME = 'inquiry';
 
     /**
      * {@inheritDoc}
@@ -32,48 +42,50 @@ class InquiryPrmModel extends PrmModelAbstract implements InquiryPrmModelInterfa
     /**
      * Contact
      *
-     * @var ContactModel $contact
+     * @var ContactModel
      */
-    protected ?ContactModel $contact  = null;
+    protected ?ContactModel $contact = null;
 
     /**
      * {@inheritDoc}
      */
-    function getContact(): ?ContactModel
+    public function getContact(): ?ContactModel
     {
         return $this->contact;
     }
 
     /**
-    * {@inheritDoc}
-    */
-    function setContact(?ContactModel $contact): self
+     * {@inheritDoc}
+     */
+    public function setContact(?ContactModel $contact): self
     {
         $this->contact = $contact;
+
         return $this;
     }
 
     /**
      * Contactmei
      *
-     * @var ContactmeiModel $contactmei
+     * @var ContactmeiModel
      */
-    protected ?ContactmeiModel $contactmei  = null;
+    protected ?ContactmeiModel $contactmei = null;
 
     /**
      * {@inheritDoc}
      */
-    function getContactmei(): ?ContactmeiModel
+    public function getContactmei(): ?ContactmeiModel
     {
         return $this->contactmei;
     }
 
     /**
-    * {@inheritDoc}
-    */
-    function setContactmei(?ContactmeiModel $contactmei): self
+     * {@inheritDoc}
+     */
+    public function setContactmei(?ContactmeiModel $contactmei): self
     {
         $this->contactmei = $contactmei;
+
         return $this;
     }
 }

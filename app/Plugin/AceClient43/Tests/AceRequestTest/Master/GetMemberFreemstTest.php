@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Master;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Master\GetMemberFreemst\GetMemberFreemstRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Master\GetMemberFreemst\GetMemberFreemstResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
-
 
 class GetMemberFreemstRequestModelTest extends AceRequestTestAbtract
 {
@@ -34,11 +44,11 @@ class GetMemberFreemstRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
-
     public function GetMemberFreemstRequestForSerialize(): GetMemberFreemstRequestModel
     {
         $freemst = new GetMemberFreemstRequestModel();
         $getMemberFreemst = $freemst->setId(OverviewMapper::ACE_TEST_SYID);
+
         return $getMemberFreemst;
     }
 
@@ -46,14 +56,18 @@ class GetMemberFreemstRequestModelTest extends AceRequestTestAbtract
     {
         $freemst = new GetMemberFreemstRequestModel();
         $getMemberFreemst = $freemst->setId(OverviewMapper::ACE_TEST_SYID);
+
         return $getMemberFreemst;
     }
+
     public function GetMemberFreemstRequestNG(): GetMemberFreemstRequestModel
     {
         $freemst = new GetMemberFreemstRequestModel();
         $getMemberFreemst = $freemst->setId(-1);
+
         return $getMemberFreemst;
     }
+
     public function testRequestGetMemberFreemstOK()
     {
         try {
@@ -69,38 +83,37 @@ class GetMemberFreemstRequestModelTest extends AceRequestTestAbtract
                 $freemst1 = $responseObj->getMaster()->getFreemst()[0];
                 $freemst2 = $responseObj->getMaster()->getFreemst()[1];
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(101100, $freemst1->getKubun());
-        $this->assertEquals("フリー100", $freemst1->getName());
+        $this->assertEquals('フリー100', $freemst1->getName());
         $this->assertEquals(0, $freemst1->getType());
         $this->assertEquals(null, $freemst1->getJyun());
         $this->assertEquals(0, $freemst1->getReqflg());
-        $this->assertEquals("", $freemst1->getExplanation());
+        $this->assertEquals('', $freemst1->getExplanation());
         $this->assertEquals(null, $freemst1->getOyakubun());
-        $this->assertEquals("", $freemst1->getBgcolor());
+        $this->assertEquals('', $freemst1->getBgcolor());
         $this->assertEquals(0, $freemst1->getRpos());
         $this->assertEquals(0, $freemst1->getLeng());
 
         $this->assertEquals(101101, $freemst2->getKubun());
-        $this->assertEquals("フリー101", $freemst2->getName());
+        $this->assertEquals('フリー101', $freemst2->getName());
         $this->assertEquals(1, $freemst2->getType());
         $this->assertEquals(null, $freemst2->getJyun());
         $this->assertEquals(0, $freemst2->getReqflg());
-        $this->assertEquals("", $freemst2->getExplanation());
+        $this->assertEquals('', $freemst2->getExplanation());
         $this->assertEquals(null, $freemst2->getOyakubun());
-        $this->assertEquals("", $freemst2->getBgcolor());
+        $this->assertEquals('', $freemst2->getBgcolor());
         $this->assertEquals(0, $freemst2->getRpos());
         $this->assertEquals(0, $freemst2->getLeng());
 
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestGetMemberFreemstNG()
@@ -117,16 +130,15 @@ class GetMemberFreemstRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMaster()->getMessage()->getMessage1();
                 $freemst = $responseObj->getMaster()->getFreemst();
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(null, $freemst);
-        $this->assertEquals("ＷＥＢ初期設定がありません", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('ＷＥＢ初期設定がありません', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

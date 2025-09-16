@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Master;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Master\GetHktime\GetHktimeRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Master\GetHktime\GetHktimeResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
-
 
 class GetHktimeRequestModelTest extends AceRequestTestAbtract
 {
@@ -35,12 +45,12 @@ class GetHktimeRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
-
     public function GetHktimeRequestForSerialize(): GetHktimeRequestModel
     {
         $hktime = new GetHktimeRequestModel();
         $getHktime = $hktime->setId(OverviewMapper::ACE_TEST_SYID)
-                            ->setCode("222");
+                            ->setCode('222');
+
         return $getHktime;
     }
 
@@ -48,16 +58,20 @@ class GetHktimeRequestModelTest extends AceRequestTestAbtract
     {
         $hktime = new GetHktimeRequestModel();
         $getHktime = $hktime->setId(OverviewMapper::ACE_TEST_SYID)
-                            ->setCode("10");
+                            ->setCode('10');
+
         return $getHktime;
     }
+
     public function GetHktimeRequestNG(): GetHktimeRequestModel
     {
         $hktime = new GetHktimeRequestModel();
         $getHktime = $hktime->setId(-1)
-                            ->setCode("10");
+                            ->setCode('10');
+
         return $getHktime;
     }
+
     public function testRequestGetHktimeOK()
     {
         try {
@@ -73,24 +87,23 @@ class GetHktimeRequestModelTest extends AceRequestTestAbtract
                 $hktime1 = $responseObj->getMaster()->getHktime()[0];
                 $hktime2 = $responseObj->getMaster()->getHktime()[1];
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
-        $this->assertEquals("0", $hktime1->getHkcode());
-        $this->assertEquals("指定なし", $hktime1->getHkname());
+        $this->assertEquals('0', $hktime1->getHkcode());
+        $this->assertEquals('指定なし', $hktime1->getHkname());
         $this->assertEquals(0, $hktime1->getHktime());
 
-        $this->assertEquals("1", $hktime2->getHkcode());
-        $this->assertEquals("指定なし", $hktime2->getHkname());
+        $this->assertEquals('1', $hktime2->getHkcode());
+        $this->assertEquals('指定なし', $hktime2->getHkname());
         $this->assertEquals(null, $hktime2->getHktime());
 
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestGetHktimeNG()
@@ -107,16 +120,15 @@ class GetHktimeRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMaster()->getMessage()->getMessage1();
                 $hktime = $responseObj->getMaster()->getHktime();
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(null, $hktime);
-        $this->assertEquals("ＷＥＢ初期設定がありません", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('ＷＥＢ初期設定がありません', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

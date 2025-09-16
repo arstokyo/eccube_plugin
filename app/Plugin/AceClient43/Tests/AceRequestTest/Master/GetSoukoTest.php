@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Master;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Master\GetSouko\GetSoukoRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Master\GetSouko\GetSoukoResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
-
 
 class GetSoukoRequestModelTest extends AceRequestTestAbtract
 {
@@ -33,11 +43,11 @@ class GetSoukoRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
-
     public function GetSoukoRequestForSerialize(): GetSoukoRequestModel
     {
         $souko = new GetSoukoRequestModel();
         $getSouko = $souko->setId(OverviewMapper::ACE_TEST_SYID);
+
         return $getSouko;
     }
 
@@ -45,14 +55,18 @@ class GetSoukoRequestModelTest extends AceRequestTestAbtract
     {
         $souko = new GetSoukoRequestModel();
         $getSouko = $souko->setId(OverviewMapper::ACE_TEST_SYID);
+
         return $getSouko;
     }
+
     public function GetSoukoRequestNG(): GetSoukoRequestModel
     {
         $souko = new GetSoukoRequestModel();
         $getSouko = $souko->setId(-1);
+
         return $getSouko;
     }
+
     public function testRequestGetSoukoOK()
     {
         try {
@@ -68,22 +82,21 @@ class GetSoukoRequestModelTest extends AceRequestTestAbtract
                 $souko1 = $responseObj->getMaster()->getSouko()[0];
                 $souko2 = $responseObj->getMaster()->getSouko()[1];
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
-        $this->assertEquals("1", $souko1->getCode());
-        $this->assertEquals("EccubePlugin倉庫", $souko1->getName());
+        $this->assertEquals('1', $souko1->getCode());
+        $this->assertEquals('EccubePlugin倉庫', $souko1->getName());
 
-        $this->assertEquals("100", $souko2->getCode());
-        $this->assertEquals("GetZaikoテスト倉庫", $souko2->getName());
+        $this->assertEquals('100', $souko2->getCode());
+        $this->assertEquals('GetZaikoテスト倉庫', $souko2->getName());
 
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestGetSoukoNG()
@@ -100,16 +113,15 @@ class GetSoukoRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMaster()->getMessage()->getMessage1();
                 $souko = $responseObj->getMaster()->getSouko();
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(null, $souko);
-        $this->assertEquals("ＷＥＢ初期設定がありません", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('ＷＥＢ初期設定がありません', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

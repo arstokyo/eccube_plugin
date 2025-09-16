@@ -1,11 +1,21 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Hanpu\Hanmei;
 
+use Plugin\AceClient43\AceServices\Model\Dependency\Cost;
 use Plugin\AceClient43\AceServices\Model\Dependency\Good;
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
-use Plugin\AceClient43\AceServices\Model\Dependency\Cost;
-
 
 /**
  * Trait for HanmeiModelBase
@@ -14,15 +24,15 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Cost;
  */
 trait HanmeiModelBaseTrait
 {
-    use NoCategory\EdaTrait,
-        Good\GcodeTrait,
-        NoCategory\SuuTrait,
-        Cost\Tanka\TankaTrait;
+    use NoCategory\EdaTrait;
+    use Good\GcodeTrait;
+    use NoCategory\SuuTrait;
+    use Cost\Tanka\TankaTrait;
 
-    /** @var ?string $kousin 更新区分 */
+    /** @var ?string 更新区分 */
     protected ?int $kousin = null;
 
-    /** @var ?string $ksite 明細サイト */
+    /** @var ?string 明細サイト */
     protected ?int $ksite = null;
 
     /**
@@ -39,6 +49,7 @@ trait HanmeiModelBaseTrait
     public function setKousin(?int $kousin)
     {
         $this->kousin = $kousin;
+
         return $this;
     }
 
@@ -56,6 +67,7 @@ trait HanmeiModelBaseTrait
     public function setKsite(?int $ksite)
     {
         $this->ksite = $ksite;
+
         return $this;
     }
 }

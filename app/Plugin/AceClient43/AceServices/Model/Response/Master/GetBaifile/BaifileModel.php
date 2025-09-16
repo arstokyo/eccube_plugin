@@ -1,40 +1,50 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetBaifile;
 
-use Plugin\AceClient43\AceServices\Model\Dependency\Baitai;
-use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
-use Plugin\AceClient43\AceServices\Model\Dependency\Good;
-use Plugin\AceClient43\AceServices\Model\Dependency\Day;
 use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
+use Plugin\AceClient43\AceServices\Model\Dependency\Baitai;
+use Plugin\AceClient43\AceServices\Model\Dependency\Day;
+use Plugin\AceClient43\AceServices\Model\Dependency\Good;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Class BaifileModel
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-
 class BaifileModel implements BaifileModelInterface
 {
-    use Baitai\BcodeTrait,
-        Baitai\BkCodeTrait,
-        NoCategory\NameTrait,
-        Good\SubNameTrait,
-        Day\SdayTrait;
+    use Baitai\BcodeTrait;
+    use Baitai\BkCodeTrait;
+    use NoCategory\NameTrait;
+    use Good\SubNameTrait;
+    use Day\SdayTrait;
 
-    /** @var ?int $keihi 媒体経費 */
+    /** @var ?int 媒体経費 */
     protected ?int $keihi = null;
 
-    /** @var ?AceDateTime\AceDateTime $eday 媒体終了日 */
+    /** @var ?AceDateTime\AceDateTime 媒体終了日 */
     protected ?AceDateTime\AceDateTime $eday = null;
 
-    /** @var ?int $stopfg 中止区分 */
+    /** @var ?int 中止区分 */
     protected ?int $stopfg = null;
 
-    /** @var ?string $fcode1 フリーコード１ */
+    /** @var ?string フリーコード１ */
     protected ?string $fcode1 = null;
 
-    /** @var ?string $fcode2 フリーコード２ */
+    /** @var ?string フリーコード２ */
     protected ?string $fcode2 = null;
 
     /**
@@ -51,6 +61,7 @@ class BaifileModel implements BaifileModelInterface
     public function setKeihi(?int $keihi)
     {
         $this->keihi = $keihi;
+
         return $this;
     }
 
@@ -68,6 +79,7 @@ class BaifileModel implements BaifileModelInterface
     public function setEday($eday)
     {
         $this->eday = AceDateTime\AceDateTimeFactory::makeAceDateTime($eday);
+
         return $this;
     }
 
@@ -85,6 +97,7 @@ class BaifileModel implements BaifileModelInterface
     public function setStopfg(?int $stopfg)
     {
         $this->stopfg = $stopfg;
+
         return $this;
     }
 
@@ -102,6 +115,7 @@ class BaifileModel implements BaifileModelInterface
     public function setFcode1(?string $fcode1)
     {
         $this->fcode1 = $fcode1;
+
         return $this;
     }
 
@@ -119,6 +133,7 @@ class BaifileModel implements BaifileModelInterface
     public function setFcode2(?string $fcode2)
     {
         $this->fcode2 = $fcode2;
+
         return $this;
     }
 }

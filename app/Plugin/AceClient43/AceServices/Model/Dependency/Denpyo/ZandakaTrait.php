@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
 
 use Plugin\AceClient43\Util\Converter\NumberConverter;
@@ -11,7 +22,7 @@ use Plugin\AceClient43\Util\Converter\NumberConverter;
  */
 trait ZandakaTrait
 {
-    /** @var ?float $zandaka 伝票残高 */
+    /** @var ?float 伝票残高 */
     protected ?float $zandaka = null;
 
     /**
@@ -28,6 +39,7 @@ trait ZandakaTrait
     public function setZandaka(?string $zandaka)
     {
         $this->zandaka = NumberConverter::stringWithCommaToFloat($zandaka);
+
         return $this;
     }
 }

@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 /**
@@ -9,14 +20,13 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
  */
 trait ThreeFnameTrait
 {
-
-    /** @var string|null $fname1 フリーコード1名称 */
+    /** @var string|null フリーコード1名称 */
     protected ?string $fname1 = null;
 
-    /** @var ?string $fname2 フリーコード2名称 */
+    /** @var ?string フリーコード2名称 */
     protected ?string $fname2 = null;
 
-    /** @var ?string $fname3 フリーコード3名称 */
+    /** @var ?string フリーコード3名称 */
     protected ?string $fname3 = null;
 
     /**
@@ -30,6 +40,7 @@ trait ThreeFnameTrait
     public function setFname1(?string $fname1)
     {
         $this->fname1 = $fname1;
+
         return $this;
     }
 
@@ -47,6 +58,7 @@ trait ThreeFnameTrait
     public function setFname2(?string $fname2)
     {
         $this->fname2 = $fname2;
+
         return $this;
     }
 
@@ -64,7 +76,7 @@ trait ThreeFnameTrait
     public function setFname3(?string $fname3)
     {
         $this->fname3 = $fname3;
+
         return $this;
     }
-
 }

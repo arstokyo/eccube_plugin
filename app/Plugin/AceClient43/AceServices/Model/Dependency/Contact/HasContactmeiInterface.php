@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Contact;
 
 use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
@@ -22,6 +33,7 @@ interface HasContactmeiInterface extends ContactBaseModelInterface
      * Set 日時
      *
      * @param \DateTime|string|null $condate
+     *
      * @return $this
      */
     public function setCondate($condate);
@@ -37,6 +49,7 @@ interface HasContactmeiInterface extends ContactBaseModelInterface
      * Set 依頼グループ名
      *
      * @param ?string $requestgroup
+     *
      * @return $this
      */
     public function setRequestgroup(?string $requestgroup);
@@ -52,6 +65,7 @@ interface HasContactmeiInterface extends ContactBaseModelInterface
      * Set 依頼ユーザーID
      *
      * @param ?string $requestuser
+     *
      * @return $this
      */
     public function setRequestuser(?string $requestuser);
@@ -67,6 +81,7 @@ interface HasContactmeiInterface extends ContactBaseModelInterface
      * Set 在宅日
      *
      * @param \DateTime|string|null $athometime
+     *
      * @return $this
      */
     public function setAthomedate($athometime);
@@ -82,6 +97,7 @@ interface HasContactmeiInterface extends ContactBaseModelInterface
      * Set 在宅時間
      *
      * @param ?string $athometime
+     *
      * @return $this
      */
     public function setAthometime(?string $athometime);
@@ -97,6 +113,7 @@ interface HasContactmeiInterface extends ContactBaseModelInterface
      * Set 会話メモ１
      *
      * @param ?string $note1
+     *
      * @return $this
      */
     public function setNote1(?string $note1);
@@ -112,6 +129,7 @@ interface HasContactmeiInterface extends ContactBaseModelInterface
      * Set 会話メモ２
      *
      * @param ?string $note2
+     *
      * @return $this
      */
     public function setNote2(?string $note2);

@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetBaifile;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelTrait;
@@ -9,7 +20,6 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelTrait
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-
 class MasterModel implements MasterModelInterface
 {
     use HasMessageModelTrait;
@@ -17,22 +27,22 @@ class MasterModel implements MasterModelInterface
     /**
      * Baifile
      *
-     * @var BaifileModel[]|null $baifile
+     * @var BaifileModel[]|null
      */
-    protected ?array $baifile  = null;
+    protected ?array $baifile = null;
 
     /**
      * {@inheritDoc}
      */
-    function getBaifile(): ?array
+    public function getBaifile(): ?array
     {
         return $this->baifile;
     }
 
     /**
-    * {@inheritDoc}
-    */
-    function setBaifile(?array $baifile): void
+     * {@inheritDoc}
+     */
+    public function setBaifile(?array $baifile): void
     {
         $this->baifile = $baifile;
     }
@@ -43,7 +53,7 @@ class MasterModel implements MasterModelInterface
     public static function fetchAsListProperty(): array
     {
         return [
-                'baifile' => BaifileModel::class
-               ];
+            'baifile' => BaifileModel::class,
+        ];
     }
 }

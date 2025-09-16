@@ -1,30 +1,42 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Hanpu;
 
-use Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu;
-use Plugin\AceClient43\AceServices\Model\Response\Hanpu\AddHanpu\AddHanpuResponseModel;
-use Plugin\AceClient43\AceServices\Model\Request\Hanpu\GetHanpu\GetHanpuRequestModel;
-use Plugin\AceClient43\AceServices\Model\Response\Hanpu\GetHanpu\GetHanpuResponseModel;
 use GuzzleHttp\Exception\ClientException;
-use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Util\Mapper\OverviewMapper;
+use Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu;
+use Plugin\AceClient43\AceServices\Model\Request\Hanpu\GetHanpu\GetHanpuRequestModel;
+use Plugin\AceClient43\AceServices\Model\Response\Hanpu\AddHanpu\AddHanpuResponseModel;
+use Plugin\AceClient43\AceServices\Model\Response\Hanpu\GetHanpu\GetHanpuResponseModel;
 use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
+use Plugin\AceClient43\Util\Mapper\OverviewMapper;
+use Plugin\AceClient43\Util\Serializer;
 
 class GetHanpuTest extends AceRequestTestAbtract
 {
     private ?string $testMemberId = '221';
     private ?string $testSessid = '5555555555';
+
     public function getAddHanpuModel(): AddHanpu\AddHanpuRequestModel
     {
-        $member = (new AddHanpu\MemberModel)
+        $member = (new AddHanpu\MemberModel())
                         ->setJmember((new AddHanpu\JmemberModel())->setCode($this->testMemberId))
                         ->setSmember((new AddHanpu\SmemberModel())->setCode($this->testMemberId))
                         ->setNmember((new AddHanpu\NmemberModel())->setEda(1));
 
-        $handen = (new AddHanpu\HandenModel)
-                        ->setDay((new \Datetime())->modify('+1 year'))
-                        ->setTcode("123")
+        $handen = (new AddHanpu\HandenModel())
+                        ->setDay((new \DateTime())->modify('+1 year'))
+                        ->setTcode('123')
                         ->setSkbn(0)
                         ->setJcode(1)
                         ->setPcode(14)
@@ -41,25 +53,25 @@ class GetHanpuTest extends AceRequestTestAbtract
                         ->setNbikou2('納品備考2')
                         ->setObikou1('送り状備考1')
                         ->setObikou2('送り状備考2')
-                        ->setHbikou1("頒布伝票備考1")
-                        ->setHbikou2("頒布伝票備考2")
+                        ->setHbikou1('頒布伝票備考1')
+                        ->setHbikou2('頒布伝票備考2')
                         ->setDbikou1('伝票備考1')
                         ->setDbikou2('伝票備考2')
                         ->setDbikou3('伝票備考3')
-                        ->setDfmemoh1("伝票フリーメモ1")
-                        ->setDfmemoh2("伝票フリーメモ2")
-                        ->setDfmemoh3("伝票フリーメモ3")
+                        ->setDfmemoh1('伝票フリーメモ1')
+                        ->setDfmemoh2('伝票フリーメモ2')
+                        ->setDfmemoh3('伝票フリーメモ3')
                         ->setBscode(100)
                         ->setPointm(0)
                         ->setCardInfo((new AddHanpu\CardInfoModel())
                                             ->setCcode(100)
                                             ->setCno('123456789')
-                                            ->setCkigen((new \Datetime())->modify('+1 year'))
+                                            ->setCkigen((new \DateTime())->modify('+1 year'))
                                             ->setCpay(21)
                                             ->setKaisuu(5)
                                             ->setSyounin(100)
-                                            ->setSpscustomerid("100")
-                                            ->setSpstid("100")
+                                            ->setSpscustomerid('100')
+                                            ->setSpstid('100')
                                             ->setVeriorderid(999)
                                             ->setCname('name')
                                             ->setVeristatus(1)
@@ -73,27 +85,27 @@ class GetHanpuTest extends AceRequestTestAbtract
                                             ->setGmotorihikiid('gmoid')
                                             ->setGmotorihikipw('gmopw')
                                             ->setGmocardeda(1)
-                                    )
+                        )
                         ->setCampaign(0)
-                        ->setHanpucd("21")
+                        ->setHanpucd('21')
                         ->setHanpuFirst((new AddHanpu\HanpuFirstModel())
-                                            ->setSday((new \Datetime())->modify('+1 year'))
-                                            ->setOtodokeday((new \Datetime())->modify('+3 year'))
-                                        )
+                                ->setSday((new \DateTime())->modify('+1 year'))
+                                ->setOtodokeday((new \DateTime())->modify('+3 year'))
+                        )
                         ->setHanpuSecond((new AddHanpu\HanpuSecondModel())
-                                            ->setSite(1)
-                                            // ->setSiteday(21)
-                                            ->setSdd(3)
-                                            ->setWeeksite(1)
-                                            ->setWeekday(2)
-                                            ->setOtodokedd(1)
-                                            ->setOtodokewsite(3)
-                                            ->setOtodokewday(2)
-                                        )
+                            ->setSite(1)
+                            // ->setSiteday(21)
+                            ->setSdd(3)
+                            ->setWeeksite(1)
+                            ->setWeekday(2)
+                            ->setOtodokedd(1)
+                            ->setOtodokewsite(3)
+                            ->setOtodokewday(2)
+                        )
                         ->setWeborderno(1234);
         $mailjyuden = (new AddHanpu\MailJyudenModel())
-                        ->setTbikou("メール伝票備考")
-                        ->setMail("addHanpuTest@AceClient.v1.0");
+                        ->setTbikou('メール伝票備考')
+                        ->setMail('addHanpuTest@AceClient.v1.0');
         $detail = (new AddHanpu\DetailModel())
                     ->setHanmei([(new AddHanpu\HanmeiModel())
                                     ->setGcode(102)
@@ -102,28 +114,28 @@ class GetHanpuTest extends AceRequestTestAbtract
                                     ->setKousin(1)
                                     ->setKsite(1)
                                     ->setTeiki(1)
-                                    ->setTaxkbn(0)
-                                ,(new AddHanpu\HanmeiModel())
-                                    ->setGcode(100)
-                                    ->setSuu(40)
-                                    ->setTanka(1650)
-                                    ->setKousin(0)
-                                    ->setKsite(1)
-                                    ->setTeiki(1)
-                                    ->setTaxkbn(2)
-                                ]);
+                                    ->setTaxkbn(0), (new AddHanpu\HanmeiModel())
+                            ->setGcode(100)
+                            ->setSuu(40)
+                            ->setTanka(1650)
+                            ->setKousin(0)
+                            ->setKsite(1)
+                            ->setTeiki(1)
+                            ->setTaxkbn(2),
+                    ]);
         $prm = (new AddHanpu\HanpuPrmModel())
                     ->setMember($member)
                     ->setHanden($handen)
                     ->setMailjyuden($mailjyuden)
                     ->setDetail($detail);
+
         return (new AddHanpu\AddHanpuRequestModel())
                     ->setId(OverviewMapper::ACE_TEST_SYID)
                     ->setSessId($this->testSessid)
                     ->setPrm($prm);
     }
 
-    public function addNewHanpu() : bool
+    public function addNewHanpu(): bool
     {
         try {
             $addHanpuRequest = $this->getAddHanpuModel();
@@ -137,12 +149,13 @@ class GetHanpuTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getOrder()->getMessage()->getMessage1();
                 $message2 = $responseObj->getOrder()->getMessage()->getMessage2();
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
-        return empty($message1) && empty($message2) ;
+
+        return empty($message1) && empty($message2);
     }
 
     public function testRequestGetHanpuOK()
@@ -172,81 +185,81 @@ class GetHanpuTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getOrder()->getMessage()->getMessage1();
                 $message2 = $responseObj->getOrder()->getMessage()->getMessage2();
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
         $this->assertEquals(13, $handen->getId());
         $this->assertEquals($this->testSessid, $handen->getSessid());
-        $this->assertEquals((new \Datetime())->modify('+1 year')->format('Ymd'), $handen->getDay()->toApiDateTime());
+        $this->assertEquals((new \DateTime())->modify('+1 year')->format('Ymd'), $handen->getDay()->toApiDateTime());
         $this->assertEquals(21, $handen->getHanpu());
         $this->assertEquals(0, $handen->getTorikbn());
-        $this->assertEquals("100", $handen->getBumon());
-        $this->assertEquals("221", $handen->getMcode());
-        $this->assertEquals("221", $handen->getScode());
+        $this->assertEquals('100', $handen->getBumon());
+        $this->assertEquals('221', $handen->getMcode());
+        $this->assertEquals('221', $handen->getScode());
         $this->assertEquals(1, $handen->getJcode());
         $this->assertEquals(14, $handen->getPcode());
-        $this->assertEquals("", $handen->getCcode());
-        $this->assertEquals("", $handen->getCno());
+        $this->assertEquals('', $handen->getCcode());
+        $this->assertEquals('', $handen->getCno());
         $this->assertEquals(null, $handen->getCkigen());
-        $this->assertEquals("", $handen->getCname());
+        $this->assertEquals('', $handen->getCname());
         $this->assertEquals(null, $handen->getCpay());
-        $this->assertEquals("", $handen->getSyounin());
+        $this->assertEquals('', $handen->getSyounin());
         $this->assertEquals(null, $handen->getKaisuu());
-        $this->assertEquals("100", $handen->getBcode());
-        $this->assertEquals("100", $handen->getBkcode());
-        $this->assertEquals("フリーコード1", $handen->getFcode1());
-        $this->assertEquals("フリーコード2", $handen->getFcode2());
-        $this->assertEquals("フリーコード3", $handen->getFcode3());
+        $this->assertEquals('100', $handen->getBcode());
+        $this->assertEquals('100', $handen->getBkcode());
+        $this->assertEquals('フリーコード1', $handen->getFcode1());
+        $this->assertEquals('フリーコード2', $handen->getFcode2());
+        $this->assertEquals('フリーコード3', $handen->getFcode3());
         $this->assertEquals(10, $handen->getHcode());
-        $this->assertEquals("221", $handen->getNcode());
-        $this->assertEquals("1", $handen->getNadr());
-        $this->assertEquals("1", $handen->getSouko());
-        $this->assertEquals("thong", $handen->getTcode());
+        $this->assertEquals('221', $handen->getNcode());
+        $this->assertEquals('1', $handen->getNadr());
+        $this->assertEquals('1', $handen->getSouko());
+        $this->assertEquals('thong', $handen->getTcode());
         $this->assertEquals(1, $handen->getScnt());
         $this->assertEquals(0, $handen->getEcnt());
         $this->assertEquals(1, $handen->getSitekbn());
         $this->assertEquals(1, $handen->getSite());
-        $this->assertEquals((new \Datetime())->modify('+1 year')->format('Ymd'), $handen->getDay()->toApiDateTime());
+        $this->assertEquals((new \DateTime())->modify('+1 year')->format('Ymd'), $handen->getDay()->toApiDateTime());
         $this->assertEquals(null, $handen->getEday());
         $this->assertEquals(0, $handen->getYkbn());
         $this->assertEquals(0, $handen->getFinflg());
         $this->assertEquals(null, $handen->getFinday());
-        $this->assertEquals("", $handen->getNbikou1());
-        $this->assertEquals('納品備考1納品備考2', trim(preg_replace('/\R+/', '',$handen->getNbikou2())));
-        $this->assertEquals("", $handen->getObikou1());
-        $this->assertEquals('送り状備考1送り状備考2', trim(preg_replace('/\R+/', '',$handen->getObikou2())));
-        $this->assertEquals("thong", $handen->getTncode());
+        $this->assertEquals('', $handen->getNbikou1());
+        $this->assertEquals('納品備考1納品備考2', trim(preg_replace('/\R+/', '', $handen->getNbikou2())));
+        $this->assertEquals('', $handen->getObikou1());
+        $this->assertEquals('送り状備考1送り状備考2', trim(preg_replace('/\R+/', '', $handen->getObikou2())));
+        $this->assertEquals('thong', $handen->getTncode());
         $this->assertEquals(0, $handen->getBunsyo());
         $this->assertEquals(0, $handen->getNouhin());
         $this->assertEquals(2, $handen->getHtime());
         $this->assertEquals(null, $handen->getHday());
-        $this->assertEquals("100", $handen->getBcodef());
-        $this->assertEquals("100", $handen->getBkcodef());
+        $this->assertEquals('100', $handen->getBcodef());
+        $this->assertEquals('100', $handen->getBkcodef());
         $this->assertEquals(0, $handen->getCamflg());
         $this->assertEquals(null, $handen->getSdd());
         $this->assertEquals(1, $handen->getWeeksite());
         $this->assertEquals(2, $handen->getWeekday());
         $this->assertEquals(null, $handen->getHcode2());
-        $this->assertEquals('頒布伝票備考1頒布伝票備考2', trim(preg_replace('/\R+/', '',$handen->getHbikou1())));
-        $this->assertEquals("", $handen->getHbikou2());
+        $this->assertEquals('頒布伝票備考1頒布伝票備考2', trim(preg_replace('/\R+/', '', $handen->getHbikou1())));
+        $this->assertEquals('', $handen->getHbikou2());
         $this->assertEquals(null, $handen->getPcode2());
         $this->assertEquals(1, $handen->getHtype());
         $this->assertEquals(0, $handen->getGiftfg());
         $this->assertEquals(0, $handen->getUskbn());
         $this->assertEquals(13, $handen->getMemid());
-        $this->assertEquals((new \Datetime())->modify('+3 year')->format('Ymd'), $handen->getOtodokeday());
+        $this->assertEquals((new \DateTime())->modify('+3 year')->format('Ymd'), $handen->getOtodokeday());
         $this->assertEquals(null, $handen->getOtodokedd());
         $this->assertEquals(null, $handen->getOtodokewsite());
         $this->assertEquals(null, $handen->getOtodokewday());
-        $this->assertEquals("", $handen->getSpscustomerid());
-        $this->assertEquals("", $handen->getSpstid());
-        $this->assertEquals("", $handen->getPgtkid());
-        $this->assertEquals("100", $handen->getGmomemberid());
-        $this->assertEquals("123456789", $handen->getGmoorderid());
-        $this->assertEquals("gmoid", $handen->getGmotorihikiid());
-        $this->assertEquals("gmopw", $handen->getGmotorihikipw());
+        $this->assertEquals('', $handen->getSpscustomerid());
+        $this->assertEquals('', $handen->getSpstid());
+        $this->assertEquals('', $handen->getPgtkid());
+        $this->assertEquals('100', $handen->getGmomemberid());
+        $this->assertEquals('123456789', $handen->getGmoorderid());
+        $this->assertEquals('gmoid', $handen->getGmotorihikiid());
+        $this->assertEquals('gmopw', $handen->getGmotorihikipw());
         $this->assertEquals(null, $handen->getSpsstatus());
         $this->assertEquals(null, $handen->getPgtstatus());
         $this->assertEquals(3, $handen->getGmostatus());
@@ -255,14 +268,14 @@ class GetHanpuTest extends AceRequestTestAbtract
         $this->assertEquals(null, $handen->getDbikouh1());
         $this->assertEquals(null, $handen->getDbikouh2());
         $this->assertEquals(null, $handen->getDbikouh3());
-        $this->assertEquals("伝票フリーメモ1", $handen->getDfmemoh1());
-        $this->assertEquals("伝票フリーメモ2", $handen->getDfmemoh2());
-        $this->assertEquals("伝票フリーメモ3", $handen->getDfmemoh3());
+        $this->assertEquals('伝票フリーメモ1', $handen->getDfmemoh1());
+        $this->assertEquals('伝票フリーメモ2', $handen->getDfmemoh2());
+        $this->assertEquals('伝票フリーメモ3', $handen->getDfmemoh3());
 
         $this->assertEquals(13, $hanmei1->getId());
         $this->assertEquals($this->testSessid, $hanmei1->getSessid());
-        $this->assertEquals("1", $hanmei1->getEda());
-        $this->assertEquals("102", $hanmei1->getGcode());
+        $this->assertEquals('1', $hanmei1->getEda());
+        $this->assertEquals('102', $hanmei1->getGcode());
         $this->assertEquals(7, $hanmei1->getSuu());
         $this->assertEquals(1200, $hanmei1->getTanka());
         $this->assertEquals(0, $hanmei1->getKousin());
@@ -272,8 +285,8 @@ class GetHanpuTest extends AceRequestTestAbtract
 
         $this->assertEquals(13, $hanmei2->getId());
         $this->assertEquals($this->testSessid, $hanmei2->getSessid());
-        $this->assertEquals("2", $hanmei2->getEda());
-        $this->assertEquals("100", $hanmei2->getGcode());
+        $this->assertEquals('2', $hanmei2->getEda());
+        $this->assertEquals('100', $hanmei2->getGcode());
         $this->assertEquals(40, $hanmei2->getSuu());
         $this->assertEquals(1650, $hanmei2->getTanka());
         $this->assertEquals(0, $hanmei2->getKousin());
@@ -285,72 +298,72 @@ class GetHanpuTest extends AceRequestTestAbtract
         $this->assertEquals($this->testSessid, $jyusub->getSessid());
         $this->assertEquals(0, $jyusub->getTorikbn());
         $this->assertEquals(0, $jyusub->getDensyu());
-        $this->assertEquals("100", $jyusub->getBumon());
-        $this->assertEquals("221", $jyusub->getMcode());
-        $this->assertEquals("221", $jyusub->getScode());
+        $this->assertEquals('100', $jyusub->getBumon());
+        $this->assertEquals('221', $jyusub->getMcode());
+        $this->assertEquals('221', $jyusub->getScode());
         $this->assertEquals(1, $jyusub->getJcode());
         $this->assertEquals(14, $jyusub->getPcode());
-        $this->assertEquals("", $jyusub->getCcode());
-        $this->assertEquals("", $jyusub->getCno());
+        $this->assertEquals('', $jyusub->getCcode());
+        $this->assertEquals('', $jyusub->getCno());
         $this->assertEquals(null, $jyusub->getCkigen());
-        $this->assertEquals("", $jyusub->getCname());
+        $this->assertEquals('', $jyusub->getCname());
         $this->assertEquals(null, $jyusub->getCpay());
-        $this->assertEquals("", $jyusub->getSyounin());
+        $this->assertEquals('', $jyusub->getSyounin());
         $this->assertEquals(null, $jyusub->getKaisuu());
         $this->assertEquals(null, $jyusub->getBun1());
         $this->assertEquals(null, $jyusub->getBun2());
-        $this->assertEquals("100", $jyusub->getBcode());
-        $this->assertEquals("100", $jyusub->getBkcode());
-        $this->assertEquals("", $jyusub->getFcode1());
-        $this->assertEquals("フリーコード2", $jyusub->getFcode2());
-        $this->assertEquals("", $jyusub->getFcode3());
+        $this->assertEquals('100', $jyusub->getBcode());
+        $this->assertEquals('100', $jyusub->getBkcode());
+        $this->assertEquals('', $jyusub->getFcode1());
+        $this->assertEquals('フリーコード2', $jyusub->getFcode2());
+        $this->assertEquals('', $jyusub->getFcode3());
         $this->assertEquals(0, $jyusub->getSmpkbn());
         $this->assertEquals(0, $jyusub->getPointritu());
         $this->assertEquals(13, $jyusub->getMemid());
-        $this->assertEquals("", $jyusub->getSpscustomerid());
-        $this->assertEquals("", $jyusub->getSpstid());
-        $this->assertEquals("", $jyusub->getPgtkid());
-        $this->assertEquals("", $jyusub->getGmomemberid());
-        $this->assertEquals("", $jyusub->getGmoorderid());
-        $this->assertEquals("", $jyusub->getGmotorihikiid());
-        $this->assertEquals("", $jyusub->getGmotorihikipw());
+        $this->assertEquals('', $jyusub->getSpscustomerid());
+        $this->assertEquals('', $jyusub->getSpstid());
+        $this->assertEquals('', $jyusub->getPgtkid());
+        $this->assertEquals('', $jyusub->getGmomemberid());
+        $this->assertEquals('', $jyusub->getGmoorderid());
+        $this->assertEquals('', $jyusub->getGmotorihikiid());
+        $this->assertEquals('', $jyusub->getGmotorihikipw());
         $this->assertEquals(null, $jyusub->getSpsstatus());
         $this->assertEquals(null, $jyusub->getPgtstatus());
         $this->assertEquals(null, $jyusub->getGmostatus());
         $this->assertEquals(null, $jyusub->getTpdenno());
-        $this->assertEquals("", $jyusub->getWeborderno());
+        $this->assertEquals('', $jyusub->getWeborderno());
 
         $this->assertEquals(13, $jyuden->getId());
         $this->assertEquals($this->testSessid, $jyuden->getSessid());
         $this->assertEquals(0, $jyuden->getGiftno());
-        $this->assertEquals("0", $jyuden->getDenku());
-        $this->assertEquals((new \Datetime())->modify('+1 year')->format('Ymd'), $jyuden->getDay()->toApiDateTime());
-        $this->assertEquals((new \Datetime())->modify('+1 year')->format('Ymd'), $jyuden->getYday()->toApiDateTime());
+        $this->assertEquals('0', $jyuden->getDenku());
+        $this->assertEquals((new \DateTime())->modify('+1 year')->format('Ymd'), $jyuden->getDay()->toApiDateTime());
+        $this->assertEquals((new \DateTime())->modify('+1 year')->format('Ymd'), $jyuden->getYday()->toApiDateTime());
         $this->assertEquals(null, $jyuden->getSday());
         $this->assertEquals(null, $jyuden->getUday());
         $this->assertEquals(null, $jyuden->getNday());
-        $this->assertEquals((new \Datetime())->modify('+3 year')->format('Ymd'), $jyuden->getHday()->toApiDateTime());
+        $this->assertEquals((new \DateTime())->modify('+3 year')->format('Ymd'), $jyuden->getHday()->toApiDateTime());
         $this->assertEquals(2, $jyuden->getHtime());
         $this->assertEquals(10, $jyuden->getHcode());
-        $this->assertEquals("221", $jyuden->getNcode());
-        $this->assertEquals("1", $jyuden->getNadr());
-        $this->assertEquals("1", $jyuden->getSouko());
-        $this->assertEquals("thong", $jyuden->getTcode());
+        $this->assertEquals('221', $jyuden->getNcode());
+        $this->assertEquals('1', $jyuden->getNadr());
+        $this->assertEquals('1', $jyuden->getSouko());
+        $this->assertEquals('thong', $jyuden->getTcode());
         $this->assertEquals(0, $jyuden->getBunsyo());
         $this->assertEquals(0, $jyuden->getHrcd());
-        $this->assertEquals("", $jyuden->getDbikou1());
-        $this->assertEquals("", $jyuden->getDbikou2());
-        $this->assertEquals("", $jyuden->getDbikou3());
-        $this->assertEquals("", $jyuden->getNbikou1());
-        $this->assertEquals("", $jyuden->getNbikou2());
-        $this->assertEquals("送り状備考1", $jyuden->getObikou1());
-        $this->assertEquals("", $jyuden->getObikou2());
-        $this->assertEquals("", $jyuden->getNosi());
+        $this->assertEquals('', $jyuden->getDbikou1());
+        $this->assertEquals('', $jyuden->getDbikou2());
+        $this->assertEquals('', $jyuden->getDbikou3());
+        $this->assertEquals('', $jyuden->getNbikou1());
+        $this->assertEquals('', $jyuden->getNbikou2());
+        $this->assertEquals('送り状備考1', $jyuden->getObikou1());
+        $this->assertEquals('', $jyuden->getObikou2());
+        $this->assertEquals('', $jyuden->getNosi());
         $this->assertEquals(1, $jyuden->getOkurisuu());
-        $this->assertEquals("", $jyuden->getOkurino());
-        $this->assertEquals("", $jyuden->getFmemo1());
-        $this->assertEquals("", $jyuden->getFmemo2());
-        $this->assertEquals("", $jyuden->getFmemo3());
+        $this->assertEquals('', $jyuden->getOkurino());
+        $this->assertEquals('', $jyuden->getFmemo1());
+        $this->assertEquals('', $jyuden->getFmemo2());
+        $this->assertEquals('', $jyuden->getFmemo3());
         $this->assertEquals(74400, $jyuden->getGtotal());
         $this->assertEquals(0, $jyuden->getSouryou());
         $this->assertEquals(0, $jyuden->getTesuu());
@@ -362,9 +375,9 @@ class GetHanpuTest extends AceRequestTestAbtract
         $this->assertEquals(75240, $jyuden->getTotal());
         $this->assertEquals(0, $jyuden->getNouhin());
         $this->assertEquals(1, $jyuden->getYdaysuu());
-        $this->assertEquals("AddHanpuTest", $jyuden->getOkurinusi());
+        $this->assertEquals('AddHanpuTest', $jyuden->getOkurinusi());
         $this->assertEquals(0, $jyuden->getSkbn());
-        $this->assertEquals("thong", $jyuden->getTncode());
+        $this->assertEquals('thong', $jyuden->getTncode());
         $this->assertEquals(0, $jyuden->getUttotal());
         $this->assertEquals(0, $jyuden->getUtax());
         $this->assertEquals(66000, $jyuden->getHttotal());
@@ -377,12 +390,12 @@ class GetHanpuTest extends AceRequestTestAbtract
 
         $this->assertEquals(1, $jyumei1->getKbn());
         $this->assertEquals(1, $jyumei1->getLine());
-        $this->assertEquals("102", $jyumei1->getGcode());
-        $this->assertEquals("商品１０２", $jyumei1->getGname());
-        $this->assertEquals("", $jyumei1->getSubname());
+        $this->assertEquals('102', $jyumei1->getGcode());
+        $this->assertEquals('商品１０２', $jyumei1->getGname());
+        $this->assertEquals('', $jyumei1->getSubname());
         $this->assertEquals(7, $jyumei1->getSuu());
-        $this->assertEquals("", $jyumei1->getImage1());
-        $this->assertEquals("", $jyumei1->getImage2());
+        $this->assertEquals('', $jyumei1->getImage1());
+        $this->assertEquals('', $jyumei1->getImage2());
         $this->assertEquals(0, $jyumei1->getTanka1());
         $this->assertEquals(0, $jyumei1->getTanka2());
         $this->assertEquals(0, $jyumei1->getTanka3());
@@ -395,16 +408,16 @@ class GetHanpuTest extends AceRequestTestAbtract
         $this->assertEquals(1200, $jyumei1->getTanka());
         $this->assertEquals(0, $jyumei1->getCkbn());
         $this->assertEquals(0, $jyumei1->getGkbn());
-        $this->assertEquals("", $jyumei1->getDetailmsg());
+        $this->assertEquals('', $jyumei1->getDetailmsg());
 
         $this->assertEquals(1, $jyumei2->getKbn());
         $this->assertEquals(2, $jyumei2->getLine());
-        $this->assertEquals("100", $jyumei2->getGcode());
-        $this->assertEquals("商品100", $jyumei2->getGname());
-        $this->assertEquals("商品100", $jyumei2->getSubname());
+        $this->assertEquals('100', $jyumei2->getGcode());
+        $this->assertEquals('商品100', $jyumei2->getGname());
+        $this->assertEquals('商品100', $jyumei2->getSubname());
         $this->assertEquals(40, $jyumei2->getSuu());
-        $this->assertEquals("", $jyumei2->getImage1());
-        $this->assertEquals("", $jyumei2->getImage2());
+        $this->assertEquals('', $jyumei2->getImage1());
+        $this->assertEquals('', $jyumei2->getImage2());
         $this->assertEquals(0, $jyumei2->getTanka1());
         $this->assertEquals(0, $jyumei2->getTanka2());
         $this->assertEquals(0, $jyumei2->getTanka3());
@@ -417,7 +430,7 @@ class GetHanpuTest extends AceRequestTestAbtract
         $this->assertEquals(1650, $jyumei2->getTanka());
         $this->assertEquals(0, $jyumei2->getCkbn());
         $this->assertEquals(0, $jyumei2->getGkbn());
-        $this->assertEquals("", $jyumei2->getDetailmsg());
+        $this->assertEquals('', $jyumei2->getDetailmsg());
 
         $this->assertEquals(null, $point->getPointM());
         $this->assertEquals(null, $point->getPointP());
@@ -427,10 +440,10 @@ class GetHanpuTest extends AceRequestTestAbtract
         $this->assertEquals('メール伝票備考', $mailjyuden->getTbikou());
         $this->assertEquals('addHanpuTest@AceClient.v1.0', $mailjyuden->getMail());
 
-        $this->assertEquals("", $message1);
-        $this->assertEquals("", $message2);
-
+        $this->assertEquals('', $message1);
+        $this->assertEquals('', $message2);
     }
+
     public function testRequestGetHanpuNG()
     {
         $this->assertTrue($this->addNewHanpu());
@@ -447,12 +460,12 @@ class GetHanpuTest extends AceRequestTestAbtract
                 $responseObj = $response->getResponse();
                 $message1 = $responseObj->getOrder()->getMessage()->getMessage1();
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
-        $this->assertEquals("システムＩＤ設定がありません", $message1);
+        $this->assertEquals('システムＩＤ設定がありません', $message1);
     }
 
     public function testSerializeGetHanpu()
@@ -482,7 +495,8 @@ class GetHanpuTest extends AceRequestTestAbtract
     {
         $hanpu = new GetHanpuRequestModel();
         $getHanpu = $hanpu->setId(OverviewMapper::ACE_TEST_SYID)
-                          ->setSessId("2121");
+                          ->setSessId('2121');
+
         return $getHanpu;
     }
 }

@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Card;
 
 use Symfony\Component\Serializer\Annotation\SerializedName;
@@ -22,6 +33,7 @@ interface CardModelGroup2Interface extends CardModelGroup1Interface
      * Set 通販AceSyID
      *
      * @param string|null $inkokyakuid
+     *
      * @return $this
      */
     /** @SerializedName("in_kokyaku_id") */
@@ -38,6 +50,7 @@ interface CardModelGroup2Interface extends CardModelGroup1Interface
      * Set 顧客コード
      *
      * @param string|null $inchumonid
+     *
      * @return $this
      */
     /** @SerializedName("in_chumon_id") */
@@ -54,6 +67,7 @@ interface CardModelGroup2Interface extends CardModelGroup1Interface
      * Set セッションID
      *
      * @param string|null $intokushu1
+     *
      * @return $this
      */
     /** @SerializedName("in_tokushu1") */
@@ -70,6 +84,7 @@ interface CardModelGroup2Interface extends CardModelGroup1Interface
      * Set 枝番号
      *
      * @param string|null $intokushu2
+     *
      * @return $this
      */
     /** @SerializedName("in_tokushu2") */
@@ -87,6 +102,7 @@ interface CardModelGroup2Interface extends CardModelGroup1Interface
      * Set EC受付番号
      *
      * @param string|null $ukeno
+     *
      * @return $this
      */
     /** @SerializedName("uke_no") */

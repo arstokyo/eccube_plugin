@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 /**
@@ -20,6 +31,7 @@ interface HasThreeFcodeInterface
      * Set フリーコード 1
      *
      * @param ?string $fcode1
+     *
      * @return $this
      */
     public function setFcode1(?string $fcode1);
@@ -35,6 +47,7 @@ interface HasThreeFcodeInterface
      * Set フリーコード 2
      *
      * @param ?string $fcode2
+     *
      * @return $this
      */
     public function setFcode2(?string $fcode2);
@@ -50,6 +63,7 @@ interface HasThreeFcodeInterface
      * Set フリーコード 3
      *
      * @param ?string $fcode3
+     *
      * @return $this
      */
     public function setFcode3(?string $fcode3);

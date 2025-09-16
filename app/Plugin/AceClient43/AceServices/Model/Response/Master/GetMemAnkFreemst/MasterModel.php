@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetMemAnkFreemst;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelTrait;
@@ -9,29 +20,28 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelTrait
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-
 class MasterModel implements MasterModelInterface
 {
     use HasMessageModelTrait;
     /**
      * Freemst
      *
-     * @var FreemstModel[]|null $freemst
+     * @var FreemstModel[]|null
      */
-    protected ?array $freemst  = null;
+    protected ?array $freemst = null;
 
     /**
      * {@inheritDoc}
      */
-    function getFreemst(): ?array
+    public function getFreemst(): ?array
     {
         return $this->freemst;
     }
 
     /**
-    * {@inheritDoc}
-    */
-    function setFreemst(?array $freemst): void
+     * {@inheritDoc}
+     */
+    public function setFreemst(?array $freemst): void
     {
         $this->freemst = $freemst;
     }
@@ -42,7 +52,7 @@ class MasterModel implements MasterModelInterface
     public static function fetchAsListProperty(): array
     {
         return [
-                'Freemst' => FreemstModel::class
-               ];
+            'Freemst' => FreemstModel::class,
+        ];
     }
 }

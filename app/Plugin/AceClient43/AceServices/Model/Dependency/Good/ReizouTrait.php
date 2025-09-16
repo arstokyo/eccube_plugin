@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Good;
 
 /**
@@ -9,8 +20,7 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Good;
  */
 trait ReizouTrait
 {
-
-    /** @var ?int $reizou 冷蔵 */
+    /** @var ?int 冷蔵 */
     protected ?int $reizou = null;
 
     /**
@@ -27,7 +37,7 @@ trait ReizouTrait
     public function setReizou(?int $reizou)
     {
         $this->reizou = $reizou;
+
         return $this;
     }
-
 }

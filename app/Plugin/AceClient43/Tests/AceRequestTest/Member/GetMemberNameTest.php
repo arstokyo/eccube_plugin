@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Member;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetMemberName\GetMemberNameRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberName\GetMemberNameResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
-
 
 class GetMemberNameRequestModelTest extends AceRequestTestAbtract
 {
@@ -35,12 +45,12 @@ class GetMemberNameRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
-
     public function GetMemberNameRequestForSerialize(): GetMemberNameRequestModel
     {
         $memberName = new GetMemberNameRequestModel();
         $GetMemberName = $memberName->setSyid(OverviewMapper::ACE_TEST_SYID)
-                                    ->setMbid("1234");
+                                    ->setMbid('1234');
+
         return $GetMemberName;
     }
 
@@ -48,16 +58,20 @@ class GetMemberNameRequestModelTest extends AceRequestTestAbtract
     {
         $memberName = new GetMemberNameRequestModel();
         $GetMemberName = $memberName->setSyid(OverviewMapper::ACE_TEST_SYID)
-                                    ->setMbid("203");
+                                    ->setMbid('203');
+
         return $GetMemberName;
     }
+
     public function GetMemberNameRequestNG(): GetMemberNameRequestModel
     {
         $memberName = new GetMemberNameRequestModel();
         $GetMemberName = $memberName->setSyid(-1)
-                                    ->setMbid("203");
+                                    ->setMbid('203');
+
         return $GetMemberName;
     }
+
     public function testRequestGetMemberNameOK()
     {
         try {
@@ -72,17 +86,16 @@ class GetMemberNameRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMember()->getMessage()->getMessage1();
                 $member = $responseObj->getMember()->getMember();
                 $message = $responseObj->getMember()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
         $this->assertEquals('203', $member->getMbid());
-        $this->assertEquals("GetMemberNameTest", $member->getName());
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('GetMemberNameTest', $member->getName());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestGetMemberNameNG()
@@ -99,16 +112,15 @@ class GetMemberNameRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMember()->getMessage()->getMessage1();
                 $member = $responseObj->getMember()->getMember();
                 $message = $responseObj->getMember()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(null, $member);
         $this->assertEquals(null, $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

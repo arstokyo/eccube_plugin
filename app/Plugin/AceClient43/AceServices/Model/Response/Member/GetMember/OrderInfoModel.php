@@ -1,10 +1,17 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
-
-use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember\OrderInfoModelInterface;
-use Symfony\Component\Serializer\Annotation\SerializedName;
-
 
 /**
  * Model for OrderInfo
@@ -13,15 +20,15 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  */
 class OrderInfoModel implements OrderInfoModelInterface
 {
-    /** @var ?int $nomoneyFlg 未入金フラグ */
+    /** @var ?int 未入金フラグ */
     protected ?int $nomoneyFlg = null;
 
-    /** @var ?int $orderCnt 購入回数 */
+    /** @var ?int 購入回数 */
     protected ?int $orderCnt = null;
 
-    /** @var ?string $orderMaxday 最新購入日 */
+    /** @var ?string 最新購入日 */
     protected ?string $orderMaxday = null;
-    
+
     /**
      * {@inheritDoc}
      */
@@ -36,8 +43,10 @@ class OrderInfoModel implements OrderInfoModelInterface
     public function setNomoneyFlg(?int $nomoneyFlg)
     {
         $this->nomoneyFlg = $nomoneyFlg;
+
         return $this;
     }
+
     /**
      * {@inheritDoc}
      */
@@ -52,8 +61,10 @@ class OrderInfoModel implements OrderInfoModelInterface
     public function setOrderCnt(?int $orderCnt)
     {
         $this->orderCnt = $orderCnt;
+
         return $this;
     }
+
     /**
      * {@inheritDoc}
      */
@@ -68,6 +79,7 @@ class OrderInfoModel implements OrderInfoModelInterface
     public function setOrderMaxday(?string $orderMaxday)
     {
         $this->orderMaxday = $orderMaxday;
+
         return $this;
     }
 }

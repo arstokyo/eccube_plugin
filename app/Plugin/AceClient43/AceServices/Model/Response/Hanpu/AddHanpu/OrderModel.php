@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Hanpu\AddHanpu;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelTrait;
@@ -14,42 +25,42 @@ class OrderModel implements OrderModelInterface
     use HasMessageModelTrait;
 
     /**
-     * @var HandenModel|null $handen handen
+     * @var HandenModel|null handen
      */
     private ?HandenModel $handen = null;
 
     /**
-     * @var HanmeiModel[]|null $hanmei hanmei
+     * @var HanmeiModel[]|null hanmei
      */
     private ?array $hanmei = null;
 
     /**
-     * @var JyusubModel|null $jyusub jyusub
+     * @var JyusubModel|null jyusub
      */
     private ?JyusubModel $jyusub = null;
 
     /**
-     * @var JyudenModel|null $jyuden jyuden
+     * @var JyudenModel|null jyuden
      */
     private ?JyudenModel $jyuden = null;
 
     /**
-     * @var JyumeiModel[]|null $jyumei jyumei
+     * @var JyumeiModel[]|null jyumei
      */
     private ?array $jyumei = null;
 
     /**
-     * @var PointModel|null $point point
+     * @var PointModel|null point
      */
     private ?PointModel $point = null;
 
     /**
-     * @var MailJyudenModel|null $mailJyuden mailJyuden
+     * @var MailJyudenModel|null mailJyuden
      */
     private ?MailJyudenModel $mailJyuden = null;
 
     /**
-     * @var CouponModel|null $coupon Coupon
+     * @var CouponModel|null Coupon
      */
     private ?CouponModel $coupon = null;
 
@@ -188,7 +199,7 @@ class OrderModel implements OrderModelInterface
     {
         return [
             'hanmei' => HanmeiModel::class,
-            'jyumei' => JyumeiModel::class
+            'jyumei' => JyumeiModel::class,
         ];
     }
 }

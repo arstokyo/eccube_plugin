@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Master2\GetHaisouDayTime;
 
 /**
@@ -7,14 +18,12 @@ namespace Plugin\AceClient43\AceServices\Model\Response\Master2\GetHaisouDayTime
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-
 class DaysTimeModel implements DaysTimeModelInterface
 {
-
-    /** @var ?int $days 配送日数 */
+    /** @var ?int 配送日数 */
     protected ?int $days = null;
 
-    /** @var ?int $time 配送時間帯 */
+    /** @var ?int 配送時間帯 */
     protected ?int $time = null;
 
     /**
@@ -31,6 +40,7 @@ class DaysTimeModel implements DaysTimeModelInterface
     public function setDays(?int $days)
     {
         $this->days = $days;
+
         return $this;
     }
 
@@ -48,6 +58,7 @@ class DaysTimeModel implements DaysTimeModelInterface
     public function setTime(?int $time)
     {
         $this->time = $time;
+
         return $this;
     }
 }

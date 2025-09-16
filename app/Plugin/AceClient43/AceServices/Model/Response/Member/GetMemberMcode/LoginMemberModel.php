@@ -1,11 +1,22 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelExtend1Trait;
-use Plugin\AceClient43\AceServices\Model\Dependency\Reminder;
 use Plugin\AceClient43\AceServices\Model\Dependency\Point;
-
+use Plugin\AceClient43\AceServices\Model\Dependency\Reminder;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetHaisoAdrs\GetHaisouAdrsModel;
 
 /**
  * Class for Login Member Model
@@ -17,24 +28,29 @@ class LoginMemberModel implements LoginMemberModelInterface
     use HasMessageModelExtend1Trait;
 
     /**
-     * @var ?MemberModel $Member Member
+     * @var ?MemberModel Member
      */
     private ?MemberModel $Member;
 
     /**
-     * @var ?Reminder\ReminderModel $Reminder Reminder
+     * @var ?Reminder\ReminderModel Reminder
      */
     private ?Reminder\ReminderModel $Reminder;
 
     /**
-     * @var ?Point\STPointModel $STPoint STPoint
+     * @var ?Point\STPointModel STPoint
      */
     private ?Point\STPointModel $STPoint;
 
     /**
-     * @var ?OrderInfoModel $OrderInfo OrderInfo
+     * @var ?OrderInfoModel OrderInfo
      */
     private ?OrderInfoModel $OrderInfo;
+
+    /**
+     * @var ?GetHaisouAdrsModel[] GetHaisouAdrs
+     */
+    private ?array $getHaisouAdrs = null;
 
     /**
      * {@inheritDoc}
@@ -100,4 +116,29 @@ class LoginMemberModel implements LoginMemberModelInterface
         $this->OrderInfo = $orderInfo;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getGetHaisouAdrs(): ?array
+    {
+        return $this->getHaisouAdrs;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setGetHaisouAdrs(?array $getHaisouAdrs): self
+    {
+        $this->getHaisouAdrs = $getHaisouAdrs;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function fetchAsListProperty(): array
+    {
+        return ['getHaisouAdrs' => GetHaisouAdrsModel::class];
+    }
 }

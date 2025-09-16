@@ -1,20 +1,29 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Goods\GetGtanka;
 
-use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelInterface;
 use Plugin\AceClient43\AceServices\Model\Dependency\Good\GoodTankaModelGroup1;
+use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\AsListDenormalizableInterface;
 use Symfony\Component\Serializer\Annotation\SerializedName;
-
 
 /**
  * Interface for MasterModel
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface MasterModelInterface extends HasMessageModelInterface,
-                                       AsListDenormalizableInterface
+interface MasterModelInterface extends HasMessageModelInterface, AsListDenormalizableInterface
 {
     /**
      * Get Gzai
@@ -27,6 +36,7 @@ interface MasterModelInterface extends HasMessageModelInterface,
      * Set Gzai
      *
      * @param GoodTankaModelGroup1[]|null $gzai
+     *
      * @return void
      */
     /** @SerializedName("Gtanka") */

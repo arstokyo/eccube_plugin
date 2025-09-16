@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Master;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Master\GetMemAnkFreeCd\GetMemAnkFreeCdRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Master\GetMemAnkFreeCd\GetMemAnkFreeCdResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
-
 
 class GetMemAnkFreeCdRequestModelTest extends AceRequestTestAbtract
 {
@@ -34,11 +44,11 @@ class GetMemAnkFreeCdRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
-
     public function GetMemAnkFreeCdRequestForSerialize(): GetMemAnkFreeCdRequestModel
     {
         $freecd = new GetMemAnkFreeCdRequestModel();
         $GetMemAnkFreeCd = $freecd->setId(OverviewMapper::ACE_TEST_SYID);
+
         return $GetMemAnkFreeCd;
     }
 
@@ -46,14 +56,18 @@ class GetMemAnkFreeCdRequestModelTest extends AceRequestTestAbtract
     {
         $freecd = new GetMemAnkFreeCdRequestModel();
         $GetMemAnkFreeCd = $freecd->setId(OverviewMapper::ACE_TEST_SYID);
+
         return $GetMemAnkFreeCd;
     }
+
     public function GetMemAnkFreeCdRequestNG(): GetMemAnkFreeCdRequestModel
     {
         $freecd = new GetMemAnkFreeCdRequestModel();
         $GetMemAnkFreeCd = $freecd->setId(-1);
+
         return $GetMemAnkFreeCd;
     }
+
     public function testRequestGetMemAnkFreeCdOK()
     {
         try {
@@ -69,30 +83,29 @@ class GetMemAnkFreeCdRequestModelTest extends AceRequestTestAbtract
                 $freecd1 = $responseObj->getMaster()->getFreeCd()[0];
                 $freecd2 = $responseObj->getMaster()->getFreeCd()[1];
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(105001, $freecd1->getKubun());
-        $this->assertEquals("0", $freecd1->getFcid());
-        $this->assertEquals("祝日-不可能", $freecd1->getName());
-        $this->assertEquals("ノート１", $freecd1->getNote1());
-        $this->assertEquals("ノート１", $freecd1->getNote2());
-        $this->assertEquals("ノート１", $freecd1->getNote3());
+        $this->assertEquals('0', $freecd1->getFcid());
+        $this->assertEquals('祝日-不可能', $freecd1->getName());
+        $this->assertEquals('ノート１', $freecd1->getNote1());
+        $this->assertEquals('ノート１', $freecd1->getNote2());
+        $this->assertEquals('ノート１', $freecd1->getNote3());
 
         $this->assertEquals(105001, $freecd2->getKubun());
-        $this->assertEquals("1", $freecd2->getFcid());
-        $this->assertEquals("領収書・日曜日-不可能", $freecd2->getName());
-        $this->assertEquals("ノート１", $freecd2->getNote1());
-        $this->assertEquals("ノート１", $freecd2->getNote2());
-        $this->assertEquals("ノート１", $freecd2->getNote3());
+        $this->assertEquals('1', $freecd2->getFcid());
+        $this->assertEquals('領収書・日曜日-不可能', $freecd2->getName());
+        $this->assertEquals('ノート１', $freecd2->getNote1());
+        $this->assertEquals('ノート１', $freecd2->getNote2());
+        $this->assertEquals('ノート１', $freecd2->getNote3());
 
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestGetMemAnkFreeCdNG()
@@ -109,16 +122,15 @@ class GetMemAnkFreeCdRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMaster()->getMessage()->getMessage1();
                 $freecd = $responseObj->getMaster()->getFreeCd();
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(null, $freecd);
-        $this->assertEquals("ＷＥＢ初期設定がありません", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('ＷＥＢ初期設定がありません', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

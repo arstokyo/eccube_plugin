@@ -1,32 +1,42 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetBaitai;
 
-use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient43\AceServices\Model\Dependency\Good;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Class BaitaiModel
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-
 class BaitaiModel implements BaitaiModelInterface
 {
-    use NoCategory\NameTrait,
-        Good\SubNameTrait,
-        NoCategory\CodeTrait;
+    use NoCategory\NameTrait;
+    use Good\SubNameTrait;
+    use NoCategory\CodeTrait;
 
-    /** @var ?string $bun 分類コード */
+    /** @var ?string 分類コード */
     protected ?string $bun = null;
 
-    /** @var ?string $fcode1 フリーコード１ */
+    /** @var ?string フリーコード１ */
     protected ?string $fcode1 = null;
 
-    /** @var ?string $fcode2 フリーコード２ */
+    /** @var ?string フリーコード２ */
     protected ?string $fcode2 = null;
 
-    /** @var ?int $dispkbn 表示／非表示 */
+    /** @var ?int 表示／非表示 */
     protected ?int $dispkbn = null;
 
     /**
@@ -43,6 +53,7 @@ class BaitaiModel implements BaitaiModelInterface
     public function setBun(?string $bun)
     {
         $this->bun = $bun;
+
         return $this;
     }
 
@@ -60,6 +71,7 @@ class BaitaiModel implements BaitaiModelInterface
     public function setFcode1(?string $fcode1)
     {
         $this->fcode1 = $fcode1;
+
         return $this;
     }
 
@@ -77,6 +89,7 @@ class BaitaiModel implements BaitaiModelInterface
     public function setFcode2(?string $fcode2)
     {
         $this->fcode2 = $fcode2;
+
         return $this;
     }
 
@@ -94,6 +107,7 @@ class BaitaiModel implements BaitaiModelInterface
     public function setDispkbn(?int $dispkbn)
     {
         $this->dispkbn = $dispkbn;
+
         return $this;
     }
 }

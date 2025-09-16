@@ -1,76 +1,118 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart;
 
 use Plugin\AceClient43\AceServices\Model\Request\Prm\PrmModelInterface;
-use Plugin\AceClient43\AceServices\Model\Request;
 
 /**
  * Interface for オーダー情報
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
- */ 
+ */
 interface OrderPrmModelInterface extends PrmModelInterface
-{ 
-
+{
     /**
      * Set 顧客情報
-     * 
-     * @param Request\Jyuden\AddCart\MemberOrderModel|null $member
+     *
+     * @param MemberOrderModel|null $member
+     *
      * @return self
      */
     public function setMember(?MemberOrderModelInterface $member): self;
 
     /**
      * Get 顧客情報
-     * 
-     * @return Request\Jyuden\AddCart\MemberOrderModel|null
+     *
+     * @return MemberOrderModel|null
      */
     public function getMember(): ?MemberOrderModelInterface;
 
     /**
      * Get オーダー情報
-     * 
-     * @return Request\Jyuden\AddCart\JyudenModelInterface|null
+     *
+     * @return JyudenModelInterface|null
      */
     public function getJyuden(): ?JyudenModelInterface;
 
     /**
      * Set オーダー情報
-     * 
-     * @param Request\Jyuden\AddCart\JyudenModel|null $jyuden
+     *
+     * @param JyudenModel|null $jyuden
+     *
      * @return self
      */
     public function setJyuden(?JyudenModelInterface $jyuden): self;
 
     /**
+     * Get JyudenFree
+     *
+     * @return JyudenFreeModelInterface[]|null
+     */
+    public function getJyudenFree(): ?array;
+
+    /**
+     * Set JyudenFree
+     *
+     * @param JyudenFreeModel[]|null $jyudenFree
+     *
+     * @return self
+     */
+    public function setJyudenFree(?array $jyudenFree): self;
+
+    /**
      * Get 詳細情報
-     * 
-     * @return Request\Jyuden\AddCart\DetailModelInterface|null
+     *
+     * @return DetailModelInterface|null
      */
     public function getDetail(): ?DetailModelInterface;
 
     /**
      * Set 詳細情報
-     * 
-     * @param Request\Jyuden\AddCart\DetailModel|null $detail
+     *
+     * @param DetailModel|null $detail
+     *
      * @return self
      */
     public function setDetail(?DetailModelInterface $detail): self;
 
     /**
      * Get Mail情報
-     * 
-     * @return Request\Jyuden\AddCart\MailJyudenModel|null
+     *
+     * @return MailJyudenModel|null
      */
     public function getMailjyuden(): ?MailJyudenModel;
 
     /**
      * Set Mail情報
-     * 
-     * @param Request\Jyuden\AddCart\MailJyudenModel|null $mailjyuden
+     *
+     * @param MailJyudenModel|null $mailjyuden
+     *
      * @return self
      */
     public function setMailjyuden(?MailJyudenModel $mailjyuden): self;
-    
+
+    /**
+     * Get オプション情報
+     *
+     * @return array
+     */
+    public function setOptions(?OptionsModelInterface $options): self;
+
+    /**
+     * Get オプション情報
+     *
+     * @return array
+     */
+    public function getOptions(): ?OptionsModelInterface;
 }

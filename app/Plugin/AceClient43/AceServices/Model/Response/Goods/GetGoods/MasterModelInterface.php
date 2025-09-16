@@ -1,19 +1,29 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Goods\GetGoods;
 
+use Plugin\AceClient43\AceServices\Model;
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\AsListDenormalizableInterface;
-use Plugin\AceClient43\AceServices\Model;
-
+use Symfony\Component\Serializer\Attribute\Ignore;
 
 /**
  * Interface for MasterModel
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface MasterModelInterface extends HasMessageModelInterface,
-                                       AsListDenormalizableInterface
+interface MasterModelInterface extends HasMessageModelInterface, AsListDenormalizableInterface
 {
     /**
      * Get Goods
@@ -26,6 +36,7 @@ interface MasterModelInterface extends HasMessageModelInterface,
      * Set Goods
      *
      * @param Model\Dependency\Good\GoodModelGroup1[]|null $goods
+     *
      * @return void
      */
     public function setGoods(?array $goods): void;
@@ -41,7 +52,22 @@ interface MasterModelInterface extends HasMessageModelInterface,
      * Set Gtanka
      *
      * @param Model\Dependency\Good\GoodTankaModelGroup1[]|null $gtanka
+     *
      * @return void
      */
     public function setGtanka(?array $gtanka): void;
+
+    /**
+     * @Ignore()
+     *
+     * @return bool
+     */
+    public function hasGtanka(): bool;
+
+    /**
+     * @Ignore()
+     *
+     * @return bool
+     */
+    public function hasGoods(): bool;
 }

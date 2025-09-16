@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Hanpu\Handen;
 
 /**
@@ -20,6 +31,7 @@ interface HandenModelGroup1Interface
      * Set サイト
      *
      * @param ?int $site
+     *
      * @return $this
      */
     public function setSite(?int $site);
@@ -35,6 +47,7 @@ interface HandenModelGroup1Interface
      * Set ２回目以降出荷固定日
      *
      * @param ?int $sdd
+     *
      * @return $this
      */
     public function setSdd(?int $sdd);
@@ -50,6 +63,7 @@ interface HandenModelGroup1Interface
      * Set 週指定
      *
      * @param ?int $weeksite
+     *
      * @return $this
      */
     public function setWeeksite(?int $weeksite);
@@ -65,6 +79,7 @@ interface HandenModelGroup1Interface
      * Set 曜日指定
      *
      * @param ?int $weekday
+     *
      * @return $this
      */
     public function setWeekday(?int $weekday);
@@ -80,6 +95,7 @@ interface HandenModelGroup1Interface
      * Set 2回目以降お届け日
      *
      * @param ?int $otodokedd
+     *
      * @return $this
      */
     public function setOtodokedd(?int $otodokedd);
@@ -95,6 +111,7 @@ interface HandenModelGroup1Interface
      * Set 週指定
      *
      * @param ?int $otodokewsite
+     *
      * @return $this
      */
     public function setOtodokewsite(?int $otodokewsite);
@@ -110,8 +127,8 @@ interface HandenModelGroup1Interface
      * Set 曜日指定
      *
      * @param ?int $otodokewday
+     *
      * @return $this
      */
     public function setOtodokewday(?int $otodokewday);
-
 }

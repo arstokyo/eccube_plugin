@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Master;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Master\GetGoodsFree\GetGoodsFreeRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Master\GetGoodsFree\GetGoodsFreeResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
-
 
 class GetGoodsFreeRequestModelTest extends AceRequestTestAbtract
 {
@@ -36,13 +46,13 @@ class GetGoodsFreeRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
-
     public function GetGoodsFreeRequestForSerialize(): GetGoodsFreeRequestModel
     {
         $goodfree = new GetGoodsFreeRequestModel();
         $getGoodsFree = $goodfree->setId(OverviewMapper::ACE_TEST_SYID)
-                               ->setExecDateFrom("2024/06/03 00:00:05")
-                               ->setExecDateTo("2024/06/05 01:00:00");
+                               ->setExecDateFrom('2024/06/03 00:00:05')
+                               ->setExecDateTo('2024/06/05 01:00:00');
+
         return $getGoodsFree;
     }
 
@@ -50,14 +60,18 @@ class GetGoodsFreeRequestModelTest extends AceRequestTestAbtract
     {
         $goodfree = new GetGoodsFreeRequestModel();
         $getGoodsFree = $goodfree->setId(OverviewMapper::ACE_TEST_SYID);
+
         return $getGoodsFree;
     }
+
     public function GetGoodsFreeRequestNG(): GetGoodsFreeRequestModel
     {
         $goodfree = new GetGoodsFreeRequestModel();
         $getGoodsFree = $goodfree->setId(-1);
+
         return $getGoodsFree;
     }
+
     public function testRequestGetGoodsFreeOK()
     {
         try {
@@ -73,26 +87,25 @@ class GetGoodsFreeRequestModelTest extends AceRequestTestAbtract
                 $goodsfree1 = $responseObj->getMaster()->getGoodsFree()[0];
                 $goodsfree2 = $responseObj->getMaster()->getGoodsFree()[1];
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(2, $goodsfree1->getFrkbn());
-        $this->assertEquals("100", $goodsfree1->getFrkey());
+        $this->assertEquals('100', $goodsfree1->getFrkey());
         $this->assertEquals(202010, $goodsfree1->getFmkbn());
         $this->assertEquals("C:\Users\\v.t.nguyen\Downloads\image1.jpeg", $goodsfree1->getFree());
 
         $this->assertEquals(2, $goodsfree2->getFrkbn());
-        $this->assertEquals("100", $goodsfree2->getFrkey());
+        $this->assertEquals('100', $goodsfree2->getFrkey());
         $this->assertEquals(202011, $goodsfree2->getFmkbn());
         $this->assertEquals("C:\Users\\v.t.nguyen\Downloads\image2.jpeg", $goodsfree2->getFree());
 
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestGetGoodsFreeNG()
@@ -109,16 +122,15 @@ class GetGoodsFreeRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMaster()->getMessage()->getMessage1();
                 $goodsfree = $responseObj->getMaster()->getGoodsFree();
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(null, $goodsfree);
-        $this->assertEquals("ＷＥＢ初期設定がありません", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('ＷＥＢ初期設定がありません', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

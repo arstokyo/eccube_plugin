@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Member;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMailMagazine\RegMailMagazineRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Member\RegMailMagazine\RegMailMagazineResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
-
 
 class RegMailMagazineRequestModelTest extends AceRequestTestAbtract
 {
@@ -35,13 +45,13 @@ class RegMailMagazineRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
-
     public function RegMailMagazineRequestForSerialize(): RegMailMagazineRequestModel
     {
         $mailMagazine = new RegMailMagazineRequestModel();
         $RegMailMagazine = $mailMagazine->setId(OverviewMapper::ACE_TEST_SYID)
-                                        ->setMail("abc@gmail.com")
+                                        ->setMail('abc@gmail.com')
                                         ->setKbn(0);
+
         return $RegMailMagazine;
     }
 
@@ -49,18 +59,22 @@ class RegMailMagazineRequestModelTest extends AceRequestTestAbtract
     {
         $mailMagazine = new RegMailMagazineRequestModel();
         $RegMailMagazine = $mailMagazine->setId(OverviewMapper::ACE_TEST_SYID)
-                                        ->setMail("testRegMailMagazine@gmail.com")
+                                        ->setMail('testRegMailMagazine@gmail.com')
                                         ->setKbn(0);
+
         return $RegMailMagazine;
     }
+
     public function RegMailMagazineRequestNG(): RegMailMagazineRequestModel
     {
         $mailMagazine = new RegMailMagazineRequestModel();
         $RegMailMagazine = $mailMagazine->setId(-1)
-                                        ->setMail("testRegMailMagazine@gmail.com")
+                                        ->setMail('testRegMailMagazine@gmail.com')
                                         ->setKbn(0);
+
         return $RegMailMagazine;
     }
+
     public function testRequestRegMailMagazineOK()
     {
         try {
@@ -74,17 +88,16 @@ class RegMailMagazineRequestModelTest extends AceRequestTestAbtract
                 $responseObj = $response->getResponse();
                 $message1 = $responseObj->getMember()->getMessage()->getMessage1();
                 $message = $responseObj->getMember()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
-        $this->assertEquals("OK", $message->getResult());
-        $this->assertEquals("メルマガ登録しました", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('OK', $message->getResult());
+        $this->assertEquals('メルマガ登録しました', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestRegMailMagazineNG()
@@ -100,16 +113,15 @@ class RegMailMagazineRequestModelTest extends AceRequestTestAbtract
                 $responseObj = $response->getResponse();
                 $message1 = $responseObj->getMember()->getMessage()->getMessage1();
                 $message = $responseObj->getMember()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
-        $this->assertEquals("NG", $message->getResult());
+        $this->assertEquals('NG', $message->getResult());
         $this->assertEquals(null, $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

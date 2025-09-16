@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 /**
@@ -18,6 +29,7 @@ interface HasThreeFreeInterface
      * Set フリー1
      *
      * @param string|null $free1
+     *
      * @return $this
      */
     public function setFree1(?string $free1);
@@ -31,6 +43,7 @@ interface HasThreeFreeInterface
      * Set フリー2
      *
      * @param string|null $free2
+     *
      * @return $this
      */
     public function setFree2(?string $free2);
@@ -44,8 +57,8 @@ interface HasThreeFreeInterface
      * Set フリー3
      *
      * @param string|null $free3
+     *
      * @return $this
      */
     public function setFree3(?string $free3);
-
 }

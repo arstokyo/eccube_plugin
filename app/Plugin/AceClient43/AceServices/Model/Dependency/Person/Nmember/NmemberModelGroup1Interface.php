@@ -1,10 +1,21 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Person\Nmember;
 
-use Plugin\AceClient43\AceServices\Model\Dependency\Person\PersonLevel1Interface;
 use Plugin\AceClient43\AceServices\Model\Dependency\Address;
 use Plugin\AceClient43\AceServices\Model\Dependency\Bikou\HasThreeAdrBikouInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person\PersonLevel1Interface;
 use Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC;
 
 /**
@@ -12,12 +23,8 @@ use Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC;
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-interface NmemberModelGroup1Interface extends NmemberModelInterface, PersonLevel1Interface,
-                                              Address\HasFourAdrInterface, HasThreeAdrBikouInterface,
-                                              PhoneAndPC\HasTelInterface, PhoneAndPC\HasFaxInterface,
-                                              Address\HasZipInterface
+interface NmemberModelGroup1Interface extends NmemberModelInterface, PersonLevel1Interface, Address\HasFourAdrInterface, HasThreeAdrBikouInterface, PhoneAndPC\HasTelInterface, PhoneAndPC\HasFaxInterface, Address\HasZipInterface
 {
-
     /**
      * Get 氏名
      *
@@ -29,8 +36,8 @@ interface NmemberModelGroup1Interface extends NmemberModelInterface, PersonLevel
      * Set 氏名
      *
      * @param string|null $adrName
+     *
      * @return $this
      */
     public function setAdrName(?string $adrName);
-
 }

@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Repository;
 
 use Doctrine\Persistence\ManagerRegistry;
@@ -27,10 +38,23 @@ class ConfigRepository extends AbstractRepository
     /**
      * @param int $id
      *
-     * @return null|Config
+     * @return Config|null
      */
-    public function get($id = 1)
+    public function get()
     {
-        return $this->find($id);
+        return $this->findOneBy([], ['id' => 'ASC']);
+    }
+
+    /**
+     * @return int|null
+     */
+    public function findSyid(): ?int
+    {
+        $config = $this->get();
+        if ($config) {
+            return $config->getSyid();
+        }
+
+        return null;
     }
 }

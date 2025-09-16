@@ -1,94 +1,106 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Util\Serializer;
 
-use Plugin\AceClient43\Exception\DataTypeMissMatchException;
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
-use Plugin\AceClient43\AceConfig\Model\SoapXmlSerializer\SoapXmlSerializerModel;
-use Plugin\AceClient43\Util\ConfigLoader\SoapXmlSerializerConfigLoaderTrait;
+use Plugin\AceClient43\AceServices\Model\Response\AsSpecificNodeResponseInterface;
+use Plugin\AceClient43\ApiClient\Client\ClientInterface;
+use Plugin\AceClient43\Exception\DataTypeMissMatchException;
+use Plugin\AceClient43\Exception\NotDeserializableException;
 use Plugin\AceClient43\Util\Mapper\EncodeDefineMapper;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
-use Plugin\AceClient43\Exception\NotDeserializableException;
-use Plugin\AceClient43\AceServices\Model\Response\AsSpecificNodeResponseInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
- * Serializer for SOAP XML API.
- * 
+ * Serializer for SOAP XML API - Refactored without config files
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class SoapXmlSerializer implements SoapXmlSerializerInterface
+class SoapXmlSerializer implements SerializerInterface, SerializerSupportInterface
 {
-    public const DEFAULT_XMLNS = ['@xmlns' => 'http://ar-system-api.co.jp/'];
-    public const DEFAULT_REQUEST_SOAP_HEAD = '<?xml version="1.0" encoding="utf-8"?>
-    <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
-    <soap12:Body>';
+    private const DEFAULT_RESPONSE_NODE_NAME = 'diffgr:diffgram';
+    private const PRIORITY = 100;
+    private const DEFAULT_XMLNS = ['@xmlns' => 'http://ar-system-api.co.jp/'];
+    private const DEFAULT_SERIALIZE_OPTIONS = [
+        'xml_format_output' => true,
+        'xml_encoding' => 'utf-8',
+        'encoder_ignored_node_types' => [7],
+    ];
 
-    public const DEFAULT_REQUEST_SOAP_END = '</soap12:Body></soap12:Envelope>';
-
-    public const DEFAULT_SERIAlIZE_OPTIONS = ['xml_format_output' => true,
-                                              'xml_encoding' => 'utf-8',
-                                              'encoder_ignored_node_types' => [7]];
-
-    /**
-     * @var Serializer $serializer
-     */
     private SerializerInterface $serializer;
 
-    private const DEFAULT_RESPONSE_NODE_NAME = 'diffgr:diffgram';
+    private array $config;
 
     /**
-     * @var SoapXmlSerializerModel $config
+     * Constructor - Inject Symfony Serializer directly
+     *
+     * @param SerializerInterface $serializer
+     * @param array $config
      */
-    private SoapXmlSerializerModel $config;
-    
-    use SoapXmlSerializerConfigLoaderTrait;
-
-    /**
-     * Constructor.
-     * 
-     * @param array $nomalizer
-     * @param array $encoders
-     * @param AceConfigSerializer $aceConfigSerializer
-     */
-    public function __construct(array $nomalizer, array $encoders, AceConfigSerializer $aceConfigSerializer) 
+    public function __construct(SerializerInterface $serializer, array $config = [])
     {
-        $this->serializer = SerializerFactory::makeSerializer($nomalizer, $encoders);
-        $this->config = $this->loadConfig($aceConfigSerializer);
+        $this->serializer = $serializer;
+        $this->config = $this->normalizeConfig($config);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function supports(string $apiType, string $format): bool
+    {
+        return $apiType === ClientInterface::API_TYPE_SOAP && $format === ClientInterface::FORMAT_XML;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPriority(): int
+    {
+        return self::PRIORITY;
     }
 
     /**
      * Serializes data in the appropriate format.
-     * 
+     *
      * @param RequestModelInterface $data
-     * @param string|null $format
+     * @param string $format
      * @param array[] $context
-     * 
+     *
+     * @return string
+     *
      * @throws DataTypeMissMatchException
-     * 
-     * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
      */
     public function serialize($data, string $format = EncodeDefineMapper::XML, array $context = []): string
     {
         if (!$data instanceof RequestModelInterface) {
             throw new DataTypeMissMatchException(sprintf('Given data is not serializable. Respected object type "%s"', RequestModelInterface::class));
         }
+
         return $this->compileWithSoapHeader($this->serializeWithOptions($data, $format, $context));
     }
 
     /**
      * Deserializes data into the given type.
-     * 
+     *
      * @param mixed $data
      * @param string $type
      * @param string $format
      * @param array $context
-     * 
+     *
      * @return mixed
-     * 
-     * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+     *
+     * @throws NotDeserializableException
      */
     public function deserialize($data, string $type, string $format, array $context = []): mixed
     {
@@ -97,7 +109,10 @@ class SoapXmlSerializer implements SoapXmlSerializerInterface
         }
 
         $data = $this->serializer->decode($data, $format, $context);
-        $expectedDataArray = \in_array(AsSpecificNodeResponseInterface::class, class_implements($type), true) ? $type::fetchSpecificResponseNodeName() : self::DEFAULT_RESPONSE_NODE_NAME;
+        $expectedDataArray = \in_array(AsSpecificNodeResponseInterface::class, class_implements($type), true)
+            ? $type::fetchSpecificResponseNodeName()
+            : self::DEFAULT_RESPONSE_NODE_NAME;
+
         $this->getInnerArray($expectedDataArray, $data, $matched);
 
         if (empty($matched)) {
@@ -108,72 +123,75 @@ class SoapXmlSerializer implements SoapXmlSerializerInterface
     }
 
     /**
-     * Get Inner Array
-     * 
-     * @param string $needle
-     * @param array $haystack
-     * @param array $matched
-     * 
-     * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+     * Serialize with configured options - matches original implementation
      */
-    private function getInnerArray($needle, $haystack, &$matched = null)
+    private function serializeWithOptions(RequestModelInterface $data, string $format, array $context): string
     {
-        if (is_array($haystack) && count($haystack) > 0) {
-            foreach ($haystack as $key => $value) {
-                if ((string)$key === (string)$needle) {
-                    if (is_array($value)) {
-                        $matched = $value;
-                    // // } else {
-                    // //     $matched[] = $value;
-                    }
-                } else {
-                    if (is_array($value) && count($value) > 0) {
-                        self::getInnerArray($needle, $value, $matched);
-                    }
+        // Get xmlns configuration (fallback to default if not set)
+        $xmlns = $this->config['xmlns'] ?: self::DEFAULT_XMLNS;
+
+        // Get default serialize options (fallback to default if not set)
+        $defaultOptions = $this->config['default_serialize_options'] ?: self::DEFAULT_SERIALIZE_OPTIONS;
+
+        // Prepare the data structure with xmlns and '#' wrapper
+        $serializedData = array_merge($xmlns, ['#' => $data]);
+
+        // Prepare context options - add root node name from request model
+        $contextOptions = $context ?: [];
+        $contextOptions = array_merge(
+            [EncodeDefineMapper::XML_ROOT_NODE_NAME => $data->fetchRequestNodeName()],
+            $defaultOptions,
+            $contextOptions
+        );
+
+        return $this->serializer->serialize($serializedData, $format, $contextOptions);
+    }
+
+    /**
+     * Compile serialized data with SOAP headers
+     */
+    private function compileWithSoapHeader(string $serializedData): string
+    {
+        $head = $this->config['request_soap_head'] ?? '';
+        $end = $this->config['request_soap_end'] ?? '';
+
+        return trim($head)."\n".$serializedData."\n".trim($end);
+    }
+
+    /**
+     * Get Inner Array (recursive search)
+     */
+    private function getInnerArray(string $needle, array $haystack, &$matched): void
+    {
+        foreach ($haystack as $key => $value) {
+            if ($key === $needle) {
+                $matched = $value;
+
+                return;
+            }
+
+            if (is_array($value)) {
+                $this->getInnerArray($needle, $value, $matched);
+                if (!empty($matched)) {
+                    return;
                 }
             }
-        }   
-        return true;
-    } 
-
-    /**
-     * Serialize With Options
-     * 
-     * @param array|RequestModelInterface|null $data
-     * @param string $format
-     * @param array $context
-     * 
-     * @return string
-     */
-    private function serializeWithOptions($data, string $format, array $context = []): string
-    {
-        return $this->serializer->serialize( \array_merge($this->config->getXmlns() ?: self::DEFAULT_XMLNS
-                                                         ,['#' => $data])
-                                            , $format
-                                            , $context ?: \array_merge([EncodeDefineMapper::XML_ROOT_NODE_NAME => $data->fetchRequestNodeName()],
-                                                                       $this->config->getDefaultSerializeOptions() ?: self::DEFAULT_SERIAlIZE_OPTIONS,)
-                                            ,);
+        }
     }
 
     /**
-     * Compile With Soap Header
-     * 
-     * @param string $data
+     * Normalize configuration with defaults
      */
-    private function compileWithSoapHeader(string $data): string
+    private function normalizeConfig(array $config): array
     {
-        return   ($this->config->getRequestSoapHead() ?: self::DEFAULT_REQUEST_SOAP_HEAD)
-               . $data 
-               . ($this->config->getRequestSoapEnd() ?: self::DEFAULT_REQUEST_SOAP_END);
+        return array_merge([
+            'xmlns' => self::DEFAULT_XMLNS,
+            'default_serialize_options' => self::DEFAULT_SERIALIZE_OPTIONS,
+            'request_soap_head' => '<?xml version="1.0" encoding="utf-8"?>
+<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+<soap12:Body>',
+            'request_soap_end' => '</soap12:Body>
+</soap12:Envelope>',
+        ], $config);
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getConfig(): SoapXmlSerializerModel
-    {
-        return $this->config;
-    }
-
 }
-

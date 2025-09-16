@@ -1,30 +1,40 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Jyudens\Jyuden\JyudenModelGroup1Interface;
-use Plugin\AceClient43\AceServices\Model\Request;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * Interface for Jyuden Model
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 interface JyudenModelInterface extends JyudenModelGroup1Interface
 {
-
     /**
      * Get カード決済時の情報
-     * 
-     * @return Request\Jyuden\AddCart\CardInfoModel|null
+     *
+     * @return CardInfoModel|null
      */
     public function getCardInfo(): ?CardInfoModel;
 
     /**
      * Set カード決済時の情報
-     * 
-     * @param Request\Jyuden\AddCart\CardInfoModel|null $cardInfo
+     *
+     * @param CardInfoModel|null $cardInfo
+     *
      * @return self
      */
     /** @SerializedName("card_info") */
@@ -32,15 +42,16 @@ interface JyudenModelInterface extends JyudenModelGroup1Interface
 
     /**
      * Get コンビニ決済時の情報
-     * 
-     * @return Request\Jyuden\AddCart\CvsInfoModel|null
+     *
+     * @return CvsInfoModel|null
      */
     public function getCvsInfo(): ?CvsInfoModel;
 
     /**
      * Set コンビニ決済時の情報
-     * 
-     * @param Request\Jyuden\AddCart\CvsInfoModel|null $cvsInfo
+     *
+     * @param CvsInfoModel|null $cvsInfo
+     *
      * @return self
      */
     /** @SerializedName("cvs_info") */
@@ -48,18 +59,38 @@ interface JyudenModelInterface extends JyudenModelGroup1Interface
 
     /**
      * Get ＧＭＯ後払い時の情報
-     * 
-     * @return Request\Jyuden\AddCart\DpsInfoModelInterface|null
+     *
+     * @return DpsInfoModelInterface|null
      */
     public function getDpsInfo(): ?DpsInfoModelInterface;
 
     /**
      * Set ＧＭＯ後払い時の情報
-     * 
-     * @param Request\Jyuden\AddCart\DpsInfoModel|null $dpsInfo
+     *
+     * @param DpsInfoModel|null $dpsInfo
+     *
      * @return self
      */
     /** @SerializedName("dps_info") */
     public function setDpsInfo(?DpsInfoModelInterface $dpsInfo): self;
 
+    /**
+     * 請求書発送区分を指定
+     *
+     * 0:請求書同梱 1:請求書別送
+     *
+     * @param int $skkbn
+     *
+     * @return self
+     */
+    public function setSkkbn(string $skkbn): self;
+
+    /**
+     * 請求書発送区分を取得
+     *
+     * 0:請求書同梱 1:請求書別送
+     *
+     * @return string|null
+     */
+    public function getSkkbn(): ?string;
 }

@@ -1,12 +1,18 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
-use Plugin\AceClient43\AceServices\Model\Dependency\Free\FiveForderMailTrait;
-use Plugin\AceClient43\AceServices\Model\Dependency\Free\FiveFshukkaMailTrait;
-use Plugin\AceClient43\AceServices\Model\Dependency\Free\FiveFseikyuMailTrait;
-use Plugin\AceClient43\AceServices\Model\Dependency\Free\FiveFshouHinMailTrait;
-use Plugin\AceClient43\AceServices\Model\Dependency\Free\FiveFdenshiMailTrait;
 /**
  * Trait For FreeGroup1
  *
@@ -14,51 +20,76 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Free\FiveFdenshiMailTrait;
  */
 trait FreeGroup1Trait
 {
-    use FiveFseikyuMailTrait, FiveFshouHinMailTrait, FiveFdenshiMailTrait, FiveForderMailTrait, FiveFshukkaMailTrait;
+    use FiveFseikyuMailTrait;
+    use FiveFshouhinMailTrait;
+    use FiveFdenshiMailTrait;
+    use FiveForderMailTrait;
+    use FiveFshukkaMailTrait;
 
-    /** @var ?string $freeshokaishamemo 紹介者顧客メモ */
+    /** @var ?string 紹介者顧客メモ */
     protected ?string $freeshokaishamemo = null;
-    /** @var ?int $freeikomoto 移行元 */
+
+    /** @var ?int 移行元 */
     protected ?int $freeikomoto = null;
-    /** @var ?string $freedaihyoshasei 代表者姓 */
+
+    /** @var ?string 代表者姓 */
     protected ?string $freedaihyoshasei = null;
-    /** @var ?string $freedaihyoshamei 代表者名 */
+
+    /** @var ?string 代表者名 */
     protected ?string $freedaihyoshamei = null;
-    /** @var ?string $freedaihyoshaseifuri 代表者姓カナ */
+
+    /** @var ?string 代表者姓カナ */
     protected ?string $freedaihyoshaseifuri = null;
-    /** @var ?string $freedaihyoshameifuri 代表者名カナ */
+
+    /** @var ?string 代表者名カナ */
     protected ?string $freedaihyoshameifuri = null;
-    /** @var ?string $freeyubinbango 代表者郵便番号 */
+
+    /** @var ?string 代表者郵便番号 */
     protected ?string $freeyubinbango = null;
-    /** @var ?string $freetodofuken 代表者都道府県 */
+
+    /** @var ?string 代表者都道府県 */
     protected ?string $freetodofuken = null;
-    /** @var ?string $freeshikuchouson 代表者市区町村 */
+
+    /** @var ?string 代表者市区町村 */
     protected ?string $freeshikuchouson = null;
-    /** @var ?string $freechomeibanchi 代表者町名番地 */
+
+    /** @var ?string 代表者町名番地 */
     protected ?string $freechomeibanchi = null;
-    /** @var ?string $freetatemonomei 代表者建物名 */
+
+    /** @var ?string 代表者建物名 */
     protected ?string $freetatemonomei = null;
-    /** @var ?string $freekaishamei 代表者会社名 */
+
+    /** @var ?string 代表者会社名 */
     protected ?string $freekaishamei = null;
-    /** @var ?string $freetodokesaki 代表者お届先名称 */
+
+    /** @var ?string 代表者お届先名称 */
     protected ?string $freetodokesaki = null;
-    /** @var ?string $freedenwabango1 代表者電話番号1 */
+
+    /** @var ?string 代表者電話番号1 */
     protected ?string $freedenwabango1 = null;
-    /** @var ?string $freedenwabango2 代表者電話番号2 */
+
+    /** @var ?string 代表者電話番号2 */
     protected ?string $freedenwabango2 = null;
-    /** @var ?string $freedenwabango3 代表者電話番号3 */
+
+    /** @var ?string 代表者電話番号3 */
     protected ?string $freedenwabango3 = null;
-    /** @var ?string $freefax 代表者FAX番号 */
+
+    /** @var ?string 代表者FAX番号 */
     protected ?string $freefax = null;
-    /** @var ?string $freeteikyubi 定休日 */
+
+    /** @var ?string 定休日 */
     protected ?string $freeteikyubi = null;
-    /** @var ?int $freedmsofukbn DM送付後説明 */
+
+    /** @var ?int DM送付後説明 */
     protected ?int $freedmsofukbn = null;
-    /** @var ?int $freeenduserkbn ｴﾝﾄﾞﾕｰｻﾞｰ店舗案内 */
+
+    /** @var ?int ｴﾝﾄﾞﾕｰｻﾞｰ店舗案内 */
     protected ?int $freeenduserkbn = null;
-    /** @var ?int $freehanshakbn 反社チェック */
+
+    /** @var ?int 反社チェック */
     protected ?int $freehanshakbn = null;
-    /** @var ?int $thflg 取引区分 */
+
+    /** @var ?int 取引区分 */
     protected ?int $thflg = null;
 
     /**
@@ -68,14 +99,17 @@ trait FreeGroup1Trait
     {
         return $this->freeshokaishamemo;
     }
+
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     public function setFreeshokaishamemo(?string $freeshokaishamemo)
     {
         $this->freeshokaishamemo = $freeshokaishamemo;
+
         return $this;
     }
+
     /**
      * {@inheritDoc}
      */
@@ -90,6 +124,7 @@ trait FreeGroup1Trait
     public function setFreeikomoto(?int $freeikomoto)
     {
         $this->freeikomoto = $freeikomoto;
+
         return $this;
     }
 
@@ -107,6 +142,7 @@ trait FreeGroup1Trait
     public function setFreedaihyoshasei(?string $freedaihyoshasei)
     {
         $this->freedaihyoshasei = $freedaihyoshasei;
+
         return $this;
     }
 
@@ -124,6 +160,7 @@ trait FreeGroup1Trait
     public function setFreedaihyoshamei(?string $freedaihyoshamei)
     {
         $this->freedaihyoshamei = $freedaihyoshamei;
+
         return $this;
     }
 
@@ -141,6 +178,7 @@ trait FreeGroup1Trait
     public function setFreedaihyoshaseifuri(?string $freedaihyoshaseifuri)
     {
         $this->freedaihyoshaseifuri = $freedaihyoshaseifuri;
+
         return $this;
     }
 
@@ -158,6 +196,7 @@ trait FreeGroup1Trait
     public function setFreedaihyoshameifuri(?string $freedaihyoshameifuri)
     {
         $this->freedaihyoshameifuri = $freedaihyoshameifuri;
+
         return $this;
     }
 
@@ -175,6 +214,7 @@ trait FreeGroup1Trait
     public function setFreeyubinbango(?string $freeyubinbango)
     {
         $this->freeyubinbango = $freeyubinbango;
+
         return $this;
     }
 
@@ -192,6 +232,7 @@ trait FreeGroup1Trait
     public function setFreetodofuken(?string $freetodofuken)
     {
         $this->freetodofuken = $freetodofuken;
+
         return $this;
     }
 
@@ -209,6 +250,7 @@ trait FreeGroup1Trait
     public function setFreeshikuchouson(?string $freeshikuchouson)
     {
         $this->freeshikuchouson = $freeshikuchouson;
+
         return $this;
     }
 
@@ -226,6 +268,7 @@ trait FreeGroup1Trait
     public function setFreechomeibanchi(?string $freechomeibanchi)
     {
         $this->freechomeibanchi = $freechomeibanchi;
+
         return $this;
     }
 
@@ -243,6 +286,7 @@ trait FreeGroup1Trait
     public function setFreetatemonomei(?string $freetatemonomei)
     {
         $this->freetatemonomei = $freetatemonomei;
+
         return $this;
     }
 
@@ -260,6 +304,7 @@ trait FreeGroup1Trait
     public function setFreekaishamei(?string $freekaishamei)
     {
         $this->freekaishamei = $freekaishamei;
+
         return $this;
     }
 
@@ -277,6 +322,7 @@ trait FreeGroup1Trait
     public function setFreetodokesaki(?string $freetodokesaki)
     {
         $this->freetodokesaki = $freetodokesaki;
+
         return $this;
     }
 
@@ -294,6 +340,7 @@ trait FreeGroup1Trait
     public function setFreedenwabango1(?string $freedenwabango1)
     {
         $this->freedenwabango1 = $freedenwabango1;
+
         return $this;
     }
 
@@ -311,6 +358,7 @@ trait FreeGroup1Trait
     public function setFreedenwabango2(?string $freedenwabango2)
     {
         $this->freedenwabango2 = $freedenwabango2;
+
         return $this;
     }
 
@@ -328,6 +376,7 @@ trait FreeGroup1Trait
     public function setFreedenwabango3(?string $freedenwabango3)
     {
         $this->freedenwabango3 = $freedenwabango3;
+
         return $this;
     }
 
@@ -345,6 +394,7 @@ trait FreeGroup1Trait
     public function setFreefax(?string $freefax)
     {
         $this->freefax = $freefax;
+
         return $this;
     }
 
@@ -362,6 +412,7 @@ trait FreeGroup1Trait
     public function setFreeteikyubi(?string $freeteikyubi)
     {
         $this->freeteikyubi = $freeteikyubi;
+
         return $this;
     }
 
@@ -379,6 +430,7 @@ trait FreeGroup1Trait
     public function setFreedmsofukbn(?int $freedmsofukbn)
     {
         $this->freedmsofukbn = $freedmsofukbn;
+
         return $this;
     }
 
@@ -396,6 +448,7 @@ trait FreeGroup1Trait
     public function setFreeenduserkbn(?int $freeenduserkbn)
     {
         $this->freeenduserkbn = $freeenduserkbn;
+
         return $this;
     }
 
@@ -413,6 +466,7 @@ trait FreeGroup1Trait
     public function setFreehanshakbn(?int $freehanshakbn)
     {
         $this->freehanshakbn = $freehanshakbn;
+
         return $this;
     }
 
@@ -430,6 +484,7 @@ trait FreeGroup1Trait
     public function setThflg(?int $thflg)
     {
         $this->thflg = $thflg;
+
         return $this;
     }
 }

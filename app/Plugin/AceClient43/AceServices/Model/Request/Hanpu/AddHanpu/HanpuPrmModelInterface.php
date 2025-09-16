@@ -1,8 +1,18 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu;
 
-use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\Prm\PrmModelInterface;
 
 /**
@@ -13,61 +23,66 @@ use Plugin\AceClient43\AceServices\Model\Request\Prm\PrmModelInterface;
 interface HanpuPrmModelInterface extends PrmModelInterface
 {
     /**
-    * Get Member
-    *
-    * @return Request\Hanpu\AddHanpu\MemberModel
-    */
+     * Get Member
+     *
+     * @return MemberModel
+     */
     public function getMember(): ?MemberModelInterface;
 
     /**
      * Set Member
      *
-     * @param Request\Hanpu\AddHanpu\MemberModel $member
+     * @param MemberModel $member
+     *
      * @return self
      */
     public function setMember(?MemberModelInterface $member): self;
 
     /**
-    * Get Handen
-    *
-    * @return Request\Hanpu\AddHanpu\HandenModel
-    */
+     * Get Handen
+     *
+     * @return HandenModel
+     */
     public function getHanden(): ?HandenModelInterface;
 
     /**
      * Set Handen
      *
-     * @param Request\Hanpu\AddHanpu\HandenModel $handen
+     * @param HandenModel $handen
+     *
      * @return self
      */
     public function setHanden(?HandenModelInterface $handen): self;
 
     /**
-    * Get Mailjyuden
-    *
-    * @return Request\Hanpu\AddHanpu\MailjyudenModel
-    */
+     * Get Mailjyuden
+     *
+     * @return MailjyudenModel
+     */
     public function getMailjyuden(): ?MailJyudenModelInterface;
 
     /**
      * Set Mailjyuden
      *
-     * @param Request\Hanpu\AddHanpu\MailjyudenModel $mailjyuden
+     * @param MailjyudenModel $mailjyuden
+     *
      * @return self
      */
     public function setMailjyuden(?MailJyudenModelInterface $mailjyuden): self;
 
     /**
-    * Get Detail
-    *
-    * @return Request\Hanpu\AddHanpu\DetailModel
-    */
+     * Get Detail
+     *
+     * @return DetailModel
+     */
     public function getDetail(): ?DetailModelInterface;
 
     /**
      * Set Detail
      *s
-     * @param Request\Hanpu\AddHanpu\DetailModel $detail
+     *
+     * @param DetailModel $detail
+     *
      * @return self
      */
     public function setDetail(?DetailModelInterface $detail): self;

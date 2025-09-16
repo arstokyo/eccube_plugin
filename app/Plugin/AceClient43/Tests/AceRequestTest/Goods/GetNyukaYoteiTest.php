@@ -1,13 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Goods;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Goods\GetNyukaYotei\GetNyukaYoteiRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Goods\GetNyukaYotei\GetNyukaYoteiResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 
 class GetNyukaYoteiRequestModelTest extends AceRequestTestAbtract
 {
@@ -35,13 +46,13 @@ class GetNyukaYoteiRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
-
     public function GetNyukaYoteiRequestForSerialize(): GetNyukaYoteiRequestModel
     {
         $nyukaYotei = new GetNyukaYoteiRequestModel();
         $getNyukaYotei = $nyukaYotei->setId(OverviewMapper::ACE_TEST_SYID)
-                                ->setSkid("400")
-                                ->setGdid("400");
+                                ->setSkid('400')
+                                ->setGdid('400');
+
         return $getNyukaYotei;
     }
 
@@ -49,18 +60,22 @@ class GetNyukaYoteiRequestModelTest extends AceRequestTestAbtract
     {
         $nyukaYotei = new GetNyukaYoteiRequestModel();
         $getNyukaYotei = $nyukaYotei->setId(OverviewMapper::ACE_TEST_SYID)
-                                ->setSkid("400")
-                                ->setGdid("400");
+                                ->setSkid('400')
+                                ->setGdid('400');
+
         return $getNyukaYotei;
     }
+
     public function GetNyukaYoteiRequestNG(): GetNyukaYoteiRequestModel
     {
         $nyukaYotei = new GetNyukaYoteiRequestModel();
         $getNyukaYotei = $nyukaYotei->setId(-1)
-                                ->setSkid("400")
-                                ->setGdid("400");
+                                ->setSkid('400')
+                                ->setGdid('400');
+
         return $getNyukaYotei;
     }
+
     public function testRequestGetNyukaYoteiOK()
     {
         try {
@@ -76,26 +91,25 @@ class GetNyukaYoteiRequestModelTest extends AceRequestTestAbtract
                 $goods1 = $responseObj->getMaster()->getGoods()[0];
                 $goods2 = $responseObj->getMaster()->getGoods()[1];
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
-        $this->assertEquals("400", $goods1->getGdid());
-        $this->assertEquals("ＧｅｔＮｙｕｋａＹｏｔｅｉテスト商品", $goods1->getName());
-        $this->assertEquals("2999-06-20", $goods1->getNyday()->toShortDate());
+        $this->assertEquals('400', $goods1->getGdid());
+        $this->assertEquals('ＧｅｔＮｙｕｋａＹｏｔｅｉテスト商品', $goods1->getName());
+        $this->assertEquals('2999-06-20', $goods1->getNyday()->toShortDate());
         $this->assertEquals(700, $goods1->getSuu());
 
-        $this->assertEquals("400", $goods2->getGdid());
-        $this->assertEquals("ＧｅｔＮｙｕｋａＹｏｔｅｉテスト商品", $goods2->getName());
-        $this->assertEquals("2999-06-30", $goods2->getNyday()->toShortDate());
+        $this->assertEquals('400', $goods2->getGdid());
+        $this->assertEquals('ＧｅｔＮｙｕｋａＹｏｔｅｉテスト商品', $goods2->getName());
+        $this->assertEquals('2999-06-30', $goods2->getNyday()->toShortDate());
         $this->assertEquals(200, $goods2->getSuu());
 
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestGetNyukaYoteiNG()
@@ -112,16 +126,15 @@ class GetNyukaYoteiRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMaster()->getMessage()->getMessage1();
                 $goods = $responseObj->getMaster()->getGoods();
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(null, $goods);
-        $this->assertEquals("ＷＥＢ初期設定がありません", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('ＷＥＢ初期設定がありません', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

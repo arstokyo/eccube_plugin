@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
@@ -13,10 +24,10 @@ trait FreeMemoTrait
 {
     use NoCategory\KubunTrait;
 
-    /** @var ?string $foid フリーマスタID */
+    /** @var ?string フリーマスタID */
     protected ?string $foid = null;
 
-    /** @var ?string $memo メモ */
+    /** @var ?string メモ */
     protected ?string $memo = null;
 
     /**
@@ -33,6 +44,7 @@ trait FreeMemoTrait
     public function setFoid(?string $foid)
     {
         $this->foid = $foid;
+
         return $this;
     }
 
@@ -50,6 +62,7 @@ trait FreeMemoTrait
     public function setMemo(?string $memo)
     {
         $this->memo = $memo;
+
         return $this;
     }
 }

@@ -1,8 +1,17 @@
 <?php
 
-namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
-use Plugin\AceClient43\AceServices\Model\Dependency\Free\HasFreeGroup1Interface;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 /**
  * Interface For HasFreeGroup2
@@ -22,6 +31,7 @@ interface HasFreeGroup2Interface extends HasFreeGroup1Interface
      * Set 決済種別種類
      *
      * @param ?int $kessaishubetsu
+     *
      * @return $this
      */
     public function setKessaishubetsu(?int $kessaishubetsu);
@@ -37,6 +47,7 @@ interface HasFreeGroup2Interface extends HasFreeGroup1Interface
      * Set 送料区分
      *
      * @param ?int $freesouryoukubun
+     *
      * @return $this
      */
     public function setFreesouryoukubun(?int $freesouryoukubun);
@@ -52,6 +63,7 @@ interface HasFreeGroup2Interface extends HasFreeGroup1Interface
      * Set 表示区分ID
      *
      * @param ?string $freedispkbnid
+     *
      * @return $this
      */
     public function setFreedispkbnid(?string $freedispkbnid);
@@ -67,6 +79,7 @@ interface HasFreeGroup2Interface extends HasFreeGroup1Interface
      * Set 表示区分名
      *
      * @param ?string $freedispkbnname
+     *
      * @return $this
      */
     public function setFreedispkbnname(?string $freedispkbnname);

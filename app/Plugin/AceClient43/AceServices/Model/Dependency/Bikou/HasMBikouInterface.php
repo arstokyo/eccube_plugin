@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
 
 /**
@@ -9,7 +20,6 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
  */
 interface HasMBikouInterface
 {
-
     /**
      * Get 明細備考
      *
@@ -21,8 +31,8 @@ interface HasMBikouInterface
      * Set 明細備考
      *
      * @param string|null $mbikou
+     *
      * @return $this
      */
     public function setMbikou(?string $mbikou);
-
 }

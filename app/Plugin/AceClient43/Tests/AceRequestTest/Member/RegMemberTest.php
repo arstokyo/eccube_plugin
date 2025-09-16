@@ -1,24 +1,38 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Member;
 
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\RegMember\RegMemberResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
 
 class RegMemberTest extends AceRequestTestAbtract
 {
     private ?string $sessionid = '1234';
+
     private ?string $testJmemid = '111';
+
     private ?string $testNmemid = '111';
+
     private ?string $testSmemid = '116';
 
     public function getRegmemberRequestModelCase1(): RegMember\RegMemberRequestModel
     {
-        $memberPrm = (new RegMember\MemberPrmModel)
+        $memberPrm = (new RegMember\MemberPrmModel())
                             ->setJmember((new RegMember\JmemberModel())
                                             ->setCode($this->testJmemid)
                                             ->setSimei('RegMemberJmemTest')
@@ -68,18 +82,18 @@ class RegMemberTest extends AceRequestTestAbtract
                                                 (new RegMember\MemMailModel())
                                                   ->setMail('regMemberJmem@AceClient.v1.0')
                                                   ->setIdx(1)
-                                                  ->setDmailkbn(1)
+                                                  ->setDmmailkbn(1)
                                             )
                                             ->setUserid($this->testJmemid)
                                             ->setPasswd('password')
                                             ->setPasswdRem(
-                                                (new Regmember\PassWdRemModel())
+                                                (new RegMember\PassWdRemModel())
                                                   ->setQuestion('質問')
                                                   ->setAnswer('答え')
                                             )
                                             ->setPoint(1000)
                                             ->setPointKind(1)
-                        );
+                            );
 
         return (new RegMember\RegMemberRequestModel())
                         ->setId(OverviewMapper::ACE_TEST_SYID)
@@ -90,83 +104,83 @@ class RegMemberTest extends AceRequestTestAbtract
     public function getRegmemberRequestModelCase2(): RegMember\RegMemberRequestModel
     {
         $requestCase1 = $this->getRegmemberRequestModelCase1();
+
         return $requestCase1->setPrm($requestCase1->getPrm()
                                                 ->setNmember(
-                                                        (new RegMember\NmemberModel())
-                                                        ->setCode($this->testNmemid)
-                                                        ->setEda('')
-                                                        ->setSimei('RegMemberNmemTest')
-                                                        ->setKana('ＲｅｇＭｅｍｂｅｒＮｍｅｍＴｅｓｔ')
-                                                        ->setZip('110-0005')
-                                                        ->setAdr1('東京都')
-                                                        ->setAdr2('住所2')
-                                                        ->setAdr3('住所3')
-                                                        ->setAdr4('住所4')
-                                                        ->setTel('09876543210')
-                                                        ->setBikou1('備考1')
-                                                        ->setBikou2('備考2')
-                                                        ->setBikou3('備考3')
-                                            )
-                                    );
+                                                    (new RegMember\NmemberModel())
+                                                    ->setCode($this->testNmemid)
+                                                    ->setEda('')
+                                                    ->setSimei('RegMemberNmemTest')
+                                                    ->setKana('ＲｅｇＭｅｍｂｅｒＮｍｅｍＴｅｓｔ')
+                                                    ->setZip('110-0005')
+                                                    ->setAdr1('東京都')
+                                                    ->setAdr2('住所2')
+                                                    ->setAdr3('住所3')
+                                                    ->setAdr4('住所4')
+                                                    ->setTel('09876543210')
+                                                    ->setBikou1('備考1')
+                                                    ->setBikou2('備考2')
+                                                    ->setBikou3('備考3')
+                                                )
+        );
     }
 
     public function getRegmemberRequestModelCase3(): RegMember\RegMemberRequestModel
     {
         $requestCase2 = $this->getRegmemberRequestModelCase2();
+
         return $requestCase2->setPrm($requestCase2->getPrm()
                                                 ->setSmember(
-                                                        (new RegMember\SmemberModel())
-                                                        ->setCode($this->testSmemid)
-                                                        ->setSimei('RegMemberSmemTest')
-                                                        ->setKana('ＲｅｇＭｅｍｂｅｒＳｍｍｅｍＴｅｓｔ')
-                                                        ->setDmkbn(1)
-                                                        ->setZip('101-0032')
-                                                        ->setAdr1('東京都')
-                                                        ->setAdr2('千代田')
-                                                        ->setAdr3('区岩本町')
-                                                        ->setAdr4('１丁目９−５')
-                                                        ->setBikou1('FKビル5階')
-                                                        ->setBikou2('エー・アール・システム株式会社')
-                                                        ->setBikou3('備考3')
-                                                        ->setTel('03-5811-1864')
-                                                        ->setFax('03-5811-1865')
-                                                        ->setTel2('03-5811-1866')
-                                                        ->setCode2(123)
-                                                        ->setSex(2)
-                                                        ->setBirthday('1999-09-09')
-                                                        ->setBaitai(100)
-                                                        ->setBaifile(100)
-                                                        ->setFcode1('fcode1')
-                                                        ->setFcode2('fcode2')
-                                                        ->setFcode3('fcode3')
-                                                        ->setFree1('フリー1')
-                                                        ->setFree2('フリー2')
-                                                        ->setFree3('フリー3')
-                                                        ->setFday1('2021-01-01')
-                                                        ->setFday2('2021-01-02')
-                                                        ->setFday3('2021-01-03')
-                                                        ->setFmemo1('メモ1')
-                                                        ->setFmemo2('メモ2')
-                                                        ->setFmemo3('メモ3')
-                                                        ->setUpcode(112)
-                                                        ->setTankaKbn(2)
-                                                        ->setTorikbn(0)
-                                                        ->setSime(25)
-                                                        ->setSite(1)
-                                                        ->setInday(25)
-                                                        ->setRitu(1.7)
-                                                        ->setKhasuu(1)
-                                                        ->setMemmail(
-                                                            (new RegMember\MemMailModel())
-                                                            ->setMail('regMemberSmem@AceClient.v1.0')
-                                                            ->setIdx(1)
-                                                            ->setDmailkbn(1)
-                                                        )
-
-                                            )
-                                    );
+                                                    (new RegMember\SmemberModel())
+                                                    ->setCode($this->testSmemid)
+                                                    ->setSimei('RegMemberSmemTest')
+                                                    ->setKana('ＲｅｇＭｅｍｂｅｒＳｍｍｅｍＴｅｓｔ')
+                                                    ->setDmkbn(1)
+                                                    ->setZip('101-0032')
+                                                    ->setAdr1('東京都')
+                                                    ->setAdr2('千代田')
+                                                    ->setAdr3('区岩本町')
+                                                    ->setAdr4('１丁目９−５')
+                                                    ->setBikou1('FKビル5階')
+                                                    ->setBikou2('エー・アール・システム株式会社')
+                                                    ->setBikou3('備考3')
+                                                    ->setTel('03-5811-1864')
+                                                    ->setFax('03-5811-1865')
+                                                    ->setTel2('03-5811-1866')
+                                                    ->setCode2(123)
+                                                    ->setSex(2)
+                                                    ->setBirthday('1999-09-09')
+                                                    ->setBaitai(100)
+                                                    ->setBaifile(100)
+                                                    ->setFcode1('fcode1')
+                                                    ->setFcode2('fcode2')
+                                                    ->setFcode3('fcode3')
+                                                    ->setFree1('フリー1')
+                                                    ->setFree2('フリー2')
+                                                    ->setFree3('フリー3')
+                                                    ->setFday1('2021-01-01')
+                                                    ->setFday2('2021-01-02')
+                                                    ->setFday3('2021-01-03')
+                                                    ->setFmemo1('メモ1')
+                                                    ->setFmemo2('メモ2')
+                                                    ->setFmemo3('メモ3')
+                                                    ->setUpcode(112)
+                                                    ->setTankaKbn(2)
+                                                    ->setTorikbn(0)
+                                                    ->setSime(25)
+                                                    ->setSite(1)
+                                                    ->setInday(25)
+                                                    ->setRitu(1.7)
+                                                    ->setKhasuu(1)
+                                                    ->setMemmail(
+                                                        (new RegMember\MemMailModel())
+                                                        ->setMail('regMemberSmem@AceClient.v1.0')
+                                                        ->setIdx(1)
+                                                        ->setDmmailkbn(1)
+                                                    )
+                                                )
+        );
     }
-
 
     public function testSerializeRegMember()
     {
@@ -175,7 +189,7 @@ class RegMemberTest extends AceRequestTestAbtract
         $serializedData = $serializer->serialize($regMemAdrRequestModel);
 
         $xmlns = $serializer->getConfig()->getXmlns() ?
-                 $serializer->getConfig()->getXmlns()['@xmlns'] : 
+                 $serializer->getConfig()->getXmlns()['@xmlns'] :
                  Serializer\SoapXmlSerializer::DEFAULT_XMLNS['@xmlns'];
         $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_HEAD;
         $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_END;
@@ -186,7 +200,7 @@ class RegMemberTest extends AceRequestTestAbtract
         $nmemid = $this->testNmemid;
         $smemid = $this->testSmemid;
 
-        $expectedData = 
+        $expectedData =
         <<<XML
         {$soapHead}
             <regMember xmlns="{$xmlns}">
@@ -319,7 +333,7 @@ class RegMemberTest extends AceRequestTestAbtract
             </regMember>
         {$soapEnd}
         XML;
-        $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData)); 
+        $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
     public function testRequestRegMemberCase3()
@@ -339,9 +353,9 @@ class RegMemberTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMember()->getMessage()->getMessage1() ?? null;
                 $message2 = $responseObj->getMember()->getMessage()->getMessage2() ?? null;
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
@@ -519,8 +533,5 @@ class RegMemberTest extends AceRequestTestAbtract
         $this->assertEquals('116', $smember->getIcode());
         $this->assertEquals('1.7', $smember->getRitu());
         $this->assertEquals('1', $smember->getKhasuu());
-
-
     }
-
 }

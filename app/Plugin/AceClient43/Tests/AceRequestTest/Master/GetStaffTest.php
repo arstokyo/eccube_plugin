@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Master;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Master\GetStaff\GetStaffRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Master\GetStaff\GetStaffResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
-
 
 class GetStaffRequestModelTest extends AceRequestTestAbtract
 {
@@ -33,11 +43,11 @@ class GetStaffRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
-
     public function GetStaffRequestForSerialize(): GetStaffRequestModel
     {
         $staff = new GetStaffRequestModel();
         $getStaff = $staff->setId(OverviewMapper::ACE_TEST_SYID);
+
         return $getStaff;
     }
 
@@ -45,14 +55,18 @@ class GetStaffRequestModelTest extends AceRequestTestAbtract
     {
         $staff = new GetStaffRequestModel();
         $getStaff = $staff->setId(OverviewMapper::ACE_TEST_SYID);
+
         return $getStaff;
     }
+
     public function GetStaffRequestNG(): GetStaffRequestModel
     {
         $staff = new GetStaffRequestModel();
         $getStaff = $staff->setId(-1);
+
         return $getStaff;
     }
+
     public function testRequestGetStaffOK()
     {
         try {
@@ -68,22 +82,21 @@ class GetStaffRequestModelTest extends AceRequestTestAbtract
                 $staff1 = $responseObj->getMaster()->getStaff()[0];
                 $staff2 = $responseObj->getMaster()->getStaff()[1];
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
-        $this->assertEquals("1", $staff1->getCode());
-        $this->assertEquals("テストユーザー", $staff1->getName());
+        $this->assertEquals('1', $staff1->getCode());
+        $this->assertEquals('テストユーザー', $staff1->getName());
 
-        $this->assertEquals("19860605", $staff2->getCode());
-        $this->assertEquals("19860605", $staff2->getName());
+        $this->assertEquals('19860605', $staff2->getCode());
+        $this->assertEquals('19860605', $staff2->getName());
 
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestGetStaffNG()
@@ -100,16 +113,15 @@ class GetStaffRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMaster()->getMessage()->getMessage1();
                 $staff = $responseObj->getMaster()->getStaff();
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(null, $staff);
-        $this->assertEquals("ＷＥＢ初期設定がありません", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('ＷＥＢ初期設定がありません', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

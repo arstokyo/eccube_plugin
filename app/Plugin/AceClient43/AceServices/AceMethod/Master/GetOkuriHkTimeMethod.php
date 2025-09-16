@@ -1,20 +1,28 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Plugin\AceClient43\AceServices\AceMethod\Master;
 
-use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
-use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request;
-use Plugin\AceClient43\AceServices\Model\Response\Master\GetOkuriHkTime\GetOkuriHkTimeResponseModel;
+use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Method for Get OkuriHkTime
- * 
+ *
  * @author Ars-PhuongAnh <a-bui@ar-system.co.jp>
  */
-
-class GetOkuriHkTimeMethod extends AceMethodAbstract 
+class GetOkuriHkTimeMethod extends AbstractMasterMethod
 {
     /**
      * The end point of service.
@@ -24,17 +32,25 @@ class GetOkuriHkTimeMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setEndPointService(): string 
+    protected function setEndPointService(): string
     {
         return self::END_POINT_SERVICE;
     }
 
     /**
-     * Set the response object.
-     * @return string
+     * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string {
-        return GetOkuriHkTimeResponseModel::class;
+    protected function getRequestInterface(): string
+    {
+        return Request\Master\GetOkuriHkTime\GetOkuriHkTimeRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Master\GetOkuriHkTime\GetOkuriHkTimeResponseModelInterface::class;
     }
 
     /**
@@ -44,5 +60,4 @@ class GetOkuriHkTimeMethod extends AceMethodAbstract
     {
         return parent::withRequest($requestModel);
     }
-
 }

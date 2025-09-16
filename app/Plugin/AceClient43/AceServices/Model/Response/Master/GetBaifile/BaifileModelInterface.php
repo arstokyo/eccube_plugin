@@ -1,23 +1,30 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetBaifile;
 
-use Plugin\AceClient43\AceServices\Model\Dependency\Baitai;
-use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
-use Plugin\AceClient43\AceServices\Model\Dependency\Good;
-use Plugin\AceClient43\AceServices\Model\Dependency\Day;
 use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
+use Plugin\AceClient43\AceServices\Model\Dependency\Baitai;
+use Plugin\AceClient43\AceServices\Model\Dependency\Day;
+use Plugin\AceClient43\AceServices\Model\Dependency\Good;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Interface for BaifileModel
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface BaifileModelInterface extends Baitai\HasBcodeInterface,
-                                        Baitai\HasBkCodeInterface,
-                                        NoCategory\HasNameInterface,
-                                        Good\HasSubNameInterface,
-                                        Day\HasSdayInterface
+interface BaifileModelInterface extends Baitai\HasBcodeInterface, Baitai\HasBkCodeInterface, NoCategory\HasNameInterface, Good\HasSubNameInterface, Day\HasSdayInterface
 {
     /**
      * Get 媒体経費
@@ -30,6 +37,7 @@ interface BaifileModelInterface extends Baitai\HasBcodeInterface,
      * Set 媒体経費
      *
      * @param ?int $keihi
+     *
      * @return $this
      */
     public function setKeihi(?int $keihi);
@@ -45,6 +53,7 @@ interface BaifileModelInterface extends Baitai\HasBcodeInterface,
      * Set 媒体終了日
      *
      * @param \DateTime|string|null $eday
+     *
      * @return $this
      */
     public function setEday($eday);
@@ -60,6 +69,7 @@ interface BaifileModelInterface extends Baitai\HasBcodeInterface,
      * Set 中止区分
      *
      * @param ?int $stopfg
+     *
      * @return $this
      */
     public function setStopfg(?int $stopfg);
@@ -75,6 +85,7 @@ interface BaifileModelInterface extends Baitai\HasBcodeInterface,
      * Set フリーコード１
      *
      * @param ?string $fcode1
+     *
      * @return $this
      */
     public function setFcode1(?string $fcode1);
@@ -90,6 +101,7 @@ interface BaifileModelInterface extends Baitai\HasBcodeInterface,
      * Set フリーコード２
      *
      * @param ?string $fcode2
+     *
      * @return $this
      */
     public function setFcode2(?string $fcode2);

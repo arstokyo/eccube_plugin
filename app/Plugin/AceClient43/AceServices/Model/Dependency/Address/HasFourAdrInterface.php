@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Address;
 
 /**
@@ -20,6 +31,7 @@ interface HasFourAdrInterface
      * Set 住所1
      *
      * @param ?string $adr1
+     *
      * @return $this
      */
     public function setAdr1(?string $adr1);
@@ -35,6 +47,7 @@ interface HasFourAdrInterface
      * Set 住所2
      *
      * @param ?string $adr2
+     *
      * @return $this
      */
     public function setAdr2(?string $adr2);
@@ -50,6 +63,7 @@ interface HasFourAdrInterface
      * Set 住所3
      *
      * @param ?string $adr3
+     *
      * @return $this
      */
     public function setAdr3(?string $adr3);
@@ -65,8 +79,8 @@ interface HasFourAdrInterface
      * Set 住所4
      *
      * @param ?string $adr4
+     *
      * @return $this
      */
     public function setAdr4(?string $adr4);
-
 }

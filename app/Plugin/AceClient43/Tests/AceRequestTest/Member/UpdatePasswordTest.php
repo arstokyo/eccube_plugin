@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Member;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Member\UpdatePassword\UpdatePasswordRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Member\UpdatePassword\UpdatePasswordResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
-
 
 class UpdatePasswordRequestModelTest extends AceRequestTestAbtract
 {
@@ -36,13 +46,13 @@ class UpdatePasswordRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
-
     public function UpdatePasswordRequestForSerialize(): UpdatePasswordRequestModel
     {
         $mailMagazine = new UpdatePasswordRequestModel();
         $UpdatePassword = $mailMagazine->setSyid(OverviewMapper::ACE_TEST_SYID)
-                                       ->setMbid("204")
+                                       ->setMbid('204')
                                        ->setPasswd(111);
+
         return $UpdatePassword;
     }
 
@@ -50,18 +60,22 @@ class UpdatePasswordRequestModelTest extends AceRequestTestAbtract
     {
         $password = new UpdatePasswordRequestModel();
         $UpdatePassword = $password->setSyid(OverviewMapper::ACE_TEST_SYID)
-                                   ->setMbid("204")
+                                   ->setMbid('204')
                                    ->setPasswd(999998888);
+
         return $UpdatePassword;
     }
+
     public function UpdatePasswordRequestNG(): UpdatePasswordRequestModel
     {
         $password = new UpdatePasswordRequestModel();
         $UpdatePassword = $password->setSyid(-1)
-                                   ->setMbid("204")
+                                   ->setMbid('204')
                                    ->setPasswd(999998888);
+
         return $UpdatePassword;
     }
+
     public function testRequestUpdatePasswordOK()
     {
         try {
@@ -76,18 +90,17 @@ class UpdatePasswordRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMember()->getMessage()->getMessage1();
                 $message = $responseObj->getMember()->getMessage();
                 $memweb = $responseObj->getMember()->getMemweb();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
-        $this->assertEquals("204", $memweb->getMbid());
-        $this->assertEquals("999998888", $memweb->getPasswd());
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('204', $memweb->getMbid());
+        $this->assertEquals('999998888', $memweb->getPasswd());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestUpdatePasswordNG()
@@ -104,16 +117,15 @@ class UpdatePasswordRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMember()->getMessage()->getMessage1();
                 $message = $responseObj->getMember()->getMessage();
                 $memweb = $responseObj->getMember()->getMemweb();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(null, $memweb);
         $this->assertEquals(null, $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

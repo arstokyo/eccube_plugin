@@ -1,12 +1,22 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Request\Goods\GetGoods;
 
-use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\Day;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelAbstract;
 use Plugin\AceClient43\Exception\MissingRequestParameterException;
-use Plugin\AceClient43\AceServices\Model\Dependency\Day;
-
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * Class GetGoodsRequestModel
@@ -15,18 +25,44 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Day;
  */
 class GetGoodsRequestModel extends RequestModelAbstract implements GetGoodsRequestModelInterface
 {
-    const XML_NODE_NAME = 'getGoods';
+    use Day\ExecDateFromTrait;
 
-    use NoCategory\IdTrait,
-        Day\ExecDateFromTrait,
-        Day\ExecDateToTrait;
+    use Day\ExecDateToTrait;
+    public const XML_NODE_NAME = 'getGoods';
+
+    /**
+     * @var IdPrmModelInterface|null
+     *
+     * @SerializedName("id")
+     */
+    private ?IdPrmModelInterface $idPrm = null;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getIdPrm(): IdPrmModelInterface
+    {
+        return $this->idPrm;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setIdPrm(IdPrmModelInterface $idPrm): self
+    {
+        $this->idPrm = $idPrm;
+
+        return $this;
+    }
 
     /**
      * {@inheritDoc}
      */
     public function ensureParameterNotMissing(): void
     {
-        if (!$this->id) { throw new MissingRequestParameterException($this->compilePropertyName('id')); };
+        if (empty($this->idPrm)) {
+            throw new MissingRequestParameterException($this->compilePropertyName('idPrm'));
+        }
     }
 
     /**

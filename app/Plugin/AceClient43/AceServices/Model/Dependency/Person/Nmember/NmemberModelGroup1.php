@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Person\Nmember;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Address;
@@ -14,14 +25,14 @@ use Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC;
  */
 class NmemberModelGroup1 extends NmemberModel implements NmemberModelGroup1Interface
 {
-    use Person\PersonLevel1Trait,
-        Address\FourAdrTrait,
-        ThreeAdrBikouTrait,
-        PhoneAndPC\TelTrait,
-        PhoneAndPC\FaxTrait,
-        Address\ZipTrait;
+    use Person\PersonLevel1Trait;
+    use Address\FourAdrTrait;
+    use ThreeAdrBikouTrait;
+    use PhoneAndPC\TelTrait;
+    use PhoneAndPC\FaxTrait;
+    use Address\ZipTrait;
 
-    /** @var ?string $adrName 氏名 */
+    /** @var ?string 氏名 */
     protected ?string $adrName = null;
 
     /**
@@ -38,7 +49,7 @@ class NmemberModelGroup1 extends NmemberModel implements NmemberModelGroup1Inter
     public function setAdrName(?string $adrName)
     {
         $this->adrName = $adrName;
+
         return $this;
     }
-
 }

@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetPcode;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
@@ -9,16 +20,15 @@ use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-
 class PcodeModel implements PcodeModelInterface
 {
-    use NoCategory\CodeTrait,
-        NoCategory\NameTrait;
+    use NoCategory\CodeTrait;
+    use NoCategory\NameTrait;
 
-    /** @var ?string $pcodeSyurui 入金予定方法の通販プロ上の説明 */
+    /** @var ?string 入金予定方法の通販プロ上の説明 */
     protected ?string $pcodeSyurui = null;
 
-    /** @var ?string $memo Web公開区分 */
+    /** @var ?string Web公開区分 */
     protected ?string $memo = null;
 
     /**
@@ -35,6 +45,7 @@ class PcodeModel implements PcodeModelInterface
     public function setPcodeSyurui(?string $pcodeSyurui)
     {
         $this->pcodeSyurui = $pcodeSyurui;
+
         return $this;
     }
 
@@ -52,6 +63,7 @@ class PcodeModel implements PcodeModelInterface
     public function setMemo(?string $memo)
     {
         $this->memo = $memo;
+
         return $this;
     }
 }

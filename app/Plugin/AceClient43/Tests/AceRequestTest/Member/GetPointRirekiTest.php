@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Member;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetPointRireki\GetPointRirekiRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetPointRireki\GetPointRirekiResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
-
 
 class GetPointRirekiRequestModelTest extends AceRequestTestAbtract
 {
@@ -40,6 +50,7 @@ class GetPointRirekiRequestModelTest extends AceRequestTestAbtract
         $holiday = new GetPointRirekiRequestModel();
         $GetPointRireki = $holiday->setSyid(OverviewMapper::ACE_TEST_SYID)
                                   ->setJmemid('213');
+
         return $GetPointRireki;
     }
 
@@ -48,15 +59,19 @@ class GetPointRirekiRequestModelTest extends AceRequestTestAbtract
         $holiday = new GetPointRirekiRequestModel();
         $GetPointRireki = $holiday->setSyid(OverviewMapper::ACE_TEST_SYID)
                                   ->setJmemid('213');
+
         return $GetPointRireki;
     }
+
     public function GetPointRirekiRequestNG(): GetPointRirekiRequestModel
     {
         $holiday = new GetPointRirekiRequestModel();
         $GetPointRireki = $holiday->setSyid(-1)
                                   ->setJmemid('213');
+
         return $GetPointRireki;
     }
+
     public function testRequestGetPointRirekiOK()
     {
         try {
@@ -72,11 +87,10 @@ class GetPointRirekiRequestModelTest extends AceRequestTestAbtract
                 $pointrireki1 = $responseObj->getMember()->getPoint()[0];
                 $pointrireki2 = $responseObj->getMember()->getPoint()[1];
                 $message = $responseObj->getMember()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
@@ -87,12 +101,12 @@ class GetPointRirekiRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(97, $pointrireki1->getBrid());
         $this->assertEquals(10, $pointrireki1->getUsekbn());
         $this->assertEquals(13, $pointrireki1->getMsyid());
-        $this->assertEquals("213", $pointrireki1->getJmemid());
-        $this->assertEquals("2024-06-11", $pointrireki1->getJday()->toShortdate());
-        $this->assertEquals("2024-06-11", $pointrireki1->getDay()->toShortdate());
-        $this->assertEquals("100", $pointrireki1->getPoint());
-        $this->assertEquals("thong", $pointrireki1->getCuser());
-        $this->assertEquals("thong", $pointrireki1->getUuser());
+        $this->assertEquals('213', $pointrireki1->getJmemid());
+        $this->assertEquals('2024-06-11', $pointrireki1->getJday()->toShortdate());
+        $this->assertEquals('2024-06-11', $pointrireki1->getDay()->toShortdate());
+        $this->assertEquals('100', $pointrireki1->getPoint());
+        $this->assertEquals('thong', $pointrireki1->getCuser());
+        $this->assertEquals('thong', $pointrireki1->getUuser());
 
         $this->assertEquals(1, $pointrireki2->getKubun());
         $this->assertEquals(1, $pointrireki2->getDenno());
@@ -101,15 +115,15 @@ class GetPointRirekiRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(1, $pointrireki2->getBrid());
         $this->assertEquals(10, $pointrireki2->getUsekbn());
         $this->assertEquals(13, $pointrireki2->getMsyid());
-        $this->assertEquals("213", $pointrireki2->getJmemid());
-        $this->assertEquals("2024-05-23", $pointrireki2->getJday()->toShortdate());
-        $this->assertEquals("2024-05-23", $pointrireki2->getDay()->toShortdate());
-        $this->assertEquals("1000", $pointrireki2->getPoint());
-        $this->assertEquals("thong", $pointrireki2->getCuser());
-        $this->assertEquals("thong", $pointrireki2->getUuser());
+        $this->assertEquals('213', $pointrireki2->getJmemid());
+        $this->assertEquals('2024-05-23', $pointrireki2->getJday()->toShortdate());
+        $this->assertEquals('2024-05-23', $pointrireki2->getDay()->toShortdate());
+        $this->assertEquals('1000', $pointrireki2->getPoint());
+        $this->assertEquals('thong', $pointrireki2->getCuser());
+        $this->assertEquals('thong', $pointrireki2->getUuser());
 
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestGetPointRirekiNG()
@@ -126,16 +140,15 @@ class GetPointRirekiRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMember()->getMessage()->getMessage1();
                 $pointrireki = $responseObj->getMember()->getPoint();
                 $message = $responseObj->getMember()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(null, $pointrireki);
-        $this->assertEquals("ＷＥＢ初期設定がありません", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('ＷＥＢ初期設定がありません', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

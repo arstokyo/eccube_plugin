@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Request\Master\GetMemAnk;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
@@ -13,17 +24,19 @@ use Plugin\AceClient43\Exception\MissingRequestParameterException;
  */
 class GetMemAnkRequestModel extends RequestModelAbstract implements GetMemAnkRequestModelInterface
 {
-    use NoCategory\IdTrait,
-        NoCategory\MbidTrait;
+    use NoCategory\IdTrait;
+    use NoCategory\MbidTrait;
 
-    const XML_NODE_NAME = 'getMemAnk';
+    public const XML_NODE_NAME = 'getMemAnk';
 
     /**
      * {@inheritDoc}
      */
     public function ensureParameterNotMissing(): void
     {
-        if (!$this->id) { throw new MissingRequestParameterException($this->compilePropertyName('id')); };
+        if (!$this->id) {
+            throw new MissingRequestParameterException($this->compilePropertyName('id'));
+        }
     }
 
     /**

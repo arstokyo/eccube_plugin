@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC;
 
 /**
@@ -20,6 +31,7 @@ interface HasFivePCKbnInterface
      * Set PC区分 1
      *
      * @param ?int $pckbn1
+     *
      * @return $this
      */
     public function setPckbn1(?int $pckbn1);
@@ -35,6 +47,7 @@ interface HasFivePCKbnInterface
      * Set PC区分 2
      *
      * @param ?int $pckbn2
+     *
      * @return $this
      */
     public function setPckbn2(?int $pckbn2);
@@ -50,6 +63,7 @@ interface HasFivePCKbnInterface
      * Set PC区分 3
      *
      * @param ?int $pckbn3
+     *
      * @return $this
      */
     public function setPckbn3(?int $pckbn3);
@@ -65,6 +79,7 @@ interface HasFivePCKbnInterface
      * Set PC区分 4
      *
      * @param ?int $pckbn4
+     *
      * @return $this
      */
     public function setPckbn4(?int $pckbn4);
@@ -80,6 +95,7 @@ interface HasFivePCKbnInterface
      * Set PC区分 5
      *
      * @param ?int $pckbn5
+     *
      * @return $this
      */
     public function setPckbn5(?int $pckbn5);

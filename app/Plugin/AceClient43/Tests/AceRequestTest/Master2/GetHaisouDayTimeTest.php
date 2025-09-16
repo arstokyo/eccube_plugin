@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Master2;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Master2\GetHaisouDayTime\GetHaisouDayTimeRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Master2\GetHaisouDayTime\GetHaisouDayTimeResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
-
 
 class GetHaisouDayTimeRequestModelTest extends AceRequestTestAbtract
 {
@@ -36,7 +46,6 @@ class GetHaisouDayTimeRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
-
     public function GetHaisouDayTimeRequestForSerialize(): GetHaisouDayTimeRequestModel
     {
         $haisouDayTime = new GetHaisouDayTimeRequestModel();
@@ -44,6 +53,7 @@ class GetHaisouDayTimeRequestModelTest extends AceRequestTestAbtract
                                           ->setSouko(111)
                                           ->setHcode(222)
                                           ->setZip(333);
+
         return $getHaisouDayTime;
     }
 
@@ -53,18 +63,22 @@ class GetHaisouDayTimeRequestModelTest extends AceRequestTestAbtract
         $getHaisouDayTime = $haisouDayTime->setId(OverviewMapper::ACE_TEST_SYID)
                                           ->setSouko(100)
                                           ->setHcode(100)
-                                          ->setZip("120-0000");
+                                          ->setZip('120-0000');
+
         return $getHaisouDayTime;
     }
+
     public function GetHaisouDayTimeRequestNG(): GetHaisouDayTimeRequestModel
     {
         $haisouDayTime = new GetHaisouDayTimeRequestModel();
         $getHaisouDayTime = $haisouDayTime->setId(-1)
                                           ->setSouko(100)
                                           ->setHcode(100)
-                                          ->setZip("120-0000");
+                                          ->setZip('120-0000');
+
         return $getHaisouDayTime;
     }
+
     public function testRequestGetHaisouDayTimeOK()
     {
         try {
@@ -79,19 +93,18 @@ class GetHaisouDayTimeRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMaster()->getMessage()->getMessage1();
                 $daystime = $responseObj->getMaster()->getDaysTime();
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(1, $daystime->getDays());
         $this->assertEquals(0, $daystime->getTime());
 
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestGetHaisouDayTimeNG()
@@ -108,17 +121,16 @@ class GetHaisouDayTimeRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMaster()->getMessage()->getMessage1();
                 $daystime = $responseObj->getMaster()->getDaysTime();
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(0, $daystime->getDays());
         $this->assertEquals(0, $daystime->getTime());
-        $this->assertEquals("システムＩＤ設定がありません", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('システムＩＤ設定がありません', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

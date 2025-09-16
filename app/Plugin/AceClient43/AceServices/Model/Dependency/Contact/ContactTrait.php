@@ -1,10 +1,21 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Contact;
 
+use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
 use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
 use Plugin\AceClient43\AceServices\Model\Dependency\Good;
-use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
 
 /**
  * Trait Contact
@@ -13,41 +24,41 @@ use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
  */
 trait ContactTrait
 {
-    use Denpyo\DennoTrait,
-        Good\GdidTrait,
-        ContactBaseTrait;
+    use Denpyo\DennoTrait;
+    use Good\GdidTrait;
+    use ContactBaseTrait;
 
-    /** @var ?AceDateTime\AceDateTime $fdate 初回日時 */
+    /** @var ?AceDateTime\AceDateTime 初回日時 */
     protected ?AceDateTime\AceDateTime $fdate = null;
 
-    /** @var ?int $kind バウンド区分 */
+    /** @var ?int バウンド区分 */
     protected ?int $kind = null;
 
-    /** @var ?int $msyid 顧客共有システムID */
+    /** @var ?int 顧客共有システムID */
     protected ?int $msyid = null;
 
-    /** @var ?string $etcid 顧客／仕入先ID */
+    /** @var ?string 顧客／仕入先ID */
     protected ?string $etcid = null;
 
-    /** @var ?int $nouno 納品先枝番 */
+    /** @var ?int 納品先枝番 */
     protected ?int $nouno = null;
 
-    /** @var ?string $ghid 品番 */
+    /** @var ?string 品番 */
     protected ?string $ghid = null;
 
-    /** @var ?string $lastgroup 最終グループ名 */
+    /** @var ?string 最終グループ名 */
     protected ?string $lastgroup = null;
 
-    /** @var ?string $cfreemst1 フリーマスタ1 */
+    /** @var ?string フリーマスタ1 */
     protected ?string $cfreemst1 = null;
 
-    /** @var ?string $cfreememo1 フリーメモ1 */
+    /** @var ?string フリーメモ1 */
     protected ?string $cfreememo1 = null;
 
-    /** @var ?AceDateTime\AceDateTime $cfreeday1 フリー日付1 */
+    /** @var ?AceDateTime\AceDateTime フリー日付1 */
     protected ?AceDateTime\AceDateTime $cfreeday1 = null;
 
-    /** @var ?string $cfreedata1 フリーデータ1 */
+    /** @var ?string フリーデータ1 */
     protected ?string $cfreedata1 = null;
 
     /**
@@ -64,6 +75,7 @@ trait ContactTrait
     public function setFdate($fdate)
     {
         $this->fdate = AceDateTime\AceDateTimeFactory::makeAceDateTime($fdate, 'Y/m/d H:i:s');
+
         return $this;
     }
 
@@ -81,6 +93,7 @@ trait ContactTrait
     public function setKind(?int $kind)
     {
         $this->kind = $kind;
+
         return $this;
     }
 
@@ -98,6 +111,7 @@ trait ContactTrait
     public function setMsyid(?int $msyid)
     {
         $this->msyid = $msyid;
+
         return $this;
     }
 
@@ -115,6 +129,7 @@ trait ContactTrait
     public function setEtcid(?string $etcid)
     {
         $this->etcid = $etcid;
+
         return $this;
     }
 
@@ -132,6 +147,7 @@ trait ContactTrait
     public function setNouno(?int $nouno)
     {
         $this->nouno = $nouno;
+
         return $this;
     }
 
@@ -149,6 +165,7 @@ trait ContactTrait
     public function setGhid(?string $ghid)
     {
         $this->ghid = $ghid;
+
         return $this;
     }
 
@@ -166,6 +183,7 @@ trait ContactTrait
     public function setLastgroup(?string $lastgroup)
     {
         $this->lastgroup = $lastgroup;
+
         return $this;
     }
 
@@ -183,6 +201,7 @@ trait ContactTrait
     public function setCfreemst1(?string $cfreemst1)
     {
         $this->cfreemst1 = $cfreemst1;
+
         return $this;
     }
 
@@ -200,6 +219,7 @@ trait ContactTrait
     public function setCfreememo1(?string $cfreememo1)
     {
         $this->cfreememo1 = $cfreememo1;
+
         return $this;
     }
 
@@ -217,6 +237,7 @@ trait ContactTrait
     public function setCfreeday1($cfreeday1)
     {
         $this->cfreeday1 = AceDateTime\AceDateTimeFactory::makeAceDateTime($cfreeday1, 'Y/m/d H:i:s');
+
         return $this;
     }
 
@@ -234,6 +255,7 @@ trait ContactTrait
     public function setCfreedata1(?string $cfreedata1)
     {
         $this->cfreedata1 = $cfreedata1;
+
         return $this;
     }
 }

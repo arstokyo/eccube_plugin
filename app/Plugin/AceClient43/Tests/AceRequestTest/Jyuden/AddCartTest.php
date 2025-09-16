@@ -1,28 +1,40 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Jyuden;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart;
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModel;
-use GuzzleHttp\Exception\ClientException;
-use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
+use Plugin\AceClient43\Util\Mapper\OverviewMapper;
+use Plugin\AceClient43\Util\Serializer;
 
 class AddCartTest extends AceRequestTestAbtract
 {
     private ?string $testMemberId = '112';
     private ?string $testSessid = '112';
+
     public function getAddCartModel(): AddCart\AddCartRequestModel
     {
-        $member = (new AddCart\MemberOrderModel)
+        $member = (new AddCart\MemberOrderModel())
                         ->setJmember((new AddCart\JmemberModel())->setCode($this->testMemberId))
                         ->setSmember((new AddCart\SmemberModel())->setCode($this->testMemberId))
                         ->setNmember((new AddCart\NmemberModel())->setEda(1));
 
         $jyuden = (new AddCart\JyudenModel())
                        ->setTorikbn(1)
-                       ->setDay(new \Datetime())
+                       ->setDay(new \DateTime())
                        ->setTcode('123')
                        ->setSkbn(0)
                        ->setJcode(1)
@@ -32,7 +44,7 @@ class AddCartTest extends AceRequestTestAbtract
                        ->setBumon(100)
                        ->setSouko(1)
                        ->setHcode(10)
-                       ->setHday((new \Datetime())->modify('+14 day'))
+                       ->setHday((new \DateTime())->modify('+14 day'))
                        ->setHtime(2)
                        ->setBunsyo(1)
                        ->setObikou1('送り状備考1')
@@ -67,38 +79,38 @@ class AddCartTest extends AceRequestTestAbtract
                                         ->setMstatus('success')
                                         ->setVresultcode('success')
                                         ->setReceiptno('123456789')
-                                )
+                       )
                         ->setCardInfo((new AddCart\CardInfoModel())
-                                        ->setCcode(100)
-                                        ->setCno('123456789')
-                                        ->setCkigen((new \DateTime())->modify('+1 year'))
-                                        ->setCpay(21)
-                                        ->setKaisuu(5)
-                                        ->setSyounin(100)
-                                        ->setSpscustomerid(100)
-                                        ->setSpstid(999)
-                                        ->setVeriorderid('999999999')
-                                        ->setCname('name')
-                                        ->setVeristatus(1)
-                                        ->setInkokyakuid(OverviewMapper::ACE_TEST_SYID)
-                                        ->setInchumonid('123456789')
-                                        ->setIntokushu1(100)
-                                        ->setIntokushu2(1)
-                                        ->setUkeno(1)
-                                        ->setPgtmemid(100)
-                                        ->setPgtmemcdid(110)
-                                        ->setPgttid(20)
-                                        ->setPgtid(999)
-                                        ->setPgticls(1)
-                                        ->setGmomemberid(100)
-                                        ->setGmoorderid('123456789')
-                                        ->setGmotorihikiid('gmoid')
-                                        ->setGmotorihikipw('gmopw')
-                                        ->setGmocardeda(1)
-                                )
+                               ->setCcode(100)
+                               ->setCno('123456789')
+                               ->setCkigen((new \DateTime())->modify('+1 year'))
+                               ->setCpay(21)
+                               ->setKaisuu(5)
+                               ->setSyounin(100)
+                               ->setSpscustomerid(100)
+                               ->setSpstid(999)
+                               ->setVeriorderid('999999999')
+                               ->setCname('name')
+                               ->setVeristatus(1)
+                               ->setInkokyakuid(OverviewMapper::ACE_TEST_SYID)
+                               ->setInchumonid('123456789')
+                               ->setIntokushu1(100)
+                               ->setIntokushu2(1)
+                               ->setUkeno(1)
+                               ->setPgtmemid(100)
+                               ->setPgtmemcdid(110)
+                               ->setPgttid(20)
+                               ->setPgtid(999)
+                               ->setPgticls(1)
+                               ->setGmomemberid(100)
+                               ->setGmoorderid('123456789')
+                               ->setGmotorihikiid('gmoid')
+                               ->setGmotorihikipw('gmopw')
+                               ->setGmocardeda(1)
+                        )
                         ->setDpsInfo((new AddCart\DpsInfoModel())
-                                        ->setGmodpsorderid('123456789')
-                                        ->setGmodpstid(1)
+                                ->setGmodpsorderid('123456789')
+                                ->setGmodpstid(1)
                         );
 
         $detail = (new AddCart\DetailModel())
@@ -113,31 +125,29 @@ class AddCartTest extends AceRequestTestAbtract
                                                     ->setRitu(1.5)
                                                     ->setTaxkbn(0)
                                                     ->setMoney(10000)
-                                                    ->setGenka(1000)
-                                    ,(new AddCart\JyumeiModel())
-                                                    ->setGcode(101)
-                                                    ->setSuu(5)
-                                                    ->setTanka(1200)
-                                                    ->setIgnorezaiko(0)
-                                                    ->setChoseizaiko(0)
-                                                    ->setMbikou('明細備考No.2')
-                                                    ->setTeika(1500)
-                                                    ->setRitu(1.5)
-                                                    ->setTaxkbn(1)
-                                                    ->setMoney(7500)
-                                                    ->setGenka(1100)
-                                    ,(new AddCart\JyumeiModel())
-                                                    ->setGcode(102)
-                                                    ->setSuu(7)
-                                                    ->setTanka(1300)
-                                                    ->setIgnorezaiko(1)
-                                                    ->setChoseizaiko(0)
-                                                    ->setMbikou('明細備考No.3')
-                                                    ->setTeika(1400)
-                                                    ->setRitu(1.9)
-                                                    ->setTaxkbn(2)
-                                                    ->setMoney(9800)
-                                                    ->setGenka(1200)]);
+                                                    ->setGenka(1000), (new AddCart\JyumeiModel())
+                                           ->setGcode(101)
+                                           ->setSuu(5)
+                                           ->setTanka(1200)
+                                           ->setIgnorezaiko(0)
+                                           ->setChoseizaiko(0)
+                                           ->setMbikou('明細備考No.2')
+                                           ->setTeika(1500)
+                                           ->setRitu(1.5)
+                                           ->setTaxkbn(1)
+                                           ->setMoney(7500)
+                                           ->setGenka(1100), (new AddCart\JyumeiModel())
+                                           ->setGcode(102)
+                                           ->setSuu(7)
+                                           ->setTanka(1300)
+                                           ->setIgnorezaiko(1)
+                                           ->setChoseizaiko(0)
+                                           ->setMbikou('明細備考No.3')
+                                           ->setTeika(1400)
+                                           ->setRitu(1.9)
+                                           ->setTaxkbn(2)
+                                           ->setMoney(9800)
+                                           ->setGenka(1200)]);
 
         $prm = (new AddCart\OrderPrmModel())
                     ->setMember($member)
@@ -147,7 +157,7 @@ class AddCartTest extends AceRequestTestAbtract
                     ->setMailjyuden((new AddCart\MailJyudenModel())
                                         ->setMail('addCartTest@AceClient.v1.0')
                                         ->setTbikou('メール伝票備考')
-                );
+                    );
 
         return (new AddCart\AddCartRequestModel())
                     ->setId(OverviewMapper::ACE_TEST_SYID)
@@ -181,12 +191,12 @@ class AddCartTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getOrder()->getMessage()->getMessage1();
                 $message2 = $responseObj->getOrder()->getMessage()->getMessage2();
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
-        
+
         $this->assertSame(OverviewMapper::ACE_TEST_SYID, $jyusub->getId());
         $this->assertEquals($this->testSessid, $jyusub->getSessid());
         $this->assertEquals(0, $jyusub->getTorikbn());
@@ -481,7 +491,6 @@ class AddCartTest extends AceRequestTestAbtract
 
         $this->assertEquals(null, $message1);
         $this->assertEquals(null, $message2);
-
     }
 
     public function testSerializeAddCart()
@@ -490,10 +499,10 @@ class AddCartTest extends AceRequestTestAbtract
         $serializer = Serializer\SerializerFactory::makeSoapSerializerForTest();
         $serializedData = $serializer->serialize($requestModel);
 
-        $day = (new \Datetime())->format('Ymd');
-        $hday = (new \Datetime())->modify('+14 day')->format('Ymd');
-        $paylimit = (new \Datetime())->modify('+25 day')->format('Y/m/d');
-        $ckigen = (new \Datetime())->modify('+1 year')->format('Ym');
+        $day = (new \DateTime())->format('Ymd');
+        $hday = (new \DateTime())->modify('+14 day')->format('Ymd');
+        $paylimit = (new \DateTime())->modify('+25 day')->format('Y/m/d');
+        $ckigen = (new \DateTime())->modify('+1 year')->format('Ym');
 
         $xmlns = $serializer->getConfig()->getXmlns() ?
                  $serializer->getConfig()->getXmlns()['@xmlns'] :
@@ -666,13 +675,11 @@ class AddCartTest extends AceRequestTestAbtract
                 $responseObj = $response->getResponse();
                 $message1 = $responseObj->getOrder()->getMessage()->getMessage1();
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
         $this->assertEquals('この決済種別は掛売取引では使用できません。', $message1);
     }
-
-
 }

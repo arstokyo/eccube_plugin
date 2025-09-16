@@ -1,40 +1,57 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelExtend1Trait;
-use Plugin\AceClient43\AceServices\Model\Dependency\Reminder;
 use Plugin\AceClient43\AceServices\Model\Dependency\Point;
-
+use Plugin\AceClient43\AceServices\Model\Dependency\Reminder;
+use Plugin\AceClient43\AceServices\Model\Response\AsListDenormalizableInterface;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetHaisoAdrs\GetHaisouAdrsModel;
 
 /**
  * Class for Login Member Model
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class LoginMemberModel implements LoginMemberModelInterface
+class LoginMemberModel implements LoginMemberModelInterface, AsListDenormalizableInterface
 {
     use HasMessageModelExtend1Trait;
 
     /**
-     * @var ?MemberModelInterface $Member Member
+     * @var ?MemberModelInterface Member
      */
     private ?MemberModelInterface $Member;
 
     /**
-     * @var ?Reminder\ReminderModelInterface $Reminder Reminder
+     * @var ?Reminder\ReminderModelInterface Reminder
      */
     private ?Reminder\ReminderModelInterface $Reminder;
 
     /**
-     * @var ?Point\STPointModelInterface $STPoint STPoint
+     * @var ?Point\STPointModelInterface STPoint
      */
     private ?Point\STPointModelInterface $STPoint;
 
     /**
-     * @var ?OrderInfoModelInterface $OrderInfo OrderInfo
+     * @var ?OrderInfoModelInterface OrderInfo
      */
     private ?OrderInfoModelInterface $OrderInfo;
+
+    /**
+     * @var ?GetHaisouAdrsModel[] GetHaisouAdrs
+     */
+    private ?array $getHaisouAdrs = null;
 
     /**
      * {@inheritDoc}
@@ -100,4 +117,29 @@ class LoginMemberModel implements LoginMemberModelInterface
         $this->OrderInfo = $orderInfo;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getGetHaisouAdrs(): ?array
+    {
+        return $this->getHaisouAdrs;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setGetHaisouAdrs(?array $getHaisouAdrs): self
+    {
+        $this->getHaisouAdrs = $getHaisouAdrs;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function fetchAsListProperty(): array
+    {
+        return ['getHaisouAdrs' => GetHaisouAdrsModel::class];
+    }
 }

@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 /**
@@ -20,6 +31,7 @@ interface HasFiveFshouHinMailInterface
      * Set 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ1
      *
      * @param ?string $fshouhinmail1
+     *
      * @return $this
      */
     public function setFShouHinMail1(?string $fshouhinmail1);
@@ -35,6 +47,7 @@ interface HasFiveFshouHinMailInterface
      * Set 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ2
      *
      * @param ?string $fshouhinmail2
+     *
      * @return $this
      */
     public function setFShouHinMail2(?string $fshouhinmail2);
@@ -50,6 +63,7 @@ interface HasFiveFshouHinMailInterface
      * Set 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ3
      *
      * @param ?string $fshouhinmail3
+     *
      * @return $this
      */
     public function setFShouHinMail3(?string $fshouhinmail3);
@@ -65,6 +79,7 @@ interface HasFiveFshouHinMailInterface
      * Set 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ4
      *
      * @param ?string $fshouhinmail4
+     *
      * @return $this
      */
     public function setFShouHinMail4(?string $fshouhinmail4);
@@ -80,6 +95,7 @@ interface HasFiveFshouHinMailInterface
      * Set 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ5
      *
      * @param ?string $fshouhinmail5
+     *
      * @return $this
      */
     public function setFShouHinMail5(?string $fshouhinmail5);

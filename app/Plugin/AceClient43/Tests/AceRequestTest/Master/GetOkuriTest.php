@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Master;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Master\GetOkuri\GetOkuriRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Master\GetOkuri\GetOkuriResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
-
 
 class GetOkuriRequestModelTest extends AceRequestTestAbtract
 {
@@ -34,11 +44,11 @@ class GetOkuriRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
-
     public function GetOkuriRequestForSerialize(): GetOkuriRequestModel
     {
         $okuri = new GetOkuriRequestModel();
         $getOkuri = $okuri->setId(OverviewMapper::ACE_TEST_SYID);
+
         return $getOkuri;
     }
 
@@ -46,14 +56,18 @@ class GetOkuriRequestModelTest extends AceRequestTestAbtract
     {
         $okuri = new GetOkuriRequestModel();
         $getOkuri = $okuri->setId(OverviewMapper::ACE_TEST_SYID);
+
         return $getOkuri;
     }
+
     public function GetOkuriRequestNG(): GetOkuriRequestModel
     {
         $okuri = new GetOkuriRequestModel();
         $getOkuri = $okuri->setId(-1);
+
         return $getOkuri;
     }
+
     public function testRequestGetOkuriOK()
     {
         try {
@@ -69,34 +83,33 @@ class GetOkuriRequestModelTest extends AceRequestTestAbtract
                 $okuri1 = $responseObj->getMaster()->getOkuri()[0];
                 $okuri2 = $responseObj->getMaster()->getOkuri()[1];
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
-        $this->assertEquals("90", $okuri1->getOcode());
-        $this->assertEquals("getHaisoDayTest", $okuri1->getOname());
+        $this->assertEquals('90', $okuri1->getOcode());
+        $this->assertEquals('getHaisoDayTest', $okuri1->getOname());
         $this->assertEquals(0, $okuri1->getKubun());
         $this->assertEquals(0, $okuri1->getHcode());
-        $this->assertEquals("なし", $okuri1->getHname());
+        $this->assertEquals('なし', $okuri1->getHname());
         $this->assertEquals(0, $okuri1->getJyouon());
         $this->assertEquals(1, $okuri1->getReizou());
         $this->assertEquals(1, $okuri1->getReitou());
 
-        $this->assertEquals("10", $okuri2->getOcode());
-        $this->assertEquals("ヤマト運輸", $okuri2->getOname());
+        $this->assertEquals('10', $okuri2->getOcode());
+        $this->assertEquals('ヤマト運輸', $okuri2->getOname());
         $this->assertEquals(0, $okuri2->getKubun());
         $this->assertEquals(10, $okuri2->getHcode());
-        $this->assertEquals("ヤマト", $okuri2->getHname());
+        $this->assertEquals('ヤマト', $okuri2->getHname());
         $this->assertEquals(0, $okuri2->getJyouon());
         $this->assertEquals(1, $okuri2->getReizou());
         $this->assertEquals(1, $okuri2->getReitou());
 
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestGetOkuriNG()
@@ -113,16 +126,15 @@ class GetOkuriRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMaster()->getMessage()->getMessage1();
                 $okuri = $responseObj->getMaster()->getOkuri();
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(null, $okuri);
-        $this->assertEquals("ＷＥＢ初期設定がありません", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('ＷＥＢ初期設定がありません', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

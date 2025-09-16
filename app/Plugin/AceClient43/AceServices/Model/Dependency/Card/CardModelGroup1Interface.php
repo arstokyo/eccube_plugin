@@ -1,17 +1,27 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Card;
 
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * Interface for CardModelGroup1
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 interface CardModelGroup1Interface extends CardModelLevel2Interface
 {
-
     /**
      * {@inheritDoc}
      */
@@ -62,15 +72,16 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
 
     /**
      * Get PGT顧客ID
-     * 
+     *
      * @return string|null
      */
     public function getPgtmemid(): ?string;
 
     /**
      * Set PGT顧客ID
-     * 
+     *
      * @param string|null $pgtmemid
+     *
      * @return $this
      */
     /** @SerializedName("pgt_memid") */
@@ -78,15 +89,16 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
 
     /**
      * Get PGT顧客カードID
-     * 
+     *
      * @return string|null
      */
     public function getPgtmemcdid(): ?string;
 
     /**
      * Set PGT顧客カードID
-     * 
+     *
      * @param string|null $pgtmemcdid
+     *
      * @return $this
      */
     /** @SerializedName("pgt_memcdid") */
@@ -94,15 +106,16 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
 
     /**
      * Get PGT取引ID
-     * 
+     *
      * @return string|null
      */
     public function getPgttid(): ?string;
 
     /**
      * Set PGT取引ID
-     * 
+     *
      * @param string|null $pgttid
+     *
      * @return $this
      */
     /** @SerializedName("pgt_tid") */
@@ -110,15 +123,16 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
 
     /**
      * Get PGT決済ID
-     * 
+     *
      * @return string|null
      */
     public function getPgtid(): ?string;
 
     /**
      * Set PGT決済ID
-     * 
+     *
      * @param string|null $pgtid
+     *
      * @return $this
      */
     /** @SerializedName("pgt_id") */
@@ -126,15 +140,16 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
 
     /**
      * Get PGTイシュア区分
-     * 
+     *
      * @return string|null
      */
     public function getPgticls(): ?string;
 
     /**
      * Set PGTイシュア区分
-     * 
+     *
      * @param string|null $pgticls
+     *
      * @return $this
      */
     /** @SerializedName("pgt_icls") */
@@ -142,18 +157,18 @@ interface CardModelGroup1Interface extends CardModelLevel2Interface
 
     /**
      * Get GMOカード登録連番
-     * 
+     *
      * @return string|null
      */
     public function getGmocardeda(): ?string;
 
     /**
      * Set GMOカード登録連番
-     * 
+     *
      * @param string|null $gmocardeda
+     *
      * @return $this
      */
     /** @SerializedName("gmocardeda") */
     public function setGmocardeda(?string $gmocardeda);
-
 }

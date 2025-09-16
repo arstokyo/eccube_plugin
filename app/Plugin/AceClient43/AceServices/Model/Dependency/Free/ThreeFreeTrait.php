@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 /**
@@ -9,13 +20,13 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
  */
 trait ThreeFreeTrait
 {
-    /** @var string|null $free1 フリー1 */
+    /** @var string|null フリー1 */
     protected ?string $free1 = null;
 
-    /** @var string|null $free2 フリー2 */
+    /** @var string|null フリー2 */
     protected ?string $free2 = null;
 
-    /** @var string|null $free3 フリー3 */
+    /** @var string|null フリー3 */
     protected ?string $free3 = null;
 
     /**
@@ -32,6 +43,7 @@ trait ThreeFreeTrait
     public function setFree1(?string $free1)
     {
         $this->free1 = $free1;
+
         return $this;
     }
 
@@ -49,6 +61,7 @@ trait ThreeFreeTrait
     public function setFree2(?string $free2)
     {
         $this->free2 = $free2;
+
         return $this;
     }
 
@@ -66,7 +79,7 @@ trait ThreeFreeTrait
     public function setFree3(?string $free3)
     {
         $this->free3 = $free3;
+
         return $this;
     }
-
 }

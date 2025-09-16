@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Reminder;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
@@ -12,46 +23,46 @@ use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 trait SevenRemindersTrait
 {
     use NoCategory\CodeTrait;
-    /** @var ?string $question1 質問1 */
+    /** @var ?string 質問1 */
     protected ?string $question1 = null;
 
-    /** @var ?string $answer1 回答1 */
+    /** @var ?string 回答1 */
     protected ?string $answer1 = null;
 
-    /** @var ?string $question2 質問2 */
+    /** @var ?string 質問2 */
     protected ?string $question2 = null;
 
-    /** @var ?string $answer2 回答2 */
+    /** @var ?string 回答2 */
     protected ?string $answer2 = null;
 
-    /** @var ?string $question3 質問3 */
+    /** @var ?string 質問3 */
     protected ?string $question3 = null;
 
-    /** @var ?string $answer3 回答3 */
+    /** @var ?string 回答3 */
     protected ?string $answer3 = null;
 
-    /** @var ?string $question4 質問4 */
+    /** @var ?string 質問4 */
     protected ?string $question4 = null;
 
-    /** @var ?string $answer4 回答4 */
+    /** @var ?string 回答4 */
     protected ?string $answer4 = null;
 
-    /** @var ?string $question5 質問5 */
+    /** @var ?string 質問5 */
     protected ?string $question5 = null;
 
-    /** @var ?string $answer5 回答5 */
+    /** @var ?string 回答5 */
     protected ?string $answer5 = null;
 
-    /** @var ?string $question6 質問6 */
+    /** @var ?string 質問6 */
     protected ?string $question6 = null;
 
-    /** @var ?string $answer6 回答6 */
+    /** @var ?string 回答6 */
     protected ?string $answer6 = null;
 
-    /** @var ?string $question7 質問7 */
+    /** @var ?string 質問7 */
     protected ?string $question7 = null;
 
-    /** @var ?string $answer7 回答7 */
+    /** @var ?string 回答7 */
     protected ?string $answer7 = null;
 
     /**
@@ -68,6 +79,7 @@ trait SevenRemindersTrait
     public function setQuestion1(?string $question1)
     {
         $this->question1 = $question1;
+
         return $this;
     }
 
@@ -85,6 +97,7 @@ trait SevenRemindersTrait
     public function setAnswer1(?string $answer1)
     {
         $this->answer1 = $answer1;
+
         return $this;
     }
 
@@ -102,6 +115,7 @@ trait SevenRemindersTrait
     public function setQuestion2(?string $question2)
     {
         $this->question2 = $question2;
+
         return $this;
     }
 
@@ -119,6 +133,7 @@ trait SevenRemindersTrait
     public function setAnswer2(?string $answer2)
     {
         $this->answer2 = $answer2;
+
         return $this;
     }
 
@@ -136,6 +151,7 @@ trait SevenRemindersTrait
     public function setQuestion3(?string $question3)
     {
         $this->question3 = $question3;
+
         return $this;
     }
 
@@ -153,6 +169,7 @@ trait SevenRemindersTrait
     public function setAnswer3(?string $answer3)
     {
         $this->answer3 = $answer3;
+
         return $this;
     }
 
@@ -170,6 +187,7 @@ trait SevenRemindersTrait
     public function setQuestion4(?string $question4)
     {
         $this->question4 = $question4;
+
         return $this;
     }
 
@@ -187,6 +205,7 @@ trait SevenRemindersTrait
     public function setAnswer4(?string $answer4)
     {
         $this->answer4 = $answer4;
+
         return $this;
     }
 
@@ -204,6 +223,7 @@ trait SevenRemindersTrait
     public function setQuestion5(?string $question5)
     {
         $this->question5 = $question5;
+
         return $this;
     }
 
@@ -221,6 +241,7 @@ trait SevenRemindersTrait
     public function setAnswer5(?string $answer5)
     {
         $this->answer5 = $answer5;
+
         return $this;
     }
 
@@ -238,6 +259,7 @@ trait SevenRemindersTrait
     public function setQuestion6(?string $question6)
     {
         $this->question6 = $question6;
+
         return $this;
     }
 
@@ -255,6 +277,7 @@ trait SevenRemindersTrait
     public function setAnswer6(?string $answer6)
     {
         $this->answer6 = $answer6;
+
         return $this;
     }
 
@@ -272,6 +295,7 @@ trait SevenRemindersTrait
     public function setQuestion7(?string $question7)
     {
         $this->question7 = $question7;
+
         return $this;
     }
 
@@ -289,6 +313,7 @@ trait SevenRemindersTrait
     public function setAnswer7(?string $answer7)
     {
         $this->answer7 = $answer7;
+
         return $this;
     }
 }

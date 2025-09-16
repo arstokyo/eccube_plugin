@@ -1,10 +1,20 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Good;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient43\AceServices\Model\Dependency\Shukka;
-use Plugin\AceClient43\Util\Converter\NumberConverter;
 
 /**
  * Trait for GoodModelBase
@@ -13,21 +23,21 @@ use Plugin\AceClient43\Util\Converter\NumberConverter;
  */
 trait GoodModelBaseTrait
 {
-    use GNameTrait,
-        SubNameTrait,
-        NoCategory\KanaTrait,
-        GkbnTrait,
-        Shukka\SKbnTrait;
+    use GNameTrait;
+    use SubNameTrait;
+    use NoCategory\KanaTrait;
+    use GkbnTrait;
+    use Shukka\SKbnTrait;
 
-    /** @var ?string $tani 単位 */
+    /** @var ?string 単位 */
     protected ?string $tani = null;
-    /** @var ?int $tkbn 中止区分 */
+    /** @var ?int 中止区分 */
     protected ?int $tkbn = null;
-    /** @var ?int $kake 掛率区分 */
+    /** @var ?int 掛率区分 */
     protected ?int $kake = null;
-    /** @var ?int $zkbn 在庫区分 */
+    /** @var ?int 在庫区分 */
     protected ?int $zkbn = null;
-    /** @var ?string $barcode バーコード */
+    /** @var ?string バーコード */
     protected ?string $barcode = null;
 
     /**
@@ -43,7 +53,8 @@ trait GoodModelBaseTrait
      */
     public function setTani(?string $tani)
     {
-        $this->tani =  $tani;
+        $this->tani = $tani;
+
         return $this;
     }
 
@@ -61,6 +72,7 @@ trait GoodModelBaseTrait
     public function setTkbn(?int $tkbn)
     {
         $this->tkbn = $tkbn;
+
         return $this;
     }
 
@@ -78,6 +90,7 @@ trait GoodModelBaseTrait
     public function setKake(?int $kake)
     {
         $this->kake = $kake;
+
         return $this;
     }
 
@@ -95,6 +108,7 @@ trait GoodModelBaseTrait
     public function setZkbn(?int $zkbn)
     {
         $this->zkbn = $zkbn;
+
         return $this;
     }
 
@@ -112,6 +126,7 @@ trait GoodModelBaseTrait
     public function setBarcode(?string $barcode)
     {
         $this->barcode = $barcode;
+
         return $this;
     }
 }

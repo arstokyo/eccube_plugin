@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Member;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Member\UpdateSbpsCustId\UpdateSbpsCustIdRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Member\UpdateSbpsCustId\GetSbpsCustIdResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
-
 
 class UpdateSbpsCustIdRequestModelTest extends AceRequestTestAbtract
 {
@@ -44,6 +54,7 @@ class UpdateSbpsCustIdRequestModelTest extends AceRequestTestAbtract
                                        ->setMbid('214')
                                        ->setCustid('214')
                                        ->setCeda('1');
+
         return $updateSbpsCustId;
     }
 
@@ -54,8 +65,10 @@ class UpdateSbpsCustIdRequestModelTest extends AceRequestTestAbtract
                                        ->setMbid('214')
                                        ->setCustid('214')
                                        ->setCeda('1');
+
         return $updateSbpsCustId;
     }
+
     public function UpdateSbpsCustIdRequestNG(): UpdateSbpsCustIdRequestModel
     {
         $sbpsCustId = new UpdateSbpsCustIdRequestModel();
@@ -63,8 +76,10 @@ class UpdateSbpsCustIdRequestModelTest extends AceRequestTestAbtract
                                        ->setMbid('214')
                                        ->setCustid('214')
                                        ->setCeda('1');
+
         return $updateSbpsCustId;
     }
+
     public function testRequestUpdateSbpsCustIdOK()
     {
         try {
@@ -79,21 +94,20 @@ class UpdateSbpsCustIdRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getGetSbpsCustId()->getMessage()->getMessage1();
                 $sbpscustid = $responseObj->getGetSbpsCustId()->getSbpscustid();
                 $message = $responseObj->getGetSbpsCustId()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
-        $this->assertEquals("214", $sbpscustid->getMbid());
-        $this->assertEquals("1", $sbpscustid->getCeda());
-        $this->assertEquals("214", $sbpscustid->getCustid());
+        $this->assertEquals('214', $sbpscustid->getMbid());
+        $this->assertEquals('1', $sbpscustid->getCeda());
+        $this->assertEquals('214', $sbpscustid->getCustid());
         $this->assertNotNull($sbpscustid->getDay()->toDateTime());
 
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestUpdateSbpsCustIdNG()
@@ -110,16 +124,15 @@ class UpdateSbpsCustIdRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getGetSbpsCustId()->getMessage()->getMessage1();
                 $sbpscustid = $responseObj->getGetSbpsCustId()->getSbpscustid();
                 $message = $responseObj->getGetSbpsCustId()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(null, $sbpscustid);
         $this->assertEquals(null, $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

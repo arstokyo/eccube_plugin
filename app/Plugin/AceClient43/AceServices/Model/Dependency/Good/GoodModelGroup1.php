@@ -1,9 +1,21 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Good;
 
-use Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
 use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
+use Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
+use Plugin\AceClient43\AceServices\Model\Dependency\Zaiko\ZaikoTrait;
 use Plugin\AceClient43\Util\Converter\NumberConverter;
 
 /**
@@ -13,54 +25,60 @@ use Plugin\AceClient43\Util\Converter\NumberConverter;
  */
 class GoodModelGroup1 implements GoodModelGroup1Interface
 {
-    use Bikou\ThreeNotesTrait, GoodModelBaseTrait, GdidTrait;
+    use Bikou\ThreeNotesTrait;
 
-    /** @var ?int $nprint 納品明細出力区分 */
+    use ZaikoTrait;
+
+    use GoodModelBaseTrait;
+
+    use GdidTrait;
+
+    /** @var ?int 納品明細出力区分 */
     protected ?int $nprint = null;
 
-    /** @var ?string $kikaku1 規格1 */
+    /** @var ?string 規格1 */
     protected ?string $kikaku1 = null;
 
-    /** @var ?string $kikaku2 規格2 */
+    /** @var ?string 規格2 */
     protected ?string $kikaku2 = null;
 
-    /** @var ?float $konpo 梱包数 */
+    /** @var ?float 梱包数 */
     protected ?float $konpo = null;
 
-    /** @var ?int $delfg 削除フラグ */
+    /** @var ?int 削除フラグ */
     protected ?int $delfg = null;
 
-    /** @var ?int $teiki 定期区分 */
+    /** @var ?int 定期区分 */
     protected ?int $teiki = null;
 
-    /** @var ?int $tyoku 直送区分 */
+    /** @var ?int 直送区分 */
     protected ?int $tyoku = null;
 
-    /** @var ?int $kgsuu 個人販売数 */
+    /** @var ?int 個人販売数 */
     protected ?int $kgsuu = null;
 
-    /** @var ?int $zgsuu 全体販売数 */
+    /** @var ?int 全体販売数 */
     protected ?int $zgsuu = null;
 
-    /** @var ?AceDateTime\AceDateTime $kgdate 個人販売数開始日時 */
+    /** @var ?AceDateTime\AceDateTime 個人販売数開始日時 */
     protected ?AceDateTime\AceDateTime $kgdate = null;
 
-    /** @var ?AceDateTime\AceDateTime $zgdate 全体販売数開始日時 */
+    /** @var ?AceDateTime\AceDateTime 全体販売数開始日時 */
     protected ?AceDateTime\AceDateTime $zgdate = null;
 
-    /** @var ?int $keepsuu 在庫確保数 */
+    /** @var ?int 在庫確保数 */
     protected ?int $keepsuu = null;
 
-    /** @var ?string $ghid 品番ID */
+    /** @var ?string 品番ID */
     protected ?string $ghid = null;
 
-    /** @var ?string $kana1 品番フリガナ */
+    /** @var ?string 品番フリガナ */
     protected ?string $kana1 = null;
 
-    /** @var ?string $name1 名称 */
+    /** @var ?string 名称 */
     protected ?string $name1 = null;
 
-    /** @var ?string $subnm1 略名称 */
+    /** @var ?string 略名称 */
     protected ?string $subnm1 = null;
 
     /**
@@ -77,6 +95,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     public function setNprint(?int $nprint)
     {
         $this->nprint = $nprint;
+
         return $this;
     }
 
@@ -94,6 +113,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     public function setKikaku1(?string $kikaku1)
     {
         $this->kikaku1 = $kikaku1;
+
         return $this;
     }
 
@@ -111,6 +131,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     public function setKikaku2(?string $kikaku2)
     {
         $this->kikaku2 = $kikaku2;
+
         return $this;
     }
 
@@ -128,6 +149,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     public function setKonpo(?string $konpo)
     {
         $this->konpo = NumberConverter::stringWithCommaToFloat($konpo);
+
         return $this;
     }
 
@@ -145,6 +167,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     public function setDelfg(?int $delfg)
     {
         $this->delfg = $delfg;
+
         return $this;
     }
 
@@ -162,6 +185,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     public function setTeiki(?int $teiki)
     {
         $this->teiki = $teiki;
+
         return $this;
     }
 
@@ -179,6 +203,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     public function setTyoku(?int $tyoku)
     {
         $this->tyoku = $tyoku;
+
         return $this;
     }
 
@@ -196,6 +221,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     public function setKgsuu(?int $kgsuu)
     {
         $this->kgsuu = $kgsuu;
+
         return $this;
     }
 
@@ -213,6 +239,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     public function setZgsuu(?int $zgsuu)
     {
         $this->zgsuu = $zgsuu;
+
         return $this;
     }
 
@@ -230,6 +257,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     public function setKgdate($kgdate)
     {
         $this->kgdate = AceDateTime\AceDateTimeFactory::makeAceDateTime($kgdate);
+
         return $this;
     }
 
@@ -247,6 +275,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     public function setZgdate($zgdate)
     {
         $this->zgdate = AceDateTime\AceDateTimeFactory::makeAceDateTime($zgdate);
+
         return $this;
     }
 
@@ -264,6 +293,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     public function setKeepsuu(?int $keepsuu)
     {
         $this->keepsuu = $keepsuu;
+
         return $this;
     }
 
@@ -281,6 +311,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     public function setGhid(?string $ghid)
     {
         $this->ghid = $ghid;
+
         return $this;
     }
 
@@ -298,6 +329,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     public function setKana1(?string $kana1)
     {
         $this->kana1 = $kana1;
+
         return $this;
     }
 
@@ -315,6 +347,7 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     public function setName1(?string $name1)
     {
         $this->name1 = $name1;
+
         return $this;
     }
 
@@ -332,6 +365,15 @@ class GoodModelGroup1 implements GoodModelGroup1Interface
     public function setSubnm1(?string $subnm1)
     {
         $this->subnm1 = $subnm1;
+
         return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isSoftDelete(): bool
+    {
+        return $this->getDelfg() === 1;
     }
 }

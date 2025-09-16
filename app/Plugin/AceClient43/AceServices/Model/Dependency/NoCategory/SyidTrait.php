@@ -1,10 +1,21 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 trait SyidTrait
 {
-    /** @var ?int $syid 通販AceID */
+    /** @var ?int 通販AceID */
     protected ?int $syid = null;
 
     /**
@@ -21,6 +32,7 @@ trait SyidTrait
     public function setSyid(?int $syid)
     {
         $this->syid = $syid;
+
         return $this;
     }
 }

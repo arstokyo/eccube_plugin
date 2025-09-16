@@ -1,8 +1,17 @@
 <?php
 
-namespace Plugin\AceClient43\AceServices\Model\Dependency\Contact;
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
-use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Contact;
 
 /**
  * Interface for ContactBaseModel
@@ -22,6 +31,7 @@ interface ContactBaseModelInterface
      * Set 枝番号
      *
      * @param ?int $edano
+     *
      * @return $this
      */
     public function setEdano(?int $edano);
@@ -37,6 +47,7 @@ interface ContactBaseModelInterface
      * Set ステータス
      *
      * @param ?int $status
+     *
      * @return $this
      */
     public function setStatus(?int $status);
@@ -52,6 +63,7 @@ interface ContactBaseModelInterface
      * Set 作成ユーザーID
      *
      * @param ?string $cuser
+     *
      * @return $this
      */
     public function setCuser(?string $cuser);
@@ -67,6 +79,7 @@ interface ContactBaseModelInterface
      * Set 更新ユーザーID
      *
      * @param ?string $uuser
+     *
      * @return $this
      */
     public function setUuser(?string $uuser);

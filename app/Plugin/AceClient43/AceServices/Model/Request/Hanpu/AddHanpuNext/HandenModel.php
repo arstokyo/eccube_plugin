@@ -1,12 +1,22 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpuNext;
 
-use Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu\HandenModel as ParentModel;
 use Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu\CardInfoModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu\HandenModel as ParentModel;
 use Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu\HanpuFirstModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu\HanpuSecondModelInterface;
-use Plugin\AceClient43\AceServices\Model\Request;
 
 /**
  * Class HandenModel
@@ -15,11 +25,11 @@ use Plugin\AceClient43\AceServices\Model\Request;
  */
 class HandenModel extends ParentModel
 {
-    /** @var ?string $hcnt 頒布回数 */
+    /** @var ?string 頒布回数 */
     protected ?string $hcnt = null;
 
     /**
-     * @param Request\Hanpu\AddHanpuNext\CardInfoModel|null $cardInfo
+     * @param CardInfoModel|null $cardInfo
      */
     public function setCardInfo(?CardInfoModelInterface $cardInfo): self
     {
@@ -27,7 +37,7 @@ class HandenModel extends ParentModel
     }
 
     /**
-     * @param Request\Hanpu\AddHanpuNext\HanpuFirstModel|null $hanpuFirst
+     * @param HanpuFirstModel|null $hanpuFirst
      */
     public function setHanpuFirst(?HanpuFirstModelInterface $hanpuFirst): self
     {
@@ -35,7 +45,7 @@ class HandenModel extends ParentModel
     }
 
     /**
-     * @param Request\Hanpu\AddHanpuNext\HanpuSecondModel|null $hanpuSecond
+     * @param HanpuSecondModel|null $hanpuSecond
      */
     public function setHanpuSecond(?HanpuSecondModelInterface $hanpuSecond): self
     {
@@ -43,10 +53,10 @@ class HandenModel extends ParentModel
     }
 
     /**
-    * Get 頒布回数
-    *
-    * @return ?string
-    */
+     * Get 頒布回数
+     *
+     * @return ?string
+     */
     public function getHcnt(): ?string
     {
         return $this->hcnt;
@@ -56,11 +66,13 @@ class HandenModel extends ParentModel
      * Set 頒布回数
      *
      * @param ?string $hcnt
+     *
      * @return $this
      */
     public function setHcnt(?string $hcnt)
     {
         $this->hcnt = $hcnt;
+
         return $this;
     }
 }

@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Person;
 
 /**
@@ -20,6 +31,7 @@ interface PersonLevel3Interface
      * Set 地域コード.
      *
      * @param ?string $area
+     *
      * @return $this
      */
     public function setArea(?string $area);
@@ -35,6 +47,7 @@ interface PersonLevel3Interface
      * Set カスタマーコード.
      *
      * @param ?string $cbar
+     *
      * @return $this
      */
     public function setCbar(?string $cbar);

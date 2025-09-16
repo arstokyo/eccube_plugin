@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetGoodsFreeCd;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelTrait;
@@ -9,7 +20,6 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelTrait
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-
 class MasterModel implements MasterModelInterface
 {
     use HasMessageModelTrait;
@@ -17,22 +27,22 @@ class MasterModel implements MasterModelInterface
     /**
      * FreeCd
      *
-     * @var FreeCdModel[]|null $freeCd
+     * @var FreeCdModel[]|null
      */
-    protected ?array $freeCd  = null;
+    protected ?array $freeCd = null;
 
     /**
      * {@inheritDoc}
      */
-    function getFreeCd(): ?array
+    public function getFreeCd(): ?array
     {
         return $this->freeCd;
     }
 
     /**
-    * {@inheritDoc}
-    */
-    function setFreeCd(?array $freeCd): void
+     * {@inheritDoc}
+     */
+    public function setFreeCd(?array $freeCd): void
     {
         $this->freeCd = $freeCd;
     }
@@ -43,7 +53,7 @@ class MasterModel implements MasterModelInterface
     public static function fetchAsListProperty(): array
     {
         return [
-                'FreeCd' => FreeCdModel::class
-               ];
+            'FreeCd' => FreeCdModel::class,
+        ];
     }
 }

@@ -1,60 +1,72 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Member\RegMember;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response;
 
 /*
  * Interface for Member Model
- * 
+ *
  * @author kmorino
  */
 interface MemberModelInterface extends HasMessageModelInterface
 {
     /**
      * Get Nmem
-     * 
-     * @return Response\Member\RegMember\JmemModel|null
+     *
+     * @return JmemModel|null
      */
     public function getJmember(): ?JmemModel;
 
     /**
      * Set Nmem
-     * 
-     * @param Response\Member\RegMember\JmemModel|null $jmember
+     *
+     * @param JmemModel|null $jmember
+     *
      * @return self
      */
     public function setJmember(?JmemModel $jmember): self;
 
     /**
      * Get Nmem
-     * 
-     * @return Response\Member\RegMember\NmemModel|null
+     *
+     * @return NmemModel|null
      */
     public function getNmember(): ?NmemModel;
 
     /**
      * Set Nmem
-     * 
-     * @param Response\Member\RegMember\NmemModel|null $nmember
+     *
+     * @param NmemModel|null $nmember
+     *
      * @return self
      */
     public function setNmember(?NmemModel $nmember): self;
 
     /**
      * Get Nmem
-     * 
-     * @return Response\Member\RegMember\SmemModel|null
+     *
+     * @return SmemModel|null
      */
     public function getSmember(): ?SmemModel;
 
     /**
      * Set Nmem
-     * 
-     * @param Response\Member\RegMember\SmemModel|null $smember
+     *
+     * @param SmemModel|null $smember
+     *
      * @return self
      */
     public function setSmember(?SmemModel $smember): self;
-
 }

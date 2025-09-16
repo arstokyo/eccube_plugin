@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Baitai;
 
 /**
@@ -9,10 +20,10 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Baitai;
  */
 trait BaitaiNameTrait
 {
-    /** @var ?string $baitaiName 媒体名称 */
+    /** @var ?string 媒体名称 */
     protected ?string $baitaiName = null;
 
-    /** @var ?string $baifileName 管理番号名称 */
+    /** @var ?string 管理番号名称 */
     protected ?string $baifileName = null;
 
     /**
@@ -25,11 +36,13 @@ trait BaitaiNameTrait
 
     /**
      * {@inheritDoc}
+     *
      *  @\Symfony\Component\Serializer\Annotation\SerializedName("baitai_name")
      */
     public function setBaitaiName(?string $baitaiName)
     {
         $this->baitaiName = $baitaiName;
+
         return $this;
     }
 
@@ -43,11 +56,13 @@ trait BaitaiNameTrait
 
     /**
      * {@inheritDoc}
+     *
      * @\Symfony\Component\Serializer\Annotation\SerializedName("baifile_name")
      */
     public function setBaifileName(?string $baifileName)
     {
         $this->baifileName = $baifileName;
+
         return $this;
     }
 }

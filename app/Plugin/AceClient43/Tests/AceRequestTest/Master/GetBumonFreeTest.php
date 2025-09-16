@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Master;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Master\GetBumonFree\GetBumonFreeRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Master\GetBumonFree\GetBumonFreeResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
-
 
 class GetBumonFreeRequestModelTest extends AceRequestTestAbtract
 {
@@ -36,13 +46,13 @@ class GetBumonFreeRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
-
     public function GetBumonFreeRequestForSerialize(): GetBumonFreeRequestModel
     {
         $bumonfree = new GetBumonFreeRequestModel();
         $getBumonFree = $bumonfree->setId(OverviewMapper::ACE_TEST_SYID)
-                                  ->setExecDateFrom("2024-06-03 00:00:05")
-                                  ->setExecDateTo("2024-06-05 01:00:00");
+                                  ->setExecDateFrom('2024-06-03 00:00:05')
+                                  ->setExecDateTo('2024-06-05 01:00:00');
+
         return $getBumonFree;
     }
 
@@ -50,14 +60,18 @@ class GetBumonFreeRequestModelTest extends AceRequestTestAbtract
     {
         $bumonfree = new GetBumonFreeRequestModel();
         $getBumonFree = $bumonfree->setId(OverviewMapper::ACE_TEST_SYID);
+
         return $getBumonFree;
     }
+
     public function GetBumonFreeRequestNG(): GetBumonFreeRequestModel
     {
         $bumonfree = new GetBumonFreeRequestModel();
         $getBumonFree = $bumonfree->setId(-1);
+
         return $getBumonFree;
     }
+
     public function testRequestGetBumonFreeOK()
     {
         try {
@@ -73,26 +87,25 @@ class GetBumonFreeRequestModelTest extends AceRequestTestAbtract
                 $bumonfree1 = $responseObj->getMaster()->getBumonFree()[0];
                 $bumonfree2 = $responseObj->getMaster()->getBumonFree()[1];
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(11, $bumonfree1->getFrkbn());
-        $this->assertEquals("301", $bumonfree1->getFrkey());
+        $this->assertEquals('301', $bumonfree1->getFrkey());
         $this->assertEquals(211100, $bumonfree1->getFmkbn());
-        $this->assertEquals("フリー１", $bumonfree1->getFree());
+        $this->assertEquals('フリー１', $bumonfree1->getFree());
 
         $this->assertEquals(11, $bumonfree2->getFrkbn());
-        $this->assertEquals("301", $bumonfree2->getFrkey());
+        $this->assertEquals('301', $bumonfree2->getFrkey());
         $this->assertEquals(411101, $bumonfree2->getFmkbn());
-        $this->assertEquals("3011", $bumonfree2->getFree());
+        $this->assertEquals('3011', $bumonfree2->getFree());
 
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestGetBumonFreeNG()
@@ -109,16 +122,15 @@ class GetBumonFreeRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMaster()->getMessage()->getMessage1();
                 $bumonfree = $responseObj->getMaster()->getBumonFree();
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(null, $bumonfree);
-        $this->assertEquals("ＷＥＢ初期設定がありません", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('ＷＥＢ初期設定がありません', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

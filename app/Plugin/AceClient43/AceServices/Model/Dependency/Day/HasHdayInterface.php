@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Day;
 
 use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
@@ -12,16 +23,17 @@ use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
 interface HasHdayInterface
 {
     /**
-    * Get 配送希望日
-    *
-    * @return ?AceDateTime\AceDateTimeInterface
-    */
+     * Get 配送希望日
+     *
+     * @return ?AceDateTime\AceDateTimeInterface
+     */
     public function getHday();
 
     /**
      * Set 配送希望日
      *
      * @param \DateTime|string|null $hday
+     *
      * @return $this
      */
     public function setHday($hday);

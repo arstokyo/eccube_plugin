@@ -1,18 +1,28 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\AceMethod\Goods;
 
-use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
-use Plugin\AceClient43\AceServices\Model\Response\Goods\GetZaiko\GetZaikoResponseModel;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Method for GetZaiko
  *
  * @author Ars-Phuoc <minh.phuoc.le@ar-system.co.jp>
  */
-class GetZaikoMethod extends AceMethodAbstract
+class GetZaikoMethod extends AbstractGoodsMethod
 {
     /**
      * The End Point of Service.
@@ -30,9 +40,17 @@ class GetZaikoMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return GetZaikoResponseModel::class;
+        return Request\Goods\GetZaiko\GetZaikoRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Goods\GetZaiko\GetZaikoResponseModelInterface::class;
     }
 
     /**

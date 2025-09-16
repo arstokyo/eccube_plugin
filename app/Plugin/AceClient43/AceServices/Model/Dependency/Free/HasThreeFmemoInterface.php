@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 /**
@@ -20,6 +31,7 @@ interface HasThreeFmemoInterface
      * Set メモ1
      *
      * @param ?string $fmemo1
+     *
      * @return $this
      */
     public function setFmemo1(?string $fmemo1);
@@ -35,6 +47,7 @@ interface HasThreeFmemoInterface
      * Set メモ2
      *
      * @param ?string $fmemo2
+     *
      * @return $this
      */
     public function setFmemo2(?string $fmemo2);
@@ -50,6 +63,7 @@ interface HasThreeFmemoInterface
      * Set メモ3
      *
      * @param ?string $fmemo3
+     *
      * @return $this
      */
     public function setFmemo3(?string $fmemo3);

@@ -1,16 +1,26 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Contact;
 
-use Plugin\AceClient43\AceServices\Model\Request\Contact\RegContact\RegContactRequestModel;
-use Plugin\AceClient43\AceServices\Model\Request\Contact\RegContact\InquiryPrmModel;
-use Plugin\AceClient43\AceServices\Model\Request\Contact\RegContact;
-use Plugin\AceClient43\AceServices\Model\Response\Contact\RegContact\RegContactResponseModel;;
 use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\AceServices\Model\Request\Contact\RegContact;
+use Plugin\AceClient43\AceServices\Model\Request\Contact\RegContact\InquiryPrmModel;
+use Plugin\AceClient43\AceServices\Model\Request\Contact\RegContact\RegContactRequestModel;
+use Plugin\AceClient43\AceServices\Model\Response\Contact\RegContact\RegContactResponseModel;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Exception\MissingRequestParameterException;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 
 class RegMemberAdrTest extends AceRequestTestAbtract
 {
@@ -21,10 +31,10 @@ class RegMemberAdrTest extends AceRequestTestAbtract
 
     public function getRegContactModel(): RegContactRequestModel
     {
-        $this->fdate = (new \Datetime())->modify('+1 year')->format('Y/m/d H:i:s');
-        $this->cfreeday1 = (new \Datetime())->modify('+1 year')->format('Y/m/d H:i:s');
-        $this->condate = (new \Datetime())->modify('+2 year')->format('Y/m/d H:i:s');
-        $this->athomedate = (new \Datetime())->modify('+3 year')->format('Y/m/d H:i:s');
+        $this->fdate = (new \DateTime())->modify('+1 year')->format('Y/m/d H:i:s');
+        $this->cfreeday1 = (new \DateTime())->modify('+1 year')->format('Y/m/d H:i:s');
+        $this->condate = (new \DateTime())->modify('+2 year')->format('Y/m/d H:i:s');
+        $this->athomedate = (new \DateTime())->modify('+3 year')->format('Y/m/d H:i:s');
 
         $inquiryPrm = new InquiryPrmModel();
         $inquiryPrm->setContact((new RegContact\ContactModel())
@@ -32,33 +42,34 @@ class RegMemberAdrTest extends AceRequestTestAbtract
                                     ->setStatus(1)
                                     ->setKind(2)
                                     ->setMsyid(0)
-                                    ->setEtcid("abc")
+                                    ->setEtcid('abc')
                                     ->setDenno(79)
                                     ->setNouno(21)
-                                    ->setEdano("1212")
-                                    ->setGdid("4334")
-                                    ->setGhid("4334")
-                                    ->setLastgroup("123")
-                                    ->setCuser("323")
-                                    ->setUuser("abc")
-                                    ->setCfreemst1("abc")
-                                    ->setCfreememo1("test")
+                                    ->setEdano('1212')
+                                    ->setGdid('4334')
+                                    ->setGhid('4334')
+                                    ->setLastgroup('123')
+                                    ->setCuser('323')
+                                    ->setUuser('abc')
+                                    ->setCfreemst1('abc')
+                                    ->setCfreememo1('test')
                                     ->setCfreeday1($this->cfreeday1)
-                                    ->setCfreedata1("test1")
-                                )
+                                    ->setCfreedata1('test1')
+        )
                     ->setContactmei((new RegContact\ContactmeiModel())
-                                    ->setEdano(1)
-                                    ->setCondate($this->condate)
-                                    ->setStatus(2)
-                                    ->setRequestgroup("test_group")
-                                    ->setRequestuser("test_user")
-                                    ->setCuser("cuser_test")
-                                    ->setUuser("uuser_test")
-                                    ->setAthomedate($this->athomedate)
-                                    ->setAthometime("120040")
-                                    ->setNote1("note_contactmei1")
-                                    ->setNote2("note_contactmei2")
-                                );
+            ->setEdano(1)
+            ->setCondate($this->condate)
+            ->setStatus(2)
+            ->setRequestgroup('test_group')
+            ->setRequestuser('test_user')
+            ->setCuser('cuser_test')
+            ->setUuser('uuser_test')
+            ->setAthomedate($this->athomedate)
+            ->setAthometime('120040')
+            ->setNote1('note_contactmei1')
+            ->setNote2('note_contactmei2')
+                    );
+
         return (new RegContactRequestModel())->setId(OverviewMapper::ACE_TEST_SYID)->setPrm($inquiryPrm);
     }
 
@@ -138,9 +149,9 @@ class RegMemberAdrTest extends AceRequestTestAbtract
                 $contactmei = $responseObj->getInquiry()->getContactmei();
                 $message = $responseObj->getInquiry()->getMessage();
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
@@ -148,35 +159,35 @@ class RegMemberAdrTest extends AceRequestTestAbtract
         $this->assertEquals(1, $contact->getStatus());
         $this->assertEquals(2, $contact->getKind());
         $this->assertEquals(0, $contact->getMsyid());
-        $this->assertEquals("abc", $contact->getEtcid());
+        $this->assertEquals('abc', $contact->getEtcid());
         $this->assertEquals(21, $contact->getNouno());
-        $this->assertEquals("1212", $contact->getEdano());
-        $this->assertEquals("4334", $contact->getGhid());
-        $this->assertEquals("123", $contact->getLastgroup());
-        $this->assertEquals("323", $contact->getCuser());
-        $this->assertEquals("abc", $contact->getUuser());
-        $this->assertEquals("abc", $contact->getCfreemst1());
-        $this->assertEquals("test", $contact->getCfreememo1());
-        $this->assertEquals("test1", $contact->getCfreedata1());
+        $this->assertEquals('1212', $contact->getEdano());
+        $this->assertEquals('4334', $contact->getGhid());
+        $this->assertEquals('123', $contact->getLastgroup());
+        $this->assertEquals('323', $contact->getCuser());
+        $this->assertEquals('abc', $contact->getUuser());
+        $this->assertEquals('abc', $contact->getCfreemst1());
+        $this->assertEquals('test', $contact->getCfreememo1());
+        $this->assertEquals('test1', $contact->getCfreedata1());
         $this->assertEquals(79, $contact->getDenno());
-        $this->assertEquals("4334", $contact->getGdid());
+        $this->assertEquals('4334', $contact->getGdid());
         $this->assertEquals($this->fdate, $contact->getFdate()->toApiDateTime());
         $this->assertEquals($this->cfreeday1, $contact->getCfreeday1()->toApiDateTime());
 
         $this->assertEquals(1, $contactmei->getEdano());
         $this->assertEquals(2, $contactmei->getStatus());
-        $this->assertEquals("test_group", $contactmei->getRequestgroup());
-        $this->assertEquals("test_user", $contactmei->getRequestuser());
-        $this->assertEquals("cuser_test", $contactmei->getCuser());
-        $this->assertEquals("uuser_test", $contactmei->getUuser());
-        $this->assertEquals("120040", $contactmei->getAthometime());
-        $this->assertEquals("note_contactmei1", $contactmei->getNote1());
-        $this->assertEquals("note_contactmei2", $contactmei->getNote2());
+        $this->assertEquals('test_group', $contactmei->getRequestgroup());
+        $this->assertEquals('test_user', $contactmei->getRequestuser());
+        $this->assertEquals('cuser_test', $contactmei->getCuser());
+        $this->assertEquals('uuser_test', $contactmei->getUuser());
+        $this->assertEquals('120040', $contactmei->getAthometime());
+        $this->assertEquals('note_contactmei1', $contactmei->getNote1());
+        $this->assertEquals('note_contactmei2', $contactmei->getNote2());
         $this->assertEquals($this->condate, $contactmei->getCondate()->toApiDateTime());
         $this->assertEquals($this->athomedate, $contactmei->getAthomedate()->toApiDateTime());
 
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestRegContactNG()
@@ -195,16 +206,16 @@ class RegMemberAdrTest extends AceRequestTestAbtract
                 $contactmei = $responseObj->getInquiry()->getContactmei();
                 $message = $responseObj->getInquiry()->getMessage();
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(null, $contact);
         $this->assertEquals(null, $contactmei);
 
-        $this->assertEquals("システムＩＤ設定がありません", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('システムＩＤ設定がありません', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

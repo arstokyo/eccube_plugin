@@ -1,23 +1,24 @@
 <?php
 
-namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
-use Plugin\AceClient43\AceServices\Model\Dependency\Free\HasFiveForderMailInterface;
-use Plugin\AceClient43\AceServices\Model\Dependency\Free\HasFiveFshukkaMailInterface;
-use Plugin\AceClient43\AceServices\Model\Dependency\Free\HasFiveFseikyuMailInterface;
-use Plugin\AceClient43\AceServices\Model\Dependency\Free\HasFiveFshouHinMailInterface;
-use Plugin\AceClient43\AceServices\Model\Dependency\Free\HasFiveFdenshiMailInterface;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 /**
  * Interface For HasFreeGroup1
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
-                                        HasFiveFshukkaMailInterface,
-                                        HasFiveFseikyuMailInterface,
-                                        HasFiveFshouHinMailInterface,
-                                        HasFiveFdenshiMailInterface
+interface HasFreeGroup1Interface extends HasFiveForderMailInterface, HasFiveFshukkaMailInterface, HasFiveFseikyuMailInterface, HasFiveFshouHinMailInterface, HasFiveFdenshiMailInterface
 {
     /**
      * Get 紹介者顧客メモ
@@ -30,6 +31,7 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 紹介者顧客メモ
      *
      * @param ?string $freeshokaishamemo
+     *
      * @return $this
      */
     public function setFreeshokaishamemo(?string $freeshokaishamemo);
@@ -45,6 +47,7 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 移行元
      *
      * @param ?int $freeikomoto
+     *
      * @return $this
      */
     public function setFreeikomoto(?int $freeikomoto);
@@ -60,6 +63,7 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者姓
      *
      * @param ?string $freedaihyoshasei
+     *
      * @return $this
      */
     public function setFreedaihyoshasei(?string $freedaihyoshasei);
@@ -75,6 +79,7 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者名
      *
      * @param ?string $freedaihyoshamei
+     *
      * @return $this
      */
     public function setFreedaihyoshamei(?string $freedaihyoshamei);
@@ -90,6 +95,7 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者姓カナ
      *
      * @param ?string $freedaihyoshaseifuri
+     *
      * @return $this
      */
     public function setFreedaihyoshaseifuri(?string $freedaihyoshaseifuri);
@@ -105,6 +111,7 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者名カナ
      *
      * @param ?string $freedaihyoshameifuri
+     *
      * @return $this
      */
     public function setFreedaihyoshameifuri(?string $freedaihyoshameifuri);
@@ -120,6 +127,7 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者郵便番号
      *
      * @param ?string $freeyubinbango
+     *
      * @return $this
      */
     public function setFreeyubinbango(?string $freeyubinbango);
@@ -135,6 +143,7 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者都道府県
      *
      * @param ?string $freetodofuken
+     *
      * @return $this
      */
     public function setFreetodofuken(?string $freetodofuken);
@@ -150,6 +159,7 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者市区町村
      *
      * @param ?string $freeshikuchouson
+     *
      * @return $this
      */
     public function setFreeshikuchouson(?string $freeshikuchouson);
@@ -165,6 +175,7 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者町名番地
      *
      * @param ?string $freechomeibanchi
+     *
      * @return $this
      */
     public function setFreechomeibanchi(?string $freechomeibanchi);
@@ -180,6 +191,7 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者建物名
      *
      * @param ?string $freetatemonomei
+     *
      * @return $this
      */
     public function setFreetatemonomei(?string $freetatemonomei);
@@ -195,6 +207,7 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者会社名
      *
      * @param ?string $freekaishamei
+     *
      * @return $this
      */
     public function setFreekaishamei(?string $freekaishamei);
@@ -210,6 +223,7 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者お届先名称
      *
      * @param ?string $freetodokesaki
+     *
      * @return $this
      */
     public function setFreetodokesaki(?string $freetodokesaki);
@@ -225,6 +239,7 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者電話番号1
      *
      * @param ?string $freedenwabango1
+     *
      * @return $this
      */
     public function setFreedenwabango1(?string $freedenwabango1);
@@ -240,6 +255,7 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者電話番号2
      *
      * @param ?string $freedenwabango2
+     *
      * @return $this
      */
     public function setFreedenwabango2(?string $freedenwabango2);
@@ -255,6 +271,7 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者電話番号3
      *
      * @param ?string $freedenwabango3
+     *
      * @return $this
      */
     public function setFreedenwabango3(?string $freedenwabango3);
@@ -270,6 +287,7 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 代表者FAX番号
      *
      * @param ?string $freefax
+     *
      * @return $this
      */
     public function setFreefax(?string $freefax);
@@ -285,6 +303,7 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 定休日
      *
      * @param ?string $freeteikyubi
+     *
      * @return $this
      */
     public function setFreeteikyubi(?string $freeteikyubi);
@@ -300,6 +319,7 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set DM送付後説明
      *
      * @param ?int $freedmsofukbn
+     *
      * @return $this
      */
     public function setFreedmsofukbn(?int $freedmsofukbn);
@@ -315,6 +335,7 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set ｴﾝﾄﾞﾕｰｻﾞｰ店舗案内
      *
      * @param ?int $freeenduserkbn
+     *
      * @return $this
      */
     public function setFreeenduserkbn(?int $freeenduserkbn);
@@ -330,6 +351,7 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 反社チェック
      *
      * @param ?int $freehanshakbn
+     *
      * @return $this
      */
     public function setFreehanshakbn(?int $freehanshakbn);
@@ -345,6 +367,7 @@ interface HasFreeGroup1Interface extends HasFiveForderMailInterface,
      * Set 取引区分
      *
      * @param ?int $thflg
+     *
      * @return $this
      */
     public function setThflg(?int $thflg);

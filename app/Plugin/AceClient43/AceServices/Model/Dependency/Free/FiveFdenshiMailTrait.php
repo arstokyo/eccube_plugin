@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 /**
@@ -9,19 +20,19 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
  */
 trait FiveFdenshiMailTrait
 {
-    /** @var ?string $freedenshimail1 電子契約送付ﾒｰﾙｱﾄﾞﾚｽ1 */
+    /** @var ?string 電子契約送付ﾒｰﾙｱﾄﾞﾚｽ1 */
     protected ?string $freedenshimail1 = null;
 
-    /** @var ?string $freedenshimail2 電子契約送付ﾒｰﾙｱﾄﾞﾚｽ2 */
+    /** @var ?string 電子契約送付ﾒｰﾙｱﾄﾞﾚｽ2 */
     protected ?string $freedenshimail2 = null;
 
-    /** @var ?string $freedenshimail3 電子契約送付ﾒｰﾙｱﾄﾞﾚｽ3 */
+    /** @var ?string 電子契約送付ﾒｰﾙｱﾄﾞﾚｽ3 */
     protected ?string $freedenshimail3 = null;
 
-    /** @var ?string $freedenshimail4 電子契約送付ﾒｰﾙｱﾄﾞﾚｽ4 */
+    /** @var ?string 電子契約送付ﾒｰﾙｱﾄﾞﾚｽ4 */
     protected ?string $freedenshimail4 = null;
 
-    /** @var ?string $freedenshimail5 電子契約送付ﾒｰﾙｱﾄﾞﾚｽ5 */
+    /** @var ?string 電子契約送付ﾒｰﾙｱﾄﾞﾚｽ5 */
     protected ?string $freedenshimail5 = null;
 
     /**
@@ -38,6 +49,7 @@ trait FiveFdenshiMailTrait
     public function setFreeDenshiMail1(?string $freedenshimail1)
     {
         $this->freedenshimail1 = $freedenshimail1;
+
         return $this;
     }
 
@@ -55,6 +67,7 @@ trait FiveFdenshiMailTrait
     public function setFreeDenshiMail2(?string $freedenshimail2)
     {
         $this->freedenshimail2 = $freedenshimail2;
+
         return $this;
     }
 
@@ -72,6 +85,7 @@ trait FiveFdenshiMailTrait
     public function setFreeDenshiMail3(?string $freedenshimail3)
     {
         $this->freedenshimail3 = $freedenshimail3;
+
         return $this;
     }
 
@@ -89,6 +103,7 @@ trait FiveFdenshiMailTrait
     public function setFreeDenshiMail4(?string $freedenshimail4)
     {
         $this->freedenshimail4 = $freedenshimail4;
+
         return $this;
     }
 
@@ -106,6 +121,7 @@ trait FiveFdenshiMailTrait
     public function setFreeDenshiMail5(?string $freedenshimail5)
     {
         $this->freedenshimail5 = $freedenshimail5;
+
         return $this;
     }
 }

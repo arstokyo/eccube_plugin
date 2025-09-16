@@ -1,33 +1,32 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetRireki;
 
+use Plugin\AceClient43\AceServices\Model\Dependency\Cost;
+use Plugin\AceClient43\AceServices\Model\Dependency\Day;
 use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
-use Plugin\AceClient43\AceServices\Model\Dependency\Payment;
 use Plugin\AceClient43\AceServices\Model\Dependency\Good;
 use Plugin\AceClient43\AceServices\Model\Dependency\Haiso;
-use Plugin\AceClient43\AceServices\Model\Dependency\Cost;
+use Plugin\AceClient43\AceServices\Model\Dependency\Payment;
 use Plugin\AceClient43\AceServices\Model\Dependency\Rireki;
-use Plugin\AceClient43\AceServices\Model\Dependency\Day;
 
 /**
  * Interface for RirekiModel
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface RirekiModelInterface extends Rireki\RirekiModelLevel1Interface,
-                                       Payment\HasPnameInterface,
-                                       Haiso\HaisoModelGroup1Interface,
-                                       Good\HasGtotalInterface,
-                                       Cost\Souryou\HasSouryouInterface,
-                                       Cost\Tesuu\HasTesuuInterface,
-                                       Cost\Nebiki\HasNebikiInterface,
-                                       Cost\HasTotalInterface,
-                                       Day\HasSdayInterface,
-                                       Day\HasUdayInterface,
-                                       Day\HasNdayInterface,
-                                       Denpyo\HasZandakaInterface,
-                                       Cost\HasSyoukeiInterface
+interface RirekiModelInterface extends Rireki\RirekiModelLevel1Interface, Payment\HasPnameInterface, Haiso\HaisoModelGroup1Interface, Good\HasGtotalInterface, Cost\Souryou\HasSouryouInterface, Cost\Tesuu\HasTesuuInterface, Cost\Nebiki\HasNebikiInterface, Cost\HasTotalInterface, Day\HasSdayInterface, Day\HasUdayInterface, Day\HasNdayInterface, Denpyo\HasZandakaInterface, Cost\HasSyoukeiInterface
 {
     /**
      * Get 行番号
@@ -80,5 +79,4 @@ interface RirekiModelInterface extends Rireki\RirekiModelLevel1Interface,
      * @param ?string $url
      */
     public function setUrl(?string $url);
-
 }

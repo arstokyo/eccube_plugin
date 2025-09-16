@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 /**
@@ -20,6 +31,7 @@ interface HasFiveFdenshiMailInterface
      * Set 電子契約送付ﾒｰﾙｱﾄﾞﾚｽ1
      *
      * @param ?string $freedenshimail1
+     *
      * @return $this
      */
     public function setFreeDenshiMail1(?string $freedenshimail1);
@@ -35,6 +47,7 @@ interface HasFiveFdenshiMailInterface
      * Set 電子契約送付ﾒｰﾙｱﾄﾞﾚｽ2
      *
      * @param ?string $freedenshimail2
+     *
      * @return $this
      */
     public function setFreeDenshiMail2(?string $freedenshimail2);
@@ -50,6 +63,7 @@ interface HasFiveFdenshiMailInterface
      * Set 電子契約送付ﾒｰﾙｱﾄﾞﾚｽ3
      *
      * @param ?string $freedenshimail3
+     *
      * @return $this
      */
     public function setFreeDenshiMail3(?string $freedenshimail3);
@@ -65,6 +79,7 @@ interface HasFiveFdenshiMailInterface
      * Set 電子契約送付ﾒｰﾙｱﾄﾞﾚｽ4
      *
      * @param ?string $freedenshimail4
+     *
      * @return $this
      */
     public function setFreeDenshiMail4(?string $freedenshimail4);
@@ -80,6 +95,7 @@ interface HasFiveFdenshiMailInterface
      * Set 電子契約送付ﾒｰﾙｱﾄﾞﾚｽ5
      *
      * @param ?string $freedenshimail5
+     *
      * @return $this
      */
     public function setFreeDenshiMail5(?string $freedenshimail5);

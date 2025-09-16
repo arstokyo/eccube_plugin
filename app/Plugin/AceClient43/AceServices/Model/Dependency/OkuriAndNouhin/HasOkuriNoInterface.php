@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\OkuriAndNouhin;
 
 /**
@@ -10,16 +21,17 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\OkuriAndNouhin;
 interface HasOkuriNoInterface
 {
     /**
-    * Get 送り状番号
-    *
-    * @return ?string
-    */
+     * Get 送り状番号
+     *
+     * @return ?string
+     */
     public function getOkurino(): ?string;
 
     /**
      * Set 送り状番号
      *
      * @param ?string $okurino
+     *
      * @return $this
      */
     public function setOkurino(?string $okurino);

@@ -1,10 +1,22 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Request\Member\GetRireki;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelAbstract;
 use Plugin\AceClient43\Exception\MissingRequestParameterException;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * Class GetRirekiRequestModel
@@ -13,66 +25,95 @@ use Plugin\AceClient43\Exception\MissingRequestParameterException;
  */
 class GetRirekiRequestModel extends RequestModelAbstract implements GetRirekiRequestModelInterface
 {
-    use NoCategory\IdTrait,NoCategory\McodeTrait;
-    const XML_NODE_NAME = 'getRireki';
+    use NoCategory\McodeTrait;
 
-    /** @var ?int $dispRow 表示行数 */
+    /**
+     * @var IdPrmModelInterface
+     *
+     * @SerializedName("id")
+     */
+    protected IdPrmModelInterface $idPrm;
+
+    public const XML_NODE_NAME = 'getRireki';
+
+    /** @var ?int 表示行数 */
     protected ?int $dispRow = null;
 
-    /** @var ?int $dispPage 表示ページ */
+    /** @var ?int 表示ページ */
     protected ?int $dispPage = null;
 
-    /** @var int $sort ソートコード */
+    /** @var int ソートコード */
     protected int $sort;
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
+    public function getIdPrm(): IdPrmModelInterface
+    {
+        return $this->idPrm;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setIdPrm(IdPrmModelInterface $idPrm): self
+    {
+        $this->idPrm = $idPrm;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getDispRow(): ?int
     {
         return $this->dispRow;
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     public function setDispRow(?int $dispRow)
     {
         $this->dispRow = $dispRow;
+
         return $this;
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     public function getDispPage(): ?int
     {
         return $this->dispPage;
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     public function setDispPage(?int $dispPage)
     {
         $this->dispPage = $dispPage;
+
         return $this;
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     public function getSort(): int
     {
         return $this->sort;
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     public function setSort(int $sort)
     {
         $this->sort = $sort;
+
         return $this;
     }
 
@@ -81,10 +122,19 @@ class GetRirekiRequestModel extends RequestModelAbstract implements GetRirekiReq
      */
     public function ensureParameterNotMissing(): void
     {
-        if (!$this->id) { throw new MissingRequestParameterException($this->compilePropertyName('id')); };
-        if (!$this->mcode) { throw new MissingRequestParameterException($this->compilePropertyName('mcode')); };
-        if (!$this->dispRow) { throw new MissingRequestParameterException($this->compilePropertyName('dispRow')); };
-        if (!$this->dispPage) { throw new MissingRequestParameterException($this->compilePropertyName('dispPage')); };
+        if (empty($this->idPrm)) {
+            throw new MissingRequestParameterException($this->compilePropertyName('idPrm'));
+        }
+
+        if (!$this->mcode) {
+            throw new MissingRequestParameterException($this->compilePropertyName('mcode'));
+        }
+        if (!$this->dispRow) {
+            throw new MissingRequestParameterException($this->compilePropertyName('dispRow'));
+        }
+        if (!$this->dispPage) {
+            throw new MissingRequestParameterException($this->compilePropertyName('dispPage'));
+        }
     }
 
     /**

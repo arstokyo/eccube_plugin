@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Member;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Member\UpdateTaikai\UpdateTaikaiRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Member\UpdateTaikai\UpdateTaikaiResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
-
 
 class UpdateTaikaiRequestModelTest extends AceRequestTestAbtract
 {
@@ -36,13 +46,13 @@ class UpdateTaikaiRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
-
     public function UpdateTaikaiRequestForSerialize(): UpdateTaikaiRequestModel
     {
         $taikai = new UpdateTaikaiRequestModel();
         $UpdateTaikai = $taikai->setId(OverviewMapper::ACE_TEST_SYID)
-                               ->setMcode("222")
+                               ->setMcode('222')
                                ->setTaikai(111);
+
         return $UpdateTaikai;
     }
 
@@ -50,18 +60,22 @@ class UpdateTaikaiRequestModelTest extends AceRequestTestAbtract
     {
         $taikai = new UpdateTaikaiRequestModel();
         $UpdateTaikai = $taikai->setId(OverviewMapper::ACE_TEST_SYID)
-                               ->setMcode("203")
+                               ->setMcode('203')
                                ->setTaikai(1);
+
         return $UpdateTaikai;
     }
+
     public function UpdateTaikaiRequestNG(): UpdateTaikaiRequestModel
     {
         $taikai = new UpdateTaikaiRequestModel();
         $UpdateTaikai = $taikai->setId(-1)
-                               ->setMcode("203")
+                               ->setMcode('203')
                                ->setTaikai(1);
+
         return $UpdateTaikai;
     }
+
     public function testRequestUpdateTaikaiOK()
     {
         try {
@@ -76,18 +90,17 @@ class UpdateTaikaiRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMember()->getMessage()->getMessage1();
                 $memweb = $responseObj->getMember()->getMemweb();
                 $message = $responseObj->getMember()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
-        $this->assertEquals("203", $memweb->getCode());
+        $this->assertEquals('203', $memweb->getCode());
         $this->assertEquals(1, $memweb->getTaikai());
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestUpdateTaikaiNG()
@@ -104,16 +117,15 @@ class UpdateTaikaiRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMember()->getMessage()->getMessage1();
                 $memweb = $responseObj->getMember()->getMemweb();
                 $message = $responseObj->getMember()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(null, $memweb);
         $this->assertEquals(null, $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

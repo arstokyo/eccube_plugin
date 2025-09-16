@@ -1,20 +1,28 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Good;
 
+use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
 use Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
 use Symfony\Component\Serializer\Annotation\SerializedName;
-use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
-
 
 /**
  * Interface for GoodModelGroup1
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface GoodModelGroup1Interface extends GoodModelBaseInterface,
-                                           Bikou\HasThreeNotesInterface,
-                                           HasGdidInterface
+interface GoodModelGroup1Interface extends GoodModelBaseInterface, Bikou\HasThreeNotesInterface, HasGdidInterface
 {
     /**
      * Get 名称
@@ -49,6 +57,7 @@ interface GoodModelGroup1Interface extends GoodModelBaseInterface,
      * Set 納品明細出力区分
      *
      * @param int|null $Nprint
+     *
      * @return $this
      */
     public function setNprint(?int $Nprint);
@@ -64,6 +73,7 @@ interface GoodModelGroup1Interface extends GoodModelBaseInterface,
      * Set 規格1
      *
      * @param ?string $kikaku1
+     *
      * @return $this
      */
     public function setKikaku1(?string $kikaku1);
@@ -79,6 +89,7 @@ interface GoodModelGroup1Interface extends GoodModelBaseInterface,
      * Set 規格2
      *
      * @param ?string $kikaku2
+     *
      * @return $this
      */
     public function setKikaku2(?string $kikaku2);
@@ -94,6 +105,7 @@ interface GoodModelGroup1Interface extends GoodModelBaseInterface,
      * Set 梱包数
      *
      * @param string|null $konpo
+     *
      * @return $this
      */
     public function setKonpo(?string $konpo);
@@ -109,6 +121,7 @@ interface GoodModelGroup1Interface extends GoodModelBaseInterface,
      * Set 削除フラグ
      *
      * @param ?int $delfg
+     *
      * @return $this
      */
     public function setDelfg(?int $delfg);
@@ -124,6 +137,7 @@ interface GoodModelGroup1Interface extends GoodModelBaseInterface,
      * Set 定期区分
      *
      * @param ?int $teiki
+     *
      * @return $this
      */
     public function setTeiki(?int $teiki);
@@ -139,6 +153,7 @@ interface GoodModelGroup1Interface extends GoodModelBaseInterface,
      * Set 直送区分
      *
      * @param ?int $tyoku
+     *
      * @return $this
      */
     public function setTyoku(?int $tyoku);
@@ -154,6 +169,7 @@ interface GoodModelGroup1Interface extends GoodModelBaseInterface,
      * Set 個人販売数
      *
      * @param ?int $kgsuu
+     *
      * @return $this
      */
     public function setKgsuu(?int $kgsuu);
@@ -169,6 +185,7 @@ interface GoodModelGroup1Interface extends GoodModelBaseInterface,
      * Set 全体販売数
      *
      * @param ?int $zgsuu
+     *
      * @return $this
      */
     public function setZgsuu(?int $zgsuu);
@@ -184,6 +201,7 @@ interface GoodModelGroup1Interface extends GoodModelBaseInterface,
      * Set 個人販売数開始日時
      *
      * @param \DateTime|string|null $kgdate
+     *
      * @return $this
      */
     public function setKgdate($kgdate);
@@ -199,6 +217,7 @@ interface GoodModelGroup1Interface extends GoodModelBaseInterface,
      * Set 全体販売数開始日時
      *
      * @param \DateTime|string|null $zgdate
+     *
      * @return $this
      */
     public function setZgdate($zgdate);
@@ -214,6 +233,7 @@ interface GoodModelGroup1Interface extends GoodModelBaseInterface,
      * Set 在庫確保数
      *
      * @param ?int $keepsuu
+     *
      * @return $this
      */
     public function setKeepsuu(?int $keepsuu);
@@ -229,6 +249,7 @@ interface GoodModelGroup1Interface extends GoodModelBaseInterface,
      * Set 品番ID
      *
      * @param ?string $ghid
+     *
      * @return $this
      */
     public function setGhid(?string $ghid);
@@ -244,6 +265,7 @@ interface GoodModelGroup1Interface extends GoodModelBaseInterface,
      * Set 品番フリガナ
      *
      * @param ?string $kana1
+     *
      * @return $this
      */
     public function setKana1(?string $kana1);
@@ -259,6 +281,7 @@ interface GoodModelGroup1Interface extends GoodModelBaseInterface,
      * Set 名称
      *
      * @param ?string $name1
+     *
      * @return $this
      */
     public function setName1(?string $name1);
@@ -274,7 +297,15 @@ interface GoodModelGroup1Interface extends GoodModelBaseInterface,
      * Set 略名称
      *
      * @param ?string $subnm1
+     *
      * @return $this
      */
     public function setSubnm1(?string $subnm1);
+
+    /**
+     * Get 削除フラグ
+     *
+     * @return bool
+     */
+    public function isSoftDelete(): bool;
 }

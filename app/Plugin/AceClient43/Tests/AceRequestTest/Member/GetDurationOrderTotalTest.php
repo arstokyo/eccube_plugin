@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Member;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetDurationOrderTotal\GetDurationOrderTotalRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetDurationOrderTotal\GetDurationOrderTotalResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
-
 
 class GetDurationOrderTotalRequestModelTest extends AceRequestTestAbtract
 {
@@ -44,6 +54,7 @@ class GetDurationOrderTotalRequestModelTest extends AceRequestTestAbtract
                                                     ->setMbid('216')
                                                     ->setDayfrom('20230101')
                                                     ->setDayto('20240101');
+
         return $getDurationOrderTotal;
     }
 
@@ -54,8 +65,10 @@ class GetDurationOrderTotalRequestModelTest extends AceRequestTestAbtract
                                                     ->setMbid('216')
                                                     ->setDayfrom('20230101')
                                                     ->setDayto('20240101');
+
         return $getDurationOrderTotal;
     }
+
     public function GetDurationOrderTotalRequestNG(): GetDurationOrderTotalRequestModel
     {
         $durationOrderTotal = new GetDurationOrderTotalRequestModel();
@@ -63,8 +76,10 @@ class GetDurationOrderTotalRequestModelTest extends AceRequestTestAbtract
                                                     ->setMbid('216')
                                                     ->setDayfrom('20230101')
                                                     ->setDayto('20240101');
+
         return $getDurationOrderTotal;
     }
+
     public function testRequestGetDurationOrderTotalOK()
     {
         try {
@@ -79,19 +94,18 @@ class GetDurationOrderTotalRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMember()->getMessage()->getMessage1();
                 $durationOrderTotal = $responseObj->getMember()->getTotal();
                 $message = $responseObj->getMember()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(0, $durationOrderTotal->getDentotal());
         $this->assertEquals(9, $durationOrderTotal->getGkbn());
 
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestGetDurationOrderTotalNG()
@@ -108,16 +122,15 @@ class GetDurationOrderTotalRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMember()->getMessage()->getMessage1();
                 $durationOrderTotal = $responseObj->getMember()->getTotal();
                 $message = $responseObj->getMember()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(null, $durationOrderTotal);
-        $this->assertEquals("ＷＥＢ初期設定がありません", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('ＷＥＢ初期設定がありません', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Mail;
 
 /**
@@ -9,15 +20,15 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Mail;
  */
 trait FiveMelmagaTrait
 {
-    /** @var ?int $melmaga1 メルマガ区分1 */
+    /** @var ?int メルマガ区分1 */
     protected ?int $melmaga1 = null;
-    /** @var ?int $melmaga2 メルマガ区分2 */
+    /** @var ?int メルマガ区分2 */
     protected ?int $melmaga2 = null;
-    /** @var ?int $melmaga3 メルマガ区分3 */
+    /** @var ?int メルマガ区分3 */
     protected ?int $melmaga3 = null;
-    /** @var ?int $melmaga4 メルマガ区分4 */
+    /** @var ?int メルマガ区分4 */
     protected ?int $melmaga4 = null;
-    /** @var ?int $melmaga5 メルマガ区分5 */
+    /** @var ?int メルマガ区分5 */
     protected ?int $melmaga5 = null;
 
     /**
@@ -34,6 +45,7 @@ trait FiveMelmagaTrait
     public function setMelmaga1(?int $melmaga1)
     {
         $this->melmaga1 = $melmaga1;
+
         return $this;
     }
 
@@ -51,6 +63,7 @@ trait FiveMelmagaTrait
     public function setMelmaga2(?int $melmaga2)
     {
         $this->melmaga2 = $melmaga2;
+
         return $this;
     }
 
@@ -68,6 +81,7 @@ trait FiveMelmagaTrait
     public function setMelmaga3(?int $melmaga3)
     {
         $this->melmaga3 = $melmaga3;
+
         return $this;
     }
 
@@ -85,6 +99,7 @@ trait FiveMelmagaTrait
     public function setMelmaga4(?int $melmaga4)
     {
         $this->melmaga4 = $melmaga4;
+
         return $this;
     }
 
@@ -102,6 +117,7 @@ trait FiveMelmagaTrait
     public function setMelmaga5(?int $melmaga5)
     {
         $this->melmaga5 = $melmaga5;
+
         return $this;
     }
 }

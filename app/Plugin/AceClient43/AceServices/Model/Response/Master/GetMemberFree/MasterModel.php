@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetMemberFree;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelTrait;
@@ -9,7 +20,6 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelTrait
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-
 class MasterModel implements MasterModelInterface
 {
     use HasMessageModelTrait;
@@ -17,22 +27,22 @@ class MasterModel implements MasterModelInterface
     /**
      * MemberFree
      *
-     * @var MemberFreeModel[]|null $memberFree
+     * @var MemberFreeModel[]|null
      */
-    protected ?array $memberFree  = null;
+    protected ?array $memberFree = null;
 
     /**
      * {@inheritDoc}
      */
-    function getMemberFree(): ?array
+    public function getMemberFree(): ?array
     {
         return $this->memberFree;
     }
 
     /**
-    * {@inheritDoc}
-    */
-    function setMemberFree(?array $memberFree): void
+     * {@inheritDoc}
+     */
+    public function setMemberFree(?array $memberFree): void
     {
         $this->memberFree = $memberFree;
     }
@@ -43,7 +53,7 @@ class MasterModel implements MasterModelInterface
     public static function fetchAsListProperty(): array
     {
         return [
-                'MemberFree' => MemberFreeModel::class
-               ];
+            'MemberFree' => MemberFreeModel::class,
+        ];
     }
 }

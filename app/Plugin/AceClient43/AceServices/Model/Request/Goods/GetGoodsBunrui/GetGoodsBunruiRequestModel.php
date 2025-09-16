@@ -1,10 +1,21 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Request\Goods\GetGoodsBunrui;
 
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelAbstract;
 use Plugin\AceClient43\Exception\MissingRequestParameterException;
-use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Class GetGoodsBunruiRequestModel
@@ -13,11 +24,10 @@ use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
  */
 class GetGoodsBunruiRequestModel extends RequestModelAbstract implements GetGoodsBunruiRequestModelInterface
 {
-    const XML_NODE_NAME = 'getGoodsBunrui';
-
     use NoCategory\IdTrait;
+    public const XML_NODE_NAME = 'getGoodsBunrui';
 
-    /** @var ?string $kubun 分類区分 */
+    /** @var ?string 分類区分 */
     protected ?string $kubun = null;
 
     /**
@@ -34,6 +44,7 @@ class GetGoodsBunruiRequestModel extends RequestModelAbstract implements GetGood
     public function setKubun(?string $kubun)
     {
         $this->kubun = $kubun;
+
         return $this;
     }
 
@@ -42,8 +53,12 @@ class GetGoodsBunruiRequestModel extends RequestModelAbstract implements GetGood
      */
     public function ensureParameterNotMissing(): void
     {
-        if (!$this->id) { throw new MissingRequestParameterException($this->compilePropertyName('id')); };
-        if (!$this->kubun) { throw new MissingRequestParameterException($this->compilePropertyName('kubun')); };
+        if (!$this->id) {
+            throw new MissingRequestParameterException($this->compilePropertyName('id'));
+        }
+        if (!$this->kubun) {
+            throw new MissingRequestParameterException($this->compilePropertyName('kubun'));
+        }
     }
 
     /**

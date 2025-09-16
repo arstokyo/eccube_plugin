@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetHktime;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Haiso;
@@ -9,13 +20,12 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Haiso;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-
 class HktimeModel implements HktimeModelInterface
 {
-    use Haiso\HkCodeTrait,
-        Haiso\HkNameTrait;
+    use Haiso\HkCodeTrait;
+    use Haiso\HkNameTrait;
 
-    /** @var ?int $hktime 時間 */
+    /** @var ?int 時間 */
     protected ?int $hktime = null;
 
     /**
@@ -32,6 +42,7 @@ class HktimeModel implements HktimeModelInterface
     public function setHktime(?int $hktime)
     {
         $this->hktime = $hktime;
+
         return $this;
     }
 }

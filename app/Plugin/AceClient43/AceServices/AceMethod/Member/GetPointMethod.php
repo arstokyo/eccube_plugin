@@ -1,18 +1,28 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\AceMethod\Member;
 
-use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
-use Plugin\AceClient43\AceServices\Model\Response\Member\GetPoint\GetPointResponseModel;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Method for GetPoint
  *
  * @author Ars-Phuoc <minh.phuoc.le@ar-system.co.jp>
  */
-class GetPointMethod extends AceMethodAbstract
+class GetPointMethod extends AbstractMemberMethod
 {
     /**
      * The End Point of Service.
@@ -30,9 +40,17 @@ class GetPointMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return GetPointResponseModel::class;
+        return Request\Member\GetPoint\GetPointRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Member\GetPoint\GetPointResponseModelInterface::class;
     }
 
     /**

@@ -1,16 +1,27 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Member;
 
-use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr\RegMemAdrRequestModel;
+use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\AceServices\Model\Request\Member\DeleteHaisoAdrs\DeleteHaisoAdrsRequestModel;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr\MemberPrmModel;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr\NmemberModel;
-use Plugin\AceClient43\AceServices\Model\Request\Member\DeleteHaisoAdrs\DeleteHaisoAdrsRequestModel;
-use Plugin\AceClient43\AceServices\Model\Response\Member\DeleteHaisoAdrs\DeleteHaisoAdrsResponseModel;
+use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr\RegMemAdrRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response;
-use GuzzleHttp\Exception\ClientException;
-use Plugin\AceClient43\Util\Mapper\OverviewMapper;
+use Plugin\AceClient43\AceServices\Model\Response\Member\DeleteHaisoAdrs\DeleteHaisoAdrsResponseModel;
 use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
+use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 
 class DeleteHaisoAdrsRequestModelTest extends AceRequestTestAbtract
 {
@@ -27,6 +38,7 @@ class DeleteHaisoAdrsRequestModelTest extends AceRequestTestAbtract
         } else {
             $adrs->setEda(-999);
         }
+
         return $adrs;
     }
 
@@ -48,16 +60,18 @@ class DeleteHaisoAdrsRequestModelTest extends AceRequestTestAbtract
                                         ->setBikou2('備考2')
                                         ->setBikou3('備考3')
                                         ->setBetu(2));
-        if($eda !== null && $eda !== 0) {
+        if ($eda !== null && $eda !== 0) {
             $memberPrm->setNmember($nmember->setEda($eda));
         }
+
         return (new RegMemAdrRequestModel())->setId(OverviewMapper::ACE_TEST_SYID)->setPrm($memberPrm);
     }
 
     /**
      * @testdox 顧客住所作成後、顧客住所削除のリクエスト送信、返り値に作成した住所が含まれていないことを確認
+     *
      * @testWith [ 105, 6]
-    */
+     */
     public function testRequestDeleteHaisoAdrsCase1($mcode, $eda)
     {
         try {
@@ -66,7 +80,7 @@ class DeleteHaisoAdrsRequestModelTest extends AceRequestTestAbtract
                                         ->makeRegMemAdrMethod()
                                         ->withRequest($regMemAdrRequest)
                                         ->send();
-            if ($response->getStatusCode() === 200){
+            if ($response->getStatusCode() === 200) {
                 $targetEda = $response->getResponse()->getMember()->getNmember()->getEda();
 
                 $getDeleteHaisoAdrsRequest = $this->CallDeleteHaisoAdrsRequestModel($mcode, $targetEda);
@@ -82,21 +96,21 @@ class DeleteHaisoAdrsRequestModelTest extends AceRequestTestAbtract
                     $message2 = $responseObj->getMember()->getMessage()->getMessage2() ?? null;
                 }
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEmpty('', $message1);
         $this->assertEmpty('', $message2);
         $this->assertFalse($this->isEdaExist($targetEda, $nmembers));
-
     }
 
     /**
-     * @param int $eda 
+     * @param int $eda
      * @param Response\Member\DeleteHaisoAdrs\NmemberModel[] $nmembers
+     *
      * @return bool
      */
     public function isEdaExist($eda, $nmembers)
@@ -106,11 +120,13 @@ class DeleteHaisoAdrsRequestModelTest extends AceRequestTestAbtract
                 return true;
             }
         }
+
         return false;
     }
 
     /**
      * @testdox 削除対象の顧客が存在しない場合、エラーメッセージが返却されることを確認
+     *
      * @testWith [ 105, null ]
      */
     public function testRequestDeleteHaisoAdrsCase2($mcode, $eda)
@@ -129,14 +145,13 @@ class DeleteHaisoAdrsRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMember()->getMessage()->getMessage1() ?? null;
                 $message2 = $responseObj->getMember()->getMessage()->getMessage2() ?? null;
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
         $this->assertNull($nmember);
         $this->assertEquals('顧客住所が存在しません', $message1);
         $this->assertNotEquals('', $message2);
     }
-
 }

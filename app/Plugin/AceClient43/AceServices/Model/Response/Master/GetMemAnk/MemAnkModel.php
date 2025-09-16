@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetMemAnk;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
@@ -9,16 +20,15 @@ use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-
 class MemAnkModel implements MemAnkModelInterface
 {
-    use NoCategory\MbidTrait,
-        NoCategory\KubunTrait;
+    use NoCategory\MbidTrait;
+    use NoCategory\KubunTrait;
 
-    /** @var ?int $ansno 回答番号 */
+    /** @var ?int 回答番号 */
     protected ?int $ansno = null;
 
-    /** @var ?string $ansid アンケートID */
+    /** @var ?string アンケートID */
     protected ?string $ansid = null;
 
     /**
@@ -35,6 +45,7 @@ class MemAnkModel implements MemAnkModelInterface
     public function setAnsno(?int $ansno)
     {
         $this->ansno = $ansno;
+
         return $this;
     }
 
@@ -52,6 +63,7 @@ class MemAnkModel implements MemAnkModelInterface
     public function setAnsid(?string $ansid)
     {
         $this->ansid = $ansid;
+
         return $this;
     }
 }

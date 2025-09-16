@@ -1,12 +1,23 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Rireki;
 
+use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
+use Plugin\AceClient43\AceServices\Model\Dependency\Day;
 use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
 use Plugin\AceClient43\AceServices\Model\Dependency\OkuriAndNouhin;
 use Plugin\AceClient43\AceServices\Model\Dependency\Point;
-use Plugin\AceClient43\AceServices\Model\Dependency\Day;
-use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
 
 /**
  * Model for RirekiLevel1
@@ -15,24 +26,24 @@ use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
  */
 class RirekiModelLevel1 implements RirekiModelLevel1Interface
 {
-    use Day\DayTrait,
-        Denpyo\DennoTrait,
-        Denpyo\DenkuTrait,
-        Denpyo\DenKbnTrait,
-        Denpyo\JnameTrait,
-        OkuriAndNouhin\OkuriNoTrait,
-        Day\SdateTrait,
-        Point\PointPTrait,
-        Point\PointMTrait,
-        Day\HdayTrait;
+    use Day\DayTrait;
+    use Denpyo\DennoTrait;
+    use Denpyo\DenkuTrait;
+    use Denpyo\DenKbnTrait;
+    use Denpyo\JnameTrait;
+    use OkuriAndNouhin\OkuriNoTrait;
+    use Day\SdateTrait;
+    use Point\PointPTrait;
+    use Point\PointMTrait;
+    use Day\HdayTrait;
 
     /**
      * {@inheritDoc}
      */
     public function setDay($day)
     {
-        $this->day = AceDateTime\AceDateTimeFactory::makeAceDateTime($day,"YmdHis");
+        $this->day = AceDateTime\AceDateTimeFactory::makeAceDateTime($day, 'YmdHis');
+
         return $this;
     }
-
 }

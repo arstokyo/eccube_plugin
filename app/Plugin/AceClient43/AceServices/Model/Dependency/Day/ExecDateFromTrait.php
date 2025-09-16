@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Day;
 
 use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
@@ -11,7 +22,7 @@ use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
  */
 trait ExecDateFromTrait
 {
-    /** @var ?AceDateTime\AceDateTime $execDateFrom 開始日時 */
+    /** @var ?AceDateTime\AceDateTime 開始日時 */
     protected ?AceDateTime\AceDateTime $execDateFrom = null;
 
     /**
@@ -27,7 +38,8 @@ trait ExecDateFromTrait
      */
     public function setExecDateFrom($execDateFrom)
     {
-        $this->execDateFrom = AceDateTime\AceDateTimeFactory::makeAceDateTime($execDateFrom,"Y/m/d H:i:s");
+        $this->execDateFrom = AceDateTime\AceDateTimeFactory::makeAceDateTime($execDateFrom, 'Y/m/d H:i:s');
+
         return $this;
     }
 }

@@ -1,55 +1,36 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Rireki;
 
-use Plugin\AceClient43\AceServices\Model\Dependency\Good;
-use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
-use Plugin\AceClient43\AceServices\Model\Dependency\Payment;
-use Plugin\AceClient43\AceServices\Model\Dependency\Haiso;
 use Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
 use Plugin\AceClient43\AceServices\Model\Dependency\Cost;
-use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
-use Plugin\AceClient43\AceServices\Model\Dependency\GiftAndCampaign;
 use Plugin\AceClient43\AceServices\Model\Dependency\Day;
+use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
 use Plugin\AceClient43\AceServices\Model\Dependency\Free;
-use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
+use Plugin\AceClient43\AceServices\Model\Dependency\GiftAndCampaign;
+use Plugin\AceClient43\AceServices\Model\Dependency\Good;
+use Plugin\AceClient43\AceServices\Model\Dependency\Haiso;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\Payment;
 use Symfony\Component\Serializer\Annotation\SerializedName;
-
 
 /**
  * Interface for RirekiModelLevel2
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface RirekiModelLevel2Interface extends RirekiModelLevel1Interface,
-                                            Good\HasGcodeInterface,
-                                            Good\HasGNameInterface,
-                                            Nocategory\HasSuuInterface,
-                                            Cost\Tanka\HasTankaInterface,
-                                            Cost\Money\HasMoneyInterface,
-                                            Day\HasJdayInterface,
-                                            Payment\HasPcodeInterface,
-                                            Payment\HasPnameInterface,
-                                            Haiso\HasHcodeInterface,
-                                            Cost\Tax\HasUtaxInterface,
-                                            Cost\Tax\HasStaxInterface,
-                                            Haiso\HasHnameInterface,
-                                            Haiso\HasHkNameInterface,
-                                            Denpyo\HasDenkuInterface,
-                                            GiftAndCampaign\HasCKbnInterface,
-                                            Good\HasGkbnInterface,
-                                            NoCategory\HasMcodeInterface,
-                                            Bikou\HasMBikouInterface,
-                                            GiftAndCampaign\HasGiftNoInterface,
-                                            Denpyo\HasDenkuNumInterface,
-                                            Denpyo\HasLineInterface,
-                                            Free\HasThreeFcodeInterface,
-                                            Bikou\HasThreeDenBikouInterface,
-                                            Bikou\HasTwoNBikouInterface,
-                                            Bikou\HasTwoOBikouInterface,
-                                            Free\HasThreeFmemoInterface,
-                                            Haiso\HaisoModelGroup1Interface,
-                                            Denpyo\HasJnameInterface
+interface RirekiModelLevel2Interface extends RirekiModelLevel1Interface, Good\HasGcodeInterface, Good\HasGNameInterface, NoCategory\HasSuuInterface, Cost\Tanka\HasTankaInterface, Cost\Money\HasMoneyInterface, Day\HasJdayInterface, Payment\HasPcodeInterface, Payment\HasPnameInterface, Haiso\HasHcodeInterface, Cost\Tax\HasUtaxInterface, Cost\Tax\HasStaxInterface, Haiso\HasHnameInterface, Haiso\HasHkNameInterface, Denpyo\HasDenkuInterface, GiftAndCampaign\HasCKbnInterface, Good\HasGkbnInterface, NoCategory\HasMcodeInterface, Bikou\HasMBikouInterface, GiftAndCampaign\HasGiftNoInterface, Denpyo\HasDenkuNumInterface, Denpyo\HasLineInterface, Free\HasThreeFcodeInterface, Bikou\HasThreeDenBikouInterface, Bikou\HasTwoNBikouInterface, Bikou\HasTwoOBikouInterface, Free\HasThreeFmemoInterface, Haiso\HaisoModelGroup1Interface, Denpyo\HasJnameInterface
 {
     /**
      * {@inheritDoc}
@@ -64,8 +45,8 @@ interface RirekiModelLevel2Interface extends RirekiModelLevel1Interface,
     public function setGname(?string $gname);
 
     /**
-    * Get 受注顧客コード
-    */
+     * Get 受注顧客コード
+     */
     public function getMcode(): ?string;
 
     /**
@@ -74,8 +55,8 @@ interface RirekiModelLevel2Interface extends RirekiModelLevel1Interface,
     public function setMcode(?string $mcode);
 
     /**
-    * Get 受付日
-    */
+     * Get 受付日
+     */
     public function getDay();
 
     /**

@@ -1,16 +1,26 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Jyuden\GetDeliveryInfo;
 
-use Plugin\AceClient43\AceServices\Model\Dependency\Mail;
+use Plugin\AceClient43\AceServices\Model\Dependency\Day;
 use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
 use Plugin\AceClient43\AceServices\Model\Dependency\Good;
+use Plugin\AceClient43\AceServices\Model\Dependency\Haiso;
+use Plugin\AceClient43\AceServices\Model\Dependency\Mail;
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient43\AceServices\Model\Dependency\OkuriAndNouhin;
 use Plugin\AceClient43\AceServices\Model\Dependency\Person;
-use Plugin\AceClient43\AceServices\Model\Dependency\Day;
-use Plugin\AceClient43\AceServices\Model\Dependency\Haiso;
-use Plugin\AceClient43\AceServices\Model\Dependency\Person\Nmember\NcodeTrait;
 
 /**
  * Class for DeliveryModel
@@ -19,47 +29,47 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Person\Nmember\NcodeTrait;
  */
 class DeliveryModel implements DeliveryModelInterface
 {
-    use Mail\MailTrait,
-    Denpyo\DennoTrait,
-    Denpyo\LineTrait,
-    Good\GdidTrait,
-    Good\GNameTrait,
-    NoCategory\SuuTrait,
-    OkuriAndNouhin\OkuriNoTrait,
-    Person\Nmember\NadrTrait,
-    Day\SdayTrait,
-    Day\HdayTrait,
-    Haiso\HkNameTrait,
-    NoCategory\JmemidTrait;
+    use Mail\MailTrait;
+    use Denpyo\DennoTrait;
+    use Denpyo\LineTrait;
+    use Good\GdidTrait;
+    use Good\GNameTrait;
+    use NoCategory\SuuTrait;
+    use OkuriAndNouhin\OkuriNoTrait;
+    use Person\Nmember\NadrTrait;
+    use Day\SdayTrait;
+    use Day\HdayTrait;
+    use Haiso\HkNameTrait;
+    use NoCategory\JmemidTrait;
 
-    /** @var ?string $jname 氏名 */
+    /** @var ?string 氏名 */
     protected ?string $jname = null;
 
-    /** @var ?string $jkana カナ */
+    /** @var ?string カナ */
     protected ?string $jkana = null;
 
-    /** @var ?string $jzip 郵便番号 */
+    /** @var ?string 郵便番号 */
     protected ?string $jzip = null;
 
-    /** @var ?string $jadr 住所 */
+    /** @var ?string 住所 */
     protected ?string $jadr = null;
 
-    /** @var ?string $jtel 電話番号 */
+    /** @var ?string 電話番号 */
     protected ?string $jtel = null;
 
-    /** @var ?string $nmemid お届先顧客ID */
+    /** @var ?string お届先顧客ID */
     protected ?string $nmemid = null;
 
-    /** @var ?string $nname 氏名 */
+    /** @var ?string 氏名 */
     protected ?string $nname = null;
 
-    /** @var ?string $nkana カナ */
+    /** @var ?string カナ */
     protected ?string $nkana = null;
 
-    /** @var ?string $nzip 郵便番号 */
+    /** @var ?string 郵便番号 */
     protected ?string $nzip = null;
 
-    /** @var ?string $ntel 電話番号 */
+    /** @var ?string 電話番号 */
     protected ?string $ntel = null;
 
     /**
@@ -76,6 +86,7 @@ class DeliveryModel implements DeliveryModelInterface
     public function setJname(?string $jname)
     {
         $this->jname = $jname;
+
         return $this;
     }
 
@@ -93,6 +104,7 @@ class DeliveryModel implements DeliveryModelInterface
     public function setJkana(?string $jkana)
     {
         $this->jkana = $jkana;
+
         return $this;
     }
 
@@ -110,6 +122,7 @@ class DeliveryModel implements DeliveryModelInterface
     public function setJzip(?string $jzip)
     {
         $this->jzip = $jzip;
+
         return $this;
     }
 
@@ -127,6 +140,7 @@ class DeliveryModel implements DeliveryModelInterface
     public function setJadr(?string $jadr)
     {
         $this->jadr = $jadr;
+
         return $this;
     }
 
@@ -144,6 +158,7 @@ class DeliveryModel implements DeliveryModelInterface
     public function setJtel(?string $jtel)
     {
         $this->jtel = $jtel;
+
         return $this;
     }
 
@@ -161,6 +176,7 @@ class DeliveryModel implements DeliveryModelInterface
     public function setNmemid(?string $nmemid)
     {
         $this->nmemid = $nmemid;
+
         return $this;
     }
 
@@ -178,6 +194,7 @@ class DeliveryModel implements DeliveryModelInterface
     public function setNname(?string $nname)
     {
         $this->nname = $nname;
+
         return $this;
     }
 
@@ -195,6 +212,7 @@ class DeliveryModel implements DeliveryModelInterface
     public function setNkana(?string $nkana)
     {
         $this->nkana = $nkana;
+
         return $this;
     }
 
@@ -212,6 +230,7 @@ class DeliveryModel implements DeliveryModelInterface
     public function setNzip(?string $nzip)
     {
         $this->nzip = $nzip;
+
         return $this;
     }
 
@@ -229,6 +248,7 @@ class DeliveryModel implements DeliveryModelInterface
     public function setNtel(?string $ntel)
     {
         $this->ntel = $ntel;
+
         return $this;
     }
 }

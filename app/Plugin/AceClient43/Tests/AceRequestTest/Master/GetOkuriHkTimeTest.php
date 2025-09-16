@@ -1,37 +1,46 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Master;
 
 use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Master\GetOkuriHkTime\GetOkuriHkTimeRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Master\GetOkuriHkTime\GetOkuriHkTimeResponseModel;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 
 /**
- * Test serialize getOkuriHkTime 
- * 
+ * Test serialize getOkuriHkTime
+ *
  * @author Ars-PhuongAnh <a-bui@ar-system.co.jp>
  */
-
-
 class GetOkuriHkTimeRequestTest extends AceRequestTestAbtract
 {
     public function testSearializeGetOkuriHkTime()
     {
         $getOkuriHkTimeRequestModel = $this->getOkuriHkTimeRequestForSerialize();
-        
+
         $serializer = Serializer\SerializerFactory::makeSoapSerializerForTest();
         $serializedData = $serializer->serialize($getOkuriHkTimeRequestModel);
 
-        $xmlns = $serializer->getConfig()->getXmlns()?
-                 $serializer->getConfig()->getXmlns()['@xmlns'] : 
+        $xmlns = $serializer->getConfig()->getXmlns() ?
+                 $serializer->getConfig()->getXmlns()['@xmlns'] :
                  Serializer\SoapXmlSerializer::DEFAULT_XMLNS['@xmlns'];
         $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_HEAD;
         $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_END;
 
-        $expectedData = 
+        $expectedData =
         <<<XML
         {$soapHead}
             <getOkuriHkTime xmlns="{$xmlns}">
@@ -39,10 +48,10 @@ class GetOkuriHkTimeRequestTest extends AceRequestTestAbtract
             </getOkuriHkTime>
         {$soapEnd}
         XML;
-        $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData)); 
+        $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
-    public function getOkuriHkTimeRequestForSerialize():GetOkuriHkTimeRequestModel
+    public function getOkuriHkTimeRequestForSerialize(): GetOkuriHkTimeRequestModel
     {
         return (new GetOkuriHkTimeRequestModel())->setId(OverviewMapper::ACE_TEST_SYID);
     }
@@ -51,13 +60,15 @@ class GetOkuriHkTimeRequestTest extends AceRequestTestAbtract
     {
         $okuri = new GetOkuriHkTimeRequestModel();
         $getOkuri = $okuri->setId(OverviewMapper::ACE_TEST_SYID);
+
         return $getOkuri;
-    } 
+    }
 
     public function getOkuriHkTimeRequestNG(): GetOkuriHkTimeRequestModel
     {
         $okuri = new GetOkuriHkTimeRequestModel();
         $getOkuri = $okuri->setId(-1);
+
         return $getOkuri;
     }
 
@@ -70,7 +81,7 @@ class GetOkuriHkTimeRequestTest extends AceRequestTestAbtract
                                         ->withRequest($getOkurisRequest)
                                         ->send();
             if ($response->getStatusCode() == 200) {
-                /** @var GetOkuriHkTimeResponseModel $responseObj */ 
+                /** @var GetOkuriHkTimeResponseModel $responseObj */
                 $responseObj = $response->getResponse();
                 $message1 = $responseObj->getMaster()->getMessage()->getMessage1();
                 $okuri1 = $responseObj->getMaster()->getOkuri()[0];
@@ -81,48 +92,47 @@ class GetOkuriHkTimeRequestTest extends AceRequestTestAbtract
         } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         } catch (\Throwable $e) {
-            $message1 = $e->getMessage() ??'One Error Occurred when sending request.';
+            $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals('10', $okuri1->getOcode());
-        $this->assertEquals("ヤマト運輸", $okuri1->getOname());
-        $this->assertEquals("ヤマト", $okuri1->getOsubname());
+        $this->assertEquals('ヤマト運輸', $okuri1->getOname());
+        $this->assertEquals('ヤマト', $okuri1->getOsubname());
         $this->assertEquals('0', $okuri1->getDenkuNum());
         $this->assertEquals('10', $okuri1->getHcode());
-        $this->assertEquals("ヤマト", $okuri1->getHname());
+        $this->assertEquals('ヤマト', $okuri1->getHname());
         $this->assertEquals('0', $okuri1->getJyouon());
         $this->assertEquals('1', $okuri1->getReizou());
         $this->assertEquals('1', $okuri1->getReitou());
         $this->assertEquals('1', $okuri1->getHkCode());
-        $this->assertEquals("指定なし", $okuri1->getHkName());
+        $this->assertEquals('指定なし', $okuri1->getHkName());
 
         $this->assertEquals('10', $okuri2->getOcode());
-        $this->assertEquals("ヤマト運輸", $okuri2->getOname());
-        $this->assertEquals("ヤマト", $okuri2->getOsubname());
+        $this->assertEquals('ヤマト運輸', $okuri2->getOname());
+        $this->assertEquals('ヤマト', $okuri2->getOsubname());
         $this->assertEquals('0', $okuri2->getDenkuNum());
         $this->assertEquals('10', $okuri2->getHcode());
-        $this->assertEquals("ヤマト", $okuri2->getHname());
+        $this->assertEquals('ヤマト', $okuri2->getHname());
         $this->assertEquals('0', $okuri2->getJyouon());
         $this->assertEquals('1', $okuri2->getReizou());
         $this->assertEquals('1', $okuri2->getReitou());
         $this->assertEquals('2', $okuri2->getHkCode());
-        $this->assertEquals("午前中", $okuri2->getHkName());
+        $this->assertEquals('午前中', $okuri2->getHkName());
 
         $this->assertEquals('10', $okuri3->getOcode());
-        $this->assertEquals("ヤマト運輸", $okuri3->getOname());
-        $this->assertEquals("ヤマト", $okuri3->getOsubname());
+        $this->assertEquals('ヤマト運輸', $okuri3->getOname());
+        $this->assertEquals('ヤマト', $okuri3->getOsubname());
         $this->assertEquals('0', $okuri3->getDenkuNum());
         $this->assertEquals('10', $okuri3->getHcode());
-        $this->assertEquals("ヤマト", $okuri3->getHname());
+        $this->assertEquals('ヤマト', $okuri3->getHname());
         $this->assertEquals('0', $okuri3->getJyouon());
         $this->assertEquals('1', $okuri3->getReizou());
         $this->assertEquals('1', $okuri3->getReitou());
         $this->assertEquals('3', $okuri3->getHkCode());
-        $this->assertEquals("14:00~16:00", $okuri3->getHkName());
+        $this->assertEquals('14:00~16:00', $okuri3->getHkName());
 
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
-        
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestGetIkuriHkTimeNG()
@@ -134,7 +144,7 @@ class GetOkuriHkTimeRequestTest extends AceRequestTestAbtract
                                         ->withRequest($getOkurisRequest)
                                         ->send();
             if ($response->getStatusCode() == 200) {
-                /** @var GetOkuriHkTimeResponseModel $responseObj */ 
+                /** @var GetOkuriHkTimeResponseModel $responseObj */
                 $responseObj = $response->getResponse();
                 $message1 = $responseObj->getMaster()->getMessage()->getMessage1();
                 $okuri = $responseObj->getMaster()->getOkuri();
@@ -143,12 +153,11 @@ class GetOkuriHkTimeRequestTest extends AceRequestTestAbtract
         } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         } catch (\Throwable $e) {
-            $message1 = $e->getMessage() ??'One Error Occurred when sending request.';
+            $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(null, $okuri);
-        $this->assertEquals("ＷＥＢ初期設定がありません", $message1);
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('ＷＥＢ初期設定がありません', $message1);
+        $this->assertEquals('', $message->getMessage2());
     }
-
 }

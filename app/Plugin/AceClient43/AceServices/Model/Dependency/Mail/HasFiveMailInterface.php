@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Mail;
 
 /**
@@ -20,6 +31,7 @@ interface HasFiveMailInterface
      * Set メールアドレス1
      *
      * @param ?string $mail1
+     *
      * @return $this
      */
     public function setMail1(?string $mail1);
@@ -35,6 +47,7 @@ interface HasFiveMailInterface
      * Set メールアドレス2
      *
      * @param ?string $mail2
+     *
      * @return $this
      */
     public function setMail2(?string $mail2);
@@ -50,6 +63,7 @@ interface HasFiveMailInterface
      * Set メールアドレス3
      *
      * @param ?string $mail3
+     *
      * @return $this
      */
     public function setMail3(?string $mail3);
@@ -65,6 +79,7 @@ interface HasFiveMailInterface
      * Set メールアドレス4
      *
      * @param ?string $mail4
+     *
      * @return $this
      */
     public function setMail4(?string $mail4);
@@ -80,6 +95,7 @@ interface HasFiveMailInterface
      * Set メールアドレス5
      *
      * @param ?string $mail5
+     *
      * @return $this
      */
     public function setMail5(?string $mail5);

@@ -1,40 +1,46 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetReminder;
 
-use Plugin\AceClient43\AceServices\Model\Response\Member\GetReminder\GetReminderResponseModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Member\GetReminder\MemberModel;
-use Plugin\AceClient43\AceServices\Model\Response;
 use Plugin\AceClient43\AceServices\Model\Response\ResponseModelAbtract;
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Serializer\Serializer;
+
 /**
  * Class ReminderResponseModel
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-
 class GetReminderResponseModel extends ResponseModelAbtract implements GetReminderResponseModelInterface
 {
     /**
      * Member
      *
-     * @var MemberModel $member
+     * @var MemberModel
      */
     protected MemberModel $member;
 
     /**
-     * @return Response\Member\GetReminder\MemberModel
+     * @return MemberModel
      */
-    function getMember(): MemberModel
+    public function getMember(): MemberModel
     {
         return $this->member;
     }
 
     /**
-    * @param Response\Member\GetReminder\MemberModel $member
-    */
-    function setMember(MemberModel $member): void
+     * @param MemberModel $member
+     */
+    public function setMember(MemberModel $member): void
     {
         $this->member = $member;
     }

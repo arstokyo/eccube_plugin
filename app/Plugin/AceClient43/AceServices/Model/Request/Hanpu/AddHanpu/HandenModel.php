@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu;
 
-use Plugin\AceClient43\AceServices\Model\Request;
-use Plugin\AceClient43\AceServices\Model\Dependency\Hanpu\Handen;
-use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
-use Plugin\AceClient43\AceServices\Model\Dependency\Shukka;
-use Plugin\AceClient43\AceServices\Model\Dependency\Point;
-use Plugin\AceClient43\AceServices\Model\Dependency\GiftAndCampaign;
 use Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
+use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
+use Plugin\AceClient43\AceServices\Model\Dependency\GiftAndCampaign;
+use Plugin\AceClient43\AceServices\Model\Dependency\Hanpu\Handen;
+use Plugin\AceClient43\AceServices\Model\Dependency\Point;
+use Plugin\AceClient43\AceServices\Model\Dependency\Shukka;
 
 /**
  * Class HandenModel
@@ -17,40 +27,40 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
  */
 class HandenModel implements HandenModelInterface
 {
-    use Shukka\SKbnTrait,
-        Point\PointMTrait,
-        GiftAndCampaign\CampaignTrait,
-        Denpyo\WebOrderNoTrait,
-        Handen\HandenModelBaseTrait,
-        Bikou\ThreeDenBikouTrait,
-        Handen\ThreeDfmemohTrait;
+    use Shukka\SKbnTrait;
+    use Point\PointMTrait;
+    use GiftAndCampaign\CampaignTrait;
+    use Denpyo\WebOrderNoTrait;
+    use Handen\HandenModelBaseTrait;
+    use Bikou\ThreeDenBikouTrait;
+    use Handen\ThreeDfmemohTrait;
 
-    /** @var ?string $bscode 媒体識別コード */
+    /** @var ?string 媒体識別コード */
     protected ?string $bscode = null;
 
-    /** @var ?string $hanpucd 頒布コード */
+    /** @var ?string 頒布コード */
     protected ?string $hanpucd = null;
 
     /**
      * CardInfo
      *
-     * @var Request\Hanpu\AddHanpu\CardInfoModelInterface $cardInfo
+     * @var CardInfoModelInterface
      */
-    protected ?CardInfoModelInterface $cardInfo  = null;
+    protected ?CardInfoModelInterface $cardInfo = null;
 
     /**
      * HanpuFirst
      *
-     * @var Request\Hanpu\AddHanpu\HanpuFirstModelInterface $hanpuFirst
+     * @var HanpuFirstModelInterface
      */
-    protected ?HanpuFirstModelInterface $hanpuFirst  = null;
+    protected ?HanpuFirstModelInterface $hanpuFirst = null;
 
     /**
      * HanpuSecond
      *
-     * @var Request\Hanpu\AddHanpu\HanpuSecondModelInterface $hanpuSecond
+     * @var HanpuSecondModelInterface
      */
-    protected ?HanpuSecondModelInterface $hanpuSecond  = null;
+    protected ?HanpuSecondModelInterface $hanpuSecond = null;
 
     /**
      * {@inheritDoc}
@@ -61,11 +71,12 @@ class HandenModel implements HandenModelInterface
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     public function setCardInfo(?CardInfoModelInterface $cardInfo): self
     {
         $this->cardInfo = $cardInfo;
+
         return $this;
     }
 
@@ -78,11 +89,12 @@ class HandenModel implements HandenModelInterface
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     public function setHanpuFirst(?HanpuFirstModelInterface $hanpuFirst): self
     {
         $this->hanpuFirst = $hanpuFirst;
+
         return $this;
     }
 
@@ -95,11 +107,12 @@ class HandenModel implements HandenModelInterface
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     public function setHanpuSecond(?HanpuSecondModelInterface $hanpuSecond): self
     {
         $this->hanpuSecond = $hanpuSecond;
+
         return $this;
     }
 
@@ -117,6 +130,7 @@ class HandenModel implements HandenModelInterface
     public function setBscode(?string $bscode)
     {
         $this->bscode = $bscode;
+
         return $this;
     }
 
@@ -134,7 +148,7 @@ class HandenModel implements HandenModelInterface
     public function setHanpucd(?string $hanpucd)
     {
         $this->hanpucd = $hanpucd;
+
         return $this;
     }
-
 }

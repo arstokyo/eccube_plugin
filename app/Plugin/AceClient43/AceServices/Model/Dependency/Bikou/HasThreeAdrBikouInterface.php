@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
 
 /**
@@ -20,6 +31,7 @@ interface HasThreeAdrBikouInterface
      * Set 住所備考1
      *
      * @param ?string $adrbikou1
+     *
      * @return $this
      */
     public function setAdrBikou1(?string $adrbikou1);
@@ -35,6 +47,7 @@ interface HasThreeAdrBikouInterface
      * Set 住所備考2
      *
      * @param ?string $adrbikou2
+     *
      * @return $this
      */
     public function setAdrBikou2(?string $adrbikou2);
@@ -50,8 +63,8 @@ interface HasThreeAdrBikouInterface
      * Set 住所備考3
      *
      * @param ?string $adrbikou3
+     *
      * @return $this
      */
     public function setAdrBikou3(?string $adrbikou3);
-
 }

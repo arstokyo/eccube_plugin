@@ -1,0 +1,2 @@
+ace_client.admin_customer_unique: 'メールアドレス{{ email }}すでに通販Ace側に登録されています。'
+ace_client.front_customer_unique: 'このメールアドレスはお使いできません。'

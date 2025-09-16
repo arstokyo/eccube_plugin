@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC;
 
 /**
@@ -20,6 +31,7 @@ interface HasFiveKeiKbnInterface
      * Set 携帯電話区分1
      *
      * @param ?int $keikbn1
+     *
      * @return $this
      */
     public function setKeiKbn1(?int $keikbn1);
@@ -35,6 +47,7 @@ interface HasFiveKeiKbnInterface
      * Set 携帯電話区分2
      *
      * @param ?int $keikbn2
+     *
      * @return $this
      */
     public function setKeiKbn2(?int $keikbn2);
@@ -50,6 +63,7 @@ interface HasFiveKeiKbnInterface
      * Set 携帯電話区分3
      *
      * @param ?int $keikbn3
+     *
      * @return $this
      */
     public function setKeiKbn3(?int $keikbn3);
@@ -65,6 +79,7 @@ interface HasFiveKeiKbnInterface
      * Set 携帯電話区分4
      *
      * @param ?int $keikbn4
+     *
      * @return $this
      */
     public function setKeiKbn4(?int $keikbn4);
@@ -80,6 +95,7 @@ interface HasFiveKeiKbnInterface
      * Set 携帯電話区分5
      *
      * @param ?int $keikbn5
+     *
      * @return $this
      */
     public function setKeiKbn5(?int $keikbn5);

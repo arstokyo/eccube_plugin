@@ -1,18 +1,28 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\AceMethod\Master;
 
-use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
-use Plugin\AceClient43\AceServices\Model\Response\Master\GetBumonFreeMemo\GetBumonFreeMemoResponseModel;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Method for GetBumonFreeMemo
  *
  * @author Ars-Phuoc <minh.phuoc.le@ar-system.co.jp>
  */
-class GetBumonFreeMemoMethod extends AceMethodAbstract
+class GetBumonFreeMemoMethod extends AbstractMasterMethod
 {
     /**
      * The End Point of Service.
@@ -30,9 +40,17 @@ class GetBumonFreeMemoMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return GetBumonFreeMemoResponseModel::class;
+        return Request\Master\GetBumonFreeMemo\GetBumonFreeMemoRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Master\GetBumonFreeMemo\GetBumonFreeMemoResponseModelInterface::class;
     }
 
     /**

@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetGoodsFreeMemo;
 
 use Plugin\AceClient43\AceServices\Model\Response\ResponseModelAbtract;
@@ -9,28 +20,27 @@ use Plugin\AceClient43\AceServices\Model\Response\ResponseModelAbtract;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-
 class GetGoodsFreeMemoResponseModel extends ResponseModelAbtract implements GetGoodsFreeMemoResponseModelInterface
 {
     /**
      * Master
      *
-     * @var MasterModel $master
+     * @var MasterModel
      */
     protected MasterModel $master;
 
     /**
      * @return MasterModel
      */
-    function getMaster(): MasterModel
+    public function getMaster(): MasterModel
     {
         return $this->master;
     }
 
     /**
-    * @param MasterModel $master
-    */
-    function setMaster(MasterModel $master): void
+     * @param MasterModel $master
+     */
+    public function setMaster(MasterModel $master): void
     {
         $this->master = $master;
     }

@@ -1,21 +1,31 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\AceMethod\Master2;
 
-use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
-use Plugin\AceClient43\AceServices\Model\Response\Master2\GetHaisouDay\GetHaisouDayResponseModel;
-use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request;
+use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Get Haisou Day Method
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class GetHaisouDayMethod extends AceMethodAbstract
+class GetHaisouDayMethod extends AbstractMaster2Method
 {
-     /**
-     * The End Point of Service.
+    /**
+     * The End Point of Service.nse
      */
     private const END_POINT_SERVICE = 'service1.asmx';
 
@@ -30,9 +40,17 @@ class GetHaisouDayMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return GetHaisouDayResponseModel::class;
+        return Request\Master2\GetHaisouDay\GetHaisouDayRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Master2\GetHaisouDay\GetHaisouDayResponseModelInterface::class;
     }
 
     /**
@@ -42,5 +60,4 @@ class GetHaisouDayMethod extends AceMethodAbstract
     {
         return parent::withRequest($requestModel);
     }
-
 }

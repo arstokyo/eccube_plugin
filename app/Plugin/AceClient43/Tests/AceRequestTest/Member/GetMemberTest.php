@@ -1,13 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Member;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetMember\GetMemberRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember\GetMemberResponseModel;
-use Plugin\AceClient43\Util\Mapper\OverviewMapper;
-use GuzzleHttp\Exception\ClientException;
-use Plugin\AceClient43\Util\Serializer;
 use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
+use Plugin\AceClient43\Util\Mapper\OverviewMapper;
+use Plugin\AceClient43\Util\Serializer;
 
 class GetMemberTest extends AceRequestTestAbtract
 {
@@ -40,7 +51,7 @@ class GetMemberTest extends AceRequestTestAbtract
 
     public function getModelRequest()
     {
-        return (new GetmemberRequestModel())
+        return (new GetMemberRequestModel())
                 ->setId(OverviewMapper::ACE_TEST_SYID)
                 ->setUserId($this->userId)
                 ->setPassWd($this->passWd);
@@ -64,16 +75,15 @@ class GetMemberTest extends AceRequestTestAbtract
                 $message = $responseObj->getLoginMember()->getMessage();
                 $message1 = $responseObj->getLoginMember()->getMessage()->getMessage1();
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals('OK', $message->getResult());
         $this->assertEquals('', $message->getMessage1());
         $this->assertEquals('', $message->getMessage2());
-
 
         $this->assertEquals('107', $member->getCode());
         $this->assertEquals('GetMemberTest', $member->getSimei());
@@ -176,7 +186,6 @@ class GetMemberTest extends AceRequestTestAbtract
         $this->assertEquals('0', $orderinfo->getNomoneyFlg());
         $this->assertEquals('0', $orderinfo->getOrderCnt());
         $this->assertEquals('', $orderinfo->getOrderMaxday());
-
     }
 
     public function testGetMemberWrongPassWd()
@@ -195,9 +204,9 @@ class GetMemberTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getLoginMember()->getMessage()->getMessage1();
                 $message2 = $responseObj->getLoginMember()->getMessage()->getMessage2();
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
@@ -222,9 +231,9 @@ class GetMemberTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getLoginMember()->getMessage()->getMessage1();
                 $message2 = $responseObj->getLoginMember()->getMessage()->getMessage2();
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
@@ -232,5 +241,4 @@ class GetMemberTest extends AceRequestTestAbtract
         $this->assertEquals('入力されたログインＩＤは登録されていません。', $message1);
         $this->assertStringStartsWith('select', $message2);
     }
-
 }

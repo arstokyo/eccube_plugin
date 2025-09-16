@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Request\Member\GetPoint;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
@@ -13,17 +24,21 @@ use Plugin\AceClient43\Exception\MissingRequestParameterException;
  */
 class GetPointRequestModel extends RequestModelAbstract implements GetPointRequestModelInterface
 {
-    const XML_NODE_NAME = 'getPoint';
+    use NoCategory\IdTrait;
+    use NoCategory\McodeTrait;
+    public const XML_NODE_NAME = 'getPoint';
 
-    use NoCategory\IdTrait,NoCategory\McodeTrait;
-    
     /**
      * {@inheritDoc}
      */
     public function ensureParameterNotMissing(): void
     {
-        if (!$this->id) { throw new MissingRequestParameterException($this->compilePropertyName('id')); };
-        if (!$this->mcode) { throw new MissingRequestParameterException($this->compilePropertyName('mcode')); };
+        if (!$this->id) {
+            throw new MissingRequestParameterException($this->compilePropertyName('id'));
+        }
+        if (!$this->mcode) {
+            throw new MissingRequestParameterException($this->compilePropertyName('mcode'));
+        }
     }
 
     /**

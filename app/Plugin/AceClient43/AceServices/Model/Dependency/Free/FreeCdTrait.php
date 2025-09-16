@@ -1,9 +1,20 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
-use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Trait For FreeCdTrait
@@ -12,11 +23,11 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
  */
 trait FreeCdTrait
 {
-    use NoCategory\NameTrait,
-        Bikou\ThreeNotesTrait,
-        NoCategory\KubunTrait;
+    use NoCategory\NameTrait;
+    use Bikou\ThreeNotesTrait;
+    use NoCategory\KubunTrait;
 
-    /** @var ?string $fcid フリーマスタID */
+    /** @var ?string フリーマスタID */
     protected ?string $fcid = null;
 
     /**
@@ -33,6 +44,7 @@ trait FreeCdTrait
     public function setFcid(?string $fcid)
     {
         $this->fcid = $fcid;
+
         return $this;
     }
 }

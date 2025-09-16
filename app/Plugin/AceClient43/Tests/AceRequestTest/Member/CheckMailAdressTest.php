@@ -1,17 +1,29 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Member;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Member\CheckMailAdress\CheckMailAdressRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Member\CheckMailAdress\CheckMailAdressResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 
 class CheckMailAdressRequestModelTest extends AceRequestTestAbtract
 {
     private ?string $checkMail = 'CheckMailAdressTest@AceClient.v.1.0';
+
     public function testCalCheckMailAdressRequestModel()
     {
         $mail = new CheckMailAdressRequestModel();
@@ -19,6 +31,7 @@ class CheckMailAdressRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(OverviewMapper::ACE_TEST_SYID, $mail->getId());
         $this->assertEquals($this->checkMail, $mail->getMailAdress());
     }
+
     public function testRequestCheckMailAdressCase1()
     {
         try {
@@ -39,9 +52,9 @@ class CheckMailAdressRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMember()->getMessage()->getMessage1() ?? null;
                 $message2 = $responseObj->getMember()->getMessage()->getMessage2() ?? null;
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
         $this->assertEquals($this->checkMail, $mailAdress);
@@ -49,10 +62,12 @@ class CheckMailAdressRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals('メールアドレスの登録がありますのでお問合せか、お電話にてご連絡ください。', $message1);
         $this->assertEquals('select mw.mbid from memweb mw inner join member mb on mb.syid=mw.syid and mb.mbid=mw.mbid and mb.delfg=0 where mw.syid=:xid and (mw.userid=:xmail or mw.email=:xmail) and status=0', $message2);
     }
+
     public function getCheckMailAdressRequestModelCase1()
     {
         $mail = new CheckMailAdressRequestModel();
         $mail->setId(OverviewMapper::ACE_TEST_SYID)->setMailAdress($this->checkMail);
+
         return $mail;
     }
 
@@ -76,9 +91,9 @@ class CheckMailAdressRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMember()->getMessage()->getMessage1() ?? null;
                 $message2 = $responseObj->getMember()->getMessage()->getMessage2() ?? null;
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
         $this->assertEquals('do-not-exist-this-email@AceClient.v.1.0', $mailAdress);
@@ -91,8 +106,10 @@ class CheckMailAdressRequestModelTest extends AceRequestTestAbtract
     {
         $mail = new CheckMailAdressRequestModel();
         $mail->setId(OverviewMapper::ACE_TEST_SYID)->setMailAdress('do-not-exist-this-email@AceClient.v.1.0');
+
         return $mail;
     }
+
     public function testSerializeCheckMailAdress()
     {
         $getReminderRequestModel = $this->checkMailAdressRequestForSerialize();
@@ -116,12 +133,11 @@ class CheckMailAdressRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
-
     public function checkMailAdressRequestForSerialize(): CheckMailAdressRequestModel
     {
         $mail = new CheckMailAdressRequestModel();
         $checkMail = $mail->setId(OverviewMapper::ACE_TEST_SYID)->setMailAdress($this->checkMail);
+
         return $checkMail;
     }
-
 }

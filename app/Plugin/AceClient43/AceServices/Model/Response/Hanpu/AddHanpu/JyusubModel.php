@@ -1,12 +1,22 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Hanpu\AddHanpu;
 
-use Plugin\AceClient43\AceServices\Model\Dependency\Jyudens;
 use Plugin\AceClient43\AceServices\Model\Dependency\Card;
-use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
-
+use Plugin\AceClient43\AceServices\Model\Dependency\Jyudens;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Class for JyusubModel
@@ -15,19 +25,19 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
  */
 class JyusubModel implements JyusubModelInterface
 {
-    use Jyudens\Jyusub\JyusubModelBaseTrait,
-        Card\CardModelLevel3Trait,
-        Card\GMO\GMOModelGroup1Trait,
-        NoCategory\SessIdTrait,
-        Denpyo\WebOrderNoTrait;
+    use Jyudens\Jyusub\JyusubModelBaseTrait;
+    use Card\CardModelLevel3Trait;
+    use Card\GMO\GMOModelGroup1Trait;
+    use NoCategory\SessIdTrait;
+    use Denpyo\WebOrderNoTrait;
 
-    /** @var ?string $spscustomerid SPS会員ID */
+    /** @var ?string SPS会員ID */
     protected ?string $spscustomerid = null;
 
-    /** @var ?string $spstid SPSトランザクションID */
+    /** @var ?string SPSトランザクションID */
     protected ?string $spstid = null;
 
-    /** @var ?int $tpdenno 通販プロ伝票番号 */
+    /** @var ?int 通販プロ伝票番号 */
     private ?int $tpdenno = null;
 
     /**
@@ -44,6 +54,7 @@ class JyusubModel implements JyusubModelInterface
     public function setSpscustomerid(?string $spscustomerid)
     {
         $this->spscustomerid = $spscustomerid;
+
         return $this;
     }
 
@@ -61,6 +72,7 @@ class JyusubModel implements JyusubModelInterface
     public function setSpstid(?string $spstid)
     {
         $this->spstid = $spstid;
+
         return $this;
     }
 
@@ -78,6 +90,7 @@ class JyusubModel implements JyusubModelInterface
     public function setTpdenno(?int $tpdenno)
     {
         $this->tpdenno = $tpdenno;
+
         return $this;
     }
 }

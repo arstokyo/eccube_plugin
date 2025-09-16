@@ -1,19 +1,29 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Member;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetPoint\GetPointRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetPoint\GetPointResponseModel;
-use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 
 class GetPointRequestModelTest extends AceRequestTestAbtract
 {
     public function testCallGetPointRequestModel()
     {
-
         $point = new GetPointRequestModel();
-        $point->setId(0)->setMcode("1234");
+        $point->setId(0)->setMcode('1234');
         $this->assertEquals(0, $point->getId());
         $this->assertEquals(1234, $point->getMcode());
     }
@@ -35,9 +45,9 @@ class GetPointRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMember()->getMessage()->getMessage1() ?? null;
                 $message2 = $responseObj->getMember()->getMessage()->getMessage2() ?? null;
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
         $this->assertEquals(5447, $point);
@@ -45,7 +55,6 @@ class GetPointRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals('', $message2);
     }
 
-    
     public function testRequestGetPointNG()
     {
         try {
@@ -61,9 +70,9 @@ class GetPointRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMember()->getMessage()->getMessage1() ?? null;
                 $message2 = $responseObj->getMember()->getMessage()->getMessage2() ?? null;
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
         $this->assertEquals(null, $point);
@@ -75,6 +84,7 @@ class GetPointRequestModelTest extends AceRequestTestAbtract
     {
         $point = new GetPointRequestModel();
         $point->setId(7)->setMcode(2);
+
         return $point;
     }
 
@@ -82,7 +92,7 @@ class GetPointRequestModelTest extends AceRequestTestAbtract
     {
         $point = new GetPointRequestModel();
         $point->setId(-999)->setMcode(1);
+
         return $point;
     }
-
 }

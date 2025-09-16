@@ -1,6 +1,19 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
+
+use Plugin\AceClient43\Util\Converter\NameConverter;
 
 /**
  * Trait for フリガナ
@@ -9,7 +22,7 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
  */
 trait KanaTrait
 {
-    /** @var ?string $kana フリガナ*/
+    /** @var ?string フリガナ */
     protected ?string $kana = null;
 
     /**
@@ -26,7 +39,31 @@ trait KanaTrait
     public function setKana(?string $kana)
     {
         $this->kana = $kana;
+
         return $this;
     }
 
+    /**
+     * フリガナ1を取得
+     *
+     * @return string|null フリガナ1、またはフリガナがnullの場合はnull
+     */
+    public function getKana1(): ?string
+    {
+        $parts = NameConverter::splitName($this->kana);
+
+        return $parts[0] ?? null;
+    }
+
+    /**
+     * フリガナ2を取得
+     *
+     * @return string|null フリガナ2、またはフリガナがnullの場合はnull
+     */
+    public function getKana2(): ?string
+    {
+        $parts = NameConverter::splitName($this->kana);
+
+        return $parts[1] ?? null;
+    }
 }

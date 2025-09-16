@@ -1,12 +1,499 @@
+# ACE API Client System Documentation
+# =====================================
+#
+# The ACE API Client system provides a flexible, resolver-based architecture for communicating
+# with the ACE API. It consists of four main components:
+#
+# 1. MODEL RESOLVER (ace_model_resolver)
+#    - Dynamically discovers and resolves Request/Response model classes
+#    - Searches in configurable paths (ace.request_search_paths, ace.response_search_paths)
+#    - Supports both customization layer and plugin layer models
+#    - Caches resolved models for performance
+#
+# 2. SERIALIZER RESOLVER (ace_serializer_resolver)
+#    - Selects appropriate serializer based on API type (SOAP/REST) and format (XML/JSON)
+#    - Uses priority-based selection (higher priority = preferred)
+#    - SoapXmlSerializer (priority: 100) for SOAP XML requests
+#    - DefaultSerializer (priority: 0) as fallback for other formats
+#    - Caches serializer instances for performance
+#
+# 3. API CLIENT RESOLVER (ace_api_client_resolver)
+#    - Selects appropriate HTTP client based on API type and format
+#    - PostSoapXmlClient for SOAP XML requests (most common)
+#    - PostJsonClient for REST JSON POST requests
+#    - GetJsonClient for REST JSON GET requests
+#    - Each client handles specific protocol requirements
+#
+# 4. REQUEST FLOW
+#    a) Bridge layer creates Request model using ModelResolver
+#    b) ApiClientResolver selects appropriate client
+#    c) SerializerResolver provides serializer for request format
+#    d) Client serializes request, sends HTTP request, deserializes response
+#    e) Response model is returned to bridge layer
+#
+# This architecture allows easy extension with new API types, formats, and serializers
+# without modifying existing code.
+
+# ===================================================================================================
+# ACE APIクライアントシステム ドキュメント
+# ===================================================================================================
+#
+# ACE APIクライアントシステムは、柔軟なリゾルバーベースのアーキテクチャを採用し、
+# ACE APIとの通信を効率的に行うシステムです。主に4つのコンポーネントで構成されています：
+#
+# 1. モデルリゾルバー (ModelResolver) - ace_model_resolver
+#    ───────────────────────────────────────────────────────────────────────────────────────
+#    役割：リクエスト・レスポンスモデルクラスの動的検索と解決
+#    機能：
+#    - 設定可能なパス（ace.request_search_paths, ace.response_search_paths）でモデルを検索
+#    - カスタマイゼーション層とプラグイン層の両方をサポート
+#    - パフォーマンス向上のためにモデル解決結果をキャッシュ
+#    - API メソッド名から完全修飾クラス名への変換
+#    例: "Member.LoginMember" → "Plugin\AceClient43\AceServices\Model\Request\Member\LoginMember\LoginMemberRequestModel"
+#
+# 2. シリアライザーリゾルバー (SerializerResolver) - ace_serializer_resolver
+#    ───────────────────────────────────────────────────────────────────────────────────────
+#    役割：APIタイプ（SOAP/REST）とフォーマット（XML/JSON）に基づく適切なシリアライザーの選択
+#    機能：
+#    - 優先順位ベースの選択（高い優先順位 = 優先されるシリアライザー）
+#    - SoapXmlSerializer（優先順位：100）：SOAP XMLリクエスト用
+#    - DefaultSerializer（優先順位：0）：その他フォーマット用フォールバック
+#    - パフォーマンス向上のためにシリアライザーインスタンスをキャッシュ
+#
+# 3. APIクライアントリゾルバー (ApiClientResolver) - ace_api_client_resolver
+#    ───────────────────────────────────────────────────────────────────────────────────────
+#    役割：APIタイプとフォーマットに基づく適切なHTTPクライアントの選択
+#    機能：
+#    - PostSoapXmlClient：SOAP XMLリクエスト用（最も一般的）
+#    - PostJsonClient：REST JSON POSTリクエスト用
+#    - GetJsonClient：REST JSON GETリクエスト用
+#    - 各クライアントは特定のプロトコル要件を処理
+#
+# 4. リクエストフロー
+#    ───────────────────────────────────────────────────────────────────────────────────────
+#    a) Bridgeレイヤーが ModelResolver を使用してリクエストモデルを作成
+#    b) ApiClientResolver が適切なクライアントを選択
+#    c) SerializerResolver がリクエストフォーマット用のシリアライザーを提供
+#    d) クライアントがリクエストをシリアライズ、HTTPリクエスト送信、レスポンスをデシリアライズ
+#    e) レスポンスモデルがブリッジレイヤーに返される
+#
+# 拡張性：
+# このアーキテクチャにより、既存コードを変更することなく、新しいAPIタイプ、フォーマット、
+# シリアライザーを簡単に追加できます。
+# ===================================================================================================
+
+parameters:
+    # Default tax display/type for processors (IDs are from master tables)
+    # TaxDisplayType: 1=EXCLUDED, 2=INCLUDED
+    # TaxType: 1=TAXATION, 2=NON_TAXABLE, 3=TAX_EXEMPT
+    ace.processor.charge_tax_display_type: 2
+    ace.processor.charge_tax_type: 1
+    ace.processor.delivery_tax_display_type: 1
+    ace.processor.delivery_tax_type: 1
+
+    ace.method:
+        default_api_type: 'soap'
+        default_request_format: 'xml'
+
+    ace.request_search_paths:
+        - 'Customize/AceClient/Model/Request'
+        - 'Plugin/AceClient43/AceServices/Model/Request'
+
+    ace.response_search_paths:
+        - 'Customize/AceClient/Model/Response'
+        - 'Plugin/AceClient43/AceServices/Model/Response'
+
+    # PRM Serialization Configuration (moved from Config.yaml)
+    ace.prm_serialization:
+        default_format: 'xml'
+        default_options:
+            xml_format_output: false
+            xml_encoding: 'UTF-8'
+            skip_null_values: true
+        overrides:
+            # Example override for specific PRM models
+            # 'Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\OrderPrmModel':
+            #   format: 'json'
+            #   options:
+            #     xml_format_output: true
+
+    ace.log.max_line_length: 50000  # Maximum line length for log messages
+
+    ace_client.post_soap_client.extract_max_length: 200000  # Maximum length for SOAP XML response extraction
+
+monolog:
+    channels: ['ace_client']
+
+    handlers:
+        ace_client:
+            type: rotating_file
+            path: '%kernel.logs_dir%/%kernel.environment%/ace_client.log'
+            formatter: Plugin\AceClient43\Util\Logger\LineFormatter
+            level: debug
+            channels: ['ace_client']
+            max_files: 60
+
+        main:
+            channels: ['!ace_client']
+
 services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        # Bind ace_client logger to all services by default
+        bind:
+            Psr\Log\LoggerInterface $logger: '@monolog.logger.ace_client'
 
-    Plugin\AceClient43\Util\Logger\SoapXmlLogger:
-        calls:
-            - setLogger: ['@monolog.logger']
-            - setFrontLogger: ['@monolog.logger.front']
-            - setAdminLogger: ['@monolog.logger.admin']
-            - setContext: ['@Eccube\Request\Context']
-
-    Plugin\AceClient43\Util\Logger\LoggerProvider:
+    # Exception: CustomerAuthenticator explicitly uses front logger
+    Plugin\AceClient43\Security\Authenticator\CustomerAuthenticator:
         arguments:
-            - '@Plugin\AceClient43\Util\Logger\SoapXmlLogger'
+            $innerAuthenticator: '@security.authenticator.form_login.customer'
+            $router: '@router'
+            $customerRepository: '@Eccube\Repository\CustomerRepository'
+            $customerBridge: '@Plugin\AceClient43\Bridge\CustomerBridge'
+            $logger: '@monolog.logger.front'  # Explicitly override to use front logger
+
+    Plugin\AceClient43\Repository\CustomerAddressRepository:
+        decorates: Eccube\Repository\CustomerAddressRepository
+
+    # All other services will automatically use ace_client logger through _defaults bind
+    Plugin\AceClient43\Bridge\BaseBridge:
+
+    Plugin\AceClient43\Bridge\MasterBridge:
+        parent: Plugin\AceClient43\Bridge\BaseBridge
+
+    Plugin\AceClient43\Bridge\ContactBridge:
+        parent: Plugin\AceClient43\Bridge\BaseBridge
+
+    Plugin\AceClient43\Bridge\CustomerBridge:
+        parent: Plugin\AceClient43\Bridge\BaseBridge
+
+    Plugin\AceClient43\Bridge\CartBridge:
+        parent: Plugin\AceClient43\Bridge\BaseBridge
+
+    Plugin\AceClient43\Bridge\OrderBridge:
+        parent: Plugin\AceClient43\Bridge\BaseBridge
+        arguments:
+            $purchaseFlow: '@eccube.purchase.flow.shopping'
+        calls:
+            - setShoppingPurchaseFlow: ['@eccube.purchase.flow.shopping']
+
+    # ACE Services - Version Independent Aliases (will use ace_client logger)
+    ace_config_service:
+        alias: Plugin\AceClient43\Service\AceConfigService
+        public: true
+
+    ace_model_resolver:
+        alias: Plugin\AceClient43\Util\ModelResolver\ModelResolver
+        public: false
+
+    ace_serializer_resolver:
+        alias: Plugin\AceClient43\Util\Serializer\SerializerResolver
+        public: false
+
+    ace_api_client_resolver:
+        alias: Plugin\AceClient43\ApiClient\ApiClientResolver
+        public: false
+
+    # Base Guzzle HTTP Client (production)
+    ace_client_http_client:
+        class: GuzzleHttp\Client
+        arguments:
+            - base_uri: '@=service("ace_config_service").getBaseUri()'
+              timeout: 600
+              verify: false
+              headers:
+                  User-Agent: 'Plugin\AceClient43\Util\Mapper\OverviewMapper::USER_AGENT_HEADER'
+        public: false
+
+    # ===================================================================================================
+    # コアACEサービス - リゾルバーシステム
+    # ===================================================================================================
+
+    # モデルリゾルバー - リクエスト・レスポンスモデルクラスの動的検索・解決
+    # ───────────────────────────────────────────────────────────────────────────────────────
+    # 動作概要：
+    # - 設定されたパスでモデルを検索（カスタマイゼーション層を優先、次にプラグイン層）
+    # - APIメソッド名を完全修飾クラス名に変換
+    # - パフォーマンス向上のために解決されたクラス名をキャッシュ
+    # - リクエストとレスポンスの両方のモデル解決をサポート
+    #
+    # 検索パス例：
+    # リクエスト: Customize/AceClient/Model/Request → Plugin/AceClient43/AceServices/Model/Request
+    # レスポンス: Customize/AceClient/Model/Response → Plugin/AceClient43/AceServices/Model/Response
+    #
+    # MODEL RESOLVER - Dynamically discovers and resolves Request/Response model classes
+    # - Searches for models in configured paths (customization layer first, then plugin layer)
+    # - Converts API method names to fully qualified class names
+    # - Example: "Member.LoginMember" -> "Plugin\AceClient43\AceServices\Model\Request\Member\LoginMember\LoginMemberRequestModel"
+    # - Caches resolved class names for performance
+    # - Supports both Request and Response model resolution
+    Plugin\AceClient43\Util\ModelResolver\ModelResolver:
+        arguments:
+            $requestSearchPaths: '%ace.request_search_paths%'
+            $responseSearchPaths: '%ace.response_search_paths%'
+        tags:
+            - { name: 'ace.model_resolver' }
+
+    Plugin\AceClient43\Service\AceConfigService:
+
+    # Normalizers for SOAP XML Serializer
+    ace_datetime_normalizer:
+        alias: Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer
+        public: false
+
+    ace_prm_normalizer:
+        alias: Plugin\AceClient43\Util\Normalizer\PrmNormalizer
+        public: false
+
+    Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer:
+
+    Plugin\AceClient43\Util\Normalizer\PrmNormalizer:
+        arguments:
+            $prmConfig: '%ace.prm_serialization%'
+        calls:
+            - setSerializerResolver: ['@ace_serializer_resolver']
+
+    # Array Denormalizer
+    soap_xml_array_denormalizer:
+        class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
+
+    # AsListDenormalizer with ModelResolver dependency
+    ace_as_list_denormalizer:
+        alias: Plugin\AceClient43\Util\Normalizer\AsListDenormalizer
+        public: false
+
+    Plugin\AceClient43\Util\Normalizer\AsListDenormalizer:
+        arguments:
+            $modelResolver: '@ace_model_resolver'
+        tags:
+            - { name: 'serializer.normalizer', priority: 110 }
+
+    # ModelTypeExtractor
+    soap_xml_type_extractor:
+        class: Plugin\AceClient43\Util\Normalizer\ModelTypeExtractor
+        arguments:
+            $modelResolver: '@ace_model_resolver'
+
+    # Modern AttributeLoader
+    soap_xml_attribute_loader:
+        class: Symfony\Component\Serializer\Mapping\Loader\AttributeLoader
+
+    # ChainLoader for backward compatibility
+    soap_xml_chain_loader:
+        class: Symfony\Component\Serializer\Mapping\Loader\LoaderChain
+        arguments:
+            $loaders:
+                - '@soap_xml_attribute_loader'
+
+    # Metadata factory for SOAP XML
+    soap_xml_metadata_factory:
+        class: Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory
+        arguments:
+            $loader: '@soap_xml_chain_loader'
+
+    # Name converter with metadata support
+    soap_xml_name_converter:
+        class: Symfony\Component\Serializer\NameConverter\MetadataAwareNameConverter
+        arguments:
+            $metadataFactory: '@soap_xml_metadata_factory'
+
+    # Object Normalizer with all dependencies
+    soap_xml_object_normalizer:
+        class: Symfony\Component\Serializer\Normalizer\ObjectNormalizer
+        arguments:
+            $classMetadataFactory: '@soap_xml_metadata_factory'
+            $nameConverter: '@soap_xml_name_converter'
+            $propertyAccessor: null
+            $propertyTypeExtractor: '@soap_xml_type_extractor'
+            $classDiscriminatorResolver: null
+            $objectClassResolver: null
+            $defaultContext: [ ]
+
+    # XML Encoder
+    xml_encoder:
+        class: Symfony\Component\Serializer\Encoder\XmlEncoder
+
+    # Dedicated Symfony Serializer for SOAP XML
+    soap_xml_symfony_serializer:
+        class: Symfony\Component\Serializer\Serializer
+        arguments:
+            $normalizers:
+                - '@ace_datetime_normalizer'
+                - '@ace_prm_normalizer'
+                - '@soap_xml_array_denormalizer'
+                - '@ace_as_list_denormalizer'
+                - '@soap_xml_object_normalizer'
+            $encoders:
+                - '@xml_encoder'
+
+    # SERIALIZERS - Handle request/response serialization for different API formats
+    # Priority system: Higher priority = preferred serializer for matching API type/format
+    # SerializerResolver selects based on supports() method and priority
+    ace_default_serializer:
+        alias: Plugin\AceClient43\Util\Serializer\DefaultSerializer
+        public: false
+
+    ace_soap_xml_serializer:
+        alias: Plugin\AceClient43\Util\Serializer\SoapXmlSerializer
+        public: false
+
+    # DefaultSerializer - Fallback serializer for non-SOAP requests (priority: 0)
+    # Uses standard Symfony serializer component
+    # Handles JSON and other standard formats
+    Plugin\AceClient43\Util\Serializer\DefaultSerializer:
+        arguments:
+            $symfonySerializer: '@serializer'
+        tags:
+            - { name: 'ace_client.serializer', priority: 0 }
+
+    # SoapXmlSerializer - Specialized serializer for SOAP XML requests (priority: 100)
+    # Wraps request data in SOAP envelope with proper namespaces
+    # Handles ACE-specific XML structure and diffgr namespaces
+    # Extracts response data from SOAP envelope for deserialization
+    Plugin\AceClient43\Util\Serializer\SoapXmlSerializer:
+        arguments:
+            $serializer: '@soap_xml_symfony_serializer'
+            $config:
+                xmlns:
+                    '@xmlns': 'http://ar-system-api.co.jp/'
+                default_serialize_options:
+                    xml_format_output: false
+                    xml_encoding: 'utf-8'
+                    encoder_ignored_node_types: [ 7 ]
+                    skip_null_values: true
+                request_soap_head: |
+                    <?xml version="1.0" encoding="utf-8"?>
+                    <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+                    <soap12:Body>
+                request_soap_end: |
+                    </soap12:Body>
+                    </soap12:Envelope>
+        tags:
+            - { name: 'ace_client.serializer', priority: 100 }
+
+    # ===================================================================================================
+    # APIクライアント - 異なるプロトコル・フォーマット用のHTTPクライアント
+    # ===================================================================================================
+
+    # PostSoapXmlClient - SOAP XMLリクエスト用クライアント（最も一般的）
+    # ───────────────────────────────────────────────────────────────────────────────────────
+    # - SOAP 1.2プロトコルでHTTP POSTリクエストを送信
+    # - Content-Type: application/soap+xml を設定
+    # - SOAPエンベロープの作成と解析を処理
+    # - ACE APIの主要なインターフェース
+    Plugin\AceClient43\ApiClient\Client\PostSoapXmlClient:
+        arguments:
+            $serializerResolver: '@ace_serializer_resolver'
+            $httpClient: '@ace_client_http_client'
+            $normalizer: '@serializer'
+            $aceConfigService: '@ace_config_service'
+        calls:
+            - setExtractMaxLength: ['%ace_client.post_soap_client.extract_max_length%']
+        tags:
+            - { name: 'ace_client.api_client' }
+
+    # PostJsonClient - REST JSON POSTリクエスト用クライアント
+    # ───────────────────────────────────────────────────────────────────────────────────────
+    # - Content-Type: application/json でHTTP POSTリクエストを送信
+    # - REST API エンドポイント用
+    Plugin\AceClient43\ApiClient\Client\PostJsonClient:
+        arguments:
+            $serializerResolver: '@ace_serializer_resolver'
+            $httpClient: '@ace_client_http_client'
+            $normalizer: '@serializer'
+            $aceConfigService: '@ace_config_service'
+        tags:
+            - { name: 'ace_client.api_client' }
+
+    # GetJsonClient - REST JSON GETリクエスト用クライアント
+    # ───────────────────────────────────────────────────────────────────────────────────────
+    # - HTTP GETリクエストでデータを取得
+    # - クエリパラメータ経由でパラメータを送信
+    # - 読み取り専用操作用
+    Plugin\AceClient43\ApiClient\Client\GetJsonClient:
+        arguments:
+            $serializerResolver: '@ace_serializer_resolver'
+            $httpClient: '@ace_client_http_client'
+            $normalizer: '@serializer'
+            $aceConfigService: '@ace_config_service'
+        tags:
+            - { name: 'ace_client.api_client' }
+
+    # ===================================================================================================
+    # リゾルバーサービス - コンポーネント選択システム
+    # ===================================================================================================
+
+    # ApiClientResolver - APIタイプ・フォーマットに基づく適切なHTTPクライアントの選択
+    # ───────────────────────────────────────────────────────────────────────────────────────
+    # 選択ロジック：
+    # - 登録されたすべてのクライアントのsupports()メソッドをチェック
+    # - APIタイプ（soap/rest）とフォーマット（xml/json）の組み合わせで判定
+    # - 最初にマッチしたクライアントを返す
+    Plugin\AceClient43\ApiClient\ApiClientResolver:
+        arguments:
+            $clients: !tagged_iterator { tag: 'ace_client.api_client' }
+
+    # SerializerResolver - APIタイプ・フォーマットに基づく適切なシリアライザーの選択
+    # ───────────────────────────────────────────────────────────────────────────────────────
+    # 選択ロジック：
+    # - 登録されたすべてのシリアライザーのsupports()メソッドをチェック
+    # - 優先順位の高いシリアライザーを優先して選択
+    # - APIタイプとフォーマットの組み合わせで判定
+    # - パフォーマンス向上のために選択結果をキャッシュ
+    Plugin\AceClient43\Util\Serializer\SerializerResolver:
+        arguments:
+            $serializers: !tagged_iterator { tag: 'ace_client.serializer' }
+
+    # Processors - will use ace_client logger
+    Plugin\AceClient43\Service\ChargeProcessor:
+        arguments:
+            $taxDisplayTypeId: '@=container.hasParameter("ace.processor.charge_tax_display_type") ? parameter("ace.processor.charge_tax_display_type") : 2'
+            $taxTypeId: '@=container.hasParameter("ace.processor.charge_tax_type") ? parameter("ace.processor.charge_tax_type") : 1'
+        tags:
+            - { name: eccube.item.holder.preprocessor, flow_type: shopping, priority: 550 }
+
+    Plugin\AceClient43\Service\DeliveryFeeProcessor:
+        arguments:
+            $taxDisplayTypeId: '@=container.hasParameter("ace.processor.delivery_tax_display_type") ? parameter("ace.processor.delivery_tax_display_type") : 2'
+            $taxTypeId: '@=container.hasParameter("ace.processor.delivery_tax_type") ? parameter("ace.processor.delivery_tax_type") : 1'
+        tags:
+            - { name: eccube.item.holder.preprocessor, flow_type: shopping, priority: 750 }
+
+    # ACE AddPointProcessor - 加算ポイント（ACE連携）
+    Plugin\AceClient43\Service\AddPointProcessor:
+        tags:
+            - { name: eccube.item.holder.post.validator, flow_type: shopping, priority: 850 }
+            - { name: eccube.item.holder.post.validator, flow_type: order, priority: 9500 }
+
+    # Decorators
+    Plugin\AceClient43\Service\Decorators\ProductClassComparator:
+        decorates: Eccube\Service\Cart\ProductClassComparator
+        decoration_priority: 10
+
+    Plugin\AceClient43\Service\Decorators\CartService:
+        decorates: Eccube\Service\CartService
+        arguments:
+            $cartItemComparator: '@Plugin\AceClient43\Service\Decorators\ProductClassComparator'
+        decoration_priority: 10
+
+    Plugin\AceClient43\Service\Decorators\OrderHelper:
+        decorates: Eccube\Service\OrderHelper
+        decoration_priority: 10
+
+    # Logger
+    Plugin\AceClient43\Util\Logger\LineFormatter:
+        arguments:
+            $format: "[%%datetime%%] %%channel%%.%%level_name%% [%%extra.session_id%%] [%%extra.uid%%] [%%extra.user_id%%] [%%extra.class%%:%%extra.function%%:%%extra.line%%] - %%message%% %%context%% [%%extra.http_method%%, %%extra.url%%, %%extra.ip%%, %%extra.referrer%%, %%extra.user_agent%%]\n"
+            $maxLineLength: '%ace.log.max_line_length%'
+        tags:
+            - { name: 'monolog.formatter', channel: 'ace_client' }
+
+security:
+    firewalls:
+        customer:
+            custom_authenticators:
+                - Plugin\AceClient43\Security\Authenticator\CustomerAuthenticator
+            entry_point: Plugin\AceClient43\Security\Authenticator\CustomerAuthenticator

@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
 
 /**
@@ -9,11 +20,11 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
  */
 trait ThreeNotesTrait
 {
-    /** @var ?string $note1 備考1 */
+    /** @var ?string 備考1 */
     protected ?string $note1 = null;
-    /** @var ?string $note2 備考2 */
+    /** @var ?string 備考2 */
     protected ?string $note2 = null;
-    /** @var ?string $note3 備考3 */
+    /** @var ?string 備考3 */
     protected ?string $note3 = null;
 
     /**
@@ -30,6 +41,7 @@ trait ThreeNotesTrait
     public function setNote1(?string $note1)
     {
         $this->note1 = $note1;
+
         return $this;
     }
 
@@ -47,6 +59,7 @@ trait ThreeNotesTrait
     public function setNote2(?string $note2)
     {
         $this->note2 = $note2;
+
         return $this;
     }
 
@@ -64,6 +77,7 @@ trait ThreeNotesTrait
     public function setNote3(?string $note3)
     {
         $this->note3 = $note3;
+
         return $this;
     }
 }

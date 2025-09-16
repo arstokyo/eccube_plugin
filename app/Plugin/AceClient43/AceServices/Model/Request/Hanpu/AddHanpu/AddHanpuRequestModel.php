@@ -1,19 +1,30 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu;
 
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\Exception\MissingRequestParameterException;
-use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 class AddHanpuRequestModel extends Request\RequestModelAbstract implements AddHanpuRequestModelInterface
 {
-    const XML_NODE_NAME = 'addHanpu';
+    use NoCategory\IdTrait;
 
-    use NoCategory\IdTrait,
-        NoCategory\SessIdTrait;
+    use NoCategory\SessIdTrait;
+    public const XML_NODE_NAME = 'addHanpu';
 
-    /** @var HanpuPrmModelInterface $prm Prm */
+    /** @var HanpuPrmModelInterface Prm */
     protected HanpuPrmModelInterface $prm;
 
     /**
@@ -30,6 +41,7 @@ class AddHanpuRequestModel extends Request\RequestModelAbstract implements AddHa
     public function setPrm(HanpuPrmModelInterface $prm): self
     {
         $this->prm = $prm;
+
         return $this;
     }
 
@@ -38,9 +50,15 @@ class AddHanpuRequestModel extends Request\RequestModelAbstract implements AddHa
      */
     public function ensureParameterNotMissing(): void
     {
-        if (empty($this->id)) { throw new MissingRequestParameterException($this->compilePropertyName('id')); };
-        if (empty($this->sessId)) { throw new MissingRequestParameterException($this->compilePropertyName('sessId')); };
-        if (empty($this->prm))  { throw new MissingRequestParameterException($this->compilePropertyName('prm')); };
+        if (empty($this->id)) {
+            throw new MissingRequestParameterException($this->compilePropertyName('id'));
+        }
+        if (empty($this->sessId)) {
+            throw new MissingRequestParameterException($this->compilePropertyName('sessId'));
+        }
+        if (empty($this->prm)) {
+            throw new MissingRequestParameterException($this->compilePropertyName('prm'));
+        }
     }
 
     /**

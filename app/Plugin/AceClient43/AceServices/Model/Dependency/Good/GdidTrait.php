@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Good;
 
 /*
@@ -9,7 +20,7 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Good;
  */
 trait GdidTrait
 {
-    /** @var ?string $gdid 商品ID */
+    /** @var ?string 商品ID */
     protected ?string $gdid = null;
 
     /**
@@ -26,6 +37,7 @@ trait GdidTrait
     public function setGdid(?string $gdid)
     {
         $this->gdid = $gdid;
+
         return $this;
     }
 }

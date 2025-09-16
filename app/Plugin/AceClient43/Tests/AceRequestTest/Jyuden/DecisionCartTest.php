@@ -1,28 +1,40 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Jyuden;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\DecisionCart;
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModel;
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\DecisionCart\DecisionCartResponseModel;
-use GuzzleHttp\Exception\ClientException;
-use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
+use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 
 class DecisionCartTest extends AceRequestTestAbtract
 {
     private ?string $testMemberId = '114';
     private ?string $testSessid = '114';
+
     public function getAddCartModel(int $sessid): AddCart\AddCartRequestModel
     {
-        $member = (new AddCart\MemberOrderModel)
+        $member = (new AddCart\MemberOrderModel())
                         ->setJmember((new AddCart\JmemberModel())->setCode($this->testMemberId))
                         ->setSmember((new AddCart\SmemberModel())->setCode($this->testMemberId))
                         ->setNmember((new AddCart\NmemberModel())->setEda(1));
 
         $jyuden = (new AddCart\JyudenModel())
-                       ->setDay(new \Datetime())
+                       ->setDay(new \DateTime())
                        ->setTcode('123')
                        ->setSkbn(0)
                        ->setJcode(1)
@@ -32,7 +44,7 @@ class DecisionCartTest extends AceRequestTestAbtract
                        ->setBumon(100)
                        ->setSouko(1)
                        ->setHcode(10)
-                       ->setHday((new \Datetime())->modify('+14 day'))
+                       ->setHday((new \DateTime())->modify('+14 day'))
                        ->setHtime(2)
                        ->setBunsyo(1)
                        ->setObikou1('送り状備考1')
@@ -67,38 +79,38 @@ class DecisionCartTest extends AceRequestTestAbtract
                                         ->setMstatus('success')
                                         ->setVresultcode('success')
                                         ->setReceiptno('123456789')
-                                )
+                       )
                         ->setCardInfo((new AddCart\CardInfoModel())
-                                        ->setCcode(100)
-                                        ->setCno('123456789')
-                                        ->setCkigen((new \DateTime())->modify('+1 year'))
-                                        ->setCpay(21)
-                                        ->setKaisuu(5)
-                                        ->setSyounin(100)
-                                        ->setSpscustomerid(100)
-                                        ->setSpstid(999)
-                                        ->setVeriorderid('999999999')
-                                        ->setCname('name')
-                                        ->setVeristatus(1)
-                                        ->setInkokyakuid(OverviewMapper::ACE_TEST_SYID)
-                                        ->setInchumonid('123456789')
-                                        ->setIntokushu1(100)
-                                        ->setIntokushu2(1)
-                                        ->setUkeno(1)
-                                        ->setPgtmemid(100)
-                                        ->setPgtmemcdid(110)
-                                        ->setPgttid(20)
-                                        ->setPgtid(999)
-                                        ->setPgticls(1)
-                                        ->setGmomemberid(100)
-                                        ->setGmoorderid('123456789')
-                                        ->setGmotorihikiid('gmoid')
-                                        ->setGmotorihikipw('gmopw')
-                                        ->setGmocardeda(1)
-                                )
+                               ->setCcode(100)
+                               ->setCno('123456789')
+                               ->setCkigen((new \DateTime())->modify('+1 year'))
+                               ->setCpay(21)
+                               ->setKaisuu(5)
+                               ->setSyounin(100)
+                               ->setSpscustomerid(100)
+                               ->setSpstid(999)
+                               ->setVeriorderid('999999999')
+                               ->setCname('name')
+                               ->setVeristatus(1)
+                               ->setInkokyakuid(OverviewMapper::ACE_TEST_SYID)
+                               ->setInchumonid('123456789')
+                               ->setIntokushu1(100)
+                               ->setIntokushu2(1)
+                               ->setUkeno(1)
+                               ->setPgtmemid(100)
+                               ->setPgtmemcdid(110)
+                               ->setPgttid(20)
+                               ->setPgtid(999)
+                               ->setPgticls(1)
+                               ->setGmomemberid(100)
+                               ->setGmoorderid('123456789')
+                               ->setGmotorihikiid('gmoid')
+                               ->setGmotorihikipw('gmopw')
+                               ->setGmocardeda(1)
+                        )
                         ->setDpsInfo((new AddCart\DpsInfoModel())
-                                        ->setGmodpsorderid('123456789')
-                                        ->setGmodpstid(1)
+                                ->setGmodpsorderid('123456789')
+                                ->setGmodpstid(1)
                         );
 
         $detail = (new AddCart\DetailModel())
@@ -113,31 +125,29 @@ class DecisionCartTest extends AceRequestTestAbtract
                                                     ->setRitu(0)
                                                     ->setTaxkbn(0)
                                                     ->setMoney(10000)
-                                                    ->setGenka(1000)
-                                    ,(new AddCart\JyumeiModel())
-                                                    ->setGcode(101)
-                                                    ->setSuu(5)
-                                                    ->setTanka(1200)
-                                                    ->setIgnorezaiko(0)
-                                                    ->setChoseizaiko(0)
-                                                    ->setMbikou('明細備考No.2')
-                                                    ->setTeika(1500)
-                                                    ->setRitu(0)
-                                                    ->setTaxkbn(1)
-                                                    ->setMoney(7500)
-                                                    ->setGenka(1100)
-                                    ,(new AddCart\JyumeiModel())
-                                                    ->setGcode(102)
-                                                    ->setSuu(7)
-                                                    ->setTanka(1)
-                                                    ->setIgnorezaiko(1)
-                                                    ->setChoseizaiko(0)
-                                                    ->setMbikou('明細備考No.3')
-                                                    ->setTeika(1400)
-                                                    ->setRitu(0)
-                                                    ->setTaxkbn(2)
-                                                    ->setMoney(9800)
-                                                    ->setGenka(1200)]);
+                                                    ->setGenka(1000), (new AddCart\JyumeiModel())
+                                           ->setGcode(101)
+                                           ->setSuu(5)
+                                           ->setTanka(1200)
+                                           ->setIgnorezaiko(0)
+                                           ->setChoseizaiko(0)
+                                           ->setMbikou('明細備考No.2')
+                                           ->setTeika(1500)
+                                           ->setRitu(0)
+                                           ->setTaxkbn(1)
+                                           ->setMoney(7500)
+                                           ->setGenka(1100), (new AddCart\JyumeiModel())
+                                           ->setGcode(102)
+                                           ->setSuu(7)
+                                           ->setTanka(1)
+                                           ->setIgnorezaiko(1)
+                                           ->setChoseizaiko(0)
+                                           ->setMbikou('明細備考No.3')
+                                           ->setTeika(1400)
+                                           ->setRitu(0)
+                                           ->setTaxkbn(2)
+                                           ->setMoney(9800)
+                                           ->setGenka(1200)]);
 
         $prm = (new AddCart\OrderPrmModel())
                     ->setMember($member)
@@ -146,7 +156,7 @@ class DecisionCartTest extends AceRequestTestAbtract
                     ->setMailjyuden((new AddCart\MailJyudenModel())
                                         ->setMail('decisionCart@AceClient.v1.0')
                                         ->setTbikou('メール伝票備考')
-                );
+                    );
 
         return (new AddCart\AddCartRequestModel())
                     ->setId(OverviewMapper::ACE_TEST_SYID)
@@ -154,7 +164,7 @@ class DecisionCartTest extends AceRequestTestAbtract
                     ->setPrm($prm);
     }
 
-    public function addNewCart(int $sessid) : bool
+    public function addNewCart(int $sessid): bool
     {
         try {
             $addCartRequest = $this->getAddCartModel($sessid);
@@ -168,18 +178,19 @@ class DecisionCartTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getOrder()->getMessage()->getMessage1();
                 $message2 = $responseObj->getOrder()->getMessage()->getMessage2();
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
-      return empty($message1) && empty($message2) ;
+
+        return empty($message1) && empty($message2);
     }
 
     public function testRequestDecisionCartOK()
     {
         $this->assertTrue($this->addNewCart($this->testSessid));
-        
+
         try {
             $decisionCartRequest = (new DecisionCart\DecisionCartRequestModel())
                                         ->setId(OverviewMapper::ACE_TEST_SYID)
@@ -222,20 +233,20 @@ class DecisionCartTest extends AceRequestTestAbtract
         $this->assertEquals($this->testMemberId, $jyusub->getScode());
         $this->assertEquals('1', $jyusub->getJcode());
         $this->assertEquals('14', $jyusub->getPcode());
-        $this->assertEquals('',$jyusub->getCcode());
-        $this->assertEquals('',$jyusub->getCno());
-        $this->assertEquals('',$jyusub->getCkigen());
-        $this->assertEquals('',$jyusub->getCname());
-        $this->assertEquals('',$jyusub->getCpay());
-        $this->assertEquals('',$jyusub->getSyounin());
-        $this->assertEquals('',$jyusub->getKaisuu());
-        $this->assertEquals('',$jyusub->getBun1());
-        $this->assertEquals('',$jyusub->getBun2());
+        $this->assertEquals('', $jyusub->getCcode());
+        $this->assertEquals('', $jyusub->getCno());
+        $this->assertEquals('', $jyusub->getCkigen());
+        $this->assertEquals('', $jyusub->getCname());
+        $this->assertEquals('', $jyusub->getCpay());
+        $this->assertEquals('', $jyusub->getSyounin());
+        $this->assertEquals('', $jyusub->getKaisuu());
+        $this->assertEquals('', $jyusub->getBun1());
+        $this->assertEquals('', $jyusub->getBun2());
         $this->assertEquals('100', $jyusub->getBcode());
         $this->assertEquals('100', $jyusub->getBkcode());
-        $this->assertEquals('',$jyusub->getFcode1());
+        $this->assertEquals('', $jyusub->getFcode1());
         $this->assertEquals('フリーコード2', $jyusub->getFcode2());
-        $this->assertEquals('',$jyusub->getFcode3());
+        $this->assertEquals('', $jyusub->getFcode3());
         $this->assertEquals('0', $jyusub->getSmpkbn());
         $this->assertEquals('0', $jyusub->getPointritu());
         $this->assertEquals(OverviewMapper::ACE_TEST_SYID, $jyusub->getMemid());
@@ -243,12 +254,12 @@ class DecisionCartTest extends AceRequestTestAbtract
         $this->assertEquals(OverviewMapper::ACE_TEST_SYID, $jyuden->getId());
         $this->assertNotNull($jyuden->getDenno());
         $this->assertEquals(null, $jyuden->getSday());
-        $this->assertEquals((new \Datetime)->format('Ymd'), $jyuden->getDay()->toApiDateTime());
-        $this->assertEquals((new \Datetime)->format('Ymd'), $jyuden->getYday()->toApiDateTime());
+        $this->assertEquals((new \DateTime())->format('Ymd'), $jyuden->getDay()->toApiDateTime());
+        $this->assertEquals((new \DateTime())->format('Ymd'), $jyuden->getYday()->toApiDateTime());
         $this->assertEquals(null, $jyuden->getSday());
         $this->assertEquals(null, $jyuden->getUday());
         $this->assertEquals(null, $jyuden->getNday());
-        $this->assertEquals((new \Datetime)->modify('+14 day')->format('Ymd'), $jyuden->getHday()->toApiDateTime());
+        $this->assertEquals((new \DateTime())->modify('+14 day')->format('Ymd'), $jyuden->getHday()->toApiDateTime());
         $this->assertEquals('2', $jyuden->getHtime());
         $this->assertEquals('10', $jyuden->getHcode());
         $this->assertEquals('114', $jyuden->getNcode());
@@ -298,7 +309,7 @@ class DecisionCartTest extends AceRequestTestAbtract
         $this->assertNotNull($jyumei1->getDenno());
         $this->assertEquals('0', $jyumei1->getGiftNo());
         $this->assertEquals('0', $jyumei1->getDenku());
-        $this->assertEquals((new \Datetime)->format('Ymd'), $jyumei1->getDay()->toApiDateTime());
+        $this->assertEquals((new \DateTime())->format('Ymd'), $jyumei1->getDay()->toApiDateTime());
         $this->assertEquals('1', $jyumei1->getLine());
         $this->assertEquals(null, $jyumei1->getSday());
         $this->assertEquals('1', $jyumei1->getSouko());
@@ -325,7 +336,7 @@ class DecisionCartTest extends AceRequestTestAbtract
         $this->assertNotNull($jyumei2->getDenno());
         $this->assertEquals('0', $jyumei2->getGiftNo());
         $this->assertEquals('0', $jyumei2->getDenku());
-        $this->assertEquals((new \Datetime)->format('Ymd'), $jyumei2->getDay()->toApiDateTime());
+        $this->assertEquals((new \DateTime())->format('Ymd'), $jyumei2->getDay()->toApiDateTime());
         $this->assertEquals('2', $jyumei2->getLine());
         $this->assertEquals(null, $jyumei2->getSday());
         $this->assertEquals('1', $jyumei2->getSouko());
@@ -347,12 +358,12 @@ class DecisionCartTest extends AceRequestTestAbtract
         $this->assertEquals('6000', $jyumei2->getTinmoney());
         $this->assertEquals('5455', $jyumei2->getToutmoney());
         $this->assertEquals('545', $jyumei2->getTaxmoney());
-          
+
         $this->assertEquals(OverviewMapper::ACE_TEST_SYID, $jyumei3->getId());
         $this->assertNotNull($jyumei3->getDenno());
         $this->assertEquals('0', $jyumei3->getGiftNo());
         $this->assertEquals('0', $jyumei3->getDenku());
-        $this->assertEquals((new \Datetime)->format('Ymd'), $jyumei3->getDay()->toApiDateTime());
+        $this->assertEquals((new \DateTime())->format('Ymd'), $jyumei3->getDay()->toApiDateTime());
         $this->assertEquals('3', $jyumei3->getLine());
         $this->assertEquals(null, $jyumei3->getSday());
         $this->assertEquals('1', $jyumei3->getSouko());
@@ -379,7 +390,7 @@ class DecisionCartTest extends AceRequestTestAbtract
         $this->assertNotNull($jyumei4->getDenno());
         $this->assertEquals('0', $jyumei4->getGiftNo());
         $this->assertEquals('0', $jyumei4->getDenku());
-        $this->assertEquals((new \Datetime)->format('Ymd'), $jyumei4->getDay()->toApiDateTime());
+        $this->assertEquals((new \DateTime())->format('Ymd'), $jyumei4->getDay()->toApiDateTime());
         $this->assertEquals('4', $jyumei4->getLine());
         $this->assertEquals(null, $jyumei4->getSday());
         $this->assertEquals('1', $jyumei4->getSouko());
@@ -406,7 +417,7 @@ class DecisionCartTest extends AceRequestTestAbtract
         $this->assertNotNull($jyumei5->getDenno());
         $this->assertEquals('0', $jyumei5->getGiftNo());
         $this->assertEquals('0', $jyumei5->getDenku());
-        $this->assertEquals((new \Datetime)->format('Ymd'), $jyumei5->getDay()->toApiDateTime());
+        $this->assertEquals((new \DateTime())->format('Ymd'), $jyumei5->getDay()->toApiDateTime());
         $this->assertEquals('5', $jyumei5->getLine());
         $this->assertEquals(null, $jyumei5->getSday());
         $this->assertEquals('1', $jyumei5->getSouko());
@@ -433,7 +444,7 @@ class DecisionCartTest extends AceRequestTestAbtract
         $this->assertNotNull($jyumei6->getDenno());
         $this->assertEquals('0', $jyumei6->getGiftNo());
         $this->assertEquals('0', $jyumei6->getDenku());
-        $this->assertEquals((new \Datetime)->format('Ymd'), $jyumei6->getDay()->toApiDateTime());
+        $this->assertEquals((new \DateTime())->format('Ymd'), $jyumei6->getDay()->toApiDateTime());
         $this->assertEquals('6', $jyumei6->getLine());
         $this->assertEquals(null, $jyumei6->getSday());
         $this->assertEquals('1', $jyumei6->getSouko());
@@ -461,13 +472,12 @@ class DecisionCartTest extends AceRequestTestAbtract
 
         $this->assertEquals('メール伝票備考', $mailjyuden->getTbikou());
         $this->assertEquals('decisionCart@AceClient.v1.0', $mailjyuden->getMail());
-
     }
 
     public function testRequestDecisionCartNG()
     {
         $this->assertTrue($this->addNewCart(-999));
-        
+
         try {
             $decisionCartRequest = (new DecisionCart\DecisionCartRequestModel())
                                         ->setId(OverviewMapper::ACE_TEST_SYID)
@@ -491,5 +501,4 @@ class DecisionCartTest extends AceRequestTestAbtract
         $this->assertEquals('webjyuden検索エラー', $message1);
         $this->assertEmpty($message2);
     }
-
 }

@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
@@ -11,31 +22,31 @@ use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
  */
 trait FreeMstTrait
 {
-    use NoCategory\NameTrait,
-        NoCategory\KubunTrait;
+    use NoCategory\NameTrait;
+    use NoCategory\KubunTrait;
 
-    /** @var ?int $type フリー項目タイプ */
+    /** @var ?int フリー項目タイプ */
     protected ?int $type = null;
 
-    /** @var ?int $jyun 表示順 */
+    /** @var ?int 表示順 */
     protected ?int $jyun = null;
 
-    /** @var ?int $reqflg 必須フラグ */
+    /** @var ?int 必須フラグ */
     protected ?int $reqflg = null;
 
-    /** @var ?string $explanation 説明 */
+    /** @var ?string 説明 */
     protected ?string $explanation = null;
 
-    /** @var ?int $oyakubun 親フリー項目区分 */
+    /** @var ?int 親フリー項目区分 */
     protected ?int $oyakubun = null;
 
-    /** @var ?string $bgcolor バックカラー */
+    /** @var ?string バックカラー */
     protected ?string $bgcolor = null;
 
-    /** @var ?int $rpos データ読込位置 */
+    /** @var ?int データ読込位置 */
     protected ?int $rpos = null;
 
-    /** @var ?int $leng 最大文字数 */
+    /** @var ?int 最大文字数 */
     protected ?int $leng = null;
 
     /**
@@ -52,6 +63,7 @@ trait FreeMstTrait
     public function setType(?int $type)
     {
         $this->type = $type;
+
         return $this;
     }
 
@@ -69,6 +81,7 @@ trait FreeMstTrait
     public function setJyun(?int $jyun)
     {
         $this->jyun = $jyun;
+
         return $this;
     }
 
@@ -86,6 +99,7 @@ trait FreeMstTrait
     public function setReqflg(?int $reqflg)
     {
         $this->reqflg = $reqflg;
+
         return $this;
     }
 
@@ -103,6 +117,7 @@ trait FreeMstTrait
     public function setExplanation(?string $explanation)
     {
         $this->explanation = $explanation;
+
         return $this;
     }
 
@@ -120,6 +135,7 @@ trait FreeMstTrait
     public function setOyakubun(?int $oyakubun)
     {
         $this->oyakubun = $oyakubun;
+
         return $this;
     }
 
@@ -137,6 +153,7 @@ trait FreeMstTrait
     public function setBgcolor(?string $bgcolor)
     {
         $this->bgcolor = $bgcolor;
+
         return $this;
     }
 
@@ -154,6 +171,7 @@ trait FreeMstTrait
     public function setRpos(?int $rpos)
     {
         $this->rpos = $rpos;
+
         return $this;
     }
 
@@ -171,6 +189,7 @@ trait FreeMstTrait
     public function setLeng(?int $leng)
     {
         $this->leng = $leng;
+
         return $this;
     }
 }

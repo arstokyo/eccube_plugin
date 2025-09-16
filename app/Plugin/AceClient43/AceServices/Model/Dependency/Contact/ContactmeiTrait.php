@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Contact;
 
 use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
@@ -13,23 +24,23 @@ trait ContactmeiTrait
 {
     use ContactBaseTrait;
 
-    /** @var ?AceDateTime\AceDateTime $condate 日時 */
+    /** @var ?AceDateTime\AceDateTime 日時 */
     protected ?AceDateTime\AceDateTime $condate = null;
-    /** @var ?string $requestgroup 依頼グループ名 */
+    /** @var ?string 依頼グループ名 */
     protected ?string $requestgroup = null;
 
-    /** @var ?string $requestuser 依頼ユーザーID */
+    /** @var ?string 依頼ユーザーID */
     protected ?string $requestuser = null;
-    /** @var ?AceDateTime\AceDateTime $athomedate 在宅日 */
+    /** @var ?AceDateTime\AceDateTime 在宅日 */
     protected ?AceDateTime\AceDateTime $athomedate = null;
 
-    /** @var ?string $athometime 在宅時間 */
+    /** @var ?string 在宅時間 */
     protected ?string $athometime = null;
 
-    /** @var ?string $note1 会話メモ１ */
+    /** @var ?string 会話メモ１ */
     protected ?string $note1 = null;
 
-    /** @var ?string $note2 会話メモ２ */
+    /** @var ?string 会話メモ２ */
     protected ?string $note2 = null;
 
     /**
@@ -46,6 +57,7 @@ trait ContactmeiTrait
     public function setCondate($condate)
     {
         $this->condate = AceDateTime\AceDateTimeFactory::makeAceDateTime($condate, 'Y/m/d H:i:s');
+
         return $this;
     }
 
@@ -63,6 +75,7 @@ trait ContactmeiTrait
     public function setRequestgroup(?string $requestgroup)
     {
         $this->requestgroup = $requestgroup;
+
         return $this;
     }
 
@@ -80,6 +93,7 @@ trait ContactmeiTrait
     public function setRequestuser(?string $requestuser)
     {
         $this->requestuser = $requestuser;
+
         return $this;
     }
 
@@ -97,6 +111,7 @@ trait ContactmeiTrait
     public function setAthomedate($athomedate)
     {
         $this->athomedate = AceDateTime\AceDateTimeFactory::makeAceDateTime($athomedate, 'Y/m/d H:i:s');
+
         return $this;
     }
 
@@ -114,6 +129,7 @@ trait ContactmeiTrait
     public function setAthometime(?string $athometime)
     {
         $this->athometime = $athometime;
+
         return $this;
     }
 
@@ -131,6 +147,7 @@ trait ContactmeiTrait
     public function setNote1(?string $note1)
     {
         $this->note1 = $note1;
+
         return $this;
     }
 
@@ -148,6 +165,7 @@ trait ContactmeiTrait
     public function setNote2(?string $note2)
     {
         $this->note2 = $note2;
+
         return $this;
     }
 }

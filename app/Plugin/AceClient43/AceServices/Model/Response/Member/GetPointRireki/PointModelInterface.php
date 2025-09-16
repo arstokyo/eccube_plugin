@@ -1,24 +1,29 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetPointRireki;
 
-use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
 use Plugin\AceClient43\AceServices\Model\Dependency\Day;
-use Plugin\AceClient43\AceServices\Model\Dependency\Point;
+use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
-
+use Plugin\AceClient43\AceServices\Model\Dependency\Point;
 
 /**
  * Interface for PointModel
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface PointModelInterface extends Denpyo\HasDennoInterface,
-                                      Day\HasJdayInterface,
-                                      Day\HasDayInterface,
-                                      Point\HasPointInterface,
-                                      NoCategory\HasJmemidInterface,
-                                      NoCategory\HasKubunInterface
+interface PointModelInterface extends Denpyo\HasDennoInterface, Day\HasJdayInterface, Day\HasDayInterface, Point\HasPointInterface, NoCategory\HasJmemidInterface, NoCategory\HasKubunInterface
 {
     /**
      * Get ポイント区分
@@ -41,6 +46,7 @@ interface PointModelInterface extends Denpyo\HasDennoInterface,
      * Set 納品先枝番号
      *
      * @param ?int $nouno
+     *
      * @return $this
      */
     public function setNouno(?int $nouno);
@@ -56,6 +62,7 @@ interface PointModelInterface extends Denpyo\HasDennoInterface,
      * Set 受注枝番
      *
      * @param ?int $edano
+     *
      * @return $this
      */
     public function setEdano(?int $edano);
@@ -71,6 +78,7 @@ interface PointModelInterface extends Denpyo\HasDennoInterface,
      * Set ポイント種類
      *
      * @param ?int $brid
+     *
      * @return $this
      */
     public function setBrid(?int $brid);
@@ -86,6 +94,7 @@ interface PointModelInterface extends Denpyo\HasDennoInterface,
      * Set 使用区分
      *
      * @param ?int $usekbn
+     *
      * @return $this
      */
     public function setUsekbn(?int $usekbn);
@@ -101,19 +110,18 @@ interface PointModelInterface extends Denpyo\HasDennoInterface,
      * Set 顧客共有システムID
      *
      * @param ?int $msyid
+     *
      * @return $this
      */
     public function setMsyid(?int $msyid);
 
     /**
      * Get 顧客ID
-     *
      */
     public function getJmemid(): ?string;
 
     /**
      * Set 顧客ID
-     *
      */
     public function setJmemid(?string $jmemid);
 
@@ -128,6 +136,7 @@ interface PointModelInterface extends Denpyo\HasDennoInterface,
      * Set 作成ユーザーID
      *
      * @param ?string $cuser
+     *
      * @return $this
      */
     public function setCuser(?string $cuser);
@@ -143,6 +152,7 @@ interface PointModelInterface extends Denpyo\HasDennoInterface,
      * Set 更新ユーザーID
      *
      * @param ?string $uuser
+     *
      * @return $this
      */
     public function setUuser(?string $uuser);

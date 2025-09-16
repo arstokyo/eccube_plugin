@@ -1,17 +1,25 @@
 <?php
 
-namespace Plugin\AceClient43\AceServices\Model\Dependency\Card\GMO;
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
-use Plugin\AceClient43\AceServices\Model\Dependency\Card\GMO\GMODpsOrderIdTrait;
-use Plugin\AceClient43\AceServices\Model\Dependency\Card\GMO\GMODpsTIdTrait;
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Card\GMO;
 
 /**
  * Trait for GMOグループ2
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-trait GMOModelGroup2Trait 
+trait GMOModelGroup2Trait
 {
-    use GMODpsOrderIdTrait,
-        GMODpsTIdTrait;
+    use GMODpsOrderIdTrait;
+    use GMODpsTIdTrait;
 }

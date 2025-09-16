@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetSbpsCustId;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelInterface;
@@ -10,8 +21,7 @@ use Plugin\AceClient43\AceServices\Model\Response\AsListDenormalizableInterface;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface GetsbpscustidModelInterface extends HasMessageModelInterface,
-                                              AsListDenormalizableInterface
+interface GetsbpscustidModelInterface extends HasMessageModelInterface, AsListDenormalizableInterface
 {
     /**
      * Get Sbpscustid
@@ -24,6 +34,7 @@ interface GetsbpscustidModelInterface extends HasMessageModelInterface,
      * Set Sbpscustid
      *
      * @param SbpscustidModel[]|null $sbpscustid
+     *
      * @return void
      */
     public function setSbpscustid(?array $sbpscustid): void;

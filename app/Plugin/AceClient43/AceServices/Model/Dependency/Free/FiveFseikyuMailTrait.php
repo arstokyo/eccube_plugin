@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 /**
@@ -9,19 +20,19 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
  */
 trait FiveFseikyuMailTrait
 {
-    /** @var ?string $fseikyumail1 請求明細ﾒｰﾙｱﾄﾞﾚｽ1 */
+    /** @var ?string 請求明細ﾒｰﾙｱﾄﾞﾚｽ1 */
     protected ?string $fseikyumail1 = null;
 
-    /** @var ?string $fseikyumail2 請求明細ﾒｰﾙｱﾄﾞﾚｽ2 */
+    /** @var ?string 請求明細ﾒｰﾙｱﾄﾞﾚｽ2 */
     protected ?string $fseikyumail2 = null;
 
-    /** @var ?string $fseikyumail3 請求明細ﾒｰﾙｱﾄﾞﾚｽ3 */
+    /** @var ?string 請求明細ﾒｰﾙｱﾄﾞﾚｽ3 */
     protected ?string $fseikyumail3 = null;
 
-    /** @var ?string $fseikyumail4 請求明細ﾒｰﾙｱﾄﾞﾚｽ4 */
+    /** @var ?string 請求明細ﾒｰﾙｱﾄﾞﾚｽ4 */
     protected ?string $fseikyumail4 = null;
 
-    /** @var ?string $fseikyumail5 請求明細ﾒｰﾙｱﾄﾞﾚｽ5 */
+    /** @var ?string 請求明細ﾒｰﾙｱﾄﾞﾚｽ5 */
     protected ?string $fseikyumail5 = null;
 
     /**
@@ -38,6 +49,7 @@ trait FiveFseikyuMailTrait
     public function setFSeikyuMail1(?string $fseikyumail1)
     {
         $this->fseikyumail1 = $fseikyumail1;
+
         return $this;
     }
 
@@ -55,6 +67,7 @@ trait FiveFseikyuMailTrait
     public function setFSeikyuMail2(?string $fseikyumail2)
     {
         $this->fseikyumail2 = $fseikyumail2;
+
         return $this;
     }
 
@@ -72,6 +85,7 @@ trait FiveFseikyuMailTrait
     public function setFSeikyuMail3(?string $fseikyumail3)
     {
         $this->fseikyumail3 = $fseikyumail3;
+
         return $this;
     }
 
@@ -89,6 +103,7 @@ trait FiveFseikyuMailTrait
     public function setFSeikyuMail4(?string $fseikyumail4)
     {
         $this->fseikyumail4 = $fseikyumail4;
+
         return $this;
     }
 
@@ -106,7 +121,7 @@ trait FiveFseikyuMailTrait
     public function setFSeikyuMail5(?string $fseikyumail5)
     {
         $this->fseikyumail5 = $fseikyumail5;
+
         return $this;
     }
-
 }

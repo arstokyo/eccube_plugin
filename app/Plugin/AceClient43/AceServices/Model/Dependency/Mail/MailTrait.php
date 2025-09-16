@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Mail;
 
 /**
@@ -9,8 +20,7 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Mail;
  */
 trait MailTrait
 {
-
-    /** @var ?string $mail メール */
+    /** @var ?string メール */
     protected ?string $mail = null;
 
     /**
@@ -27,6 +37,7 @@ trait MailTrait
     public function setMail(?string $mail)
     {
         $this->mail = $mail;
+
         return $this;
     }
 }

@@ -1,18 +1,28 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Request\Master\GetHoliday;
 
-use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
 
 /**
  * Interface GetHoliday Request Model
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface GetHolidayRequestModelInterface extends RequestModelInterface,
-                                                  NoCategory\HasSyidInterface
+interface GetHolidayRequestModelInterface extends RequestModelInterface, NoCategory\HasSyidInterface
 {
     /**
      * Get 開始日
@@ -25,6 +35,7 @@ interface GetHolidayRequestModelInterface extends RequestModelInterface,
      * Set 開始日
      *
      * @param \DateTime|string|null $startday
+     *
      * @return $this
      */
     public function setStartday($startday);
@@ -40,6 +51,7 @@ interface GetHolidayRequestModelInterface extends RequestModelInterface,
      * Set 終了日
      *
      * @param \DateTime|string|null $endday
+     *
      * @return $this
      */
     public function setEndday($endday);
@@ -55,6 +67,7 @@ interface GetHolidayRequestModelInterface extends RequestModelInterface,
      * Set 倉庫ID
      *
      * @param ?string $skid
+     *
      * @return $this
      */
     public function setSkid(?string $skid);

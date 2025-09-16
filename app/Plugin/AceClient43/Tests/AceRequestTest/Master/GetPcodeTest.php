@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Master;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Master\GetPcode\GetPcodeRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Master\GetPcode\GetPcodeResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
-
 
 class GetPcodeRequestModelTest extends AceRequestTestAbtract
 {
@@ -34,11 +44,11 @@ class GetPcodeRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
-
     public function GetPcodeRequestForSerialize(): GetPcodeRequestModel
     {
         $pcode = new GetPcodeRequestModel();
         $getPcode = $pcode->setId(OverviewMapper::ACE_TEST_SYID);
+
         return $getPcode;
     }
 
@@ -46,14 +56,18 @@ class GetPcodeRequestModelTest extends AceRequestTestAbtract
     {
         $pcode = new GetPcodeRequestModel();
         $getPcode = $pcode->setId(OverviewMapper::ACE_TEST_SYID);
+
         return $getPcode;
     }
+
     public function GetPcodeRequestNG(): GetPcodeRequestModel
     {
         $pcode = new GetPcodeRequestModel();
         $getPcode = $pcode->setId(-1);
+
         return $getPcode;
     }
+
     public function testRequestGetPcodeOK()
     {
         try {
@@ -69,26 +83,25 @@ class GetPcodeRequestModelTest extends AceRequestTestAbtract
                 $pcode1 = $responseObj->getMaster()->getPcode()[0];
                 $pcode2 = $responseObj->getMaster()->getPcode()[1];
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
-        $this->assertEquals("10", $pcode1->getCode());
-        $this->assertEquals("クレジットカード", $pcode1->getName());
-        $this->assertEquals("", $pcode1->getPcodeSyurui());
-        $this->assertEquals("0", $pcode1->getMemo());
+        $this->assertEquals('10', $pcode1->getCode());
+        $this->assertEquals('クレジットカード', $pcode1->getName());
+        $this->assertEquals('', $pcode1->getPcodeSyurui());
+        $this->assertEquals('0', $pcode1->getMemo());
 
-        $this->assertEquals("11", $pcode2->getCode());
-        $this->assertEquals("後払い", $pcode2->getName());
-        $this->assertEquals("", $pcode2->getPcodeSyurui());
-        $this->assertEquals("0", $pcode2->getMemo());
+        $this->assertEquals('11', $pcode2->getCode());
+        $this->assertEquals('後払い', $pcode2->getName());
+        $this->assertEquals('', $pcode2->getPcodeSyurui());
+        $this->assertEquals('0', $pcode2->getMemo());
 
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestGetPcodeNG()
@@ -105,16 +118,15 @@ class GetPcodeRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMaster()->getMessage()->getMessage1();
                 $pcode = $responseObj->getMaster()->getPcode();
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(null, $pcode);
-        $this->assertEquals("ＷＥＢ初期設定がありません", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('ＷＥＢ初期設定がありません', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

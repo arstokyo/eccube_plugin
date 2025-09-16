@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Address;
 
 /**
@@ -20,6 +31,7 @@ interface HasFourCdvAdrInterface
      * Set Cdv住所1
      *
      * @param ?string $cnvAdr1
+     *
      * @return $this
      */
     public function setCnvAdr1(?string $cnvAdr1);
@@ -35,6 +47,7 @@ interface HasFourCdvAdrInterface
      * Set Cdv住所2
      *
      * @param ?string $cnvAdr2
+     *
      * @return $this
      */
     public function setCnvAdr2(?string $cnvAdr2);
@@ -50,6 +63,7 @@ interface HasFourCdvAdrInterface
      * Set Cdv住所3
      *
      * @param ?string $cnvAdr3
+     *
      * @return $this
      */
     public function setCnvAdr3(?string $cnvAdr3);
@@ -65,6 +79,7 @@ interface HasFourCdvAdrInterface
      * Set Cdv住所4
      *
      * @param ?string $cnvAdr4
+     *
      * @return $this
      */
     public function setCnvAdr4(?string $cnvAdr4);

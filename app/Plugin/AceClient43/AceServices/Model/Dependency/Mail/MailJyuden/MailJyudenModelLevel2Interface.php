@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Mail\MailJyuden;
 
 /**
@@ -9,7 +20,6 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Mail\MailJyuden;
  */
 interface MailJyudenModelLevel2Interface extends MailJyudenModelLevel1Interface
 {
-
     /**
      * Get メール区分
      *
@@ -21,6 +31,7 @@ interface MailJyudenModelLevel2Interface extends MailJyudenModelLevel1Interface
      * Set メール区分
      *
      * @param ?int $mailkbn
+     *
      * @return $this
      */
     public function setMailkbn(?int $mailkbn);
@@ -36,6 +47,7 @@ interface MailJyudenModelLevel2Interface extends MailJyudenModelLevel1Interface
      * Set 受注メールコメント
      *
      * @param ?string $jbikou
+     *
      * @return $this
      */
     public function setJbikou(?string $jbikou);
@@ -51,6 +63,7 @@ interface MailJyudenModelLevel2Interface extends MailJyudenModelLevel1Interface
      * Set 出荷メールコメント
      *
      * @param ?string $sbikou
+     *
      * @return $this
      */
     public function setSbikou(?string $sbikou);

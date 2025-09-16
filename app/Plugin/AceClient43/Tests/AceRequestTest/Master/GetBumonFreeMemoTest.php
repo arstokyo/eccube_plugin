@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Master;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Master\GetBumonFreeMemo\GetBumonFreeMemoRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Master\GetBumonFreeMemo\GetBumonFreeMemoResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
-
 
 class GetBumonFreeMemoRequestModelTest extends AceRequestTestAbtract
 {
@@ -34,11 +44,11 @@ class GetBumonFreeMemoRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
-
     public function GetBumonFreeMemoRequestForSerialize(): GetBumonFreeMemoRequestModel
     {
         $freeMemo = new GetBumonFreeMemoRequestModel();
         $getBumonFreeMemo = $freeMemo->setId(OverviewMapper::ACE_TEST_SYID);
+
         return $getBumonFreeMemo;
     }
 
@@ -46,14 +56,18 @@ class GetBumonFreeMemoRequestModelTest extends AceRequestTestAbtract
     {
         $freeMemo = new GetBumonFreeMemoRequestModel();
         $getBumonFreeMemo = $freeMemo->setId(OverviewMapper::ACE_TEST_SYID);
+
         return $getBumonFreeMemo;
     }
+
     public function GetBumonFreeMemoRequestNG(): GetBumonFreeMemoRequestModel
     {
         $freeMemo = new GetBumonFreeMemoRequestModel();
         $getBumonFreeMemo = $freeMemo->setId(-1);
+
         return $getBumonFreeMemo;
     }
+
     public function testRequestGetBumonFreeMemoOK()
     {
         try {
@@ -69,24 +83,23 @@ class GetBumonFreeMemoRequestModelTest extends AceRequestTestAbtract
                 $freememo1 = $responseObj->getMaster()->getFreeMemo()[0];
                 $freememo2 = $responseObj->getMaster()->getFreeMemo()[1];
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(211001, $freememo1->getKubun());
-        $this->assertEquals("100", $freememo1->getFoid());
-        $this->assertEquals("メモ部門２１１００１１００", $freememo1->getMemo());
+        $this->assertEquals('100', $freememo1->getFoid());
+        $this->assertEquals('メモ部門２１１００１１００', $freememo1->getMemo());
 
         $this->assertEquals(211002, $freememo2->getKubun());
-        $this->assertEquals("102", $freememo2->getFoid());
-        $this->assertEquals("メモ部門２１１００１１００２", $freememo2->getMemo());
+        $this->assertEquals('102', $freememo2->getFoid());
+        $this->assertEquals('メモ部門２１１００１１００２', $freememo2->getMemo());
 
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestGetBumonFreeMemoNG()
@@ -103,16 +116,15 @@ class GetBumonFreeMemoRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMaster()->getMessage()->getMessage1();
                 $freememo = $responseObj->getMaster()->getFreeMemo();
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(null, $freememo);
-        $this->assertEquals("ＷＥＢ初期設定がありません", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('ＷＥＢ初期設定がありません', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

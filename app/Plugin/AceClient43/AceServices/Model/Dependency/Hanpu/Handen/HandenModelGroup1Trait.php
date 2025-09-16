@@ -1,7 +1,17 @@
 <?php
 
-namespace Plugin\AceClient43\AceServices\Model\Dependency\Hanpu\Handen;
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Hanpu\Handen;
 
 /**
  * Trait for HandenModelGroup1
@@ -10,25 +20,25 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Hanpu\Handen;
  */
 trait HandenModelGroup1Trait
 {
-    /** @var ?int $site サイト */
+    /** @var ?int サイト */
     protected ?int $site = null;
 
-    /** @var ?int $sdd ２回目以降出荷固定日 */
+    /** @var ?int ２回目以降出荷固定日 */
     protected ?int $sdd = null;
 
-    /** @var ?int $weeksite 週指定 */
+    /** @var ?int 週指定 */
     protected ?int $weeksite = null;
 
-    /** @var ?int $weekday 曜日指定 */
+    /** @var ?int 曜日指定 */
     protected ?int $weekday = null;
 
-    /** @var ?int $otodokedd 2回目以降お届け日 */
+    /** @var ?int 2回目以降お届け日 */
     protected ?int $otodokedd = null;
 
-    /** @var ?int $otodokewsite 週指定 */
+    /** @var ?int 週指定 */
     protected ?int $otodokewsite = null;
 
-    /** @var ?int $otodokewday 曜日指定 */
+    /** @var ?int 曜日指定 */
     protected ?int $otodokewday = null;
 
     /**
@@ -45,6 +55,7 @@ trait HandenModelGroup1Trait
     public function setSite(?int $site)
     {
         $this->site = $site;
+
         return $this;
     }
 
@@ -62,6 +73,7 @@ trait HandenModelGroup1Trait
     public function setSdd(?int $sdd)
     {
         $this->sdd = $sdd;
+
         return $this;
     }
 
@@ -79,6 +91,7 @@ trait HandenModelGroup1Trait
     public function setWeeksite(?int $weeksite)
     {
         $this->weeksite = $weeksite;
+
         return $this;
     }
 
@@ -96,6 +109,7 @@ trait HandenModelGroup1Trait
     public function setWeekday(?int $weekday)
     {
         $this->weekday = $weekday;
+
         return $this;
     }
 
@@ -113,6 +127,7 @@ trait HandenModelGroup1Trait
     public function setOtodokedd(?int $otodokedd)
     {
         $this->otodokedd = $otodokedd;
+
         return $this;
     }
 
@@ -130,6 +145,7 @@ trait HandenModelGroup1Trait
     public function setOtodokewsite(?int $otodokewsite)
     {
         $this->otodokewsite = $otodokewsite;
+
         return $this;
     }
 
@@ -147,7 +163,7 @@ trait HandenModelGroup1Trait
     public function setOtodokewday(?int $otodokewday)
     {
         $this->otodokewday = $otodokewday;
+
         return $this;
     }
-
 }

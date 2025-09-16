@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 /**
@@ -20,6 +31,7 @@ interface HasFiveForderMailInterface
      * Set 注文確認ﾒｰﾙｱﾄﾞﾚｽ1
      *
      * @param ?string $freeordermail1
+     *
      * @return $this
      */
     public function setFreeOrderMail1(?string $freeordermail1);
@@ -35,6 +47,7 @@ interface HasFiveForderMailInterface
      * Set 注文確認ﾒｰﾙｱﾄﾞﾚｽ2
      *
      * @param ?string $freeordermail2
+     *
      * @return $this
      */
     public function setFreeOrderMail2(?string $freeordermail2);
@@ -50,6 +63,7 @@ interface HasFiveForderMailInterface
      * Set 注文確認ﾒｰﾙｱﾄﾞﾚｽ3
      *
      * @param ?string $freeordermail3
+     *
      * @return $this
      */
     public function setFreeOrderMail3(?string $freeordermail3);
@@ -65,6 +79,7 @@ interface HasFiveForderMailInterface
      * Set 注文確認ﾒｰﾙｱﾄﾞﾚｽ4
      *
      * @param ?string $freeordermail4
+     *
      * @return $this
      */
     public function setFreeOrderMail4(?string $freeordermail4);
@@ -80,6 +95,7 @@ interface HasFiveForderMailInterface
      * Set 注文確認ﾒｰﾙｱﾄﾞﾚｽ5
      *
      * @param ?string $freeordermail5
+     *
      * @return $this
      */
     public function setFreeOrderMail5(?string $freeordermail5);

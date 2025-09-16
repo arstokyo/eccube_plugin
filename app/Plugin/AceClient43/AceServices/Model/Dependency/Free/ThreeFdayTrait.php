@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
@@ -11,13 +22,13 @@ use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
  */
 trait ThreeFdayTrait
 {
-    /** @var AceDateTime\AceDateTimeInterface|null $fday1 フリー日付１ */
+    /** @var AceDateTime\AceDateTimeInterface|null フリー日付１ */
     protected ?AceDateTime\AceDateTimeInterface $fday1 = null;
 
-    /** @var AceDateTime\AceDateTimeInterface|null $fday2 フリー日付２ */
+    /** @var AceDateTime\AceDateTimeInterface|null フリー日付２ */
     protected ?AceDateTime\AceDateTimeInterface $fday2 = null;
 
-    /** @var AceDateTime\AceDateTimeInterface|null $fday3 フリー日付３ */
+    /** @var AceDateTime\AceDateTimeInterface|null フリー日付３ */
     protected ?AceDateTime\AceDateTimeInterface $fday3 = null;
 
     /**
@@ -34,6 +45,7 @@ trait ThreeFdayTrait
     public function setFday1($fday1)
     {
         $this->fday1 = AceDateTime\AceDateTimeFactory::makeAceDateTime($fday1);
+
         return $this;
     }
 
@@ -51,6 +63,7 @@ trait ThreeFdayTrait
     public function setFday2($fday2)
     {
         $this->fday2 = AceDateTime\AceDateTimeFactory::makeAceDateTime($fday2);
+
         return $this;
     }
 
@@ -68,7 +81,7 @@ trait ThreeFdayTrait
     public function setFday3($fday3)
     {
         $this->fday3 = AceDateTime\AceDateTimeFactory::makeAceDateTime($fday3);
+
         return $this;
     }
-
 }

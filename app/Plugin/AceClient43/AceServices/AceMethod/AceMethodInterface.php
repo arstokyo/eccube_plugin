@@ -1,11 +1,21 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\AceMethod;
 
 use Plugin\AceClient43\AceServices\Model\Request;
-use Plugin\AceClient43\ApiClient\Api\Client\ClientMetadataInterface;
+use Plugin\AceClient43\ApiClient\Client\ClientMetadataInterface;
 use Plugin\AceClient43\ApiClient\Response\ResponseInterface;
-use Plugin\AceClient43\ApiClient;
 use Plugin\AceClient43\Exception\MissingRequestParameterException;
 
 /**
@@ -19,23 +29,24 @@ interface AceMethodInterface
      * Set the Request.
      *
      * @param Request\RequestModelInterface $requestModel
-     * @throws MissingRequestParameterException
+     *
      * @return self
+     *
+     * @throws MissingRequestParameterException
      */
     public function withRequest(Request\RequestModelInterface $requestModel): self;
 
     /**
      * Send the Request.
      *
-     * @return ApiClient\Response\ResponseInterface
+     * @return ResponseInterface
      */
     public function send(): ResponseInterface;
 
     /**
      * Get the Metadata.
      *
-     * @return ApiClient\Api\Client\ClientMetadataInterface
+     * @return ClientMetadataInterface
      */
     public function getMetadata(): ClientMetadataInterface;
-
 }

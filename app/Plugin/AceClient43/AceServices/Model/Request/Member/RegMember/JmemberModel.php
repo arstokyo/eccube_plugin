@@ -1,39 +1,52 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient43\AceServices\Model\Dependency\Person;
-use Plugin\AceClient43\AceServices\Model\Dependency\Point;
 use Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC;
+use Plugin\AceClient43\AceServices\Model\Dependency\Point;
 
 /**
  * Class for 納品先Model
- * 
+ *
  * @author kmorino
  */
 class JmemberModel implements JmemberModelInterface
 {
-    use Person\PersonLevel2ExtractTrait,
-        Person\PersonLevel4Trait,
-        NoCategory\TaikaiTrait,
-        NoCategory\PassWdTrait,
-        NoCategory\IcodeTrait,
-        Person\User\UserIdTrait,
-        PhoneAndPC\MobileIdTrait,
-        Point\PointTrait,
-        Point\PointKindTrait;
+    use Person\PersonLevel2ExtractTrait;
+    use Person\PersonLevel4Trait;
+    use NoCategory\TaikaiTrait;
+    use NoCategory\PassWdTrait;
+    use NoCategory\IcodeTrait;
+    use Person\User\UserIdTrait;
+    use PhoneAndPC\MobileIdTrait;
+    use Point\PointTrait;
+    use Point\PointKindTrait;
 
-    /** @var MemMailModelInterface|null $memmail */
-    private ?MemMailModelInterface $memmail = null;
+    /** @var MemMailModelInterface */
+    private MemMailModelInterface $memmail;
 
-    /** @var PassWdRemModelInterface|null $passwdrem */
+    /** @var PassWdRemModelInterface|null */
     private ?PassWdRemModelInterface $passwdrem = null;
+
+    private ?string $url = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getMemmail(): ?MemMailModelInterface
+    public function getMemmail(): MemMailModelInterface
     {
         return $this->memmail;
     }
@@ -41,9 +54,10 @@ class JmemberModel implements JmemberModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setMemmail(?MemMailModelInterface $memmail): self
+    public function setMemmail(MemMailModelInterface $memmail): self
     {
         $this->memmail = $memmail;
+
         return $this;
     }
 
@@ -61,7 +75,25 @@ class JmemberModel implements JmemberModelInterface
     public function setPasswdrem(?PassWdRemModelInterface $passwdrem): self
     {
         $this->passwdrem = $passwdrem;
+
         return $this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setUrl(?string $url): self
+    {
+        $this->url = $url;
+
+        return $this;
+    }
 }

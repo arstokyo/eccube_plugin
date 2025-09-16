@@ -1,18 +1,28 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\AceMethod\Jyuden;
 
-use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
-use Plugin\AceClient43\AceServices\Model\Response\Jyuden\GetDeliveryInfo\GetDeliveryInfoResponseModel;
-use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request;
+use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Method for GetDeliveryInfo
  *
  * @author Ars-Phuoc <minh.phuoc.le@ar-system.co.jp>
  */
-class GetDeliveryInfoMethod extends AceMethodAbstract
+class GetDeliveryInfoMethod extends AbstractJyudenMethod
 {
     /**
      * The End Point of Service.
@@ -30,9 +40,17 @@ class GetDeliveryInfoMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return GetDeliveryInfoResponseModel::class;
+        return Request\Jyuden\GetDeliveryInfo\GetDeliveryInfoRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Jyuden\GetDeliveryInfo\GetDeliveryInfoResponseModelInterface::class;
     }
 
     /**
@@ -42,5 +60,4 @@ class GetDeliveryInfoMethod extends AceMethodAbstract
     {
         return parent::withRequest($requestModel);
     }
-
 }

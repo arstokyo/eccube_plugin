@@ -1,7 +1,17 @@
 <?php
 
-namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 /**
  * Trait For FreeGroup3
@@ -10,16 +20,16 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
  */
 trait FreeGroup3Trait
 {
-    /** @var ?int $frkbn ファイル区分 */
+    /** @var ?int ファイル区分 */
     protected ?int $frkbn = null;
 
-    /** @var ?string $frkey キー情報 */
+    /** @var ?string キー情報 */
     protected ?string $frkey = null;
 
-    /** @var ?int $fmkbn フリー項目区分 */
+    /** @var ?int フリー項目区分 */
     protected ?int $fmkbn = null;
 
-    /** @var ?string $free フリー内容 */
+    /** @var ?string フリー内容 */
     protected ?string $free = null;
 
     /**
@@ -36,6 +46,7 @@ trait FreeGroup3Trait
     public function setFrkbn(?int $frkbn)
     {
         $this->frkbn = $frkbn;
+
         return $this;
     }
 
@@ -53,6 +64,7 @@ trait FreeGroup3Trait
     public function setFrkey(?string $frkey)
     {
         $this->frkey = $frkey;
+
         return $this;
     }
 
@@ -70,6 +82,7 @@ trait FreeGroup3Trait
     public function setFmkbn(?int $fmkbn)
     {
         $this->fmkbn = $fmkbn;
+
         return $this;
     }
 
@@ -87,6 +100,7 @@ trait FreeGroup3Trait
     public function setFree(?string $free)
     {
         $this->free = $free;
+
         return $this;
     }
 }

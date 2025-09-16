@@ -1,10 +1,21 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\ApiClient\Response;
 
 /**
  * Class for Api Client Response
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 class Response implements ResponseInterface
@@ -20,14 +31,13 @@ class Response implements ResponseInterface
      * @param mixed                                      $response   Response data.
      * @param integer                                    $statusCode Response status code.
      */
-    public function __construct
-    (
+    public function __construct(
         array $headers,
         $response,
-        int $statusCode = 200
+        int $statusCode = 200,
     ) {
-        $this->headers    = $headers;
-        $this->response   = $response;
+        $this->headers = $headers;
+        $this->response = $response;
         $this->statusCode = $statusCode;
     }
 
@@ -64,7 +74,7 @@ class Response implements ResponseInterface
     {
         return [
             'headers' => $this->getHeaders(),
-            'status'  => $this->getStatusCode(),
+            'status' => $this->getStatusCode(),
             'content' => $this->getResponse(),
         ];
     }
@@ -77,7 +87,17 @@ class Response implements ResponseInterface
     public function __toString(): string
     {
         // phpcs:disable Generic.Files.LineLength.TooLong
-        return json_encode($this, (JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE | JSON_PRESERVE_ZERO_FRACTION));
+        return json_encode($this, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE | JSON_PRESERVE_ZERO_FRACTION);
         // phpcs:enable
+    }
+
+    /**
+     * Check if response is OK
+     *
+     * @return bool
+     */
+    public function isOk(): bool
+    {
+        return $this->statusCode >= 200 && $this->statusCode < 300;
     }
 }

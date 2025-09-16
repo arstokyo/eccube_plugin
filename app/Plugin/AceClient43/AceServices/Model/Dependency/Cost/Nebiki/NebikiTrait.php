@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Cost\Nebiki;
 
 use Plugin\AceClient43\Util\Converter\NumberConverter;
@@ -11,7 +22,7 @@ use Plugin\AceClient43\Util\Converter\NumberConverter;
  */
 trait NebikiTrait
 {
-    /** @var ?float $nebiki 値引額 */
+    /** @var ?float 値引額 */
     protected ?float $nebiki = null;
 
     /**
@@ -28,6 +39,7 @@ trait NebikiTrait
     public function setNebiki(?string $nebiki)
     {
         $this->nebiki = NumberConverter::stringWithCommaToFloat($nebiki);
+
         return $this;
     }
 }

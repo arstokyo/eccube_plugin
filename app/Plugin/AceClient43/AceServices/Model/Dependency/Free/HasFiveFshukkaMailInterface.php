@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 /**
@@ -20,6 +31,7 @@ interface HasFiveFshukkaMailInterface
      * Set 出荷報告ﾒｰﾙｱﾄﾞﾚｽ1
      *
      * @param ?string $fshukkamail1
+     *
      * @return $this
      */
     public function setFShukkaMail1(?string $fshukkamail1);
@@ -35,6 +47,7 @@ interface HasFiveFshukkaMailInterface
      * Set 出荷報告ﾒｰﾙｱﾄﾞﾚｽ2
      *
      * @param ?string $fshukkamail2
+     *
      * @return $this
      */
     public function setFShukkaMail2(?string $fshukkamail2);
@@ -50,6 +63,7 @@ interface HasFiveFshukkaMailInterface
      * Set 出荷報告ﾒｰﾙｱﾄﾞﾚｽ3
      *
      * @param ?string $fshukkamail3
+     *
      * @return $this
      */
     public function setFShukkaMail3(?string $fshukkamail3);
@@ -65,6 +79,7 @@ interface HasFiveFshukkaMailInterface
      * Set 出荷報告ﾒｰﾙｱﾄﾞﾚｽ4
      *
      * @param ?string $fshukkamail4
+     *
      * @return $this
      */
     public function setFShukkaMail4(?string $fshukkamail4);
@@ -80,6 +95,7 @@ interface HasFiveFshukkaMailInterface
      * Set 出荷報告ﾒｰﾙｱﾄﾞﾚｽ5
      *
      * @param ?string $fshukkamail5
+     *
      * @return $this
      */
     public function setFShukkaMail5(?string $fshukkamail5);

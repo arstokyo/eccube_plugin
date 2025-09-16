@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Mail\MemMail;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Mail\HasMailInterface;
@@ -11,7 +22,6 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Mail\HasMailInterface;
  */
 interface MemMailModelInterface extends HasMailInterface
 {
-
     /**
      * Get メールアドレス枝番号
      *
@@ -23,6 +33,7 @@ interface MemMailModelInterface extends HasMailInterface
      * Set メールアドレス枝番号
      *
      * @param int|null $idx
+     *
      * @return $this
      */
     public function setIdx(?int $idx);
@@ -32,14 +43,14 @@ interface MemMailModelInterface extends HasMailInterface
      *
      * @return int|null
      */
-    public function getDmailkbn(): ?int;
+    public function getDmmailkbn(): ?int;
 
     /**
      * Set DMメール配信区分
      *
-     * @param int|null $dmailkbn
+     * @param int|null $dmmailkbn
+     *
      * @return $this
      */
-    public function setDmailkbn(?int $dmailkbn);
-
+    public function setDmmailkbn(?int $dmmailkbn);
 }

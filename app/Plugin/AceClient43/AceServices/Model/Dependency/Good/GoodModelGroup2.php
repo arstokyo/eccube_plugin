@@ -1,14 +1,23 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Good;
 
-use Eccube\Entity\PointTrait;
-use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient43\AceServices\Model\Dependency\Cost;
 use Plugin\AceClient43\AceServices\Model\Dependency\Free;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient43\AceServices\Model\Dependency\Point;
 use Plugin\AceClient43\AceServices\Model\Dependency\Zaiko;
-use Plugin\AceClient43\Util\Converter\NumberConverter;
 
 /**
  * Class for GoodModelGroup2
@@ -17,59 +26,59 @@ use Plugin\AceClient43\Util\Converter\NumberConverter;
  */
 class GoodModelGroup2 implements GoodModelGroup2Interface
 {
-    use GoodModelBaseTrait,
-        NoCategory\TwoImagesTrait,
-        Cost\Tanka\NineTankaTrait,
-        Free\ThreeFcodeTrait,
-        Free\ThreeFnameTrait,
-        Free\ThreeFmemoTrait,
-        Free\ThreeFdayTrait,
-        Free\ThreeFreeTrait,
-        Cost\Tax\TaxKbnTrait,
-        ReizouTrait,
-        ReitouTrait,
-        JyouonTrait,
-        GcodeTrait,
-        Point\PointTrait,
-        Zaiko\ZaikoTrait;
+    use GoodModelBaseTrait;
+    use NoCategory\TwoImagesTrait;
+    use Cost\Tanka\NineTankaTrait;
+    use Free\ThreeFcodeTrait;
+    use Free\ThreeFnameTrait;
+    use Free\ThreeFmemoTrait;
+    use Free\ThreeFdayTrait;
+    use Free\ThreeFreeTrait;
+    use Cost\Tax\TaxKbnTrait;
+    use ReizouTrait;
+    use ReitouTrait;
+    use JyouonTrait;
+    use GcodeTrait;
+    use Point\PointTrait;
+    use Zaiko\ZaikoTrait;
 
-    /** @var ?string $dbun 大分類コード */
+    /** @var ?string 大分類コード */
     protected ?string $dbun = null;
 
-    /** @var ?string $dbunname 大分類コード名称 */
+    /** @var ?string 大分類コード名称 */
     protected ?string $dbunname = null;
 
-    /** @var ?string $tbun 中分類コード */
+    /** @var ?string 中分類コード */
     protected ?string $tbun = null;
 
-    /** @var ?string $tbunname 中分類コード名称 */
+    /** @var ?string 中分類コード名称 */
     protected ?string $tbunname = null;
 
-    /** @var ?string $sbun 小分類コード */
+    /** @var ?string 小分類コード */
     protected ?string $sbun = null;
 
-    /** @var ?string $sbunname 小分類コード名称 */
+    /** @var ?string 小分類コード名称 */
     protected ?string $sbunname = null;
 
-    /** @var ?string $bikou 備考 */
+    /** @var ?string 備考 */
     protected ?string $bikou = null;
 
-    /** @var ?string $tanano 棚番号 */
+    /** @var ?string 棚番号 */
     protected ?string $tanano = null;
 
-    /** @var ?int $kakuho 確保数 */
+    /** @var ?int 確保数 */
     protected ?int $kakuho = null;
 
-    /** @var ?int $konpo 梱包数 */
+    /** @var ?int 梱包数 */
     protected ?int $konpo = null;
 
-    /** @var ?int $otaxkbn 掛売顧客税 */
+    /** @var ?int 掛売顧客税 */
     protected ?int $otaxkbn = null;
 
-    /** @var ?int $sougakuhkbn 総額端数 */
+    /** @var ?int 総額端数 */
     protected ?int $sougakuhkbn = null;
 
-    /** @var ?int $pointkake ポイント掛率対象区分 */
+    /** @var ?int ポイント掛率対象区分 */
     protected ?int $pointkake = null;
 
     /**
@@ -86,6 +95,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     public function setDbun(?string $dbun)
     {
         $this->dbun = $dbun;
+
         return $this;
     }
 
@@ -103,6 +113,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     public function setDbunname(?string $dbunname)
     {
         $this->dbunname = $dbunname;
+
         return $this;
     }
 
@@ -120,6 +131,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     public function setTbun(?string $tbun)
     {
         $this->tbun = $tbun;
+
         return $this;
     }
 
@@ -137,6 +149,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     public function setTbunname(?string $tbunname)
     {
         $this->tbunname = $tbunname;
+
         return $this;
     }
 
@@ -154,6 +167,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     public function setSbun(?string $sbun)
     {
         $this->sbun = $sbun;
+
         return $this;
     }
 
@@ -171,6 +185,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     public function setSbunname(?string $sbunname)
     {
         $this->sbunname = $sbunname;
+
         return $this;
     }
 
@@ -188,6 +203,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     public function setBikou(?string $bikou)
     {
         $this->bikou = $bikou;
+
         return $this;
     }
 
@@ -205,6 +221,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     public function setTanano(?string $tanano)
     {
         $this->tanano = $tanano;
+
         return $this;
     }
 
@@ -222,6 +239,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     public function setKakuho(?int $kakuho)
     {
         $this->kakuho = $kakuho;
+
         return $this;
     }
 
@@ -239,6 +257,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     public function setKonpo(?int $konpo)
     {
         $this->konpo = $konpo;
+
         return $this;
     }
 
@@ -256,6 +275,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     public function setOtaxkbn(?int $otaxkbn)
     {
         $this->otaxkbn = $otaxkbn;
+
         return $this;
     }
 
@@ -273,6 +293,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     public function setSougakuhkbn(?int $sougakuhkbn)
     {
         $this->sougakuhkbn = $sougakuhkbn;
+
         return $this;
     }
 
@@ -290,6 +311,7 @@ class GoodModelGroup2 implements GoodModelGroup2Interface
     public function setPointkake(?int $pointkake)
     {
         $this->pointkake = $pointkake;
+
         return $this;
     }
 }

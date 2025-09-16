@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Mail\MailJyuden;
 
 /**
@@ -9,14 +20,13 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Mail\MailJyuden;
  */
 class MailJyudenModelLevel2 extends MailJyudenModelLevel1 implements MailJyudenModelLevel2Interface
 {
-
-    /** @var ?int $mailkbn メール区分 */
+    /** @var ?int メール区分 */
     protected ?int $mailkbn = null;
 
-    /** @var ?string $jbikou 受注メールコメント */
+    /** @var ?string 受注メールコメント */
     protected ?string $jbikou = null;
 
-    /** @var ?string $sbikou 出荷メールコメント */
+    /** @var ?string 出荷メールコメント */
     protected ?string $sbikou = null;
 
     /**
@@ -33,6 +43,7 @@ class MailJyudenModelLevel2 extends MailJyudenModelLevel1 implements MailJyudenM
     public function setMailkbn(?int $mailkbn)
     {
         $this->mailkbn = $mailkbn;
+
         return $this;
     }
 
@@ -50,6 +61,7 @@ class MailJyudenModelLevel2 extends MailJyudenModelLevel1 implements MailJyudenM
     public function setJbikou(?string $jbikou)
     {
         $this->jbikou = $jbikou;
+
         return $this;
     }
 
@@ -67,6 +79,7 @@ class MailJyudenModelLevel2 extends MailJyudenModelLevel1 implements MailJyudenM
     public function setSbikou(?string $sbikou)
     {
         $this->sbikou = $sbikou;
+
         return $this;
     }
 }

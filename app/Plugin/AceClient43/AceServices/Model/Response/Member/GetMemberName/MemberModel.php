@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberName;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelTrait;
@@ -9,29 +20,28 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelTrait
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-
 class MemberModel implements MemberModelInterface
 {
     use HasMessageModelTrait;
     /**
      * Member
      *
-     * @var Member1Model $member
+     * @var Member1Model
      */
-    protected ?Member1Model $member  = null;
+    protected ?Member1Model $member = null;
 
     /**
      * {@inheritDoc}
      */
-    function getMember(): ?Member1Model
+    public function getMember(): ?Member1Model
     {
         return $this->member;
     }
 
     /**
-    * {@inheritDoc}
-    */
-    function setMember(?Member1Model $member): void
+     * {@inheritDoc}
+     */
+    public function setMember(?Member1Model $member): void
     {
         $this->member = $member;
     }

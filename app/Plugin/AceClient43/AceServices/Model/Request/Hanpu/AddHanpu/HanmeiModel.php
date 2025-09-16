@@ -1,10 +1,21 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Request\Hanpu\AddHanpu;
 
+use Plugin\AceClient43\AceServices\Model\Dependency\Cost;
 use Plugin\AceClient43\AceServices\Model\Dependency\Good;
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
-use Plugin\AceClient43\AceServices\Model\Dependency\Cost;
 
 /**
  * Class HanmeiModel
@@ -13,18 +24,18 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Cost;
  */
 class HanmeiModel implements HanmeiModelInterface
 {
-    use Good\GcodeTrait,
-        NoCategory\SuuTrait,
-        Cost\Tanka\TankaTrait,
-        Cost\Tax\TaxKbnTrait;
+    use Good\GcodeTrait;
+    use NoCategory\SuuTrait;
+    use Cost\Tanka\TankaTrait;
+    use Cost\Tax\TaxKbnTrait;
 
-    /** @var ?int $kousin 更新区分 */
+    /** @var ?int 更新区分 */
     protected ?int $kousin = null;
 
-    /** @var ?int $ksite 明細サイト */
+    /** @var ?int 明細サイト */
     protected ?int $ksite = null;
 
-    /** @var ?int $teiki 定期区分 */
+    /** @var ?int 定期区分 */
     protected ?int $teiki = null;
 
     /**
@@ -41,6 +52,7 @@ class HanmeiModel implements HanmeiModelInterface
     public function setKousin(?int $kousin)
     {
         $this->kousin = $kousin;
+
         return $this;
     }
 
@@ -58,6 +70,7 @@ class HanmeiModel implements HanmeiModelInterface
     public function setKsite(?int $ksite)
     {
         $this->ksite = $ksite;
+
         return $this;
     }
 
@@ -75,6 +88,7 @@ class HanmeiModel implements HanmeiModelInterface
     public function setTeiki(?int $teiki)
     {
         $this->teiki = $teiki;
+
         return $this;
     }
 }

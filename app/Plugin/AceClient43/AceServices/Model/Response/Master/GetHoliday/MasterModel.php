@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Master\GetHoliday;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelTrait;
@@ -9,29 +20,28 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelTrait
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-
 class MasterModel implements MasterModelInterface
 {
     use HasMessageModelTrait;
     /**
      * Calendar
      *
-     * @var CalendarModel[]|null $calendar
+     * @var CalendarModel[]|null
      */
-    protected ?array $calendar  = null;
+    protected ?array $calendar = null;
 
     /**
      * {@inheritDoc}
      */
-    function getCalendar(): ?array
+    public function getCalendar(): ?array
     {
         return $this->calendar;
     }
 
     /**
-    * {@inheritDoc}
-    */
-    function setCalendar(?array $calendar): void
+     * {@inheritDoc}
+     */
+    public function setCalendar(?array $calendar): void
     {
         $this->calendar = $calendar;
     }
@@ -42,7 +52,7 @@ class MasterModel implements MasterModelInterface
     public static function fetchAsListProperty(): array
     {
         return [
-                'Calendar' => CalendarModel::class
-               ];
+            'Calendar' => CalendarModel::class,
+        ];
     }
 }

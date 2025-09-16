@@ -1,21 +1,31 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Request\Contact\RegContact;
 
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\Exception\MissingRequestParameterException;
-use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 class RegContactRequestModel extends Request\RequestModelAbstract implements RegContactRequestModelInterface
 {
-    const XML_NODE_NAME = 'regContact';
+    use NoCategory\IdTrait;
 
-    use NoCategory\IdTrait,
-        NoCategory\SessIdTrait;
+    use NoCategory\SessIdTrait;
+    public const XML_NODE_NAME = 'regContact';
 
-    /** @var InquiryPrmModel $prm Prm */
+    /** @var InquiryPrmModel Prm */
     private InquiryPrmModel $prm;
-
 
     /**
      * {@inheritDoc}
@@ -31,6 +41,7 @@ class RegContactRequestModel extends Request\RequestModelAbstract implements Reg
     public function setPrm(InquiryPrmModel $prm): self
     {
         $this->prm = $prm;
+
         return $this;
     }
 
@@ -39,8 +50,12 @@ class RegContactRequestModel extends Request\RequestModelAbstract implements Reg
      */
     public function ensureParameterNotMissing(): void
     {
-        if (empty($this->id)) { throw new MissingRequestParameterException($this->compilePropertyName('id')); };
-        if (empty($this->prm))  { throw new MissingRequestParameterException($this->compilePropertyName('prm')); };
+        if (empty($this->id)) {
+            throw new MissingRequestParameterException($this->compilePropertyName('id'));
+        }
+        if (empty($this->prm)) {
+            throw new MissingRequestParameterException($this->compilePropertyName('prm'));
+        }
     }
 
     /**

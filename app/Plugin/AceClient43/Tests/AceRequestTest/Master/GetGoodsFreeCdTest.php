@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Master;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Master\GetGoodsFreeCd\GetGoodsFreeCdRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Master\GetGoodsFreeCd\GetGoodsFreeCdResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
-
 
 class GetGoodsFreeCdRequestModelTest extends AceRequestTestAbtract
 {
@@ -34,11 +44,11 @@ class GetGoodsFreeCdRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
-
     public function GetGoodsFreeCdRequestForSerialize(): GetGoodsFreeCdRequestModel
     {
         $freecd = new GetGoodsFreeCdRequestModel();
         $getGoodsFreeCd = $freecd->setId(OverviewMapper::ACE_TEST_SYID);
+
         return $getGoodsFreeCd;
     }
 
@@ -46,14 +56,18 @@ class GetGoodsFreeCdRequestModelTest extends AceRequestTestAbtract
     {
         $freecd = new GetGoodsFreeCdRequestModel();
         $getGoodsFreeCd = $freecd->setId(OverviewMapper::ACE_TEST_SYID);
+
         return $getGoodsFreeCd;
     }
+
     public function GetGoodsFreeCdRequestNG(): GetGoodsFreeCdRequestModel
     {
         $freecd = new GetGoodsFreeCdRequestModel();
         $getGoodsFreeCd = $freecd->setId(-1);
+
         return $getGoodsFreeCd;
     }
+
     public function testRequestGetGoodsFreeCdOK()
     {
         try {
@@ -69,30 +83,29 @@ class GetGoodsFreeCdRequestModelTest extends AceRequestTestAbtract
                 $freecd1 = $responseObj->getMaster()->getFreeCd()[0];
                 $freecd2 = $responseObj->getMaster()->getFreeCd()[1];
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(102, $freecd1->getKubun());
-        $this->assertEquals("101", $freecd1->getFcid());
-        $this->assertEquals("フリーコードテスト1", $freecd1->getName());
-        $this->assertEquals("ノート1", $freecd1->getNote1());
-        $this->assertEquals("ノート2", $freecd1->getNote2());
-        $this->assertEquals("ノート3", $freecd1->getNote3());
+        $this->assertEquals('101', $freecd1->getFcid());
+        $this->assertEquals('フリーコードテスト1', $freecd1->getName());
+        $this->assertEquals('ノート1', $freecd1->getNote1());
+        $this->assertEquals('ノート2', $freecd1->getNote2());
+        $this->assertEquals('ノート3', $freecd1->getNote3());
 
         $this->assertEquals(102, $freecd2->getKubun());
-        $this->assertEquals("102", $freecd2->getFcid());
-        $this->assertEquals("フリーコードテスト2", $freecd2->getName());
-        $this->assertEquals("ノート1", $freecd2->getNote1());
-        $this->assertEquals("ノート2", $freecd2->getNote2());
-        $this->assertEquals("ノート3", $freecd2->getNote3());
+        $this->assertEquals('102', $freecd2->getFcid());
+        $this->assertEquals('フリーコードテスト2', $freecd2->getName());
+        $this->assertEquals('ノート1', $freecd2->getNote1());
+        $this->assertEquals('ノート2', $freecd2->getNote2());
+        $this->assertEquals('ノート3', $freecd2->getNote3());
 
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestGetGoodsFreeCdNG()
@@ -109,16 +122,15 @@ class GetGoodsFreeCdRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMaster()->getMessage()->getMessage1();
                 $freecd = $responseObj->getMaster()->getFreeCd();
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(null, $freecd);
-        $this->assertEquals("ＷＥＢ初期設定がありません", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('ＷＥＢ初期設定がありません', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

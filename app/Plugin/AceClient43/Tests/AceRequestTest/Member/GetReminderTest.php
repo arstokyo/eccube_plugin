@@ -1,17 +1,29 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Member;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetReminder\GetReminderRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetReminder\GetReminderResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 
 class GetReminderRequestModelTest extends AceRequestTestAbtract
 {
     private ?string $checkMail = 'GetReminderTest@AceClient.v.1.0';
+
     public function testCallGetReminderRequestModel()
     {
         $mail = new GetReminderRequestModel();
@@ -19,6 +31,7 @@ class GetReminderRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(OverviewMapper::ACE_TEST_SYID, $mail->getId());
         $this->assertEquals($this->checkMail, $mail->getMailAdress());
     }
+
     public function testRequestGetReminderOK()
     {
         try {
@@ -47,11 +60,10 @@ class GetReminderRequestModelTest extends AceRequestTestAbtract
                 $answer6 = $responseObj->getMember()->getReminder()->getAnswer6() ?? null;
                 $question7 = $responseObj->getMember()->getReminder()->getQuestion7() ?? null;
                 $answer7 = $responseObj->getMember()->getReminder()->getAnswer7() ?? null;
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
         $this->assertEquals('106', $code);
@@ -72,10 +84,12 @@ class GetReminderRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals('', $message1);
         $this->assertEquals('', $message2);
     }
+
     public function getGetReminderRequestModelOK()
     {
         $mail = new GetReminderRequestModel();
         $mail->setId(OverviewMapper::ACE_TEST_SYID)->setMailAdress($this->checkMail);
+
         return $mail;
     }
 
@@ -94,19 +108,21 @@ class GetReminderRequestModelTest extends AceRequestTestAbtract
                 $message2 = $responseObj->getMember()->getMessage()->getMessage2() ?? null;
                 $reminder = $responseObj->getMember()->getReminder() ?? null;
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
         $this->assertEquals(null, $reminder);
-        $this->assertEquals("WEB顧客情報が存在しません", $message1);
-        $this->assertEquals("select mbid code,question1,answer1,question2,answer2,question3,answer3,question4,answer4,question5,answer5,question6,answer6,question7,answer7 from memweb where syid=:xid and email=:xmail", $message2);
+        $this->assertEquals('WEB顧客情報が存在しません', $message1);
+        $this->assertEquals('select mbid code,question1,answer1,question2,answer2,question3,answer3,question4,answer4,question5,answer5,question6,answer6,question7,answer7 from memweb where syid=:xid and email=:xmail', $message2);
     }
+
     public function getGetReminderRequestModelNG()
     {
         $mail = new GetReminderRequestModel();
-        $mail->setId(OverviewMapper::ACE_TEST_SYID)->setMailAdress("do-not-exist-this-email@AceClient.v.1.0");;
+        $mail->setId(OverviewMapper::ACE_TEST_SYID)->setMailAdress('do-not-exist-this-email@AceClient.v.1.0');
+
         return $mail;
     }
 
@@ -133,12 +149,11 @@ class GetReminderRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
-
     public function getReminderRequestForSerialize(): GetReminderRequestModel
     {
         $reminder = new GetReminderRequestModel();
         $getReminder = $reminder->setId(OverviewMapper::ACE_TEST_SYID)->setMailAdress($this->checkMail);
+
         return $getReminder;
     }
-
 }

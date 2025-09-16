@@ -1,16 +1,27 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Member;
 
-use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr\RegMemAdrRequestModel;
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr\MemberPrmModel;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr\NmemberModel;
-use Plugin\AceClient43\AceServices\Model\Response\Member\RegMemAdr\RegMemAdrResponseModel;;
-use GuzzleHttp\Exception\ClientException;
-use Plugin\AceClient43\Util\Mapper\OverviewMapper;
-use Plugin\AceClient43\Util\Serializer;
+use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr\RegMemAdrRequestModel;
+use Plugin\AceClient43\AceServices\Model\Response\Member\RegMemAdr\RegMemAdrResponseModel;
 use Plugin\AceClient43\Exception\MissingRequestParameterException;
 use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
+use Plugin\AceClient43\Util\Mapper\OverviewMapper;
+use Plugin\AceClient43\Util\Serializer;
 
 class RegMemberAdrTest extends AceRequestTestAbtract
 {
@@ -31,9 +42,9 @@ class RegMemberAdrTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMember()->getMessage()->getMessage1() ?? null;
                 $message2 = $responseObj->getMember()->getMessage()->getMessage2() ?? null;
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
         $this->assertEquals(null, $nmem);
@@ -51,8 +62,9 @@ class RegMemberAdrTest extends AceRequestTestAbtract
                                                    ->setAdr1('address1')
                                                    ->setAdr2('address2')
                                                    ->setCode('999')
-                                                );
+        );
         $regMemAdr = new RegMemAdrRequestModel();
+
         return $regMemAdr->setId(OverviewMapper::ACE_TEST_SYID)->setPrm($memberPrm);
     }
 
@@ -74,6 +86,7 @@ class RegMemberAdrTest extends AceRequestTestAbtract
                                                    ->setBikou2('備考2')
                                                    ->setBikou3('備考3')
                                                    ->setBetu(0));
+
         return (new RegMemAdrRequestModel())->setId(OverviewMapper::ACE_TEST_SYID)->setPrm($memberPrm);
     }
 
@@ -92,9 +105,9 @@ class RegMemberAdrTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMember()->getMessage()->getMessage1() ?? null;
                 $message2 = $responseObj->getMember()->getMessage()->getMessage2() ?? null;
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
@@ -117,15 +130,14 @@ class RegMemberAdrTest extends AceRequestTestAbtract
 
     public function testNotAllowNullParameterCase1()
     {
-            $getPointRequest = $this->getNotAllowParameterCase1();
-            $this->expectException(MissingRequestParameterException::class);
-            $this->aceClient->makeMemberService()
-                            ->makeRegMemAdrMethod()
-                            ->withRequest($getPointRequest);
-
+        $getPointRequest = $this->getNotAllowParameterCase1();
+        $this->expectException(MissingRequestParameterException::class);
+        $this->aceClient->makeMemberService()
+                        ->makeRegMemAdrMethod()
+                        ->withRequest($getPointRequest);
     }
 
-    private function getNotAllowParameterCase1() : RegMemAdrRequestModel
+    private function getNotAllowParameterCase1(): RegMemAdrRequestModel
     {
         $memberPrm = new MemberPrmModel();
         $memberPrm->setNmember((new NmemberModel())->setEda(1)
@@ -142,6 +154,7 @@ class RegMemberAdrTest extends AceRequestTestAbtract
                                                    ->setBikou1('備考1')
                                                    ->setBikou2('備考2')
                                                    ->setBikou3('備考3'));
+
         return (new RegMemAdrRequestModel())->setPrm($memberPrm);
     }
 
@@ -154,7 +167,7 @@ class RegMemberAdrTest extends AceRequestTestAbtract
                         ->withRequest($getPointRequest);
     }
 
-    private function getNotAllowParameterCase2() : RegMemAdrRequestModel
+    private function getNotAllowParameterCase2(): RegMemAdrRequestModel
     {
         $memberPrm = new MemberPrmModel();
         $memberPrm->setNmember((new NmemberModel())->setEda(1)
@@ -170,6 +183,7 @@ class RegMemberAdrTest extends AceRequestTestAbtract
                                                    ->setBikou1('備考1')
                                                    ->setBikou2('備考2')
                                                    ->setBikou3('備考3'));
+
         return (new RegMemAdrRequestModel())->setId(OverviewMapper::ACE_TEST_SYID)->setPrm($memberPrm);
     }
 
@@ -180,11 +194,11 @@ class RegMemberAdrTest extends AceRequestTestAbtract
         $serializedData = $serializer->serialize($regMemAdrRequestModel);
 
         $xmlns = $serializer->getConfig()->getXmlns() ?
-                 $serializer->getConfig()->getXmlns()['@xmlns'] : 
+                 $serializer->getConfig()->getXmlns()['@xmlns'] :
                  Serializer\SoapXmlSerializer::DEFAULT_XMLNS['@xmlns'];
         $soapHead = $serializer->getConfig()->getRequestSoapHead() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_HEAD;
         $soapEnd = $serializer->getConfig()->getRequestSoapEnd() ?: Serializer\SoapXmlSerializer::DEFAULT_REQUEST_SOAP_END;
-        $expectedData = 
+        $expectedData =
         <<<XML
         {$soapHead}
             <regMemAdr xmlns="{$xmlns}">
@@ -213,9 +227,8 @@ class RegMemberAdrTest extends AceRequestTestAbtract
             </regMemAdr>
         {$soapEnd}
         XML;
-        $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData)); 
+        $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
-
 
     public function getRegmemberRequestForSerialize(): RegMemAdrRequestModel
     {
@@ -235,7 +248,7 @@ class RegMemberAdrTest extends AceRequestTestAbtract
                                                    ->setBikou2('備考2')
                                                    ->setBikou3('備考3')
                                                    ->setBetu(0));
+
         return (new RegMemAdrRequestModel())->setId(OverviewMapper::ACE_TEST_SYID)->setPrm($memberPrm);
     }
-
 }

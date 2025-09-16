@@ -1,11 +1,22 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetPointRireki;
 
-use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
 use Plugin\AceClient43\AceServices\Model\Dependency\Day;
-use Plugin\AceClient43\AceServices\Model\Dependency\Point;
+use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\Point;
 
 /**
  * Model for Point
@@ -14,32 +25,32 @@ use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
  */
 class PointModel implements PointModelInterface
 {
-    use Denpyo\DennoTrait,
-        Day\JdayTrait,
-        Day\DayTrait,
-        Point\PointTrait,
-        NoCategory\JmemidTrait,
-        NoCategory\KubunTrait;
+    use Denpyo\DennoTrait;
+    use Day\JdayTrait;
+    use Day\DayTrait;
+    use Point\PointTrait;
+    use NoCategory\JmemidTrait;
+    use NoCategory\KubunTrait;
 
-    /** @var ?int $nouno 納品先枝番号 */
+    /** @var ?int 納品先枝番号 */
     protected ?int $nouno = null;
 
-    /** @var ?int $edano 受注枝番 */
+    /** @var ?int 受注枝番 */
     protected ?int $edano = null;
 
-    /** @var ?int $brid ポイント種類 */
+    /** @var ?int ポイント種類 */
     protected ?int $brid = null;
 
-    /** @var ?int $usekbn 使用区分 */
+    /** @var ?int 使用区分 */
     protected ?int $usekbn = null;
 
-    /** @var ?int $msyid 顧客共有システムID */
+    /** @var ?int 顧客共有システムID */
     protected ?int $msyid = null;
 
-    /** @var ?string $cuser 作成ユーザーID */
+    /** @var ?string 作成ユーザーID */
     protected ?string $cuser = null;
 
-    /** @var ?string $uuser 更新ユーザーID */
+    /** @var ?string 更新ユーザーID */
     protected ?string $uuser = null;
 
     /**
@@ -56,6 +67,7 @@ class PointModel implements PointModelInterface
     public function setNouno(?int $nouno)
     {
         $this->nouno = $nouno;
+
         return $this;
     }
 
@@ -73,6 +85,7 @@ class PointModel implements PointModelInterface
     public function setEdano(?int $edano)
     {
         $this->edano = $edano;
+
         return $this;
     }
 
@@ -90,6 +103,7 @@ class PointModel implements PointModelInterface
     public function setBrid(?int $brid)
     {
         $this->brid = $brid;
+
         return $this;
     }
 
@@ -107,6 +121,7 @@ class PointModel implements PointModelInterface
     public function setUsekbn(?int $usekbn)
     {
         $this->usekbn = $usekbn;
+
         return $this;
     }
 
@@ -124,6 +139,7 @@ class PointModel implements PointModelInterface
     public function setMsyid(?int $msyid)
     {
         $this->msyid = $msyid;
+
         return $this;
     }
 
@@ -141,6 +157,7 @@ class PointModel implements PointModelInterface
     public function setCuser(?string $cuser)
     {
         $this->cuser = $cuser;
+
         return $this;
     }
 
@@ -158,6 +175,7 @@ class PointModel implements PointModelInterface
     public function setUuser(?string $uuser)
     {
         $this->uuser = $uuser;
+
         return $this;
     }
 }

@@ -1,11 +1,22 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Request\Goods\GetZaikoAll;
 
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
+use Plugin\AceClient43\AceServices\Model\Dependency\Souko;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelAbstract;
 use Plugin\AceClient43\Exception\MissingRequestParameterException;
-use Plugin\AceClient43\AceServices\Model\Dependency\Souko;
-use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Class GetZaikoAllRequestModel
@@ -14,15 +25,15 @@ use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
  */
 class GetZaikoAllRequestModel extends RequestModelAbstract implements GetZaikoAllRequestModelInterface
 {
-    const XML_NODE_NAME = 'getZaikoAll';
+    use NoCategory\IdTrait;
 
-    /** @var ?int $rangefrom 開始行番号 */
+    use Souko\SoukoTrait;
+    public const XML_NODE_NAME = 'getZaikoAll';
+
+    /** @var ?int 開始行番号 */
     protected ?int $rangefrom = null;
-    /** @var ?int $rangeto 終了行番号 */
+    /** @var ?int 終了行番号 */
     protected ?int $rangeto = null;
-
-    use NoCategory\IdTrait,
-        Souko\SoukoTrait;
 
     /**
      * {@inheritDoc}
@@ -38,6 +49,7 @@ class GetZaikoAllRequestModel extends RequestModelAbstract implements GetZaikoAl
     public function setRangefrom(?int $rangefrom)
     {
         $this->rangefrom = $rangefrom;
+
         return $this;
     }
 
@@ -55,6 +67,7 @@ class GetZaikoAllRequestModel extends RequestModelAbstract implements GetZaikoAl
     public function setRangeto(?int $rangeto)
     {
         $this->rangeto = $rangeto;
+
         return $this;
     }
 
@@ -63,7 +76,9 @@ class GetZaikoAllRequestModel extends RequestModelAbstract implements GetZaikoAl
      */
     public function ensureParameterNotMissing(): void
     {
-        if (!$this->id) { throw new MissingRequestParameterException($this->compilePropertyName('id')); };
+        if (!$this->id) {
+            throw new MissingRequestParameterException($this->compilePropertyName('id'));
+        }
     }
 
     /**

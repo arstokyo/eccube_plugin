@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Master;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Master\GetBaitai\GetBaitaiRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Master\GetBaitai\GetBaitaiResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
-
 
 class GetBaitaiRequestModelTest extends AceRequestTestAbtract
 {
@@ -34,11 +44,11 @@ class GetBaitaiRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
-
     public function GetBaitaiRequestForSerialize(): GetBaitaiRequestModel
     {
         $baitai = new GetBaitaiRequestModel();
         $getBaitai = $baitai->setId(OverviewMapper::ACE_TEST_SYID);
+
         return $getBaitai;
     }
 
@@ -46,14 +56,18 @@ class GetBaitaiRequestModelTest extends AceRequestTestAbtract
     {
         $baitai = new GetBaitaiRequestModel();
         $getBaitai = $baitai->setId(OverviewMapper::ACE_TEST_SYID);
+
         return $getBaitai;
     }
+
     public function GetBaitaiRequestNG(): GetBaitaiRequestModel
     {
         $baitai = new GetBaitaiRequestModel();
         $getBaitai = $baitai->setId(-1);
+
         return $getBaitai;
     }
+
     public function testRequestGetBaitaiOK()
     {
         try {
@@ -69,32 +83,31 @@ class GetBaitaiRequestModelTest extends AceRequestTestAbtract
                 $baitai1 = $responseObj->getMaster()->getBaitai()[0];
                 $baitai2 = $responseObj->getMaster()->getBaitai()[1];
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
-        $this->assertEquals("100", $baitai1->getCode());
-        $this->assertEquals("媒体１００番", $baitai1->getName());
-        $this->assertEquals("媒体１００", $baitai1->getSubName());
-        $this->assertEquals("", $baitai1->getBun());
-        $this->assertEquals("", $baitai1->getFcode1());
-        $this->assertEquals("", $baitai1->getFcode2());
+        $this->assertEquals('100', $baitai1->getCode());
+        $this->assertEquals('媒体１００番', $baitai1->getName());
+        $this->assertEquals('媒体１００', $baitai1->getSubName());
+        $this->assertEquals('', $baitai1->getBun());
+        $this->assertEquals('', $baitai1->getFcode1());
+        $this->assertEquals('', $baitai1->getFcode2());
         $this->assertEquals(0, $baitai1->getDispkbn());
 
-        $this->assertEquals("101", $baitai2->getCode());
-        $this->assertEquals("媒体１０１番", $baitai2->getName());
-        $this->assertEquals("媒体１０１", $baitai2->getSubName());
-        $this->assertEquals("", $baitai2->getBun());
-        $this->assertEquals("", $baitai2->getFcode1());
-        $this->assertEquals("", $baitai2->getFcode2());
+        $this->assertEquals('101', $baitai2->getCode());
+        $this->assertEquals('媒体１０１番', $baitai2->getName());
+        $this->assertEquals('媒体１０１', $baitai2->getSubName());
+        $this->assertEquals('', $baitai2->getBun());
+        $this->assertEquals('', $baitai2->getFcode1());
+        $this->assertEquals('', $baitai2->getFcode2());
         $this->assertEquals(0, $baitai2->getDispkbn());
 
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestGetBaitaiNG()
@@ -111,16 +124,15 @@ class GetBaitaiRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMaster()->getMessage()->getMessage1();
                 $baitai = $responseObj->getMaster()->getBaitai();
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(null, $baitai);
-        $this->assertEquals("ＷＥＢ初期設定がありません", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('ＷＥＢ初期設定がありません', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

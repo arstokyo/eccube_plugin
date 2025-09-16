@@ -1,12 +1,23 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Good;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Cost;
 use Plugin\AceClient43\AceServices\Model\Dependency\Day;
 use Plugin\AceClient43\AceServices\Model\Dependency\Point;
+use Plugin\AceClient43\Entity\Constants\AceTaxType;
 use Plugin\AceClient43\Util\Converter\NumberConverter;
-
 
 /**
  * Class for GoodTankaModelGroup1
@@ -15,41 +26,46 @@ use Plugin\AceClient43\Util\Converter\NumberConverter;
  */
 class GoodTankaModelGroup1 implements GoodTankaModelGroup1Interface
 {
-    use Cost\Tanka\TankaKbnTrait,
-        Day\DayTrait,
-        Cost\Tax\TaxKbnTrait,
-        Point\PointTrait,
-        Day\NdayTrait,
-        GdidTrait;
+    use Cost\Tanka\TankaKbnTrait;
 
-    /** @var ?float $taxrate 税率 */
+    use Day\DayTrait;
+
+    use Cost\Tax\TaxKbnTrait;
+
+    use Point\PointTrait;
+
+    use Day\NdayTrait;
+
+    use GdidTrait;
+
+    /** @var ?float 税率 */
     protected ?float $taxrate = null;
 
-    /** @var ?float $inctanka 税込単価 */
+    /** @var ?float 税込単価 */
     protected ?float $inctanka = null;
 
-    /** @var ?float $revtanka 税抜単価 */
+    /** @var ?float 税抜単価 */
     protected ?float $revtanka = null;
 
-    /** @var ?string $note 備考 */
+    /** @var ?string 備考 */
     protected ?string $note = null;
 
-    /** @var ?int $ntaxrate 次回税率 */
+    /** @var ?int 次回税率 */
     protected ?int $ntaxrate = null;
 
-    /** @var ?float $ninctanka 次回税込単価 */
+    /** @var ?float 次回税込単価 */
     protected ?float $ninctanka = null;
 
-    /** @var ?float $nrevtanka 次回税抜単価 */
+    /** @var ?float 次回税抜単価 */
     protected ?float $nrevtanka = null;
 
-    /** @var ?int $ntaxkbn 次回税区分 */
+    /** @var ?int 次回税区分 */
     protected ?int $ntaxkbn = null;
 
-    /** @var ?int $npoint 次回ポイント */
+    /** @var ?int 次回ポイント */
     protected ?int $npoint = null;
 
-    /** @var ?string $nnote 次回備考 */
+    /** @var ?string 次回備考 */
     protected ?string $nnote = null;
 
     /**
@@ -66,6 +82,7 @@ class GoodTankaModelGroup1 implements GoodTankaModelGroup1Interface
     public function setTaxrate(?string $taxrate)
     {
         $this->taxrate = NumberConverter::stringWithCommaToFloat($taxrate);
+
         return $this;
     }
 
@@ -83,6 +100,7 @@ class GoodTankaModelGroup1 implements GoodTankaModelGroup1Interface
     public function setInctanka(?string $inctanka)
     {
         $this->inctanka = NumberConverter::stringWithCommaToFloat($inctanka);
+
         return $this;
     }
 
@@ -100,6 +118,7 @@ class GoodTankaModelGroup1 implements GoodTankaModelGroup1Interface
     public function setRevtanka(?string $revtanka)
     {
         $this->revtanka = NumberConverter::stringWithCommaToFloat($revtanka);
+
         return $this;
     }
 
@@ -117,6 +136,7 @@ class GoodTankaModelGroup1 implements GoodTankaModelGroup1Interface
     public function setNote(?string $note)
     {
         $this->note = $note;
+
         return $this;
     }
 
@@ -134,6 +154,7 @@ class GoodTankaModelGroup1 implements GoodTankaModelGroup1Interface
     public function setNtaxrate(?string $ntaxrate)
     {
         $this->ntaxrate = NumberConverter::stringWithCommaToFloat($ntaxrate);
+
         return $this;
     }
 
@@ -151,6 +172,7 @@ class GoodTankaModelGroup1 implements GoodTankaModelGroup1Interface
     public function setNinctanka(?string $ninctanka)
     {
         $this->ninctanka = NumberConverter::stringWithCommaToFloat($ninctanka);
+
         return $this;
     }
 
@@ -168,6 +190,7 @@ class GoodTankaModelGroup1 implements GoodTankaModelGroup1Interface
     public function setNrevtanka(?string $nrevtanka)
     {
         $this->nrevtanka = NumberConverter::stringWithCommaToFloat($nrevtanka);
+
         return $this;
     }
 
@@ -185,6 +208,7 @@ class GoodTankaModelGroup1 implements GoodTankaModelGroup1Interface
     public function setNtaxkbn(?int $ntaxkbn)
     {
         $this->ntaxkbn = $ntaxkbn;
+
         return $this;
     }
 
@@ -202,6 +226,7 @@ class GoodTankaModelGroup1 implements GoodTankaModelGroup1Interface
     public function setNpoint(?int $npoint)
     {
         $this->npoint = $npoint;
+
         return $this;
     }
 
@@ -219,6 +244,31 @@ class GoodTankaModelGroup1 implements GoodTankaModelGroup1Interface
     public function setNnote(?string $nnote)
     {
         $this->nnote = $nnote;
+
         return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isTaxIncluded(): bool
+    {
+        return $this->getTaxkbn() !== AceTaxType::TAX_INCLUDED;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isTaxExcluded(): bool
+    {
+        return $this->getTaxkbn() === AceTaxType::TAX_EXCLUDED;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isTaxExempt(): bool
+    {
+        return $this->getTaxkbn() === AceTaxType::TAX_EXEMPT;
     }
 }

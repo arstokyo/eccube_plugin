@@ -1,7 +1,17 @@
 <?php
 
-namespace Plugin\AceClient43\AceServices\Model\Dependency\Baitai;
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Baitai;
 
 /**
  * Trait for 媒体コード
@@ -10,10 +20,10 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Baitai;
  */
 trait BaitaiCodeTrait
 {
-    /** @var ?string $baitai 媒体 */
+    /** @var ?string 媒体 */
     protected ?string $baitai = null;
 
-    /** @var ?string $baifile 管理番号 */
+    /** @var ?string 管理番号 */
     protected ?string $baifile = null;
 
     /**
@@ -30,6 +40,7 @@ trait BaitaiCodeTrait
     public function setBaitai(?string $baitai)
     {
         $this->baitai = $baitai;
+
         return $this;
     }
 
@@ -47,6 +58,7 @@ trait BaitaiCodeTrait
     public function setBaifile(?string $baifile)
     {
         $this->baifile = $baifile;
+
         return $this;
     }
 }

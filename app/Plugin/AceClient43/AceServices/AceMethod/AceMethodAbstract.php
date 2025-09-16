@@ -1,51 +1,67 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\AceMethod;
 
 use Plugin\AceClient43\AceServices\Model\Request;
-use Plugin\AceClient43\ApiClient\Api\Client\ClientMetadataInterface;
-use Plugin\AceClient43\ApiClient\Response\ResponseInterface;
 use Plugin\AceClient43\AceServices\Model\Response\ResponseModelInterface;
+use Plugin\AceClient43\ApiClient\ApiClientResolver;
+use Plugin\AceClient43\ApiClient\Client\ClientInterface;
+use Plugin\AceClient43\ApiClient\Client\ClientMetadataInterface;
+use Plugin\AceClient43\ApiClient\Response\ResponseInterface;
 use Plugin\AceClient43\Exception\DataTypeMissMatchException;
 use Plugin\AceClient43\Exception\InvalidClassNameException;
 use Plugin\AceClient43\Util\ClassFactory\ClassFactory;
-use Plugin\AceClient43\Util\ServiceRetriever\ServiceRetrieverInterface;
+use Plugin\AceClient43\Util\ModelResolver\ModelResolver;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * Abstract Class for Ace Method
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 abstract class AceMethodAbstract implements AceMethodInterface
 {
-    /**
-     * @var AceMethodAssistant $assistant
-     */
-    protected AceMethodAssistant $assistant;
+    protected ClientInterface $apiClient;
+
+    protected ModelResolver $modelResolver;
+
+    protected ParameterBagInterface $parameterBag;
 
     /**
      * AceMethodAbstract Constructor
      *
-     * @param string $baseServiceName
-     * @param ServiceRetrieverInterface $serviceRetriever
+     * @param ApiClientResolver $clientResolver
+     * @param ModelResolver $modelResolver
+     * @param ParameterBagInterface $parameterBag
+     *
+     * @throws InvalidClassNameException
      */
-    public function __construct(string $baseServiceName, ServiceRetrieverInterface $serviceRetriever)
-    {
-        $this->initializeAssistant($baseServiceName, $serviceRetriever);
+    public function __construct(
+        ApiClientResolver $clientResolver,
+        ModelResolver $modelResolver,
+        ParameterBagInterface $parameterBag,
+    ) {
+        $this->modelResolver = $modelResolver;
+        $this->parameterBag = $parameterBag;
+        $this->apiClient = $this->resolveApiClient($clientResolver);
     }
 
-    /**
-     * Initialize Assistant
-     * 
-     * @param string $baseServiceName
-     * @param ServiceRetrieverInterface $serviceRetriever
-     * 
-     * @return void
-     */
-    public function initializeAssistant(string $baseServiceName, ServiceRetrieverInterface $serviceRetriever): void
+    protected function buildEndPoint(): string
     {
-        $this->assistant = new AceMethodAssistant(\get_class($this), self::buildEndPoint($baseServiceName), $serviceRetriever);
-        $this->assistant->getApiClient()->withResponseAs(self::getResponseAsObject());
+        $baseServiceName = $this->getBaseServiceName();
+
+        return sprintf('%s/%s', $baseServiceName, $this->setEndPointService());
     }
 
     /**
@@ -54,7 +70,9 @@ abstract class AceMethodAbstract implements AceMethodInterface
     public function withRequest(Request\RequestModelInterface $requestModel): self
     {
         $requestModel->ensureParameterNotMissing();
-        $this->assistant->getApiClient()->withRequest($requestModel);
+
+        $this->apiClient->withRequest($requestModel);
+
         return $this;
     }
 
@@ -63,7 +81,12 @@ abstract class AceMethodAbstract implements AceMethodInterface
      */
     public function send(): ResponseInterface
     {
-        return $this->assistant->getApiClient()->send();
+        // Set the endpoint just before sending to ensure it's correct for this specific call
+        $this->apiClient->withEndpoint($this->buildEndPoint());
+
+        $this->apiClient->withResponseAs($this->getResponseAsObject());
+
+        return $this->apiClient->send();
     }
 
     /**
@@ -71,49 +94,145 @@ abstract class AceMethodAbstract implements AceMethodInterface
      */
     public function getMetadata(): ClientMetadataInterface
     {
-        return $this->assistant->getApiClient()->getMetadata();
+        $endpoint = $this->buildEndPoint();
+
+        // Ensure endpoint is set when getting metadata
+        $this->apiClient->withEndpoint($endpoint);
+
+        return $this->apiClient->getMetadata();
     }
 
     /**
-     * Build the end point.
-     * 
-     * @param string $baseService
-     * 
+     * Resolve API client based on method requirements
+     *
+     * @param ApiClientResolver $clientResolver
+     *
+     * @return ClientInterface
+     *
+     * @throws InvalidClassNameException
+     */
+    private function resolveApiClient(ApiClientResolver $clientResolver): ClientInterface
+    {
+        $apiType = $this->getApiType();
+        $format = $this->getRequestFormat();
+        $httpMethod = $this->getHttpMethod();
+
+        $client = $clientResolver->resolve($apiType, $format, $httpMethod);
+
+        if (!$client) {
+            throw new InvalidClassNameException(sprintf('No suitable client found for API type: %s, format: %s', $apiType, $format));
+        }
+
+        return $client;
+    }
+
+    /**
+     * Get API type for this method
+     * Returns configured default from ace.method parameters or can be overridden by subclasses
+     *
      * @return string
      */
-    private function buildEndPoint(string $baseService): string
+    protected function getApiType(): string
     {
-        return sprintf('%s/%s', $baseService, $this->setEndPointService());
+        try {
+            $methodConfig = $this->parameterBag->get('ace.method');
+
+            return $methodConfig['default_api_type'] ?? ClientInterface::API_TYPE_SOAP;
+        } catch (\Exception $e) {
+            return ClientInterface::API_TYPE_SOAP; // Fallback default
+        }
+    }
+
+    /**
+     * Get request format for this method
+     * Returns configured default from ace.method parameters or can be overridden by subclasses
+     *
+     * @return string
+     */
+    protected function getRequestFormat(): string
+    {
+        try {
+            $methodConfig = $this->parameterBag->get('ace.method');
+
+            return $methodConfig['default_request_format'] ?? ClientInterface::FORMAT_XML;
+        } catch (\Exception $e) {
+            return ClientInterface::FORMAT_XML; // Fallback default
+        }
+    }
+
+    /**
+     * Get request HTTP method for this method
+     * Returns configured default from ace.method parameters or can be overridden by subclasses
+     *
+     * @return string
+     */
+    protected function getHttpMethod(): string
+    {
+        try {
+            $methodConfig = $this->parameterBag->get('ace.method');
+
+            return $methodConfig['default_request_httpMethod'] ?? ClientInterface::HTTP_METHOD_POST;
+        } catch (\Exception $e) {
+            return ClientInterface::HTTP_METHOD_POST; // Fallback default
+        }
     }
 
     /**
      * Set the request method name.
-     * 
+     *
      * @return string
      */
     abstract protected function setEndPointService(): string;
 
-    /**
-     * Set the response object.
-     * 
-     * @return string
-     */
-    abstract protected function setResponseAsObject(): string;
+    abstract protected function getRequestInterface(): string;
+
+    abstract protected function getResponseInterface(): string;
+
+    abstract protected function getBaseServiceName(): string;
 
     /**
-     * Get the response object.
-     * 
-     * @return string
-     * 
      * @throws DataTypeMissMatchException
      * @throws InvalidClassNameException
      */
-     private function getResponseAsObject(): string
-     {
-        $settedResponseObject = $this->setResponseAsObject();
-        ClassFactory::validateClassExists($settedResponseObject);
-        
-        return ClassFactory::validateCompatible($settedResponseObject, ResponseModelInterface::class);
-     }
+    private function getResponseAsObject(): string
+    {
+        $responseInterface = $this->getResponseInterface();
 
+        // 1. 設定ファイルから検索
+        $responseClass = $this->getResponseClassFromConfig($responseInterface);
+
+        // 2. 設定にない場合は自動検出
+        if (!$responseClass) {
+            $responseClass = $this->resolveResponseClassAutomatically($responseInterface);
+        }
+
+        // 3. 見つからない場合はエラー
+        if (!$responseClass) {
+            throw new InvalidClassNameException("Response class not found for interface: {$responseInterface}");
+        }
+
+        ClassFactory::validateClassExists($responseClass);
+
+        return ClassFactory::validateCompatible($responseClass, ResponseModelInterface::class);
+    }
+
+    private function getResponseClassFromConfig(string $responseInterface): ?string
+    {
+        try {
+            $mappings = $this->parameterBag->get('ace.request_response_mapping');
+
+            return $mappings[$responseInterface]['response'] ?? null;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    private function resolveResponseClassAutomatically(string $responseInterface): ?string
+    {
+        try {
+            return $this->modelResolver->findResponseModel($responseInterface);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
 }

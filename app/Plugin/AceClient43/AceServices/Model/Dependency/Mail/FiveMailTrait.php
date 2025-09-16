@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Mail;
 
 /**
@@ -9,15 +20,15 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Mail;
  */
 trait FiveMailTrait
 {
-    /** @var ?string $mail1 メールアドレス1 */
+    /** @var ?string メールアドレス1 */
     protected ?string $mail1 = null;
-    /** @var ?string $mail2 メールアドレス2 */
+    /** @var ?string メールアドレス2 */
     protected ?string $mail2 = null;
-    /** @var ?string $mail3 メールアドレス3 */
+    /** @var ?string メールアドレス3 */
     protected ?string $mail3 = null;
-    /** @var ?string $mail4 メールアドレス4 */
+    /** @var ?string メールアドレス4 */
     protected ?string $mail4 = null;
-    /** @var ?string $mail5 メールアドレス5 */
+    /** @var ?string メールアドレス5 */
     protected ?string $mail5 = null;
 
     /**
@@ -34,6 +45,7 @@ trait FiveMailTrait
     public function setMail1(?string $mail1)
     {
         $this->mail1 = $mail1;
+
         return $this;
     }
 
@@ -51,6 +63,7 @@ trait FiveMailTrait
     public function setMail2(?string $mail2)
     {
         $this->mail2 = $mail2;
+
         return $this;
     }
 
@@ -68,6 +81,7 @@ trait FiveMailTrait
     public function setMail3(?string $mail3)
     {
         $this->mail3 = $mail3;
+
         return $this;
     }
 
@@ -85,6 +99,7 @@ trait FiveMailTrait
     public function setMail4(?string $mail4)
     {
         $this->mail4 = $mail4;
+
         return $this;
     }
 
@@ -102,6 +117,7 @@ trait FiveMailTrait
     public function setMail5(?string $mail5)
     {
         $this->mail5 = $mail5;
+
         return $this;
     }
 }

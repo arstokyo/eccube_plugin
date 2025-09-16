@@ -1,10 +1,21 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Hanpu\GetHanpuRireki;
 
-use Plugin\AceClient43\AceServices\Model\Dependency\Hanpu\Handen;
-use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
 use Plugin\AceClient43\AceServices\Model\Dependency\Card;
+use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
+use Plugin\AceClient43\AceServices\Model\Dependency\Hanpu\Handen;
 
 /**
  * Class for HandenModel
@@ -13,20 +24,20 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Card;
  */
 class HandenModel implements HandenModelInterface
 {
-    use Handen\HandenModelGroup1Trait,
-        Handen\HandenModelGroup2Trait,
-        Denpyo\DennoTrait,
-        Card\CedaTrait;
+    use Handen\HandenModelGroup1Trait;
+    use Handen\HandenModelGroup2Trait;
+    use Denpyo\DennoTrait;
+    use Card\CedaTrait;
 
-    /** @var ?int $nowcnt 現在回数 */
+    /** @var ?int 現在回数 */
     protected ?int $nowcnt = null;
 
     /**
      * Hanmei
      *
-     * @var HanmeiModel $hanmei
+     * @var HanmeiModel
      */
-    protected ?HanmeiModel $hanmei  = null;
+    protected ?HanmeiModel $hanmei = null;
 
     /**
      * {@inheritDoc}
@@ -42,21 +53,22 @@ class HandenModel implements HandenModelInterface
     public function setNowcnt(?int $nowcnt)
     {
         $this->nowcnt = $nowcnt;
+
         return $this;
     }
 
     /**
      * {@inheritDoc}
      */
-    function getHanmei(): ?HanmeiModel
+    public function getHanmei(): ?HanmeiModel
     {
         return $this->hanmei;
     }
 
     /**
-    * {@inheritDoc}
-    */
-    function setHanmei(?HanmeiModel $hanmei): void
+     * {@inheritDoc}
+     */
+    public function setHanmei(?HanmeiModel $hanmei): void
     {
         $this->hanmei = $hanmei;
     }

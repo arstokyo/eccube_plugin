@@ -1,10 +1,21 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Request\Member\GetDurationOrderTotal;
 
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelAbstract;
 use Plugin\AceClient43\Exception\MissingRequestParameterException;
-use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Class GetDurationOrderTotalRequestModel
@@ -13,15 +24,15 @@ use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
  */
 class GetDurationOrderTotalRequestModel extends RequestModelAbstract implements GetDurationOrderTotalRequestModelInterface
 {
-    const XML_NODE_NAME = 'getDurationOrderTotal';
+    use NoCategory\SyidTrait;
 
-    use NoCategory\SyidTrait,
-        NoCategory\MbidTrait;
+    use NoCategory\MbidTrait;
+    public const XML_NODE_NAME = 'getDurationOrderTotal';
 
-    /** @var ?int $dayfrom 開始日付 */
+    /** @var ?int 開始日付 */
     protected ?int $dayfrom = null;
 
-    /** @var ?int $dayto 終了日付 */
+    /** @var ?int 終了日付 */
     protected ?int $dayto = null;
 
     /**
@@ -38,6 +49,7 @@ class GetDurationOrderTotalRequestModel extends RequestModelAbstract implements 
     public function setDayfrom(?int $dayfrom)
     {
         $this->dayfrom = $dayfrom;
+
         return $this;
     }
 
@@ -55,6 +67,7 @@ class GetDurationOrderTotalRequestModel extends RequestModelAbstract implements 
     public function setDayto(?int $dayto)
     {
         $this->dayto = $dayto;
+
         return $this;
     }
 
@@ -63,8 +76,12 @@ class GetDurationOrderTotalRequestModel extends RequestModelAbstract implements 
      */
     public function ensureParameterNotMissing(): void
     {
-        if (!$this->syid) { throw new MissingRequestParameterException($this->compilePropertyName('syid')); };
-        if (!$this->mbid) { throw new MissingRequestParameterException($this->compilePropertyName('mbid')); };
+        if (!$this->syid) {
+            throw new MissingRequestParameterException($this->compilePropertyName('syid'));
+        }
+        if (!$this->mbid) {
+            throw new MissingRequestParameterException($this->compilePropertyName('mbid'));
+        }
     }
 
     /**

@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
 
 /**
@@ -20,6 +31,7 @@ interface HasTwoOBikouInterface
      * Set 送り状備考1
      *
      * @param ?string $obikou1
+     *
      * @return $this
      */
     public function setObikou1(?string $obikou1);
@@ -35,6 +47,7 @@ interface HasTwoOBikouInterface
      * Set 送り状備考2
      *
      * @param ?string $obikou2
+     *
      * @return $this
      */
     public function setObikou2(?string $obikou2);

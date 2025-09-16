@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
 
 /**
@@ -9,16 +20,16 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Bikou;
  */
 trait ThreeBikouTrait
 {
-    /** @var ?string $bikou1 備考1 */
+    /** @var ?string 備考1 */
     protected ?string $bikou1 = null;
 
     /**
-     * @var ?string $bikou2 備考2
+     * @var ?string 備考2
      */
     protected ?string $bikou2 = null;
 
     /**
-     * @var ?string $bikou3 備考3
+     * @var ?string 備考3
      */
     protected ?string $bikou3 = null;
 
@@ -36,6 +47,7 @@ trait ThreeBikouTrait
     public function setBikou1(?string $bikou1)
     {
         $this->bikou1 = $bikou1;
+
         return $this;
     }
 
@@ -53,6 +65,7 @@ trait ThreeBikouTrait
     public function setBikou2(?string $bikou2)
     {
         $this->bikou2 = $bikou2;
+
         return $this;
     }
 
@@ -70,7 +83,7 @@ trait ThreeBikouTrait
     public function setBikou3(?string $bikou3)
     {
         $this->bikou3 = $bikou3;
+
         return $this;
     }
-
 }

@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Member;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetSbpsCustId\GetSbpsCustIdRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetSbpsCustId\GetSbpsCustIdResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
-
 
 class GetSbpsCustIdRequestModelTest extends AceRequestTestAbtract
 {
@@ -40,6 +50,7 @@ class GetSbpsCustIdRequestModelTest extends AceRequestTestAbtract
         $sbpsCustId = new GetSbpsCustIdRequestModel();
         $GetSbpsCustId = $sbpsCustId->setSyid(OverviewMapper::ACE_TEST_SYID)
                                   ->setMbid('213');
+
         return $GetSbpsCustId;
     }
 
@@ -48,15 +59,19 @@ class GetSbpsCustIdRequestModelTest extends AceRequestTestAbtract
         $sbpsCustId = new GetSbpsCustIdRequestModel();
         $GetSbpsCustId = $sbpsCustId->setSyid(OverviewMapper::ACE_TEST_SYID)
                                   ->setMbid('213');
+
         return $GetSbpsCustId;
     }
+
     public function GetSbpsCustIdRequestNG(): GetSbpsCustIdRequestModel
     {
         $sbpsCustId = new GetSbpsCustIdRequestModel();
         $GetSbpsCustId = $sbpsCustId->setSyid(-1)
                                   ->setMbid('213');
+
         return $GetSbpsCustId;
     }
+
     public function testRequestGetSbpsCustIdOK()
     {
         try {
@@ -72,26 +87,25 @@ class GetSbpsCustIdRequestModelTest extends AceRequestTestAbtract
                 $sbpscustid1 = $responseObj->getGetSbpsCustId()->getSbpscustid()[0];
                 $sbpscustid2 = $responseObj->getGetSbpsCustId()->getSbpscustid()[1];
                 $message = $responseObj->getGetSbpsCustId()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
-        $this->assertEquals("213", $sbpscustid1->getMbid());
-        $this->assertEquals("3", $sbpscustid1->getCeda());
-        $this->assertEquals("213", $sbpscustid1->getCustid());
-        $this->assertEquals("2024-06-11", $sbpscustid1->getDay()->toShortDate());
+        $this->assertEquals('213', $sbpscustid1->getMbid());
+        $this->assertEquals('3', $sbpscustid1->getCeda());
+        $this->assertEquals('213', $sbpscustid1->getCustid());
+        $this->assertEquals('2024-06-11', $sbpscustid1->getDay()->toShortDate());
 
-        $this->assertEquals("213", $sbpscustid2->getMbid());
-        $this->assertEquals("2", $sbpscustid2->getCeda());
-        $this->assertEquals("213", $sbpscustid2->getCustid());
-        $this->assertEquals("2024-06-11", $sbpscustid2->getDay()->toShortDate());
+        $this->assertEquals('213', $sbpscustid2->getMbid());
+        $this->assertEquals('2', $sbpscustid2->getCeda());
+        $this->assertEquals('213', $sbpscustid2->getCustid());
+        $this->assertEquals('2024-06-11', $sbpscustid2->getDay()->toShortDate());
 
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestGetSbpsCustIdNG()
@@ -108,16 +122,15 @@ class GetSbpsCustIdRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getGetSbpsCustId()->getMessage()->getMessage1();
                 $sbpscustid = $responseObj->getGetSbpsCustId()->getSbpscustid();
                 $message = $responseObj->getGetSbpsCustId()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(null, $sbpscustid);
-        $this->assertEquals("ＷＥＢ初期設定がありません", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('ＷＥＢ初期設定がありません', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

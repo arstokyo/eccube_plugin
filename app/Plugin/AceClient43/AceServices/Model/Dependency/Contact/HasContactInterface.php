@@ -1,19 +1,28 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Contact;
 
+use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
 use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
 use Plugin\AceClient43\AceServices\Model\Dependency\Good;
-use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
 
 /**
  * Interface for HasContact
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface HasContactInterface extends Denpyo\HasDennoInterface,
-                                      Good\HasGdidInterface,
-                                      ContactBaseModelInterface
+interface HasContactInterface extends Denpyo\HasDennoInterface, Good\HasGdidInterface, ContactBaseModelInterface
 {
     /**
      * Get 初回日時
@@ -26,6 +35,7 @@ interface HasContactInterface extends Denpyo\HasDennoInterface,
      * Set 初回日時
      *
      * @param \DateTime|string|null $fdate
+     *
      * @return $this
      */
     public function setFdate($fdate);
@@ -41,6 +51,7 @@ interface HasContactInterface extends Denpyo\HasDennoInterface,
      * Set バウンド区分
      *
      * @param ?int $kind
+     *
      * @return $this
      */
     public function setKind(?int $kind);
@@ -56,6 +67,7 @@ interface HasContactInterface extends Denpyo\HasDennoInterface,
      * Set 顧客共有システムID
      *
      * @param ?int $msyid
+     *
      * @return $this
      */
     public function setMsyid(?int $msyid);
@@ -71,6 +83,7 @@ interface HasContactInterface extends Denpyo\HasDennoInterface,
      * Set 顧客／仕入先ID
      *
      * @param ?string $etcid
+     *
      * @return $this
      */
     public function setEtcid(?string $etcid);
@@ -86,6 +99,7 @@ interface HasContactInterface extends Denpyo\HasDennoInterface,
      * Set 納品先枝番
      *
      * @param ?int $nouno
+     *
      * @return $this
      */
     public function setNouno(?int $nouno);
@@ -101,6 +115,7 @@ interface HasContactInterface extends Denpyo\HasDennoInterface,
      * Set 品番
      *
      * @param ?string $ghid
+     *
      * @return $this
      */
     public function setGhid(?string $ghid);
@@ -116,6 +131,7 @@ interface HasContactInterface extends Denpyo\HasDennoInterface,
      * Set 最終グループ名
      *
      * @param ?string $lastgroup
+     *
      * @return $this
      */
     public function setLastgroup(?string $lastgroup);
@@ -131,6 +147,7 @@ interface HasContactInterface extends Denpyo\HasDennoInterface,
      * Set フリーマスタ1
      *
      * @param ?string $cfreemst1
+     *
      * @return $this
      */
     public function setCfreemst1(?string $cfreemst1);
@@ -146,6 +163,7 @@ interface HasContactInterface extends Denpyo\HasDennoInterface,
      * Set フリーメモ1
      *
      * @param ?string $cfreememo1
+     *
      * @return $this
      */
     public function setCfreememo1(?string $cfreememo1);
@@ -161,6 +179,7 @@ interface HasContactInterface extends Denpyo\HasDennoInterface,
      * Set フリー日付1
      *
      * @param \DateTime|string|null $cfreeday1
+     *
      * @return $this
      */
     public function setCfreeday1($cfreeday1);
@@ -176,6 +195,7 @@ interface HasContactInterface extends Denpyo\HasDennoInterface,
      * Set フリーデータ1
      *
      * @param ?string $cfreedata1
+     *
      * @return $this
      */
     public function setCfreedata1(?string $cfreedata1);

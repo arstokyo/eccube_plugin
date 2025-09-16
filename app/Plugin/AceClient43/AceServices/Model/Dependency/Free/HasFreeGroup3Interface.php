@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 /**
@@ -20,6 +31,7 @@ interface HasFreeGroup3Interface
      * Set ファイル区分
      *
      * @param ?int $frkbn
+     *
      * @return $this
      */
     public function setFrkbn(?int $frkbn);
@@ -35,6 +47,7 @@ interface HasFreeGroup3Interface
      * Set キー情報
      *
      * @param ?string $frkey
+     *
      * @return $this
      */
     public function setFrkey(?string $frkey);
@@ -50,6 +63,7 @@ interface HasFreeGroup3Interface
      * Set フリー項目区分
      *
      * @param ?int $fmkbn
+     *
      * @return $this
      */
     public function setFmkbn(?int $fmkbn);
@@ -65,6 +79,7 @@ interface HasFreeGroup3Interface
      * Set フリー内容
      *
      * @param ?string $free
+     *
      * @return $this
      */
     public function setFree(?string $free);

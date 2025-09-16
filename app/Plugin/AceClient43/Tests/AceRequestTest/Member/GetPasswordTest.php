@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Member;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetPassword\GetPasswordRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetPassword\GetPasswordResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
-
 
 class GetPasswordRequestModelTest extends AceRequestTestAbtract
 {
@@ -34,12 +44,12 @@ class GetPasswordRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
-
     public function GetPasswordRequestForSerialize(): GetPasswordRequestModel
     {
         $password = new GetPasswordRequestModel();
         $getPassword = $password->setId(OverviewMapper::ACE_TEST_SYID)
-                                ->setMail("abc@gmail.com");
+                                ->setMail('abc@gmail.com');
+
         return $getPassword;
     }
 
@@ -47,16 +57,20 @@ class GetPasswordRequestModelTest extends AceRequestTestAbtract
     {
         $password = new GetPasswordRequestModel();
         $getPassword = $password->setId(OverviewMapper::ACE_TEST_SYID)
-                                ->setMail("GetPasswordTest@AceClient.v1.1");
+                                ->setMail('GetPasswordTest@AceClient.v1.1');
+
         return $getPassword;
     }
+
     public function GetPasswordRequestNG(): GetPasswordRequestModel
     {
         $password = new GetPasswordRequestModel();
         $getPassword = $password->setId(-1)
-                                ->setMail("GetPasswordTest@AceClient.v1.1");
+                                ->setMail('GetPasswordTest@AceClient.v1.1');
+
         return $getPassword;
     }
+
     public function testRequestGetPasswordOK()
     {
         try {
@@ -71,18 +85,17 @@ class GetPasswordRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMember()->getMessage()->getMessage1();
                 $memweb = $responseObj->getMember()->getMemweb();
                 $message = $responseObj->getMember()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
-        $this->assertEquals("GetPasswordTest@AceClient.v1.1", $memweb->getMail());
-        $this->assertEquals("P@ssword1#", $memweb->getPasswd());
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('GetPasswordTest@AceClient.v1.1', $memweb->getMail());
+        $this->assertEquals('P@ssword1#', $memweb->getPasswd());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestGetPasswordNG()
@@ -99,15 +112,14 @@ class GetPasswordRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMember()->getMessage()->getMessage1();
                 $memweb = $responseObj->getMember()->getMemweb();
                 $message = $responseObj->getMember()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
         $this->assertEquals(null, $memweb);
         $this->assertEquals(null, $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

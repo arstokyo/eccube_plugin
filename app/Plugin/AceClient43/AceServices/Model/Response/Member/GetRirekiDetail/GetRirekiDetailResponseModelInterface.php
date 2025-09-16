@@ -1,9 +1,19 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetRirekiDetail;
 
 use Plugin\AceClient43\AceServices\Model\Response\ResponseModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Interface for GetRirekiDetailResponseModel
@@ -15,14 +25,14 @@ interface GetRirekiDetailResponseModelInterface extends ResponseModelInterface
     /**
      * Get MemberModel
      *
-     * @return Response\Member\GetRirekiDetail\MemberModelInterface
+     * @return MemberModelInterface
      */
     public function getMember(): MemberModelInterface;
 
     /**
      * Set MemberModel
      *
-     * @param Response\Member\GetRirekiDetail\MemberModel $member
+     * @param MemberModel $member
      */
     public function setMember(MemberModel $member): void;
 }

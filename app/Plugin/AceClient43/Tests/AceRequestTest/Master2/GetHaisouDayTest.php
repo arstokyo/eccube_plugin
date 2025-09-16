@@ -1,17 +1,27 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Jyuden;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Master2\GetHaisouDay;
 use Plugin\AceClient43\AceServices\Model\Response\Master2\GetHaisouDay\GetHaisouDayResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 
 class GetHaisouDayTest extends AceRequestTestAbtract
 {
-
     public function getHaisouDayRequestModel(): GetHaisouDay\GetHaisouDayRequestModel
     {
         return (new GetHaisouDay\GetHaisouDayRequestModel())
@@ -19,7 +29,8 @@ class GetHaisouDayTest extends AceRequestTestAbtract
                 ->setSouko(200)
                 ->setHcode(90)
                 ->setZip('999-999');
-    }   
+    }
+
     public function testRequestHaisouDayOK()
     {
         $message1 = null;
@@ -33,15 +44,14 @@ class GetHaisouDayTest extends AceRequestTestAbtract
                 /** @var GetHaisouDayResponseModel $responseObj */
                 $responseObj = $response->getResponse();
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertNull($message1);
         $this->assertEquals(3, $responseObj->getDay());
-        
     }
 
     public function testSerializeGetHaisouDay()
@@ -68,5 +78,4 @@ class GetHaisouDayTest extends AceRequestTestAbtract
         XML;
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
-    
 }

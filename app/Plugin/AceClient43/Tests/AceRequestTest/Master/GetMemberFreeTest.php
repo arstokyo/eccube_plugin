@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Master;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Master\GetMemberFree\GetMemberFreeRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Master\GetMemberFree\GetMemberFreeResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
-
 
 class GetMemberFreeRequestModelTest extends AceRequestTestAbtract
 {
@@ -35,12 +45,12 @@ class GetMemberFreeRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
-
     public function GetMemberFreeRequestForSerialize(): GetMemberFreeRequestModel
     {
         $memberfree = new GetMemberFreeRequestModel();
         $getMemberFree = $memberfree->setId(OverviewMapper::ACE_TEST_SYID)
-                                    ->setMbid("212");
+                                    ->setMbid('212');
+
         return $getMemberFree;
     }
 
@@ -48,16 +58,20 @@ class GetMemberFreeRequestModelTest extends AceRequestTestAbtract
     {
         $memberfree = new GetMemberFreeRequestModel();
         $getMemberFree = $memberfree->setId(OverviewMapper::ACE_TEST_SYID)
-                                    ->setMbid("212");
+                                    ->setMbid('212');
+
         return $getMemberFree;
     }
+
     public function GetMemberFreeRequestNG(): GetMemberFreeRequestModel
     {
         $memberfree = new GetMemberFreeRequestModel();
         $getMemberFree = $memberfree->setId(-1)
-                                    ->setMbid("212");
+                                    ->setMbid('212');
+
         return $getMemberFree;
     }
+
     public function testRequestGetMemberFreeOK()
     {
         try {
@@ -73,24 +87,23 @@ class GetMemberFreeRequestModelTest extends AceRequestTestAbtract
                 $memberfree1 = $responseObj->getMaster()->getMemberFree()[0];
                 $memberfree2 = $responseObj->getMaster()->getMemberFree()[1];
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
-        $this->assertEquals("212", $memberfree1->getMbid());
+        $this->assertEquals('212', $memberfree1->getMbid());
         $this->assertEquals(101100, $memberfree1->getKubun());
-        $this->assertEquals("1001", $memberfree1->getFree());
+        $this->assertEquals('1001', $memberfree1->getFree());
 
-        $this->assertEquals("212", $memberfree2->getMbid());
+        $this->assertEquals('212', $memberfree2->getMbid());
         $this->assertEquals(101101, $memberfree2->getKubun());
-        $this->assertEquals("1011", $memberfree2->getFree());
+        $this->assertEquals('1011', $memberfree2->getFree());
 
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestGetMemberFreeNG()
@@ -107,16 +120,15 @@ class GetMemberFreeRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMaster()->getMessage()->getMessage1();
                 $memberfree = $responseObj->getMaster()->getMemberFree();
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(null, $memberfree);
-        $this->assertEquals("ＷＥＢ初期設定がありません", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('ＷＥＢ初期設定がありません', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 }

@@ -1,9 +1,19 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Member\DeleteHaisoAdrs;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelTrait;
-use Plugin\AceClient43\AceServices\Model\Response\Member\DeleteHaisoAdrs\NmemberModel;
 
 /**
  * Class MemberModel
@@ -13,26 +23,26 @@ use Plugin\AceClient43\AceServices\Model\Response\Member\DeleteHaisoAdrs\Nmember
 class MemberModel implements MemberModelInterface
 {
     use HasMessageModelTrait;
-    
+
     /**
      * Point
      *
-     * @var NmemberModel[]|null $Nmember
+     * @var NmemberModel[]|null
      */
-    protected ?array $Nmember  = null;
+    protected ?array $Nmember = null;
 
     /**
      * {@inheritDoc}
      */
-    function getNmember(): ?array
+    public function getNmember(): ?array
     {
         return $this->Nmember;
     }
 
     /**
-    * {@inheritDoc}
-    */
-    function setNmember(?array $Nmember): void
+     * {@inheritDoc}
+     */
+    public function setNmember(?array $Nmember): void
     {
         $this->Nmember = $Nmember;
     }
@@ -43,7 +53,7 @@ class MemberModel implements MemberModelInterface
     public static function fetchAsListProperty(): array
     {
         return [
-            'Nmember' => NmemberModel::class
+            'Nmember' => NmemberModel::class,
         ];
     }
 }

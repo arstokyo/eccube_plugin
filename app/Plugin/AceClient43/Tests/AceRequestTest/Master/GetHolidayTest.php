@@ -1,14 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Master;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Master\GetHoliday\GetHolidayRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Master\GetHoliday\GetHolidayResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
-
 
 class GetHolidayRequestModelTest extends AceRequestTestAbtract
 {
@@ -43,7 +53,8 @@ class GetHolidayRequestModelTest extends AceRequestTestAbtract
         $getHoliday = $holiday->setSyid(OverviewMapper::ACE_TEST_SYID)
                               ->setStartday('20240101')
                               ->setEndday('20240601')
-                              ->setSkid("300");
+                              ->setSkid('300');
+
         return $getHoliday;
     }
 
@@ -53,18 +64,22 @@ class GetHolidayRequestModelTest extends AceRequestTestAbtract
         $getHoliday = $holiday->setSyid(OverviewMapper::ACE_TEST_SYID)
                               ->setStartday('20240101')
                               ->setEndday('20240601')
-                              ->setSkid("300");
+                              ->setSkid('300');
+
         return $getHoliday;
     }
+
     public function GetHolidayRequestNG(): GetHolidayRequestModel
     {
         $holiday = new GetHolidayRequestModel();
         $getHoliday = $holiday->setSyid(-1)
                               ->setStartday('20240101')
                               ->setEndday('20240601')
-                              ->setSkid("300");
+                              ->setSkid('300');
+
         return $getHoliday;
     }
+
     public function testRequestGetHolidayOK()
     {
         try {
@@ -80,30 +95,29 @@ class GetHolidayRequestModelTest extends AceRequestTestAbtract
                 $calendar1 = $responseObj->getMaster()->getCalendar()[0];
                 $calendar2 = $responseObj->getMaster()->getCalendar()[1];
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(300, $calendar1->getSkid());
-        $this->assertEquals("2024-01-06", $calendar1->getDay()->toShortDate());
+        $this->assertEquals('2024-01-06', $calendar1->getDay()->toShortDate());
         $this->assertEquals(1, $calendar1->getHolkbn());
-        $this->assertEquals("", $calendar1->getMemo());
-        $this->assertEquals("000000", $calendar1->getFrcolor());
+        $this->assertEquals('', $calendar1->getMemo());
+        $this->assertEquals('000000', $calendar1->getFrcolor());
         $this->assertEquals(1, $calendar1->getShowdays());
 
         $this->assertEquals(300, $calendar2->getSkid());
-        $this->assertEquals("2024-01-07", $calendar2->getDay()->toShortDate());
+        $this->assertEquals('2024-01-07', $calendar2->getDay()->toShortDate());
         $this->assertEquals(1, $calendar2->getHolkbn());
-        $this->assertEquals("", $calendar2->getMemo());
-        $this->assertEquals("000000", $calendar2->getFrcolor());
+        $this->assertEquals('', $calendar2->getMemo());
+        $this->assertEquals('000000', $calendar2->getFrcolor());
         $this->assertEquals(1, $calendar2->getShowdays());
 
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 
     public function testRequestGetHolidayNG()
@@ -120,16 +134,15 @@ class GetHolidayRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getMaster()->getMessage()->getMessage1();
                 $calendar = $responseObj->getMaster()->getCalendar();
                 $message = $responseObj->getMaster()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
         $this->assertEquals(null, $calendar);
-        $this->assertEquals("カレンダーデータが存在しません", $message->getMessage1());
-        $this->assertEquals("select skid,day,holkbn,memo,frcolor,showdays from calendar where syid=:xsyid and skid=:xskid and day between :xsday and :xeday", $message->getMessage2());
+        $this->assertEquals('カレンダーデータが存在しません', $message->getMessage1());
+        $this->assertEquals('select skid,day,holkbn,memo,frcolor,showdays from calendar where syid=:xsyid and skid=:xskid and day between :xsday and :xeday', $message->getMessage2());
     }
 }

@@ -1,47 +1,58 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Person;
 
+use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
 use Plugin\AceClient43\AceServices\Model\Dependency\Baitai\BaitaiNameTrait;
 use Plugin\AceClient43\AceServices\Model\Dependency\Free\ThreeFnameTrait;
-use Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC\FivePCKbnTrait;
-use Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC\FiveKeiKbnTrait;
 use Plugin\AceClient43\AceServices\Model\Dependency\Mail\FiveMailTrait;
 use Plugin\AceClient43\AceServices\Model\Dependency\Mail\MailTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC\FiveKeiKbnTrait;
+use Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC\FivePCKbnTrait;
 use Plugin\AceClient43\AceServices\Model\Dependency\Point\PointTrait;
-use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
 
 /**
  * Trait For Person Level 5
  *
  * @author Ars-Thong <v.t.nguyen@ar-sytem.co.jp>
  */
-trait PersonLevel5Trait 
+trait PersonLevel5Trait
 {
-    use FivePCKbnTrait,
-        FiveKeiKbnTrait,
-        FiveMailTrait,
-        BaitaiNameTrait,
-        PointTrait,
-        ThreeFnameTrait,
-        MailTrait;
+    use FivePCKbnTrait;
+    use FiveKeiKbnTrait;
+    use FiveMailTrait;
+    use BaitaiNameTrait;
+    use PointTrait;
+    use ThreeFnameTrait;
+    use MailTrait;
 
-    /** @var ?int $age 年齢 */
+    /** @var ?int 年齢 */
     protected ?int $age = null;
 
-    /** @var ?AceDateTime\AceDateTime $blday 滞納者日付 */
+    /** @var ?AceDateTime\AceDateTime 滞納者日付 */
     protected ?AceDateTime\AceDateTime $blday = null;
 
-    /** @var ?int $blkbn 滞納者フラグ */
+    /** @var ?int 滞納者フラグ */
     protected ?int $blkbn = null;
 
-    /** @var ?int $dadr DM送付先フラグ */
+    /** @var ?int DM送付先フラグ */
     protected ?int $dadr = null;
 
-    /** @var ?int $gadr 商品送付先フラグ */
+    /** @var ?int 商品送付先フラグ */
     protected ?int $gadr = null;
 
-    /** @var ?string $upcodeSimei 紹介者 氏名 */
+    /** @var ?string 紹介者 氏名 */
     protected ?string $upcodeSimei = null;
 
     /**
@@ -90,6 +101,7 @@ trait PersonLevel5Trait
     public function setAge(?int $age)
     {
         $this->age = $age;
+
         return $this;
     }
 
@@ -99,6 +111,7 @@ trait PersonLevel5Trait
     public function setBlday($blday)
     {
         $this->blday = AceDateTime\AceDateTimeFactory::makeAceDateTime($blday);
+
         return $this;
     }
 
@@ -108,6 +121,7 @@ trait PersonLevel5Trait
     public function setBlkbn(?int $blkbn)
     {
         $this->blkbn = $blkbn;
+
         return $this;
     }
 
@@ -117,6 +131,7 @@ trait PersonLevel5Trait
     public function setDadr(?int $dadr)
     {
         $this->dadr = $dadr;
+
         return $this;
     }
 
@@ -126,6 +141,7 @@ trait PersonLevel5Trait
     public function setGadr(?int $gadr)
     {
         $this->gadr = $gadr;
+
         return $this;
     }
 
@@ -143,7 +159,7 @@ trait PersonLevel5Trait
     public function setUpcodeSimei(?string $upcodeSimei)
     {
         $this->upcodeSimei = $upcodeSimei;
+
         return $this;
     }
-
 }

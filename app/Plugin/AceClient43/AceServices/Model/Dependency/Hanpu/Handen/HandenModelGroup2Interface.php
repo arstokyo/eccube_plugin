@@ -1,30 +1,31 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Hanpu\Handen;
 
+use Plugin\AceClient43\AceServices\Model\Dependency\Card;
+use Plugin\AceClient43\AceServices\Model\Dependency\Day;
 use Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
-use Plugin\AceClient43\AceServices\Model\Dependency\Card;
-use Plugin\AceClient43\AceServices\Model\Dependency\Person;
-use Plugin\AceClient43\AceServices\Model\Dependency\Day;
 use Plugin\AceClient43\AceServices\Model\Dependency\OkuriAndNouhin;
+use Plugin\AceClient43\AceServices\Model\Dependency\Person;
 
 /**
  * Interface for HandenModelGroup2
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface HandenModelGroup2Interface extends HandenModelBaseInterface,
-                                             Denpyo\HasToriKbnInterface,
-                                             NoCategory\HasMcodeInterface,
-                                             Denpyo\HasScodeInterface,
-                                             Card\HasCnameInterface,
-                                             Person\Nmember\HasNcodeInterface,
-                                             Person\Nmember\HasNadrInterface,
-                                             Day\HasSdayInterface,
-                                             OkuriAndNouhin\HasBunsyoInterface,
-                                             Day\HasHdayInterface,
-                                             Denpyo\HasMemIdInterface
+interface HandenModelGroup2Interface extends HandenModelBaseInterface, Denpyo\HasToriKbnInterface, NoCategory\HasMcodeInterface, Denpyo\HasScodeInterface, Card\HasCnameInterface, Person\Nmember\HasNcodeInterface, Person\Nmember\HasNadrInterface, Day\HasSdayInterface, OkuriAndNouhin\HasBunsyoInterface, Day\HasHdayInterface, Denpyo\HasMemIdInterface
 {
     /**
      * Get 頒布コード
@@ -37,6 +38,7 @@ interface HandenModelGroup2Interface extends HandenModelBaseInterface,
      * Set 頒布コード
      *
      * @param ?int $hanpu
+     *
      * @return $this
      */
     public function setHanpu(?int $hanpu);
@@ -52,6 +54,7 @@ interface HandenModelGroup2Interface extends HandenModelBaseInterface,
      * Set カード会社コード
      *
      * @param ?string $ccode
+     *
      * @return $this
      */
     public function setCcode(?string $ccode);
@@ -67,6 +70,7 @@ interface HandenModelGroup2Interface extends HandenModelBaseInterface,
      * Set カード番号
      *
      * @param ?string $cno
+     *
      * @return $this
      */
     public function setCno(?string $cno);
@@ -82,6 +86,7 @@ interface HandenModelGroup2Interface extends HandenModelBaseInterface,
      * Set カード期限
      *
      * @param ?int $ckigen
+     *
      * @return $this
      */
     public function setCkigen(?int $ckigen);
@@ -96,7 +101,8 @@ interface HandenModelGroup2Interface extends HandenModelBaseInterface,
     /**
      * Set カード支払方法
      *
-     * @param ?int $ 
+     * @param ?int $
+     *
      * @return $this
      */
     public function setCpay(?int $cpay);
@@ -112,6 +118,7 @@ interface HandenModelGroup2Interface extends HandenModelBaseInterface,
      * Set カード承認番号
      *
      * @param ?string $syounin
+     *
      * @return $this
      */
     public function setSyounin(?string $syounin);
@@ -127,6 +134,7 @@ interface HandenModelGroup2Interface extends HandenModelBaseInterface,
      * Set 支払回数
      *
      * @param ?int $kaisuu
+     *
      * @return $this
      */
     public function setKaisuu(?int $kaisuu);
@@ -142,6 +150,7 @@ interface HandenModelGroup2Interface extends HandenModelBaseInterface,
      * Set 頒布開始回数
      *
      * @param ?int $scnt
+     *
      * @return $this
      */
     public function setScnt(?int $scnt);
@@ -157,6 +166,7 @@ interface HandenModelGroup2Interface extends HandenModelBaseInterface,
      * Set 頒布希望回数
      *
      * @param ?int $ecnt
+     *
      * @return $this
      */
     public function setEcnt(?int $ecnt);
@@ -172,6 +182,7 @@ interface HandenModelGroup2Interface extends HandenModelBaseInterface,
      * Set サイト区分
      *
      * @param ?int $sitekbn
+     *
      * @return $this
      */
     public function setSitekbn(?int $sitekbn);
@@ -187,6 +198,7 @@ interface HandenModelGroup2Interface extends HandenModelBaseInterface,
      * Set 終了希望日付
      *
      * @param ?int $eday
+     *
      * @return $this
      */
     public function setEday(?int $eday);
@@ -202,6 +214,7 @@ interface HandenModelGroup2Interface extends HandenModelBaseInterface,
      * Set 受注日区分
      *
      * @param ?int $ykbn
+     *
      * @return $this
      */
     public function setYkbn(?int $ykbn);
@@ -217,6 +230,7 @@ interface HandenModelGroup2Interface extends HandenModelBaseInterface,
      * Set 終了フラグ
      *
      * @param ?int $finflg
+     *
      * @return $this
      */
     public function setFinflg(?int $finflg);
@@ -232,6 +246,7 @@ interface HandenModelGroup2Interface extends HandenModelBaseInterface,
      * Set 終了日
      *
      * @param ?int $finday
+     *
      * @return $this
      */
     public function setFinday(?int $finday);
@@ -247,6 +262,7 @@ interface HandenModelGroup2Interface extends HandenModelBaseInterface,
      * Set 新規入力担当コード
      *
      * @param ?string $tncode
+     *
      * @return $this
      */
     public function setTncode(?string $tncode);
@@ -262,6 +278,7 @@ interface HandenModelGroup2Interface extends HandenModelBaseInterface,
      * Set 文章コード
      *
      * @param ?int $bunsyo
+     *
      * @return $this
      */
     public function setBunsyo(?int $bunsyo);
@@ -277,6 +294,7 @@ interface HandenModelGroup2Interface extends HandenModelBaseInterface,
      * Set 納品書印刷フラグ
      *
      * @param ?int $nouhin
+     *
      * @return $this
      */
     public function setNouhin(?int $nouhin);
@@ -292,6 +310,7 @@ interface HandenModelGroup2Interface extends HandenModelBaseInterface,
      * Set 初回媒体
      *
      * @param ?string $bcodef
+     *
      * @return $this
      */
     public function setBcodef(?string $bcodef);
@@ -307,6 +326,7 @@ interface HandenModelGroup2Interface extends HandenModelBaseInterface,
      * Set 初回媒体管理
      *
      * @param ?string $bkcodef
+     *
      * @return $this
      */
     public function setBkcodef(?string $bkcodef);
@@ -322,6 +342,7 @@ interface HandenModelGroup2Interface extends HandenModelBaseInterface,
      * Set キャンペーン計算区分
      *
      * @param ?int $camflg
+     *
      * @return $this
      */
     public function setCamflg(?int $camflg);
@@ -337,6 +358,7 @@ interface HandenModelGroup2Interface extends HandenModelBaseInterface,
      * Set 出荷金額なし時配送コード
      *
      * @param ?int $hcode2
+     *
      * @return $this
      */
     public function setHcode2(?int $hcode2);
@@ -352,6 +374,7 @@ interface HandenModelGroup2Interface extends HandenModelBaseInterface,
      * Set 出荷金額なし時入金予定コード
      *
      * @param ?int $pcode2
+     *
      * @return $this
      */
     public function setPcode2(?int $pcode2);
@@ -367,6 +390,7 @@ interface HandenModelGroup2Interface extends HandenModelBaseInterface,
      * Set 頒布種類
      *
      * @param ?int $htype
+     *
      * @return $this
      */
     public function setHtype(?int $htype);
@@ -382,6 +406,7 @@ interface HandenModelGroup2Interface extends HandenModelBaseInterface,
      * Set ギフトフラグ
      *
      * @param ?int $giftfg
+     *
      * @return $this
      */
     public function setGiftfg(?int $giftfg);
@@ -397,6 +422,7 @@ interface HandenModelGroup2Interface extends HandenModelBaseInterface,
      * Set 売上出荷区分
      *
      * @param ?int $uskbn
+     *
      * @return $this
      */
     public function setUskbn(?int $uskbn);
@@ -412,6 +438,7 @@ interface HandenModelGroup2Interface extends HandenModelBaseInterface,
      * Set 初回お届け日
      *
      * @param ?int $otodokeday
+     *
      * @return $this
      */
     public function setOtodokeday(?int $otodokeday);

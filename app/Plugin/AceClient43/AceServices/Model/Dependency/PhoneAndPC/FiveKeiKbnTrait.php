@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC;
 
 /**
@@ -9,19 +20,19 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC;
  */
 trait FiveKeiKbnTrait
 {
-    /** @var ?int $keikbn1 携帯電話区分1 */
+    /** @var ?int 携帯電話区分1 */
     protected ?int $keikbn1 = null;
 
-    /** @var ?int $keikbn2 携帯電話区分2 */
+    /** @var ?int 携帯電話区分2 */
     protected ?int $keikbn2 = null;
 
-    /** @var ?int $keikbn3 携帯電話区分3 */
+    /** @var ?int 携帯電話区分3 */
     protected ?int $keikbn3 = null;
 
-    /** @var ?int $keikbn4 携帯電話区分4 */
+    /** @var ?int 携帯電話区分4 */
     protected ?int $keikbn4 = null;
 
-    /** @var ?int $keikbn5 携帯電話区分5 */
+    /** @var ?int 携帯電話区分5 */
     protected ?int $keikbn5 = null;
 
     /**
@@ -38,6 +49,7 @@ trait FiveKeiKbnTrait
     public function setKeiKbn1(?int $keikbn1)
     {
         $this->keikbn1 = $keikbn1;
+
         return $this;
     }
 
@@ -55,6 +67,7 @@ trait FiveKeiKbnTrait
     public function setKeiKbn2(?int $keikbn2)
     {
         $this->keikbn2 = $keikbn2;
+
         return $this;
     }
 
@@ -72,6 +85,7 @@ trait FiveKeiKbnTrait
     public function setKeiKbn3(?int $keikbn3)
     {
         $this->keikbn3 = $keikbn3;
+
         return $this;
     }
 
@@ -89,6 +103,7 @@ trait FiveKeiKbnTrait
     public function setKeiKbn4(?int $keikbn4)
     {
         $this->keikbn4 = $keikbn4;
+
         return $this;
     }
 
@@ -106,6 +121,7 @@ trait FiveKeiKbnTrait
     public function setKeiKbn5(?int $keikbn5)
     {
         $this->keikbn5 = $keikbn5;
+
         return $this;
     }
 }

@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
@@ -9,8 +20,7 @@ use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface HasFreemstInterface extends NoCategory\HasNameInterface,
-                                      NoCategory\HasKubunInterface
+interface HasFreemstInterface extends NoCategory\HasNameInterface, NoCategory\HasKubunInterface
 {
     /**
      * Get フリー項目タイプ
@@ -23,6 +33,7 @@ interface HasFreemstInterface extends NoCategory\HasNameInterface,
      * Set フリー項目タイプ
      *
      * @param ?int $type
+     *
      * @return $this
      */
     public function setType(?int $type);
@@ -38,6 +49,7 @@ interface HasFreemstInterface extends NoCategory\HasNameInterface,
      * Set 表示順
      *
      * @param ?int $jyun
+     *
      * @return $this
      */
     public function setJyun(?int $jyun);
@@ -53,6 +65,7 @@ interface HasFreemstInterface extends NoCategory\HasNameInterface,
      * Set 必須フラグ
      *
      * @param ?int $reqflg
+     *
      * @return $this
      */
     public function setReqflg(?int $reqflg);
@@ -68,6 +81,7 @@ interface HasFreemstInterface extends NoCategory\HasNameInterface,
      * Set 説明
      *
      * @param ?string $explanation
+     *
      * @return $this
      */
     public function setExplanation(?string $explanation);
@@ -83,6 +97,7 @@ interface HasFreemstInterface extends NoCategory\HasNameInterface,
      * Set 親フリー項目区分
      *
      * @param ?int $oyakubun
+     *
      * @return $this
      */
     public function setOyakubun(?int $oyakubun);
@@ -98,6 +113,7 @@ interface HasFreemstInterface extends NoCategory\HasNameInterface,
      * Set バックカラー
      *
      * @param ?string $bgcolor
+     *
      * @return $this
      */
     public function setBgcolor(?string $bgcolor);
@@ -113,6 +129,7 @@ interface HasFreemstInterface extends NoCategory\HasNameInterface,
      * Set データ読込位置
      *
      * @param ?int $rpos
+     *
      * @return $this
      */
     public function setRpos(?int $rpos);
@@ -128,6 +145,7 @@ interface HasFreemstInterface extends NoCategory\HasNameInterface,
      * Set 最大文字数
      *
      * @param ?int $leng
+     *
      * @return $this
      */
     public function setLeng(?int $leng);

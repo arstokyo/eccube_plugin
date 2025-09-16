@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 /**
@@ -9,19 +20,19 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
  */
 trait FiveFshouhinMailTrait
 {
-    /** @var ?string $fshouhinmail1 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ1 */
+    /** @var ?string 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ1 */
     protected ?string $fshouhinmail1 = null;
 
-    /** @var ?string $fshouhinmail2 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ2 */
+    /** @var ?string 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ2 */
     protected ?string $fshouhinmail2 = null;
 
-    /** @var ?string $fshouhinmail3 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ3 */
+    /** @var ?string 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ3 */
     protected ?string $fshouhinmail3 = null;
 
-    /** @var ?string $fshouhinmail4 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ4 */
+    /** @var ?string 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ4 */
     protected ?string $fshouhinmail4 = null;
 
-    /** @var ?string $fshouhinmail5 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ5 */
+    /** @var ?string 商品在庫案内ﾒｰﾙｱﾄﾞﾚｽ5 */
     protected ?string $fshouhinmail5 = null;
 
     /**
@@ -38,6 +49,7 @@ trait FiveFshouhinMailTrait
     public function setFShouhinMail1(?string $fshouhinmail1)
     {
         $this->fshouhinmail1 = $fshouhinmail1;
+
         return $this;
     }
 
@@ -55,6 +67,7 @@ trait FiveFshouhinMailTrait
     public function setFShouhinMail2(?string $fshouhinmail2)
     {
         $this->fshouhinmail2 = $fshouhinmail2;
+
         return $this;
     }
 
@@ -72,6 +85,7 @@ trait FiveFshouhinMailTrait
     public function setFShouhinMail3(?string $fshouhinmail3)
     {
         $this->fshouhinmail3 = $fshouhinmail3;
+
         return $this;
     }
 
@@ -89,6 +103,7 @@ trait FiveFshouhinMailTrait
     public function setFShouhinMail4(?string $fshouhinmail4)
     {
         $this->fshouhinmail4 = $fshouhinmail4;
+
         return $this;
     }
 
@@ -106,7 +121,7 @@ trait FiveFshouhinMailTrait
     public function setFShouhinMail5(?string $fshouhinmail5)
     {
         $this->fshouhinmail5 = $fshouhinmail5;
+
         return $this;
     }
-
 }

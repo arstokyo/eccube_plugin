@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Hanpu\AddHanpu;
 
 /**
@@ -9,7 +20,7 @@ namespace Plugin\AceClient43\AceServices\Model\Response\Hanpu\AddHanpu;
  */
 class CouponModel implements CouponModelInterface
 {
-    /** @var ?int $couponmoney クーポン使用対象金額 */
+    /** @var ?int クーポン使用対象金額 */
     protected ?int $couponmoney = null;
 
     /**
@@ -26,6 +37,7 @@ class CouponModel implements CouponModelInterface
     public function setCouponmoney(?int $couponmoney)
     {
         $this->couponmoney = $couponmoney;
+
         return $this;
     }
 }

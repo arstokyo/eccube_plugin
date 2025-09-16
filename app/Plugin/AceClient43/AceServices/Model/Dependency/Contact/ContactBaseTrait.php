@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Contact;
 
 /**
@@ -9,14 +20,14 @@ namespace Plugin\AceClient43\AceServices\Model\Dependency\Contact;
  */
 trait ContactBaseTrait
 {
-    /** @var ?int $edano 枝番号 */
+    /** @var ?int 枝番号 */
     protected ?int $edano = null;
-    /** @var ?int $status ステータス */
+    /** @var ?int ステータス */
     protected ?int $status = null;
-    /** @var ?string $cuser 作成ユーザーID */
+    /** @var ?string 作成ユーザーID */
     protected ?string $cuser = null;
 
-    /** @var ?string $uuser 更新ユーザーID */
+    /** @var ?string 更新ユーザーID */
     protected ?string $uuser = null;
 
     /**
@@ -33,6 +44,7 @@ trait ContactBaseTrait
     public function setEdano(?int $edano)
     {
         $this->edano = $edano;
+
         return $this;
     }
 
@@ -50,6 +62,7 @@ trait ContactBaseTrait
     public function setStatus(?int $status)
     {
         $this->status = $status;
+
         return $this;
     }
 
@@ -67,6 +80,7 @@ trait ContactBaseTrait
     public function setCuser(?string $cuser)
     {
         $this->cuser = $cuser;
+
         return $this;
     }
 
@@ -84,6 +98,7 @@ trait ContactBaseTrait
     public function setUuser(?string $uuser)
     {
         $this->uuser = $uuser;
+
         return $this;
     }
 }

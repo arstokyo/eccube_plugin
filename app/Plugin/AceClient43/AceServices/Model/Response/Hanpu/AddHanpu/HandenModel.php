@@ -1,12 +1,23 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\Hanpu\AddHanpu;
 
-use Plugin\AceClient43\AceServices\Model\Dependency\Hanpu\Handen;
-use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient43\AceServices\Model\Dependency\Card;
 use Plugin\AceClient43\AceServices\Model\Dependency\Cost;
 use Plugin\AceClient43\AceServices\Model\Dependency\Day;
+use Plugin\AceClient43\AceServices\Model\Dependency\Hanpu\Handen;
+use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 
 /**
  * Class for HandenModel
@@ -15,21 +26,21 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Day;
  */
 class HandenModel implements HandenModelInterface
 {
-    use Handen\HandenModelGroup1Trait,
-        Handen\HandenModelGroup2Trait,
-        Handen\ThreeDbikouhTrait,
-        Handen\ThreeDfmemohTrait,
-        NoCategory\IdTrait,
-        NoCategory\SessIdTrait,
-        Card\CardModelLevel3Trait,
-        Card\GMO\GMOModelGroup1Trait,
-        Cost\TotalTrait,
-        Day\SdateTrait;
+    use Handen\HandenModelGroup1Trait;
+    use Handen\HandenModelGroup2Trait;
+    use Handen\ThreeDbikouhTrait;
+    use Handen\ThreeDfmemohTrait;
+    use NoCategory\IdTrait;
+    use NoCategory\SessIdTrait;
+    use Card\CardModelLevel3Trait;
+    use Card\GMO\GMOModelGroup1Trait;
+    use Cost\TotalTrait;
+    use Day\SdateTrait;
 
-    /** @var ?string $spscustomerid SPS会員ID */
+    /** @var ?string SPS会員ID */
     protected ?string $spscustomerid = null;
 
-    /** @var ?string $spstid SPSトランザクションID */
+    /** @var ?string SPSトランザクションID */
     protected ?string $spstid = null;
 
     /**
@@ -46,6 +57,7 @@ class HandenModel implements HandenModelInterface
     public function setSpscustomerid(?string $spscustomerid)
     {
         $this->spscustomerid = $spscustomerid;
+
         return $this;
     }
 
@@ -63,6 +75,7 @@ class HandenModel implements HandenModelInterface
     public function setSpstid(?string $spstid)
     {
         $this->spstid = $spstid;
+
         return $this;
     }
 }

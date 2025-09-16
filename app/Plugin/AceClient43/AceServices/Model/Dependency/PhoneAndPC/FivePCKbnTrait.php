@@ -1,27 +1,38 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\PhoneAndPC;
 
 /**
  * Trait for 5つPC区分
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 trait FivePCKbnTrait
 {
-    /** @var ?int $pckbn1 PC区分1 */
+    /** @var ?int PC区分1 */
     protected ?int $pckbn1 = null;
 
-    /** @var ?int $pckbn2 PC区分2 */
+    /** @var ?int PC区分2 */
     protected ?int $pckbn2 = null;
 
-    /** @var ?int $pckbn3 PC区分3 */
+    /** @var ?int PC区分3 */
     protected ?int $pckbn3 = null;
 
-    /** @var ?int $pckbn4 PC区分4 */
+    /** @var ?int PC区分4 */
     protected ?int $pckbn4 = null;
 
-    /** @var ?int $pckbn5 PC区分5 */
+    /** @var ?int PC区分5 */
     protected ?int $pckbn5 = null;
 
     /**
@@ -38,6 +49,7 @@ trait FivePCKbnTrait
     public function setPckbn1(?int $pckbn1)
     {
         $this->pckbn1 = $pckbn1;
+
         return $this;
     }
 
@@ -55,6 +67,7 @@ trait FivePCKbnTrait
     public function setPckbn2(?int $pckbn2)
     {
         $this->pckbn2 = $pckbn2;
+
         return $this;
     }
 
@@ -72,6 +85,7 @@ trait FivePCKbnTrait
     public function setPckbn3(?int $pckbn3)
     {
         $this->pckbn3 = $pckbn3;
+
         return $this;
     }
 
@@ -89,6 +103,7 @@ trait FivePCKbnTrait
     public function setPckbn4(?int $pckbn4)
     {
         $this->pckbn4 = $pckbn4;
+
         return $this;
     }
 
@@ -106,7 +121,7 @@ trait FivePCKbnTrait
     public function setPckbn5(?int $pckbn5)
     {
         $this->pckbn5 = $pckbn5;
+
         return $this;
     }
-
 }

@@ -1,18 +1,28 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\AceMethod\Member;
 
-use Plugin\AceClient43\AceServices\AceMethod\AceMethodAbstract;
 use Plugin\AceClient43\AceServices\Model\Request;
-use Plugin\AceClient43\AceServices\Model\Response\Member\UpdatePassword\UpdatePasswordResponseModel;
 use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response;
 
 /**
  * Method for UpdatePassword
  *
  * @author Ars-Phuoc <minh.phuoc.le@ar-system.co.jp>
  */
-class UpdatePasswordMethod extends AceMethodAbstract
+class UpdatePasswordMethod extends AbstractMemberMethod
 {
     /**
      * The End Point of Service.
@@ -30,9 +40,17 @@ class UpdatePasswordMethod extends AceMethodAbstract
     /**
      * {@inheritDoc}
      */
-    protected function setResponseAsObject(): string
+    protected function getRequestInterface(): string
     {
-        return UpdatePasswordResponseModel::class;
+        return Request\Member\UpdatePassword\UpdatePasswordRequestModelInterface::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getResponseInterface(): string
+    {
+        return Response\Member\UpdatePassword\UpdatePasswordResponseModelInterface::class;
     }
 
     /**

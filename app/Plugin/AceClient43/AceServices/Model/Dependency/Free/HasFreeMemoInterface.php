@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Free;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
@@ -22,6 +33,7 @@ interface HasFreeMemoInterface extends NoCategory\HasKubunInterface
      * Set フリーマスタID
      *
      * @param ?string $foid
+     *
      * @return $this
      */
     public function setFoid(?string $foid);
@@ -37,6 +49,7 @@ interface HasFreeMemoInterface extends NoCategory\HasKubunInterface
      * Set メモ
      *
      * @param ?string $memo
+     *
      * @return $this
      */
     public function setMemo(?string $memo);

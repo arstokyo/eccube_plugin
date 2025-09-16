@@ -1,15 +1,26 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Denpyo;
 
 /**
  * Trait for 顧客用ID
- * 
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
 trait MemIdTrait
-{   
-    /** @var ?int $memid 顧客用ID */
+{
+    /** @var ?int 顧客用ID */
     protected ?int $memid = null;
 
     /**
@@ -26,7 +37,7 @@ trait MemIdTrait
     public function setMemid(?int $memid)
     {
         $this->memid = $memid;
+
         return $this;
     }
-
 }

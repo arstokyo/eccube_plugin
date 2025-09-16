@@ -1,8 +1,18 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Request\Contact\RegContact;
 
-use Plugin\AceClient43\AceServices\Model\Request;
 use Plugin\AceClient43\AceServices\Model\Request\Prm\PrmModelInterface;
 
 /**
@@ -13,31 +23,33 @@ use Plugin\AceClient43\AceServices\Model\Request\Prm\PrmModelInterface;
 interface InquiryPrmModelInterface extends PrmModelInterface
 {
     /**
-    * Get Contact
-    *
-    * @return Request\Contact\RegContact\ContactModel
-    */
+     * Get Contact
+     *
+     * @return ContactModel
+     */
     public function getContact(): ?ContactModel;
 
     /**
      * Set Contact
      *
-     * @param Request\Contact\RegContact\ContactModel $contact
+     * @param ContactModel $contact
+     *
      * @return self
      */
     public function setContact(?ContactModel $contact): self;
 
     /**
-    * Get Contactmei
-    *
-    * @return Request\Contact\RegContact\ContactmeiModel
-    */
+     * Get Contactmei
+     *
+     * @return ContactmeiModel
+     */
     public function getContactmei(): ?ContactmeiModel;
 
     /**
      * Set Contactmei
      *
-     * @param Request\Contact\RegContact\ContactmeiModel $contactmei
+     * @param ContactmeiModel $contactmei
+     *
      * @return self
      */
     public function setContactmei(?ContactmeiModel $contactmei): self;

@@ -1,13 +1,24 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Tests\AceRequestTest\Goods;
 
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\Model\Request\Goods\GetGoodsMany\GetGoodsManyRequestModel;
 use Plugin\AceClient43\AceServices\Model\Response\Goods\GetGoodsMany\GetGoodsManyResponseModel;
-use GuzzleHttp\Exception\ClientException;
+use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
 use Plugin\AceClient43\Util\Serializer;
-use Plugin\AceClient43\Tests\AceRequestTest\AceRequestTestAbtract;
 
 class GetGoodsManyRequestModelTest extends AceRequestTestAbtract
 {
@@ -35,31 +46,36 @@ class GetGoodsManyRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(preg_replace('/\s+/', '', $expectedData), preg_replace('/\s+/', '', $serializedData));
     }
 
-
     public function getGoodsManyRequestForSerialize(): GetGoodsManyRequestModel
     {
         $goods = new GetGoodsManyRequestModel();
         $getGoodsMany = $goods->setId(OverviewMapper::ACE_TEST_SYID)
-                        ->setSouko("aaa")
-                        ->setGcode("bbb");
+                        ->setSouko('aaa')
+                        ->setGcode('bbb');
+
         return $getGoodsMany;
     }
+
     public function getGoodsManyRequestOK(): GetGoodsManyRequestModel
     {
         $goodsMany = new GetGoodsManyRequestModel();
         $getGoodsMany = $goodsMany->setId(OverviewMapper::ACE_TEST_SYID)
-                          ->setSouko("1")
-                          ->setGcode("202|203");
+                          ->setSouko('1')
+                          ->setGcode('202|203');
+
         return $getGoodsMany;
     }
+
     public function getGoodsManyRequestNG(): GetGoodsManyRequestModel
     {
         $goodsMany = new GetGoodsManyRequestModel();
         $getGoodsMany = $goodsMany->setId(-1)
-                          ->setSouko("1")
-                          ->setGcode("202|203");
+                          ->setSouko('1')
+                          ->setGcode('202|203');
+
         return $getGoodsMany;
     }
+
     public function testRequestGetGoodsManyOK()
     {
         try {
@@ -75,16 +91,15 @@ class GetGoodsManyRequestModelTest extends AceRequestTestAbtract
                 $good202 = $responseObj->getGoods()->getGood()[0];
                 $good203 = $responseObj->getGoods()->getGood()[1];
                 $message = $responseObj->getGoods()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
 
-        $this->assertEquals("202", $good202->getGdid());
-        $this->assertEquals("GetGoodsManyテスト商品1", $good202->getGname());
+        $this->assertEquals('202', $good202->getGdid());
+        $this->assertEquals('GetGoodsManyテスト商品1', $good202->getGname());
         $this->assertEquals(1100, $good202->getTanka1());
         $this->assertEquals(10998, $good202->getTanka2());
         $this->assertEquals(2200, $good202->getTanka3());
@@ -96,8 +111,8 @@ class GetGoodsManyRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(4400, $good202->getTanka9());
         $this->assertEquals(0, $good202->getZaiko());
 
-        $this->assertEquals("203", $good203->getGdid());
-        $this->assertEquals("GetGoodsManyテスト商品２", $good203->getGname());
+        $this->assertEquals('203', $good203->getGdid());
+        $this->assertEquals('GetGoodsManyテスト商品２', $good203->getGname());
         $this->assertEquals(1111, $good203->getTanka1());
         $this->assertEquals(21222, $good203->getTanka2());
         $this->assertEquals(1111, $good203->getTanka3());
@@ -109,9 +124,10 @@ class GetGoodsManyRequestModelTest extends AceRequestTestAbtract
         $this->assertEquals(4342, $good203->getTanka9());
         $this->assertEquals(0, $good203->getZaiko());
 
-        $this->assertEquals("", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
+
     public function testRequestGetGoodsManyNG()
     {
         try {
@@ -126,15 +142,14 @@ class GetGoodsManyRequestModelTest extends AceRequestTestAbtract
                 $message1 = $responseObj->getGoods()->getMessage()->getMessage1();
                 $good = $responseObj->getGoods()->getGood();
                 $message = $responseObj->getGoods()->getMessage();
-
             }
-        } catch(ClientException $e) {
+        } catch (ClientException $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             $message1 = $e->getMessage() ?? 'One Error Occurred when sending request.';
         }
         $this->assertEquals(null, $good);
-        $this->assertEquals("ＷＥＢ初期設定がありません", $message->getMessage1());
-        $this->assertEquals("", $message->getMessage2());
+        $this->assertEquals('ＷＥＢ初期設定がありません', $message->getMessage1());
+        $this->assertEquals('', $message->getMessage2());
     }
 }
