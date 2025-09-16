@@ -14,10 +14,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 class V1GetOrderListRequestModel implements V1GetOrderListRequestModelInterface
 {
     /** @var string システムID（必須） */
-    private string $syid = null;
+    private string $syid;
 
     /** @var string 会員コード（必須） */
-    private string $mcode = null;
+    private string $mcode;
 
     /** @var int 伝票区分（必須） */
     private int $denku = 0;

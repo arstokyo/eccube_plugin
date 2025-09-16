@@ -17,7 +17,8 @@ use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode;
 use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
 use Plugin\AceClient43\Exception\DataTypeMissMatchException;
 use Plugin\AceClient43\Exception\InvalidClassNameException;
-
+use Plugin\AceClient43\AceServices\Model\Request\WebApi\Order\V1\GetOrderList\V1GetOrderListRequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\WebApi\Order\V1\GetOrderList\OptionsModelInterface;
 class CustomerDataConverter implements CustomerDataConverterInterface
 {
     use CreateRequestModelTrait;
@@ -251,5 +252,21 @@ class CustomerDataConverter implements CustomerDataConverterInterface
             ->setMcode($aceCustomerId)
             ->setDenno($orderId)
             ->setDenku(10);
+    }
+
+    public function convertCustomerToGetOrderListRequest(string $aceCustomerId, string $syid, int $page = 1, int $limit = 10, int $denno = null, int $sort = 0): V1GetOrderListRequestModelInterface
+    {
+        /** @var V1GetOrderListRequestModelInterface $requestModel */
+        $requestModel = $this->createRequestModel(V1GetOrderListRequestModelInterface::class);
+
+        return $requestModel
+            ->setSyid($syid)
+            ->setMcode($aceCustomerId)
+            ->setDispRow($limit)
+            ->setDispPage($page)
+            ->setDenno($denno)
+            ->setDenku(V1GetOrderListRequestModelInterface::DENKU_ORDER)
+            ->setSort($sort)
+        ;
     }
 }

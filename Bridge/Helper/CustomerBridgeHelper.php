@@ -21,6 +21,8 @@ use Plugin\AceClient43\AceServices\Model\Response\Member\GetRirekiDetail as GetR
 use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
 use Plugin\AceClient43\Bridge\DataConverter\CustomerDataConverterInterface;
 use Psr\Log\LoggerInterface;
+use Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrderList\V1GetOrderListResponseModelInterface;
+use Plugin\AceClient43\AceServices\AceMethod\WebApi\Order\V1GetOrderListMethod;
 
 /**
  * CustomerBridgeHelper - 顧客連携ブリッジの複雑なロジックをカプセル化するヘルパークラス
@@ -41,6 +43,8 @@ class CustomerBridgeHelper
 
     protected GetRirekiDetailMethod $getRirekiDetailMethod;
 
+    protected V1GetOrderListMethod $getOrderListMethod;
+
     protected LoggerInterface $logger;
 
     public function __construct(
@@ -50,6 +54,7 @@ class CustomerBridgeHelper
         CustomerDataConverterInterface $customerDataConverter,
         GetRirekiMethod $getRirekiMethod,
         GetRirekiDetailMethod $getRirekiDetailMethod,
+        V1GetOrderListMethod $getOrderListMethod,
         LoggerInterface $logger,
     ) {
         $this->getMemberMethod = $getMemberMethod;
@@ -58,6 +63,7 @@ class CustomerBridgeHelper
         $this->customerDataConverter = $customerDataConverter;
         $this->getRirekiMethod = $getRirekiMethod;
         $this->getRirekiDetailMethod = $getRirekiDetailMethod;
+        $this->getOrderListMethod = $getOrderListMethod;
         $this->logger = $logger;
     }
 
@@ -264,6 +270,15 @@ class CustomerBridgeHelper
         if (!$response->isOk()) {
             throw new \RuntimeException('通販Ace側の処理でエラーが発生しました');
         }
+
+        return $response->getResponse();
+    }
+
+    public function getOrderList(string $aceCustomerId, string $syid, int $page = 1, int $limit = 10, int $denno = null, int $sort = 0): ?V1GetOrderListResponseModelInterface
+    {
+        $aceCustomerId = '10203620';
+        $request = $this->customerDataConverter->convertCustomerToGetOrderListRequest($aceCustomerId, $syid, $page, $limit, $denno, $sort);
+        $response = $this->getOrderListMethod->withRequest($request)->send();
 
         return $response->getResponse();
     }

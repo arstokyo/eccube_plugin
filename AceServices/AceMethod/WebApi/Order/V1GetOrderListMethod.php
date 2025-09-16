@@ -16,7 +16,7 @@ use Plugin\AceClient43\ApiClient\Client\ClientInterface;
  */
 class V1GetOrderListMethod extends AbstractWebApiMethod
 {
-    private const END_POINT_SERVICE = 'order/v1/order_list';
+    private const END_POINT_SERVICE = 'order/v1/list';
 
     protected function setEndPointService(): string
     {
