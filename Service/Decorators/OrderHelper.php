@@ -21,7 +21,6 @@ use Eccube\Entity\Cart;
 use Eccube\Entity\CartItem;
 use Eccube\Entity\Customer;
 use Eccube\Entity\Master\DeviceType;
-use Eccube\Entity\Master\OrderItemType;
 use Eccube\Entity\Master\OrderStatus;
 use Eccube\Entity\Order;
 use Eccube\Entity\OrderItem;
@@ -142,39 +141,9 @@ class OrderHelper extends BaseOrderHelper
      */
     protected function createOrderItemsFromCartItems($CartItems)
     {
-        $ProductItemType = $this->orderItemTypeRepository->find(OrderItemType::PRODUCT);
-
-        return array_map(function ($item) use ($ProductItemType) {
-            /** @var CartItem $item */
-            /** @var \Eccube\Entity\ProductClass $ProductClass */
-            $ProductClass = $item->getProductClass();
-            /** @var \Eccube\Entity\Product $Product */
-            $Product = $ProductClass->getProduct();
-
-            $OrderItem = new OrderItem();
-            $OrderItem
-                ->setProduct($Product)
-                ->setProductClass($ProductClass)
-                ->setProductName($Product->getName())
-                ->setProductCode($ProductClass->getCode())
-                ->setPrice($ProductClass->getPrice02())
-                ->setQuantity($item->getQuantity())
-                ->setOrderItemType($ProductItemType);
-
-            $ClassCategory1 = $ProductClass->getClassCategory1();
-            if (!is_null($ClassCategory1)) {
-                $OrderItem->setClasscategoryName1($ClassCategory1->getName());
-                $OrderItem->setClassName1($ClassCategory1->getClassName()->getName());
-            }
-            $ClassCategory2 = $ProductClass->getClassCategory2();
-            if (!is_null($ClassCategory2)) {
-                $OrderItem->setClasscategoryName2($ClassCategory2->getName());
-                $OrderItem->setClassName2($ClassCategory2->getClassName()->getName());
-            }
-
-            $this->cartOrderSyncService->syncOrderItemFromCartItem($item, $OrderItem);
-
-            return $OrderItem;
+        return array_map(function ($item) {
+            /* @var CartItem $item */
+            return $this->cartOrderSyncService->createOrderItemFromCartItem($item);
         }, $CartItems instanceof Collection ? $CartItems->toArray() : $CartItems);
     }
 
