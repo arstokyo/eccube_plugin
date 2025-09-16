@@ -437,8 +437,8 @@ class CouldNotAddCartException extends AceApiMessageException
             return trans('ace_client.add_cart.error.perCustomerSale', [
                 '%gdid%' => (string) $info['gdid'],
                 '%gdname%' => (string) ($info['gdname'] ?? ''),
-                '%x%' => (int) ($info['x'] ?? 0),
-                '%y%' => (int) ($info['y'] ?? 0),
+                '%quantityTotal%' => (int) ($info['quantityTotal'] ?? 0),
+                '%limit%' => (int) ($info['limit'] ?? 0),
             ]);
         }
 
@@ -446,8 +446,8 @@ class CouldNotAddCartException extends AceApiMessageException
             return trans('ace_client.add_cart.error.globalSale', [
                 '%gdid%' => (string) $info['gdid'],
                 '%gdname%' => (string) ($info['gdname'] ?? ''),
-                '%x%' => (int) ($info['x'] ?? 0),
-                '%y%' => (int) ($info['y'] ?? 0),
+                '%quantityTotal%' => (int) ($info['quantityTotal'] ?? 0),
+                '%limit%' => (int) ($info['limit'] ?? 0),
             ]);
         }
 
@@ -467,8 +467,8 @@ class CouldNotAddCartException extends AceApiMessageException
      * 購入上限超過（個人/全体）エラーのメッセージから、対象商品GDIDと上限数量を抽出する。
      *
      * 想定メッセージ形式:
-     *  - 「この商品 (GDID) GNAME は合計(X)です。全体販売数(Y)を超えています。」
-     *  - 「この商品 (GDID) GNAME は合計(X)です。個人販売数(Y)を超えています。」
+     *  - 「この商品 (GDID) GNAME は合計($quantityTotal)です。全体販売数($limit)を超えています。」
+     *  - 「この商品 (GDID) GNAME は合計($quantityTotal)です。個人販売数($limit)を超えています。」
      *
      * 返却値:
      *  - ['gdid' => string, 'max' => int] を返す。抽出できない場合は null を返す。
@@ -496,24 +496,24 @@ class CouldNotAddCartException extends AceApiMessageException
             $gdname = trim($nm[1]);
         }
 
-        // 合計 X を抽出: 「合計(X)です」
-        $x = null;
+        // 合計（数量合計）を抽出: 「合計(X)です」
+        $quantityTotal = null;
         if (preg_match('/合計\(\s*([0-9]+)\s*\)\s*です/u', $m1, $xm)) {
-            $x = (int) $xm[1];
+            $quantityTotal = (int) $xm[1];
         }
 
-        // 上限数量 Y を抽出: 「全体販売数(N)」または「個人販売数(N)」
-        $y = null;
+        // 上限数量を抽出: 「全体販売数(N)」または「個人販売数(N)」
+        $limit = null;
         if (preg_match('/(全体販売数|個人販売数)\(\s*([0-9]+)\s*\)/u', $m1, $mm)) {
-            $y = (int) $mm[2];
+            $limit = (int) $mm[2];
         }
 
-        if ($gdid !== null && $y !== null) {
+        if ($gdid !== null && $limit !== null) {
             return [
                 'gdid' => $gdid,
                 'gdname' => $gdname,
-                'x' => $x,
-                'y' => $y,
+                'quantityTotal' => $quantityTotal,
+                'limit' => $limit,
             ];
         }
 
