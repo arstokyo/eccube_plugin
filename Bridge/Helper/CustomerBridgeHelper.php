@@ -276,7 +276,6 @@ class CustomerBridgeHelper
 
     public function getOrderList(string $aceCustomerId, string $syid, int $page = 1, int $limit = 10, int $denno = null, int $sort = 0): ?V1GetOrderListResponseModelInterface
     {
-        $aceCustomerId = '10203620';
         $request = $this->customerDataConverter->convertCustomerToGetOrderListRequest($aceCustomerId, $syid, $page, $limit, $denno, $sort);
         $response = $this->getOrderListMethod->withRequest($request)->send();
 
