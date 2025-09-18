@@ -75,4 +75,16 @@ trait CartTrait
 
         return $this;
     }
+
+    public function hasDirtyItem(): bool
+    {
+        // いずれかのカートアイテムが「未確定(Dirty)」の場合は購入フローへ進ませない
+        foreach ($this->getCartItems() as $CartItem) {
+            if (!$CartItem->isPresent() && $CartItem->isDirty()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
