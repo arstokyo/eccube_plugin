@@ -47,14 +47,9 @@ class CartItemDirtySubscriber implements EventSubscriber
             return;
         }
 
-        // 別処理が dirty を明示的に変更している場合は介入しない
-        if ($args->hasChangedField('dirty')) {
-            return;
-        }
-
         // 既に dirty の場合は再設定しない
         // プレゼント商品は無視
-        if ($entity->isDirty() || $entity->isPresent()) {
+        if ($entity->skipMarkDirty || $entity->isDirty() || $entity->isPresent()) {
             return;
         }
 

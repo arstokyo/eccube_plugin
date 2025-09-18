@@ -55,6 +55,7 @@ class AddCartHelper
                     $cartItem->setQuantity($jyumei->getSuu());
                     $cartItem->setPrice($jyumei->getTintanka());
                     $cartItem->setDirty(false);
+                    $cartItem->skipMarkDirty = true;
 
                     continue 2; // 内側のループを抜けて外側のループへ
                 }

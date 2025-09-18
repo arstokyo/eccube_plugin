@@ -23,6 +23,8 @@ trait CartItemTrait
 {
     use BaseItemTrait;
 
+    public bool $skipMarkDirty = false;
+
     /**
      * カートアイテムの未確定状態フラグ.
      *
