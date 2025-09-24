@@ -9,13 +9,13 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 Encore
   .setOutputPath('html/bundle/')
   .setPublicPath('/html/bundle')
-  .addEntry('ars', './html/template/ars/assets/js/bundle.js')
-  .addEntry('eccube-function', './html/template/ars/assets/js/function.js')
-  .addEntry('eccube-js', './html/template/ars/assets/js/eccube.js')
+  .addEntry('rednails', './html/template/rednails/assets/js/bundle.js')
+  .addEntry('eccube-function', './html/template/rednails/assets/js/function.js')
+  .addEntry('eccube-js', './html/template/rednails/assets/js/eccube.js')
   .addEntry('admin', './html/template/admin/assets/js/bundle.js')
   .addEntry('install', './html/template/install/assets/js/bundle.js')
   .addEntry('stimulus', './assets/app.js')
-  .addStyleEntry('front-css', './html/template/ars/assets/scss/style.scss')
+  .addStyleEntry('front-css', './html/template/rednails/assets/scss/style.scss')
   .addStyleEntry('admin-app-css', './html/template/admin/assets/scss/app.scss')
   .addStyleEntry('admin-bootstrap-css', './html/template/admin/assets/scss/bootstrap.scss')
   // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
