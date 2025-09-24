@@ -16,12 +16,12 @@ namespace Plugin\AceClient43\Events;
 use Eccube\Entity\Member;
 use Eccube\Entity\ProductClass;
 use Plugin\AceClient43\AceServices\Model\Dependency\Good\GoodTankaModelGroup1Interface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class HelperOnSetPriceEvent extends Event
 {
-    public ?OutputInterface $output = null;
+    public LoggerInterface $logger;
 
     public array $settingBag;
 
@@ -49,7 +49,7 @@ class HelperOnSetPriceEvent extends Event
         GoodTankaModelGroup1Interface $firstTankaModel,
         array $settingBag,
         array $options,
-        ?OutputInterface $output,
+        LoggerInterface $logger,
     ) {
         $this->productClass = $productClass;
         $this->creator = $creator;
@@ -58,6 +58,6 @@ class HelperOnSetPriceEvent extends Event
         $this->firstTankaModel = $firstTankaModel;
         $this->settingBag = $settingBag;
         $this->options = $options;
-        $this->output = $output;
+        $this->logger = $logger;
     }
 }

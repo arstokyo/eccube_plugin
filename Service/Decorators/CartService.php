@@ -280,6 +280,9 @@ class CartService extends BaseCartService
         // プレゼント判定（フラグ）
         $item->setIsPresent($cartItemData->isPresent());
 
+        // 未確定にマークする
+        $item->markDirty();
+
         // 税込価格（基本価格）。未設定であれば既定の ProductClass 価格が利用される
         if (null !== $cartItemData->getPrice()) {
             $item->setPrice($cartItemData->getPrice());

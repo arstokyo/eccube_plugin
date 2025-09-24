@@ -215,7 +215,7 @@ class JyumeiModel extends Jyumei\JyumeiModelGroup2 implements JyumeiModelInterfa
      */
     public function getPreferTintanka(): ?float
     {
-        return $this->getTintanka() === 0 ? 0 : $this->getTintanka();
+        return $this->getTinmoney() === 0 ? 0 : $this->getTintanka();
     }
 
     /**

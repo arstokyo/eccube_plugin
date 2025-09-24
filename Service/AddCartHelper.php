@@ -48,11 +48,14 @@ class AddCartHelper
                 $ProductClass = $cartItem->getProductClass();
 
                 if ($ProductClass->getAceProductId() == $productCode) {
-                    // 商品が見つかった場合、数量を更新
+                    // 商品が見つかった場合、数量/価格を更新し、Dirty を解除
                     $anySync = true;
                     $foundProductCodes[] = $productCode;
+
                     $cartItem->setQuantity($jyumei->getSuu());
                     $cartItem->setPrice($jyumei->getTintanka());
+                    $cartItem->setDirty(false);
+                    $cartItem->skipMarkDirty = true;
 
                     continue 2; // 内側のループを抜けて外側のループへ
                 }

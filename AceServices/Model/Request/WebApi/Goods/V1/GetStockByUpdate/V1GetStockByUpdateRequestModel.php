@@ -15,22 +15,22 @@ use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime\AceDateTimeI
 class V1GetStockByUpdateRequestModel implements V1GetStockByUpdateRequestModelInterface
 {
     /** @var int システムID（必須） */
-    private int $syid = 0;
+    protected int $syid = 0;
 
     /** @var AceDateTimeInterface|null 更新開始日時（必須） */
-    private ?AceDateTimeInterface $updateFrom = null;
+    protected ?AceDateTimeInterface $updateFrom = null;
 
     /** @var AceDateTimeInterface|null 更新終了日時（任意） */
-    private ?AceDateTimeInterface $toDate = null;
+    protected ?AceDateTimeInterface $toDate = null;
 
     /** @var string|null 倉庫ID（任意、未指定時はフィルタなし） */
-    private ?string $skid = null;
+    protected ?string $skid = null;
 
     /** @var int|null ページ番号（任意、1始まり） */
-    private ?int $page = null;
+    protected ?int $page = null;
 
     /** @var int|null 1ページ件数（任意、既定はサーバ側で300） */
-    private ?int $limit = null;
+    protected ?int $limit = null;
 
     public function getSyid(): int
     {
