@@ -1,0 +1,6 @@
+---
+- name: Import provision playbook
+  import_playbook: provisions.yml
+
+- name: Import serve playbook
+  import_playbook: serve.yml

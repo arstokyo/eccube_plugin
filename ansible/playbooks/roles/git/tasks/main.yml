@@ -1,0 +1,31 @@
+---
+- name: Install Git
+  package:
+    name: git
+    state: present
+
+- name: Configure Git globals
+  git_config:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    scope: global
+  with_items:
+    - { name: 'user.name', value: '{{ git_username }}' }
+    - { name: 'user.email', value: '{{ git_email }}' }
+  become: no
+
+- name: Create project directory
+  file:
+    path: "{{ project_root }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'
+
+- name: Clone EC-CUBE repository
+  git:
+    repo: "{{ base_code_repo }}"
+    dest: "{{ project_root }}"
+    version: "{{ git_branch | default('main') }}"
+    force: no
+  become: no

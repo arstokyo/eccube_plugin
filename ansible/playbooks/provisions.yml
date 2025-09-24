@@ -1,0 +1,84 @@
+---
+- name: Provision EC-CUBE Development Environment
+  hosts: all
+  become: yes
+  roles:
+    - php
+    - apache
+    - yarn
+    - docker
+    - git
+    - composer
+    - symfony-cli
+
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    project_root: "/var/www/{{ eccube_site_name }}"
+
+  tasks:
+    - name: Set directory permissions for Apache
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0755'
+        recurse: yes
+      with_items:
+        - "/var/www/{{ eccube_site_name }}"
+        - "/var/www/{{ eccube_site_name }}/var"
+        - "/var/www/{{ eccube_site_name }}/var/cache"
+        - "/var/www/{{ eccube_site_name }}/var/log"
+
+    - name: Set write permissions for specific directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0775'
+        recurse: yes
+      with_items:
+        - "/var/www/{{ eccube_site_name }}/var"
+        - "/var/www/{{ eccube_site_name }}/html/upload"
+
+    - name: Install Composer dependencies
+      composer:
+        command: install
+        working_dir: "{{ project_root }}"
+        no_dev: no
+      become: yes
+      become_user: "{{ ansible_user }}"
+      environment:
+        COMPOSER_MEMORY_LIMIT: -1
+
+    - name: Install npm packages
+      command: npm install
+      args:
+        chdir: "{{ project_root }}"
+      become: yes
+      become_user: "{{ ansible_user }}"
+      environment:
+        NODE_OPTIONS: "--max-old-space-size=4096"
+        
+    - name: Build assets with yarn
+      command: yarn build
+      args:
+        chdir: "{{ project_root }}"
+      become: yes
+      become_user: "{{ ansible_user }}"
+
+    - name: Clear Symfony cache
+      command: php bin/console cache:clear --env=dev
+      args:
+        chdir: "{{ project_root }}"
+      become: yes
+      become_user: "{{ ansible_user }}"
+
+    - name: Warm up Symfony cache
+      command: php bin/console cache:warmup --env=dev
+      args: 
+        chdir: "{{ project_root }}"
+      become: yes
+      become_user: "{{ ansible_user }}"
+    

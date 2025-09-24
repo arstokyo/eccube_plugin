@@ -1,0 +1,29 @@
+---
+eccube_site_name: "your-eccube-site-name"
+eccube_domain: "your-eccube-domain.com"
+
+# Database configuration
+database_hostname: "127.0.0.1"
+database_port: 13306
+database_name: "eccube"
+database_user: "dbuser"
+database_password: "secret"
+
+# Git configuration
+git_username: "your-git-username"
+git_email: "your-git-email"
+project_root: "/var/www/{{ eccube_site_name }}"
+base_code_repo: "your-git-repo-url"
+git_branch: "your-branch-name"
+
+# Docker configuration
+docker_compose_version: "v2.36.2"
+
+# Composer configuration
+ansible_user_dir: "{{ ansible_env.HOME }}"
+composer_version: "2"
+composer_auth: {}
+
+# Yarn configuration
+yarn_version: "latest"
+yarn_packages: []

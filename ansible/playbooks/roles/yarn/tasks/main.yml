@@ -1,0 +1,39 @@
+---
+- name: Detect OS family
+  set_fact:
+    is_ubuntu: "{{ ansible_os_family == 'Debian' }}"
+    is_macos: "{{ ansible_os_family == 'Darwin' }}"
+
+- name: Install Node.js and npm (Ubuntu)
+  apt:
+    name: 
+      - nodejs
+      - npm
+    state: present
+    update_cache: yes
+  when: is_ubuntu
+
+- name: Install Node.js (MacOS)
+  homebrew:
+    name: node
+    state: present
+  when: is_macos
+
+- name: Install Yarn globally via npm
+  npm:
+    name: yarn
+    global: yes
+    state: present
+  environment:
+    PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
+
+- name: Set Yarn permissions for user
+  file:
+    path: "{{ item }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    recurse: yes
+  with_items:
+    - "{{ ansible_env.HOME }}/.yarn"
+    - "{{ ansible_env.HOME }}/.config/yarn"
+  ignore_errors: yes

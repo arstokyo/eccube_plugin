@@ -1,0 +1,100 @@
+---
+- name: Detect OS family
+  set_fact:
+    is_ubuntu: "{{ ansible_os_family == 'Debian' }}"
+    is_macos: "{{ ansible_os_family == 'Darwin' }}"
+
+- name: Add PHP repository (Ubuntu)
+  block:
+    - name: Install prerequisites
+      apt:
+        name: software-properties-common
+        state: present
+        update_cache: yes
+
+    - name: Add ondrej PHP PPA
+      become: yes
+      apt_repository:
+        validate_certs: no
+        repo: "deb https://ppa.launchpadcontent.net/ondrej/php/ubuntu/ noble main"
+        state: present
+        update_cache: yes
+        filename: ondrej-php
+  when: is_ubuntu
+
+- name: Install PHP and extensions (Ubuntu)
+  apt:
+    name:
+      - php8.2
+      - php8.2-xml
+      - php8.2-cli
+      - php8.2-common
+      - php8.2-fpm
+      - php8.2-zip
+      - php8.2-mbstring
+      - php8.2-mysql
+      - php8.2-opcache
+      - php8.2-pdo
+      - php8.2-apcu
+      - php8.2-igbinary
+      - php8.2-memcached
+      - php8.2-msgpack
+      - php8.2-intl
+      - php8.2-curl
+      - php8.2-phar
+      - php8.2-ctype
+      - php8.2-fileinfo
+      - php8.2-gd
+    state: present
+    update_cache: yes
+  when: is_ubuntu
+
+- name: Install PHP and extensions (MacOS)
+  block:
+    - name: Install PHP 8.2
+      homebrew:
+        name: php@8.2
+        state: present
+
+    - name: Install PHP extensions
+      homebrew:
+        name:
+          - igbinary
+          - memcached
+          - msgpack
+          - apcu
+          - gd
+          - intl
+          - sodium
+        state: present
+  when: is_macos
+
+- name: Configure ECCUBE PHP settings
+  template:
+    src: "php.ini.j2"
+    dest: "{{ item }}"
+    mode: '0644'
+  with_items:
+    - "{{ is_ubuntu | ternary('/etc/php/8.2/fpm/conf.d/30-eccube.ini', '/usr/local/etc/php/8.2/conf.d/30-eccube.ini') }}"
+    - "{{ is_ubuntu | ternary('/etc/php/8.2/cli/conf.d/30-eccube.ini', '/usr/local/etc/php/8.2/conf.d/30-eccube.ini') }}"
+  notify:
+    - Restart PHP-FPM
+
+- name: Create PHP configuration directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  with_items:
+    - "{{ is_ubuntu | ternary('/etc/php/8.2/fpm/conf.d', '/usr/local/etc/php/8.2/conf.d') }}"
+    - "{{ is_ubuntu | ternary('/etc/php/8.2/cli/conf.d', '/usr/local/etc/php/8.2/conf.d') }}"
+  when: is_macos
+
+- name: Ensure PHP-FPM is running
+  service:
+    name: "{{ php_fpm_service }}"
+    state: started
+    enabled: yes
+  vars:
+    php_fpm_service: "{{ is_ubuntu | ternary('php8.2-fpm', 'php@8.2') }}"
+  when: is_ubuntu or is_macos

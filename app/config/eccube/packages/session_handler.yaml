@@ -1,0 +1,28 @@
+# uncomment if use the memcached server
+#services:
+#    memcached:
+#        class: Memcached
+#        public: false
+#        arguments: ["sess"]
+#        calls:
+#            - [addServer, ["%env(MEMCACHED_HOST)%", "%env(MEMCACHED_PORT)%"]]
+#            # OPT_NO_BLOCK (0) => true
+#            - [setOption, [0, true]]
+#            # OPT_TCP_NODELAY (1) => true
+#            - [setOption, [1, true]]
+#            # OPT_CONNECT_TIMEOUT (14) => 1000 ms
+#            - [setOption, [14, 1000]]
+#            # OPT_RETRY_TIMEOUT (15) => 1 sec
+#            - [setOption, [15, 1]]
+#            # OPT_BINARY_PROTOCOL (18) => true
+#            - [setOption, [18, true]]
+#            # NOTE: OPT_LIBKETAMA_COMPATIBLE (16) is not available in your extension build, so omit it.
+#
+#    memcached_session_handler:
+#        class: Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler
+#        public: false
+#        arguments: ["@memcached", { prefix: "sess", expiretime: "3600" }]
+#
+#    Eccube\Session\Storage\Handler\SameSiteNoneCompatSessionHandler:
+#        arguments:
+#            - "@memcached_session_handler"

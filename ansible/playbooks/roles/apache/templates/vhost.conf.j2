@@ -1,0 +1,31 @@
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    ServerName {{ eccube_domain }}
+    DocumentRoot /var/www/{{ eccube_site_name }}
+
+    KeepAlive On
+    KeepAliveTimeout 310
+    ServerSignature Off
+
+    SetEnvIf X-Forwarded-Proto ^https$ HTTPS=on
+
+    # Add pattern after RedirectMatch
+    RedirectMatch 404 /\\.git
+    RedirectMatch 404 /\\.env
+    RedirectMatch 404 /\\.maintenance
+
+    <Directory "/var/www/{{ eccube_site_name }}">
+        Require all granted
+        AllowOverride All
+        Options -Indexes
+        Options +FollowSymLinks
+        Options +SymLinksIfOwnerMatch
+    </Directory>
+
+    <FilesMatch "\.(?i:gif|ico|jpe?g|png|svg|webp|css|js|woff2?)$">
+        SetEnv nolog 1
+    </FilesMatch>
+
+    ErrorLog ${APACHE_LOG_DIR}/{{ eccube_site_name }}.log
+    CustomLog ${APACHE_LOG_DIR}/{{ eccube_site_name }}.log combined
+</VirtualHost>

@@ -1,0 +1,98 @@
+---
+- name: Detect OS family
+  set_fact:
+    is_ubuntu: "{{ ansible_os_family == 'Debian' }}"
+    is_macos: "{{ ansible_os_family == 'Darwin' }}"
+
+- name: Install Apache (Ubuntu)
+  apt:
+    name: apache2
+    state: present
+  when: is_ubuntu
+
+- name: Install Apache (MacOS)
+  homebrew:
+    name: httpd
+    state: present
+  when: is_macos
+
+- name: Enable Apache modules (Ubuntu)
+  apache2_module:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - rewrite
+    - ssl
+  notify: Restart Apache
+  when: is_ubuntu
+
+- name: Create SSL directory
+  file:
+    path: "{{ apache_ssl_dir }}"
+    state: directory
+    mode: '0755'
+  vars:
+    apache_ssl_dir: "{{ is_ubuntu | ternary('/etc/apache2/ssl', '/usr/local/etc/httpd/ssl') }}"
+
+- name: Configure Apache Virtual Host
+  template:
+    src: "vhost.conf.j2"
+    dest: "{{ vhost_path }}"
+    mode: '0644'
+  vars:
+    vhost_path: "{{ is_ubuntu | ternary('/etc/apache2/sites-available/' ~ eccube_site_name ~ '.conf', '/usr/local/etc/httpd/vhosts/' ~ eccube_site_name ~ '.conf') }}"
+  notify: Restart Apache
+
+- name: Add EC-CUBE domain to hosts file
+  lineinfile:
+    path: /etc/hosts
+    line: "127.0.0.1 {{ eccube_domain }}"
+    regexp: "^127\\.0\\.0\\.1\\s+{{ eccube_domain }}$"
+    state: present
+  become: yes
+
+- name: Enable site (Ubuntu)
+  command: "a2ensite {{ eccube_site_name }}"
+  when: is_ubuntu
+  notify: Restart Apache
+
+- name: Set Apache user (Ubuntu)
+  block:
+    - name: Update Apache envvars
+      lineinfile:
+        path: /etc/apache2/envvars
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+      with_items:
+        - { regexp: '^export APACHE_RUN_USER=', line: 'export APACHE_RUN_USER={{ ansible_user }}' }
+        - { regexp: '^export APACHE_RUN_GROUP=', line: 'export APACHE_RUN_GROUP={{ ansible_user }}' }
+
+    - name: Update Apache MPM configuration
+      lineinfile:
+        path: /etc/apache2/apache2.conf
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+      with_items:
+        - { regexp: '^User ', line: 'User {{ ansible_user }}' }
+        - { regexp: '^Group ', line: 'Group {{ ansible_user }}' }
+  when: is_ubuntu
+  notify: Restart Apache
+
+- name: Set Apache user (MacOS)
+  lineinfile:
+    path: /usr/local/etc/httpd/httpd.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: '^User', line: 'User {{ ansible_user }}' }
+    - { regexp: '^Group', line: 'Group {{ ansible_user }}' }
+  when: is_macos
+  notify: Restart Apache
+
+- name: Ensure Apache is running
+  service:
+    name: "{{ apache_service }}"
+    state: started
+    enabled: yes
+  vars:
+    apache_service: "{{ is_ubuntu | ternary('apache2', 'httpd') }}"

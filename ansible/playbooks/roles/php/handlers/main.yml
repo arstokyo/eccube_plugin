@@ -1,0 +1,8 @@
+---
+- name: Restart PHP-FPM
+  service:
+    name: "{{ php_fpm_service }}"
+    state: restarted
+  vars:
+    php_fpm_service: "{{ is_ubuntu | ternary('php8.2-fpm', 'php@8.2') }}"
+  when: is_ubuntu or is_macos

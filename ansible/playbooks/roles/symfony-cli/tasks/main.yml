@@ -1,0 +1,47 @@
+---
+- name: Detect OS family
+  set_fact:
+    is_ubuntu: "{{ ansible_os_family == 'Debian' }}"
+    is_macos: "{{ ansible_os_family == 'Darwin' }}"
+
+- name: Add Symfony CLI APT repository
+  shell: curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash
+  args:
+    creates: /etc/apt/sources.list.d/symfony-stable.list
+
+- name: Install Symfony CLI (Ubuntu)
+  apt:
+    name: symfony-cli
+    state: present
+    update_cache: yes
+  when: is_ubuntu
+
+- name: Install Symfony CLI (MacOS)
+  homebrew:
+    name: symfony-cli
+    state: present
+  when: is_macos
+
+- name: Verify Symfony CLI installation
+  command: symfony -V
+  register: symfony_version
+  changed_when: false
+
+- name: Open firewall ports for Symfony development server
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  with_items:
+    - '8000'
+    - '8001'
+    - '8002'
+    - '8003'
+    - '8004'
+    - '8005'
+    - '8006'
+    - '8007'
+    - '8008'
+    - '8009'
+    - '8010'
+  become: yes

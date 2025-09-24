@@ -1,0 +1,64 @@
+---
+- name: Start EC-CUBE Development Services
+  hosts: all
+  become: yes
+  vars:
+    project_root: "/var/www/{{ eccube_site_name }}"
+
+  tasks:
+    - name: Ensure Python PyMySQL library is installed
+      apt:
+        name: python3-pymysql
+        state: present
+      become: yes
+
+    - name: Ensure Docker Compose MySQL is running
+      command: docker-compose -f docker-compose.mysql.yml up -d
+      args:
+        chdir: "{{ project_root }}"
+      become: yes
+      become_user: "{{ ansible_user }}"
+
+    - name: Wait for MySQL to be ready
+      wait_for:
+        host: "{{ database_hostname }}"
+        port: "{{ database_port }}"
+        timeout: 60
+
+    - name: Pause to ensure MySQL is fully ready
+      pause:
+        seconds: 10
+
+    - name: Create EC-CUBE database
+      mysql_db:
+        name: "{{ database_name }}"
+        state: present
+        login_host: "{{ database_hostname }}"
+        login_port: "{{ database_port }}"
+        login_user: root
+        login_password: root
+
+    - name: Create database user
+      mysql_user:
+        name: "{{ database_user }}"
+        password: "{{ database_password }}"
+        priv: "{{ database_name }}.*:ALL"
+        host: "{{ database_hostname }}"
+        state: present
+        login_host: "{{ database_hostname }}"
+        login_port: "{{ database_port }}"
+        login_user: root
+        login_password: root
+    
+    - name: Start Symfony development server
+      command: symfony serve --allow-all-ip --allow-http -d --port {{ symfony_port | default('8000') }}
+      args:
+        chdir: "{{ project_root }}"
+      become: yes
+      become_user: "{{ ansible_user }}"
+
+    - name: Show service status
+      debug:
+        msg: 
+          - "MySQL is running on port  {{ database_port }}"
+          - "Symfony server is running on port {{ symfony_port | default('8000') }} with all IPs allowed"
