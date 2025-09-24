@@ -17,12 +17,12 @@ use Eccube\Entity\Member;
 use Eccube\Entity\ProductClass;
 use Eccube\Entity\ProductStock;
 use Plugin\AceClient43\AceServices\Model\Dependency\Good\GoodModelGroup1Interface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class HelperOnCreateProductEvent extends Event
 {
-    public OutputInterface $output;
+    public LoggerInterface $logger;
 
     public Member $creator;
 
@@ -53,7 +53,7 @@ class HelperOnCreateProductEvent extends Event
         array $productModels,
         array $processedProductsClasses,
         Member $creator,
-        ?OutputInterface $output,
+        LoggerInterface $logger,
         array $options,
     ) {
         $this->productClass = $productClass;
@@ -61,7 +61,7 @@ class HelperOnCreateProductEvent extends Event
         $this->productModel = $productModel;
         $this->productModels = $productModels;
         $this->processedProductsClasses = $processedProductsClasses;
-        $this->output = $output;
+        $this->logger = $logger;
         $this->creator = $creator;
         $this->options = $options;
     }

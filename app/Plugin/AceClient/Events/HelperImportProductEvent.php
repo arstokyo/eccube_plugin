@@ -13,25 +13,38 @@
 
 namespace Plugin\AceClient43\Events;
 
-use Plugin\AceClient43\AceServices\Model\Response\Goods\GetGoods\MasterModelInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Good\GoodModelGroup1Interface;
+use Plugin\AceClient43\AceServices\Model\Dependency\Good\GoodTankaModelGroup1Interface;
+use Psr\Log\LoggerInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class HelperImportProductEvent extends Event
 {
     public array $createProducts;
 
-    public MasterModelInterface $master;
+    /** @var GoodTankaModelGroup1Interface[] */
+    public array $tankaModels;
 
-    public OutputInterface $output;
+    /** @var GoodModelGroup1Interface[] */
+    public array $productModels;
+
+    public LoggerInterface $logger;
 
     public array $options;
 
-    public function __construct(array $createProducts, MasterModelInterface $master, OutputInterface $output, array $options)
+    /**
+     * @param array $createProducts
+     * @param GoodModelGroup1Interface[] $productModels
+     * @param GoodTankaModelGroup1Interface[] $tankaModels
+     * @param LoggerInterface $logger
+     * @param array $options
+     */
+    public function __construct(array $createProducts, array $productModels, array $tankaModels, LoggerInterface $logger, array $options)
     {
         $this->createProducts = $createProducts;
-        $this->master = $master;
-        $this->output = $output;
+        $this->productModels = $productModels;
+        $this->tankaModels = $tankaModels;
+        $this->logger = $logger;
         $this->options = $options;
     }
 }

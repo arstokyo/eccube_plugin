@@ -216,4 +216,34 @@ class OrderHelper extends BaseOrderHelper
             'OrderStatus' => OrderStatus::PROCESSING,
         ]);
     }
+
+    /**
+     * @param Cart $Cart
+     *
+     * @return bool
+     */
+    public function verifyCart(Cart $Cart)
+    {
+        if (count($Cart->getCartItems()) > 0) {
+            $divide = $this->session->get(self::SESSION_CART_DIVIDE_FLAG);
+            if ($divide) {
+                log_info('ログイン時に販売種別が異なる商品がカートと結合されました。');
+
+                return false;
+            }
+
+            // いずれかのカートアイテムが「未確定(Dirty)」の場合は購入フローへ進ませない
+            if ($Cart->hasDirtyItem()) {
+                log_info('カートアイテムが未確定のため, カート画面へ遷移します。');
+
+                return false;
+            }
+
+            return true;
+        }
+
+        log_info('カートに商品が入っていません。');
+
+        return false;
+    }
 }
