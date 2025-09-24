@@ -15,6 +15,7 @@ namespace Plugin\AceClient43\Command;
 
 use Eccube\Repository\MemberRepository;
 use Plugin\AceClient43\Traits\ProductImportTrait;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -31,11 +32,15 @@ class ProductRepeatImportCommand extends Command
 
     private MemberRepository $memberRepository;
 
+    protected LoggerInterface $logger;
+
     public function __construct(
         MemberRepository $memberRepository,
+        LoggerInterface $consoleLogger,
     ) {
         parent::__construct();
         $this->memberRepository = $memberRepository;
+        $this->logger = $consoleLogger;
     }
 
     protected function configure()
@@ -52,22 +57,23 @@ class ProductRepeatImportCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $creator = $this->validateCreatorId($input, $output, $this->memberRepository);
+        $logger = $this->logger;
+        $creator = $this->validateCreatorId($input, $logger, $this->memberRepository);
         if (null === $creator) {
             return Command::FAILURE;
         }
 
-        $repeatCount = $this->validateRepeatCount($input, $output);
+        $repeatCount = $this->validateRepeatCount($input, $logger);
         if ($repeatCount === null) {
             return Command::FAILURE;
         }
 
-        $duration = $this->validateDuration($input, $output);
+        $duration = $this->validateDuration($input, $logger);
         if ($duration === null) {
             return Command::FAILURE;
         }
 
-        $updateDates = $this->validateDateTimeOptions($input, $output, '-1 year', '+1 day');
+        $updateDates = $this->validateDateTimeOptions($input, $logger, '-1 year', '+1 day');
         if (null === $updateDates) {
             return Command::FAILURE;
         }
@@ -83,37 +89,37 @@ class ProductRepeatImportCommand extends Command
         // エラー情報を格納する配列
         $errors = [];
 
-        $output->writeln('<info>通販Aceの商品リピートインポートを開始します</info>');
-        $output->writeln(sprintf('<info>全体実行回数: %d</info>', $totalRounds));
-        $output->writeln(sprintf('<info>期間数: %d</info>', count($timeChunks)));
-        $output->writeln(sprintf('<info>期間間隔: %s</info>', $duration));
-        $output->writeln(sprintf(
+        $logger->info('<info>通販Aceの商品リピートインポートを開始します</info>');
+        $logger->info(sprintf('<info>全体実行回数: %d</info>', $totalRounds));
+        $logger->info(sprintf('<info>期間数: %d</info>', count($timeChunks)));
+        $logger->info(sprintf('<info>期間間隔: %s</info>', $duration));
+        $logger->info(sprintf(
             '<info>全体期間: %s から %s まで</info>',
             $updateFrom->format('Y-m-d H:i:s'),
             $updateTo->format('Y-m-d H:i:s')
         ));
 
-        $output->writeln('<comment>=== 期間詳細 ===</comment>');
+        $logger->info('<comment>=== 期間詳細 ===</comment>');
         foreach ($timeChunks as $index => $chunk) {
-            $output->writeln(sprintf('<comment>期間 %d: %s ～ %s</comment>',
+            $logger->info(sprintf('<comment>期間 %d: %s ～ %s</comment>',
                 $index + 1,
                 $chunk['from']->format('Y-m-d H:i:s'),
                 $chunk['to']->format('Y-m-d H:i:s')
             ));
         }
-        $output->writeln('<comment>================================================================</comment>');
+        $logger->info('<comment>================================================================</comment>');
 
         // 全体処理をrepeat回数分実行
         try {
             for ($repeatRound = 0; $repeatRound <= $totalRounds; $repeatRound++) {
-                $output->writeln(sprintf('<comment>===== 全体実行 %d/%d =====</comment>', $repeatRound, $totalRounds));
+                $logger->info(sprintf('<comment>===== 全体実行 %d/%d =====</comment>', $repeatRound, $totalRounds));
                 // 各期間を順番に実行
                 foreach ($timeChunks as $chunkIndex => $chunk) {
                     $chunkFrom = $chunk['from'];
                     $chunkTo = $chunk['to'];
 
-                    $output->writeln(sprintf('<comment>--- 期間 %d/%d (全体実行 %d)---</comment>', $chunkIndex + 1, count($timeChunks), $repeatRound));
-                    $output->writeln(sprintf('<info>期間時間範囲: %s から %s まで</info>',
+                    $logger->info(sprintf('<comment>--- 期間 %d/%d (全体実行 %d)---</comment>', $chunkIndex + 1, count($timeChunks), $repeatRound));
+                    $logger->info(sprintf('<info>期間時間範囲: %s から %s まで</info>',
                         $chunkFrom->format('Y-m-d H:i:s'),
                         $chunkTo->format('Y-m-d H:i:s')
                     ));
@@ -124,13 +130,14 @@ class ProductRepeatImportCommand extends Command
                             $chunkFrom,
                             $chunkTo,
                             $output,
+                            $logger,
                             $chunkIndex,
                             count($timeChunks),
                             $repeatRound
                         );
 
                         if ($result) {
-                            $output->writeln(sprintf('<info>期間 %d 完了</info>', $chunkIndex + 1));
+                            $logger->info(sprintf('<info>期間 %d 完了</info>', $chunkIndex + 1));
                         } else {
                             $message = 'executeProductImportCommand failure';
                             $errors[] = [
@@ -140,7 +147,7 @@ class ProductRepeatImportCommand extends Command
                                 'to' => $chunkTo->format('Y-m-d H:i:s'),
                                 'message' => $message,
                             ];
-                            $output->writeln(sprintf('<error>期間 %d でエラーが発生しました</error>', $chunkIndex + 1));
+                            $logger->info(sprintf('<error>期間 %d でエラーが発生しました</error>', $chunkIndex + 1));
                         }
                     } catch (\Throwable $e) {
                         $errors[] = [
@@ -150,18 +157,18 @@ class ProductRepeatImportCommand extends Command
                             'to' => $chunkTo->format('Y-m-d H:i:s'),
                             'message' => $e->getMessage(),
                         ];
-                        $output->writeln(sprintf('<error>期間 %d で予期しないエラーが発生しました: %s</error>',
+                        $logger->info(sprintf('<error>期間 %d で予期しないエラーが発生しました: %s</error>',
                             $chunkIndex + 1, $e->getMessage()));
                     }
                 }
 
-                $output->writeln(sprintf('<info>全体実行 %d 完了</info>', $repeatRound));
+                $logger->info(sprintf('<info>全体実行 %d 完了</info>', $repeatRound));
             }
         } finally {
             if (!empty($errors)) {
-                $output->writeln('<error>===== エラー一覧 =====</error>');
+                $logger->info('<error>===== エラー一覧 =====</error>');
                 foreach ($errors as $err) {
-                    $output->writeln(sprintf(
+                    $logger->info(sprintf(
                         '<error>全体実行 %d, 期間 %d (%s ～ %s): %s</error>',
                         $err['round'],
                         $err['chunk'],
@@ -173,7 +180,7 @@ class ProductRepeatImportCommand extends Command
             }
         }
 
-        $output->writeln(sprintf('<info>===== リピートインポート完了 =====</info>'));
+        $logger->info(sprintf('<info>===== リピートインポート完了 =====</info>'));
 
         return empty($errors) ? Command::SUCCESS : Command::FAILURE;
     }
@@ -185,13 +192,14 @@ class ProductRepeatImportCommand extends Command
      * @param \DateTime $updateFrom
      * @param \DateTime $updateTo
      * @param OutputInterface $output
+     * @param LoggerInterface $logger
      * @param int $chunkIndex
      * @param int $totalChunks
      * @param int $repeatRound
      *
      * @return bool
      */
-    private function executeProductImportCommand(int $creatorId, \DateTime $updateFrom, \DateTime $updateTo, OutputInterface $output, int $chunkIndex = 0, int $totalChunks = 1, int $repeatRound = 1): bool
+    private function executeProductImportCommand(int $creatorId, \DateTime $updateFrom, \DateTime $updateTo, OutputInterface $output, LoggerInterface $logger, int $chunkIndex = 0, int $totalChunks = 1, int $repeatRound = 1): bool
     {
         try {
             // コマンドの引数を準備
@@ -223,7 +231,7 @@ class ProductRepeatImportCommand extends Command
                 return false;
             }
         } catch (\Throwable $e) {
-            $output->writeln(sprintf('<error>コマンド実行中にエラーが発生しました: %s</error>', $e->getMessage()));
+            $logger->error(sprintf('<error>コマンド実行中にエラーが発生しました: %s</error>', $e->getMessage()));
 
             return false;
         }
@@ -279,23 +287,23 @@ class ProductRepeatImportCommand extends Command
      * リピート回数を検証する
      *
      * @param InputInterface $input
-     * @param OutputInterface $output
+     * @param LoggerInterface $logger
      *
      * @return int|null
      */
-    private function validateRepeatCount(InputInterface $input, OutputInterface $output): ?int
+    private function validateRepeatCount(InputInterface $input, LoggerInterface $logger): ?int
     {
         $repeat = $input->getOption('repeat');
 
         if (!is_numeric($repeat)) {
-            $output->writeln('<error>リピート回数は数値でなければなりません。</error>');
+            $logger->info('<error>リピート回数は数値でなければなりません。</error>');
 
             return null;
         }
 
         $repeatCount = (int) $repeat;
         if ($repeatCount < 0) {
-            $output->writeln('<error>リピート回数は0以上でなければなりません。</error>');
+            $logger->info('<error>リピート回数は0以上でなければなりません。</error>');
 
             return null;
         }
@@ -307,11 +315,11 @@ class ProductRepeatImportCommand extends Command
      * 待機時間を検証する
      *
      * @param InputInterface $input
-     * @param OutputInterface $output
+     * @param LoggerInterface $logger
      *
      * @return string|null
      */
-    private function validateDuration(InputInterface $input, OutputInterface $output): ?string
+    private function validateDuration(InputInterface $input, LoggerInterface $logger): ?string
     {
         $duration = $input->getOption('duration');
 
@@ -323,7 +331,7 @@ class ProductRepeatImportCommand extends Command
 
             return $duration;
         } catch (\Exception $e) {
-            $output->writeln(sprintf('<error>デュレーションの形式が無効です: %s</error>', $duration));
+            $logger->error(sprintf('<error>デュレーションの形式が無効です: %s</error>', $duration));
 
             return null;
         }
