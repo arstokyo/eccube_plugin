@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Eccube\Repository\ProductClassRepository;
 use Plugin\AceClient43\AceServices\Model\Response\WebApi\Goods\V1\GetStockByUpdate\V1GetStockByUpdateResponseModelInterface;
 use Plugin\AceClient43\Bridge\ProductBridge;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -27,15 +28,19 @@ class ImportProductStockCommand extends Command
 
     private EntityManagerInterface $entityManager;
 
+    protected LoggerInterface $logger;
+
     public function __construct(
         ProductBridge $productBridge,
         ProductClassRepository $productClassRepository,
         EntityManagerInterface $entityManager,
+        LoggerInterface $consoleLogger,
     ) {
         parent::__construct();
         $this->productBridge = $productBridge;
         $this->productClassRepository = $productClassRepository;
         $this->entityManager = $entityManager;
+        $this->logger = $consoleLogger;
     }
 
     protected function configure()
@@ -55,12 +60,15 @@ class ImportProductStockCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $logger = $this->logger;
         $updateFromStr = (string) $input->getOption('updateFrom');
+
         if ($updateFromStr === '') {
-            $output->writeln('<error>--updateFrom は必須です。</error>');
+            $logger->error('<error>--updateFrom は必須です。</error>');
 
             return Command::FAILURE;
         }
+
         $updateFrom = new \DateTimeImmutable($updateFromStr);
         $toDate = $input->getOption('toDate') ? new \DateTimeImmutable((string) $input->getOption('toDate')) : null;
         $skid = $input->getOption('skid') ? (string) $input->getOption('skid') : null;
@@ -68,7 +76,7 @@ class ImportProductStockCommand extends Command
         $page = (int) $input->getOption('startPage');
         $maxPages = $input->getOption('maxPages') !== null ? (int) $input->getOption('maxPages') : null;
 
-        $output->writeln(sprintf('<info>在庫インポート開始: from=%s to=%s skid=%s limit=%d startPage=%d</info>',
+        $logger->info(sprintf('<info>在庫インポート開始: from=%s to=%s skid=%s limit=%d startPage=%d</info>',
             $updateFrom->format('Y-m-d H:i:s'),
             $toDate ? $toDate->format('Y-m-d H:i:s') : '(now)',
             $skid ?: '(なし)',
@@ -83,7 +91,7 @@ class ImportProductStockCommand extends Command
             $resp = $this->productBridge->getStockByUpdateV1Response($updateFrom, $toDate, $skid, $page, $limit);
 
             $items = $resp->getItems();
-            $output->writeln(sprintf('<comment>ページ %d: 取得件数 %d</comment>', $resp->getPage(), count($items)));
+            $logger->info(sprintf('<comment>ページ %d: 取得件数 %d</comment>', $resp->getPage(), count($items)));
 
             // 在庫更新
             foreach ($items as $item) {
@@ -117,12 +125,12 @@ class ImportProductStockCommand extends Command
             $pagesProcessed++;
 
             if ($maxPages !== null && $pagesProcessed >= $maxPages) {
-                $output->writeln('<info>最大ページ数に到達したため終了します。</info>');
+                $logger->info('<info>最大ページ数に到達したため終了します。</info>');
                 break;
             }
         } while ($hasMore);
 
-        $output->writeln(sprintf('<info>在庫インポート完了（更新件数: %d）</info>', $processed));
+        $logger->info(sprintf('<info>在庫インポート完了（更新件数: %d）</info>', $processed));
 
         return Command::SUCCESS;
     }
