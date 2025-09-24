@@ -16,9 +16,6 @@ interface V1GoodsItemsRequestModelInterface extends RequestModelInterface
     /** @param string[]|null $gdids */
     public function setGdids(?array $gdids): self;
 
-    /** @return string[]|null */
-    public function getRawGdids(): ?array;
-
     public function getSkid(): ?int;
 
     public function setSkid(?int $skid): self;
@@ -28,7 +25,4 @@ interface V1GoodsItemsRequestModelInterface extends RequestModelInterface
 
     /** @param array<int, int>|null $freeKubuns */
     public function setFreeKubuns(?array $freeKubuns): self;
-
-    /** @return array<int, int>|null */
-    public function getRawFreeKubuns(): ?array;
 }

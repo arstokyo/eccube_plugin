@@ -41,11 +41,6 @@ class V1GoodsItemsRequestModel implements V1GoodsItemsRequestModelInterface
         return $this;
     }
 
-    public function getRawGdids(): ?array
-    {
-        return $this->gdids;
-    }
-
     public function getSkid(): ?int
     {
         return $this->skid;
@@ -68,11 +63,6 @@ class V1GoodsItemsRequestModel implements V1GoodsItemsRequestModelInterface
         $this->freeKubuns = $freeKubuns;
 
         return $this;
-    }
-
-    public function getRawFreeKubuns(): ?array
-    {
-        return $this->freeKubuns;
     }
 
     public function fetchRequestNodeName(): string
