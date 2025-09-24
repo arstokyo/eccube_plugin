@@ -14,12 +14,12 @@
 namespace Plugin\AceClient43\Events;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class HelperOnCreateProductFailedEvent extends Event
 {
-    public OutputInterface $output;
+    public LoggerInterface $logger;
 
     public array $processedProductsClasses;
 
@@ -31,10 +31,10 @@ class HelperOnCreateProductFailedEvent extends Event
         array $processedProductsClasses,
         array $options,
         EntityManagerInterface $entityManager,
-        ?OutputInterface $output = null,
+        ?LoggerInterface $logger = null,
     ) {
         $this->processedProductsClasses = $processedProductsClasses;
-        $this->output = $output;
+        $this->logger = $logger;
         $this->options = $options;
         $this->entityManager = $entityManager;
     }
