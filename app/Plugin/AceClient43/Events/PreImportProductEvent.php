@@ -14,8 +14,8 @@
 namespace Plugin\AceClient43\Events;
 
 use Eccube\Entity\Member;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class PreImportProductEvent extends Event
@@ -28,7 +28,7 @@ class PreImportProductEvent extends Event
 
     public InputInterface $input;
 
-    public OutputInterface $output;
+    public LoggerInterface $logger;
 
     public Member $creator;
 
@@ -40,12 +40,12 @@ class PreImportProductEvent extends Event
 
     public ?int $repeatRound;
 
-    public function __construct(Member $creator, \DateTime $updateFrom, \DateTime $updateTo, InputInterface $input, OutputInterface $output, array $options, ?int $chunkIndex = null, ?int $totalChunks = null, ?int $repeatRound = null)
+    public function __construct(Member $creator, \DateTime $updateFrom, \DateTime $updateTo, InputInterface $input, LoggerInterface $logger, array $options, ?int $chunkIndex = null, ?int $totalChunks = null, ?int $repeatRound = null)
     {
         $this->updateFrom = $updateFrom;
         $this->updateTo = $updateTo;
         $this->input = $input;
-        $this->output = $output;
+        $this->logger = $logger;
         $this->creator = $creator;
         $this->options = $options;
         $this->chunkIndex = $chunkIndex;

@@ -30,7 +30,6 @@ class Events
     public const PRE_PROCESS_CHARGE_EVENT = 'ace_client.pre_process_charge_event';
     public const POST_PROCESS_CHARGE_EVENT = 'ace_client.post_process_charge_event';
     public const COMMAND_PRE_IMPORT_PRODUCT = 'ace_client.command_pre_import_product';
-    public const HELPER_PRE_IMPORT_PRODUCT = 'ace_client.helper_pre_import_product';
     public const HELPER_POST_IMPORT_PRODUCT = 'ace_client.helper_post_import_product';
     public const PRODUCT_IMPORT_HELPER_ON_CREATE_PRODUCT = 'ace_client.product_import_helper_on_create_product';
     public const PRODUCT_IMPORT_HELPER_ON_CREATE_PRODUCT_FAILED = 'ace_client.product_import_helper_on_create_product_failed';
@@ -38,4 +37,5 @@ class Events
     public const PRE_ADD_CONTACT = 'ace_client.pre_add_contact';
     public const CART_CONTROLLER_SERVICE_PRE_ADD_CART = 'ace_client.cart_controller_service.pre_add_cart';
     public const ADD_CART_PRE_CREATE_REQUEST = 'ace_client.add_cart.pre_create_request';
+    public const PRE_GET_ITEMS = 'ace_client.pre_get_items';
 }
