@@ -31,12 +31,12 @@ final class Version20250925084702 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // ace_systemテーブルのURLとlog_onを更新
-        $this->addSql("UPDATE ace_system SET url = 'https://155.248.172.151:20443/dev/', log_on = 1 WHERE url = 'https://155.248.172.151:20443/dev'");
+        $this->addSql("UPDATE plg_ace_client_config SET url = 'https://155.248.172.151:20443/dev/', log_on = 1 WHERE url = 'https://155.248.172.151:20443/dev'");
     }
 
     public function down(Schema $schema): void
     {
         // 変更を元に戻す
-        $this->addSql("UPDATE ace_system SET url = 'https://155.248.172.151:20443/dev', log_on = 0 WHERE url = 'https://155.248.172.151:20443/dev/'");
+        $this->addSql("UPDATE plg_ace_client_config SET url = 'https://155.248.172.151:20443/dev', log_on = 0 WHERE url = 'https://155.248.172.151:20443/dev/'");
     }
 }
