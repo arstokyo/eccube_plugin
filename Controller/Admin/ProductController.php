@@ -74,10 +74,6 @@ class ProductController extends AbstractController
                 new Assert\NotBlank([
                     'message' => '商品IDを入力してください。',
                 ]),
-                new Assert\Regex([
-                    'pattern' => '/^[0-9,\s]*$/',
-                    'message' => '商品IDは数字とカンマのみ入力可能です。',
-                ]),
             ],
         ]);
 
