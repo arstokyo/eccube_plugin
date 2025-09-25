@@ -16,32 +16,42 @@ namespace Plugin\AceClient43\Bridge;
 use Plugin\AceClient43\AceServices\AceMethod\Goods\GetGoodsMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Goods\GetZaikoMethod;
 use Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GetStockByUpdateMethod;
+use Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GoodsItemsMethod;
 use Plugin\AceClient43\AceServices\Model\Request\Goods\GetGoods as RequestGetGoods;
 use Plugin\AceClient43\AceServices\Model\Request\Goods\GetGoods\IdPrmModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Goods\GetGoods\OptionsModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Goods\GetZaiko as RequestGetZaiko;
 use Plugin\AceClient43\AceServices\Model\Request\WebApi\Goods\V1\GetStockByUpdate\V1GetStockByUpdateRequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\WebApi\Goods\V1\GoodsItems\V1GoodsItemsRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Goods\GetGoods as ResponseGetGoods;
 use Plugin\AceClient43\AceServices\Model\Response\Goods\GetZaiko as ResponseGetZaiko;
 use Plugin\AceClient43\AceServices\Model\Response\WebApi\Goods\V1\GetStockByUpdate\V1GetStockByUpdateItemModel;
 use Plugin\AceClient43\AceServices\Model\Response\WebApi\Goods\V1\GetStockByUpdate\V1GetStockByUpdateResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\WebApi\Goods\V1\GoodsItems\V1GoodsItemsResponseModelInterface;
+use Plugin\AceClient43\Events\Events;
+use Plugin\AceClient43\Events\PreGetItemsEvent;
 
 class ProductBridge extends BaseBridge
 {
-    private GetGoodsMethod $getGoodsMethod;
+    protected GetGoodsMethod $getGoodsMethod;
 
-    private GetZaikoMethod $getZaikoMethod;
+    protected GetZaikoMethod $getZaikoMethod;
 
-    private V1GetStockByUpdateMethod $v1GetStockByUpdateMethod;
+    protected V1GetStockByUpdateMethod $v1GetStockByUpdateMethod;
+
+    /** @var V1GoodsItemsMethod|null WebAPI goods v1 一覧メソッド（任意） */
+    protected V1GoodsItemsMethod $v1GetGoodsListMethod;
 
     public function __construct(
         GetGoodsMethod $getGoodsMethod,
         GetZaikoMethod $getZaikoMethod,
         V1GetStockByUpdateMethod $v1GetStockByUpdateMethod,
+        V1GoodsItemsMethod $v1GetGoodsListMethod,
     ) {
         $this->getGoodsMethod = $getGoodsMethod;
         $this->getZaikoMethod = $getZaikoMethod;
         $this->v1GetStockByUpdateMethod = $v1GetStockByUpdateMethod;
+        $this->v1GetGoodsListMethod = $v1GetGoodsListMethod;
     }
 
     /**
@@ -263,5 +273,50 @@ class ProductBridge extends BaseBridge
         $model = $response->getResponse();
 
         return $model;
+    }
+
+    /**
+     * WebApi v1: 商品一覧（goods/v1/items）を呼び出します。
+     * DI未設定の場合は例外を投げます（後方互換のため任意依存）。
+     *
+     * @return V1GoodsItemsResponseModelInterface
+     */
+    public function getItems(
+        array $gdids,
+        array $freeKubuns = [],
+        ?string $skid = null,
+        array $options = [],
+    ): V1GoodsItemsResponseModelInterface {
+        /** @var V1GoodsItemsRequestModelInterface $requestModel */
+        $requestModel = $this->createRequestModel(V1GoodsItemsRequestModelInterface::class);
+        $request = $requestModel
+            ->setSyid($this->getSyid())
+            ->setGdids($gdids)
+            ->setSkid($skid);
+
+        // Set freeKubuns directly if provided
+        if (!empty($freeKubuns)) {
+            $request->setFreeKubuns($freeKubuns);
+        }
+
+        if ($this->eventDispatcher->hasListeners(Events::PRE_GET_ITEMS)) {
+            $event = new PreGetItemsEvent($request, $gdids, $freeKubuns, $skid, $options);
+            $this->eventDispatcher->dispatch($event, Events::PRE_GET_ITEMS);
+        }
+
+        try {
+            $response = $this->v1GetGoodsListMethod
+                ->withRequest($request)
+                ->send();
+
+            if (!$response->isOk()) {
+                throw new \RuntimeException(sprintf('商品一覧（v1）取得に失敗しました。(レスポンスコード：%s)', $response->getStatusCode()));
+            }
+
+            /* @var V1GoodsItemsResponseModelInterface $payload */
+            return $response->getResponse();
+        } catch (\Throwable $e) {
+            throw new \RuntimeException('商品一覧（v1）の取得に失敗しました。', 0, $e);
+        }
     }
 }

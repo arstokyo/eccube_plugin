@@ -86,8 +86,8 @@ class MasterModel implements MasterModelInterface
     public static function fetchAsListProperty(): array
     {
         return [
-            'Goods' => Model\Dependency\Good\GoodModelGroup1::class,
-            'Gtanka' => Model\Dependency\Good\GoodTankaModelGroup1::class,
+            'Goods' => GoodsModel::class,
+            'Gtanka' => GoodsTankaModel::class,
         ];
     }
 }

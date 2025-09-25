@@ -392,4 +392,10 @@ class AceConfigService
             ? ['return_alladr' => true]
             : [];
     }
+
+    // TODO: Change the hardcoded value to database setting
+    public function shouldSyncProductOnAdminPage(): bool
+    {
+        return true;
+    }
 }

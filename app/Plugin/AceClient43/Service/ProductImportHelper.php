@@ -31,39 +31,36 @@ use Eccube\Repository\ProductClassRepository;
 use Eccube\Repository\TaxRuleRepository;
 use Plugin\AceClient43\AceServices\Model\Dependency\Good\GoodModelGroup1Interface;
 use Plugin\AceClient43\AceServices\Model\Dependency\Good\GoodTankaModelGroup1Interface;
-use Plugin\AceClient43\AceServices\Model\Response\Goods\GetGoods\MasterModelInterface;
 use Plugin\AceClient43\Bridge\ProductBridge;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\HelperImportProductEvent;
 use Plugin\AceClient43\Events\HelperOnCreateProductEvent;
 use Plugin\AceClient43\Events\HelperOnCreateProductFailedEvent;
 use Plugin\AceClient43\Events\HelperOnSetPriceEvent;
-use Plugin\AceClient43\Events\HelperPreImportProductEvent;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ProductImportHelper
 {
-    private ProductBridge $productBridge;
+    protected ProductBridge $productBridge;
 
-    private LoggerInterface $logger;
+    protected LoggerInterface $logger;
 
-    private ProductClassRepository $productClassRepository;
+    protected ProductClassRepository $productClassRepository;
 
-    private ProductStatusRepository $productStatusRepository;
+    protected ProductStatusRepository $productStatusRepository;
 
-    private ObjectManager $entityManager;
+    protected ObjectManager $entityManager;
 
-    private EventDispatcherInterface $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
-    private TaxRuleRepository $taxRuleRepository;
+    protected TaxRuleRepository $taxRuleRepository;
 
-    private BaseInfo $baseInfo;
+    protected BaseInfo $baseInfo;
 
-    private SaleTypeRepository $saleTypeRepository;
+    protected SaleTypeRepository $saleTypeRepository;
 
-    private ManagerRegistry $managerRegistry;
+    protected ManagerRegistry $managerRegistry;
 
     public function __construct(
         ProductBridge $productBridge,
@@ -96,12 +93,15 @@ class ProductImportHelper
      * @param \DateTime $updateFrom 更新対象開始日
      * @param \DateTime $updateTo 更新対象終了日
      * @param array $options オプション
-     * @param OutputInterface|null $output コンソール出力インターフェース
+     * @param LoggerInterface|null $logger コンソール出力インターフェース
      *
      * @return int インポートされた商品数
      */
-    public function import(Member &$creator, \DateTime $updateFrom, \DateTime $updateTo, array &$options = [], ?OutputInterface $output = null): int
+    public function import(Member &$creator, \DateTime $updateFrom, \DateTime $updateTo, array &$options = [], ?LoggerInterface $logger = null): int
     {
+        if ($logger === null) {
+            $logger = $this->logger;
+        }
         $options = array_merge([
             '_trigger' => ProductImportHelper::class,
             '_failed_product_codes' => [],
@@ -111,35 +111,72 @@ class ProductImportHelper
         $master = $this->productBridge->getAll($updateFrom, $updateTo, $options);
 
         if (null === $master || !$master->hasGoods() || !$master->hasGtanka()) {
-            $this->log('error', '商品または単価がありませんため、インポート処理を中止します。', $output);
+            $logger->error('<error>商品または単価がありませんため、インポート処理を中止します。</error>');
 
             return 0;
         }
 
-        if ($this->eventDispatcher->hasListeners(Events::HELPER_PRE_IMPORT_PRODUCT)) {
-            $event = new HelperPreImportProductEvent($master, $updateFrom, $updateTo, $creator, $output, $options);
-            $this->eventDispatcher->dispatch($event, Events::HELPER_PRE_IMPORT_PRODUCT);
+        $productModels = $master->getGoods();
+        $tankaModels = $master->getGtanka();
 
-            if (!$event->continue) {
-                $this->log('info', '商品インポート処理が中止されました。', $output);
-
-                return $event->importCount;
-            }
-
-            $options = $event->options;
-        }
-
-        $createdProducts = $this->create($master, $creator, $output, $options);
+        $createdProducts = $this->create($productModels, $tankaModels, $creator, $logger, $options);
 
         if ($this->eventDispatcher->hasListeners(Events::HELPER_POST_IMPORT_PRODUCT)) {
             $this->eventDispatcher->dispatch(
-                new HelperImportProductEvent($createdProducts, $master, $output, $options),
+                new HelperImportProductEvent($createdProducts, $productModels, $tankaModels, $logger, $options),
                 Events::HELPER_POST_IMPORT_PRODUCT
             );
         }
 
         if (count($createdProducts) === 0) {
-            $this->log('error', '商品が作成されませんでした。', $output);
+            $logger->error('<error>商品が作成されませんでした。</error>');
+
+            return 0;
+        }
+
+        return count($createdProducts);
+    }
+
+    /**
+     * 商品IDによる商品インポート
+     *
+     * @param Member $creator 作成者
+     * @param array $productIds 商品ID配列
+     * @param array $options オプション
+     * @param LoggerInterface|null $logger コンソール出力インターフェース
+     *
+     * @return int インポートされた商品数
+     */
+    public function importByAceProductIds(Member &$creator, array $productIds, array &$options = [], ?LoggerInterface $logger = null): int
+    {
+        if ($logger === null) {
+            $logger = $this->logger;
+        }
+        if (empty($productIds)) {
+            $logger->error('<error>商品IDが指定されていないため、インポート処理を中止します。</error>');
+
+            return 0;
+        }
+
+        $options = array_merge([
+            '_trigger' => ProductImportHelper::class,
+            '_failed_product_codes' => [],
+            '_product_import_helper.import_stock' => true,
+            '_product_import_helper.set_product_status' => true,
+        ], $options);
+
+        $payload = $this->productBridge->getItems($productIds, [], null, $options);
+        $createdProducts = $this->create($payload->getItems(), [], $creator, $logger, $options);
+
+        if ($this->eventDispatcher->hasListeners(Events::HELPER_POST_IMPORT_PRODUCT)) {
+            $this->eventDispatcher->dispatch(
+                new HelperImportProductEvent($createdProducts, $payload->getItems(), [], $logger, $options),
+                Events::HELPER_POST_IMPORT_PRODUCT
+            );
+        }
+
+        if (count($createdProducts) === 0) {
+            $logger->error('<error>商品が作成されませんでした。</error>');
 
             return 0;
         }
@@ -150,29 +187,39 @@ class ProductImportHelper
     /**
      * 商品を作成する
      *
-     * @param MasterModelInterface $master 商品マスターデータ
+     * @param GoodModelGroup1Interface[] $productModels 商品モデル
+     * @param GoodTankaModelGroup1Interface[] $tankaModels 単価モデル
      * @param Member $creator 作成者
-     * @param OutputInterface|null $output コンソール出力インターフェース
+     * @param LoggerInterface $logger
      * @param array $options オプション
      *
      * @return <string, ProductClass>[] 作成された商品モデルの配列
      */
-    private function create(MasterModelInterface $master, Member &$creator, ?OutputInterface $output, array &$options = []): array
+    private function create(array $productModels, array $tankaModels, Member &$creator, LoggerInterface $logger, array &$options = []): array
     {
-        $settingBag = $this->createSettingBag($master);
-        $productModels = $master->getGoods();
+        $settingBag = $this->createSettingBag($tankaModels);
         $processedProductClasses = [];
 
         foreach ($productModels as $productModel) {
             try {
                 // エンティティマネージャーの状態をリセット
                 $entityManager = $this->entityManager;
-                $entityManager = EntityManagerResetHelper::resetIfNotOpen($entityManager, $this->managerRegistry, $output);
+                $entityManager = EntityManagerResetHelper::resetIfNotOpen($entityManager, $this->managerRegistry, $logger);
 
                 /** @var ProductClass $productClass */
                 /** @var ProductStock $productStock */
                 /** @var Product $product */
-                [$aceProductId, $productClass, $product, $productStock] = $this->getOrCreateProductStuff($productModel, $creator, $output);
+                [$aceProductId, $productClass, $product, $productStock] = $this->getOrCreateProductStuff($productModel, $creator);
+
+                $tankaModels = method_exists($productModel, 'getTanka')
+                    ? $productModel->getTanka()
+                    : ($settingBag['grouped_tanka_models'][$aceProductId] ?? []);
+
+                if (empty($tankaModels)) {
+                    $logger->error(sprintf('<error>単価が設定されていません:%s</error>', $productModel->getGdid()));
+
+                    continue;
+                }
 
                 $product->setName($productModel->getGname());
                 $productClass->setAceProductId($aceProductId);
@@ -185,7 +232,7 @@ class ProductImportHelper
                     $this->setStatus($productModel, $product, $productClass, $settingBag);
                 }
 
-                $this->setPrice($productModel, $productClass, $creator, $settingBag, $options, $output);
+                $this->setPrice($productModel, $productClass, $creator, $tankaModels, $settingBag, $options, $logger);
 
                 // import_stockがtrueの場合のみ在庫を更新する
                 if ($options['_product_import_helper.import_stock']) {
@@ -198,7 +245,7 @@ class ProductImportHelper
                     /** @var HelperOnCreateProductEvent $onCreateEvent */
                     $onCreateEvent = $settingBag['on_create_product_event'];
                     if (null === $onCreateEvent) {
-                        $onCreateEvent = new HelperOnCreateProductEvent($productClass, $productStock, $productModel, $productModels, $processedProductClasses, $creator, $output, $options);
+                        $onCreateEvent = new HelperOnCreateProductEvent($productClass, $productStock, $productModel, $productModels, $processedProductClasses, $creator, $logger, $options);
                         $settingBag['on_create_product_event'] = $onCreateEvent;
                     } else {
                         $onCreateEvent->productClass = $productClass;
@@ -211,11 +258,12 @@ class ProductImportHelper
 
                     $this->eventDispatcher->dispatch($onCreateEvent, Events::PRODUCT_IMPORT_HELPER_ON_CREATE_PRODUCT);
                     if ($onCreateEvent->failed) {
-                        $this->log('error', '商品の作成に失敗しました: '.$aceProductId, $output);
+                        $logger->error(sprintf('<error>商品の作成に失敗しました:%s</error>', $aceProductId));
                         $options['_failed_product_codes'][] = $aceProductId;
 
                         if ($onCreateEvent->shouldBreak) {
-                            $this->log('info', '商品の作成が中止されました。', $output);
+                            $logger->warning('<warning>商品の作成が中止されました。</warning>');
+
                             break;
                         }
 
@@ -223,7 +271,8 @@ class ProductImportHelper
                     }
 
                     if ($onCreateEvent->shouldBreak) {
-                        $this->log('info', '商品の作成が中止されました。', $output);
+                        $logger->warning('<warning>商品の作成が中止されました。</warning>');
+
                         break;
                     }
 
@@ -238,9 +287,10 @@ class ProductImportHelper
 
                 $processedProductClasses[$aceProductId] = $productClass;
             } catch (\Throwable $e) {
-                $this->log('error', '商品作成中にエラーが発生しました: '.$e->getMessage(), $output);
+                $logger->error(sprintf('<error>商品作成中にエラーが発生しました:%s</error>', $e->getMessage()));
+
                 // エラーが発生した場合は、キャッシュされたエンティティマネージャーをリセット
-                $this->handleCreateProductFailed($productModel, $processedProductClasses, $options, $output, $settingBag, $creator);
+                $this->handleCreateProductFailed($productModel, $processedProductClasses, $options, $logger, $settingBag, $creator);
             }
         }
 
@@ -253,20 +303,19 @@ class ProductImportHelper
      * @param GoodModelGroup1Interface $productModel 商品モデル
      * @param ProductClass $productClass 商品クラス
      * @param Member $creator 作成者
+     * @param GoodTankaModelGroup1Interface[] $tankaModels 単価モデル
      * @param array $settingBag 設定情報の配列
      * @param array $options オプション
-     * @param OutputInterface|null $output
+     * @param LoggerInterface $logger
      *
      * @return void
      */
-    private function setPrice(GoodModelGroup1Interface $productModel, ProductClass $productClass, Member $creator, array &$settingBag, array &$options, ?OutputInterface $output): void
+    private function setPrice(GoodModelGroup1Interface $productModel, ProductClass $productClass, Member $creator, array $tankaModels, array &$settingBag, array &$options, LoggerInterface $logger): void
     {
         $groupedTankaModels = $settingBag['grouped_tanka_models'];
-        /** @var GoodTankaModelGroup1Interface[] $tankaModels */
-        $tankaModels = $groupedTankaModels[$productClass->getAceProductId()] ?? [];
 
         if (empty($tankaModels)) {
-            $this->log('error', '単価が設定されていません: '.$productModel->getGdid(), $output);
+            $logger->error(sprintf('<error>単価が設定されていません:%s</error>', $productModel->getGdid()));
 
             return;
         }
@@ -302,7 +351,7 @@ class ProductImportHelper
                 $tankaModel,
                 $settingBag,
                 $options,
-                $output
+                $logger
             );
             $settingBag['on_set_price_event'] = $onSetPriceEvent;
         } else {
@@ -318,36 +367,14 @@ class ProductImportHelper
     }
 
     /**
-     * ログを出力する
-     *
-     * @param string $level ログレベル
-     * @param string $message ログメッセージ
-     * @param OutputInterface|null $output コンソール出力インターフェース
-     */
-    private function log(string $level, string $message, ?OutputInterface $output = null): void
-    {
-        if ($output) {
-            $output->writeln(sprintf('<%s>[Product_Import_Helper] %s</%s>', $level, $message, $level));
-        }
-
-        $method = strtolower($level);
-        if (method_exists($this->logger, $method)) {
-            $this->logger->$method($message);
-        } else {
-            $this->logger->info($message);
-        }
-    }
-
-    /**
      * 商品の情報を取得または作成する
      *
      * @param GoodModelGroup1Interface $productModel 商品モデル
      * @param Member $creator 作成者
-     * @param OutputInterface $output コンソール出力インターフェース
      *
      * @return array 商品ID、商品クラス、商品、商品在庫の配列
      */
-    private function getOrCreateProductStuff(GoodModelGroup1Interface $productModel, Member $creator, OutputInterface $output): array
+    private function getOrCreateProductStuff(GoodModelGroup1Interface $productModel, Member $creator): array
     {
         $aceProductId = $productModel->getGdid();
         $productClass = $this->productClassRepository->findOneBy(['ace_product_id' => $aceProductId]);
@@ -355,9 +382,6 @@ class ProductImportHelper
         $product = $productClass ? $productClass->getProduct() : null;
 
         if (null === $productClass) {
-            // todo: instead of print out the message, we should log out it.
-            // $this->log('info', sprintf('商品を作成しています: %s (%s)', $productModel->getGname(), $aceProductId), $output);
-
             $product = new Product();
             $productClass = new ProductClass();
             $productStock = new ProductStock();
@@ -372,9 +396,6 @@ class ProductImportHelper
 
             $productStock->setProductClass($productClass);
             $productStock->setCreator($creator);
-        } else {
-            // todo: instead of print out the message, we should log out it.
-            // $output->writeln('<info>[ProductImportHelper] 商品を更新しています: '.$aceProductId.' (ID: '.$productModel->getGdid().')</info>');
         }
 
         return [$aceProductId, $productClass, $product, $productStock];
@@ -421,10 +442,13 @@ class ProductImportHelper
         $this->entityManager->flush($baseInfo);
     }
 
-    private function createSettingBag(MasterModelInterface $master): array
+    /**
+     * @param GoodTankaModelGroup1Interface[] $tankaModels
+     *
+     * @return array
+     */
+    private function createSettingBag(array $tankaModels): array
     {
-        $tankaModels = $master->getGtanka();
-
         // このあと、設定されたTaxRuleを採用するため、オプション商品税率ルールを有効にする。
         $this->enableOptionProductTaxRule();
         $groupedTankaModels = [];
@@ -537,16 +561,16 @@ class ProductImportHelper
      * @param GoodModelGroup1Interface $productModel 商品モデル
      * @param array $processedProductClasses 処理済み商品クラス配列
      * @param array $options オプション
-     * @param OutputInterface|null $output コンソール出力インターフェース
+     * @param LoggerInterface $logger ロガーインターフェース
      * @param array $settingBag 設定情報の配列
      * @param Member $creator 作成者
      *
      * @return void
      */
-    private function handleCreateProductFailed(GoodModelGroup1Interface $productModel, array $processedProductClasses, array &$options, ?OutputInterface $output, array &$settingBag, Member &$creator): void
+    private function handleCreateProductFailed(GoodModelGroup1Interface $productModel, array $processedProductClasses, array &$options, LoggerInterface $logger, array &$settingBag, Member &$creator): void
     {
         $options['_failed_product_codes'][] = $productModel->getGdid();
-        $this->entityManager = EntityManagerResetHelper::resetEntityManager($this->entityManager, $this->managerRegistry, $output);
+        $this->entityManager = EntityManagerResetHelper::resetEntityManager($this->entityManager, $this->managerRegistry, $logger);
         $settingBag = $this->resetSettingBagEntity($settingBag);
         $creator = $this->entityManager->getRepository(Member::class)->find($creator->getId());
         $this->taxRuleRepository->clearCache();
@@ -562,13 +586,13 @@ class ProductImportHelper
                 $processedProductClasses,
                 $options,
                 $this->entityManager,
-                $output,
+                $logger,
             );
             $settingBag['on_create_product_failed_event'] = $onCreateProductFailedEvent;
         } else {
             $onCreateProductFailedEvent->options = $options;
             $onCreateProductFailedEvent->entityManager = $this->entityManager;
-            $onCreateProductFailedEvent->output = $output;
+            $onCreateProductFailedEvent->logger = $logger;
         }
 
         $this->eventDispatcher->dispatch($onCreateProductFailedEvent, Events::PRODUCT_IMPORT_HELPER_ON_CREATE_PRODUCT_FAILED);

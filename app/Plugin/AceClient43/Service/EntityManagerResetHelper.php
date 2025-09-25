@@ -16,7 +16,7 @@ namespace Plugin\AceClient43\Service;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\Console\Output\OutputInterface;
+use Psr\Log\LoggerInterface;
 
 class EntityManagerResetHelper
 {
@@ -25,11 +25,11 @@ class EntityManagerResetHelper
      *
      * @param EntityManagerInterface $entityManager
      * @param ManagerRegistry $managerRegistry
-     * @param OutputInterface $output
+     * @param LoggerInterface|null $logger
      *
      * @return ObjectManager
      */
-    public static function resetEntityManager(EntityManagerInterface $entityManager, ManagerRegistry $managerRegistry, OutputInterface $output): ObjectManager
+    public static function resetEntityManager(EntityManagerInterface $entityManager, ManagerRegistry $managerRegistry, ?LoggerInterface $logger = null): ObjectManager
     {
         try {
             // このトランザクション内でのみロールバック
@@ -40,7 +40,10 @@ class EntityManagerResetHelper
             // 活性なトランザクションをロールバック
             if ($entityManager->isOpen() && $entityManager->getConnection()->isTransactionActive()) {
                 $entityManager->rollback();
-                $output->writeln('<comment>トランザクションをロールバックしました</comment>');
+
+                if ($logger) {
+                    $logger->info('<comment>トランザクションをロールバックしました</comment>');
+                }
             }
 
             // エンティティマネージャーをクリア
@@ -49,11 +52,15 @@ class EntityManagerResetHelper
             }
 
             // 完全にリセット
-            $output->writeln('<info>エンティティマネージャーをリセットしました</info>');
+            if ($logger) {
+                $logger->info('<info>エンティティマネージャーをリセットしました</info>');
+            }
 
             return $managerRegistry->resetManager();
         } catch (\Throwable $e) {
-            $output->writeln(sprintf('<error>エンティティマネージャーのリセット中にエラーが発生しました: %s</error>', $e->getMessage()));
+            if ($logger) {
+                $logger->error(sprintf('<error>エンティティマネージャーのリセット中にエラーが発生しました: %s</error>', $e->getMessage()));
+            }
         }
 
         // エラーが発生した場合は、元のエンティティマネージャーを返す
@@ -65,22 +72,28 @@ class EntityManagerResetHelper
      *
      * @param EntityManagerInterface $entityManager
      * @param ManagerRegistry $managerRegistry
-     * @param OutputInterface $output
+     * @param LoggerInterface|null $logger
      *
      * @return ObjectManager
      */
     public static function resetIfNotOpen(
         EntityManagerInterface $entityManager,
         ManagerRegistry $managerRegistry,
-        OutputInterface $output,
+        ?LoggerInterface $logger = null,
     ): ObjectManager {
         if ($entityManager->isOpen()) {
             return $entityManager;
         }
 
-        $output->writeln('<comment>エンティティマネージャーが閉じられているため、再初期化します</comment>');
+        if ($logger) {
+            $logger->info('<comment>エンティティマネージャーが閉じられているため、再初期化します</comment>');
+        }
+
         $entityManager = $managerRegistry->resetManager();
-        $output->writeln('<info>エンティティマネージャーをリセットしました</info>');
+
+        if ($logger) {
+            $logger->info('<info>エンティティマネージャーをリセットしました</info>');
+        }
 
         return $entityManager;
     }
