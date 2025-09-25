@@ -1,20 +1,20 @@
 ---
-eccube_site_name: "your-eccube-site-name"
-eccube_domain: "your-eccube-domain.com"
+eccube_site_name: "rednails"
+eccube_domain: "rednails.local"
 
 # Database configuration
 database_hostname: "127.0.0.1"
-database_port: 13306
+database_port: 23306
 database_name: "eccube"
 database_user: "dbuser"
 database_password: "secret"
 
 # Git configuration
-git_username: "your-git-username"
-git_email: "your-git-email"
+git_username: "t-saito"
+git_email: "t-saito@ar-system.co.jp"
 project_root: "/var/www/{{ eccube_site_name }}"
-base_code_repo: "your-git-repo-url"
-git_branch: "your-branch-name"
+base_code_repo: "ar-system@ar-system.git.backlog.com:/REDNAILS_EC/eccube.git"
+git_branch: "dev"
 
 # Docker configuration
 docker_compose_version: "v2.36.2"
@@ -27,3 +27,6 @@ composer_auth: {}
 # Yarn configuration
 yarn_version: "latest"
 yarn_packages: []
+
+# Plugin configuration
+ace_client_api_url: "https://155.248.172.151:20443/dev"
