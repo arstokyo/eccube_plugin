@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0a79b63394c30a236793a35d1f1a436e",
+    "content-hash": "5db5258cdc6ae546990f828077c17d87",
     "packages": [
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -2317,6 +2317,31 @@
                 "source": "https://github.com/doctrine/sql-formatter/tree/1.5.2"
             },
             "time": "2025-01-24T11:45:48+00:00"
+        },
+        {
+            "name": "ec-cube/aceclient43",
+            "version": "1.0.1",
+            "dist": {
+                "type": "tar",
+                "url": "https://package-api-c2.ec-cube.net/v43/ec-cube/aceclient43/1.0.1/AceClient43-1.0.1.tgz"
+            },
+            "require": {
+                "ec-cube/plugin-installer": "~0.0.7 || ^2.0",
+                "guzzlehttp/guzzle": "^7.4.5"
+            },
+            "type": "eccube-plugin",
+            "extra": {
+                "code": "AceClient43",
+                "id": 2940
+            },
+            "description": "AceClient Plugin 43",
+            "transport-options": {
+                "http": {
+                    "header": [
+                        "X-ECCUBE-KEY: AFJAtFZhRiugOuj4lNnJALT9UuRKfGKYU52ZdU0R"
+                    ]
+                }
+            }
         },
         {
             "name": "ec-cube/plugin-installer",
