@@ -29,3 +29,26 @@ Please manually merge the following files due to differences in the Symfony vers
 ## How to Release
 1. After merge from `main`, release manually using the GitHub release feature.
 2. Triggering the release will activate the GitHub Actions workflow. Afterward, copy the `eccube_plugin-AceClient**.tar.gz` file to the ECCUBE store for release.
+
+---
+
+## How to Merge from modern AceClient (AceClient43) into our AceClient43 (preserve full history)
+
+We import `app/Plugin/AceClient43` from the modern repository into this repo’s `app/Plugin/AceClient43` using `git subtree` on branch `compatible/eccube43`.
+
+Prerequisites
+- Working tree clean (no uncommitted changes).
+- You can fetch the remote branch `origin/compatible/eccube43`.
+
+Remote details
+- Modern repo URL: `ar-system@ar-system.git.backlog.com:/BITSUHAN_ECCUBE43/eccube.git`
+- Modern branch: `main`
+- Modern path to import: `app/Plugin/AceClient43`
+
+### One-time setup and initial import
+
+1) Checkout the target branch
+   git fetch modern-aceclient --tags
+2) git stash
+3) git subtree pull --prefix=app/Plugin/AceClient . aceclient-split -m "chore(aceclient): sync from modern repo"
+
