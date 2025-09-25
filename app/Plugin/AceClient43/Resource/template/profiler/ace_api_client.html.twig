@@ -1,0 +1,1893 @@
+{% extends '@WebProfiler/Profiler/layout.html.twig' %}
+
+
+{# Macro to generate compare dropdown for any tab type #}
+{% macro compare_dropdown(request_id, current_type, collector) %}
+    <div class="ace-compare-selector" style="float: right;">
+        <button class="ace-compare-button" onclick="showCompareDropdown(event, '{{ request_id }}', '{{ current_type }}')">Compare</button>
+        <div class="ace-compare-dropdown">
+            {% for compare_client_name, compare_client_data in collector.clients %}
+                {% for compare_trace in compare_client_data.traces %}
+                    {% set compare_request_id = compare_client_name ~ '_' ~ loop.index0 %}
+                    {# Include all requests, even the same one #}
+
+                    {# Before Serialize option #}
+                    {% if compare_trace.before_serialize_data_available %}
+                        <div class="ace-compare-option" onclick="compareWithRequest('{{ request_id }}', '{{ current_type }}', '{{ compare_request_id }}', 'before-serialize')">
+                            vs {{ compare_trace.method }} {{ compare_trace.full_url|default(compare_trace.uri|default('Unknown URL')) }} (Before Serialize)
+                        </div>
+                    {% endif %}
+
+                    {# Raw Request option #}
+                    {% if compare_trace.raw_request_data_formatted is defined and compare_trace.raw_request_data_formatted %}
+                        <div class="ace-compare-option" onclick="compareWithRequest('{{ request_id }}', '{{ current_type }}', '{{ compare_request_id }}', 'raw-request')">
+                            vs {{ compare_trace.method }} {{ compare_trace.full_url|default(compare_trace.uri|default('Unknown URL')) }} (Raw Request)
+                        </div>
+                    {% endif %}
+
+                    {# Raw Response option #}
+                    {% if compare_trace.raw_response_data_formatted is defined and compare_trace.raw_response_data_formatted %}
+                        <div class="ace-compare-option" onclick="compareWithRequest('{{ request_id }}', '{{ current_type }}', '{{ compare_request_id }}', 'raw-response')">
+                            vs {{ compare_trace.method }} {{ compare_trace.full_url|default(compare_trace.uri|default('Unknown URL')) }} (Raw Response)
+                        </div>
+                    {% endif %}
+
+                    {# Deserialized option #}
+                    {% if compare_trace.deserialized_data_available %}
+                        <div class="ace-compare-option" onclick="compareWithRequest('{{ request_id }}', '{{ current_type }}', '{{ compare_request_id }}', 'deserialized')">
+                            vs {{ compare_trace.method }} {{ compare_trace.full_url|default(compare_trace.uri|default('Unknown URL')) }} (Deserialized)
+                        </div>
+                    {% endif %}
+
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+{% endmacro %}
+
+{% block head %}
+    {{ parent() }}
+    <style>
+        /* Clean dump container styling with increased height */
+        .ace-dump-container {
+            background: var(--base-1);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 12px;
+            margin: 8px 0;
+            max-height: 800px;
+            overflow-y: auto;
+            font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* Custom dump styles for better nested visualization */
+        .ace-dump-toggle {
+            cursor: pointer;
+            user-select: none;
+            padding: 2px 4px;
+            border-radius: 3px;
+            transition: background-color 0.2s ease;
+        }
+
+        .ace-dump-toggle:hover {
+            background-color: rgba(0, 123, 255, 0.1);
+        }
+
+        .ace-dump-arrow {
+            display: inline-block;
+            transition: transform 0.2s ease;
+            width: 12px;
+            font-family: monospace;
+            color: #666;
+        }
+
+        .ace-dump-expanded .ace-dump-arrow {
+            transform: rotate(90deg);
+        }
+
+        .ace-dump-content {
+            margin-left: 16px;
+        }
+
+        .ace-dump-hidden {
+            display: none;
+        }
+
+        /* Improved color scheme for better readability */
+        .ace-dump-type {
+            color: #0066cc;
+            font-weight: bold;
+        }
+
+        .ace-dump-class {
+            color: #cc0066;
+            font-weight: bold;
+            cursor: help;
+            position: relative;
+            display: inline-block;
+            /* Fixed: Add background that covers full text width */
+            background: rgba(204, 0, 102, 0.1);
+            padding: 1px 2px;
+            border-radius: 2px;
+            transition: background-color 0.2s ease;
+        }
+
+        .ace-dump-class:hover {
+            background: rgba(204, 0, 102, 0.2);
+        }
+
+        /* FQCN Tooltip Styles - Fixed positioning */
+        .ace-tooltip {
+            position: fixed;
+            background: rgba(0, 0, 0, 0.95);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: normal;
+            white-space: normal;
+            z-index: 9999;
+            pointer-events: none;
+            word-wrap: break-word;
+            word-break: break-all;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace;
+            width: auto;
+        }
+
+        .ace-tooltip.show {
+            opacity: 1;
+        }
+
+        .ace-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: rgba(0, 0, 0, 0.95);
+        }
+
+        .ace-dump-count {
+            color: #888;
+            font-size: 0.9em;
+            margin-left: 4px;
+        }
+
+        .ace-dump-key {
+            color: #0066cc;
+            font-weight: 600;
+        }
+
+        .ace-dump-property-name {
+            color: #0066cc;
+            font-weight: 600;
+        }
+
+        .ace-dump-arrow-right {
+            color: #666;
+            margin: 0 4px;
+        }
+
+        .ace-dump-visibility {
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-right: 4px;
+        }
+
+        .ace-dump-private {
+            color: #d73027;
+        }
+
+        .ace-dump-protected {
+            color: #fd8c00;
+        }
+
+        .ace-dump-public {
+            color: #2ca02c;
+        }
+
+        .ace-dump-null {
+            color: #999;
+            font-style: italic;
+        }
+
+        .ace-dump-bool {
+            color: #8e44ad;
+            font-weight: bold;
+        }
+
+        .ace-dump-num {
+            color: #e74c3c;
+        }
+
+        .ace-dump-str {
+            color: #27ae60;
+        }
+
+        .ace-dump-bracket {
+            color: #555;
+            font-weight: bold;
+        }
+
+        .ace-dump-item, .ace-dump-property {
+            margin: 3px 0;
+            line-height: 1.5;
+        }
+
+        .ace-dump-error {
+            color: #e74c3c;
+            font-style: italic;
+        }
+
+        .ace-section-header {
+            font-weight: bold;
+            color: var(--color-text);
+            margin: 16px 0 8px 0;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .ace-tab-container {
+            margin: 20px 0;
+        }
+
+        .ace-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 16px;
+        }
+
+        .ace-tab {
+            padding: 10px 16px;
+            background: var(--base-1);
+            border: 1px solid var(--border-color);
+            border-bottom: none;
+            cursor: pointer;
+            margin-right: 2px;
+            border-radius: 4px 4px 0 0;
+            color: var(--color-text);
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .ace-tab:hover {
+            background: var(--base-2);
+        }
+
+        .ace-tab.active {
+            background: var(--base-0);
+            border-bottom: 1px solid var(--base-0);
+            margin-bottom: -1px;
+            color: var(--color-link);
+        }
+
+        .ace-tab-content {
+            display: none;
+            padding: 16px 0;
+        }
+
+        .ace-tab-content.active {
+            display: block;
+        }
+
+        /* Split view container for comparison */
+        .ace-split-container {
+            display: flex;
+            height: 600px;
+            border: 1px solid #ddd;
+            margin-top: 10px;
+            position: relative;
+        }
+
+        .ace-split-pane {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #ddd;
+            min-width: 200px; /* FIXED: Added minimum width */
+            overflow: hidden;
+        }
+
+        .ace-split-pane:last-child {
+            border-right: none;
+        }
+
+        /* FIXED: Added resizer styles */
+        .ace-split-resizer {
+            width: 6px;
+            background: #ddd;
+            cursor: col-resize;
+            flex-shrink: 0;
+            position: relative;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            transition: background-color 0.2s ease;
+        }
+
+        .ace-split-resizer:hover {
+            background: #bbb;
+        }
+
+        .ace-split-resizer:active {
+            background: #999;
+        }
+
+        /* Dark mode support for resizer */
+        [data-theme="dark"] .ace-split-resizer {
+            background: #404040;
+            border-color: #555;
+        }
+
+        [data-theme="dark"] .ace-split-resizer:hover {
+            background: #555;
+        }
+
+        [data-theme="dark"] .ace-split-resizer:active {
+            background: #666;
+        }
+
+        .ace-split-header {
+            background: #f5f5f5;
+            padding: 8px 12px;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+            font-size: 12px;
+            position: relative;
+        }
+
+        .ace-split-content {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            min-width: 0;
+        }
+
+        .ace-split-content .ace-raw-content {
+            height: 100%;
+            overflow: auto;
+            background: #f8f8f8;
+            font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace;
+            font-size: 11px;
+            line-height: 1.4;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .ace-split-content pre {
+            margin: 0;
+            padding: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* FIXED: Ensure XML syntax highlighting works properly in split view */
+        .ace-split-content .ace-content-wrapper.ace-raw-content .xml-tag {
+            color: #0066cc;
+            font-weight: bold;
+        }
+
+        .ace-split-content .ace-content-wrapper.ace-raw-content .xml-attr-name {
+            color: #cc0066;
+            font-weight: bold;
+        }
+
+        .ace-split-content .ace-content-wrapper.ace-raw-content .xml-attr-value {
+            color: #27ae60;
+        }
+
+        .ace-split-content .ace-content-wrapper.ace-raw-content .xml-comment {
+            color: #888;
+            font-style: italic;
+        }
+
+        .ace-split-content .ace-content-wrapper.ace-raw-content .xml-cdata {
+            color: #8e44ad;
+            font-weight: bold;
+        }
+
+        /* Dark mode support for split view XML highlighting */
+        [data-theme="dark"] .ace-split-content .ace-content-wrapper.ace-raw-content .xml-tag {
+            color: #4fc3f7;
+            font-weight: bold;
+        }
+
+        [data-theme="dark"] .ace-split-content .ace-content-wrapper.ace-raw-content .xml-attr-name {
+            color: #ff69b4;
+            font-weight: bold;
+        }
+
+        [data-theme="dark"] .ace-split-content .ace-content-wrapper.ace-raw-content .xml-attr-value {
+            color: #a5d6a7;
+        }
+
+        [data-theme="dark"] .ace-split-content .ace-content-wrapper.ace-raw-content .xml-comment {
+            color: #9e9e9e;
+            font-style: italic;
+        }
+
+        [data-theme="dark"] .ace-split-content .ace-content-wrapper.ace-raw-content .xml-cdata {
+            color: #ba68c8;
+            font-weight: bold;
+        }
+
+        .ace-compare-button {
+            background: var(--color-link);
+            color: var(--white);
+            border: none;
+            padding: 6px 12px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 8px;
+            font-weight: 500;
+        }
+
+        .ace-compare-button:hover {
+            opacity: 0.8;
+        }
+
+        .ace-compare-selector {
+            position: relative;
+            display: inline-block;
+        }
+
+        .ace-compare-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--base-0);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            z-index: 1000;
+            min-width: 300px;
+            max-width: 500px;
+            max-height: 300px;
+            overflow-y: auto;
+            /* Fixed: Use visibility instead of display for better control */
+            visibility: hidden;
+            opacity: 0;
+            transform: translateY(-5px);
+            transition: all 0.2s ease;
+            margin-top: 2px;
+        }
+
+        .ace-compare-dropdown.show {
+            /* Fixed: Show dropdown properly */
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .ace-compare-option {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 12px;
+            line-height: 1.4;
+            transition: background-color 0.2s ease;
+        }
+
+        [data-theme="dark"] .ace-compare-button:hover {
+            background: #29b6f6;
+        }
+
+        .ace-compare-option:last-child {
+            border-bottom: none;
+        }
+
+        /* Improved raw content styling with XML formatting */
+        .ace-raw-content {
+            background: var(--base-1);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 12px 80px 12px 12px;
+            font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 600px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        /* XML syntax highlighting for raw content */
+        .ace-raw-content .xml-tag {
+            color: #0066cc;
+        }
+
+        .ace-raw-content .xml-attr-name {
+            color: #cc0066;
+        }
+
+        .ace-raw-content .xml-attr-value {
+            color: #27ae60;
+        }
+
+        .ace-raw-content .xml-comment {
+            color: #888;
+            font-style: italic;
+        }
+
+        .ace-raw-content .xml-cdata {
+            color: #8e44ad;
+            font-weight: bold;
+        }
+
+        .ace-copy-button {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--color-link);
+            color: var(--white);
+            border: none;
+            padding: 4px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 11px;
+            opacity: 0.8;
+            z-index: 10;
+            white-space: nowrap;
+        }
+
+        .ace-copy-button:hover {
+            opacity: 1;
+        }
+
+        /* Hidden textarea for fallback copy functionality */
+        .ace-copy-textarea {
+            position: absolute;
+            left: -9999px;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .ace-data-empty {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 12px;
+            border-radius: 4px;
+            font-style: italic;
+        }
+
+        .ace-data-error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 4px;
+        }
+
+        /* Metadata table styling */
+        .ace-metadata-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 8px 0;
+            font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace;
+            font-size: 12px;
+        }
+
+        .ace-metadata-table th,
+        .ace-metadata-table td {
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .ace-metadata-table th {
+            background: var(--base-2);
+            font-weight: bold;
+            width: 30%;
+        }
+
+        .ace-metadata-table td {
+            background: var(--base-1);
+            word-break: break-all;
+        }
+
+        .ace-metadata-section {
+            margin: 16px 0;
+        }
+
+        .ace-metadata-section h6 {
+            margin: 0 0 8px 0;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: bold;
+            color: var(--color-text);
+        }
+
+        /* Table styling improvements */
+        .sf-profiler-httpclient-requests thead th {
+            vertical-align: top;
+        }
+
+        .sf-profiler-httpclient-requests .http-method {
+            border: 1px solid var(--header-status-request-method-color);
+            border-radius: 5px;
+            color: var(--header-status-request-method-color);
+            display: inline-block;
+            font-weight: 500;
+            line-height: 1;
+            margin-right: 6px;
+            padding: 2px 4px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .status-response-status-code {
+            background: var(--gray-600);
+            border-radius: 4px;
+            color: var(--white);
+            display: inline-block;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 2px;
+            padding: 1px 3px;
+        }
+
+        .status-response-status-code.status-success {
+            background: var(--header-success-status-code-background);
+            color: var(--header-success-status-code-color);
+        }
+
+        .status-response-status-code.status-warning {
+            background: var(--header-warning-status-code-background);
+            color: var(--header-warning-status-code-color);
+        }
+
+        .status-response-status-code.status-error {
+            background: var(--header-error-status-code-background);
+            color: var(--header-error-status-code-color);
+        }
+
+        /* FIXED: Enhanced dark mode support with better, more appealing colors */
+        [data-theme="dark"] .ace-dump-container {
+            background: #1a1a1a;
+            border-color: #404040;
+            color: #e8e8e8;
+        }
+
+        [data-theme="dark"] .ace-dump-class {
+            background: rgba(255, 105, 180, 0.2);
+            color: #ff69b4;
+        }
+
+        [data-theme="dark"] .ace-dump-class:hover {
+            background: rgba(255, 105, 180, 0.3);
+        }
+
+        [data-theme="dark"] .ace-tooltip {
+            background: rgba(30, 30, 30, 0.98);
+            color: #f0f0f0;
+            border: 1px solid #555;
+        }
+
+        [data-theme="dark"] .ace-tooltip::after {
+            border-top-color: rgba(30, 30, 30, 0.98);
+        }
+
+        [data-theme="dark"] .ace-dump-toggle:hover {
+            background-color: rgba(79, 172, 254, 0.2);
+        }
+
+        [data-theme="dark"] .ace-dump-arrow {
+            color: #b0b0b0;
+        }
+
+        [data-theme="dark"] .ace-dump-type {
+            color: #4fc3f7;
+            font-weight: bold;
+        }
+
+        [data-theme="dark"] .ace-dump-class {
+            color: #ff69b4;
+        }
+
+        [data-theme="dark"] .ace-dump-count {
+            color: #999;
+        }
+
+        [data-theme="dark"] .ace-dump-key {
+            color: #81c784;
+            font-weight: 600;
+        }
+
+        [data-theme="dark"] .ace-dump-property-name {
+            color: #81c784;
+            font-weight: 600;
+        }
+
+        [data-theme="dark"] .ace-dump-arrow-right {
+            color: #b0b0b0;
+        }
+
+        [data-theme="dark"] .ace-dump-private {
+            color: #ff6b6b;
+        }
+
+        [data-theme="dark"] .ace-dump-protected {
+            color: #ffa726;
+        }
+
+        [data-theme="dark"] .ace-dump-public {
+            color: #66bb6a;
+        }
+
+        [data-theme="dark"] .ace-dump-null {
+            color: #9e9e9e;
+            font-style: italic;
+        }
+
+        [data-theme="dark"] .ace-dump-bool {
+            color: #ba68c8;
+            font-weight: bold;
+        }
+
+        [data-theme="dark"] .ace-dump-num {
+            color: #ffb74d;
+        }
+
+        [data-theme="dark"] .ace-dump-str {
+            color: #a5d6a7;
+        }
+
+        [data-theme="dark"] .ace-dump-bracket {
+            color: #d0d0d0;
+            font-weight: bold;
+        }
+
+        [data-theme="dark"] .ace-tab {
+            background: #2d2d2d;
+            color: #e0e0e0;
+            border-color: #404040;
+        }
+
+        [data-theme="dark"] .ace-tab:hover {
+            background: #383838;
+        }
+
+        [data-theme="dark"] .ace-tab.active {
+            background: #1a1a1a;
+            color: #4fc3f7;
+            border-color: #4fc3f7;
+        }
+
+        [data-theme="dark"] .ace-data-empty {
+            background: #2d2513;
+            border-color: #3d3017;
+            color: #fff3a0;
+        }
+
+        [data-theme="dark"] .ace-data-error {
+            background: #2d1b1b;
+            border-color: #3d2323;
+            color: #ffb3b3;
+        }
+
+        /* FIXED: Enhanced XML syntax highlighting for dark mode with better colors */
+        [data-theme="dark"] .ace-raw-content .xml-tag {
+            color: #4fc3f7;
+            font-weight: bold;
+        }
+
+        [data-theme="dark"] .ace-raw-content .xml-attr-name {
+            color: #ff69b4;
+            font-weight: bold;
+        }
+
+        [data-theme="dark"] .ace-raw-content .xml-attr-value {
+            color: #a5d6a7;
+        }
+
+        [data-theme="dark"] .ace-raw-content .xml-comment {
+            color: #9e9e9e;
+            font-style: italic;
+        }
+
+        [data-theme="dark"] .ace-raw-content .xml-cdata {
+            color: #ba68c8;
+            font-weight: bold;
+        }
+
+        /* FIXED: Enhanced split view colors for dark mode */
+        [data-theme="dark"] .ace-split-pane {
+            border-color: #404040;
+        }
+
+        [data-theme="dark"] .ace-split-header {
+            background: #2d2d2d;
+            border-color: #404040;
+            color: #e0e0e0;
+        }
+
+        [data-theme="dark"] .ace-split-content {
+            background: #1a1a1a;
+        }
+
+        [data-theme="dark"] .ace-split-content .ace-content-wrapper {
+            background: #1a1a1a !important;
+        }
+
+        [data-theme="dark"] .ace-compare-dropdown {
+            background: #2d2d2d;
+            border-color: #404040;
+        }
+
+        [data-theme="dark"] .ace-compare-option {
+            border-color: #404040;
+            color: #e0e0e0;
+        }
+
+        [data-theme="dark"] .ace-compare-option:hover {
+            background: #383838;
+        }
+
+        [data-theme="dark"] .ace-metadata-table th {
+            background: #2d2d2d;
+            border-color: #404040;
+            color: #e0e0e0;
+        }
+
+        [data-theme="dark"] .ace-metadata-table td {
+            background: #1a1a1a;
+            border-color: #404040;
+            color: #e0e0e0;
+        }
+
+        /* FIXED: Enhanced XML syntax highlighting in split view for dark mode */
+        [data-theme="dark"] .ace-split-content .xml-tag {
+            color: #4fc3f7;
+            font-weight: bold;
+        }
+
+        [data-theme="dark"] .ace-split-content .xml-attr-name {
+            color: #ff69b4;
+            font-weight: bold;
+        }
+
+        [data-theme="dark"] .ace-split-content .xml-attr-value {
+            color: #a5d6a7;
+        }
+
+        [data-theme="dark"] .ace-split-content .xml-comment {
+            color: #9e9e9e;
+            font-style: italic;
+        }
+
+        [data-theme="dark"] .ace-split-content .xml-cdata {
+            color: #ba68c8;
+            font-weight: bold;
+        }
+
+        /* FIXED: Raw content container styling for dark mode */
+        /* Dark mode support for split view XML highlighting */
+        [data-theme="dark"] .ace-raw-content {
+            background: #1a1a1a;
+            border-color: #404040;
+            color: #e8e8e8;
+        }
+
+        [data-theme="dark"] .ace-raw-formatted {
+            color: #e8e8e8;
+        }
+
+        /* FIXED: Copy button styling for dark mode */
+        [data-theme="dark"] .ace-copy-button {
+            background: #4fc3f7;
+            color: #1a1a1a;
+        }
+
+        [data-theme="dark"] .ace-copy-button:hover {
+            background: #29b6f6;
+        }
+
+        /* FIXED: Compare button styling for dark mode */
+        [data-theme="dark"] .ace-compare-button {
+            background: #4fc3f7;
+            color: #1a1a1a;
+        }
+
+        .ace-dump-uninitialized {
+            color: #999;
+            font-style: italic;
+            font-size: 0.9em;
+        }
+
+        .ace-dump-error {
+            color: #e74c3c;
+            font-style: italic;
+            font-size: 0.9em;
+        }
+
+        /* Dark mode support for new styles */
+        [data-theme="dark"] .ace-dump-uninitialized {
+            color: #999;
+        }
+
+        [data-theme="dark"] .ace-dump-error {
+            color: #ff6b6b;
+        }
+
+    </style>
+
+    <script>
+        let allTraces = {}; // Store all traces for comparison
+        let currentTooltip = null; // Track current tooltip
+
+        function switchTab(button, requestId, tabName) {
+            // Hide all tab contents for this request
+            const tabContents = document.querySelectorAll(`#request-${requestId} .ace-tab-content`);
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all tabs for this request
+            const tabs = document.querySelectorAll(`#request-${requestId} .ace-tab`);
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab content and mark tab as active
+            const targetContent = document.getElementById(`${requestId}-${tabName}`);
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
+            button.classList.add('active');
+        }
+
+        function toggleAceElement(elementId) {
+            const element = document.getElementById(elementId);
+            if (!element) {
+                console.warn('Element not found for toggle:', elementId);
+                return;
+            }
+
+            const toggle = element.previousElementSibling;
+            if (!toggle) {
+                console.warn('Toggle element not found for:', elementId);
+                return;
+            }
+
+            if (element.classList.contains('ace-dump-hidden')) {
+                element.classList.remove('ace-dump-hidden');
+                toggle.classList.add('ace-dump-expanded');
+                toggle.classList.remove('ace-dump-collapsed');
+            } else {
+                element.classList.add('ace-dump-hidden');
+                toggle.classList.remove('ace-dump-expanded');
+                toggle.classList.add('ace-dump-collapsed');
+            }
+        }
+
+        function copyToClipboard(button, originalText) {
+            const textToCopy = originalText;
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    showCopyFeedback(button, 'Copied!');
+                }).catch((err) => {
+                    console.warn('Clipboard API failed:', err);
+                    fallbackCopyToClipboard(button, textToCopy);
+                });
+            } else {
+                fallbackCopyToClipboard(button, textToCopy);
+            }
+        }
+
+        function fallbackCopyToClipboard(button, text) {
+            try {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.className = 'ace-copy-textarea';
+                document.body.appendChild(textarea);
+
+                textarea.focus();
+                textarea.select();
+                textarea.setSelectionRange(0, text.length);
+
+                const successful = document.execCommand('copy');
+                document.body.removeChild(textarea);
+
+                if (successful) {
+                    showCopyFeedback(button, 'Copied!');
+                } else {
+                    showCopyFeedback(button, 'Copy failed');
+                }
+            } catch (err) {
+                console.error('Fallback copy failed:', err);
+                showCopyFeedback(button, 'Copy failed');
+            }
+        }
+
+        function showCopyFeedback(button, message) {
+            const originalText = button.textContent;
+            button.textContent = message;
+            setTimeout(() => {
+                button.textContent = originalText;
+            }, 1000);
+        }
+
+        function showCompareDropdown(event, requestId, type) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const button = event.currentTarget || event.target;
+            const dropdown = button.nextElementSibling;
+
+            console.log('Show dropdown clicked:', requestId, type, dropdown);
+            console.log('Dropdown classes before:', dropdown.className);
+
+            // Close other dropdowns first
+            document.querySelectorAll('.ace-compare-dropdown').forEach(d => {
+                if (d !== dropdown) {
+                    d.classList.remove('show');
+                }
+            });
+
+            // Toggle current dropdown - Fixed visibility toggle
+            const isCurrentlyVisible = dropdown.classList.contains('show');
+            console.log('Is currently visible:', isCurrentlyVisible);
+
+            if (isCurrentlyVisible) {
+                dropdown.classList.remove('show');
+                console.log('Hiding dropdown');
+            } else {
+                dropdown.classList.add('show');
+                console.log('Showing dropdown');
+            }
+
+            console.log('Dropdown classes after:', dropdown.className);
+        }
+
+        function compareWithRequest(currentRequestId, currentType, compareRequestId, compareType) {
+            console.log('Comparing:', currentRequestId, currentType, 'with', compareRequestId, compareType);
+
+            const currentData = allTraces[currentRequestId];
+            const compareData = allTraces[compareRequestId];
+
+            if (!currentData) {
+                alert('Current comparison data not available for: ' + currentRequestId);
+                return;
+            }
+
+            if (!compareData) {
+                alert('Comparison data not available for: ' + compareRequestId);
+                return;
+            }
+
+            let currentContent = '';
+            let compareContent = '';
+
+            // Get current content based on type
+            switch(currentType) {
+                case 'before-serialize':
+                    currentContent = currentData.before_serialize_data || '';
+                    break;
+                case 'raw-request':
+                    currentContent = currentData.raw_request_data || '';
+                    break;
+                case 'raw-response':
+                    currentContent = currentData.raw_response_data || '';
+                    break;
+                case 'deserialized':
+                    currentContent = currentData.deserialized_data || '';
+                    break;
+            }
+
+            // Get compare content based on type
+            switch(compareType) {
+                case 'before-serialize':
+                    compareContent = compareData.before_serialize_data || '';
+                    break;
+                case 'raw-request':
+                    compareContent = compareData.raw_request_data || '';
+                    break;
+                case 'raw-response':
+                    compareContent = compareData.raw_response_data || '';
+                    break;
+                case 'deserialized':
+                    compareContent = compareData.deserialized_data || '';
+                    break;
+            }
+
+            createSplitView(currentRequestId, currentType, compareRequestId, compareType, currentContent, compareContent);
+
+            // Hide all compare dropdowns
+            document.querySelectorAll('.ace-compare-dropdown').forEach(function(d) {
+                d.classList.remove('show');
+            });
+        }
+
+        function createSplitView(requestId1, type1, requestId2, type2, content1, content2) {
+            const targetTab = document.getElementById(requestId1 + '-' + type1);
+
+            if (!targetTab) {
+                console.error('Target tab not found:', requestId1 + '-' + type1);
+                return;
+            }
+
+            // Remove any existing split container first
+            const existingSplit = targetTab.querySelector('.ace-split-container');
+            if (existingSplit) {
+                existingSplit.remove();
+            }
+
+            // Don't hide the original content, just find the container we want to replace
+            const originalContainer = targetTab.querySelector('.ace-raw-content, .ace-dump-container');
+
+            const splitContainer = document.createElement('div');
+            splitContainer.className = 'ace-split-container';
+
+            let formattedContent1 = content1;
+            let formattedContent2 = content2;
+
+            // FIXED: For raw data, ensure proper formatting AND coloring in split view
+            if (type1.includes('raw-')) {
+                const sourceTab = document.getElementById(requestId1 + '-' + type1);
+                const sourceRawContent = sourceTab ? sourceTab.querySelector('.ace-raw-content') : null;
+                if (sourceRawContent) {
+                    // Clone the content and remove the copy button
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = sourceRawContent.innerHTML;
+                    const copyButton = tempDiv.querySelector('.ace-copy-button');
+                    if (copyButton) {
+                        copyButton.remove();
+                    }
+                    formattedContent1 = tempDiv.innerHTML;
+                } else {
+                    // Apply proper XML formatting with indentation AND syntax highlighting
+                    formattedContent1 = formatXmlStringToHtml(content1);
+                }
+            }
+
+            if (type2.includes('raw-')) {
+                const sourceTab = document.getElementById(requestId2 + '-' + type2);
+                const sourceRawContent = sourceTab ? sourceTab.querySelector('.ace-raw-content') : null;
+                if (sourceRawContent) {
+                    // Clone the content and remove the copy button
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = sourceRawContent.innerHTML;
+                    const copyButton = tempDiv.querySelector('.ace-copy-button');
+                    if (copyButton) {
+                        copyButton.remove();
+                    }
+                    formattedContent2 = tempDiv.innerHTML;
+                } else {
+                    // FIXED: Apply proper XML formatting with indentation AND syntax highlighting
+                    formattedContent2 = formatXmlStringToHtml(content2);
+                }
+            }
+
+            // For dump data, clone and make IDs unique to avoid conflicts
+            if (type1 === 'before-serialize' || type1 === 'deserialized') {
+                formattedContent1 = makeIdsUniqueForSplitView(content1, 'split1_');
+            }
+            if (type2 === 'before-serialize' || type2 === 'deserialized') {
+                formattedContent2 = makeIdsUniqueForSplitView(content2, 'split2_');
+            }
+
+            splitContainer.innerHTML = `
+                <div class="ace-split-pane" style="flex: 1;">
+                    <div class="ace-split-header">
+                        Current: ${requestId1.replace('_', ' ')} (${type1})
+                        <button onclick="closeSplitView('${requestId1}', '${type1}')" style="background: none; border: none; color: inherit; cursor: pointer; float: right;">✕</button>
+                    </div>
+                    <div class="ace-split-content">
+                        <div class="ace-content-wrapper ace-raw-content" style="height: 100%; overflow: auto; padding: 10px; background: var(--base-1); font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 1.4; white-space: pre-wrap; word-wrap: break-word;">
+                            ${formattedContent1}
+                        </div>
+                    </div>
+                </div>
+                <div class="ace-split-resizer"></div>
+                <div class="ace-split-pane" style="flex: 1;">
+                    <div class="ace-split-header">
+                        Compare: ${requestId2.replace('_', ' ')} (${type2})
+                    </div>
+                    <div class="ace-split-content">
+                        <div class="ace-content-wrapper ace-raw-content" style="height: 100%; overflow: auto; padding: 10px; background: var(--base-1); font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 1.4; white-space: pre-wrap; word-wrap: break-word;">
+                            ${formattedContent2}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Instead of hiding the parent, hide only the original content container
+            if (originalContainer) {
+                originalContainer.style.display = 'none';
+            }
+
+            // Append split container to the tab
+            targetTab.appendChild(splitContainer);
+
+            // FIXED: Initialize resizer functionality
+            initializeSplitResizer(splitContainer);
+
+            // Re-initialize dump handlers for the split view content with proper event delegation
+            initializeDumpHandlersForSplitView(splitContainer);
+
+            console.log('Split view created successfully');
+        }
+
+        function initializeSplitResizer(splitContainer) {
+            const resizer = splitContainer.querySelector('.ace-split-resizer');
+            const leftPane = splitContainer.querySelector('.ace-split-pane:first-child');
+            const rightPane = splitContainer.querySelector('.ace-split-pane:last-child');
+
+            if (!resizer || !leftPane || !rightPane) {
+                console.warn('Split resizer elements not found');
+                return;
+            }
+
+            let isResizing = false;
+            let startX = 0;
+            let startLeftWidth = 0;
+            let startRightWidth = 0;
+            let containerWidth = 0;
+
+            resizer.addEventListener('mousedown', function(e) {
+                isResizing = true;
+                startX = e.clientX;
+
+                const containerRect = splitContainer.getBoundingClientRect();
+                containerWidth = containerRect.width;
+
+                const leftRect = leftPane.getBoundingClientRect();
+                const rightRect = rightPane.getBoundingClientRect();
+
+                startLeftWidth = leftRect.width;
+                startRightWidth = rightRect.width;
+
+                document.body.style.cursor = 'col-resize';
+                document.body.style.userSelect = 'none';
+
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (!isResizing) return;
+
+                const deltaX = e.clientX - startX;
+                const newLeftWidth = startLeftWidth + deltaX;
+                const newRightWidth = startRightWidth - deltaX;
+
+                // Enforce minimum widths
+                const minWidth = 200;
+                if (newLeftWidth >= minWidth && newRightWidth >= minWidth) {
+                    const leftFlex = newLeftWidth / containerWidth;
+                    const rightFlex = newRightWidth / containerWidth;
+
+                    leftPane.style.flex = `${leftFlex}`;
+                    rightPane.style.flex = `${rightFlex}`;
+                }
+
+                e.preventDefault();
+            });
+
+            document.addEventListener('mouseup', function() {
+                if (isResizing) {
+                    isResizing = false;
+                    document.body.style.cursor = '';
+                    document.body.style.userSelect = '';
+                }
+            });
+        }
+
+        // FIXED: Enhanced function to make IDs unique and ensure proper onclick updating
+        function makeIdsUniqueForSplitView(htmlContent, prefix) {
+            if (!htmlContent) return htmlContent;
+
+            // Create a temporary container to parse the HTML
+            const tempContainer = document.createElement('div');
+            tempContainer.innerHTML = htmlContent;
+
+            // Find all elements with IDs and make them unique
+            const elementsWithIds = tempContainer.querySelectorAll('[id]');
+            const idMappings = new Map();
+
+            elementsWithIds.forEach((element, index) => {
+                const originalId = element.id;
+                const newId = prefix + originalId + '_' + Date.now() + '_' + index;
+                idMappings.set(originalId, newId);
+                element.id = newId;
+            });
+
+            // Update any onclick attributes that reference the old IDs
+            const elementsWithOnClick = tempContainer.querySelectorAll('[onclick]');
+            elementsWithOnClick.forEach(element => {
+                let onclickValue = element.getAttribute('onclick');
+                idMappings.forEach((newId, originalId) => {
+                    // Replace references to old IDs in onclick attributes
+                    const patterns = [
+                        new RegExp("toggleAceElement\\(['\"]" + originalId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + "['\"]\\)", 'g'),
+                        new RegExp("'" + originalId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + "'", 'g'),
+                        new RegExp('"' + originalId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '"', 'g')
+                    ];
+
+                    patterns.forEach(pattern => {
+                        if (pattern.toString().includes('toggleAceElement')) {
+                            onclickValue = onclickValue.replace(pattern, `toggleAceElement('${newId}')`);
+                        } else {
+                            onclickValue = onclickValue.replace(pattern, `'${newId}'`);
+                        }
+                    });
+                });
+                element.setAttribute('onclick', onclickValue);
+            });
+
+            return tempContainer.innerHTML;
+        }
+
+        function closeSplitView(requestId, type) {
+            const targetTab = document.getElementById(requestId + '-' + type);
+            if (!targetTab) return;
+
+            // Remove split container
+            const splitContainer = targetTab.querySelector('.ace-split-container');
+            if (splitContainer) {
+                splitContainer.remove();
+            }
+
+            // Show the original content container
+            const originalContainer = targetTab.querySelector('.ace-raw-content, .ace-dump-container');
+            if (originalContainer) {
+                originalContainer.style.display = 'block';
+            }
+        }
+
+        // Fixed tooltip positioning system
+        function setupTooltipSystem() {
+            // Create tooltip element
+            const tooltip = document.createElement('div');
+            tooltip.className = 'ace-tooltip';
+            document.body.appendChild(tooltip);
+            currentTooltip = tooltip;
+
+            // Handle tooltip on hover
+            document.addEventListener('mouseover', function(e) {
+                if (e.target.classList.contains('ace-dump-class') && e.target.hasAttribute('data-fqcn')) {
+                    // Remove title to prevent browser tooltip
+                    const fqcn = e.target.getAttribute('data-fqcn');
+                    showTooltip(e.target, fqcn);
+                }
+            });
+
+            document.addEventListener('mouseout', function(e) {
+                if (e.target.classList.contains('ace-dump-class')) {
+                    hideTooltip();
+                }
+            });
+
+            // Hide tooltip on scroll
+            document.addEventListener('scroll', hideTooltip, true);
+        }
+
+        function showTooltip(element, text) {
+            if (!currentTooltip) return;
+
+            currentTooltip.textContent = text;
+            currentTooltip.classList.add('show');
+
+            // Position tooltip above the element
+            const rect = element.getBoundingClientRect();
+            const tooltipRect = currentTooltip.getBoundingClientRect();
+
+            let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+            let top = rect.top - tooltipRect.height - 10; // 10px gap
+
+            // Adjust if tooltip goes off screen
+            if (left < 10) {
+                left = 10;
+            } else if (left + tooltipRect.width > window.innerWidth - 10) {
+                left = window.innerWidth - tooltipRect.width - 10;
+            }
+
+            if (top < 10) {
+                // If no space above, show below
+                top = rect.bottom + 10;
+                // Update arrow position for bottom placement
+                currentTooltip.style.setProperty('--arrow-position', 'top');
+            } else {
+                currentTooltip.style.setProperty('--arrow-position', 'bottom');
+            }
+
+            currentTooltip.style.left = left + 'px';
+            currentTooltip.style.top = top + 'px';
+        }
+
+        function hideTooltip() {
+            if (currentTooltip) {
+                currentTooltip.classList.remove('show');
+            }
+        }
+
+        // FIXED: Enhanced XML formatting function that returns HTML with proper syntax highlighting
+        // FIXED: Enhanced XML formatting function that properly formats AND applies syntax highlighting
+        function formatXmlStringToHtml(xmlString) {
+            if (!xmlString) return '';
+            if (!xmlString.includes('<')) {
+                return escapeHtml(xmlString);
+            }
+
+            try {
+                // STEP 1: First properly format the XML with indentation (same logic as PHP formatXmlContent)
+                let formatted = xmlString.trim();
+
+                // Handle CDATA sections - preserve them during formatting
+                const cdataRegex = /<!\[CDATA\[([\s\S]*?)\]\]>/g;
+                const cdataPlaceholders = [];
+                let cdataIndex = 0;
+
+                formatted = formatted.replace(cdataRegex, (match, content) => {
+                    const placeholder = `__CDATA_PLACEHOLDER_${cdataIndex}__`;
+                    cdataPlaceholders[cdataIndex] = match;
+                    cdataIndex++;
+                    return placeholder;
+                });
+
+                // Add line breaks between tags (same as PHP: preg_replace('/>\s*</', ">\n<", $content))
+                formatted = formatted.replace(/>\s*</g, '>\n<');
+
+                // Split into lines and add proper indentation (same logic as PHP)
+                const lines = formatted.split('\n');
+                let indentLevel = 0;
+                const indentedLines = [];
+
+                lines.forEach(line => {
+                    const trimmed = line.trim();
+                    if (!trimmed) {
+                        return; // Skip empty lines
+                    }
+
+                    // Decrease indent for closing tags (same as PHP: preg_match('/^<\//', $trimmed))
+                    if (trimmed.match(/^<\//)) {
+                        indentLevel = Math.max(0, indentLevel - 1);
+                    }
+
+                    // Add current line with indentation (same as PHP: str_repeat('  ', $indentLevel).$trimmed)
+                    indentedLines.push('  '.repeat(indentLevel) + trimmed);
+
+                    // Increase indent for opening tags (same logic as PHP)
+                    // preg_match('/^<[^\/]/', $trimmed) && !preg_match('/\/>$/', $trimmed)
+                    if (trimmed.match(/^<[^\/]/) && !trimmed.match(/\/>$/)) {
+                        // Only increase if this line doesn't also contain the closing tag
+                        // !preg_match('/<[^>]+>.*<\/[^>]+>/', $trimmed)
+                        if (!trimmed.match(/<[^>]+>.*<\/[^>]+>/)) {
+                            indentLevel++;
+                        }
+                    }
+                });
+
+                formatted = indentedLines.join('\n');
+
+                // Restore CDATA sections
+                cdataPlaceholders.forEach((cdata, index) => {
+                    const placeholder = `__CDATA_PLACEHOLDER_${index}__`;
+                    formatted = formatted.replace(placeholder, cdata);
+                });
+
+                // STEP 2: Now escape HTML entities for display
+                formatted = formatted
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;');
+
+                // STEP 3: Apply syntax highlighting with proper color classes
+                formatted = formatted
+                    // XML tags (opening, closing, self-closing)
+                    .replace(/(&lt;\/?[\w:-]+(?:\s[^&]*?)?\/?\s*&gt;)/g, '<span class="xml-tag">$1</span>')
+                    // XML attributes with values
+                    .replace(/(\w+)=(&quot;[^&]*?&quot;)/g, '<span class="xml-attr-name">$1</span>=<span class="xml-attr-value">$2</span>')
+                    // XML comments
+                    .replace(/(&lt;!--[\s\S]*?--&gt;)/g, '<span class="xml-comment">$1</span>')
+                    // CDATA sections
+                    .replace(/(&lt;!\[CDATA\[[\s\S]*?\]\]&gt;)/g, '<span class="xml-cdata">$1</span>')
+                    // XML processing instructions
+                    .replace(/(&lt;\?[\s\S]*?\?&gt;)/g, '<span class="xml-comment">$1</span>');
+
+                return formatted;
+            } catch (e) {
+                console.warn('XML formatting failed:', e);
+                return escapeHtml(xmlString);
+            }
+        }
+
+
+        function formatXmlString(xmlString) {
+            return formatXmlStringToHtml(xmlString);
+        }
+
+        function formatRawContentWithCopyButton(container) {
+            const copyButton = container.querySelector('.ace-copy-button');
+            if (!copyButton) return;
+
+            const textNodes = [];
+            const walker = document.createTreeWalker(
+                container,
+                NodeFilter.SHOW_TEXT,
+                {
+                    acceptNode: function(node) {
+                        if (copyButton.contains(node)) {
+                            return NodeFilter.FILTER_REJECT;
+                        }
+                        return NodeFilter.FILTER_ACCEPT;
+                    }
+                }
+            );
+
+            let node;
+            while (node = walker.nextNode()) {
+                textNodes.push(node.textContent);
+            }
+
+            const originalContent = textNodes.join('');
+
+            if (!originalContent || !originalContent.includes('<')) {
+                return;
+            }
+
+            try {
+                const formattedContent = formatXmlStringToHtml(originalContent);
+                container.innerHTML = formattedContent;
+                container.appendChild(copyButton);
+            } catch (e) {
+                console.warn('XML formatting failed:', e);
+            }
+        }
+
+        // Add function to escape HTML for raw content display
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // FIXED: Enhanced function to initialize dump handlers specifically for split view
+        function initializeDumpHandlersForSplitView(container) {
+            // Re-initialize toggle functionality for dump elements
+            const toggles = container.querySelectorAll('.ace-dump-toggle');
+            console.log('Found toggles in split view:', toggles.length);
+
+            toggles.forEach((toggle, index) => {
+                // FIXED: Remove onclick attribute and add proper event listener
+                const onclickValue = toggle.getAttribute('onclick');
+                if (onclickValue) {
+                    // Extract the element ID from onclick attribute
+                    const match = onclickValue.match(/toggleAceElement\(['"]([^'"]+)['"]\)/);
+                    if (match) {
+                        const targetElementId = match[1];
+                        const targetElement = document.getElementById(targetElementId);
+
+                        if (targetElement) {
+                            console.log('Setting up toggle for split view element:', targetElementId);
+
+                            // Remove the onclick to avoid conflicts
+                            toggle.removeAttribute('onclick');
+
+                            // Add proper event listener
+                            toggle.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+
+                                console.log('Toggle clicked for split view:', targetElementId);
+
+                                // Perform the toggle operation
+                                if (targetElement.classList.contains('ace-dump-hidden')) {
+                                    targetElement.classList.remove('ace-dump-hidden');
+                                    this.classList.add('ace-dump-expanded');
+                                    this.classList.remove('ace-dump-collapsed');
+                                } else {
+                                    targetElement.classList.add('ace-dump-hidden');
+                                    this.classList.remove('ace-dump-expanded');
+                                    this.classList.add('ace-dump-collapsed');
+                                }
+                            });
+                        } else {
+                            console.warn('Target element not found for toggle in split view:', targetElementId);
+                        }
+                    }
+                }
+            });
+
+            // Re-initialize tooltip functionality for class names
+            const classElements = container.querySelectorAll('.ace-dump-class');
+            classElements.forEach(classEl => {
+                classEl.addEventListener('mouseenter', function(e) {
+                    const fqcn = this.getAttribute('data-fqcn') || this.textContent;
+                    showTooltip(this, fqcn);
+                });
+
+                classEl.addEventListener('mouseleave', function() {
+                    hideTooltip();
+                });
+            });
+        }
+
+        // Keep the original function for backward compatibility
+        function initializeDumpHandlers(container) {
+            initializeDumpHandlersForSplitView(container);
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.ace-compare-selector')) {
+                document.querySelectorAll('.ace-compare-dropdown').forEach(d => {
+                    d.classList.remove('show');
+                });
+            }
+        });
+
+        // Format XML content on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize all existing dump handlers
+            setupTooltipSystem();
+
+            document.querySelectorAll('.ace-raw-content').forEach(container => {
+                formatRawContentWithCopyButton(container);
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.ace-compare-selector')) {
+                    document.querySelectorAll('.ace-compare-dropdown.show').forEach(dropdown => {
+                        dropdown.classList.remove('show');
+                    });
+                }
+            });
+        });
+
+    </script>
+{% endblock %}
+
+{% block toolbar %}
+    {% if collector.requestCount > 0 %}
+        {% set icon %}
+            <span class="sf-toolbar-label"><img src="{{ asset('AceClient43/Resource/template/icon/logo.png', 'plugin') }}"/></span>
+            <span class="sf-toolbar-value">{{ collector.requestCount }}</span>
+            {% if collector.errorCount > 0 %}
+                <span class="sf-toolbar-info-piece-additional-detail">
+                    <span class="sf-toolbar-label">errors</span>
+                    <span class="sf-toolbar-value">{{ collector.errorCount }}</span>
+                </span>
+            {% endif %}
+        {% endset %}
+
+        {% set text %}
+            <div class="sf-toolbar-info-piece">
+                <b>AceClient Requests</b>
+                <span class="sf-toolbar-status">{{ collector.requestCount }}</span>
+            </div>
+            {% if collector.errorCount > 0 %}
+                <div class="sf-toolbar-info-piece">
+                    <b>Errors</b>
+                    <span class="sf-toolbar-status sf-toolbar-status-red">{{ collector.errorCount }}</span>
+                </div>
+            {% endif %}
+        {% endset %}
+
+        {{ include('@WebProfiler/Profiler/toolbar_item.html.twig', { link: profiler_url, status: collector.errorCount > 0 ? 'red' : '' }) }}
+    {% endif %}
+{% endblock %}
+
+{% block menu %}
+    <span class="label {{ collector.requestCount == 0 ? 'disabled' }} {{ collector.errorCount > 0 ? 'label-status-error' : '' }}">
+        <span class="icon"><img src="{{ asset('AceClient43/Resource/template/icon/logo.png', 'plugin') }}"/></span>
+        <strong>Ace Client</strong>
+        {% if collector.requestCount > 0 %}
+            <span class="count">
+                <span>{{ collector.requestCount }}</span>
+            </span>
+        {% endif %}
+    </span>
+{% endblock %}
+
+{% block panel %}
+    <h2>AceClient API Tracing</h2>
+
+    {% if collector.requestCount == 0 %}
+        <div class="empty">
+            <p>No ACE API requests were recorded.</p>
+        </div>
+    {% else %}
+        <div class="sf-tabs">
+            {% for client_name, client_data in collector.clients %}
+                {% if client_data.traces|length > 0 %}
+                    <div class="tab">
+                        <h3 class="tab-title">{{ client_name|title }} <span class="badge">{{ client_data.traces|length }}</span></h3>
+                        <div class="tab-content">
+                            {% for trace in client_data.traces %}
+                                {% set request_id = client_name ~ '_' ~ loop.index0 %}
+                                <div class="sf-profiler-httpclient-requests" id="request-{{ request_id }}">
+                                    <h4>
+                                        <span class="http-method">{{ trace.method }}</span>
+                                        <span class="status-response-status-code status-{{ trace.status_code < 300 ? 'success' : (trace.status_code < 400 ? 'warning' : 'error') }}">{{ trace.status_code }}</span>
+                                        {{ trace.full_url }}
+                                    </h4>
+
+                                    <script>
+                                        allTraces['{{ request_id }}'] = {
+                                            raw_request_data: {{ trace.raw_request_data|json_encode|raw }},
+                                            raw_response_data: {{ trace.raw_response_data|json_encode|raw }},
+                                            before_serialize_data: {{ trace.before_serialize_data_html|json_encode|raw }},
+                                            deserialized_data: {{ trace.deserialized_data_html|json_encode|raw }},
+                                            method: {{ trace.method|json_encode|raw }},
+                                            url: {{ trace.full_url|json_encode|raw }}
+                                        };
+                                    </script>
+
+                                    <div class="ace-tab-container">
+                                        <div class="ace-tabs">
+                                            <button class="ace-tab active" onclick="switchTab(this, '{{ request_id }}', 'before-serialize')">Before Serialize</button>
+                                            <button class="ace-tab" onclick="switchTab(this, '{{ request_id }}', 'raw-request')">Raw Request</button>
+                                            <button class="ace-tab" onclick="switchTab(this, '{{ request_id }}', 'raw-response')">Raw Response</button>
+                                            <button class="ace-tab" onclick="switchTab(this, '{{ request_id }}', 'deserialized')">Deserialized</button>
+                                            <button class="ace-tab" onclick="switchTab(this, '{{ request_id }}', 'metadata')">Metadata</button>
+                                        </div>
+
+                                        <!-- Before Serialize Tab -->
+                                        <div id="{{ request_id }}-before-serialize" class="ace-tab-content active">
+                                            <h5>Request Data (Before Serialization)
+                                                {{ _self.compare_dropdown(request_id, 'before-serialize', collector) }}
+                                            </h5>
+                                            {% if trace.before_serialize_data_available and trace.before_serialize_data_html %}
+                                                <div class="ace-dump-container">
+                                                    {{ trace.before_serialize_data_html|raw }}
+                                                </div>
+                                            {% else %}
+                                                <div class="ace-data-empty">
+                                                    <strong>No Request Data:</strong> Request data before serialization is not available
+                                                </div>
+                                            {% endif %}
+                                        </div>
+
+                                        <!-- Raw Request Tab -->
+                                        <div id="{{ request_id }}-raw-request" class="ace-tab-content">
+                                            <h5>Raw Request Data
+                                                {{ _self.compare_dropdown(request_id, 'raw-request', collector) }}
+                                            </h5>
+                                            {% if trace.raw_request_data_formatted is defined and trace.raw_request_data_formatted %}
+                                                <div class="ace-raw-content">
+                                                    <button class="ace-copy-button" onclick="copyToClipboard(this, {{ trace.raw_request_data|json_encode|e('html_attr') }})">Copy</button>{{ trace.raw_request_data_formatted }}
+                                                </div>
+                                            {% else %}
+                                                <div class="ace-data-empty">
+                                                    <strong>No Raw Request Data:</strong> Raw HTTP request data is not available
+                                                </div>
+                                            {% endif %}
+                                        </div>
+
+                                        <!-- Raw Response Tab -->
+                                        <div id="{{ request_id }}-raw-response" class="ace-tab-content">
+                                            <h5>Raw Response Data
+                                                {{ _self.compare_dropdown(request_id, 'raw-response', collector) }}
+                                            </h5>
+                                            {% if trace.raw_response_data_formatted is defined and trace.raw_response_data_formatted %}
+                                                <div class="ace-raw-content">
+                                                    <button class="ace-copy-button" onclick="copyToClipboard(this, {{ trace.raw_response_data|json_encode|e('html_attr') }})">Copy</button>{{ trace.raw_response_data_formatted }}
+                                                </div>
+                                            {% else %}
+                                                <div class="ace-data-empty">
+                                                    <strong>No Raw Response Data:</strong> Raw HTTP response data is not available
+                                                </div>
+                                            {% endif %}
+                                        </div>
+
+                                        <!-- Deserialized Tab -->
+                                        <div id="{{ request_id }}-deserialized" class="ace-tab-content">
+                                            <h5>Deserialized Response Data
+                                                {{ _self.compare_dropdown(request_id, 'deserialized', collector) }}
+                                            </h5>
+                                            {% if trace.deserialized_data_available and trace.deserialized_data_html %}
+                                                <div class="ace-dump-container">
+                                                    {{ trace.deserialized_data_html|raw }}
+                                                </div>
+                                            {% else %}
+                                                <div class="ace-data-empty">
+                                                    <strong>No Response Data:</strong> Deserialized response data is not available
+                                                </div>
+                                            {% endif %}
+                                        </div>
+
+                                        <!-- Metadata Tab -->
+                                        <div id="{{ request_id }}-metadata" class="ace-tab-content">
+                                            <h5>Request & Response Metadata</h5>
+
+                                            {% if trace.http_request_headers is defined and trace.http_request_headers is not empty %}
+                                                <div class="ace-metadata-section">
+                                                    <h6>Request Headers</h6>
+                                                    <table class="ace-metadata-table">
+                                                        {% for header, value in trace.http_request_headers %}
+                                                            <tr>
+                                                                <th>{{ header }}</th>
+                                                                <td>{{ value is iterable ? value|join(', ') : value }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </table>
+                                                </div>
+                                            {% endif %}
+
+                                            {% if trace.http_response_headers is defined and trace.http_response_headers is not empty %}
+                                                <div class="ace-metadata-section">
+                                                    <h6>Response Headers</h6>
+                                                    <table class="ace-metadata-table">
+                                                        {% for header, value in trace.http_response_headers %}
+                                                            <tr>
+                                                                <th>{{ header }}</th>
+                                                                <td>{{ value is iterable ? value|join(', ') : value }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </table>
+                                                </div>
+                                            {% endif %}
+
+                                            {% if trace.timing is defined and trace.timing is not empty %}
+                                                <div class="ace-metadata-section">
+                                                    <h6>Timing Information</h6>
+                                                    <table class="ace-metadata-table">
+                                                        {% for key, timing_value in trace.timing %}
+                                                            <tr>
+                                                                <th>{{ key|title|replace({'_': ' '}) }}</th>
+                                                                <td>
+                                                                    {% if key == 'total_time' %}
+                                                                        {{ (timing_value * 1000)|number_format(2) }} ms
+                                                                    {% else %}
+                                                                        {{ timing_value }}
+                                                                    {% endif %}
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </table>
+                                                </div>
+                                            {% endif %}
+
+                                            {% if trace.metadata is defined and trace.metadata is not empty %}
+                                                <div class="ace-metadata-section">
+                                                    <h6>Additional Metadata</h6>
+                                                    <table class="ace-metadata-table">
+                                                        {% for key, meta_value in trace.metadata %}
+                                                            <tr>
+                                                                <th>{{ key|title|replace({'_': ' '}) }}</th>
+                                                                <td>{{ meta_value is iterable ? meta_value|json_encode : meta_value }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </table>
+                                                </div>
+                                            {% endif %}
+
+                                            {% if (trace.http_request_headers is not defined or trace.http_request_headers is empty)
+                                                and (trace.http_response_headers is not defined or trace.http_response_headers is empty)
+                                                and (trace.timing is not defined or trace.timing is empty)
+                                                and (trace.metadata is not defined or trace.metadata is empty) %}
+                                                <div class="ace-data-empty">
+                                                    <strong>No Metadata:</strong> Request headers, response headers, timing, and metadata information are not available
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    {% if trace.error is defined and trace.error %}
+                                        <div class="ace-data-error">
+                                            <b>Error:</b> {{ trace.error.message }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <hr/>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
