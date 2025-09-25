@@ -135,7 +135,7 @@ class CustomerAuthenticator extends AbstractAuthenticator implements Authenticat
         return $this->innerAuthenticator->onAuthenticationFailure($request, $exception);
     }
 
-    public function start(Request $request, ?AuthenticationException $authException = null)
+    public function start(Request $request, ?AuthenticationException $authException = null): Response
     {
         return $this->innerAuthenticator->start($request, $authException);
     }

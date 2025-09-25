@@ -46,6 +46,7 @@ class PluginManager extends AbstractPluginManager
 
         if (\is_null($configRepository->get())) {
             $config = new AceClientConfig();
+            $config->setSyid(99);
 
             $entityManager->persist($config);
             $entityManager->flush();
