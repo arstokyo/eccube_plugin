@@ -51,8 +51,8 @@ class JyudenModel extends Rireki\RirekiModelLevel1 implements JyudenModelInterfa
     /** @var ?string URL */
     protected ?string $url = null;
 
-    /** @var ?FreeFieldsModel FreeFields */
-    protected ?FreeFieldsModel $freeFields = null;
+    /** @var ?ExtrasFieldsModel ExtrasFields */
+    protected ?ExtrasFieldsModel $extrasFields = null;
 
     /**
      * {@inheritDoc}
@@ -121,17 +121,17 @@ class JyudenModel extends Rireki\RirekiModelLevel1 implements JyudenModelInterfa
     /**
      * {@inheritDoc}
      */
-    public function getFreeFields(): ?FreeFieldsModel
+    public function getExtrasFields(): ?ExtrasFieldsModel
     {
-        return $this->freeFields;
+        return $this->extrasFields;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setFreeFields(?FreeFieldsModel $freeFields): self
+    public function setExtrasFields(?ExtrasFieldsModel $extrasFields): self
     {
-        $this->freeFields = $freeFields;
+        $this->extrasFields = $extrasFields;
 
         return $this;
     }
