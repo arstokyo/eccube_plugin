@@ -48,7 +48,8 @@ Remote details
 ### One-time setup and initial import
 
 1) Checkout the target branch
-   git fetch modern-aceclient --tags
-2) git stash
-3) git subtree pull --prefix=app/Plugin/AceClient . aceclient-split -m "chore(aceclient): sync from modern repo"
+2) git fetch modern-aceclient --tags
+3) git branch -f aceclient-split $(git subtree split --prefix=app/Plugin/AceClient43 modern-aceclient/merge/aceclient)
+4) git stash
+5) git subtree pull --prefix=app/Plugin/AceClient . aceclient-split -m "chore(aceclient): sync from modern repo"
 
