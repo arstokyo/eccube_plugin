@@ -195,4 +195,9 @@ class RemovePreserveSpaceNormalizer extends AbstractObjectNormalizer
 
         return parent::supportsDenormalization($data, $type, $format);
     }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return ['object' => $format === 'xml'];
+    }
 }
