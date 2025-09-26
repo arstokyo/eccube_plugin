@@ -283,7 +283,7 @@ services:
         arguments:
             $modelResolver: '@ace_model_resolver'
         tags:
-            - { name: 'serializer.normalizer', priority: 110 }
+            - { name: 'serializer.normalizer', priority: 200 }
 
     # ModelTypeExtractor
     soap_xml_type_extractor:
@@ -325,6 +325,25 @@ services:
             $classDiscriminatorResolver: null
             $objectClassResolver: null
             $defaultContext: [ ]
+        public: false
+
+    remove_preserve_space_normalizer:
+        class: Plugin\AceClient43\Util\Normalizer\RemovePreserveSpaceNormalizer
+        arguments:
+            $soapXmlObjectNormalizer: '@soap_xml_object_normalizer'
+            $classMetadataFactory: '@soap_xml_metadata_factory'
+            $nameConverter: '@soap_xml_name_converter'
+            $propertyTypeExtractor: '@soap_xml_type_extractor'
+            $classDiscriminatorResolver: null
+            $objectClassResolver: null
+            $defaultContext: [ ]
+        tags:
+            - { name: 'serializer.normalizer', priority: 100 }
+        public: false
+
+    Plugin\AceClient43\Util\Normalizer\RemovePreserveSpaceNormalizer:
+        alias: remove_preserve_space_normalizer
+        public: false
 
     # XML Encoder
     xml_encoder:
@@ -335,6 +354,7 @@ services:
         class: Symfony\Component\Serializer\Serializer
         arguments:
             $normalizers:
+                - '@remove_preserve_space_normalizer'
                 - '@ace_datetime_normalizer'
                 - '@ace_prm_normalizer'
                 - '@soap_xml_array_denormalizer'
