@@ -7,7 +7,7 @@ namespace Plugin\AceClient43\AceServices\Model\Request\WebApi\Order\V1\GetOrderL
  */
 class OptionsModel implements OptionsModelInterface
 {
-    private array $optionsData = [];
+    protected array $optionsData = [];
 
     /**
      * {@inheritDoc}
