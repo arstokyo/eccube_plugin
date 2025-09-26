@@ -1,0 +1,61 @@
+{# Render ACE Product ID below the Product.id row on admin product edit page #}
+{% if Product is defined and Product.id %}
+<div class="row js-ace-product-id-row" style="display:none;">
+    <div class="col-3">
+        <div class="d-inline-block" title="ACE 商品ID">
+            <span>{{ 'ace_client.admin.product.label.ace_product_ids'|trans }}</span>
+        </div>
+    </div>
+    <div class="col mb-2">
+        <input type="text"
+            class="form-control text-monospace"
+            value="{{ (Product.ProductClasses|first).aceProductId ?? '-' }}"
+            disabled 
+            style="cursor: not-allowed;"/>
+    </div>
+</div>
+<script>
+(function() {
+    // Ensure DOM is ready
+    function onReady(fn){ if (document.readyState !== 'loading') { fn(); } else { document.addEventListener('DOMContentLoaded', fn); } }
+
+    onReady(function() {
+        var idValue = {{ Product.id|json_encode|raw }};
+        var $ = window.jQuery || window.$;
+
+        // Find the row that displays the Product.id (a row with a <p> that equals idValue)
+        function findProductIdRow() {
+            // Search candidates: rows with p under a .col
+            var rows = document.querySelectorAll('.row');
+            for (var i = 0; i < rows.length; i++) {
+                var p = rows[i].querySelector('.col > p');
+                if (!p) continue;
+                var text = (p.textContent || '').trim();
+                if (text === String(idValue)) {
+                    return rows[i];
+                }
+            }
+            return null;
+        }
+
+        var idRow = findProductIdRow();
+        var aceRow = document.querySelector('.js-ace-product-id-row');        
+
+        if (idRow && aceRow) {
+            // Insert our block right after the Product.id row
+            idRow.parentNode.insertBefore(aceRow, idRow.nextSibling);
+            aceRow.style.display = '';
+        } else if ($ && aceRow) {
+            // Fallback: try jQuery-based selector
+            var $row = $('.row').filter(function() {
+                var $p = $(this).find('> .col > p');
+                return $p.length && $.trim($p.text()) === String(idValue);
+            }).first();
+            if ($row.length) {
+                $(aceRow).insertAfter($row).show();
+            }
+        }
+    });
+})();
+</script>
+{% endif %}
