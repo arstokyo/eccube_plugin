@@ -23,18 +23,24 @@ pip install ansible-core
 ansible-playbook ansible/playbooks/dev.yml -i ansible/hosts.ini
 ```
 
-### 4. テンプレートコードの設定
-`.env`ファイルを編集し、使用するテンプレートコードを設定します：
+### 4. 手動で Composer 依存関係をインストールする場合
+Ansible を使わずに手動でセットアップする場合、プロジェクトルートで以下を実行してください：
 ```bash
-ECCUBE_TEMPLATE_CODE=target_template_code
+composer install --ignore-platform-reqs --no-plugins --no-scripts
 ```
 
-### 5. アセットの監視
+### 5. テンプレートコードの設定
+`.env`ファイルを編集し、使用するテンプレートコードを設定します：
+```bash
+ECCUBE_TEMPLATE_CODE=rednails
+```
+
+### 6. アセットの監視
 ```bash
 yarn watch
 ```
 
-### 6. 開発サーバーの起動（既に起動中の場合は飛ばす）
+### 7. 開発サーバーの起動（既に起動中の場合は飛ばす）
 ```bash
 symfony serve --allow-http --allow-all-ip -d
 ```

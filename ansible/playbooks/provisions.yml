@@ -47,6 +47,7 @@
         command: install
         working_dir: "{{ project_root }}"
         no_dev: no
+        arguments: "--ignore-platform-reqs --no-plugins --no-scripts"
       become: yes
       become_user: "{{ ansible_user }}"
       environment:
@@ -60,7 +61,7 @@
       become_user: "{{ ansible_user }}"
       environment:
         NODE_OPTIONS: "--max-old-space-size=4096"
-        
+
     - name: Build assets with yarn
       command: yarn build
       args:
@@ -77,8 +78,7 @@
 
     - name: Warm up Symfony cache
       command: php bin/console cache:warmup --env=dev
-      args: 
+      args:
         chdir: "{{ project_root }}"
       become: yes
       become_user: "{{ ansible_user }}"
-    
