@@ -83,6 +83,9 @@
 # ===================================================================================================
 
 parameters:
+    ace.version: '1.1'
+    ace.name: 'AceClient43'
+
     # Default tax display/type for processors (IDs are from master tables)
     # TaxDisplayType: 1=EXCLUDED, 2=INCLUDED
     # TaxType: 1=TAXATION, 2=NON_TAXABLE, 3=TAX_EXEMPT
@@ -119,7 +122,7 @@ parameters:
 
     ace.log.max_line_length: 50000  # Maximum line length for log messages
 
-    ace_client.post_soap_client.extract_max_length: 200000  # Maximum length for SOAP XML response extraction
+    ace.post_soap_client.extract_max_length: 200000  # Maximum length for SOAP XML response extraction
 
 monolog:
     channels: ['ace_client', 'ace_client_console']
@@ -219,7 +222,7 @@ services:
               timeout: 600
               verify: false
               headers:
-                  User-Agent: 'Plugin\AceClient43\Util\Mapper\OverviewMapper::USER_AGENT_HEADER'
+                  User-Agent: '%ace.name%V%ace.version%'
         public: false
 
     # ===================================================================================================
@@ -425,7 +428,7 @@ services:
             $normalizer: '@serializer'
             $aceConfigService: '@ace_config_service'
         calls:
-            - setExtractMaxLength: ['%ace_client.post_soap_client.extract_max_length%']
+            - setExtractMaxLength: ['%ace.post_soap_client.extract_max_length%']
         tags:
             - { name: 'ace_client.api_client' }
 

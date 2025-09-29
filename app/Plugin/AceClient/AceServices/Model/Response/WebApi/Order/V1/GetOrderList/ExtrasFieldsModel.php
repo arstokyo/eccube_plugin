@@ -3,8 +3,8 @@
 namespace Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrderList;
 
 /**
- * Model for FreeFields
+ * Model for ExtrasFields
  */
-class FreeFieldsModel implements FreeFieldsModelInterface
+class ExtrasFieldsModel implements ExtrasFieldsModelInterface
 {
 }
