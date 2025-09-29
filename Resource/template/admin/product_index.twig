@@ -96,14 +96,6 @@
                 return;
             }
 
-            // Check if input contains only numbers, commas, and whitespace
-            if (!/^[0-9,\s]*$/.test(productIds)) {
-                errorDisplay.textContent = "{{ 'ace_client.admin.product.error.invalid_product_ids'|trans }}";
-                errorDisplay.style.display = 'block';
-                productIdsInput.classList.add('is-invalid');
-                return;
-            }
-
             // Disable button and show loading state
             syncButton.disabled = true;
             syncButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> {{ "ace_client.admin.product.button.syncing"|trans }}';
