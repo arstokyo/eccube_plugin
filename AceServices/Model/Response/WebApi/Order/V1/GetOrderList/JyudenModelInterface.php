@@ -20,6 +20,7 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Good;
 use Plugin\AceClient43\AceServices\Model\Dependency\Haiso;
 use Plugin\AceClient43\AceServices\Model\Dependency\Payment;
 use Plugin\AceClient43\AceServices\Model\Dependency\Rireki;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 
 /**
  * Interface for JyudenModel
@@ -81,17 +82,20 @@ interface JyudenModelInterface extends Rireki\RirekiModelLevel1Interface, Paymen
     public function setUrl(?string $url);
 
     /**
-     * Get FreeFields
+     * Get ExtrasFields
      *
-     * @return ?FreeFieldsModel
+     * @return ?ExtrasFieldsModel
      */
-    public function getFreeFields(): ?FreeFieldsModel;
+    public function getExtrasFields(): ?ExtrasFieldsModel;
 
     /**
-     * Set FreeFields
+     * Set ExtrasFields
      *
-     * @param ?FreeFieldsModel $freeFields
+     * @param ?ExtrasFieldsModel $extrasFields
+     *
      * @return self
+     *
+     * @SerializedName("_EXTRAS_")
      */
-    public function setFreeFields(?FreeFieldsModel $freeFields): self;
+    public function setExtrasFields(?ExtrasFieldsModel $extrasFields): self;
 }

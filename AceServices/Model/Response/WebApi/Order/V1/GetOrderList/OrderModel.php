@@ -2,7 +2,6 @@
 
 namespace Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrderList;
 
-
 /**
  * Model for Order
  *
@@ -11,10 +10,10 @@ namespace Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrder
 class OrderModel implements OrderModelInterface
 {
     /** @var JyudenModel|null */
-    private ?JyudenModel $jyuden = null;
+    protected ?JyudenModel $jyuden = null;
 
     /** @var JyumeiModel[]|null */
-    private ?array $jyumei = null;
+    protected ?array $jyumei = null;
 
     /**
      * {@inheritDoc}
@@ -30,6 +29,7 @@ class OrderModel implements OrderModelInterface
     public function setJyuden(?JyudenModel $jyuden): self
     {
         $this->jyuden = $jyuden;
+
         return $this;
     }
 
@@ -47,6 +47,7 @@ class OrderModel implements OrderModelInterface
     public function setJyumei(?array $jyumei): self
     {
         $this->jyumei = $jyumei;
+
         return $this;
     }
 
