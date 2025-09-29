@@ -1,0 +1,54 @@
+<?php
+
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Plugin\AceClient43\AceServices\Model\Dependency\Good;
+
+/**
+ * Interface for FreeCodeModel
+ *
+ * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
+ */
+interface GoodFreeModelGroupInterface
+{
+    /**
+     * Get フリー項目区分
+     *
+     * @return ?int
+     */
+    public function getFmkbn(): ?int;
+
+    /**
+     * Set フリー項目区分
+     *
+     * @param ?int $fmkbn
+     *
+     * @return $this
+     */
+    public function setFmkbn(?int $fmkbn);
+
+    /**
+     * Get フリー内容
+     *
+     * @return ?string
+     */
+    public function getFree(): ?string;
+
+    /**
+     * Set フリー内容
+     *
+     * @param ?string $free
+     *
+     * @return $this
+     */
+    public function setFree(?string $free);
+}

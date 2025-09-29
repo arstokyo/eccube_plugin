@@ -1,7 +1,0 @@
----
-- name: Restart Apache
-  service:
-    name: "{{ apache_service }}"
-    state: restarted
-  vars:
-    apache_service: "{{ is_ubuntu | ternary('apache2', 'httpd') }}"
