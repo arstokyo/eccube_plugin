@@ -13,9 +13,8 @@
 
 namespace Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrderList;
 
-use Plugin\AceClient43\AceServices\Model\Dependency\Rireki;
 use Plugin\AceClient43\AceServices\Model\Dependency\Cost\Tax;
-use Symfony\Component\Serializer\Annotation\SerializedName;
+use Plugin\AceClient43\AceServices\Model\Dependency\Rireki;
 
 /**
  * Model for Jyumei
@@ -27,11 +26,13 @@ class JyumeiModel extends Rireki\RirekiModelLevel2 implements JyumeiModelInterfa
     use Tax\TaxTrait;
     use Tax\TaxKbnTrait;
 
+    public const NON_TAXABLE_GCODE = 'z01';
+
     /** @var ?string Name */
-    private ?string $name = null;
+    protected ?string $name = null;
 
     /** @var float Tax Rate */
-    private float $taxRate = 0;
+    protected float $taxRate = 0;
 
     /**
      * {@inheritDoc}
@@ -39,6 +40,7 @@ class JyumeiModel extends Rireki\RirekiModelLevel2 implements JyumeiModelInterfa
     public function setTaxRate(float $taxRate): self
     {
         $this->taxRate = $taxRate;
+
         return $this;
     }
 
@@ -64,6 +66,17 @@ class JyumeiModel extends Rireki\RirekiModelLevel2 implements JyumeiModelInterfa
     public function setName(?string $name): self
     {
         $this->name = $name;
+
         return $this;
+    }
+
+    /**
+     * 税額が0円かつ商品コードが不課税商品のコードの場合は非課税商品であると判断する
+     *
+     * @return bool
+     */
+    public function IsNonTaxable(): bool
+    {
+        return $this->getTaxRate() == 0 && $this->getGcode() === self::NON_TAXABLE_GCODE;
     }
 }

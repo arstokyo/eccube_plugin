@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrderList;
 
 /**
@@ -8,13 +19,13 @@ namespace Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrder
 class V1GetOrderListResponseModel implements V1GetOrderListResponseModelInterface
 {
     /** @var OrderModel[] */
-    private array $order = [];
+    protected array $order = [];
 
     /** @var int */
-    private int $totalPage = 0;
+    protected int $totalPage = 0;
 
     /** @var int */
-    private int $totalRow = 0;
+    protected int $totalRow = 0;
 
     /**
      * {@inheritDoc}
@@ -30,10 +41,11 @@ class V1GetOrderListResponseModel implements V1GetOrderListResponseModelInterfac
     public function setOrder(array $order): self
     {
         $this->order = $order;
+
         return $this;
     }
 
-/**
+    /**
      * {@inheritDoc}
      */
     public function getTotalPage(): int
@@ -47,6 +59,7 @@ class V1GetOrderListResponseModel implements V1GetOrderListResponseModelInterfac
     public function setTotalPage(int $totalPage): self
     {
         $this->totalPage = $totalPage;
+
         return $this;
     }
 
@@ -64,6 +77,7 @@ class V1GetOrderListResponseModel implements V1GetOrderListResponseModelInterfac
     public function setTotalRow(int $totalRow): self
     {
         $this->totalRow = $totalRow;
+
         return $this;
     }
 
@@ -73,5 +87,4 @@ class V1GetOrderListResponseModel implements V1GetOrderListResponseModelInterfac
             'Order' => OrderModel::class,
         ];
     }
-
 }

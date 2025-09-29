@@ -83,6 +83,9 @@
 # ===================================================================================================
 
 parameters:
+    ace.version: '1.1'
+    ace.name: 'AceClient43'
+
     # Default tax display/type for processors (IDs are from master tables)
     # TaxDisplayType: 1=EXCLUDED, 2=INCLUDED
     # TaxType: 1=TAXATION, 2=NON_TAXABLE, 3=TAX_EXEMPT
@@ -119,7 +122,7 @@ parameters:
 
     ace.log.max_line_length: 50000  # Maximum line length for log messages
 
-    ace_client.post_soap_client.extract_max_length: 200000  # Maximum length for SOAP XML response extraction
+    ace.post_soap_client.extract_max_length: 200000  # Maximum length for SOAP XML response extraction
 
 monolog:
     channels: ['ace_client', 'ace_client_console']
@@ -219,7 +222,7 @@ services:
               timeout: 600
               verify: false
               headers:
-                  User-Agent: 'Plugin\AceClient43\Util\Mapper\OverviewMapper::USER_AGENT_HEADER'
+                  User-Agent: '%ace.name%V%ace.version%'
         public: false
 
     # ===================================================================================================
@@ -283,7 +286,7 @@ services:
         arguments:
             $modelResolver: '@ace_model_resolver'
         tags:
-            - { name: 'serializer.normalizer', priority: 110 }
+            - { name: 'serializer.normalizer', priority: 200 }
 
     # ModelTypeExtractor
     soap_xml_type_extractor:
@@ -325,6 +328,25 @@ services:
             $classDiscriminatorResolver: null
             $objectClassResolver: null
             $defaultContext: [ ]
+        public: false
+
+    remove_preserve_space_normalizer:
+        class: Plugin\AceClient43\Util\Normalizer\RemovePreserveSpaceNormalizer
+        arguments:
+            $soapXmlObjectNormalizer: '@soap_xml_object_normalizer'
+            $classMetadataFactory: '@soap_xml_metadata_factory'
+            $nameConverter: '@soap_xml_name_converter'
+            $propertyTypeExtractor: '@soap_xml_type_extractor'
+            $classDiscriminatorResolver: null
+            $objectClassResolver: null
+            $defaultContext: [ ]
+        tags:
+            - { name: 'serializer.normalizer', priority: 100 }
+        public: false
+
+    Plugin\AceClient43\Util\Normalizer\RemovePreserveSpaceNormalizer:
+        alias: remove_preserve_space_normalizer
+        public: false
 
     # XML Encoder
     xml_encoder:
@@ -335,6 +357,7 @@ services:
         class: Symfony\Component\Serializer\Serializer
         arguments:
             $normalizers:
+                - '@remove_preserve_space_normalizer'
                 - '@ace_datetime_normalizer'
                 - '@ace_prm_normalizer'
                 - '@soap_xml_array_denormalizer'
@@ -405,7 +428,7 @@ services:
             $normalizer: '@serializer'
             $aceConfigService: '@ace_config_service'
         calls:
-            - setExtractMaxLength: ['%ace_client.post_soap_client.extract_max_length%']
+            - setExtractMaxLength: ['%ace.post_soap_client.extract_max_length%']
         tags:
             - { name: 'ace_client.api_client' }
 

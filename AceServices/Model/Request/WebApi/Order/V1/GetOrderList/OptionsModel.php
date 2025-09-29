@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Plugin\AceClient43\AceServices\Model\Request\WebApi\Order\V1\GetOrderList;
 
@@ -8,7 +18,7 @@ namespace Plugin\AceClient43\AceServices\Model\Request\WebApi\Order\V1\GetOrderL
  */
 class OptionsModel implements OptionsModelInterface
 {
-    private array $optionsData = [];
+    protected array $optionsData = [];
 
     /**
      * {@inheritDoc}
@@ -39,7 +49,18 @@ class OptionsModel implements OptionsModelInterface
      */
     public function getOptionsJson(): ?string
     {
-        return empty($this->optionsData) ? null : json_encode($this->optionsData);
+        if (empty($this->optionsData)) {
+            return null;
+        }
+
+        $data = $this->optionsData;
+
+        // Convert return_jdfree_kubuns array to comma-separated string
+        if (isset($data['return_jdfree_kubuns']) && is_array($data['return_jdfree_kubuns'])) {
+            $data['return_jdfree_kubuns'] = implode(',', $data['return_jdfree_kubuns']);
+        }
+
+        return json_encode($data);
     }
 
     /**
@@ -47,11 +68,13 @@ class OptionsModel implements OptionsModelInterface
      *
      * @param string $key
      * @param mixed $value
+     *
      * @return self
      */
     public function setOption(string $key, $value): self
     {
         $this->optionsData[$key] = $value;
+
         return $this;
     }
 
@@ -59,6 +82,7 @@ class OptionsModel implements OptionsModelInterface
      * Get option by key
      *
      * @param string $key
+     *
      * @return mixed
      */
     public function getOption(string $key)

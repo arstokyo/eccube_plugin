@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Bridge\DataConverter;
 
 use Eccube\Entity\Customer;
@@ -12,13 +23,13 @@ use Plugin\AceClient43\AceServices\Model\Request\Member\GetRireki\GetRirekiReque
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetRirekiDetail as GetRirekiDetailRequest;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetRirekiDetail\GetRirekiDetailRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
+use Plugin\AceClient43\AceServices\Model\Request\WebApi\Order\V1\GetOrderList\V1GetOrderListRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode;
 use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
 use Plugin\AceClient43\Exception\DataTypeMissMatchException;
 use Plugin\AceClient43\Exception\InvalidClassNameException;
-use Plugin\AceClient43\AceServices\Model\Request\WebApi\Order\V1\GetOrderList\V1GetOrderListRequestModelInterface;
-use Plugin\AceClient43\AceServices\Model\Request\WebApi\Order\V1\GetOrderList\OptionsModelInterface;
+
 class CustomerDataConverter implements CustomerDataConverterInterface
 {
     use CreateRequestModelTrait;
@@ -45,13 +56,17 @@ class CustomerDataConverter implements CustomerDataConverterInterface
     public function convertCustomerToJmember(Customer $customer, array $options = []): RegMember\JmemberModelInterface
     {
         /** @var RegMember\JmemberModelInterface $jmemberModel */
+        /** @var RegMember\JmemberModelInterface $jmemberModel */
+        /** @var RegMember\MemMailChildModelInterface $memMailChildModel */
+        /** @var RegMember\MemMailChildModelInterface[] $memMailChildModels */
+        /** @var RegMember\MemMailModelInterface $memMailModel */
         $jmemberModel = $this->createSubModel(RegMember\JmemberModelInterface::class);
+        $memMailModel = $this->createSubModel(RegMember\MemMailModelInterface::class);
+        $memMailChildModel = $this->createSubModel(RegMember\MemMailChildModelInterface::class);
 
-        /** @var RegMember\MemMailModel $memMailModel */
-        $memMailModel = $this->createSubModel(RegMember\MemMailModel::class);
-        $memMailModel
-            ->setMail($customer->getEmail())
+        $memMailChildModel->setMail($customer->getEmail())
             ->setIdx(1);
+        $memMailModel->setMemmailChild([$memMailChildModel]);
 
         $jmember = $jmemberModel
             ->setSimei($this->normalizer->formatAceFullNameFromEcName($customer->getName01(), $customer->getName02()))
@@ -254,7 +269,7 @@ class CustomerDataConverter implements CustomerDataConverterInterface
             ->setDenku(10);
     }
 
-    public function convertCustomerToGetOrderListRequest(string $aceCustomerId, string $syid, int $page = 1, int $limit = 10, int $denno = null, int $sort = 0): V1GetOrderListRequestModelInterface
+    public function convertCustomerToGetOrderListRequest(string $aceCustomerId, string $syid, int $page = 1, int $limit = 10, ?int $denno = null, int $sort = 0): V1GetOrderListRequestModelInterface
     {
         /** @var V1GetOrderListRequestModelInterface $requestModel */
         $requestModel = $this->createRequestModel(V1GetOrderListRequestModelInterface::class);
