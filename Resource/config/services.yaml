@@ -222,7 +222,7 @@ services:
               timeout: 600
               verify: false
               headers:
-                  User-Agent: '%ace.name%%ace.version%'
+                  User-Agent: '%ace.name%V%ace.version%'
         public: false
 
     # ===================================================================================================
