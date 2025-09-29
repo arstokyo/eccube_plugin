@@ -29,6 +29,8 @@ class GetMemberRequestModel extends RequestModelAbstract implements GetMemberReq
 
     use NoCategory\PassWdTrait;
 
+    use NoCategory\IdTrait;
+
     public const XML_NODE_NAME = 'getMember';
 
     /** @var IdPrmModelInterface|null */
