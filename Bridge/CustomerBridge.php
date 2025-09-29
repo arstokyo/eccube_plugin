@@ -21,9 +21,10 @@ use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 use Plugin\AceClient43\AceServices\Model\Request\Member\UpdateTaikai\UpdateTaikaiRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode\LoginMemberModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Member\RegMember\RegMemberResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetRirekiDetail\MemberModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\Member\RegMember\RegMemberResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\UpdateTaikai\UpdateTaikaiResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrderList\V1GetOrderListResponseModelInterface;
 use Plugin\AceClient43\Bridge\Helper\CustomerBridgeHelper;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\OnGetAndUpdateCustomerEvent;
@@ -31,7 +32,6 @@ use Plugin\AceClient43\Events\PostRegisterCustomerEvent;
 use Plugin\AceClient43\Events\PreRegisterCustomerEvent;
 use Plugin\AceClient43\Exception\CouldNotCheckCustomerExistingException;
 use Plugin\AceClient43\Exception\CouldNotRegisterNewCustomerException;
-use Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrderList\V1GetOrderListResponseModelInterface;
 
 /**
  * 顧客連携ブリッジクラス
@@ -461,7 +461,7 @@ class CustomerBridge extends BaseBridge
         return $responseObject->getMember()->getRirekiDetail() ? $responseObject->getMember() : null;
     }
 
-    public function getOrderList(Customer $customer, int $page = 1, int $limit = 10, int $denno = null, int $sort = 0): ?V1GetOrderListResponseModelInterface
+    public function getOrderList(Customer $customer, int $page = 1, int $limit = 10, ?int $denno = null, int $sort = 0): ?V1GetOrderListResponseModelInterface
     {
         $responseObject = $this->helper->getOrderList($customer->getAceCustomerId(), $this->getSyid(), $page, $limit, $denno, $sort);
 

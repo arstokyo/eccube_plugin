@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Bridge\Helper;
 
 use Eccube\Entity\Customer;
@@ -8,21 +19,22 @@ use Plugin\AceClient43\AceServices\AceMethod\Member\GetMemberMcodeMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\GetMemberMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\GetRirekiDetailMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\GetRirekiMethod;
+use Plugin\AceClient43\AceServices\AceMethod\WebApi\Order\V1GetOrderListMethod;
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelExtend1Interface;
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Member\CheckMailAdress\CheckMailAdressRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetMember as GetMemberRequest;
+use Plugin\AceClient43\AceServices\Model\Request\Member\GetMemberMcode as GetMemberMcodeRequest;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\CheckMailAdress\CheckMailAdressResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember as GetMemberResponse;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode as GetMemberMcodeResponse;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetRireki as GetRirekiResponse;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetRirekiDetail as GetRirekiDetailResponse;
+use Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrderList\V1GetOrderListResponseModelInterface;
 use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
 use Plugin\AceClient43\Bridge\DataConverter\CustomerDataConverterInterface;
 use Psr\Log\LoggerInterface;
-use Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrderList\V1GetOrderListResponseModelInterface;
-use Plugin\AceClient43\AceServices\AceMethod\WebApi\Order\V1GetOrderListMethod;
 
 /**
  * CustomerBridgeHelper - 顧客連携ブリッジの複雑なロジックをカプセル化するヘルパークラス
@@ -124,7 +136,9 @@ class CustomerBridgeHelper
         $request = $this->customerDataConverter->convertCustomerToGetMemberMcodeRequest($aceCustomerId, $syid, $options, $customer);
 
         if (isset($options['return_alladr']) && $options['return_alladr']) {
-            $request->getIdPrm()->getOptions()->setReturnAllAdr(true);
+            $optionsModel = $request->getIdPrm()->getOptions() ?? $this->createSubModel(GetMemberMcodeRequest\OptionsModel::class);
+            $optionsModel->setReturnAllAdr(true);
+            $request->getIdPrm()->setOptions($optionsModel);
         }
 
         try {
@@ -274,7 +288,7 @@ class CustomerBridgeHelper
         return $response->getResponse();
     }
 
-    public function getOrderList(string $aceCustomerId, string $syid, int $page = 1, int $limit = 10, int $denno = null, int $sort = 0): ?V1GetOrderListResponseModelInterface
+    public function getOrderList(string $aceCustomerId, string $syid, int $page = 1, int $limit = 10, ?int $denno = null, int $sort = 0): ?V1GetOrderListResponseModelInterface
     {
         $request = $this->customerDataConverter->convertCustomerToGetOrderListRequest($aceCustomerId, $syid, $page, $limit, $denno, $sort);
         $response = $this->getOrderListMethod->withRequest($request)->send();
