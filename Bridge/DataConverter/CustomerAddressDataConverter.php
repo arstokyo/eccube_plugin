@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Bridge\DataConverter;
 
 use Eccube\Entity\Customer;
@@ -20,19 +31,26 @@ class CustomerAddressDataConverter implements CustomerAddressDataConverterInterf
     /**
      * @var CustomerAddressRepository
      */
-    private $customerAddressRepository;
+    protected $customerAddressRepository;
 
     /**
      * @var PrefRepository
      */
-    private $prefRepository;
+    protected $prefRepository;
+
+    /**
+     * @var CustomerAceNormalizerInterface
+     */
+    protected $normalizer;
 
     public function __construct(
         CustomerAddressRepository $customerAddressRepository,
         PrefRepository $prefRepository,
+        CustomerAceNormalizerInterface $normalizer,
     ) {
         $this->customerAddressRepository = $customerAddressRepository;
         $this->prefRepository = $prefRepository;
+        $this->normalizer = $normalizer;
     }
 
     /**
@@ -41,8 +59,9 @@ class CustomerAddressDataConverter implements CustomerAddressDataConverterInterf
     public function convertCustomerAddressToRegMemAdrRequest(CustomerAddress $address, string $syid, array $options = []): RegMemAdrRequestModel
     {
         $customer = $address->getCustomer();
-        $fullName = $this->formatFullName($address->getName01(), $address->getName02());
-        $fullKana = $this->formatFullName($address->getKana01(), $address->getKana02());
+
+        $fullName = $this->normalizer->formatAceFullNameFromEcName($address->getName01(), $address->getName02());
+        $fullKana = $this->normalizer->formatAceFullNameFromEcName($address->getKana01(), $address->getKana02());
 
         /** @var RegMemAdrRequestModel $requestModel */
         $requestModel = $this->createRequestModel(RequestRegMemAdr\RegMemAdrRequestModelInterface::class);
@@ -112,16 +131,20 @@ class CustomerAddressDataConverter implements CustomerAddressDataConverterInterf
             $customerAddress->setCreateDate(new \DateTime());
         }
 
+        [$name01, $name02] = $this->normalizer->parseAceFullNameToParts($aceCustomerAddress->getSimei(), 'name');
+        [$kana01, $kana02] = $this->normalizer->parseAceFullNameToParts($aceCustomerAddress->getKana(), 'kana');
+
         $customerAddress->setAceEdaNo($aceCustomerAddress->getEda());
         $customerAddress->setCustomer($customer);
-        $customerAddress->setName01($aceCustomerAddress->getSimei());
-        $customerAddress->setKana01($aceCustomerAddress->getKana());
+        $customerAddress->setName01($name01);
+        $customerAddress->setName02($name02);
+        $customerAddress->setKana01($kana01);
+        $customerAddress->setKana02($kana02);
         $customerAddress->setPref($pref);
         $customerAddress->setPostalCode($aceCustomerAddress->getZipEccubeFormat());
         $customerAddress->setAddr01($aceCustomerAddress->getAdr2());
         $customerAddress->setAddr02($aceCustomerAddress->getAdr3());
         $customerAddress->setPhoneNumber($aceCustomerAddress->getTel());
-        $customerAddress->setPhoneNumber2($aceCustomerAddress->getAdrBikou1());
 
         return $customerAddress;
     }
