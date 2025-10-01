@@ -21,6 +21,7 @@ use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 use Plugin\AceClient43\AceServices\Model\Request\Member\UpdateTaikai\UpdateTaikaiRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode\LoginMemberModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetPointRireki\GetPointRirekiResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetRirekiDetail\MemberModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\RegMember\RegMemberResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\UpdateTaikai\UpdateTaikaiResponseModelInterface;
@@ -464,6 +465,13 @@ class CustomerBridge extends BaseBridge
     public function getOrderList(Customer $customer, int $page = 1, int $limit = 10, ?int $denno = null, int $sort = 0): ?V1GetOrderListResponseModelInterface
     {
         $responseObject = $this->helper->getOrderList($customer->getAceCustomerId(), $this->getSyid(), $page, $limit, $denno, $sort);
+
+        return $responseObject;
+    }
+
+    public function getPointHistory(Customer $customer): ?GetPointRirekiResponseModelInterface
+    {
+        $responseObject = $this->helper->getPointHistory($customer->getAceCustomerId(), $this->getSyid());
 
         return $responseObject;
     }

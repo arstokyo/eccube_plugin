@@ -17,6 +17,7 @@ use Eccube\Entity\Customer;
 use Plugin\AceClient43\AceServices\AceMethod\Member\CheckMailAdressMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\GetMemberMcodeMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\GetMemberMethod;
+use Plugin\AceClient43\AceServices\AceMethod\Member\GetPointRirekiMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\GetRirekiDetailMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\GetRirekiMethod;
 use Plugin\AceClient43\AceServices\AceMethod\WebApi\Order\V1GetOrderListMethod;
@@ -25,10 +26,12 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelInter
 use Plugin\AceClient43\AceServices\Model\Request\Member\CheckMailAdress\CheckMailAdressRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetMember as GetMemberRequest;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetMemberMcode as GetMemberMcodeRequest;
+use Plugin\AceClient43\AceServices\Model\Request\Member\GetPointRireki\GetPointRirekiRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\CheckMailAdress\CheckMailAdressResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember as GetMemberResponse;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode as GetMemberMcodeResponse;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetPointRireki\GetPointRirekiResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetRireki as GetRirekiResponse;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetRirekiDetail as GetRirekiDetailResponse;
 use Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrderList\V1GetOrderListResponseModelInterface;
@@ -57,6 +60,8 @@ class CustomerBridgeHelper
 
     protected V1GetOrderListMethod $getOrderListMethod;
 
+    protected GetPointRirekiMethod $getPointRirekiMethod;
+
     protected LoggerInterface $logger;
 
     public function __construct(
@@ -67,6 +72,7 @@ class CustomerBridgeHelper
         GetRirekiMethod $getRirekiMethod,
         GetRirekiDetailMethod $getRirekiDetailMethod,
         V1GetOrderListMethod $getOrderListMethod,
+        GetPointRirekiMethod $getPointRirekiMethod,
         LoggerInterface $logger,
     ) {
         $this->getMemberMethod = $getMemberMethod;
@@ -76,6 +82,7 @@ class CustomerBridgeHelper
         $this->getRirekiMethod = $getRirekiMethod;
         $this->getRirekiDetailMethod = $getRirekiDetailMethod;
         $this->getOrderListMethod = $getOrderListMethod;
+        $this->getPointRirekiMethod = $getPointRirekiMethod;
         $this->logger = $logger;
     }
 
@@ -294,5 +301,32 @@ class CustomerBridgeHelper
         $response = $this->getOrderListMethod->withRequest($request)->send();
 
         return $response->getResponse();
+    }
+
+    /**
+     * 通販Aceシステムに対してポイント履歴を取得する
+     */
+    public function getPointHistory(string $aceCustomerId, string $syid): ?GetPointRirekiResponseModelInterface
+    {
+        /** @var GetPointRirekiRequestModelInterface $requestModel */
+        $requestModel = $this->createRequestModel(GetPointRirekiRequestModelInterface::class);
+
+        $request = $requestModel
+            ->setSyid($syid)
+            ->setJmemid($aceCustomerId);
+
+        try {
+            $response = $this->getPointRirekiMethod
+                ->withRequest($request)
+                ->send();
+
+            if (!$response->isOk()) {
+                return null;
+            }
+
+            return $response->getResponse();
+        } catch (\Throwable $e) {
+            throw new \RuntimeException('ポイント履歴の取得に失敗しました。', 0, $e);
+        }
     }
 }
