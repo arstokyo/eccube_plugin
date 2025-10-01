@@ -14,48 +14,109 @@
 namespace Plugin\AceClient43\Util\Normalizer;
 
 use Plugin\AceClient43\Util\ModelResolver\ModelResolver;
-use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
-use Symfony\Component\PropertyInfo\Type;
+use Symfony\Component\PropertyInfo\PropertyReadInfoExtractorInterface;
+use Symfony\Component\PropertyInfo\PropertyTypeExtractorInterface;
+use Symfony\Component\PropertyInfo\Type as LegacyType;
+use Symfony\Component\TypeInfo\Type;
+use Symfony\Component\TypeInfo\TypeIdentifier;
 
 /**
- * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
+ * モデル型抽出器（ReflectionExtractor 非継承版）
+ * -----------------------------------------------------------------------------
+ * - ReflectionExtractor をサービスとして注入し、将来の final 化に備えます。
+ * - 取得した object 型のクラス名を ModelResolver で実装クラスに解決して置換します。
  */
-class ModelTypeExtractor extends ReflectionExtractor
+class ModelTypeExtractor implements PropertyTypeExtractorInterface
 {
-    public const MAP_TYPES = [
-        'integer' => Type::BUILTIN_TYPE_INT,
-        'boolean' => Type::BUILTIN_TYPE_BOOL,
-        'double' => Type::BUILTIN_TYPE_FLOAT,
-    ];
-
-    public function __construct(ModelResolver $modelResolver)
-    {
-        parent::__construct();
-        $this->modelResolver = $modelResolver;
-    }
-
+    /**
+     * @var ModelResolver
+     */
     private ModelResolver $modelResolver;
 
+    /**
+     * @var PropertyReadInfoExtractorInterface
+     */
+    private PropertyReadInfoExtractorInterface $reflectionExtractor;
+
+    public function __construct(ModelResolver $modelResolver, PropertyReadInfoExtractorInterface $reflectionExtractor)
+    {
+        $this->modelResolver = $modelResolver;
+        $this->reflectionExtractor = $reflectionExtractor;
+    }
+
+    /**
+     * @param class-string $class
+     * @param string $property
+     * @param array $context
+     *
+     * @return LegacyType[]|null
+     */
     public function getTypes(string $class, string $property, array $context = []): ?array
     {
-        $types = parent::getTypes($class, $property, $context);
+        $types = $this->reflectionExtractor->getTypes($class, $property, $context);
 
-        if ($types !== null) {
-            foreach ($types as $key => $type) {
-                if ($type->isCollection() || $type->getBuiltinType() !== Type::BUILTIN_TYPE_OBJECT) {
-                    continue;
-                }
+        if ($types === null) {
+            return null;
+        }
 
-                $typeClass = $type->getClassName();
-                if ($typeClass && (class_exists($typeClass) || interface_exists($typeClass))) {
-                    $modelClass = $this->modelResolver->findResponseModel($typeClass);
-                    if ($modelClass) {
-                        $types[$key] = new Type(Type::BUILTIN_TYPE_OBJECT, false, $modelClass);
-                    }
-                }
+        foreach ($types as $index => $type) {
+            if (!$type instanceof LegacyType) {
+                continue;
+            }
+
+            // コレクション型はスキップ（要素型までの解決は行わない）
+            if ($type->isCollection()) {
+                continue;
+            }
+
+            if ($type->getBuiltinType() !== LegacyType::BUILTIN_TYPE_OBJECT) {
+                continue;
+            }
+
+            $typeClass = $type->getClassName();
+            if (!$typeClass) {
+                continue;
+            }
+
+            if (!class_exists($typeClass) && !interface_exists($typeClass)) {
+                continue;
+            }
+
+            // レスポンス側の実装モデルへ解決
+            $modelClass = $this->modelResolver->findResponseModel($typeClass);
+            if ($modelClass) {
+                $types[$index] = new LegacyType(
+                    LegacyType::BUILTIN_TYPE_OBJECT,
+                    $type->isNullable(),
+                    $modelClass,
+                    false,
+                );
             }
         }
 
         return $types;
+    }
+
+    public function getType(string $class, string $property, array $context = []): ?Type
+    {
+        // まずはデフォルトの TypeInfo ベースで型を取得
+        $defaultType = $this->reflectionExtractor->getType($class, $property, $context);
+
+        if ($defaultType === null) {
+            return null;
+        }
+
+        if (!$defaultType->isIdentifiedBy(TypeIdentifier::OBJECT)) {
+            return $defaultType;
+        }
+
+        $className = $defaultType->getClassName();
+
+        if ($className) {
+            $resolved = $this->modelResolver->findResponseModel($className) ?: $className;
+            $newType = Type::object($resolved);
+        }
+
+        return $newType ?? $defaultType;
     }
 }

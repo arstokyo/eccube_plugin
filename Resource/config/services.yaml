@@ -311,10 +311,14 @@ services:
             - { name: 'serializer.normalizer', priority: 200 }
 
     # ModelTypeExtractor
-    soap_xml_type_extractor:
-        class: Plugin\AceClient43\Util\Normalizer\ModelTypeExtractor
+    # ReflectionExtractor をサービスとして注入（final 化対策）
+    Plugin\AceClient43\Util\Normalizer\ModelTypeExtractor:
         arguments:
             $modelResolver: '@ace_model_resolver'
+            $reflectionExtractor: '@property_info.reflection_extractor'
+        autoconfigure: false
+        autowire: false
+        public: false
 
     # Modern AttributeLoader
     soap_xml_attribute_loader:
@@ -346,7 +350,7 @@ services:
             $classMetadataFactory: '@soap_xml_metadata_factory'
             $nameConverter: '@soap_xml_name_converter'
             $propertyAccessor: null
-            $propertyTypeExtractor: '@soap_xml_type_extractor'
+            $propertyTypeExtractor: '@Plugin\AceClient43\Util\Normalizer\ModelTypeExtractor'
             $classDiscriminatorResolver: null
             $objectClassResolver: null
             $defaultContext: [ ]
@@ -358,7 +362,7 @@ services:
             $soapXmlObjectNormalizer: '@soap_xml_object_normalizer'
             $classMetadataFactory: '@soap_xml_metadata_factory'
             $nameConverter: '@soap_xml_name_converter'
-            $propertyTypeExtractor: '@soap_xml_type_extractor'
+            $propertyTypeExtractor: '@Plugin\AceClient43\Util\Normalizer\ModelTypeExtractor'
             $classDiscriminatorResolver: null
             $objectClassResolver: null
             $defaultContext: [ ]
