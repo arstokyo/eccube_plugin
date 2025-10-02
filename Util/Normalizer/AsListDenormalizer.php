@@ -201,7 +201,7 @@ class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareI
      *
      * @throws DataTypeMissMatchException プロパティ値が有効なクラス名でない場合
      */
-    private function fetchAsListProperty(string $type)
+    private function fetchAsListProperty(string $type): array
     {
         if (isset($this->cacheAsList[$type])) {
             return $this->cacheAsList[$type];
@@ -238,7 +238,7 @@ class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareI
      *
      * @return void
      */
-    private function unsetCachePath($path)
+    private function unsetCachePath(string $path): void
     {
         $key = array_search($path, $this->cachePath, true);
         if ($key !== false) {
@@ -268,7 +268,7 @@ class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareI
      *
      * @return bool このデノーマライザーがデータを処理すべき場合はtrue、そうでない場合はfalse
      */
-    public function supportsDenormalization($data, string $type, ?string $format = null, array $context = [])
+    public function supportsDenormalization($data, string $type, ?string $format = null, array $context = []): bool
     {
         // Check 1: Verify interface implementation and data validity
         if (!\in_array(AsListDenormalizableInterface::class, class_implements($type), true)
@@ -303,7 +303,7 @@ class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareI
      *
      * @throws InvalidArgumentException シリアライザーがDenormalizerInterfaceを実装していない場合
      */
-    public function setSerializer(SerializerInterface $serializer)
+    public function setSerializer(SerializerInterface $serializer): void
     {
         if (!$serializer instanceof DenormalizerInterface) {
             throw new InvalidArgumentException('Expected a serializer that also implements DenormalizerInterface.');
@@ -322,7 +322,7 @@ class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareI
      *
      * @return array<string, bool> サポートされるタイプと優先度フラグのマップ
      */
-    public function getSupportedTypes(?string $format)
+    public function getSupportedTypes(?string $format): array
     {
         return [
             AsListDenormalizableInterface::class => false,
