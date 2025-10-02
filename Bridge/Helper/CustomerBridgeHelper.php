@@ -321,7 +321,7 @@ class CustomerBridgeHelper
                 ->send();
 
             if (!$response->isOk()) {
-                return null;
+                throw new \RuntimeException('通販Ace側の処理でエラーが発生しました');
             }
 
             return $response->getResponse();
