@@ -106,6 +106,10 @@ parameters:
         - 'Customize/AceClient/Model/Response'
         - 'Plugin/AceClient43/AceServices/Model/Response'
 
+    ace.dependency_search_paths:
+        - 'Customize/AceClient/Model/Dependency'
+        - 'Plugin/AceClient43/AceServices/Model/Dependency'
+
     # PRM Serialization Configuration (moved from Config.yaml)
     ace.prm_serialization:
         default_format: 'xml'
@@ -247,10 +251,28 @@ services:
     # - Example: "Member.LoginMember" -> "Plugin\AceClient43\AceServices\Model\Request\Member\LoginMember\LoginMemberRequestModel"
     # - Caches resolved class names for performance
     # - Supports both Request and Response model resolution
+
+    # -----------------------------------------------------------------------------------
+    # モデルリゾルバー用キャッシュプール定義
+    # -----------------------------------------------------------------------------------
+    # cache.ace.model:
+    #   - サービスID（プール名）: cache.ace.model
+    #   - FilesystemAdapter を利用した専用プール
+    #   - namespace に 'aceModelResolver' を設定し、キーの衝突を防止
+    #   - %kernel.cache_dir% 配下に保存され、cache:warmup で事前構築されます
+    cache.ace.model:
+        class: Symfony\Component\Cache\Adapter\FilesystemAdapter
+        arguments:
+            $namespace: 'aceModel'
+            $defaultLifetime: 0
+            $directory: '%kernel.cache_dir%'
+
     Plugin\AceClient43\Util\ModelResolver\ModelResolver:
         arguments:
             $requestSearchPaths: '%ace.request_search_paths%'
             $responseSearchPaths: '%ace.response_search_paths%'
+            $dependencySearchPaths: '%ace.dependency_search_paths%'
+            $cachePool: '@cache.ace.model'
         tags:
             - { name: 'ace.model_resolver' }
 
@@ -289,10 +311,14 @@ services:
             - { name: 'serializer.normalizer', priority: 200 }
 
     # ModelTypeExtractor
-    soap_xml_type_extractor:
-        class: Plugin\AceClient43\Util\Normalizer\ModelTypeExtractor
+    # ReflectionExtractor をサービスとして注入（final 化対策）
+    Plugin\AceClient43\Util\Normalizer\ModelTypeExtractor:
         arguments:
             $modelResolver: '@ace_model_resolver'
+            $reflectionExtractor: '@property_info.reflection_extractor'
+        autoconfigure: false
+        autowire: false
+        public: false
 
     # Modern AttributeLoader
     soap_xml_attribute_loader:
@@ -324,7 +350,7 @@ services:
             $classMetadataFactory: '@soap_xml_metadata_factory'
             $nameConverter: '@soap_xml_name_converter'
             $propertyAccessor: null
-            $propertyTypeExtractor: '@soap_xml_type_extractor'
+            $propertyTypeExtractor: '@Plugin\AceClient43\Util\Normalizer\ModelTypeExtractor'
             $classDiscriminatorResolver: null
             $objectClassResolver: null
             $defaultContext: [ ]
@@ -336,7 +362,7 @@ services:
             $soapXmlObjectNormalizer: '@soap_xml_object_normalizer'
             $classMetadataFactory: '@soap_xml_metadata_factory'
             $nameConverter: '@soap_xml_name_converter'
-            $propertyTypeExtractor: '@soap_xml_type_extractor'
+            $propertyTypeExtractor: '@Plugin\AceClient43\Util\Normalizer\ModelTypeExtractor'
             $classDiscriminatorResolver: null
             $objectClassResolver: null
             $defaultContext: [ ]
@@ -483,6 +509,24 @@ services:
     Plugin\AceClient43\Util\Serializer\SerializerResolver:
         arguments:
             $serializers: !tagged_iterator { tag: 'ace_client.serializer' }
+
+    # -----------------------------------------------------------------------------------
+    # キャッシュウォーマー登録
+    # -----------------------------------------------------------------------------------
+    # 目的:
+    # - キャッシュウォームアップ時にモデル解決結果を cache.ace.model へ事前投入
+    # - 実行時の初回モデル探索コストを削減
+    #
+    # 補足:
+    # - isOptional() = true により、ウォームアップ失敗でもデプロイを阻害しません
+    Plugin\AceClient43\Util\ModelResolver\ModelResolverWarmer:
+        arguments:
+            $resolver: '@Plugin\AceClient43\Util\ModelResolver\ModelResolver'
+            $requestSearchPaths: '%ace.request_search_paths%'
+            $responseSearchPaths: '%ace.response_search_paths%'
+            $dependencySearchPaths: '%ace.dependency_search_paths%'
+        tags:
+            - { name: kernel.cache_warmer }
 
     # Processors - will use ace_client logger
     Plugin\AceClient43\Service\ChargeProcessor:
