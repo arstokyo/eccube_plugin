@@ -31,14 +31,6 @@ class PointModel implements PointModelInterface
     use Point\PointTrait;
     use NoCategory\JmemidTrait;
     use NoCategory\KubunTrait;
-    /** @var int 利用 */
-    public const USE_KBN_USE = 1;
-
-    /** @var int 獲得 */
-    public const USE_KBN_EARN = 10;
-
-    /** @var int 取消 */
-    public const USE_KBN_CANCEL = 11;
 
     /** @var ?int 納品先枝番号 */
     protected ?int $nouno = null;
