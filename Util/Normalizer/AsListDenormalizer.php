@@ -134,8 +134,11 @@ class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareI
             throw new DataTypeMissMatchException('AsListDenormalizer Error: Expected AsListDenormalizableInterface object');
         }
 
-        if (isset($context['deserialization_path'])) {
-            $this->cachePath[] = $context['deserialization_path'];
+        // 現在のデシリアライゼーションパスを取得(存在する場合)
+        $currentPath = $context['deserialization_path'] ?? null;
+
+        if ($currentPath !== null) {
+            $this->cachePath[] = $currentPath;
         }
 
         $asListProperty = $this->fetchAsListProperty($type);
@@ -153,8 +156,8 @@ class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareI
 
                     // Build deserialization path for nested tracking
                     $subContext = $context;
-                    $subContext['deserialization_path'] = isset($context['deserialization_path'])
-                        ? sprintf('%s[%s]', $context['deserialization_path'], $key)
+                    $subContext['deserialization_path'] = $currentPath !== null
+                        ? sprintf('%s[%s]', $currentPath, $key)
                         : "[$key]";
 
                     // Denormalize the nested array into an array of objects
@@ -172,8 +175,8 @@ class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareI
             throw new NotDeserializableException(sprintf('Could not deserialize as list response. %s', $e->getMessage()), $e);
         } finally {
             // Clean up the path cache to allow subsequent processing
-            if (isset($context['deserialization_path'])) {
-                $this->unsetCachePath($context['deserialization_path']);
+            if ($currentPath !== null) {
+                $this->unsetCachePath($currentPath);
             }
         }
 
