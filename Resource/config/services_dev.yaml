@@ -14,6 +14,65 @@ services:
             $stopwatch: '@debug.stopwatch'
         lazy: true
 
+    # ===================================================================================================
+    # Traceable Serializers for Performance Monitoring
+    # ===================================================================================================
+    # These are the actual serializer implementations without tracing
+    ace_original_soap_xml_serializer:
+        class: Plugin\AceClient43\Util\Serializer\SoapXmlSerializer
+        autoconfigure: false
+        arguments:
+            $serializer: '@soap_xml_symfony_serializer'
+            $config:
+                xmlns:
+                    '@xmlns': 'http://ar-system-api.co.jp/'
+                default_serialize_options:
+                    xml_format_output: false
+                    xml_encoding: 'utf-8'
+                    encoder_ignored_node_types: [ 7 ]
+                    skip_null_values: true
+                request_soap_head: |
+                    <?xml version="1.0" encoding="utf-8"?>
+                    <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+                    <soap12:Body>
+                request_soap_end: |
+                    </soap12:Body>
+                    </soap12:Envelope>
+
+    # Traceable wrappers for serializers
+    # These wrap the original serializers to add performance monitoring
+    Plugin\AceClient43\Util\DataCollector\TraceableSerializer:
+        public: false
+        autoconfigure: false
+
+    ace_traceable_default_serializer:
+        class: Plugin\AceClient43\Util\DataCollector\TraceableSerializer
+        autoconfigure: false
+        public: false
+        arguments:
+            $serializer: '@ace_default_serializer_symfony'
+            $stopwatch: '@debug.stopwatch'
+            $serializerName: 'default'
+        tags:
+            - { name: 'ace_client.serializer', priority: 0 }
+
+    ace_traceable_soap_xml_serializer:
+        class: Plugin\AceClient43\Util\DataCollector\TraceableSerializer
+        arguments:
+            $serializer: '@ace_original_soap_xml_serializer'
+            $stopwatch: '@debug.stopwatch'
+            $serializerName: 'soap_xml'
+        tags:
+            - { name: 'ace_client.serializer', priority: 100 }
+
+    # Override production serializer services with traceable versions
+    # This makes the traceable versions available via class name
+    Plugin\AceClient43\Util\Serializer\DefaultSerializer:
+        alias: ace_traceable_default_serializer
+
+    Plugin\AceClient43\Util\Serializer\SoapXmlSerializer:
+        alias: ace_traceable_soap_xml_serializer
+
     # Data dumper utility
     Plugin\AceClient43\Util\DataCollector\DataDumper:
         public: false
@@ -32,7 +91,7 @@ services:
         arguments:
             $serializerResolver: '@ace_serializer_resolver'
             $httpClient: '@ace_client_http_client'
-            $normalizer: '@serializer'
+            $normalizer: '@ace_traceable_default_serializer'
             $aceConfigService: '@ace_config_service'
         calls:
             - setExtractMaxLength: ['%ace.post_soap_client.extract_max_length%']
@@ -42,7 +101,7 @@ services:
         arguments:
             $serializerResolver: '@ace_serializer_resolver'
             $httpClient: '@ace_client_http_client'
-            $normalizer: '@serializer'
+            $normalizer: '@ace_traceable_default_serializer'
             $aceConfigService: '@ace_config_service'
 
     ace_original_get_json_client:
@@ -50,7 +109,7 @@ services:
         arguments:
             $serializerResolver: '@ace_serializer_resolver'
             $httpClient: '@ace_client_http_client'
-            $normalizer: '@serializer'
+            $normalizer: '@ace_traceable_default_serializer'
             $aceConfigService: '@ace_config_service'
 
     # Traceable decorators

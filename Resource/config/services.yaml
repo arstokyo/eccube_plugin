@@ -314,35 +314,35 @@ services:
         autowire: false
         public: false
 
-    # Modern AttributeLoader
-    soap_xml_attribute_loader:
+    # Default AttributeLoader - used by both SOAP XML and default serializers
+    default_attribute_loader:
         class: Symfony\Component\Serializer\Mapping\Loader\AttributeLoader
 
-    # ChainLoader for backward compatibility
-    soap_xml_chain_loader:
+    # Default ChainLoader for backward compatibility
+    default_chain_loader:
         class: Symfony\Component\Serializer\Mapping\Loader\LoaderChain
         arguments:
             $loaders:
-                - '@soap_xml_attribute_loader'
+                - '@default_attribute_loader'
 
-    # Metadata factory for SOAP XML
-    soap_xml_metadata_factory:
+    # Default metadata factory - used by both SOAP XML and default serializers
+    default_metadata_factory:
         class: Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory
         arguments:
-            $loader: '@soap_xml_chain_loader'
+            $loader: '@default_chain_loader'
 
-    # Name converter with metadata support
-    soap_xml_name_converter:
+    # Default name converter with metadata support
+    default_name_converter:
         class: Symfony\Component\Serializer\NameConverter\MetadataAwareNameConverter
         arguments:
-            $metadataFactory: '@soap_xml_metadata_factory'
+            $metadataFactory: '@default_metadata_factory'
 
-    # Object Normalizer with all dependencies
+    # Object Normalizer with all dependencies for SOAP XML
     soap_xml_object_normalizer:
         class: Symfony\Component\Serializer\Normalizer\ObjectNormalizer
         arguments:
-            $classMetadataFactory: '@soap_xml_metadata_factory'
-            $nameConverter: '@soap_xml_name_converter'
+            $classMetadataFactory: '@default_metadata_factory'
+            $nameConverter: '@default_name_converter'
             $propertyAccessor: null
             $propertyTypeExtractor: '@Plugin\AceClient43\Util\Normalizer\ModelTypeExtractor'
             $classDiscriminatorResolver: null
@@ -355,8 +355,8 @@ services:
     Plugin\AceClient43\Util\Normalizer\RemovePreserveSpaceNormalizer:
         arguments:
             $soapXmlObjectNormalizer: '@soap_xml_object_normalizer'
-            $classMetadataFactory: '@soap_xml_metadata_factory'
-            $nameConverter: '@soap_xml_name_converter'
+            $classMetadataFactory: '@default_metadata_factory'
+            $nameConverter: '@default_name_converter'
             $propertyTypeExtractor: '@Plugin\AceClient43\Util\Normalizer\ModelTypeExtractor'
             $classDiscriminatorResolver: null
             $objectClassResolver: null
@@ -379,10 +379,56 @@ services:
                 - '@Plugin\AceClient43\Util\Normalizer\RemovePreserveSpaceNormalizer'
                 - '@ace_prm_normalizer'
                 - '@Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer'
-                - '@serializer.denormalizer.array'
                 - '@soap_xml_object_normalizer'
+                - '@serializer.denormalizer.array'
             $encoders:
                 - '@xml_encoder'
+
+    # ===================================================================================================
+    # Default Serializer Configuration
+    # ===================================================================================================
+    # Custom ObjectNormalizer for default serializer with ModelTypeExtractor
+    # Uses our custom ModelTypeExtractor instead of Symfony's default property type extractor
+    # This ensures proper type resolution for ACE API models
+    default_serializer_object_normalizer:
+        class: Symfony\Component\Serializer\Normalizer\ObjectNormalizer
+        arguments:
+            $classMetadataFactory: '@default_metadata_factory'
+            $nameConverter: '@default_name_converter'
+            $propertyAccessor: null
+            $propertyTypeExtractor: '@Plugin\AceClient43\Util\Normalizer\ModelTypeExtractor'
+            $classDiscriminatorResolver: null
+            $objectClassResolver: null
+            $defaultContext: []
+        public: false
+        autoconfigure: false
+        autowire: false
+
+    # Dedicated Symfony Serializer for DefaultSerializer
+    # Uses only specified normalizers and encoders to prevent unnecessary processing
+    # Uses Symfony's standard service IDs for normalizers and encoders:
+    # - serializer.normalizer.datetime (DateTimeNormalizer)
+    # - serializer.normalizer.datetimezone (DateTimeZoneNormalizer)
+    # - serializer.normalizer.dateinterval (DateIntervalNormalizer)
+    # - serializer.denormalizer.array (ArrayDenormalizer)
+    # - default_serializer_object_normalizer (Custom ObjectNormalizer with ModelTypeExtractor)
+    # - serializer.encoder.json (JsonEncoder)
+    # - serializer.encoder.xml (XmlEncoder)
+    ace_default_serializer_symfony:
+        class: Symfony\Component\Serializer\Serializer
+        autoconfigure: false
+        autowire: false
+        arguments:
+            $normalizers:
+                - '@Plugin\AceClient43\Util\Normalizer\AsListDenormalizer'
+                - '@serializer.normalizer.datetime'
+                - '@serializer.normalizer.datetimezone'
+                - '@serializer.normalizer.dateinterval'
+                - '@serializer.denormalizer.array'
+                - '@default_serializer_object_normalizer'
+            $encoders:
+                - '@serializer.encoder.json'
+                - '@serializer.encoder.xml'
 
     # SERIALIZERS - Handle request/response serialization for different API formats
     # Priority system: Higher priority = preferred serializer for matching API type/format
@@ -396,11 +442,11 @@ services:
         public: false
 
     # DefaultSerializer - Fallback serializer for non-SOAP requests (priority: 0)
-    # Uses standard Symfony serializer component
+    # Uses custom Symfony serializer with only specified normalizers and encoders
     # Handles JSON and other standard formats
     Plugin\AceClient43\Util\Serializer\DefaultSerializer:
         arguments:
-            $symfonySerializer: '@serializer'
+            $symfonySerializer: '@ace_default_serializer_symfony'
         tags:
             - { name: 'ace_client.serializer', priority: 0 }
 
