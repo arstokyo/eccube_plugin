@@ -377,8 +377,8 @@ services:
             $normalizers:
                 - '@ace_as_list_denormalizer'
                 - '@Plugin\AceClient43\Util\Normalizer\RemovePreserveSpaceNormalizer'
-                - '@ace_prm_normalizer'
                 - '@Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer'
+                - '@ace_prm_normalizer'
                 - '@soap_xml_object_normalizer'
                 - '@serializer.denormalizer.array'
             $encoders:
@@ -425,6 +425,7 @@ services:
         arguments:
             $normalizers:
                 - '@Plugin\AceClient43\Util\Normalizer\AsListDenormalizer'
+                - '@Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer'
                 - '@serializer.normalizer.datetime'
                 - '@serializer.normalizer.datetimezone'
                 - '@serializer.normalizer.dateinterval'
