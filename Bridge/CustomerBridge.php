@@ -475,4 +475,21 @@ class CustomerBridge extends BaseBridge
 
         return $responseObject;
     }
+
+    /**
+     * 顧客のパスワードをACE側に更新する
+     *
+     * @param Customer $customer パスワードを更新する顧客エンティティ
+     *
+     * @throws \LogicException
+     */
+    public function updatePasswordInAce(Customer $customer, array $options = []): void
+    {
+        if (null === $customer->getAceCustomerId()) {
+            $this->logger->error('通販Aceのパスワード更新に失敗しました: 顧客IDが設定されていません', ['customer' => $customer]);
+            throw new \LogicException('顧客IDが設定されていません。');
+        }
+
+        $this->helper->updatePasswordInAce($customer, $this->getSyid(), $options);
+    }
 }

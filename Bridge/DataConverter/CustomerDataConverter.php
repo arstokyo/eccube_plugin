@@ -23,6 +23,7 @@ use Plugin\AceClient43\AceServices\Model\Request\Member\GetRireki\GetRirekiReque
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetRirekiDetail as GetRirekiDetailRequest;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetRirekiDetail\GetRirekiDetailRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
+use Plugin\AceClient43\AceServices\Model\Request\Member\UpdatePassword\UpdatePasswordRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\WebApi\Order\V1\GetOrderList\V1GetOrderListRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode;
@@ -283,5 +284,26 @@ class CustomerDataConverter implements CustomerDataConverterInterface
             ->setDenku(V1GetOrderListRequestModelInterface::DENKU_ORDER)
             ->setSort($sort)
         ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function convertCustomerToUpdatePasswordRequest(Customer $customer, string $syid, array $options = []): UpdatePasswordRequestModelInterface
+    {
+        /** @var UpdatePasswordRequestModelInterface $requestModel */
+        $requestModel = $this->createRequestModel(UpdatePasswordRequestModelInterface::class);
+
+        $password = null;
+        if (isset($options['set_plain_password']) && $options['set_plain_password']) {
+            $password = $customer->getPlainPassword();
+        } else {
+            $password = $customer->getPassword();
+        }
+
+        return $requestModel
+            ->setSyid($syid)
+            ->setMbid($customer->getAceCustomerId())
+            ->setPasswd($password);
     }
 }
