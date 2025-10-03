@@ -20,6 +20,7 @@ use Plugin\AceClient43\AceServices\AceMethod\Member\GetMemberMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\GetPointRirekiMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\GetRirekiDetailMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\GetRirekiMethod;
+use Plugin\AceClient43\AceServices\AceMethod\Member\UpdatePasswordMethod;
 use Plugin\AceClient43\AceServices\AceMethod\WebApi\Order\V1GetOrderListMethod;
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelExtend1Interface;
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelInterface;
@@ -62,6 +63,8 @@ class CustomerBridgeHelper
 
     protected GetPointRirekiMethod $getPointRirekiMethod;
 
+    protected UpdatePasswordMethod $updatePasswordMethod;
+
     protected LoggerInterface $logger;
 
     public function __construct(
@@ -73,6 +76,7 @@ class CustomerBridgeHelper
         GetRirekiDetailMethod $getRirekiDetailMethod,
         V1GetOrderListMethod $getOrderListMethod,
         GetPointRirekiMethod $getPointRirekiMethod,
+        UpdatePasswordMethod $updatePasswordMethod,
         LoggerInterface $logger,
     ) {
         $this->getMemberMethod = $getMemberMethod;
@@ -83,6 +87,7 @@ class CustomerBridgeHelper
         $this->getRirekiDetailMethod = $getRirekiDetailMethod;
         $this->getOrderListMethod = $getOrderListMethod;
         $this->getPointRirekiMethod = $getPointRirekiMethod;
+        $this->updatePasswordMethod = $updatePasswordMethod;
         $this->logger = $logger;
     }
 
@@ -327,6 +332,26 @@ class CustomerBridgeHelper
             return $response->getResponse();
         } catch (\Throwable $e) {
             throw new \RuntimeException('ポイント履歴の取得に失敗しました。', 0, $e);
+        }
+    }
+
+    /**
+     * 通販Aceシステムに対して顧客のパスワードを更新する
+     */
+    public function updatePasswordInAce(Customer $customer, string $syid, array $options = []): void
+    {
+        $request = $this->customerDataConverter->convertCustomerToUpdatePasswordRequest($customer, $syid, $options);
+
+        try {
+            $response = $this->updatePasswordMethod
+                ->withRequest($request)
+                ->send();
+
+            if (!$response->isOk()) {
+                throw new \RuntimeException('通販Ace側のパスワード更新でエラーが発生しました');
+            }
+        } catch (\Throwable $e) {
+            throw new \RuntimeException('パスワードの更新に失敗しました。', 0, $e);
         }
     }
 }

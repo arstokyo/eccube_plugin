@@ -5,6 +5,7 @@ namespace Plugin\AceClient43\Bridge\DataConverter;
 use Eccube\Entity\Customer;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetMemberMcode\GetMemberMcodeRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
+use Plugin\AceClient43\AceServices\Model\Request\Member\UpdatePassword\UpdatePasswordRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode\LoginMemberModelInterface;
@@ -43,6 +44,17 @@ interface CustomerDataConverterInterface
      * @return GetMemberMcodeRequestModelInterface
      */
     public function convertCustomerToGetMemberMcodeRequest(string $aceCustomerId, string $syid, array $options = [], ?Customer $customer = null): GetMemberMcodeRequestModelInterface;
+
+    /**
+     * Convert EC-CUBE Customer to ACE UpdatePassword request
+     *
+     * @param Customer $customer
+     * @param string $syid
+     * @param array $options
+     *
+     * @return UpdatePasswordRequestModelInterface
+     */
+    public function convertCustomerToUpdatePasswordRequest(Customer $customer, string $syid, array $options = []): UpdatePasswordRequestModelInterface;
 
     /**
      * Convert ACE GetMember response to EC-CUBE Customer
