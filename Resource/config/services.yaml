@@ -278,26 +278,20 @@ services:
 
     Plugin\AceClient43\Service\AceConfigService:
 
-    # Normalizers for SOAP XML Serializer
-    ace_datetime_normalizer:
-        alias: Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer
-        public: false
-
     ace_prm_normalizer:
         alias: Plugin\AceClient43\Util\Normalizer\PrmNormalizer
         public: false
 
     Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer:
+        autoconfigure: false
+        autowire: false
+        public: false
 
     Plugin\AceClient43\Util\Normalizer\PrmNormalizer:
         arguments:
             $prmConfig: '%ace.prm_serialization%'
         calls:
             - setSerializerResolver: ['@ace_serializer_resolver']
-
-    # Array Denormalizer
-    soap_xml_array_denormalizer:
-        class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
 
     # AsListDenormalizer with ModelResolver dependency
     ace_as_list_denormalizer:
@@ -355,9 +349,10 @@ services:
             $objectClassResolver: null
             $defaultContext: [ ]
         public: false
+        autoconfigure: false
+        autowire: false
 
-    remove_preserve_space_normalizer:
-        class: Plugin\AceClient43\Util\Normalizer\RemovePreserveSpaceNormalizer
+    Plugin\AceClient43\Util\Normalizer\RemovePreserveSpaceNormalizer:
         arguments:
             $soapXmlObjectNormalizer: '@soap_xml_object_normalizer'
             $classMetadataFactory: '@soap_xml_metadata_factory'
@@ -366,13 +361,8 @@ services:
             $classDiscriminatorResolver: null
             $objectClassResolver: null
             $defaultContext: [ ]
-        tags:
-            - { name: 'serializer.normalizer', priority: 100 }
-        public: false
-
-    Plugin\AceClient43\Util\Normalizer\RemovePreserveSpaceNormalizer:
-        alias: remove_preserve_space_normalizer
-        public: false
+        autoconfigure: false
+        autowire: false
 
     # XML Encoder
     xml_encoder:
@@ -381,13 +371,15 @@ services:
     # Dedicated Symfony Serializer for SOAP XML
     soap_xml_symfony_serializer:
         class: Symfony\Component\Serializer\Serializer
+        autoconfigure: false
+        autowire: false
         arguments:
             $normalizers:
-                - '@remove_preserve_space_normalizer'
-                - '@ace_datetime_normalizer'
-                - '@ace_prm_normalizer'
-                - '@soap_xml_array_denormalizer'
                 - '@ace_as_list_denormalizer'
+                - '@Plugin\AceClient43\Util\Normalizer\RemovePreserveSpaceNormalizer'
+                - '@ace_prm_normalizer'
+                - '@Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer'
+                - '@serializer.denormalizer.array'
                 - '@soap_xml_object_normalizer'
             $encoders:
                 - '@xml_encoder'

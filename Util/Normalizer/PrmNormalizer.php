@@ -89,11 +89,10 @@ class PrmNormalizer implements NormalizerInterface
             // Direct serialization without passing serializer to the model
             $result = $serializer->serialize($object, $serializeFormat, $options);
         } catch (\Throwable $e) {
-            $this->unsetCacheObj($object::class);
             throw new NotSerializableException(sprintf('Could not normalize object "%s". %s', $object::class, $e->getMessage()), $e);
+        } finally {
+            $this->unsetCacheObj($object::class);
         }
-
-        $this->unsetCacheObj($object::class);
 
         return $result;
     }
