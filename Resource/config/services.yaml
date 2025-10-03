@@ -384,6 +384,10 @@ services:
             $encoders:
                 - '@xml_encoder'
 
+    Plugin\AceClient43\Util\DataCollector\TraceableSerializer:
+        public: false
+        autoconfigure: false
+
     # ===================================================================================================
     # Default Serializer Configuration
     # ===================================================================================================
