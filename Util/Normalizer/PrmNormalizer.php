@@ -16,18 +16,19 @@ namespace Plugin\AceClient43\Util\Normalizer;
 use Plugin\AceClient43\AceServices\Model\Request\Prm\PrmModelInterface;
 use Plugin\AceClient43\Exception\DataTypeMissMatchException;
 use Plugin\AceClient43\Exception\NotSerializableException;
-use Plugin\AceClient43\Util\Serializer\SerializerResolver;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerAwareInterface;
+use Symfony\Component\Serializer\SerializerAwareTrait;
 
 /**
  * Ace Prm Normalizer with injected config and serializer resolver
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class PrmNormalizer implements NormalizerInterface
+class PrmNormalizer implements NormalizerInterface, SerializerAwareInterface
 {
-    private SerializerResolver $serializerResolver;
+    use SerializerAwareTrait;
 
     private array $prmConfig;
 
@@ -42,16 +43,6 @@ class PrmNormalizer implements NormalizerInterface
         array $prmConfig,
     ) {
         $this->prmConfig = $prmConfig;
-    }
-
-    /**
-     * @param SerializerResolver $serializerResolver
-     *
-     * @return void
-     */
-    public function setSerializerResolver(SerializerResolver $serializerResolver): void
-    {
-        $this->serializerResolver = $serializerResolver;
     }
 
     /**
@@ -80,14 +71,8 @@ class PrmNormalizer implements NormalizerInterface
             // Ignore the parsed context options
             $options = array_merge($configOptions, $modelOptions);
 
-            $serializer = $this->serializerResolver->resolveForSerialization($apiType, $serializeFormat);
-
-            if (!$serializer) {
-                throw new NotSerializableException(sprintf('Could not resolve serializer for format "%s"', $serializeFormat));
-            }
-
             // Direct serialization without passing serializer to the model
-            $result = $serializer->serialize($object, $serializeFormat, $options);
+            $result = $this->serializer->serialize($object, $serializeFormat, $options);
         } catch (\Throwable $e) {
             throw new NotSerializableException(sprintf('Could not normalize object "%s". %s', $object::class, $e->getMessage()), $e);
         } finally {

@@ -58,6 +58,7 @@ services:
 
     ace_traceable_soap_xml_serializer:
         class: Plugin\AceClient43\Util\DataCollector\TraceableSerializer
+        autoconfigure: false
         arguments:
             $serializer: '@ace_original_soap_xml_serializer'
             $stopwatch: '@debug.stopwatch'

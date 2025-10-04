@@ -278,31 +278,15 @@ services:
 
     Plugin\AceClient43\Service\AceConfigService:
 
-    ace_prm_normalizer:
-        alias: Plugin\AceClient43\Util\Normalizer\PrmNormalizer
-        public: false
-
     Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer:
         autoconfigure: false
         autowire: false
         public: false
 
     Plugin\AceClient43\Util\Normalizer\PrmNormalizer:
+        autoconfigure: false
         arguments:
             $prmConfig: '%ace.prm_serialization%'
-        calls:
-            - setSerializerResolver: ['@ace_serializer_resolver']
-
-    # AsListDenormalizer with ModelResolver dependency
-    ace_as_list_denormalizer:
-        alias: Plugin\AceClient43\Util\Normalizer\AsListDenormalizer
-        public: false
-
-    Plugin\AceClient43\Util\Normalizer\AsListDenormalizer:
-        arguments:
-            $modelResolver: '@ace_model_resolver'
-        tags:
-            - { name: 'serializer.normalizer', priority: 200 }
 
     # ModelTypeExtractor
     # ReflectionExtractor をサービスとして注入（final 化対策）
@@ -364,25 +348,164 @@ services:
         autoconfigure: false
         autowire: false
 
-    # XML Encoder
-    xml_encoder:
+    # ===================================================================================================
+    # 専用Encoderインスタンス
+    # ===================================================================================================
+    # JsonEncoderとXmlEncoderは現在SerializerAwareInterfaceを実装していないが、
+    # 各シリアライザーに専用のインスタンスを持たせることで完全な独立性を保証する。
+    # これにより、将来的な変更にも対応でき、設定の明確性も向上する。
+
+    # Default serializer用のJsonEncoder
+    default_serializer_json_encoder:
+        class: Symfony\Component\Serializer\Encoder\JsonEncoder
+        autoconfigure: false
+        autowire: false
+        public: false
+
+    # Default serializer用のXmlEncoder
+    default_serializer_xml_encoder:
         class: Symfony\Component\Serializer\Encoder\XmlEncoder
+        autoconfigure: false
+        autowire: false
+        public: false
+
+    # SOAP XML serializer用のXmlEncoder
+    soap_xml_encoder:
+        class: Symfony\Component\Serializer\Encoder\XmlEncoder
+        autoconfigure: false
+        autowire: false
+        public: false
+
+    # ===================================================================================================
+    # 専用Denormalizerインスタンス
+    # ===================================================================================================
+    # AsListDenormalizerとArrayDenormalizerはDenormalizerAwareInterfaceを実装しているため、
+    # Symfonyのautoconfigureにより自動的に@serializerが注入されてしまう。
+    # これを防ぐため、autoconfigureをfalseにして各シリアライザー専用のインスタンスを作成する。
+    # Serializer::__construct()内でsetDenormalizer()が呼ばれるため、
+    # 各シリアライザーは自動的に正しいdenormalizerを受け取る。
+
+    Plugin\AceClient43\Util\Normalizer\AsListDenormalizer:
+        autoconfigure: false
+        autowire: false
+        public: false
+        arguments:
+            $modelResolver: '@ace_model_resolver'
+
+    # Default serializer用のAsListDenormalizer
+    default_serializer_as_list_denormalizer:
+        class: Plugin\AceClient43\Util\Normalizer\AsListDenormalizer
+        autoconfigure: false
+        autowire: false
+        public: false
+        arguments:
+            $modelResolver: '@ace_model_resolver'
+
+    # Default serializer用のArrayDenormalizer
+    default_serializer_array_denormalizer:
+        class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
+        autoconfigure: false
+        autowire: false
+        public: false
+
+    # SOAP XML serializer用のAsListDenormalizer
+    soap_xml_as_list_denormalizer:
+        class: Plugin\AceClient43\Util\Normalizer\AsListDenormalizer
+        autoconfigure: false
+        autowire: false
+        public: false
+        arguments:
+            $modelResolver: '@ace_model_resolver'
+
+    # SOAP XML serializer用のArrayDenormalizer
+    soap_xml_array_denormalizer:
+        class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
+        autoconfigure: false
+        autowire: false
+        public: false
+
+    # Dedicated Symfony Serializer for DefaultSerializer
+    # Uses only specified normalizers and encoders to prevent unnecessary processing
+    #
+    # 重要: 完全に独立した専用インスタンスのみを使用
+    # - Normalizers: 専用のAsListDenormalizer、ArrayDenormalizerを使用
+    # - Encoders: 専用のJsonEncoder、XmlEncoderを使用
+    #
+    # DenormalizerAwareInterfaceを実装するnormalizerは、autoconfigureをfalseにすることで
+    # Symfonyの@serializerではなく、このシリアライザー自身が注入される。
+    # Encodersも専用インスタンスを使用することで、完全な独立性と設定の明確性を保証。
+    #
+    # Normalizers:
+    # - default_serializer_as_list_denormalizer (Dedicated AsListDenormalizer)
+    # - Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer (Custom DateTimeNormalizer)
+    # - serializer.normalizer.datetime (Symfony DateTimeNormalizer)
+    # - serializer.normalizer.datetimezone (Symfony DateTimeZoneNormalizer)
+    # - serializer.normalizer.dateinterval (Symfony DateIntervalNormalizer)
+    # - default_serializer_array_denormalizer (Dedicated ArrayDenormalizer)
+    # - default_serializer_object_normalizer (Custom ObjectNormalizer with ModelTypeExtractor)
+    #
+    # Encoders:
+
+    # - default_serializer_json_encoder (Dedicated JsonEncoder)
+    # - default_serializer_xml_encoder (Dedicated XmlEncoder)
+    ace_default_serializer_symfony:
+        class: Symfony\Component\Serializer\Serializer
+        autoconfigure: false
+        autowire: false
+        arguments:
+            $normalizers:
+                - '@default_serializer_as_list_denormalizer'
+                - '@Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer'
+                - '@serializer.normalizer.datetime'
+                - '@serializer.normalizer.datetimezone'
+                - '@serializer.normalizer.dateinterval'
+                - '@default_serializer_array_denormalizer'
+                - '@default_serializer_object_normalizer'
+            $encoders:
+                - '@default_serializer_json_encoder'
+                - '@default_serializer_xml_encoder'
+
+    # SERIALIZERS - Handle request/response serialization for different API formats
+    # Priority system: Higher priority = preferred serializer for matching API type/format
+    # SerializerResolver selects based on supports() method and priority
+    ace_default_serializer:
+        alias: Plugin\AceClient43\Util\Serializer\DefaultSerializer
+        public: false
 
     # Dedicated Symfony Serializer for SOAP XML
+    #
+    # 重要: 完全に独立した専用インスタンスのみを使用
+    # - Normalizers: 専用のAsListDenormalizer、ArrayDenormalizerを使用
+    # - Encoder: 専用のXmlEncoderを使用
+    #
+    # DenormalizerAwareInterfaceを実装するnormalizerは、autoconfigureをfalseにすることで
+    # Symfonyの@serializerではなく、このシリアライザー自身が注入される。
+    # Encoderも専用インスタンスを使用することで、完全な独立性と設定の明確性を保証。
+    #
+    # Normalizers:
+    # - soap_xml_as_list_denormalizer (Dedicated AsListDenormalizer)
+    # - Plugin\AceClient43\Util\Normalizer\RemovePreserveSpaceNormalizer (Custom XML Normalizer)
+    # - Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer (Custom DateTimeNormalizer)
+    # - Plugin\AceClient43\Util\Normalizer\PrmNormalizer (Custom PRM Normalizer)
+    # - soap_xml_object_normalizer (Custom ObjectNormalizer)
+    # - soap_xml_array_denormalizer (Dedicated ArrayDenormalizer)
+    #
+    # Encoders:
+    # - soap_xml_encoder (Dedicated XmlEncoder)
     soap_xml_symfony_serializer:
         class: Symfony\Component\Serializer\Serializer
         autoconfigure: false
         autowire: false
         arguments:
             $normalizers:
-                - '@ace_as_list_denormalizer'
+                - '@soap_xml_as_list_denormalizer'
                 - '@Plugin\AceClient43\Util\Normalizer\RemovePreserveSpaceNormalizer'
                 - '@Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer'
-                - '@ace_prm_normalizer'
+                - '@Plugin\AceClient43\Util\Normalizer\PrmNormalizer'
                 - '@soap_xml_object_normalizer'
-                - '@serializer.denormalizer.array'
+                - '@soap_xml_array_denormalizer'
             $encoders:
-                - '@xml_encoder'
+                - '@soap_xml_encoder'
 
     Plugin\AceClient43\Util\DataCollector\TraceableSerializer:
         public: false
@@ -407,40 +530,6 @@ services:
         public: false
         autoconfigure: false
         autowire: false
-
-    # Dedicated Symfony Serializer for DefaultSerializer
-    # Uses only specified normalizers and encoders to prevent unnecessary processing
-    # Uses Symfony's standard service IDs for normalizers and encoders:
-    # - serializer.normalizer.datetime (DateTimeNormalizer)
-    # - serializer.normalizer.datetimezone (DateTimeZoneNormalizer)
-    # - serializer.normalizer.dateinterval (DateIntervalNormalizer)
-    # - serializer.denormalizer.array (ArrayDenormalizer)
-    # - default_serializer_object_normalizer (Custom ObjectNormalizer with ModelTypeExtractor)
-    # - serializer.encoder.json (JsonEncoder)
-    # - serializer.encoder.xml (XmlEncoder)
-    ace_default_serializer_symfony:
-        class: Symfony\Component\Serializer\Serializer
-        autoconfigure: false
-        autowire: false
-        arguments:
-            $normalizers:
-                - '@Plugin\AceClient43\Util\Normalizer\AsListDenormalizer'
-                - '@Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer'
-                - '@serializer.normalizer.datetime'
-                - '@serializer.normalizer.datetimezone'
-                - '@serializer.normalizer.dateinterval'
-                - '@serializer.denormalizer.array'
-                - '@default_serializer_object_normalizer'
-            $encoders:
-                - '@serializer.encoder.json'
-                - '@serializer.encoder.xml'
-
-    # SERIALIZERS - Handle request/response serialization for different API formats
-    # Priority system: Higher priority = preferred serializer for matching API type/format
-    # SerializerResolver selects based on supports() method and priority
-    ace_default_serializer:
-        alias: Plugin\AceClient43\Util\Serializer\DefaultSerializer
-        public: false
 
     ace_soap_xml_serializer:
         alias: Plugin\AceClient43\Util\Serializer\SoapXmlSerializer

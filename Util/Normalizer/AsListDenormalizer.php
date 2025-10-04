@@ -17,12 +17,9 @@ use Plugin\AceClient43\AceServices\Model\Response\AsListDenormalizableInterface;
 use Plugin\AceClient43\Exception\DataTypeMissMatchException;
 use Plugin\AceClient43\Exception\NotDeserializableException;
 use Plugin\AceClient43\Util\ModelResolver\ModelResolver;
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-use Symfony\Component\Serializer\SerializerAwareInterface;
-use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * 外部APIサービスからのAsListレスポンス構造を処理するカスタムデノーマライザー
@@ -52,7 +49,7 @@ use Symfony\Component\Serializer\SerializerInterface;
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareInterface, DenormalizerInterface
+class AsListDenormalizer implements DenormalizerInterface, DenormalizerAwareInterface
 {
     use DenormalizerAwareTrait;
 
@@ -289,27 +286,6 @@ class AsListDenormalizer implements DenormalizerAwareInterface, SerializerAwareI
 
         // Allow processing if no path information is present
         return true;
-    }
-
-    /**
-     * このデノーマライザーのシリアライザーを設定します
-     *
-     * シリアライザーは、デノーマライゼーション操作の委譲を可能にするため、
-     * DenormalizerInterfaceも実装する必要があります。
-     *
-     * @param SerializerInterface $serializer 使用するシリアライザーインスタンス
-     *
-     * @return void
-     *
-     * @throws InvalidArgumentException シリアライザーがDenormalizerInterfaceを実装していない場合
-     */
-    public function setSerializer(SerializerInterface $serializer): void
-    {
-        if (!$serializer instanceof DenormalizerInterface) {
-            throw new InvalidArgumentException('Expected a serializer that also implements DenormalizerInterface.');
-        }
-
-        $this->setDenormalizer($serializer);
     }
 
     /**
