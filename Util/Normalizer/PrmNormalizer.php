@@ -138,7 +138,7 @@ class PrmNormalizer implements NormalizerInterface, SerializerAwareInterface
      *
      * @return false[]
      */
-    public function getSupportedTypes(?string $format)
+    public function getSupportedTypes(?string $format): array
     {
         return [
             PrmModelInterface::class => false,
