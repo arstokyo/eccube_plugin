@@ -25,6 +25,7 @@ services:
     # These are the actual serializer implementations without tracing
     ace_original_soap_xml_serializer:
         class: Plugin\AceClient43\Util\Serializer\SoapXmlSerializer
+        lazy: true
         autoconfigure: false
         arguments:
             $serializer: '@soap_xml_symfony_serializer'
@@ -54,6 +55,7 @@ services:
         class: Plugin\AceClient43\Util\DataCollector\TraceableSerializer
         autoconfigure: false
         public: false
+        lazy: true
         arguments:
             $serializer: '@ace_default_serializer_symfony'
             $stopwatch: '@debug.stopwatch'

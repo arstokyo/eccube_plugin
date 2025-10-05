@@ -277,6 +277,7 @@ services:
             - { name: 'ace.model_resolver' }
 
     Plugin\AceClient43\Service\AceConfigService:
+        lazy: true
 
     Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer:
         autoconfigure: false
@@ -498,6 +499,7 @@ services:
         class: Symfony\Component\Serializer\Serializer
         autoconfigure: false
         autowire: false
+        lazy: true
         arguments:
             $normalizers:
                 - '@soap_xml_as_list_denormalizer'
@@ -551,6 +553,7 @@ services:
     # Handles ACE-specific XML structure and diffgr namespaces
     # Extracts response data from SOAP envelope for deserialization
     Plugin\AceClient43\Util\Serializer\SoapXmlSerializer:
+        lazy: true
         arguments:
             $serializer: '@soap_xml_symfony_serializer'
             $config:
@@ -641,6 +644,7 @@ services:
     # - APIタイプとフォーマットの組み合わせで判定
     # - パフォーマンス向上のために選択結果をキャッシュ
     Plugin\AceClient43\Util\Serializer\SerializerResolver:
+        lazy: true
         arguments:
             $serializers: !tagged_iterator { tag: 'ace_client.serializer' }
 
