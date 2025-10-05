@@ -269,10 +269,10 @@ services:
 
     Plugin\AceClient43\Util\ModelResolver\ModelResolver:
         arguments:
+            $cachePool: '@cache.ace.model'
             $requestSearchPaths: '%ace.request_search_paths%'
             $responseSearchPaths: '%ace.response_search_paths%'
             $dependencySearchPaths: '%ace.dependency_search_paths%'
-            $cachePool: '@cache.ace.model'
         tags:
             - { name: 'ace.model_resolver' }
 
@@ -297,6 +297,12 @@ services:
         autoconfigure: false
         autowire: false
         public: false
+
+    Plugin\AceClient43\Util\Normalizer\ModelTypeTraceableExtractor:
+        autoconfigure: false
+
+    Plugin\AceClient43\Util\Normalizer\ModelTypeExtractorInterface:
+        alias: Plugin\AceClient43\Util\Normalizer\ModelTypeExtractor
 
     # Default AttributeLoader - used by both SOAP XML and default serializers
     default_attribute_loader:
@@ -328,7 +334,7 @@ services:
             $classMetadataFactory: '@default_metadata_factory'
             $nameConverter: '@default_name_converter'
             $propertyAccessor: null
-            $propertyTypeExtractor: '@Plugin\AceClient43\Util\Normalizer\ModelTypeExtractor'
+            $propertyTypeExtractor: '@Plugin\AceClient43\Util\Normalizer\ModelTypeExtractorInterface'
             $classDiscriminatorResolver: null
             $objectClassResolver: null
             $defaultContext: [ ]
@@ -341,7 +347,7 @@ services:
             $soapXmlObjectNormalizer: '@soap_xml_object_normalizer'
             $classMetadataFactory: '@default_metadata_factory'
             $nameConverter: '@default_name_converter'
-            $propertyTypeExtractor: '@Plugin\AceClient43\Util\Normalizer\ModelTypeExtractor'
+            $propertyTypeExtractor: '@Plugin\AceClient43\Util\Normalizer\ModelTypeExtractorInterface'
             $classDiscriminatorResolver: null
             $objectClassResolver: null
             $defaultContext: [ ]
@@ -456,14 +462,10 @@ services:
             $normalizers:
                 - '@default_serializer_as_list_denormalizer'
                 - '@Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer'
-                - '@serializer.normalizer.datetime'
-                - '@serializer.normalizer.datetimezone'
-                - '@serializer.normalizer.dateinterval'
                 - '@default_serializer_array_denormalizer'
                 - '@default_serializer_object_normalizer'
             $encoders:
                 - '@default_serializer_json_encoder'
-                - '@default_serializer_xml_encoder'
 
     # SERIALIZERS - Handle request/response serialization for different API formats
     # Priority system: Higher priority = preferred serializer for matching API type/format
@@ -502,8 +504,8 @@ services:
                 - '@Plugin\AceClient43\Util\Normalizer\RemovePreserveSpaceNormalizer'
                 - '@Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer'
                 - '@Plugin\AceClient43\Util\Normalizer\PrmNormalizer'
-                - '@soap_xml_object_normalizer'
                 - '@soap_xml_array_denormalizer'
+                - '@soap_xml_object_normalizer'
             $encoders:
                 - '@soap_xml_encoder'
 
@@ -523,7 +525,7 @@ services:
             $classMetadataFactory: '@default_metadata_factory'
             $nameConverter: '@default_name_converter'
             $propertyAccessor: null
-            $propertyTypeExtractor: '@Plugin\AceClient43\Util\Normalizer\ModelTypeExtractor'
+            $propertyTypeExtractor: '@Plugin\AceClient43\Util\Normalizer\ModelTypeExtractorInterface'
             $classDiscriminatorResolver: null
             $objectClassResolver: null
             $defaultContext: []
