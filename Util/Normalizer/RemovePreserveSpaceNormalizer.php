@@ -46,6 +46,12 @@ class RemovePreserveSpaceNormalizer extends AbstractObjectNormalizer
      */
     public const PRESERVE_SPACE_KEY = '@xml:space';
 
+    public const REMOVE_XML_KEYS = [
+        AsListDenormalizer::DIFF_GR_ID,
+        '@msdata:rowOrder',
+        '@diffgr:hasChanges',
+    ];
+
     /**
      * 内部委譲先のグローバル ObjectNormalizer
      *
@@ -151,6 +157,11 @@ class RemovePreserveSpaceNormalizer extends AbstractObjectNormalizer
         }
 
         foreach ($data as $key => $value) {
+            if (\in_array($key, self::REMOVE_XML_KEYS, true) || $value === '') {
+                unset($data[$key]);
+                continue;
+            }
+
             if (!is_array($value) || \count($value) !== 2 || !isset($value[self::PRESERVE_SPACE_KEY])) {
                 continue;
             }
@@ -200,6 +211,6 @@ class RemovePreserveSpaceNormalizer extends AbstractObjectNormalizer
 
     public function getSupportedTypes(?string $format): array
     {
-        return ['object' => $format === 'xml'];
+        return ['object' => true];
     }
 }
