@@ -201,6 +201,17 @@ services:
         calls:
             - setShoppingPurchaseFlow: ['@eccube.purchase.flow.shopping']
 
+    Plugin\AceClient43\Bridge\ProductBridge:
+        lazy: true
+        parent: Plugin\AceClient43\Bridge\BaseBridge
+        arguments:
+            $container: !service_locator
+                ace_client.methods.get_goods: '@Plugin\AceClient43\AceServices\AceMethod\Goods\GetGoodsMethod'
+                ace_client.methods.get_zaiko: '@Plugin\AceClient43\AceServices\AceMethod\Goods\GetZaikoMethod'
+                ace_client.methods.v1_get_stock_by_update: '@Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GetStockByUpdateMethod'
+                ace_client.methods.v1_get_goods_items: '@Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GoodsItemsMethod'
+                ace_client.methods.v1_get_goods_items_tanka: '@Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GoodsItemsTankaMethod'
+
     # ACE Services - Version Independent Aliases (will use ace_client logger)
     ace_config_service:
         alias: Plugin\AceClient43\Service\AceConfigService

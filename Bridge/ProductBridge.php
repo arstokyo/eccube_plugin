@@ -34,32 +34,93 @@ use Plugin\AceClient43\AceServices\Model\Response\WebApi\Goods\V1\GoodsItemsTank
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\PreGetItemsEvent;
 use Plugin\AceClient43\Events\PreGetItemsTankaEvent;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class ProductBridge extends BaseBridge
 {
-    protected GetGoodsMethod $getGoodsMethod;
+    private ?GetGoodsMethod $getGoodsMethod = null;
 
-    protected GetZaikoMethod $getZaikoMethod;
+    private ?GetZaikoMethod $getZaikoMethod = null;
 
-    protected V1GetStockByUpdateMethod $v1GetStockByUpdateMethod;
+    private ?V1GetStockByUpdateMethod $v1GetStockByUpdateMethod = null;
 
-    /** @var V1GoodsItemsMethod|null WebAPI goods v1 一覧メソッド（任意） */
-    protected V1GoodsItemsMethod $v1GetGoodsListMethod;
+    private ?V1GoodsItemsMethod $v1GetGoodsListMethod = null;
 
-    protected V1GoodsItemsTankaMethod $v1GoodsItemsTankaMethod;
+    private ?V1GoodsItemsTankaMethod $v1GoodsItemsTankaMethod = null;
+
+    private ContainerInterface $container;
 
     public function __construct(
-        GetGoodsMethod $getGoodsMethod,
-        GetZaikoMethod $getZaikoMethod,
-        V1GetStockByUpdateMethod $v1GetStockByUpdateMethod,
-        V1GoodsItemsMethod $v1GetGoodsListMethod,
-        V1GoodsItemsTankaMethod $v1GoodsItemsTankaMethod,
+        ContainerInterface $container,
     ) {
-        $this->getGoodsMethod = $getGoodsMethod;
-        $this->getZaikoMethod = $getZaikoMethod;
-        $this->v1GetStockByUpdateMethod = $v1GetStockByUpdateMethod;
-        $this->v1GetGoodsListMethod = $v1GetGoodsListMethod;
-        $this->v1GoodsItemsTankaMethod = $v1GoodsItemsTankaMethod;
+        $this->container = $container;
+    }
+
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    protected function getGetGoodsMethod(): GetGoodsMethod
+    {
+        if (!$this->getGoodsMethod) {
+            $this->getGoodsMethod = $this->container->get('ace_client.methods.get_goods');
+        }
+
+        return $this->getGoodsMethod;
+    }
+
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    protected function getGetZaikoMethod(): GetZaikoMethod
+    {
+        if (!$this->getZaikoMethod) {
+            $this->getZaikoMethod = $this->container->get('ace_client.methods.get_zaiko');
+        }
+
+        return $this->getZaikoMethod;
+    }
+
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    protected function getV1GetStockByUpdateMethod(): V1GetStockByUpdateMethod
+    {
+        if (!$this->v1GetStockByUpdateMethod) {
+            $this->v1GetStockByUpdateMethod = $this->container->get('ace_client.methods.v1_get_stock_by_update');
+        }
+
+        return $this->v1GetStockByUpdateMethod;
+    }
+
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    protected function getV1GetGoodsItemsMethod(): V1GoodsItemsMethod
+    {
+        if (!$this->v1GetGoodsListMethod) {
+            $this->v1GetGoodsListMethod = $this->container->get('ace_client.methods.v1_get_goods_items');
+        }
+
+        return $this->v1GetGoodsListMethod;
+    }
+
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    protected function getV1GoodsItemsTankaMethod(): V1GoodsItemsTankaMethod
+    {
+        if (!$this->v1GoodsItemsTankaMethod) {
+            $this->v1GoodsItemsTankaMethod = $this->container->get('ace_client.methods.v1_get_goods_items_tanka');
+        }
+
+        return $this->v1GoodsItemsTankaMethod;
     }
 
     /**
@@ -133,7 +194,7 @@ class ProductBridge extends BaseBridge
                                 ->setExecDateTo($updatedAtTo);
 
         try {
-            $response = $this->getGoodsMethod
+            $response = $this->getGetGoodsMethod()
                              ->withRequest($request)
                              ->send();
             if (!$response->isOk()) {
@@ -175,7 +236,7 @@ class ProductBridge extends BaseBridge
             ->setSouko($warehouseId);
 
         try {
-            $response = $this->getZaikoMethod
+            $response = $this->getGetZaikoMethod()
                 ->withRequest($request)
                 ->send();
 
@@ -228,7 +289,7 @@ class ProductBridge extends BaseBridge
             ->setLimit($limit);
 
         try {
-            $response = $this->v1GetStockByUpdateMethod
+            $response = $this->getV1GetStockByUpdateMethod()
                 ->withRequest($request)
                 ->send();
 
@@ -269,7 +330,7 @@ class ProductBridge extends BaseBridge
             ->setPage($page)
             ->setLimit($limit);
 
-        $response = $this->v1GetStockByUpdateMethod
+        $response = $this->getV1GetStockByUpdateMethod()
             ->withRequest($request)
             ->send();
 
@@ -315,7 +376,7 @@ class ProductBridge extends BaseBridge
         }
 
         try {
-            $response = $this->v1GetGoodsListMethod
+            $response = $this->getV1GetGoodsItemsMethod()
                 ->withRequest($request)
                 ->send();
 
@@ -359,7 +420,7 @@ class ProductBridge extends BaseBridge
         }
 
         try {
-            $response = $this->v1GoodsItemsTankaMethod
+            $response = $this->getV1GoodsItemsTankaMethod()
                 ->withRequest($request)
                 ->send();
 
