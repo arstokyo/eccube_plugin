@@ -25,4 +25,8 @@ interface V1GoodsItemsRequestModelInterface extends RequestModelInterface
 
     /** @param array<int, int>|null $freeKubuns */
     public function setFreeKubuns(?array $freeKubuns): self;
+
+    public function getTankaKubuns(): ?string;
+
+    public function setTankaKubuns(?array $tankaKubuns): self;
 }

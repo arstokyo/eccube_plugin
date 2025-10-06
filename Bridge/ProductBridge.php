@@ -17,19 +17,23 @@ use Plugin\AceClient43\AceServices\AceMethod\Goods\GetGoodsMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Goods\GetZaikoMethod;
 use Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GetStockByUpdateMethod;
 use Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GoodsItemsMethod;
+use Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GoodsItemsTankaMethod;
 use Plugin\AceClient43\AceServices\Model\Request\Goods\GetGoods as RequestGetGoods;
 use Plugin\AceClient43\AceServices\Model\Request\Goods\GetGoods\IdPrmModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Goods\GetGoods\OptionsModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Goods\GetZaiko as RequestGetZaiko;
 use Plugin\AceClient43\AceServices\Model\Request\WebApi\Goods\V1\GetStockByUpdate\V1GetStockByUpdateRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\WebApi\Goods\V1\GoodsItems\V1GoodsItemsRequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\WebApi\Goods\V1\GoodsItemsTanka\V1GoodsItemsTankaRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Goods\GetGoods as ResponseGetGoods;
 use Plugin\AceClient43\AceServices\Model\Response\Goods\GetZaiko as ResponseGetZaiko;
 use Plugin\AceClient43\AceServices\Model\Response\WebApi\Goods\V1\GetStockByUpdate\V1GetStockByUpdateItemModel;
 use Plugin\AceClient43\AceServices\Model\Response\WebApi\Goods\V1\GetStockByUpdate\V1GetStockByUpdateResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\WebApi\Goods\V1\GoodsItems\V1GoodsItemsResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\WebApi\Goods\V1\GoodsItemsTanka\V1GoodsItemsTankaResponseModelInterface;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\PreGetItemsEvent;
+use Plugin\AceClient43\Events\PreGetItemsTankaEvent;
 
 class ProductBridge extends BaseBridge
 {
@@ -42,16 +46,20 @@ class ProductBridge extends BaseBridge
     /** @var V1GoodsItemsMethod|null WebAPI goods v1 一覧メソッド（任意） */
     protected V1GoodsItemsMethod $v1GetGoodsListMethod;
 
+    protected V1GoodsItemsTankaMethod $v1GoodsItemsTankaMethod;
+
     public function __construct(
         GetGoodsMethod $getGoodsMethod,
         GetZaikoMethod $getZaikoMethod,
         V1GetStockByUpdateMethod $v1GetStockByUpdateMethod,
         V1GoodsItemsMethod $v1GetGoodsListMethod,
+        V1GoodsItemsTankaMethod $v1GoodsItemsTankaMethod,
     ) {
         $this->getGoodsMethod = $getGoodsMethod;
         $this->getZaikoMethod = $getZaikoMethod;
         $this->v1GetStockByUpdateMethod = $v1GetStockByUpdateMethod;
         $this->v1GetGoodsListMethod = $v1GetGoodsListMethod;
+        $this->v1GoodsItemsTankaMethod = $v1GoodsItemsTankaMethod;
     }
 
     /**
@@ -286,12 +294,14 @@ class ProductBridge extends BaseBridge
         array $freeKubuns = [],
         ?string $skid = null,
         array $options = [],
+        array $tankaKubuns = [],
     ): V1GoodsItemsResponseModelInterface {
         /** @var V1GoodsItemsRequestModelInterface $requestModel */
         $requestModel = $this->createRequestModel(V1GoodsItemsRequestModelInterface::class);
         $request = $requestModel
             ->setSyid($this->getSyid())
             ->setGdids($gdids)
+            ->setTankaKubuns($tankaKubuns)
             ->setSkid($skid);
 
         // Set freeKubuns directly if provided
@@ -314,6 +324,50 @@ class ProductBridge extends BaseBridge
             }
 
             /* @var V1GoodsItemsResponseModelInterface $payload */
+            return $response->getResponse();
+        } catch (\Throwable $e) {
+            throw new \RuntimeException('商品一覧（v1）の取得に失敗しました。', 0, $e);
+        }
+    }
+
+    /**
+     * WebApi v1: 商品単価一覧（goods/v1/items/tanka）を呼び出します。
+     *
+     * @return V1GoodsItemsTankaResponseModelInterface
+     */
+    public function getItemsTanka(
+        array $gdids,
+        array $tankaKubuns = [],
+        array $extraFields = [],
+        array $freeKubuns = [],
+        ?string $skid = null,
+        array $options = [],
+    ): V1GoodsItemsTankaResponseModelInterface {
+        /** @var V1GoodsItemsTankaRequestModelInterface $requestModel */
+        $requestModel = $this->createRequestModel(V1GoodsItemsTankaRequestModelInterface::class);
+        $request = $requestModel
+            ->setSyid($this->getSyid())
+            ->setGdids($gdids)
+            ->setTankaKubuns($tankaKubuns)
+            ->setExtraFields($extraFields)
+            ->setFreeKubuns($freeKubuns)
+            ->setSkid($skid);
+
+        if ($this->eventDispatcher->hasListeners(Events::PRE_GET_ITEMS_TANKA)) {
+            $event = new PreGetItemsTankaEvent($request, $gdids, $freeKubuns, $tankaKubuns, $extraFields, $skid, $options);
+            $this->eventDispatcher->dispatch($event, Events::PRE_GET_ITEMS_TANKA);
+        }
+
+        try {
+            $response = $this->v1GoodsItemsTankaMethod
+                ->withRequest($request)
+                ->send();
+
+            if (!$response->isOk()) {
+                throw new \RuntimeException(sprintf('商品一覧（v1）取得に失敗しました。(レスポンスコード：%s)', $response->getStatusCode()));
+            }
+
+            /* @var V1GoodsItemsTankaResponseModelInterface $payload */
             return $response->getResponse();
         } catch (\Throwable $e) {
             throw new \RuntimeException('商品一覧（v1）の取得に失敗しました。', 0, $e);
