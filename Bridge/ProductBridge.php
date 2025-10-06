@@ -310,7 +310,7 @@ class ProductBridge extends BaseBridge
         }
 
         if ($this->eventDispatcher->hasListeners(Events::PRE_GET_ITEMS)) {
-            $event = new PreGetItemsEvent($request, $gdids, $freeKubuns, $skid, $options);
+            $event = new PreGetItemsEvent($request, $gdids, $freeKubuns, $skid, $options, $tankaKubuns);
             $this->eventDispatcher->dispatch($event, Events::PRE_GET_ITEMS);
         }
 
