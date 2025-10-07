@@ -13,8 +13,6 @@
 
 namespace Plugin\AceClient43\AceServices\Model\Dependency\Zaiko;
 
-use Symfony\Component\Serializer\Attribute\Ignore;
-
 /**
  * Interface for 在庫数
  *
@@ -38,8 +36,5 @@ interface HasZaikoInterface
      */
     public function setZaiko(?int $zaiko);
 
-    /**
-     * @Ignore()
-     */
     public function getPureZaiko(): ?int;
 }
