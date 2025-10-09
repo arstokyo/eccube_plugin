@@ -4,18 +4,32 @@ namespace Plugin\AceClient43\AceServices\Model\Response\WebApi\Member\V1\CheckCo
 
 class ItemModel implements ItemModelInterface
 {
-    protected string $checked;
+    protected ?string $mcode;
+
+    protected ?string $mail;
 
     protected bool $exist;
 
-    public function getChecked(): string
+    public function getMcode(): ?string
     {
-        return $this->checked;
+        return $this->mcode;
     }
 
-    public function setChecked(string $checked): self
+    public function setMcode(?string $mcode): self
     {
-        $this->checked = $checked;
+        $this->mcode = $mcode;
+
+        return $this;
+    }
+
+    public function getMail(): ?string
+    {
+        return $this->mail;
+    }
+
+    public function setMail(?string $mail): self
+    {
+        $this->mail = $mail;
 
         return $this;
     }

@@ -7,12 +7,22 @@ interface ItemModelInterface
     /**
      * @return string
      */
-    public function getChecked(): string;
+    public function getMcode(): ?string;
 
     /**
      * @param string
      */
-    public function setChecked(string $checked): self;
+    public function setMcode(?string $mcode): self;
+
+    /**
+     * @return string
+     */
+    public function getMail(): ?string;
+
+    /**
+     * @param string
+     */
+    public function setMail(string $mail): self;
 
     /**
      * @return bool
