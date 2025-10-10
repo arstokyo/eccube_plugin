@@ -16,7 +16,7 @@ use Plugin\AceClient43\ApiClient\Client\ClientInterface;
  */
 class CheckCodeAndMailMethod extends AbstractWebApiMethod
 {
-    private const END_POINT_SERVICE = 'member/v1/CheckCodeAndMail';
+    private const END_POINT_SERVICE = 'member/v1/exists';
 
     protected function setEndPointService(): string
     {
