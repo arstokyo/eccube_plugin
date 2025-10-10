@@ -32,6 +32,7 @@ use Eccube\Repository\TaxRuleRepository;
 use Plugin\AceClient43\AceServices\Model\Dependency\Good\GoodModelGroup1Interface;
 use Plugin\AceClient43\AceServices\Model\Dependency\Good\GoodTankaModelGroup1Interface;
 use Plugin\AceClient43\Bridge\ProductBridge;
+use Plugin\AceClient43\Entity\Constants\AceProductOrderStatus;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\HelperImportProductEvent;
 use Plugin\AceClient43\Events\HelperOnCreateProductEvent;
@@ -518,11 +519,11 @@ class ProductImportHelper
 
         // 商品の状態に応じてステータスを設定
         switch ($productModel->getTkbn()) {
-            case 10:
+            case AceProductOrderStatus::SUSPENDED:
                 $status = $displayHideStatus;
                 $productClass->setVisible(false);
                 break;
-            case 99:
+            case AceProductOrderStatus::ABOLISHED:
                 $status = $displayAbolishedStatus;
                 $productClass->setVisible(false);
                 break;
