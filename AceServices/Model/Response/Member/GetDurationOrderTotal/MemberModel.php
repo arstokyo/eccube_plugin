@@ -25,14 +25,14 @@ class MemberModel implements MemberModelInterface
     use HasMessageModelTrait;
 
     /**
-     * @var TotalModel total
+     * @var TotalModel[]|null total
      */
-    private ?TotalModel $total = null;
+    private ?array $total = null;
 
     /**
      * {@inheritDoc}
      */
-    public function getTotal(): ?TotalModel
+    public function getTotal(): ?array
     {
         return $this->total;
     }
@@ -40,8 +40,18 @@ class MemberModel implements MemberModelInterface
     /**
      * {@inheritDoc}
      */
-    public function setTotal(?TotalModel $total): void
+    public function setTotal(?array $total): self
     {
         $this->total = $total;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function fetchAsListProperty(): array
+    {
+        return ['Total' => TotalModel::class];
     }
 }

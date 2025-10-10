@@ -14,27 +14,28 @@
 namespace Plugin\AceClient43\AceServices\Model\Response\Member\GetDurationOrderTotal;
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\AsListDenormalizableInterface;
 
 /**
  * Interface for Member Model
  *
  * @author Ars-Phuoc <m.phuoc.le@ar-system.co.jp>
  */
-interface MemberModelInterface extends HasMessageModelInterface
+interface MemberModelInterface extends HasMessageModelInterface, AsListDenormalizableInterface
 {
     /**
      * Get Total
      *
-     * @return TotalModel
+     * @return TotalModel[]|null
      */
-    public function getTotal(): ?TotalModel;
+    public function getTotal(): ?array;
 
     /**
      * Set Total
      *
-     * @param TotalModel $total
+     * @param TotalModel[]|null $total
      *
-     * @return void
+     * @return self
      */
-    public function setTotal(?TotalModel $total): void;
+    public function setTotal(?array $total): self;
 }
