@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\Bridge\DataConverter;
 
 use Eccube\Entity\Customer;
@@ -21,16 +32,24 @@ class CustomerAceNormalizer implements CustomerAceNormalizerInterface
      */
     public function parseAceFullNameToEc(?string $fullName, Customer $customer, string $type): void
     {
-        if (!$fullName) {
-            if ($type === 'name') {
-                $customer->setName01('');
-                $customer->setName02('');
-            } else {
-                $customer->setKana01('');
-                $customer->setKana02('');
-            }
+        [$first, $last] = $this->parseAceFullNameToParts($fullName, $type);
 
-            return;
+        if ($type === 'name') {
+            $customer->setName01($first);
+            $customer->setName02($last);
+        } else {
+            $customer->setKana01($first);
+            $customer->setKana02($last);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function parseAceFullNameToParts(?string $fullName, string $type): array
+    {
+        if (!$fullName) {
+            return ['', ''];
         }
 
         $value = $fullName;
@@ -44,13 +63,7 @@ class CustomerAceNormalizer implements CustomerAceNormalizerInterface
         $first = isset($parts[0]) ? trim($parts[0]) : '';
         $last = isset($parts[1]) ? trim($parts[1]) : '';
 
-        if ($type === 'name') {
-            $customer->setName01($first);
-            $customer->setName02($last);
-        } else {
-            $customer->setKana01($first);
-            $customer->setKana02($last);
-        }
+        return [$first, $last];
     }
 
     /**

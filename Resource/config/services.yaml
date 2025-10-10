@@ -83,6 +83,9 @@
 # ===================================================================================================
 
 parameters:
+    ace.version: '1.1'
+    ace.name: 'AceClient43'
+
     # Default tax display/type for processors (IDs are from master tables)
     # TaxDisplayType: 1=EXCLUDED, 2=INCLUDED
     # TaxType: 1=TAXATION, 2=NON_TAXABLE, 3=TAX_EXEMPT
@@ -103,6 +106,10 @@ parameters:
         - 'Customize/AceClient/Model/Response'
         - 'Plugin/AceClient43/AceServices/Model/Response'
 
+    ace.dependency_search_paths:
+        - 'Customize/AceClient/Model/Dependency'
+        - 'Plugin/AceClient43/AceServices/Model/Dependency'
+
     # PRM Serialization Configuration (moved from Config.yaml)
     ace.prm_serialization:
         default_format: 'xml'
@@ -119,7 +126,7 @@ parameters:
 
     ace.log.max_line_length: 50000  # Maximum line length for log messages
 
-    ace_client.post_soap_client.extract_max_length: 200000  # Maximum length for SOAP XML response extraction
+    ace.post_soap_client.extract_max_length: 200000  # Maximum length for SOAP XML response extraction
 
 monolog:
     channels: ['ace_client', 'ace_client_console']
@@ -194,6 +201,17 @@ services:
         calls:
             - setShoppingPurchaseFlow: ['@eccube.purchase.flow.shopping']
 
+    Plugin\AceClient43\Bridge\ProductBridge:
+        lazy: true
+        parent: Plugin\AceClient43\Bridge\BaseBridge
+        arguments:
+            $container: !service_locator
+                ace_client.methods.get_goods: '@Plugin\AceClient43\AceServices\AceMethod\Goods\GetGoodsMethod'
+                ace_client.methods.get_zaiko: '@Plugin\AceClient43\AceServices\AceMethod\Goods\GetZaikoMethod'
+                ace_client.methods.v1_get_stock_by_update: '@Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GetStockByUpdateMethod'
+                ace_client.methods.v1_get_goods_items: '@Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GoodsItemsMethod'
+                ace_client.methods.v1_get_goods_items_tanka: '@Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GoodsItemsTankaMethod'
+
     # ACE Services - Version Independent Aliases (will use ace_client logger)
     ace_config_service:
         alias: Plugin\AceClient43\Service\AceConfigService
@@ -219,7 +237,7 @@ services:
               timeout: 600
               verify: false
               headers:
-                  User-Agent: 'Plugin\AceClient43\Util\Mapper\OverviewMapper::USER_AGENT_HEADER'
+                  User-Agent: '%ace.name%V%ace.version%'
         public: false
 
     # ===================================================================================================
@@ -244,104 +262,222 @@ services:
     # - Example: "Member.LoginMember" -> "Plugin\AceClient43\AceServices\Model\Request\Member\LoginMember\LoginMemberRequestModel"
     # - Caches resolved class names for performance
     # - Supports both Request and Response model resolution
+
+    # -----------------------------------------------------------------------------------
+    # モデルリゾルバー用キャッシュプール定義
+    # -----------------------------------------------------------------------------------
+    # cache.ace.model:
+    #   - サービスID（プール名）: cache.ace.model
+    #   - FilesystemAdapter を利用した専用プール
+    #   - namespace に 'aceModelResolver' を設定し、キーの衝突を防止
+    #   - %kernel.cache_dir% 配下に保存され、cache:warmup で事前構築されます
+    cache.ace.model:
+        class: Symfony\Component\Cache\Adapter\FilesystemAdapter
+        arguments:
+            $namespace: 'aceModel'
+            $defaultLifetime: 0
+            $directory: '%kernel.cache_dir%'
+
     Plugin\AceClient43\Util\ModelResolver\ModelResolver:
         arguments:
+            $cachePool: '@cache.ace.model'
             $requestSearchPaths: '%ace.request_search_paths%'
             $responseSearchPaths: '%ace.response_search_paths%'
+            $dependencySearchPaths: '%ace.dependency_search_paths%'
         tags:
             - { name: 'ace.model_resolver' }
 
     Plugin\AceClient43\Service\AceConfigService:
-
-    # Normalizers for SOAP XML Serializer
-    ace_datetime_normalizer:
-        alias: Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer
-        public: false
-
-    ace_prm_normalizer:
-        alias: Plugin\AceClient43\Util\Normalizer\PrmNormalizer
-        public: false
+        lazy: true
 
     Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer:
-
-    Plugin\AceClient43\Util\Normalizer\PrmNormalizer:
-        arguments:
-            $prmConfig: '%ace.prm_serialization%'
-        calls:
-            - setSerializerResolver: ['@ace_serializer_resolver']
-
-    # Array Denormalizer
-    soap_xml_array_denormalizer:
-        class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
-
-    # AsListDenormalizer with ModelResolver dependency
-    ace_as_list_denormalizer:
-        alias: Plugin\AceClient43\Util\Normalizer\AsListDenormalizer
+        autoconfigure: false
+        autowire: false
         public: false
 
-    Plugin\AceClient43\Util\Normalizer\AsListDenormalizer:
+    Plugin\AceClient43\Util\Normalizer\PrmNormalizer:
+        autoconfigure: false
         arguments:
-            $modelResolver: '@ace_model_resolver'
-        tags:
-            - { name: 'serializer.normalizer', priority: 110 }
+            $prmConfig: '%ace.prm_serialization%'
 
     # ModelTypeExtractor
-    soap_xml_type_extractor:
-        class: Plugin\AceClient43\Util\Normalizer\ModelTypeExtractor
+    # ReflectionExtractor をサービスとして注入（final 化対策）
+    Plugin\AceClient43\Util\Normalizer\ModelTypeExtractor:
         arguments:
             $modelResolver: '@ace_model_resolver'
+            $reflectionExtractor: '@property_info.reflection_extractor'
+        autoconfigure: false
+        autowire: false
+        public: false
 
-    # Modern AttributeLoader
-    soap_xml_attribute_loader:
+    Plugin\AceClient43\Util\Normalizer\ModelTypeTraceableExtractor:
+        autoconfigure: false
+
+    Plugin\AceClient43\Util\Normalizer\ModelTypeExtractorInterface:
+        alias: Plugin\AceClient43\Util\Normalizer\ModelTypeExtractor
+
+    # Default AttributeLoader - used by both SOAP XML and default serializers
+    default_attribute_loader:
         class: Symfony\Component\Serializer\Mapping\Loader\AttributeLoader
 
-    # ChainLoader for backward compatibility
-    soap_xml_chain_loader:
+    # Default ChainLoader for backward compatibility
+    default_chain_loader:
         class: Symfony\Component\Serializer\Mapping\Loader\LoaderChain
         arguments:
             $loaders:
-                - '@soap_xml_attribute_loader'
+                - '@default_attribute_loader'
 
-    # Metadata factory for SOAP XML
-    soap_xml_metadata_factory:
+    # Default metadata factory - used by both SOAP XML and default serializers
+    default_metadata_factory:
         class: Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory
         arguments:
-            $loader: '@soap_xml_chain_loader'
+            $loader: '@default_chain_loader'
 
-    # Name converter with metadata support
-    soap_xml_name_converter:
+    # Default name converter with metadata support
+    default_name_converter:
         class: Symfony\Component\Serializer\NameConverter\MetadataAwareNameConverter
         arguments:
-            $metadataFactory: '@soap_xml_metadata_factory'
+            $metadataFactory: '@default_metadata_factory'
 
-    # Object Normalizer with all dependencies
+    # Object Normalizer with all dependencies for SOAP XML
     soap_xml_object_normalizer:
         class: Symfony\Component\Serializer\Normalizer\ObjectNormalizer
         arguments:
-            $classMetadataFactory: '@soap_xml_metadata_factory'
-            $nameConverter: '@soap_xml_name_converter'
+            $classMetadataFactory: '@default_metadata_factory'
+            $nameConverter: '@default_name_converter'
             $propertyAccessor: null
-            $propertyTypeExtractor: '@soap_xml_type_extractor'
+            $propertyTypeExtractor: '@Plugin\AceClient43\Util\Normalizer\ModelTypeExtractorInterface'
             $classDiscriminatorResolver: null
             $objectClassResolver: null
             $defaultContext: [ ]
+        public: false
+        autoconfigure: false
+        autowire: false
 
-    # XML Encoder
-    xml_encoder:
+    Plugin\AceClient43\Util\Normalizer\RemovePreserveSpaceNormalizer:
+        arguments:
+            $soapXmlObjectNormalizer: '@soap_xml_object_normalizer'
+            $classMetadataFactory: '@default_metadata_factory'
+            $nameConverter: '@default_name_converter'
+            $propertyTypeExtractor: '@Plugin\AceClient43\Util\Normalizer\ModelTypeExtractorInterface'
+            $classDiscriminatorResolver: null
+            $objectClassResolver: null
+            $defaultContext: [ ]
+        autoconfigure: false
+        autowire: false
+
+    # ===================================================================================================
+    # 専用Encoderインスタンス
+    # ===================================================================================================
+    # JsonEncoderとXmlEncoderは現在SerializerAwareInterfaceを実装していないが、
+    # 各シリアライザーに専用のインスタンスを持たせることで完全な独立性を保証する。
+    # これにより、将来的な変更にも対応でき、設定の明確性も向上する。
+
+    # Default serializer用のJsonEncoder
+    default_serializer_json_encoder:
+        class: Symfony\Component\Serializer\Encoder\JsonEncoder
+        autoconfigure: false
+        autowire: false
+        public: false
+
+    # Default serializer用のXmlEncoder
+    default_serializer_xml_encoder:
         class: Symfony\Component\Serializer\Encoder\XmlEncoder
+        autoconfigure: false
+        autowire: false
+        public: false
 
-    # Dedicated Symfony Serializer for SOAP XML
-    soap_xml_symfony_serializer:
+    # SOAP XML serializer用のXmlEncoder
+    soap_xml_encoder:
+        class: Symfony\Component\Serializer\Encoder\XmlEncoder
+        autoconfigure: false
+        autowire: false
+        public: false
+
+    # ===================================================================================================
+    # 専用Denormalizerインスタンス
+    # ===================================================================================================
+    # AsListDenormalizerとArrayDenormalizerはDenormalizerAwareInterfaceを実装しているため、
+    # Symfonyのautoconfigureにより自動的に@serializerが注入されてしまう。
+    # これを防ぐため、autoconfigureをfalseにして各シリアライザー専用のインスタンスを作成する。
+    # Serializer::__construct()内でsetDenormalizer()が呼ばれるため、
+    # 各シリアライザーは自動的に正しいdenormalizerを受け取る。
+
+    Plugin\AceClient43\Util\Normalizer\AsListDenormalizer:
+        autoconfigure: false
+        autowire: false
+        public: false
+        arguments:
+            $modelResolver: '@ace_model_resolver'
+
+    # Default serializer用のAsListDenormalizer
+    default_serializer_as_list_denormalizer:
+        class: Plugin\AceClient43\Util\Normalizer\AsListDenormalizer
+        autoconfigure: false
+        autowire: false
+        public: false
+        arguments:
+            $modelResolver: '@ace_model_resolver'
+
+    # Default serializer用のArrayDenormalizer
+    default_serializer_array_denormalizer:
+        class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
+        autoconfigure: false
+        autowire: false
+        public: false
+
+    # SOAP XML serializer用のAsListDenormalizer
+    soap_xml_as_list_denormalizer:
+        class: Plugin\AceClient43\Util\Normalizer\AsListDenormalizer
+        autoconfigure: false
+        autowire: false
+        public: false
+        arguments:
+            $modelResolver: '@ace_model_resolver'
+
+    # SOAP XML serializer用のArrayDenormalizer
+    soap_xml_array_denormalizer:
+        class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
+        autoconfigure: false
+        autowire: false
+        public: false
+
+    # Dedicated Symfony Serializer for DefaultSerializer
+    # Uses only specified normalizers and encoders to prevent unnecessary processing
+    #
+    # 重要: 完全に独立した専用インスタンスのみを使用
+    # - Normalizers: 専用のAsListDenormalizer、ArrayDenormalizerを使用
+    # - Encoders: 専用のJsonEncoder、XmlEncoderを使用
+    #
+    # DenormalizerAwareInterfaceを実装するnormalizerは、autoconfigureをfalseにすることで
+    # Symfonyの@serializerではなく、このシリアライザー自身が注入される。
+    # Encodersも専用インスタンスを使用することで、完全な独立性と設定の明確性を保証。
+    #
+    # Normalizers:
+    # - default_serializer_as_list_denormalizer (Dedicated AsListDenormalizer)
+    # - Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer (Custom DateTimeNormalizer)
+    # - serializer.normalizer.datetime (Symfony DateTimeNormalizer)
+    # - serializer.normalizer.datetimezone (Symfony DateTimeZoneNormalizer)
+    # - serializer.normalizer.dateinterval (Symfony DateIntervalNormalizer)
+    # - default_serializer_array_denormalizer (Dedicated ArrayDenormalizer)
+    # - default_serializer_object_normalizer (Custom ObjectNormalizer with ModelTypeExtractor)
+    #
+    # Encoders:
+
+    # - default_serializer_json_encoder (Dedicated JsonEncoder)
+    # - default_serializer_xml_encoder (Dedicated XmlEncoder)
+    ace_default_serializer_symfony:
         class: Symfony\Component\Serializer\Serializer
+        autoconfigure: false
+        autowire: false
         arguments:
             $normalizers:
-                - '@ace_datetime_normalizer'
-                - '@ace_prm_normalizer'
-                - '@soap_xml_array_denormalizer'
-                - '@ace_as_list_denormalizer'
-                - '@soap_xml_object_normalizer'
+                - '@default_serializer_as_list_denormalizer'
+                - '@Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer'
+                - '@default_serializer_array_denormalizer'
+                - '@default_serializer_object_normalizer'
             $encoders:
-                - '@xml_encoder'
+                - '@default_serializer_json_encoder'
 
     # SERIALIZERS - Handle request/response serialization for different API formats
     # Priority system: Higher priority = preferred serializer for matching API type/format
@@ -350,16 +486,76 @@ services:
         alias: Plugin\AceClient43\Util\Serializer\DefaultSerializer
         public: false
 
+    # Dedicated Symfony Serializer for SOAP XML
+    #
+    # 重要: 完全に独立した専用インスタンスのみを使用
+    # - Normalizers: 専用のAsListDenormalizer、ArrayDenormalizerを使用
+    # - Encoder: 専用のXmlEncoderを使用
+    #
+    # DenormalizerAwareInterfaceを実装するnormalizerは、autoconfigureをfalseにすることで
+    # Symfonyの@serializerではなく、このシリアライザー自身が注入される。
+    # Encoderも専用インスタンスを使用することで、完全な独立性と設定の明確性を保証。
+    #
+    # Normalizers:
+    # - soap_xml_as_list_denormalizer (Dedicated AsListDenormalizer)
+    # - Plugin\AceClient43\Util\Normalizer\RemovePreserveSpaceNormalizer (Custom XML Normalizer)
+    # - Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer (Custom DateTimeNormalizer)
+    # - Plugin\AceClient43\Util\Normalizer\PrmNormalizer (Custom PRM Normalizer)
+    # - soap_xml_object_normalizer (Custom ObjectNormalizer)
+    # - soap_xml_array_denormalizer (Dedicated ArrayDenormalizer)
+    #
+    # Encoders:
+    # - soap_xml_encoder (Dedicated XmlEncoder)
+    soap_xml_symfony_serializer:
+        class: Symfony\Component\Serializer\Serializer
+        autoconfigure: false
+        autowire: false
+        lazy: true
+        arguments:
+            $normalizers:
+                - '@soap_xml_as_list_denormalizer'
+                - '@Plugin\AceClient43\Util\Normalizer\RemovePreserveSpaceNormalizer'
+                - '@Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer'
+                - '@Plugin\AceClient43\Util\Normalizer\PrmNormalizer'
+                - '@soap_xml_array_denormalizer'
+                - '@soap_xml_object_normalizer'
+            $encoders:
+                - '@soap_xml_encoder'
+
+    Plugin\AceClient43\Util\DataCollector\TraceableSerializer:
+        public: false
+        autoconfigure: false
+
+    # ===================================================================================================
+    # Default Serializer Configuration
+    # ===================================================================================================
+    # Custom ObjectNormalizer for default serializer with ModelTypeExtractor
+    # Uses our custom ModelTypeExtractor instead of Symfony's default property type extractor
+    # This ensures proper type resolution for ACE API models
+    default_serializer_object_normalizer:
+        class: Symfony\Component\Serializer\Normalizer\ObjectNormalizer
+        arguments:
+            $classMetadataFactory: '@default_metadata_factory'
+            $nameConverter: '@default_name_converter'
+            $propertyAccessor: null
+            $propertyTypeExtractor: '@Plugin\AceClient43\Util\Normalizer\ModelTypeExtractorInterface'
+            $classDiscriminatorResolver: null
+            $objectClassResolver: null
+            $defaultContext: []
+        public: false
+        autoconfigure: false
+        autowire: false
+
     ace_soap_xml_serializer:
         alias: Plugin\AceClient43\Util\Serializer\SoapXmlSerializer
         public: false
 
     # DefaultSerializer - Fallback serializer for non-SOAP requests (priority: 0)
-    # Uses standard Symfony serializer component
+    # Uses custom Symfony serializer with only specified normalizers and encoders
     # Handles JSON and other standard formats
     Plugin\AceClient43\Util\Serializer\DefaultSerializer:
         arguments:
-            $symfonySerializer: '@serializer'
+            $symfonySerializer: '@ace_default_serializer_symfony'
         tags:
             - { name: 'ace_client.serializer', priority: 0 }
 
@@ -368,6 +564,7 @@ services:
     # Handles ACE-specific XML structure and diffgr namespaces
     # Extracts response data from SOAP envelope for deserialization
     Plugin\AceClient43\Util\Serializer\SoapXmlSerializer:
+        lazy: true
         arguments:
             $serializer: '@soap_xml_symfony_serializer'
             $config:
@@ -405,7 +602,7 @@ services:
             $normalizer: '@serializer'
             $aceConfigService: '@ace_config_service'
         calls:
-            - setExtractMaxLength: ['%ace_client.post_soap_client.extract_max_length%']
+            - setExtractMaxLength: ['%ace.post_soap_client.extract_max_length%']
         tags:
             - { name: 'ace_client.api_client' }
 
@@ -458,8 +655,27 @@ services:
     # - APIタイプとフォーマットの組み合わせで判定
     # - パフォーマンス向上のために選択結果をキャッシュ
     Plugin\AceClient43\Util\Serializer\SerializerResolver:
+        lazy: true
         arguments:
             $serializers: !tagged_iterator { tag: 'ace_client.serializer' }
+
+    # -----------------------------------------------------------------------------------
+    # キャッシュウォーマー登録
+    # -----------------------------------------------------------------------------------
+    # 目的:
+    # - キャッシュウォームアップ時にモデル解決結果を cache.ace.model へ事前投入
+    # - 実行時の初回モデル探索コストを削減
+    #
+    # 補足:
+    # - isOptional() = true により、ウォームアップ失敗でもデプロイを阻害しません
+    Plugin\AceClient43\Util\ModelResolver\ModelResolverWarmer:
+        arguments:
+            $resolver: '@Plugin\AceClient43\Util\ModelResolver\ModelResolver'
+            $requestSearchPaths: '%ace.request_search_paths%'
+            $responseSearchPaths: '%ace.response_search_paths%'
+            $dependencySearchPaths: '%ace.dependency_search_paths%'
+        tags:
+            - { name: kernel.cache_warmer }
 
     # Processors - will use ace_client logger
     Plugin\AceClient43\Service\ChargeProcessor:

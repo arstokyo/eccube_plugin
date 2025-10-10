@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of EC-CUBE
+ *
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Plugin\AceClient43\AceServices\Model\Request\WebApi\Order\V1\GetOrderList;
 
 use Symfony\Component\Serializer\Annotation\SerializedName;
@@ -14,30 +25,29 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 class V1GetOrderListRequestModel implements V1GetOrderListRequestModelInterface
 {
     /** @var string システムID（必須） */
-    private string $syid;
+    protected string $syid;
 
     /** @var string 会員コード（必須） */
-    private string $mcode;
+    protected string $mcode;
 
     /** @var int 伝票区分（必須） */
-    private int $denku = 0;
+    protected int $denku = 0;
 
     /** @var int 表示行数（必須） */
-    private int $dispRow = 0;
+    protected int $dispRow = 0;
 
     /** @var int 表示ページ（必須） */
-    private int $dispPage = 0;
+    protected int $dispPage = 0;
 
     /** @var int|null 伝票番号（オプション） */
-    private ?int $denno = null;
+    protected ?int $denno = null;
 
     /** @var int|null ソート順（オプション） */
-    private ?int $sort = null;
+    protected ?int $sort = null;
 
     /** @var string|null オプション */
-    #[SerializedName("options")]
-    private ?string $options = null;
-
+    #[SerializedName('options')]
+    protected ?string $options = null;
 
     /**
      * {@inheritDoc}

@@ -1,11 +1,11 @@
 <?php
 
-namespace Plugin\AceClient43\AceServices\Model\Request\WebApi\Goods\V1\GoodsItems;
+namespace Plugin\AceClient43\AceServices\Model\Request\WebApi\Goods\V1\GoodsItemsTanka;
 
 use Plugin\AceClient43\Exception\MissingRequestParameterException;
 use Plugin\AceClient43\Util\Converter\ListConverter;
 
-class V1GoodsItemsRequestModel implements V1GoodsItemsRequestModelInterface
+class V1GoodsItemsTankaRequestModel implements V1GoodsItemsTankaRequestModelInterface
 {
     protected int $syid = 0;
 
@@ -18,6 +18,8 @@ class V1GoodsItemsRequestModel implements V1GoodsItemsRequestModelInterface
     protected ?array $freeKubuns = null;
 
     protected ?array $tankaKubuns = null;
+
+    protected ?array $extraFields = null;
 
     public function getSyid(): int
     {
@@ -79,9 +81,21 @@ class V1GoodsItemsRequestModel implements V1GoodsItemsRequestModelInterface
         return $this;
     }
 
+    public function getExtraFields(): ?string
+    {
+        return ListConverter::arrayToString($this->extraFields);
+    }
+
+    public function setExtraFields(?array $extraFields): self
+    {
+        $this->extraFields = $extraFields;
+
+        return $this;
+    }
+
     public function fetchRequestNodeName(): string
     {
-        return 'GetGoodsList';
+        return '';
     }
 
     public function ensureParameterNotMissing(): void

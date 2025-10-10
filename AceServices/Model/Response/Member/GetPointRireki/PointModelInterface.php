@@ -25,6 +25,18 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Point;
  */
 interface PointModelInterface extends Denpyo\HasDennoInterface, Day\HasJdayInterface, Day\HasDayInterface, Point\HasPointInterface, NoCategory\HasJmemidInterface, NoCategory\HasKubunInterface
 {
+    /** @var int 利用 */
+    public const USE_KBN_USE = 0;
+
+    /** @var int 返還 */
+    public const USE_KBN_RETURN = 1;
+
+    /** @var int 加算 */
+    public const USE_KBN_EARN = 10;
+
+    /** @var int 取消 */
+    public const USE_KBN_CANCEL = 11;
+
     /**
      * Get ポイント区分
      */

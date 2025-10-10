@@ -261,7 +261,7 @@ trait XmlExtractorTrait
 
         foreach ($lines as $line) {
             $line = trim($line);
-            if (empty($line)) {
+            if ($line === '') {
                 continue;
             }
 

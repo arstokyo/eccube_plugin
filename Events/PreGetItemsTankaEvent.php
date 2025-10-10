@@ -13,13 +13,13 @@
 
 namespace Plugin\AceClient43\Events;
 
-use Plugin\AceClient43\AceServices\Model\Request\WebApi\Goods\V1\GoodsItems\V1GoodsItemsRequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\WebApi\Goods\V1\GoodsItemsTanka\V1GoodsItemsTankaRequestModelInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
-class PreGetItemsEvent extends Event
+class PreGetItemsTankaEvent extends Event
 {
     /**
-     * @var V1GoodsItemsRequestModelInterface
+     * @var V1GoodsItemsTankaRequestModelInterface
      */
     private $request;
 
@@ -33,6 +33,10 @@ class PreGetItemsEvent extends Event
      */
     private $freeKubuns;
 
+    private $tankaKubuns;
+
+    private $extraFields;
+
     /**
      * @var string|null
      */
@@ -44,25 +48,22 @@ class PreGetItemsEvent extends Event
     private $options;
 
     /**
-     * @var array
-     */
-    private $tankaKubuns;
-
-    /**
-     * @param V1GoodsItemsRequestModelInterface $request
+     * @param V1GoodsItemsTankaRequestModelInterface $request
      * @param array $gdids
      * @param array $freeKubuns
+     * @param array $tankaKubuns
+     * @param array $extraFields
      * @param string|null $skid
      * @param array $options
-     * @param array $tankaKubuns
      */
     public function __construct(
-        V1GoodsItemsRequestModelInterface $request,
+        V1GoodsItemsTankaRequestModelInterface $request,
         array $gdids,
         array $freeKubuns,
+        array $tankaKubuns,
+        array $extraFields,
         ?string $skid,
         array $options,
-        array $tankaKubuns,
     ) {
         $this->request = $request;
         $this->gdids = $gdids;
@@ -70,12 +71,13 @@ class PreGetItemsEvent extends Event
         $this->skid = $skid;
         $this->options = $options;
         $this->tankaKubuns = $tankaKubuns;
+        $this->extraFields = $extraFields;
     }
 
     /**
-     * @return V1GoodsItemsRequestModelInterface
+     * @return V1GoodsItemsTankaRequestModelInterface
      */
-    public function getRequest(): V1GoodsItemsRequestModelInterface
+    public function getRequest(): V1GoodsItemsTankaRequestModelInterface
     {
         return $this->request;
     }
@@ -96,6 +98,16 @@ class PreGetItemsEvent extends Event
         return $this->freeKubuns;
     }
 
+    public function getTankaKubuns(): array
+    {
+        return $this->tankaKubuns;
+    }
+
+    public function getExtraFields(): array
+    {
+        return $this->extraFields;
+    }
+
     /**
      * @return string|null
      */
@@ -110,10 +122,5 @@ class PreGetItemsEvent extends Event
     public function getOptions(): array
     {
         return $this->options;
-    }
-
-    public function getTankaKubuns(): array
-    {
-        return $this->tankaKubuns;
     }
 }

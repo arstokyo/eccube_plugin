@@ -32,9 +32,9 @@ class ClientMetadata implements ClientMetadataInterface
     /**
      * ClientMetadata constructor
      *
-     * @param string                                                           $requestmethod Client requestMethod to use.
-     * @param string                                                           $uri           Client target URI.
-     * @param RequestModelInterface|\JsonSerializable|array<int|string, mixed> $data          Client request data.
+     * @param string $requestMethod
+     * @param string $uri Client target URI.
+     * @param RequestModelInterface|\JsonSerializable|array<int|string, mixed> $data Client request data.
      */
     public function __construct(
         string $requestMethod,

@@ -21,9 +21,11 @@ use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 use Plugin\AceClient43\AceServices\Model\Request\Member\UpdateTaikai\UpdateTaikaiRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode\LoginMemberModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Member\RegMember\RegMemberResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetPointRireki\GetPointRirekiResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetRirekiDetail\MemberModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\Member\RegMember\RegMemberResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\UpdateTaikai\UpdateTaikaiResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrderList\V1GetOrderListResponseModelInterface;
 use Plugin\AceClient43\Bridge\Helper\CustomerBridgeHelper;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\OnGetAndUpdateCustomerEvent;
@@ -31,7 +33,6 @@ use Plugin\AceClient43\Events\PostRegisterCustomerEvent;
 use Plugin\AceClient43\Events\PreRegisterCustomerEvent;
 use Plugin\AceClient43\Exception\CouldNotCheckCustomerExistingException;
 use Plugin\AceClient43\Exception\CouldNotRegisterNewCustomerException;
-use Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrderList\V1GetOrderListResponseModelInterface;
 
 /**
  * 顧客連携ブリッジクラス
@@ -461,10 +462,34 @@ class CustomerBridge extends BaseBridge
         return $responseObject->getMember()->getRirekiDetail() ? $responseObject->getMember() : null;
     }
 
-    public function getOrderList(Customer $customer, int $page = 1, int $limit = 10, int $denno = null, int $sort = 0): ?V1GetOrderListResponseModelInterface
+    public function getOrderList(Customer $customer, int $page = 1, int $limit = 10, ?int $denno = null, int $sort = 0): ?V1GetOrderListResponseModelInterface
     {
         $responseObject = $this->helper->getOrderList($customer->getAceCustomerId(), $this->getSyid(), $page, $limit, $denno, $sort);
 
         return $responseObject;
+    }
+
+    public function getPointHistory(Customer $customer): ?GetPointRirekiResponseModelInterface
+    {
+        $responseObject = $this->helper->getPointHistory($customer->getAceCustomerId(), $this->getSyid());
+
+        return $responseObject;
+    }
+
+    /**
+     * 顧客のパスワードをACE側に更新する
+     *
+     * @param Customer $customer パスワードを更新する顧客エンティティ
+     *
+     * @throws \LogicException
+     */
+    public function updatePasswordInAce(Customer $customer, array $options = []): void
+    {
+        if (null === $customer->getAceCustomerId()) {
+            $this->logger->error('通販Aceのパスワード更新に失敗しました: 顧客IDが設定されていません', ['customer' => $customer]);
+            throw new \LogicException('顧客IDが設定されていません。');
+        }
+
+        $this->helper->updatePasswordInAce($customer, $this->getSyid(), $options);
     }
 }
