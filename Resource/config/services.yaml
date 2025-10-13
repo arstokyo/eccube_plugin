@@ -201,6 +201,17 @@ services:
         calls:
             - setShoppingPurchaseFlow: ['@eccube.purchase.flow.shopping']
 
+    Plugin\AceClient43\Bridge\ProductBridge:
+        lazy: true
+        parent: Plugin\AceClient43\Bridge\BaseBridge
+        arguments:
+            $container: !service_locator
+                ace_client.methods.get_goods: '@Plugin\AceClient43\AceServices\AceMethod\Goods\GetGoodsMethod'
+                ace_client.methods.get_zaiko: '@Plugin\AceClient43\AceServices\AceMethod\Goods\GetZaikoMethod'
+                ace_client.methods.v1_get_stock_by_update: '@Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GetStockByUpdateMethod'
+                ace_client.methods.v1_get_goods_items: '@Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GoodsItemsMethod'
+                ace_client.methods.v1_get_goods_items_tanka: '@Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GoodsItemsTankaMethod'
+
     # ACE Services - Version Independent Aliases (will use ace_client logger)
     ace_config_service:
         alias: Plugin\AceClient43\Service\AceConfigService
@@ -269,14 +280,15 @@ services:
 
     Plugin\AceClient43\Util\ModelResolver\ModelResolver:
         arguments:
+            $cachePool: '@cache.ace.model'
             $requestSearchPaths: '%ace.request_search_paths%'
             $responseSearchPaths: '%ace.response_search_paths%'
             $dependencySearchPaths: '%ace.dependency_search_paths%'
-            $cachePool: '@cache.ace.model'
         tags:
             - { name: 'ace.model_resolver' }
 
     Plugin\AceClient43\Service\AceConfigService:
+        lazy: true
 
     Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer:
         autoconfigure: false
@@ -297,6 +309,12 @@ services:
         autoconfigure: false
         autowire: false
         public: false
+
+    Plugin\AceClient43\Util\Normalizer\ModelTypeTraceableExtractor:
+        autoconfigure: false
+
+    Plugin\AceClient43\Util\Normalizer\ModelTypeExtractorInterface:
+        alias: Plugin\AceClient43\Util\Normalizer\ModelTypeExtractor
 
     # Default AttributeLoader - used by both SOAP XML and default serializers
     default_attribute_loader:
@@ -328,7 +346,7 @@ services:
             $classMetadataFactory: '@default_metadata_factory'
             $nameConverter: '@default_name_converter'
             $propertyAccessor: null
-            $propertyTypeExtractor: '@Plugin\AceClient43\Util\Normalizer\ModelTypeExtractor'
+            $propertyTypeExtractor: '@Plugin\AceClient43\Util\Normalizer\ModelTypeExtractorInterface'
             $classDiscriminatorResolver: null
             $objectClassResolver: null
             $defaultContext: [ ]
@@ -341,7 +359,7 @@ services:
             $soapXmlObjectNormalizer: '@soap_xml_object_normalizer'
             $classMetadataFactory: '@default_metadata_factory'
             $nameConverter: '@default_name_converter'
-            $propertyTypeExtractor: '@Plugin\AceClient43\Util\Normalizer\ModelTypeExtractor'
+            $propertyTypeExtractor: '@Plugin\AceClient43\Util\Normalizer\ModelTypeExtractorInterface'
             $classDiscriminatorResolver: null
             $objectClassResolver: null
             $defaultContext: [ ]
@@ -456,14 +474,10 @@ services:
             $normalizers:
                 - '@default_serializer_as_list_denormalizer'
                 - '@Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer'
-                - '@serializer.normalizer.datetime'
-                - '@serializer.normalizer.datetimezone'
-                - '@serializer.normalizer.dateinterval'
                 - '@default_serializer_array_denormalizer'
                 - '@default_serializer_object_normalizer'
             $encoders:
                 - '@default_serializer_json_encoder'
-                - '@default_serializer_xml_encoder'
 
     # SERIALIZERS - Handle request/response serialization for different API formats
     # Priority system: Higher priority = preferred serializer for matching API type/format
@@ -496,14 +510,15 @@ services:
         class: Symfony\Component\Serializer\Serializer
         autoconfigure: false
         autowire: false
+        lazy: true
         arguments:
             $normalizers:
                 - '@soap_xml_as_list_denormalizer'
                 - '@Plugin\AceClient43\Util\Normalizer\RemovePreserveSpaceNormalizer'
                 - '@Plugin\AceClient43\Util\Normalizer\AceDateTimeNormalizer'
                 - '@Plugin\AceClient43\Util\Normalizer\PrmNormalizer'
-                - '@soap_xml_object_normalizer'
                 - '@soap_xml_array_denormalizer'
+                - '@soap_xml_object_normalizer'
             $encoders:
                 - '@soap_xml_encoder'
 
@@ -523,7 +538,7 @@ services:
             $classMetadataFactory: '@default_metadata_factory'
             $nameConverter: '@default_name_converter'
             $propertyAccessor: null
-            $propertyTypeExtractor: '@Plugin\AceClient43\Util\Normalizer\ModelTypeExtractor'
+            $propertyTypeExtractor: '@Plugin\AceClient43\Util\Normalizer\ModelTypeExtractorInterface'
             $classDiscriminatorResolver: null
             $objectClassResolver: null
             $defaultContext: []
@@ -549,6 +564,7 @@ services:
     # Handles ACE-specific XML structure and diffgr namespaces
     # Extracts response data from SOAP envelope for deserialization
     Plugin\AceClient43\Util\Serializer\SoapXmlSerializer:
+        lazy: true
         arguments:
             $serializer: '@soap_xml_symfony_serializer'
             $config:
@@ -639,6 +655,7 @@ services:
     # - APIタイプとフォーマットの組み合わせで判定
     # - パフォーマンス向上のために選択結果をキャッシュ
     Plugin\AceClient43\Util\Serializer\SerializerResolver:
+        lazy: true
         arguments:
             $serializers: !tagged_iterator { tag: 'ace_client.serializer' }
 

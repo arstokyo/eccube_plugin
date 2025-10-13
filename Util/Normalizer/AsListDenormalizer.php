@@ -127,10 +127,6 @@ class AsListDenormalizer implements DenormalizerInterface, DenormalizerAwareInte
      */
     public function denormalize($data, string $type, ?string $format = null, array $context = []): mixed
     {
-        if (!\in_array(AsListDenormalizableInterface::class, class_implements($type), true)) {
-            throw new DataTypeMissMatchException('AsListDenormalizer Error: Expected AsListDenormalizableInterface object');
-        }
-
         // 現在のデシリアライゼーションパスを取得(存在する場合)
         $currentPath = $context['deserialization_path'] ?? null;
 
@@ -301,7 +297,7 @@ class AsListDenormalizer implements DenormalizerInterface, DenormalizerAwareInte
     public function getSupportedTypes(?string $format): array
     {
         return [
-            AsListDenormalizableInterface::class => false,
+            AsListDenormalizableInterface::class => true,
         ];
     }
 }

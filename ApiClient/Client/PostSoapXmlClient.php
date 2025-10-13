@@ -107,7 +107,10 @@ class PostSoapXmlClient extends AbstractClient
                 ? $responseContent
                 : $this->deserializeResponseContent($responseContent, $psrResponse);
         } catch (\Throwable $t) {
-            $this->logger->error("[AceClient] SOAP エラー: {$t->getMessage()}");
+            $this->logger->error('[AceClient] SOAP エラー: {message}, {stacktrace}', [
+                'message' => $t->getMessage(),
+                'stacktrace' => $t->getTraceAsString(),
+            ]);
             throw new Exception\CanNotBuildResponseException('レスポンスコンテンツの取得と逆シリアル化に失敗しました', $t);
         }
 

@@ -26,7 +26,7 @@ use Symfony\Component\TypeInfo\TypeIdentifier;
  * - ReflectionExtractor をサービスとして注入し、将来の final 化に備えます。
  * - 取得した object 型のクラス名を ModelResolver で実装クラスに解決して置換します。
  */
-class ModelTypeExtractor implements PropertyTypeExtractorInterface
+class ModelTypeExtractor implements ModelTypeExtractorInterface
 {
     /**
      * @var ModelResolver

@@ -14,12 +14,18 @@ services:
             $stopwatch: '@debug.stopwatch'
         lazy: true
 
+    Plugin\AceClient43\Util\Normalizer\ModelTypeTraceableExtractor:
+        autoconfigure: false
+        arguments:
+            $stopwatch: '@debug.stopwatch'
+            $inner: '@Plugin\AceClient43\Util\Normalizer\ModelTypeExtractor'
     # ===================================================================================================
     # Traceable Serializers for Performance Monitoring
     # ===================================================================================================
     # These are the actual serializer implementations without tracing
     ace_original_soap_xml_serializer:
         class: Plugin\AceClient43\Util\Serializer\SoapXmlSerializer
+        lazy: true
         autoconfigure: false
         arguments:
             $serializer: '@soap_xml_symfony_serializer'
@@ -49,6 +55,7 @@ services:
         class: Plugin\AceClient43\Util\DataCollector\TraceableSerializer
         autoconfigure: false
         public: false
+        lazy: true
         arguments:
             $serializer: '@ace_default_serializer_symfony'
             $stopwatch: '@debug.stopwatch'
@@ -158,3 +165,6 @@ services:
 
     Plugin\AceClient43\ApiClient\Client\GetJsonClient:
         alias: ace_traceable_get_json_client
+
+    Plugin\AceClient43\Util\Normalizer\ModelTypeExtractorInterface:
+        alias: Plugin\AceClient43\Util\Normalizer\ModelTypeTraceableExtractor

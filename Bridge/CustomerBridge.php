@@ -25,6 +25,7 @@ use Plugin\AceClient43\AceServices\Model\Response\Member\GetPointRireki\GetPoint
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetRirekiDetail\MemberModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\RegMember\RegMemberResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\UpdateTaikai\UpdateTaikaiResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\WebApi\Member\V1\CheckCodeAndMail\CheckCodeAndMailResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrderList\V1GetOrderListResponseModelInterface;
 use Plugin\AceClient43\Bridge\Helper\CustomerBridgeHelper;
 use Plugin\AceClient43\Events\Events;
@@ -491,5 +492,12 @@ class CustomerBridge extends BaseBridge
         }
 
         $this->helper->updatePasswordInAce($customer, $this->getSyid(), $options);
+    }
+
+    public function checkMemberCodeAndMail(array $mcode, array $mail): ?CheckCodeAndMailResponseModelInterface
+    {
+        $responseObject = $this->helper->checkMemberCodeAndMailInAce($this->getSyid(), $mcode, $mail);
+
+        return $responseObject;
     }
 }

@@ -28,6 +28,11 @@ trait ZaikoTrait
      */
     public function getZaiko(): ?int
     {
+        return max((int) $this->zaiko, 0);
+    }
+
+    public function getPureZaiko(): ?int
+    {
         return $this->zaiko;
     }
 
