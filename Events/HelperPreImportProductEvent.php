@@ -13,36 +13,26 @@
 
 namespace Plugin\AceClient43\Events;
 
-use Eccube\Entity\Member;
-use Plugin\AceClient43\AceServices\Model\Response\Goods\GetGoods\MasterModelInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class HelperPreImportProductEvent extends Event
 {
-    public OutputInterface $output;
+    public array $request;
 
-    public Member $creator;
-
-    public \DateTime $updateFrom;
-
-    public \DateTime $updateTo;
+    public LoggerInterface $logger;
 
     public array $options;
 
-    public MasterModelInterface $masterModel;
-
-    public bool $continue = true;
-
-    public int $importCount = 0;
-
-    public function __construct(MasterModelInterface $master, \DateTime $updateFrom, \DateTime $updateTo, Member $creator, ?OutputInterface $output, array $options = [])
+    /**
+     * @param array $request
+     * @param LoggerInterface $logger
+     * @param array $options
+     */
+    public function __construct(array $request, LoggerInterface $logger, array $options)
     {
-        $this->masterModel = $master;
-        $this->updateFrom = $updateFrom;
-        $this->updateTo = $updateTo;
-        $this->output = $output;
-        $this->creator = $creator;
+        $this->request = $request;
+        $this->logger = $logger;
         $this->options = $options;
     }
 }
