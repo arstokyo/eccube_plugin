@@ -21,6 +21,7 @@ use Plugin\AceClient43\AceServices\AceMethod\Member\GetPointRirekiMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\GetRirekiDetailMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\GetRirekiMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\UpdatePasswordMethod;
+use Plugin\AceClient43\AceServices\AceMethod\WebApi\Member\V1\CheckCodeAndMailMethod;
 use Plugin\AceClient43\AceServices\AceMethod\WebApi\Order\V1GetOrderListMethod;
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelExtend1Interface;
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelInterface;
@@ -29,12 +30,14 @@ use Plugin\AceClient43\AceServices\Model\Request\Member\GetMember as GetMemberRe
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetMemberMcode as GetMemberMcodeRequest;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetPointRireki\GetPointRirekiRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
+use Plugin\AceClient43\AceServices\Model\Request\WebApi\Member\V1\CheckCodeAndMail\CheckCodeAndMailRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\CheckMailAdress\CheckMailAdressResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember as GetMemberResponse;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode as GetMemberMcodeResponse;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetPointRireki\GetPointRirekiResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetRireki as GetRirekiResponse;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetRirekiDetail as GetRirekiDetailResponse;
+use Plugin\AceClient43\AceServices\Model\Response\WebApi\Member\V1\CheckCodeAndMail\CheckCodeAndMailResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrderList\V1GetOrderListResponseModelInterface;
 use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
 use Plugin\AceClient43\Bridge\DataConverter\CustomerDataConverterInterface;
@@ -61,6 +64,8 @@ class CustomerBridgeHelper
 
     protected V1GetOrderListMethod $getOrderListMethod;
 
+    protected CheckCodeAndMailMethod $checkCodeAndMailMethod;
+
     protected GetPointRirekiMethod $getPointRirekiMethod;
 
     protected UpdatePasswordMethod $updatePasswordMethod;
@@ -75,6 +80,7 @@ class CustomerBridgeHelper
         GetRirekiMethod $getRirekiMethod,
         GetRirekiDetailMethod $getRirekiDetailMethod,
         V1GetOrderListMethod $getOrderListMethod,
+        CheckCodeAndMailMethod $checkCodeAndMailMethod,
         GetPointRirekiMethod $getPointRirekiMethod,
         UpdatePasswordMethod $updatePasswordMethod,
         LoggerInterface $logger,
@@ -86,6 +92,7 @@ class CustomerBridgeHelper
         $this->getRirekiMethod = $getRirekiMethod;
         $this->getRirekiDetailMethod = $getRirekiDetailMethod;
         $this->getOrderListMethod = $getOrderListMethod;
+        $this->checkCodeAndMailMethod = $checkCodeAndMailMethod;
         $this->getPointRirekiMethod = $getPointRirekiMethod;
         $this->updatePasswordMethod = $updatePasswordMethod;
         $this->logger = $logger;
@@ -352,6 +359,32 @@ class CustomerBridgeHelper
             }
         } catch (\Throwable $e) {
             throw new \RuntimeException('パスワードの更新に失敗しました。', 0, $e);
+        }
+    }
+
+    public function checkMemberCodeAndMailInAce(string $syid, array $mcode, array $mail, int $status = 0): ?CheckCodeAndMailResponseModelInterface
+    {
+        /** @var CheckCodeAndMailRequestModelInterface $requestModel */
+        $requestModel = $this->createRequestModel(CheckCodeAndMailRequestModelInterface::class);
+
+        $request = $requestModel
+            ->setSyid($syid)
+            ->setMcode($mcode)
+            ->setMail($mail)
+            ->setStatus($status);
+
+        try {
+            $response = $this->checkCodeAndMailMethod
+                ->withRequest($request)
+                ->send();
+
+            if (!$response->isOk()) {
+                throw new \RuntimeException('通販Ace側の処理でエラーが発生しました');
+            }
+
+            return $response->getResponse();
+        } catch (\Throwable $e) {
+            throw new \RuntimeException('メールおよびコードの存在を確認に失敗しました。', 0, $e);
         }
     }
 }

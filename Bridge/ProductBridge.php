@@ -147,12 +147,11 @@ class ProductBridge extends BaseBridge
 
         $optionModel->setReturnGoodsKubun($freeCode);
 
-        if (isset($options['_product_import_helper.import_stock']) && $options['_product_import_helper.import_stock']) {
+        if (isset($options['_get_goods.import_stock']) && $options['_get_goods.import_stock']) {
             $optionModel->setIncludeZaiko(true);
         }
 
-        // TODO: Change the domain _product_import_helper to _get_goods on local domain (getAll)
-        if (isset($options['_product_import_helper.import_stock_skid']) && 0 < $importSkid = (int) $options['_product_import_helper.import_stock_skid']) {
+        if (isset($options['_get_goods.import_stock_skid']) && 0 < $importSkid = (int) $options['_get_goods.import_stock_skid']) {
             $optionModel->setIncludeZaikoSkid($importSkid);
         }
 

@@ -30,6 +30,7 @@ class Events
     public const PRE_PROCESS_CHARGE_EVENT = 'ace_client.pre_process_charge_event';
     public const POST_PROCESS_CHARGE_EVENT = 'ace_client.post_process_charge_event';
     public const COMMAND_PRE_IMPORT_PRODUCT = 'ace_client.command_pre_import_product';
+    public const HELPER_PRE_IMPORT_PRODUCT = 'ace_client.helper_pre_import_product';
     public const HELPER_POST_IMPORT_PRODUCT = 'ace_client.helper_post_import_product';
     public const PRODUCT_IMPORT_HELPER_ON_CREATE_PRODUCT = 'ace_client.product_import_helper_on_create_product';
     public const PRODUCT_IMPORT_HELPER_ON_CREATE_PRODUCT_FAILED = 'ace_client.product_import_helper_on_create_product_failed';

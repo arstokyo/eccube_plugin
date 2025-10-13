@@ -32,16 +32,22 @@ use Eccube\Repository\TaxRuleRepository;
 use Plugin\AceClient43\AceServices\Model\Dependency\Good\GoodModelGroup1Interface;
 use Plugin\AceClient43\AceServices\Model\Dependency\Good\GoodTankaModelGroup1Interface;
 use Plugin\AceClient43\Bridge\ProductBridge;
+use Plugin\AceClient43\Entity\Constants\AceProductOrderStatus;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\HelperImportProductEvent;
 use Plugin\AceClient43\Events\HelperOnCreateProductEvent;
 use Plugin\AceClient43\Events\HelperOnCreateProductFailedEvent;
 use Plugin\AceClient43\Events\HelperOnSetPriceEvent;
+use Plugin\AceClient43\Events\HelperPreImportProductEvent;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ProductImportHelper
 {
+    public const TRIGGER_IMPORT_WITH_GET_GOODS = 'product_import_helper.import_with_get_goods';
+
+    public const TRIGGER_IMPORT_WITH_GET_ITEMS = 'product_import_helper.import_with_get_items';
+
     protected ProductBridge $productBridge;
 
     protected LoggerInterface $logger;
@@ -102,12 +108,28 @@ class ProductImportHelper
         if ($logger === null) {
             $logger = $this->logger;
         }
+
         $options = array_merge([
-            '_trigger' => ProductImportHelper::class,
+            '_trigger' => self::TRIGGER_IMPORT_WITH_GET_GOODS,
             '_failed_product_codes' => [],
             '_product_import_helper.import_stock' => true,
             '_product_import_helper.set_product_status' => true,
         ], $options);
+
+        if ($this->eventDispatcher->hasListeners(Events::HELPER_PRE_IMPORT_PRODUCT)) {
+            $request = [
+                'update_from' => $updateFrom,
+                'update_to' => $updateTo,
+            ];
+
+            $event = new HelperPreImportProductEvent($request, $logger, $options);
+            $this->eventDispatcher->dispatch($event, Events::HELPER_PRE_IMPORT_PRODUCT);
+
+            $updateFrom = $event->request['update_from'];
+            $updateTo = $event->request['update_to'];
+            $options = $event->options;
+        }
+
         $master = $this->productBridge->getAll($updateFrom, $updateTo, $options);
 
         if (null === $master || !$master->hasGoods() || !$master->hasGtanka()) {
@@ -152,6 +174,7 @@ class ProductImportHelper
         if ($logger === null) {
             $logger = $this->logger;
         }
+
         if (empty($productIds)) {
             $logger->error('<error>商品IDが指定されていないため、インポート処理を中止します。</error>');
 
@@ -159,13 +182,25 @@ class ProductImportHelper
         }
 
         $options = array_merge([
-            '_trigger' => ProductImportHelper::class,
+            '_trigger' => self::TRIGGER_IMPORT_WITH_GET_ITEMS,
             '_failed_product_codes' => [],
             '_product_import_helper.import_stock' => true,
             '_product_import_helper.set_product_status' => true,
+            '_get_items.skid' => null,
+            '_get_items.free_kubuns' => [],
         ], $options);
 
-        $payload = $this->productBridge->getItems($productIds, [], null, $options);
+        if ($this->eventDispatcher->hasListeners(Events::HELPER_PRE_IMPORT_PRODUCT)) {
+            $request['product_ids'] = $productIds;
+
+            $event = new HelperPreImportProductEvent($request, $logger, $options);
+            $this->eventDispatcher->dispatch($event, Events::HELPER_PRE_IMPORT_PRODUCT);
+
+            $productIds = $event->request['product_ids'];
+            $options = $event->options;
+        }
+
+        $payload = $this->productBridge->getItems($productIds, $options['_get_items.free_kubuns'], $options['_get_items.skid'], $options);
         $createdProducts = $this->create($payload->getItems(), [], $creator, $logger, $options);
 
         if ($this->eventDispatcher->hasListeners(Events::HELPER_POST_IMPORT_PRODUCT)) {
@@ -507,24 +542,24 @@ class ProductImportHelper
 
         if ($productModel->isSoftDelete()) {
             $product->setStatus($displayAbolishedStatus);
-            $productClass->setVisible(false);
 
             return;
         }
 
-        $productClass->setVisible(true);
         $status = $settingBag['display_show_status'];
         $displayHideStatus = $settingBag['display_hide_status'];
 
         // 商品の状態に応じてステータスを設定
         switch ($productModel->getTkbn()) {
-            case 10:
+            case AceProductOrderStatus::SUSPENDED:
                 $status = $displayHideStatus;
-                $productClass->setVisible(false);
                 break;
-            case 99:
+            case AceProductOrderStatus::ABOLISHED:
                 $status = $displayAbolishedStatus;
-                $productClass->setVisible(false);
+                break;
+            default:
+                // 商品の通常またはその以外は、VisibleをTrueとセット
+                $productClass->setVisible(true);
                 break;
         }
 

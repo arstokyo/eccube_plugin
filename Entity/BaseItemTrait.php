@@ -28,6 +28,39 @@ trait BaseItemTrait
     private float $ace_markup_rate = 0;
 
     /**
+     * プレゼントかどうか
+     *
+     * @var bool
+     *
+     * @ORM\Column(name="is_present", type="boolean", options={"default":false, "comment":"プレゼントかどうか"})
+     */
+    private bool $isPresent = false;
+
+    /**
+     * プレゼントかどうかを設定
+     *
+     * @return bool
+     */
+    public function isPresent(): bool
+    {
+        return $this->isPresent;
+    }
+
+    /**
+     * プレゼントかどうかを設定
+     *
+     * @param bool $isPresent
+     *
+     * @return static
+     */
+    public function setIsPresent(bool $isPresent): static
+    {
+        $this->isPresent = $isPresent;
+
+        return $this;
+    }
+
+    /**
      * 掛け税率を取得
      *
      * @return float
