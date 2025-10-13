@@ -2,11 +2,11 @@
 
 namespace Plugin\AceClient43\Service;
 
-use Customize\AceClient\Model\Response\Jyuden\AddCart\JyumeiModel;
 use Eccube\Entity\Cart;
 use Eccube\Entity\CartItem;
 use Eccube\Repository\ProductClassRepository;
 use Eccube\Service\CartService;
+use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\JyumeiModel;
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\OrderModelInterface;
 use Plugin\AceClient43\Service\Contract\ItemCompareInterface;
 
