@@ -6,7 +6,7 @@ use Eccube\Entity\Cart;
 use Eccube\Entity\CartItem;
 use Eccube\Repository\ProductClassRepository;
 use Eccube\Service\CartService;
-use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\JyumeiModel;
+use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\JyumeiModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\OrderModelInterface;
 use Plugin\AceClient43\Service\Contract\ItemCompareInterface;
 
@@ -24,7 +24,9 @@ use Plugin\AceClient43\Service\Contract\ItemCompareInterface;
 class AddCartHelper
 {
     protected CartService $cartService;
+
     protected ProductClassRepository $productClassRepository;
+
     protected ItemCompareInterface $itemCompare;
 
     public function __construct(
@@ -52,7 +54,7 @@ class AddCartHelper
         $foundProductCodes = [];
         $anySync = false;
 
-        /** @var JyumeiModel $jyumei */
+        /** @var JyumeiModelInterface $jyumei */
         foreach ($orderModel->getJyumei() as $jyumei) {
             if (!$jyumei->isProduct()) {
                 // 商品ではない場合はスキップ
@@ -148,11 +150,11 @@ class AddCartHelper
     /**
      * JyumeiModelからCartItemを作成する
      *
-     * @param JyumeiModel $jyumei
+     * @param JyumeiModelInterface $jyumei
      *
      * @return CartItem
      */
-    protected function createCartItemFromJyumei(JyumeiModel $jyumei): CartItem
+    protected function createCartItemFromJyumei(JyumeiModelInterface $jyumei): CartItem
     {
         $cartItem = new CartItem();
 
