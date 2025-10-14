@@ -19,6 +19,7 @@ class ProductAdminRenderListener implements EventSubscriberInterface
     {
         return [
             '@admin/Product/index.twig' => 'onAdminProductIndex',
+            '@admin/Product/product.twig' => 'onAdminProductEdit',
         ];
     }
 
@@ -29,5 +30,10 @@ class ProductAdminRenderListener implements EventSubscriberInterface
         }
 
         $event->addSnippet('@AceClient43/admin/product_index.twig');
+    }
+
+    public function onAdminProductEdit(TemplateEvent $event): void
+    {
+        $event->addSnippet('@AceClient43/admin/admin_product_edit.twig');
     }
 }
