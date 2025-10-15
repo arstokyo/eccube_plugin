@@ -114,6 +114,7 @@ class ProductImportHelper
             '_failed_product_codes' => [],
             '_product_import_helper.import_stock' => true,
             '_product_import_helper.set_product_status' => true,
+            '_product_import_helper.set_price' => true,
         ], $options);
 
         if ($this->eventDispatcher->hasListeners(Events::HELPER_PRE_IMPORT_PRODUCT)) {
@@ -186,6 +187,7 @@ class ProductImportHelper
             '_failed_product_codes' => [],
             '_product_import_helper.import_stock' => true,
             '_product_import_helper.set_product_status' => true,
+            '_product_import_helper.set_price' => true,
             '_get_items.skid' => null,
             '_get_items.free_kubuns' => [],
         ], $options);
@@ -267,7 +269,9 @@ class ProductImportHelper
                     $this->setStatus($productModel, $product, $productClass, $settingBag);
                 }
 
-                $this->setPrice($productModel, $productClass, $creator, $tankaModels, $settingBag, $options, $logger);
+                if ($options['_product_import_helper.set_price']) {
+                    $this->setPrice($productModel, $productClass, $creator, $tankaModels, $settingBag, $options, $logger);
+                }
 
                 // import_stockがtrueの場合のみ在庫を更新する
                 if ($options['_product_import_helper.import_stock']) {
@@ -280,7 +284,7 @@ class ProductImportHelper
                     /** @var HelperOnCreateProductEvent $onCreateEvent */
                     $onCreateEvent = $settingBag['on_create_product_event'];
                     if (null === $onCreateEvent) {
-                        $onCreateEvent = new HelperOnCreateProductEvent($productClass, $productStock, $productModel, $productModels, $processedProductClasses, $creator, $logger, $options);
+                        $onCreateEvent = new HelperOnCreateProductEvent($productClass, $productStock, $productModel, $productModels, $processedProductClasses, $creator, $logger, $options, $settingBag);
                         $settingBag['on_create_product_event'] = $onCreateEvent;
                     } else {
                         $onCreateEvent->productClass = $productClass;
@@ -288,6 +292,7 @@ class ProductImportHelper
                         $onCreateEvent->productModel = $productModel;
                         $onCreateEvent->processedProductsClasses = $processedProductClasses;
                         $onCreateEvent->options = $options;
+                        $onCreateEvent->settingBag = $settingBag;
                         $onCreateEvent->failed = false;
                     }
 
