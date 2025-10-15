@@ -158,6 +158,65 @@
                 console.error('Error:', error);
             });
         });
+
+        var table = document.querySelector('.c-primaryCol table.table');
+        if (!table) return; 
+
+        var theadRow = table.querySelector('thead tr');
+        if (!theadRow) return;
+
+        // 1) Insert ACE header TH right after the first TH (Ace商品ID), only once.
+        var aceHeaderText = {{ 'ace_client.admin.product.label.ace_product_ids'|trans|json_encode|raw }};
+
+        if (!theadRow.querySelector('th.js-ace-header')) {
+            var th = document.createElement('th');
+            th.className = 'border-top-0 pt-2 pb-2 text-nowrap';
+            
+            th.classList.add('js-ace-header');
+            th.textContent = aceHeaderText;
+
+            var firstTh = theadRow.querySelector('th');
+            if (firstTh && firstTh.parentNode) {
+                if (firstTh.nextSibling) {
+                    theadRow.insertBefore(th, firstTh.nextSibling);
+                } else {
+                    theadRow.appendChild(th);
+                }
+            } else {
+                theadRow.appendChild(th);
+            }
+        }
+
+        // 2) Build a map of product_id -> ace_product_id
+        var aceMap = {};
+        {% for Product in pagination %}
+            aceMap[{{ Product.id|json_encode|raw }}] = {{ (Product.ProductClasses|first().aceProductId ?? '-')|json_encode|raw }};
+        {% endfor %}
+
+        // 3) For each data row, insert a TD with the ACE PRODUCT ID right after the first TD (Product.id).
+        var rows = table.querySelectorAll('tbody tr[id^="ex-product-"]');
+        rows.forEach(function(tr) {
+            if (tr.querySelector('td.js-ace-cell')) {
+                return; // already inserted
+            }
+            var id = tr.id.replace('ex-product-', '');
+            var aceVal = aceMap[id] || '-';
+
+            var firstTd = tr.querySelector('td');
+            if (!firstTd) return;
+
+            var td = document.createElement('td');
+            td.className = 'align-middle';
+            td.classList.add('js-ace-cell');
+            td.innerHTML = '<span class="text-monospace"></span>';
+            td.querySelector('span').textContent = String(aceVal);
+
+            if (firstTd.nextSibling) {
+                tr.insertBefore(td, firstTd.nextSibling);
+            } else {
+                tr.appendChild(td);
+            }
+        });
     });
 })();
 </script>
