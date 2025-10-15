@@ -15,6 +15,7 @@ namespace Plugin\AceClient43\Bridge\Helper;
 
 use Eccube\Entity\Customer;
 use Plugin\AceClient43\AceServices\AceMethod\Member\CheckMailAdressMethod;
+use Plugin\AceClient43\AceServices\AceMethod\Member\GetDurationOrderTotalMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\GetMemberMcodeMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\GetMemberMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\GetPointRirekiMethod;
@@ -32,6 +33,7 @@ use Plugin\AceClient43\AceServices\Model\Request\Member\GetPointRireki\GetPointR
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 use Plugin\AceClient43\AceServices\Model\Request\WebApi\Member\V1\CheckCodeAndMail\CheckCodeAndMailRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\CheckMailAdress\CheckMailAdressResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetDurationOrderTotal\GetDurationOrderTotalResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember as GetMemberResponse;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode as GetMemberMcodeResponse;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetPointRireki\GetPointRirekiResponseModelInterface;
@@ -64,9 +66,13 @@ class CustomerBridgeHelper
 
     protected V1GetOrderListMethod $getOrderListMethod;
 
+    protected \Plugin\AceClient43\AceServices\AceMethod\WebApi\Order\V2GetOrderListV2Method $getOrderListV2Method;
+
     protected CheckCodeAndMailMethod $checkCodeAndMailMethod;
 
     protected GetPointRirekiMethod $getPointRirekiMethod;
+
+    protected GetDurationOrderTotalMethod $getDurationOrderTotalMethod;
 
     protected UpdatePasswordMethod $updatePasswordMethod;
 
@@ -80,8 +86,10 @@ class CustomerBridgeHelper
         GetRirekiMethod $getRirekiMethod,
         GetRirekiDetailMethod $getRirekiDetailMethod,
         V1GetOrderListMethod $getOrderListMethod,
+        \Plugin\AceClient43\AceServices\AceMethod\WebApi\Order\V2GetOrderListV2Method $getOrderListV2Method,
         CheckCodeAndMailMethod $checkCodeAndMailMethod,
         GetPointRirekiMethod $getPointRirekiMethod,
+        GetDurationOrderTotalMethod $getDurationOrderTotalMethod,
         UpdatePasswordMethod $updatePasswordMethod,
         LoggerInterface $logger,
     ) {
@@ -92,8 +100,10 @@ class CustomerBridgeHelper
         $this->getRirekiMethod = $getRirekiMethod;
         $this->getRirekiDetailMethod = $getRirekiDetailMethod;
         $this->getOrderListMethod = $getOrderListMethod;
+        $this->getOrderListV2Method = $getOrderListV2Method;
         $this->checkCodeAndMailMethod = $checkCodeAndMailMethod;
         $this->getPointRirekiMethod = $getPointRirekiMethod;
+        $this->getDurationOrderTotalMethod = $getDurationOrderTotalMethod;
         $this->updatePasswordMethod = $updatePasswordMethod;
         $this->logger = $logger;
     }
@@ -315,6 +325,14 @@ class CustomerBridgeHelper
         return $response->getResponse();
     }
 
+    public function getOrderListV2(string $aceCustomerId, string $syid, int $page = 1, int $limit = 10, ?int $denno = null, int $sort = 0, ?string $dayFrom = null, ?string $dayTo = null, array $options = []): ?\Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V2\GetOrderListV2\V2GetOrderListV2ResponseModelInterface
+    {
+        $request = $this->customerDataConverter->convertCustomerToGetOrderListV2Request($aceCustomerId, $syid, $page, $limit, $denno, $sort, $dayFrom, $dayTo, $options);
+        $response = $this->getOrderListV2Method->withRequest($request)->send();
+
+        return $response->getResponse();
+    }
+
     /**
      * 通販Aceシステムに対してポイント履歴を取得する
      */
@@ -339,6 +357,54 @@ class CustomerBridgeHelper
             return $response->getResponse();
         } catch (\Throwable $e) {
             throw new \RuntimeException('ポイント履歴の取得に失敗しました。', 0, $e);
+        }
+    }
+
+    /**
+     * 通販Aceシステムに対して期間内の注文合計を取得する
+     *
+     * @param string $aceCustomerId ACE顧客ID
+     * @param string $syid システムID
+     * @param \DateTimeInterface $dayfrom 開始日 (YYYYMMDD format)
+     * @param \DateTimeInterface $dayto 終了日 (YYYYMMDD format)
+     *
+     * @return GetDurationOrderTotalResponseModelInterface|null
+     *
+     * @throws \RuntimeException
+     */
+    public function getDurationOrderTotal(
+        string $aceCustomerId,
+        string $syid,
+        \DateTimeInterface $dayfrom,
+        \DateTimeInterface $dayto,
+    ): ?GetDurationOrderTotalResponseModelInterface {
+        /** @var \Plugin\AceClient43\AceServices\Model\Request\Member\GetDurationOrderTotal\GetDurationOrderTotalRequestModelInterface $requestModel */
+        $requestModel = $this->createRequestModel(
+            \Plugin\AceClient43\AceServices\Model\Request\Member\GetDurationOrderTotal\GetDurationOrderTotalRequestModelInterface::class
+        );
+
+        // 日付をACE形式に変換: YYYYMMDD
+        $dayfromInt = (int) $dayfrom->format('Ymd');
+        $daytoInt = (int) $dayto->format('Ymd');
+
+        $request = $requestModel
+            ->setSyid($syid)
+            ->setMbid($aceCustomerId)
+            ->setDayfrom($dayfromInt)
+            ->setDayto($daytoInt);
+
+        try {
+            $response = $this->getDurationOrderTotalMethod
+                ->withRequest($request)
+                ->send();
+
+            if (!$response->isOk()) {
+                throw new \RuntimeException('通販Ace側の処理でエラーが発生しました');
+            }
+
+            return $response->getResponse();
+        } catch (\Throwable $e) {
+            throw new \RuntimeException('期間内注文合計の取得に失敗しました。', 0, $e);
         }
     }
 

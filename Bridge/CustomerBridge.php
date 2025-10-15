@@ -368,7 +368,7 @@ class CustomerBridge extends BaseBridge
      * ログインメンバーモデルから顧客エンティティを更新する
      *
      * @param Customer $customer 更新対象の顧客エンティティ
-     * @param GetMember\LoginMemberModelInterface|LoginMemberModelInterface|null $loginMemberModel 通販Aceから取得したログインメンバーモデル
+     * @param GetMember\LoginMemberModelInterface|LoginMemberModelInterface|null $loginMemberModel ログインメンバーモデル
      * @param bool $needFlush 更新後にエンティティマネージャーの変更をフラッシュするかどうか
      *
      * @return Customer 更新された顧客エンティティ
@@ -470,11 +470,47 @@ class CustomerBridge extends BaseBridge
         return $responseObject;
     }
 
+    public function getOrderListV2(Customer $customer, int $page = 1, int $limit = 10, ?int $denno = null, int $sort = 0, ?string $dayFrom = null, ?string $dayTo = null, array $options = []): ?\Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V2\GetOrderListV2\V2GetOrderListV2ResponseModelInterface
+    {
+        $responseObject = $this->helper->getOrderListV2($customer->getAceCustomerId(), $this->getSyid(), $page, $limit, $denno, $sort, $dayFrom, $dayTo, $options);
+
+        return $responseObject;
+    }
+
     public function getPointHistory(Customer $customer): ?GetPointRirekiResponseModelInterface
     {
         $responseObject = $this->helper->getPointHistory($customer->getAceCustomerId(), $this->getSyid());
 
         return $responseObject;
+    }
+
+    /**
+     * 期間内の注文合計を取得する
+     *
+     * @param Customer $customer 顧客エンティティ
+     * @param \DateTimeInterface $dayfrom 開始日 (YYYYMMDD format)
+     * @param \DateTimeInterface $dayto 終了日 (YYYYMMDD format)
+     *
+     * @return \Plugin\AceClient43\AceServices\Model\Response\Member\GetDurationOrderTotal\GetDurationOrderTotalResponseModelInterface|null
+     *
+     * @throws \LogicException
+     */
+    public function getDurationOrderTotal(
+        Customer $customer,
+        \DateTimeInterface $dayfrom,
+        \DateTimeInterface $dayto,
+    ): ?\Plugin\AceClient43\AceServices\Model\Response\Member\GetDurationOrderTotal\GetDurationOrderTotalResponseModelInterface {
+        if (null === $customer->getAceCustomerId()) {
+            $this->logger->error('通販Aceの期間内注文合計取得に失敗しました: 顧客IDが設定されていません', ['customer' => $customer]);
+            throw new \LogicException('顧客IDが設定されていません。');
+        }
+
+        return $this->helper->getDurationOrderTotal(
+            $customer->getAceCustomerId(),
+            $this->getSyid(),
+            $dayfrom,
+            $dayto
+        );
     }
 
     /**
