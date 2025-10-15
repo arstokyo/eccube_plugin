@@ -46,6 +46,8 @@ class HelperOnCreateProductEvent extends Event
 
     public ProductStock $productStock;
 
+    public array $settingBag;
+
     public function __construct(
         ProductClass $productClass,
         ProductStock $productStock,
@@ -55,6 +57,7 @@ class HelperOnCreateProductEvent extends Event
         Member $creator,
         LoggerInterface $logger,
         array $options,
+        array $settingBag,
     ) {
         $this->productClass = $productClass;
         $this->productStock = $productStock;
@@ -64,5 +67,6 @@ class HelperOnCreateProductEvent extends Event
         $this->logger = $logger;
         $this->creator = $creator;
         $this->options = $options;
+        $this->settingBag = $settingBag;
     }
 }
