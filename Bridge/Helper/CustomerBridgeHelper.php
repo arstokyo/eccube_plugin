@@ -24,9 +24,11 @@ use Plugin\AceClient43\AceServices\AceMethod\Member\GetRirekiMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\UpdatePasswordMethod;
 use Plugin\AceClient43\AceServices\AceMethod\WebApi\Member\V1\CheckCodeAndMailMethod;
 use Plugin\AceClient43\AceServices\AceMethod\WebApi\Order\V1GetOrderListMethod;
+use Plugin\AceClient43\AceServices\AceMethod\WebApi\Order\V2GetOrderListV2Method;
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelExtend1Interface;
 use Plugin\AceClient43\AceServices\Model\Dependency\Message\HasMessageModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Member\CheckMailAdress\CheckMailAdressRequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\Member\GetDurationOrderTotal\GetDurationOrderTotalRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetMember as GetMemberRequest;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetMemberMcode as GetMemberMcodeRequest;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetPointRireki\GetPointRirekiRequestModelInterface;
@@ -41,6 +43,7 @@ use Plugin\AceClient43\AceServices\Model\Response\Member\GetRireki as GetRirekiR
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetRirekiDetail as GetRirekiDetailResponse;
 use Plugin\AceClient43\AceServices\Model\Response\WebApi\Member\V1\CheckCodeAndMail\CheckCodeAndMailResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrderList\V1GetOrderListResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V2\GetOrderListV2\V2GetOrderListV2ResponseModelInterface;
 use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
 use Plugin\AceClient43\Bridge\DataConverter\CustomerDataConverterInterface;
 use Psr\Log\LoggerInterface;
@@ -66,7 +69,7 @@ class CustomerBridgeHelper
 
     protected V1GetOrderListMethod $getOrderListMethod;
 
-    protected \Plugin\AceClient43\AceServices\AceMethod\WebApi\Order\V2GetOrderListV2Method $getOrderListV2Method;
+    protected V2GetOrderListV2Method $getOrderListV2Method;
 
     protected CheckCodeAndMailMethod $checkCodeAndMailMethod;
 
@@ -86,7 +89,7 @@ class CustomerBridgeHelper
         GetRirekiMethod $getRirekiMethod,
         GetRirekiDetailMethod $getRirekiDetailMethod,
         V1GetOrderListMethod $getOrderListMethod,
-        \Plugin\AceClient43\AceServices\AceMethod\WebApi\Order\V2GetOrderListV2Method $getOrderListV2Method,
+        V2GetOrderListV2Method $getOrderListV2Method,
         CheckCodeAndMailMethod $checkCodeAndMailMethod,
         GetPointRirekiMethod $getPointRirekiMethod,
         GetDurationOrderTotalMethod $getDurationOrderTotalMethod,
@@ -325,7 +328,7 @@ class CustomerBridgeHelper
         return $response->getResponse();
     }
 
-    public function getOrderListV2(string $aceCustomerId, string $syid, int $page = 1, int $limit = 10, ?int $denno = null, int $sort = 0, ?string $dayFrom = null, ?string $dayTo = null, array $options = []): ?\Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V2\GetOrderListV2\V2GetOrderListV2ResponseModelInterface
+    public function getOrderListV2(string $aceCustomerId, string $syid, int $page = 1, int $limit = 10, ?int $denno = null, int $sort = 0, ?string $dayFrom = null, ?string $dayTo = null, array $options = []): ?V2GetOrderListV2ResponseModelInterface
     {
         $request = $this->customerDataConverter->convertCustomerToGetOrderListV2Request($aceCustomerId, $syid, $page, $limit, $denno, $sort, $dayFrom, $dayTo, $options);
         $response = $this->getOrderListV2Method->withRequest($request)->send();
@@ -378,9 +381,9 @@ class CustomerBridgeHelper
         \DateTimeInterface $dayfrom,
         \DateTimeInterface $dayto,
     ): ?GetDurationOrderTotalResponseModelInterface {
-        /** @var \Plugin\AceClient43\AceServices\Model\Request\Member\GetDurationOrderTotal\GetDurationOrderTotalRequestModelInterface $requestModel */
+        /** @var GetDurationOrderTotalRequestModelInterface $requestModel */
         $requestModel = $this->createRequestModel(
-            \Plugin\AceClient43\AceServices\Model\Request\Member\GetDurationOrderTotal\GetDurationOrderTotalRequestModelInterface::class
+            GetDurationOrderTotalRequestModelInterface::class
         );
 
         // 日付をACE形式に変換: YYYYMMDD

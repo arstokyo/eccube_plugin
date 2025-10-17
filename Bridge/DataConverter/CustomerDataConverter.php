@@ -25,6 +25,8 @@ use Plugin\AceClient43\AceServices\Model\Request\Member\GetRirekiDetail\GetRirek
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 use Plugin\AceClient43\AceServices\Model\Request\Member\UpdatePassword\UpdatePasswordRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\WebApi\Order\V1\GetOrderList\V1GetOrderListRequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\WebApi\Order\V2\GetOrderListV2\OptionsModelInterface;
+use Plugin\AceClient43\AceServices\Model\Request\WebApi\Order\V2\GetOrderListV2\V2GetOrderListV2RequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode;
 use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
@@ -286,16 +288,16 @@ class CustomerDataConverter implements CustomerDataConverterInterface
         ;
     }
 
-    public function convertCustomerToGetOrderListV2Request(string $aceCustomerId, string $syid, int $page = 1, int $limit = 10, ?int $denno = null, int $sort = 0, ?string $dayFrom = null, ?string $dayTo = null, array $options = []): \Plugin\AceClient43\AceServices\Model\Request\WebApi\Order\V2\GetOrderListV2\V2GetOrderListV2RequestModelInterface
+    public function convertCustomerToGetOrderListV2Request(string $aceCustomerId, string $syid, int $page = 1, int $limit = 10, ?int $denno = null, int $sort = 0, ?string $dayFrom = null, ?string $dayTo = null, array $options = []): V2GetOrderListV2RequestModelInterface
     {
         // 検索パラメータを抽出
         $searchName = $options['search_name'] ?? null;
 
-        /** @var \Plugin\AceClient43\AceServices\Model\Request\WebApi\Order\V2\GetOrderListV2\V2GetOrderListV2RequestModelInterface $requestModel */
-        $requestModel = $this->createRequestModel(\Plugin\AceClient43\AceServices\Model\Request\WebApi\Order\V2\GetOrderListV2\V2GetOrderListV2RequestModelInterface::class);
+        /** @var V2GetOrderListV2RequestModelInterface $requestModel */
+        $requestModel = $this->createRequestModel(V2GetOrderListV2RequestModelInterface::class);
 
         // オプションモデルを作成し設定
-        $optionsModel = $this->createSubModel(\Plugin\AceClient43\AceServices\Model\Request\WebApi\Order\V2\GetOrderListV2\OptionsModelInterface::class);
+        $optionsModel = $this->createSubModel(OptionsModelInterface::class);
 
         if ($searchName) {
             $optionsModel->setSearchName($searchName);
@@ -307,7 +309,7 @@ class CustomerDataConverter implements CustomerDataConverterInterface
             ->setDispRow($limit)
             ->setDispPage($page)
             ->setDenno($denno)
-            ->setDenku(\Plugin\AceClient43\AceServices\Model\Request\WebApi\Order\V2\GetOrderListV2\V2GetOrderListV2RequestModelInterface::DENKU_ORDER)
+            ->setDenku(V2GetOrderListV2RequestModelInterface::DENKU_ORDER)
             ->setSort($sort)
             ->setDayFrom($dayFrom)
             ->setDayTo($dayTo)
