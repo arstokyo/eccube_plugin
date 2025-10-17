@@ -19,6 +19,7 @@ use Plugin\AceClient43\AceServices\AceMethod\Member\RegMemberMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\UpdateTaikaiMethod;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 use Plugin\AceClient43\AceServices\Model\Request\Member\UpdateTaikai\UpdateTaikaiRequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetDurationOrderTotal\GetDurationOrderTotalResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode\LoginMemberModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetPointRireki\GetPointRirekiResponseModelInterface;
@@ -27,6 +28,7 @@ use Plugin\AceClient43\AceServices\Model\Response\Member\RegMember\RegMemberResp
 use Plugin\AceClient43\AceServices\Model\Response\Member\UpdateTaikai\UpdateTaikaiResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\WebApi\Member\V1\CheckCodeAndMail\CheckCodeAndMailResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrderList\V1GetOrderListResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V2\GetOrderListV2\V2GetOrderListV2ResponseModelInterface;
 use Plugin\AceClient43\Bridge\Helper\CustomerBridgeHelper;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\OnGetAndUpdateCustomerEvent;
@@ -470,7 +472,7 @@ class CustomerBridge extends BaseBridge
         return $responseObject;
     }
 
-    public function getOrderListV2(Customer $customer, int $page = 1, int $limit = 10, ?int $denno = null, int $sort = 0, ?string $dayFrom = null, ?string $dayTo = null, array $options = []): ?\Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V2\GetOrderListV2\V2GetOrderListV2ResponseModelInterface
+    public function getOrderListV2(Customer $customer, int $page = 1, int $limit = 10, ?int $denno = null, int $sort = 0, ?string $dayFrom = null, ?string $dayTo = null, array $options = []): ?V2GetOrderListV2ResponseModelInterface
     {
         $responseObject = $this->helper->getOrderListV2($customer->getAceCustomerId(), $this->getSyid(), $page, $limit, $denno, $sort, $dayFrom, $dayTo, $options);
 
@@ -491,7 +493,7 @@ class CustomerBridge extends BaseBridge
      * @param \DateTimeInterface $dayfrom 開始日 (YYYYMMDD format)
      * @param \DateTimeInterface $dayto 終了日 (YYYYMMDD format)
      *
-     * @return \Plugin\AceClient43\AceServices\Model\Response\Member\GetDurationOrderTotal\GetDurationOrderTotalResponseModelInterface|null
+     * @return GetDurationOrderTotalResponseModelInterface|null
      *
      * @throws \LogicException
      */
@@ -499,7 +501,7 @@ class CustomerBridge extends BaseBridge
         Customer $customer,
         \DateTimeInterface $dayfrom,
         \DateTimeInterface $dayto,
-    ): ?\Plugin\AceClient43\AceServices\Model\Response\Member\GetDurationOrderTotal\GetDurationOrderTotalResponseModelInterface {
+    ): ?GetDurationOrderTotalResponseModelInterface {
         if (null === $customer->getAceCustomerId()) {
             $this->logger->error('通販Aceの期間内注文合計取得に失敗しました: 顧客IDが設定されていません', ['customer' => $customer]);
             throw new \LogicException('顧客IDが設定されていません。');
