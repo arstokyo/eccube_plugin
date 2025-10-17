@@ -26,8 +26,6 @@ class JyumeiModel extends Rireki\RirekiModelLevel2 implements JyumeiModelInterfa
     use Tax\TaxTrait;
     use Tax\TaxKbnTrait;
 
-    public const NON_TAXABLE_GCODE = 'z01';
-
     /** @var ?string Name */
     protected ?string $name = null;
 
@@ -68,15 +66,5 @@ class JyumeiModel extends Rireki\RirekiModelLevel2 implements JyumeiModelInterfa
         $this->name = $name;
 
         return $this;
-    }
-
-    /**
-     * 税額が0円かつ商品コードが不課税商品のコードの場合は非課税商品であると判断する
-     *
-     * @return bool
-     */
-    public function IsNonTaxable(): bool
-    {
-        return $this->getTaxRate() == 0 && $this->getGcode() === self::NON_TAXABLE_GCODE;
     }
 }
