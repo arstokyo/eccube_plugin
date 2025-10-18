@@ -73,7 +73,6 @@ class AddCartHelper
                     $foundProductCodes[] = $productCode;
 
                     $cartItem->setQuantity($jyumei->getSuuAsString());
-                    $cartItem->setPriceExcludeTax($jyumei->getPreferTouttankaAsString());
                     $cartItem->setPrice($jyumei->getPreferTintankaAsString());
                     $cartItem->setDirty(false);
                     $cartItem->skipMarkDirty = true;
