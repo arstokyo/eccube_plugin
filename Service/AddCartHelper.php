@@ -162,7 +162,6 @@ class AddCartHelper
         $cartItem->setIsPresent($jyumei->isPresent());
 
         // 税抜単価と税込単価を設定（DBのdecimalと一致するよう文字列へ正規化）
-        $cartItem->setPriceExcludeTax($jyumei->getPreferTouttankaAsString());
         $cartItem->setPrice($jyumei->getPreferTintankaAsString());
 
         $cartItem->setDirty(false);
