@@ -22,7 +22,7 @@ use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart as RequestAddCar
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModelInterface;
 use Plugin\AceClient43\Bridge\DataConverter\JyumeiDataConverterInterface;
 use Plugin\AceClient43\Entity\Config;
-use Plugin\AceClient43\Events\AddCartPreCreateRequestEvent;
+use Plugin\AceClient43\Events\PreAddCartFilterCartItemEvent;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\PostAddCartEvent;
 use Plugin\AceClient43\Events\PostExecuteAddCartRequestEvent;
@@ -78,20 +78,19 @@ class CartBridge extends BaseBridge
         $config = $this->aceConfigService->getConfig();
 
         $cartItems = $cart->getCartItems()->toArray();
-        if ($this->eventDispatcher->hasListeners(Events::ADD_CART_PRE_CREATE_REQUEST)) {
-            $preCreateEvent = new AddCartPreCreateRequestEvent($cart, $config, $options);
-            $preCreateEvent->setCartService($this->cartService);
-            $this->eventDispatcher->dispatch($preCreateEvent, Events::ADD_CART_PRE_CREATE_REQUEST);
+        if ($this->eventDispatcher->hasListeners(Events::PRE_ADD_CART_FILTER_CART_ITEM)) {
+            $filterEvent = new PreAddCartFilterCartItemEvent($cart, $config, $options, $this->cartService);
+            $this->eventDispatcher->dispatch($filterEvent, Events::PRE_ADD_CART_FILTER_CART_ITEM);
 
-            $options = $preCreateEvent->options;
+            $options = $filterEvent->options;
 
-            if ($preCreateEvent->shouldSkip) {
+            if ($filterEvent->shouldSkip) {
                 $this->logger->warning('通販Aceのカート追加処理をスキップしました。');
 
                 return;
             }
 
-            $cartItems = $preCreateEvent->getFilteredCartItems();
+            $cartItems = $filterEvent->getFilteredCartItems();
         }
 
         $request = $this->createRequest($cart, $config, $canFlush, $options, $cartItems);
