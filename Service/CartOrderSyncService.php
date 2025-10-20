@@ -149,6 +149,7 @@ class CartOrderSyncService
     {
         // マークアップ率の同期
         $OrderItem->setAceMarkupRate($CartItem->getAceMarkupRate());
+        $OrderItem->setIsPresent($CartItem->isPresent());
 
         // deep 同期時は数量も同期
         if ($deep) {
