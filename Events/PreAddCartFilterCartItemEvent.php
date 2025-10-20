@@ -8,7 +8,7 @@ use Eccube\Service\CartService;
 use Plugin\AceClient43\Entity\Config;
 use Symfony\Contracts\EventDispatcher\Event;
 
-class AddCartPreCreateRequestEvent extends Event
+class PreAddCartFilterCartItemEvent extends Event
 {
     public Cart $cart;
 
@@ -22,21 +22,14 @@ class AddCartPreCreateRequestEvent extends Event
 
     public array $removedCartItems = [];
 
-    private ?CartService $cartService = null;
+    private CartService $cartService;
 
-    public function __construct(Cart $cart, Config $config, array $options)
+    public function __construct(Cart $cart, Config $config, array $options, CartService $cartService)
     {
         $this->cart = $cart;
         $this->config = $config;
         $this->options = $options;
         $this->filteredCartItems = $cart->getCartItems()->toArray();
-    }
-
-    /**
-     * Set CartService for handling cart synchronization
-     */
-    public function setCartService(CartService $cartService): void
-    {
         $this->cartService = $cartService;
     }
 
@@ -77,34 +70,21 @@ class AddCartPreCreateRequestEvent extends Event
     }
 
     /**
-     * Get removed cart items that are unpurchasable
-     */
-    public function getRemovedUnpurchasableCartItems(): array
-    {
-        $unpurchasableItems = [];
-        foreach ($this->removedCartItems as $cartItem) {
-            if ($cartItem->getProductClass()->getProduct()->isNotPurchasable()) {
-                $unpurchasableItems[] = $cartItem;
-            }
-        }
-
-        return $unpurchasableItems;
-    }
-
-    /**
      * Sync cart by removing filtered items when no items remain
      */
     public function syncCartIfEmpty(): void
     {
-        if (empty($this->getFilteredCartItems()) && !empty($this->removedCartItems) && $this->cartService) {
-            log_info('[AddCartPreCreateRequestEvent] カートアイテムが全てフィルタされたため、カートを同期します。');
+        if (empty($this->getFilteredCartItems()) && !empty($this->removedCartItems)) {
+            log_info('[PreAddCartFilterCartItem] カートアイテムが全てフィルタされたため、カートを同期します。');
 
             // Only remove present items and unpurchasable items from cart
             // Keep unpurchasable items in the cart for UI display
             foreach ($this->removedCartItems as $cartItem) {
                 if ($cartItem->isPresent()) {
-                    $options = $this->options;
-                    $options['cart_item_data'] = $cartItem;
+                    $options = array_merge($this->options,[
+                        'cart_item_data' => $cartItem,
+                        'skip_restore_cart' => true
+                    ]);
                     $this->cartService->removeProduct($cartItem->getProductClass(), $options);
                 }
                 // Do not remove unpurchasable items from cart - they should remain for UI
