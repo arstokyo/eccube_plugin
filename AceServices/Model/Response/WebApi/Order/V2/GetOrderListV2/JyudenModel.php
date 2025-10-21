@@ -21,6 +21,8 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Good;
 use Plugin\AceClient43\AceServices\Model\Dependency\Haiso;
 use Plugin\AceClient43\AceServices\Model\Dependency\Payment;
 use Plugin\AceClient43\AceServices\Model\Dependency\Rireki;
+use Plugin\AceClient43\Entity\DeliveryTimeTrait;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 
 /**
  * Model for Jyuden
@@ -29,6 +31,7 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Rireki;
  */
 class JyudenModel extends Rireki\RirekiModelLevel1 implements JyudenModelInterface
 {
+    use DeliveryTimeTrait;
     use Payment\PnameTrait;
     use Good\GtotalTrait;
     use Cost\Souryou\SouryouTrait;
@@ -53,6 +56,12 @@ class JyudenModel extends Rireki\RirekiModelLevel1 implements JyudenModelInterfa
 
     /** @var ?ExtrasFieldsModel ExtrasFields */
     protected ?ExtrasFieldsModel $extrasFields = null;
+
+    /** @var ?int ACE配送業者ID（HSID） */
+    protected ?int $hsid = null;
+
+    /** @var ?int 配送伝票区分 */
+    protected ?int $odenkbn = null;
 
     /**
      * {@inheritDoc}
@@ -132,6 +141,58 @@ class JyudenModel extends Rireki\RirekiModelLevel1 implements JyudenModelInterfa
     public function setExtrasFields(?ExtrasFieldsModel $extrasFields): self
     {
         $this->extrasFields = $extrasFields;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getHsid(): ?int
+    {
+        return $this->hsid;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setHsid(?int $hsid): self
+    {
+        $this->hsid = $hsid;
+
+        return $this;
+    }
+
+    /**
+     * Set ACE配送時間帯ID(HTID)
+     *
+     * @param ?int $aceDeliveryTimeId
+     *
+     * @return self
+     *
+     * @SerializedName("Htid")
+     */
+    public function setAceDeliveryTimeId(?int $aceDeliveryTimeId): self
+    {
+        $this->ace_delivery_time_id = $aceDeliveryTimeId;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getOdenkbn(): ?int
+    {
+        return $this->odenkbn;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setOdenkbn(?int $odenkbn): self
+    {
+        $this->odenkbn = $odenkbn;
 
         return $this;
     }

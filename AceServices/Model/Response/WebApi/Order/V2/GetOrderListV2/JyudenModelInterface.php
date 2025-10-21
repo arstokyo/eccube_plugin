@@ -98,4 +98,36 @@ interface JyudenModelInterface extends Rireki\RirekiModelLevel1Interface, Paymen
      * @SerializedName("_EXTRAS_")
      */
     public function setExtrasFields(?ExtrasFieldsModel $extrasFields): self;
+
+    /**
+     * Get ACE配送業者ID（HSID）
+     *
+     * @return ?int
+     */
+    public function getHsid(): ?int;
+
+    /**
+     * Set ACE配送業者ID（HSID）
+     *
+     * @param ?int $hsid
+     *
+     * @return self
+     */
+    public function setHsid(?int $hsid): self;
+
+    /**
+     * Get 配送伝票区分
+     *
+     * @return ?int
+     */
+    public function getOdenkbn(): ?int;
+
+    /**
+     * Set 配送伝票区分
+     *
+     * @param ?int $odenkbn
+     *
+     * @return self
+     */
+    public function setOdenkbn(?int $odenkbn): self;
 }
