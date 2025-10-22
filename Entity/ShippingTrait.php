@@ -65,4 +65,15 @@ trait ShippingTrait
 
         return $this;
     }
+
+    public function updateCustomerAddress(CustomerAddress $customerAddress): void
+    {
+        // CustomerAddressのAceEdaNoが設定されている場合は、Shippingに設定する
+        // AceEdaNoはNullの場合は、本人の住所
+        if ($customerAddress->hasAceEdaNo()) {
+            $this->setCustomerAddress($customerAddress);
+        } else {
+            $this->setCustomerAddress(null);
+        }
+    }
 }
