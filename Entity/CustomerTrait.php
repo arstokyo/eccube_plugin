@@ -22,6 +22,9 @@ use Eccube\Entity\CustomerAddress;
  */
 trait CustomerTrait
 {
+    /** @var int 本人住所の枝番 */
+    public const ACE_PRIMARY_ADDRESS_EDA_NO = 0;
+
     /**
      * @var string|null
      *
@@ -68,5 +71,28 @@ trait CustomerTrait
         return $this->getCustomerAddresses()->filter(function (CustomerAddress $customerAddress) use ($edaNo) {
             return $customerAddress->getAceEdaNo() === $edaNo;
         })->first();
+    }
+
+    /**
+     * @return array<{string, CustomerAddress}>
+     */
+    public function getAllCustomerAddressesWithEda(): array
+    {
+        // 本人住所
+        $primaryAddress = (new CustomerAddress())
+            ->setFromCustomer($this);
+
+        $addresses = [self::ACE_PRIMARY_ADDRESS_EDA_NO => $primaryAddress];
+
+        foreach ($this->getCustomerAddresses() as $customerAddress) {
+            $addresses[$customerAddress->getAceEdaNo()] = $customerAddress;
+        }
+
+        return $addresses;
+    }
+
+    public static function getAcePrimaryAddressEdano(): int
+    {
+        return self::ACE_PRIMARY_ADDRESS_EDA_NO;
     }
 }
