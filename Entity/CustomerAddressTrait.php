@@ -53,4 +53,9 @@ trait CustomerAddressTrait
 
         return $this;
     }
+
+    public function hasAceEdaNo(): bool
+    {
+        return !empty($this->ace_eda_no);
+    }
 }
