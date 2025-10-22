@@ -15,6 +15,7 @@ namespace Plugin\AceClient43\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Eccube\Annotation\EntityExtension;
+use Eccube\Entity\Customer;
 use Eccube\Entity\CustomerAddress;
 
 /**
@@ -45,11 +46,28 @@ trait ShippingTrait
     }
 
     /**
+     * Shippingの顧客住所EdaNoを取得
+     *
+     * CustomerAddressはNullであれば、AcePrimaryAddressEdanoを返します（本人住所）。
+     *
+     * @return int
+     */
+    public function getCustomerAddressEdano(): int
+    {
+        return $this->hasCustomerAddressEdano() ? $this->getCustomerAddress()->getAceEdaNo() : Customer::getAcePrimaryAddressEdano();
+    }
+
+    /**
      * 顧客住所が設定されているか判定するショートカット
      */
     public function hasCustomerAddress(): bool
     {
         return null !== $this->customer_address;
+    }
+
+    public function hasCustomerAddressEdano(): bool
+    {
+        return $this->hasCustomerAddress() && $this->getCustomerAddress()->hasAceEdaNo();
     }
 
     /**
@@ -75,5 +93,22 @@ trait ShippingTrait
         } else {
             $this->setCustomerAddress(null);
         }
+    }
+
+    /**
+     * 指定されたCustomerAddressは本ShippingのCustomerAddressであるのか
+     *
+     * @param CustomerAddress $customerAddress
+     * @return bool
+     */
+    public function isMatchCustomerAddress(CustomerAddress $customerAddress): bool
+    {
+        // 1: EdaNoが設定された場合はEdanoベースで比較します
+        if ($customerAddress->hasAceEdaNo()) {
+            return $this->getCustomerAddressEdano() === $customerAddress->getAceEdaNo();
+        }
+
+        // 2: EdaNoが設定されていない場合は、EccubeのgetShippingMultipleDefaultNameをフォールバック
+        return $this->getShippingMultipleDefaultName() === $customerAddress->getShippingMultipleDefaultName();
     }
 }
