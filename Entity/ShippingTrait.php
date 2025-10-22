@@ -50,11 +50,11 @@ trait ShippingTrait
      *
      * CustomerAddressはNullであれば、AcePrimaryAddressEdanoを返します（本人住所）。
      *
-     * @return int
+     * @return int|null
      */
-    public function getCustomerAddressEdano(): int
+    public function getCustomerAddressEdano(): ?int
     {
-        return $this->hasCustomerAddressEdano() ? $this->getCustomerAddress()->getAceEdaNo() : Customer::getAcePrimaryAddressEdano();
+        return $this->hasCustomerAddressEdano() ? $this->getCustomerAddress()->getAceEdaNo() : null;
     }
 
     /**
@@ -105,7 +105,7 @@ trait ShippingTrait
     {
         // 1: EdaNoが設定された場合はEdanoベースで比較します
         if ($customerAddress->hasAceEdaNo()) {
-            return $this->getCustomerAddressEdano() === $customerAddress->getAceEdaNo();
+            return ($this->hasCustomerAddressEdano() ? $this->getCustomerAddressEdano() : Customer::getAcePrimaryAddressEdano()) === $customerAddress->getAceEdaNo();
         }
 
         // 2: EdaNoが設定されていない場合は、EccubeのgetShippingMultipleDefaultNameをフォールバック
