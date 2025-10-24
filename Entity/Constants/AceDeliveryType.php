@@ -35,13 +35,4 @@ class AceDeliveryType
      * @var int
      */
     public const POST_DM = 2;
-
-    public static function getDeliveryType($deliveryType): string
-    {
-        return match ($deliveryType) {
-            self::COURIER_SERVICE => '宅配便',
-            self::CASH_ON_DELIVERY => '代引',
-            self::POST_DM => '郵便･DM便',
-        };
-    }
 }
