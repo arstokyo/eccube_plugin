@@ -30,7 +30,7 @@ interface ResponseInterface extends \JsonSerializable, \Stringable
     /**
      * Get response status code
      *
-     * @return integer
+     * @return int
      */
     public function getStatusCode(): int;
 

@@ -128,6 +128,9 @@ parameters:
 
     ace.post_soap_client.extract_max_length: 200000  # Maximum length for SOAP XML response extraction
 
+    ace.cache.request.ttl: 300 # Request cache TTL (seconds) - 5 minutes
+    ace.cache.response.ttl: 300 # Response cache TTL (seconds) - 5 minutes
+
 monolog:
     channels: ['ace_client', 'ace_client_console']
 
@@ -239,6 +242,15 @@ services:
               headers:
                   User-Agent: '%ace.name%V%ace.version%'
         public: false
+
+    Plugin\AceClient43\Cache\RequestCachePool:
+        arguments:
+            $defaultTtl: '%ace.cache.request.ttl%'
+            $isDebug: '%kernel.debug%'
+
+    Plugin\AceClient43\Cache\ResponseCachePool:
+        arguments:
+            $defaultTtl: '%ace.cache.response.ttl%'
 
     # ===================================================================================================
     # コアACEサービス - リゾルバーシステム
@@ -603,6 +615,7 @@ services:
             $aceConfigService: '@ace_config_service'
         calls:
             - setExtractMaxLength: ['%ace.post_soap_client.extract_max_length%']
+            - setRequestCachePool: [ '@Plugin\AceClient43\Cache\RequestCachePool' ]
         tags:
             - { name: 'ace_client.api_client' }
 

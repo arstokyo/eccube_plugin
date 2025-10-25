@@ -1743,7 +1743,7 @@
                                                 <div class="ace-metadata-section">
                                                     <h6>Request Headers</h6>
                                                     <table class="ace-metadata-table">
-                                                        {% for header, value in trace   .http_request_headers %}
+                                                        {% for header, value in trace.http_request_headers %}
                                                             <tr>
                                                                 <th>{{ header }}</th>
                                                                 <td>{{ value is iterable ? value|join(', ') : value }}</td>

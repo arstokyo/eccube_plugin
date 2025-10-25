@@ -13,18 +13,22 @@
 
 namespace Plugin\AceClient43\AceServices\AceMethod\Jyuden;
 
+use Plugin\AceClient43\AceServices\AceMethod\RequestCacheableMethodInterface;
+use Plugin\AceClient43\AceServices\AceMethod\RequestCacheableTrait;
 use Plugin\AceClient43\AceServices\Model\Request;
-use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response;
-use Plugin\AceClient43\Exception\MissingRequestParameterException;
 
 /**
  * Add Cart Method
  *
+ * @method withRequest(Request\Jyuden\AddCart\AddCartRequestModelInterface $requestModel): AddCartMethod
+ *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class AddCartMethod extends AbstractJyudenMethod
+class AddCartMethod extends AbstractJyudenMethod implements RequestCacheableMethodInterface
 {
+    use RequestCacheableTrait;
+
     /**
      * The End Point of Service.
      */
@@ -52,15 +56,5 @@ class AddCartMethod extends AbstractJyudenMethod
     protected function getResponseInterface(): string
     {
         return Response\Jyuden\AddCart\AddCartResponseModelInterface::class;
-    }
-
-    /**
-     * @param Request\Jyuden\AddCart\AddCartRequestModel $requestModel
-     *
-     * @throws MissingRequestParameterException
-     */
-    public function withRequest(RequestModelInterface $requestModel): AddCartMethod
-    {
-        return parent::withRequest($requestModel);
     }
 }

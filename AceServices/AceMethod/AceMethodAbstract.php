@@ -111,7 +111,7 @@ abstract class AceMethodAbstract implements AceMethodInterface
      *
      * @throws InvalidClassNameException
      */
-    private function resolveApiClient(ApiClientResolver $clientResolver): ClientInterface
+    protected function resolveApiClient(ApiClientResolver $clientResolver): ClientInterface
     {
         $apiType = $this->getApiType();
         $format = $this->getRequestFormat();
@@ -194,7 +194,7 @@ abstract class AceMethodAbstract implements AceMethodInterface
      * @throws DataTypeMissMatchException
      * @throws InvalidClassNameException
      */
-    private function getResponseAsObject(): string
+    protected function getResponseAsObject(): string
     {
         $responseInterface = $this->getResponseInterface();
 

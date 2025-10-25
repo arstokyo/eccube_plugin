@@ -42,4 +42,6 @@ interface ClientMetadataInterface
      * @return RequestModelInterface|\JsonSerializable|array<int|string, mixed>
      */
     public function getData();
+
+    public function isRequestFromCache(): bool;
 }

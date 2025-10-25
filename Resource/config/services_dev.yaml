@@ -103,6 +103,7 @@ services:
             $aceConfigService: '@ace_config_service'
         calls:
             - setExtractMaxLength: ['%ace.post_soap_client.extract_max_length%']
+            - setRequestCachePool: [ '@Plugin\AceClient43\Cache\RequestCachePool' ]
 
     ace_original_post_json_client:
         class: Plugin\AceClient43\ApiClient\Client\PostJsonClient

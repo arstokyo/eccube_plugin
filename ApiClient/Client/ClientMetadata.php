@@ -29,6 +29,8 @@ class ClientMetadata implements ClientMetadataInterface
     /** @var RequestModelInterface|\JsonSerializable|array<int|string, mixed> */
     private $data;
 
+    private bool $isRequestFromCache;
+
     /**
      * ClientMetadata constructor
      *
@@ -40,10 +42,12 @@ class ClientMetadata implements ClientMetadataInterface
         string $requestMethod,
         string $uri,
         $data,
+        $isRequestFromCache = false,
     ) {
         $this->requestMethod = $requestMethod;
         $this->uri = $uri;
         $this->data = $data;
+        $this->isRequestFromCache = $isRequestFromCache;
     }
 
     /**
@@ -68,5 +72,10 @@ class ClientMetadata implements ClientMetadataInterface
     public function getData()
     {
         return $this->data;
+    }
+
+    public function isRequestFromCache(): bool
+    {
+        return $this->isRequestFromCache;
     }
 }
