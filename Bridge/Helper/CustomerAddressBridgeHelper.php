@@ -10,6 +10,8 @@ use Plugin\AceClient43\Bridge\DataConverter\CustomerAddressDataConverterInterfac
 
 /**
  * 顧客住所ブリッジヘルパークラス
+ *
+ * @deprecated CustomerAddressBridgeHelperは廃止予定です。代わりにCustomerAddressBridgeを使用してください。
  */
 class CustomerAddressBridgeHelper
 {

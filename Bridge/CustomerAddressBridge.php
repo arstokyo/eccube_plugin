@@ -26,6 +26,7 @@ use Plugin\AceClient43\Bridge\DataConverter\CustomerAddressDataConverterInterfac
 use Plugin\AceClient43\Bridge\Helper\CustomerAddressBridgeHelper;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\PostCreateOrUpdateInAceCustomerAddressEvent;
+use Plugin\AceClient43\Events\PostRemoveCustomerAddressEvent;
 use Plugin\AceClient43\Events\PreCreateOrUpdateInAceCustomerAddressEvent;
 use Plugin\AceClient43\Exception\CouldNotRemoveCustomerAddressException;
 use Plugin\AceClient43\Exception\CouldNotSyncInAceCustomerAddressException;
@@ -136,16 +137,16 @@ class CustomerAddressBridge extends BaseBridge
 
             $address->setAceEdaNo($responseObject->getMember()->getNmember()->getEda());
 
+            $this->em->persist($address);
+            if ($needFlush) {
+                $this->em->flush($address);
+            }
+
             if ($this->eventDispatcher->hasListeners(Events::POST_CREATE_OR_UPDATE_IN_ACE_CUSTOMER_ADDRESS)) {
                 $this->eventDispatcher->dispatch(
                     new PostCreateOrUpdateInAceCustomerAddressEvent($responseObject, $address, $options),
                     Events::POST_CREATE_OR_UPDATE_IN_ACE_CUSTOMER_ADDRESS
                 );
-            }
-
-            $this->em->persist($address);
-            if ($needFlush) {
-                $this->em->flush($address);
             }
         } catch (\Throwable $e) {
             if ($e instanceof CouldNotSyncInAceCustomerAddressException) {
@@ -199,6 +200,10 @@ class CustomerAddressBridge extends BaseBridge
 
             $this->em->persist($address);
             $this->em->flush($address);
+
+            if ($this->eventDispatcher->hasListeners(Events::POST_REMOVE_CUSTOMER_ADDRESS)) {
+                $this->eventDispatcher->dispatch(new PostRemoveCustomerAddressEvent($address, $customer, $responseObject), Events::POST_REMOVE_CUSTOMER_ADDRESS);
+            }
         } catch (\Throwable $e) {
             if ($e instanceof CouldNotRemoveCustomerAddressException) {
                 $this->logger->error('通販Aceの住所削除に失敗しました', ['exception' => $e]);

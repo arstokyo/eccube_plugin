@@ -4,27 +4,31 @@ namespace Plugin\AceClient43\ApiClient\Client;
 
 use Plugin\AceClient43\ApiClient\Response;
 use Plugin\AceClient43\Exception;
+use Plugin\AceClient43\Exception\CanNotBuildRequestException;
 use Plugin\AceClient43\Util\Extractor\XmlExtractorTrait;
 use Psr\Http\Message\ResponseInterface as PsrResponse;
 
 /**
- * PostSoapXmlClient - SOAP XML POST実装
+ * PostSoapXmlClient - オプションのキャッシュ機能付きSOAP XML POST実装
  *
  * @author Ars-Thong <v.t.nguyen@ar-system.co.jp>
  */
-class PostSoapXmlClient extends AbstractClient
+class PostSoapXmlClient extends AbstractClient implements RequestCacheableClientInterface
 {
     use XmlExtractorTrait;
+    use RequestCacheableClientTrait;
 
     /**
-     * Extract maximum length for logging clean content.
+     * ログ出力用のクリーンコンテンツ抽出の最大長
      *
      * @var int
      */
     private int $extractMaxLength;
 
     /**
-     * @param int $extractMaxLength
+     * クリーンコンテンツ抽出の最大長を設定
+     *
+     * @param int $extractMaxLength 最大長
      *
      * @return void
      */
@@ -79,7 +83,7 @@ class PostSoapXmlClient extends AbstractClient
     }
 
     /**
-     * Override deserializeResponse to log clean response content
+     * クリーンなレスポンスコンテンツをログ出力するためにdeserializeResponseをオーバーライド
      */
     protected function deserializeResponse(PsrResponse $psrResponse): Response\ResponseInterface
     {
@@ -87,14 +91,14 @@ class PostSoapXmlClient extends AbstractClient
             $body = $psrResponse->getBody();
             $contentLength = $body->getSize();
 
-            // If size is unknown or too large, don't extract clean content
             $shouldExtractClean = $contentLength !== null && $contentLength <= $this->extractMaxLength;
-
             $responseContent = $body->getContents();
 
-            $cleanResponseContent = $shouldExtractClean ? $this->extractCleanResponseContent($responseContent) : ($contentLength !== null
-                ? sprintf('[Content too large: %d bytes]', $contentLength)
-                : '[Content size unknown - skipping extraction]');
+            $cleanResponseContent = $shouldExtractClean
+                ? $this->extractCleanResponseContent($responseContent)
+                : ($contentLength !== null
+                    ? sprintf('[Content too large: %d bytes]', $contentLength)
+                    : '[Content size unknown - skipping extraction]');
 
             $this->logger->debug(sprintf(
                 '[AceClient] SOAP APIレスポンス - ステータス: %s, クリーンコンテンツ: %s',
@@ -102,7 +106,6 @@ class PostSoapXmlClient extends AbstractClient
                 $cleanResponseContent
             ));
 
-            // Use the FULL response content for deserialization
             $response = empty($this->responseObject)
                 ? $responseContent
                 : $this->deserializeResponseContent($responseContent, $psrResponse);
@@ -117,14 +120,19 @@ class PostSoapXmlClient extends AbstractClient
         return new Response\Response($psrResponse->getHeaders(), $response, $psrResponse->getStatusCode());
     }
 
+    /**
+     * @throws CanNotBuildRequestException
+     */
     protected function buildOptions(): array
     {
         $baseOptions = parent::buildOptions();
-        if (empty($this->request)) {
+
+        // Use caching-aware request building (from trait)
+        $request = $this->getOrCreateCachedRequest();
+
+        if (empty($request)) {
             return $baseOptions;
         }
-
-        $request = $this->serializeRequest();
 
         return array_merge_recursive($baseOptions, [
             'headers' => ['Content-Type' => self::CONTENT_TYPE_SOAP_XML],

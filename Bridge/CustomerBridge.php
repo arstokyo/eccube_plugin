@@ -30,6 +30,7 @@ use Plugin\AceClient43\AceServices\Model\Response\WebApi\Member\V1\CheckCodeAndM
 use Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrderList\V1GetOrderListResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V2\GetOrderListV2\V2GetOrderListV2ResponseModelInterface;
 use Plugin\AceClient43\Bridge\Helper\CustomerBridgeHelper;
+use Plugin\AceClient43\Cache\ResponseCachePool;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\OnGetAndUpdateCustomerEvent;
 use Plugin\AceClient43\Events\PostRegisterCustomerEvent;
@@ -50,16 +51,20 @@ class CustomerBridge extends BaseBridge
 
     protected UpdateTaikaiMethod $updateTaikaiMethod;
 
+    protected ResponseCachePool $responseCachePool;
+
     public function __construct(
         RegMemberMethod $regMemberMethod,
         CustomerBridgeHelper $helper,
         CustomerAddressBridge $customerAddressBridge,
         UpdateTaikaiMethod $updateTaikaiMethod,
+        ResponseCachePool $responseCachePool,
     ) {
         $this->helper = $helper;
         $this->regMemberMethod = $regMemberMethod;
         $this->customerAddressBridge = $customerAddressBridge;
         $this->updateTaikaiMethod = $updateTaikaiMethod;
+        $this->responseCachePool = $responseCachePool;
     }
 
     /**
@@ -236,6 +241,11 @@ class CustomerBridge extends BaseBridge
 
             $customer->setAceCustomerId($responseObject->getMember()->getJmember()->getCode());
 
+            $this->em->persist($customer);
+            if ($needFlush) {
+                $this->em->flush($customer);
+            }
+
             $postEventName = $eventName === Events::PRE_REGISTER_CUSTOMER
                 ? Events::POST_REGISTER_CUSTOMER
                 : Events::POST_UPDATE_CUSTOMER;
@@ -245,12 +255,6 @@ class CustomerBridge extends BaseBridge
                     new PostRegisterCustomerEvent($responseObject, $customer, $options),
                     $postEventName
                 );
-            }
-
-            $this->em->persist($customer);
-
-            if ($needFlush) {
-                $this->em->flush($customer);
             }
         } catch (\Throwable $e) {
             if ($e instanceof CouldNotRegisterNewCustomerException) {
@@ -269,12 +273,13 @@ class CustomerBridge extends BaseBridge
      * @param string $aceCustomerId - 通販Aceの顧客ID
      * @param array $options - オプションパラメータ
      * @param Customer|null $customer
+     * @param bool $force
      *
      * @return LoginMemberModelInterface|null
      */
-    public function getByAceCustomerId(string $aceCustomerId, array $options = [], ?Customer $customer = null): ?LoginMemberModelInterface
+    public function getByAceCustomerId(string $aceCustomerId, array $options = [], ?Customer $customer = null, bool $force = false): ?LoginMemberModelInterface
     {
-        return $this->helper->getByAceCustomerId($aceCustomerId, $this->getSyid(), $options, $customer);
+        return $this->helper->getByAceCustomerId($aceCustomerId, $this->getSyid(), $options, $customer, $force);
     }
 
     /**
@@ -302,12 +307,20 @@ class CustomerBridge extends BaseBridge
      *
      * @return Customer 更新された顧客エンティティ
      */
-    public function syncCustomerFromAce(Customer $customer, bool $needFlush = true, array $options = []): Customer
+    public function syncCustomerFromAce(Customer $customer, bool $needFlush = true, array $options = [], bool $force = false): Customer
     {
         if (null === $aceCustomerId = $customer->getAceCustomerId()) {
             $loginMemberModel = $this->getByEmailAndPassword($customer->getEmail(), $customer->getPassword());
         } else {
-            $loginMemberModel = $this->getByAceCustomerId($aceCustomerId, $options, $customer);
+            if (!$force) {
+                $cacheKey = 'get_by_ace_customer_id_'.$aceCustomerId.'_'.md5(serialize($options));
+
+                if ($this->responseCachePool->isCacheStillValid($cacheKey)) {
+                    return $customer;
+                }
+            }
+
+            $loginMemberModel = $this->getByAceCustomerId($aceCustomerId, $options, $customer, $force);
         }
 
         // `request`に`return_alladr` オプションを設定している場合
