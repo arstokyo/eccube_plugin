@@ -752,7 +752,8 @@ services:
             $taxTypeId: '@=container.hasParameter("ace.processor.discount_tax_type") ? parameter("ace.processor.discount_tax_type") : 1'
             $productName: '@=container.hasParameter("ace.processor.point_discount.name") ? parameter("ace.processor.point_discount.name") : null'
         tags:
-            - { name: eccube.item.holder.preprocessor, flow_type: shopping, priority: 600 }
+            - { name: eccube.discount.processor, flow_type: shopping, priority: 900 }
+            - { name: eccube.discount.processor, flow_type: order, priority: 900 }
 
     # 受注サポートによるキャンペーン値引きなどを追加プロセッサー
     Plugin\AceClient43\Processor\PromotionDiscountProcessor:

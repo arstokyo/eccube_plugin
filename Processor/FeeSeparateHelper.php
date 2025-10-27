@@ -32,8 +32,14 @@ class FeeSeparateHelper
      * @param string $processorName
      * @param string|null $itemName
      */
-    public static function separate(float $amount, Order $order, OrderItemType $orderItemType, TaxDisplayType $taxDisplayType, TaxType $taxation, string $processorName, ?string $itemName = null): void
-    {
+    public static function separate(
+        float $amount, Order $order,
+        OrderItemType $orderItemType,
+        TaxDisplayType $taxDisplayType,
+        TaxType $taxation,
+        string $processorName,
+        ?string $itemName = null,
+    ): void {
         $shippingCount = $order->getShippings()->count();
         $feePerShipping = $shippingCount > 0 ? floor($amount / $shippingCount) : $amount;
         $remainder = $amount - ($feePerShipping * $shippingCount);

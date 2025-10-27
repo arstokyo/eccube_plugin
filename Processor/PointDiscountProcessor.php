@@ -14,23 +14,24 @@
 namespace Plugin\AceClient43\Processor;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Eccube\Annotation\ShoppingFlow;
 use Eccube\Entity\ItemHolderInterface;
 use Eccube\Entity\Master\OrderItemType;
 use Eccube\Entity\Master\TaxDisplayType;
 use Eccube\Entity\Master\TaxType;
 use Eccube\Entity\Order;
-use Eccube\Service\PurchaseFlow\ItemHolderPreprocessor;
+use Eccube\Service\PointHelper;
+use Eccube\Service\PurchaseFlow\DiscountProcessor;
+use Eccube\Service\PurchaseFlow\Processor\TaxProcessor;
 use Eccube\Service\PurchaseFlow\PurchaseContext;
-use Plugin\AceClient43\Entity\Config;
 use Plugin\AceClient43\Service\AceConfigService;
 
 /**
  * ポイント値引きを追加する.
  *
- * @ShoppingFlow
+ * Shippingごとに按分し、ポイントアイテムを追加。
+ * 通販Aceの仕様デフォルト、税込になっている顧客が多いため、デフォルト税込に設定します。
  */
-class PointDiscountProcessor implements ItemHolderPreprocessor
+class PointDiscountProcessor implements DiscountProcessor
 {
     /**
      * @var EntityManagerInterface
@@ -43,7 +44,11 @@ class PointDiscountProcessor implements ItemHolderPreprocessor
 
     private int $taxTypeId;
 
+    private TaxProcessor $taxProcessor;
+
     private ?string $productName;
+
+    private PointHelper $pointHelper;
 
     /**
      * PointDiscountProcessor constructor.
@@ -52,6 +57,7 @@ class PointDiscountProcessor implements ItemHolderPreprocessor
      * @param AceConfigService $configService
      * @param int $taxDisplayTypeId
      * @param int $taxTypeId
+     * @param PointHelper $pointHelper
      * @param string|null $productName
      */
     public function __construct(
@@ -59,48 +65,57 @@ class PointDiscountProcessor implements ItemHolderPreprocessor
         AceConfigService $configService,
         int $taxDisplayTypeId,
         int $taxTypeId,
+        PointHelper $pointHelper,
+        TaxProcessor $taxProcessor,
         ?string $productName = null,
     ) {
         $this->entityManager = $entityManager;
         $this->configService = $configService;
         $this->taxDisplayTypeId = $taxDisplayTypeId;
         $this->taxTypeId = $taxTypeId;
+        $this->taxProcessor = $taxProcessor;
+        $this->pointHelper = $pointHelper;
         $this->productName = $productName;
     }
 
-    /**
-     * @param ItemHolderInterface|Order $itemHolder
-     */
-    public function process(ItemHolderInterface $itemHolder, PurchaseContext $context): void
+    public function removeDiscountItem(ItemHolderInterface $itemHolder, PurchaseContext $context)
     {
-        $config = $this->configService->getConfig();
+        if (!$this->supports($itemHolder)) {
+            return;
+        }
 
-        $this->removeDiscountItems($itemHolder);
-        $this->addPointDiscountItem($itemHolder, $config);
-    }
+        if (!$itemHolder instanceof Order) {
+            return;
+        }
 
-    private function removeDiscountItems(Order $Order): void
-    {
-        foreach ($Order->getShippings() as $Shipping) {
+        foreach ($itemHolder->getShippings() as $Shipping) {
             foreach ($Shipping->getOrderItems() as $item) {
-                if ($item->getProcessorName() == PointDiscountProcessor::class) {
+                if ($item->getProcessorName() === PointDiscountProcessor::class) {
                     $Shipping->removeOrderItem($item);
-                    $Order->removeOrderItem($item);
+                    $itemHolder->removeOrderItem($item);
                     $this->entityManager->remove($item);
                 }
             }
         }
+
+        $this->pointHelper->removePointDiscountItem($itemHolder);
     }
 
-    /**
-     * @param Order $Order
-     * @param Config $config
-     */
-    private function addPointDiscountItem(Order $Order, Config $config): void
+    public function addDiscountItem(ItemHolderInterface $itemHolder, PurchaseContext $context)
     {
-        if (!$config->shouldUseAceDiscount() || 0 <= $discount = $Order->getAcePointDiscount()) {
+        if (!$this->supports($itemHolder)) {
             return;
         }
+
+        if (!$itemHolder instanceof Order) {
+            return;
+        }
+
+        if (0 <= $discount = $itemHolder->getAcePointDiscount()) {
+            return;
+        }
+
+        $this->pointHelper->removePointDiscountItem($itemHolder);
 
         $DiscountType = $this->entityManager->find(OrderItemType::class, OrderItemType::DISCOUNT);
         $TaxDisplay = $this->entityManager->find(TaxDisplayType::class, $this->taxDisplayTypeId);
@@ -108,12 +123,28 @@ class PointDiscountProcessor implements ItemHolderPreprocessor
 
         FeeSeparateHelper::separate(
             $discount,
-            $Order,
+            $itemHolder,
             $DiscountType,
             $TaxDisplay,
             $Taxation,
             PointDiscountProcessor::class,
             $this->productName,
         );
+
+        // 通販Aceのポイント値引きは税込であるため、もう一度税額を計算し直します。
+        $this->taxProcessor->process($itemHolder, $context);
+    }
+
+    private function supports(ItemHolderInterface $itemHolder): bool
+    {
+        if (!$this->configService->shouldUseAceDiscount()) {
+            return false;
+        }
+
+        if (!$itemHolder->getCustomer()) {
+            return false;
+        }
+
+        return true;
     }
 }
