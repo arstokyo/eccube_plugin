@@ -23,7 +23,6 @@ class Events
     public const PRE_CREATE_OR_UPDATE_IN_ACE_CUSTOMER_ADDRESS = 'ace_client.pre_create_or_update_in_ace_customer_address';
     public const POST_CREATE_OR_UPDATE_IN_ACE_CUSTOMER_ADDRESS = 'ace_client.post_create_or_update_in_ace_customer_address';
     public const POST_REMOVE_CUSTOMER_ADDRESS = 'ace_client.post_remove_customer_address';
-    public const PRE_ADD_CART = 'ace_client.pre_add_cart';
     public const POST_ADD_CART = 'ace_client.post_add_cart';
     public const POST_EXECUTE_ADD_CART_REQUEST = 'ace_client.post_execute_add_cart_request';
     public const ON_PRE_CREATE_ORDER = 'ace_client.on_pre_create_order';

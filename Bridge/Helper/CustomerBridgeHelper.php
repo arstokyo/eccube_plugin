@@ -45,7 +45,7 @@ use Plugin\AceClient43\AceServices\Model\Response\WebApi\Member\V1\CheckCodeAndM
 use Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrderList\V1GetOrderListResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V2\GetOrderListV2\V2GetOrderListV2ResponseModelInterface;
 use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
-use Plugin\AceClient43\Bridge\DataConverter\CustomerDataConverterInterface;
+use Plugin\AceClient43\Converter\CustomerDataConverterInterface;
 use Plugin\AceClient43\Cache\ResponseCachePool;
 use Psr\Log\LoggerInterface;
 

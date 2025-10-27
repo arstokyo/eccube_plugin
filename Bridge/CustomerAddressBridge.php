@@ -22,7 +22,7 @@ use Plugin\AceClient43\AceServices\AceMethod\Member\RegMemAdrMethod;
 use Plugin\AceClient43\AceServices\Model\Response\Member\DeleteHaisoAdrs\DeleteHaisoAdrsResponseModel;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetHaisoAdrs\GetHaisouAdrsModel;
 use Plugin\AceClient43\AceServices\Model\Response\Member\RegMemAdr\RegMemAdrResponseModelInterface;
-use Plugin\AceClient43\Bridge\DataConverter\CustomerAddressDataConverterInterface;
+use Plugin\AceClient43\Converter\CustomerAddressDataConverterInterface;
 use Plugin\AceClient43\Bridge\Helper\CustomerAddressBridgeHelper;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\PostCreateOrUpdateInAceCustomerAddressEvent;
@@ -44,25 +44,17 @@ class CustomerAddressBridge extends BaseBridge
 
     private DeleteHaisoAdrsMethod $deleteHaisoAdrsMethod;
 
-    private CustomerAddressRepository $customerAddressRepository;
-
-    private PrefRepository $prefRepository;
-
     private CustomerAddressDataConverterInterface $customerAddressDataConverter;
 
     public function __construct(
         RegMemAdrMethod $regMemAdrMethod,
         DeleteHaisoAdrsMethod $deleteHaisoAdrsMethod,
         CustomerAddressBridgeHelper $helper,
-        CustomerAddressRepository $customerAddressRepository,
-        PrefRepository $prefRepository,
         CustomerAddressDataConverterInterface $customerAddressDataConverter,
     ) {
         $this->helper = $helper;
         $this->regMemAdrMethod = $regMemAdrMethod;
         $this->deleteHaisoAdrsMethod = $deleteHaisoAdrsMethod;
-        $this->customerAddressRepository = $customerAddressRepository;
-        $this->prefRepository = $prefRepository;
         $this->customerAddressDataConverter = $customerAddressDataConverter;
     }
 

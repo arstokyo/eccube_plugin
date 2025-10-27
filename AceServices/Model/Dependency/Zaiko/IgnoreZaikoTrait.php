@@ -40,4 +40,9 @@ trait IgnoreZaikoTrait
 
         return $this;
     }
+
+    public function setIgnorezaikoBoolean(bool $ignorezaiko): void
+    {
+        $this->ignorezaiko = $ignorezaiko ? 1 : 0;
+    }
 }
