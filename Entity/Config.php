@@ -131,9 +131,16 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         /**
          * @var bool
          *
-         * @ORM\Column(name="enable_order_support", type="boolean", options={"default":false})
+         * @ORM\Column(name="enable_order_support_cart", type="boolean", options={"comment":"カート画面で受注サポートを有効にするか","default":true})
          */
-        private bool $enable_order_support = false;
+        private bool $enable_order_support_cart = true;
+
+        /**
+         * @var bool
+         *
+         * @ORM\Column(name="enable_order_support_check_out", type="boolean", options={"comment":"チェックアウト時に受注サポートを有効するか","default":true})
+         */
+        private bool $enable_order_support_check_out = true;
 
         /**
          * @var bool
@@ -585,53 +592,63 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
          *
          * @return bool
          */
-        public function getEnableOrderSupport(): bool
+        public function getEnableOrderSupportWhenAddCart(): bool
         {
-            return $this->enable_order_support;
+            return $this->enable_order_support_cart;
         }
 
         /**
          * Aceの受注サポート機能を有効にするかどうか設定
          *
-         * @param bool $enable_order_support
+         * @param bool $enable_order_support_add_cart
          *
          * @return $this
          */
-        public function setEnableOrderSupport(bool $enable_order_support): self
+        public function setEnableOrderSupportWhenAddCart(bool $enable_order_support_add_cart): self
         {
-            $this->enable_order_support = $enable_order_support;
+            $this->enable_order_support_cart = $enable_order_support_add_cart;
 
             return $this;
         }
 
         /**
-         * Aceの受注サポート機能が有効かどうかを確認
+         * カート画面にAceの受注サポート機能が有効かどうかを確認
          *
          * @return bool
          */
-        public function isOrderSupportEnabled(): bool
+        public function isOrderSupportEnabledWhenAddCart(): bool
         {
-            return $this->getEnableOrderSupport();
+            return $this->getEnableOrderSupportWhenAddCart();
         }
 
         /**
-         * Aceの受注サポート機能を有効にする
+         * カート画面でのAceの受注サポート機能を有効にする
          *
          * @return $this
          */
-        public function enableOrderSupport()
+        public function enableOrderSupportWhenAddCart()
         {
-            return $this->setEnableOrderSupport(true);
+            return $this->setEnableOrderSupportWhenAddCart(true);
         }
 
         /**
-         * Aceの受注サポート機能を無効にする
+         * カート画面でのAceの受注サポート機能を無効にする
          *
          * @return $this
          */
-        public function disableOrderSupport()
+        public function disableOrderSupportWhenAddCart()
         {
-            return $this->setEnableOrderSupport(false);
+            return $this->setEnableOrderSupportWhenAddCart(false);
+        }
+
+        public function isOrderSupportEnabledWhenCheckOut(): bool
+        {
+            return $this->enable_order_support_check_out;
+        }
+
+        public function setEnableOrderSupportWhenCheckOut(bool $enable_order_support_check_out): void
+        {
+            $this->enable_order_support_check_out = $enable_order_support_check_out;
         }
 
         /**
