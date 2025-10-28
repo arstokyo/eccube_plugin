@@ -95,8 +95,10 @@ parameters:
     ace.processor.delivery_tax_type: 1
     ace.processor.discount_tax_display_type: 2
     ace.processor.discount_tax_type: 1
-    ace.processor.point_discount.name: 'ポイント値引き'
-    ace.processor.promotion_discount.name: 'キャンペーン値引き'
+    ace.processor.delivery_fee.name: 'Ace送料'
+    ace.processor.charge_fee.name: 'Ace手数料'
+    ace.processor.point_discount.name: 'Aceポイント値引き'
+    ace.processor.promotion_discount.name: 'Aceキャンペーン値引き'
 
     ace.method:
         default_api_type: 'soap'
@@ -734,6 +736,7 @@ services:
         arguments:
             $taxDisplayTypeId: '@=container.hasParameter("ace.processor.charge_tax_display_type") ? parameter("ace.processor.charge_tax_display_type") : 2'
             $taxTypeId: '@=container.hasParameter("ace.processor.charge_tax_type") ? parameter("ace.processor.charge_tax_type") : 1'
+            $itemName: '@=container.hasParameter("ace.processor.charge_fee.name") ? parameter("ace.processor.charge_fee.name") : null'
         tags:
             - { name: eccube.item.holder.preprocessor, flow_type: shopping, priority: 550 }
 
@@ -742,6 +745,7 @@ services:
         arguments:
             $taxDisplayTypeId: '@=container.hasParameter("ace.processor.delivery_tax_display_type") ? parameter("ace.processor.delivery_tax_display_type") : 2'
             $taxTypeId: '@=container.hasParameter("ace.processor.delivery_tax_type") ? parameter("ace.processor.delivery_tax_type") : 1'
+            $itemName: '@=container.hasParameter("ace.processor.delivery_fee.name") ? parameter("ace.processor.delivery_fee.name") : null'
         tags:
             - { name: eccube.item.holder.preprocessor, flow_type: shopping, priority: 750 }
 
@@ -756,7 +760,7 @@ services:
         arguments:
             $taxDisplayTypeId: '@=container.hasParameter("ace.processor.discount_tax_display_type") ? parameter("ace.processor.discount_tax_display_type") : 1'
             $taxTypeId: '@=container.hasParameter("ace.processor.discount_tax_type") ? parameter("ace.processor.discount_tax_type") : 1'
-            $productName: '@=container.hasParameter("ace.processor.point_discount.name") ? parameter("ace.processor.point_discount.name") : null'
+            $itemName: '@=container.hasParameter("ace.processor.point_discount.name") ? parameter("ace.processor.point_discount.name") : null'
         tags:
             - { name: eccube.discount.processor, flow_type: shopping, priority: 900 }
             - { name: eccube.discount.processor, flow_type: order, priority: 900 }
@@ -766,7 +770,7 @@ services:
         arguments:
             $taxDisplayTypeId: '@=container.hasParameter("ace.processor.discount_tax_display_type") ? parameter("ace.processor.discount_tax_display_type") : 1'
             $taxTypeId: '@=container.hasParameter("ace.processor.discount_tax_type") ? parameter("ace.processor.discount_tax_type") : 1'
-            $productName: '@=container.hasParameter("ace.processor.promotion_discount.name") ? parameter("ace.processor.promotion_discount.name") : null'
+            $itemName: '@=container.hasParameter("ace.processor.promotion_discount.name") ? parameter("ace.processor.promotion_discount.name") : null'
         tags:
             - { name: eccube.item.holder.preprocessor, flow_type: shopping, priority: 600 }
 

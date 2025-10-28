@@ -52,18 +52,22 @@ class DeliveryFeeProcessor implements ItemHolderPreprocessor
 
     private int $taxTypeId;
 
+    private string $itemName;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         EventDispatcherInterface $eventDispatcher,
         AceConfigService $configService,
         int $taxDisplayTypeId,
         int $taxTypeId,
+        string $itemName,
     ) {
         $this->entityManager = $entityManager;
         $this->eventDispatcher = $eventDispatcher;
         $this->configService = $configService;
         $this->taxDisplayTypeId = $taxDisplayTypeId;
         $this->taxTypeId = $taxTypeId;
+        $this->itemName = $itemName;
     }
 
     /**
@@ -116,7 +120,8 @@ class DeliveryFeeProcessor implements ItemHolderPreprocessor
             $DeliveryFeeType,
             $TaxDisplay,
             $Taxation,
-            DeliveryFeeProcessor::class
+            DeliveryFeeProcessor::class,
+            $this->itemName,
         );
     }
 }

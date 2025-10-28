@@ -47,7 +47,7 @@ class PointDiscountProcessor implements DiscountProcessor
 
     private TaxProcessor $taxProcessor;
 
-    private ?string $productName;
+    private string $itemName;
 
     private PointHelper $pointHelper;
 
@@ -59,7 +59,8 @@ class PointDiscountProcessor implements DiscountProcessor
      * @param int $taxDisplayTypeId
      * @param int $taxTypeId
      * @param PointHelper $pointHelper
-     * @param string|null $productName
+     * @param TaxProcessor $taxProcessor
+     * @param string $itemName
      */
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -68,7 +69,7 @@ class PointDiscountProcessor implements DiscountProcessor
         int $taxTypeId,
         PointHelper $pointHelper,
         TaxProcessor $taxProcessor,
-        ?string $productName = null,
+        string $itemName,
     ) {
         $this->entityManager = $entityManager;
         $this->configService = $configService;
@@ -76,7 +77,7 @@ class PointDiscountProcessor implements DiscountProcessor
         $this->taxTypeId = $taxTypeId;
         $this->taxProcessor = $taxProcessor;
         $this->pointHelper = $pointHelper;
-        $this->productName = $productName;
+        $this->itemName = $itemName;
     }
 
     public function removeDiscountItem(ItemHolderInterface $itemHolder, PurchaseContext $context)
@@ -134,7 +135,7 @@ class PointDiscountProcessor implements DiscountProcessor
             $TaxDisplay,
             $Taxation,
             PointDiscountProcessor::class,
-            $this->productName,
+            $this->itemName,
         );
 
         // 通販Aceのポイント値引きは税込であるため、もう一度税額を計算し直します。
