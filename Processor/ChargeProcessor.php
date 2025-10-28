@@ -57,6 +57,8 @@ class ChargeProcessor implements ItemHolderPreprocessor
 
     private int $taxTypeId;
 
+    private string $itemName;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         EventDispatcherInterface $eventDispatcher,
@@ -66,6 +68,7 @@ class ChargeProcessor implements ItemHolderPreprocessor
         TaxTypeRepository $taxTypeRepository,
         int $taxDisplayTypeId,
         int $taxTypeId,
+        string $itemName,
     ) {
         $this->entityManager = $entityManager;
         $this->eventDispatcher = $eventDispatcher;
@@ -75,6 +78,7 @@ class ChargeProcessor implements ItemHolderPreprocessor
         $this->configService = $configService;
         $this->taxDisplayTypeId = $taxDisplayTypeId;
         $this->taxTypeId = $taxTypeId;
+        $this->itemName = $itemName;
     }
 
     /**
@@ -141,7 +145,8 @@ class ChargeProcessor implements ItemHolderPreprocessor
             $orderItemType,
             $taxDisplayType,
             $taxation,
-            ChargeProcessor::class
+            ChargeProcessor::class,
+            $this->itemName,
         );
     }
 }

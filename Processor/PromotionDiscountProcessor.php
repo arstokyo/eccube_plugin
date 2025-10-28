@@ -40,25 +40,29 @@ class PromotionDiscountProcessor implements ItemHolderPreprocessor
 
     private int $taxTypeId;
 
-    private ?string $productName;
+    private string $itemName;
 
     /**
      * PointDiscountProcessor constructor.
      *
      * @param EntityManagerInterface $entityManager
+     * @param AceConfigService $configService
+     * @param int $taxDisplayTypeId
+     * @param int $taxTypeId
+     * @param string $itemName
      */
     public function __construct(
         EntityManagerInterface $entityManager,
         AceConfigService $configService,
         int $taxDisplayTypeId,
         int $taxTypeId,
-        ?string $productName = null,
+        string $itemName,
     ) {
         $this->entityManager = $entityManager;
         $this->configService = $configService;
         $this->taxDisplayTypeId = $taxDisplayTypeId;
         $this->taxTypeId = $taxTypeId;
-        $this->productName = $productName;
+        $this->itemName = $itemName;
     }
 
     /**
@@ -106,7 +110,7 @@ class PromotionDiscountProcessor implements ItemHolderPreprocessor
             $TaxDisplay,
             $Taxation,
             PromotionDiscountProcessor::class,
-            $this->productName,
+            $this->itemName,
         );
     }
 }
