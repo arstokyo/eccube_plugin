@@ -745,6 +745,12 @@ services:
         tags:
             - { name: eccube.item.holder.preprocessor, flow_type: shopping, priority: 750 }
 
+    # Eccubeの既存ポイントを削除
+    Plugin\AceClient43\Processor\PrePointDiscountProcessor:
+        tags:
+            - { name: eccube.discount.processor, flow_type: shopping, priority: 910 }
+            - { name: eccube.discount.processor, flow_type: order, priority: 910 }
+
     # 通販Aceのポイント値引きを追加のプロセッサー
     Plugin\AceClient43\Processor\PointDiscountProcessor:
         arguments:

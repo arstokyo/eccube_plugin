@@ -1,3 +1,4 @@
 ace_client.admin_customer_unique: 'メールアドレス{{ email }}すでに通販Ace側に登録されています。'
 ace_client.front_customer_unique: 'このメールアドレスはお使いできません。'
 ace_client.admin.product.error.invalid_product_ids: '商品IDは数字とカンマのみ入力可能です。'
+ace_client.purchase_flow.over_payment_total: '利用ポイントがお支払い金額を上回っていますため、金額を正しく計算できませんでした。'

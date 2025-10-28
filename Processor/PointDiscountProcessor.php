@@ -22,6 +22,7 @@ use Eccube\Entity\Order;
 use Eccube\Service\PointHelper;
 use Eccube\Service\PurchaseFlow\DiscountProcessor;
 use Eccube\Service\PurchaseFlow\Processor\TaxProcessor;
+use Eccube\Service\PurchaseFlow\ProcessResult;
 use Eccube\Service\PurchaseFlow\PurchaseContext;
 use Plugin\AceClient43\Service\AceConfigService;
 
@@ -104,20 +105,25 @@ class PointDiscountProcessor implements DiscountProcessor
     public function addDiscountItem(ItemHolderInterface $itemHolder, PurchaseContext $context)
     {
         if (!$this->supports($itemHolder)) {
-            return;
+            return null;
         }
 
         if (!$itemHolder instanceof Order) {
-            return;
+            return null;
         }
 
         if (0 <= $discount = $itemHolder->getAcePointDiscount()) {
-            return;
+            return null;
         }
 
-        $this->pointHelper->removePointDiscountItem($itemHolder);
+        if ($itemHolder->getTotal() + $discount < 0) {
+            log_warning('[Point_Discount_Processor] 値引き額は利用ポイントがお支払い金額を上回っています。');
+            $itemHolder->setAcePointDiscount(0);
 
-        $DiscountType = $this->entityManager->find(OrderItemType::class, OrderItemType::DISCOUNT);
+            return ProcessResult::warn(trans('ace_client.purchase_flow.over_payment_total'), self::class);
+        }
+
+        $DiscountType = $this->entityManager->find(OrderItemType::class, OrderItemType::POINT);
         $TaxDisplay = $this->entityManager->find(TaxDisplayType::class, $this->taxDisplayTypeId);
         $Taxation = $this->entityManager->find(TaxType::class, $this->taxTypeId);
 
@@ -133,6 +139,8 @@ class PointDiscountProcessor implements DiscountProcessor
 
         // 通販Aceのポイント値引きは税込であるため、もう一度税額を計算し直します。
         $this->taxProcessor->process($itemHolder, $context);
+
+        return null;
     }
 
     private function supports(ItemHolderInterface $itemHolder): bool
