@@ -45,11 +45,14 @@ use Plugin\AceClient43\AceServices\Model\Response\WebApi\Member\V1\CheckCodeAndM
 use Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrderList\V1GetOrderListResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V2\GetOrderListV2\V2GetOrderListV2ResponseModelInterface;
 use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
-use Plugin\AceClient43\Bridge\DataConverter\CustomerDataConverterInterface;
+use Plugin\AceClient43\Cache\ResponseCachePool;
+use Plugin\AceClient43\Converter\CustomerDataConverterInterface;
 use Psr\Log\LoggerInterface;
 
 /**
  * CustomerBridgeHelper - 顧客連携ブリッジの複雑なロジックをカプセル化するヘルパークラス
+ *
+ * @deprecated CustomerBridgeHelperは今後廃止予定です。代わりにCustomerBridgeを使用してください。
  */
 class CustomerBridgeHelper
 {
@@ -81,6 +84,8 @@ class CustomerBridgeHelper
 
     protected LoggerInterface $logger;
 
+    protected ResponseCachePool $responseCachePool;
+
     public function __construct(
         GetMemberMethod $getMemberMethod,
         GetMemberMcodeMethod $getMemberMcodeMethod,
@@ -95,6 +100,7 @@ class CustomerBridgeHelper
         GetDurationOrderTotalMethod $getDurationOrderTotalMethod,
         UpdatePasswordMethod $updatePasswordMethod,
         LoggerInterface $logger,
+        ResponseCachePool $responseCachePool,
     ) {
         $this->getMemberMethod = $getMemberMethod;
         $this->getMemberMcodeMethod = $getMemberMcodeMethod;
@@ -109,6 +115,7 @@ class CustomerBridgeHelper
         $this->getDurationOrderTotalMethod = $getDurationOrderTotalMethod;
         $this->updatePasswordMethod = $updatePasswordMethod;
         $this->logger = $logger;
+        $this->responseCachePool = $responseCachePool;
     }
 
     /**
@@ -163,38 +170,46 @@ class CustomerBridgeHelper
     /**
      * 会員IDによる顧客情報の取得
      */
-    public function getByAceCustomerId(string $aceCustomerId, string $syid, array $options = [], ?Customer $customer = null): ?GetMemberMcodeResponse\LoginMemberModelInterface
+    public function getByAceCustomerId(string $aceCustomerId, string $syid, array $options = [], ?Customer $customer = null, bool $force = false): ?GetMemberMcodeResponse\LoginMemberModelInterface
     {
-        $request = $this->customerDataConverter->convertCustomerToGetMemberMcodeRequest($aceCustomerId, $syid, $options, $customer);
+        $cacheKey = 'get_by_ace_customer_id_'.$aceCustomerId.'_'.md5(serialize($options));
 
-        if (isset($options['return_alladr']) && $options['return_alladr']) {
-            $optionsModel = $request->getIdPrm()->getOptions() ?? $this->createSubModel(GetMemberMcodeRequest\OptionsModel::class);
-            $optionsModel->setReturnAllAdr(true);
-            $request->getIdPrm()->setOptions($optionsModel);
+        if ($force) {
+            $this->responseCachePool->remove($cacheKey);
         }
 
-        try {
-            $response = $this->getMemberMcodeMethod
-                ->withRequest($request)
-                ->send();
+        return $this->responseCachePool->get($cacheKey, function () use ($aceCustomerId, $syid, $options, $customer) {
+            $request = $this->customerDataConverter->convertCustomerToGetMemberMcodeRequest($aceCustomerId, $syid, $options, $customer);
 
-            if (!$response->isOk()) {
-                return null;
+            if (isset($options['return_alladr']) && $options['return_alladr']) {
+                $optionsModel = $request->getIdPrm()->getOptions() ?? $this->createSubModel(GetMemberMcodeRequest\OptionsModel::class);
+                $optionsModel->setReturnAllAdr(true);
+                $request->getIdPrm()->setOptions($optionsModel);
             }
 
-            if ($this->hasErrorMessage($response->getResponse()->getLoginMember())) {
-                return null;
+            try {
+                $response = $this->getMemberMcodeMethod
+                    ->withRequest($request)
+                    ->send();
+
+                if (!$response->isOk()) {
+                    return null;
+                }
+
+                if ($this->hasErrorMessage($response->getResponse()->getLoginMember())) {
+                    return null;
+                }
+
+                /** @var GetMemberMcodeResponse\GetMemberMcodeResponseModelInterface $responseModel */
+                $responseModel = $response->getResponse();
+
+                return $responseModel->getLoginMember()->getMember()->getCode()
+                    ? $responseModel->getLoginMember()
+                    : null;
+            } catch (\Throwable $e) {
+                throw new \RuntimeException('会員IDによる顧客情報の取得に失敗しました。', 0, $e);
             }
-
-            /** @var GetMemberMcodeResponse\GetMemberMcodeResponseModelInterface $responseModel */
-            $responseModel = $response->getResponse();
-
-            return $responseModel->getLoginMember()->getMember()->getCode()
-                ? $responseModel->getLoginMember()
-                : null;
-        } catch (\Throwable $e) {
-            throw new \RuntimeException('会員IDによる顧客情報の取得に失敗しました。', 0, $e);
-        }
+        });
     }
 
     /**

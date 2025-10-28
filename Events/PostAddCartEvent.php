@@ -28,16 +28,20 @@ class PostAddCartEvent extends Event
 
     private Config $config;
 
+    private bool $canFlush;
+
     public function __construct(
         AddCartResponseModelInterface $addCartResponseModel,
         Cart $cart,
         array $options,
         Config $config,
+        bool $canFlush,
     ) {
         $this->addCartResponseModel = $addCartResponseModel;
         $this->cart = $cart;
         $this->options = $options;
         $this->config = $config;
+        $this->canFlush = $canFlush;
     }
 
     public function getAddCartResponseModel(): AddCartResponseModelInterface
@@ -63,5 +67,10 @@ class PostAddCartEvent extends Event
     public function getTrigger(): string
     {
         return $this->options['trigger'] ?? '';
+    }
+
+    public function canFlush(): bool
+    {
+        return $this->canFlush;
     }
 }

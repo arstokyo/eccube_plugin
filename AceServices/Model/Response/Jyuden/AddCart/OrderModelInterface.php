@@ -128,4 +128,18 @@ interface OrderModelInterface extends HasMessageModelInterface, Response\AsListD
      * @return float|null 獲得可能なポイント数（小数点を含む場合あり）、またはnull
      */
     public function getEarnablePoints(): ?float;
+
+    /**
+     * プロモーション割引を取得
+     *
+     * @return int|null
+     */
+    public function getPromotionDiscount(): ?int;
+
+    /**
+     * ポイント割引を取得
+     *
+     * @return int|null
+     */
+    public function getPointDiscount(): ?int;
 }

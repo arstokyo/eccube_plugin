@@ -6,10 +6,12 @@ use Eccube\Entity\Customer;
 use Eccube\Entity\CustomerAddress;
 use Plugin\AceClient43\AceServices\Model\Request\Member\DeleteHaisoAdrs\DeleteHaisoAdrsRequestModel;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr\RegMemAdrRequestModel;
-use Plugin\AceClient43\Bridge\DataConverter\CustomerAddressDataConverterInterface;
+use Plugin\AceClient43\Converter\CustomerAddressDataConverterInterface;
 
 /**
  * 顧客住所ブリッジヘルパークラス
+ *
+ * @deprecated CustomerAddressBridgeHelperは廃止予定です。代わりにCustomerAddressBridgeを使用してください。
  */
 class CustomerAddressBridgeHelper
 {

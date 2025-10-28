@@ -34,7 +34,7 @@ use Eccube\Repository\OrderRepository;
 use Eccube\Repository\PaymentRepository;
 use Eccube\Service\OrderHelper as BaseOrderHelper;
 use Eccube\Session\Session;
-use Plugin\AceClient43\Service\CartOrderSyncService;
+use Plugin\AceClient43\Synchronizer\CartOrderSynchronizerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -48,7 +48,7 @@ class OrderHelper extends BaseOrderHelper
 {
     protected EventDispatcherInterface $eventDispatcher;
 
-    protected CartOrderSyncService $cartOrderSyncService;
+    protected CartOrderSynchronizerInterface $cartOrderSyncService;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -64,7 +64,7 @@ class OrderHelper extends BaseOrderHelper
         AuthorizationCheckerInterface $authorizationChecker,
         TokenStorageInterface $tokenStorage,
         EventDispatcherInterface $eventDispatcher,
-        CartOrderSyncService $cartOrderSyncService,
+        CartOrderSynchronizerInterface $cartOrderSyncService,
     ) {
         parent::__construct(
             $entityManager,

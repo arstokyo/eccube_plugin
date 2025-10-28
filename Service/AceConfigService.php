@@ -157,15 +157,22 @@ class AceConfigService
     }
 
     /**
-     * 受注サポートが有効かチェック
+     * カート画面に受注サポートが有効かチェック
      *
      * @return bool
      */
-    public function isOrderSupportEnabled(): bool
+    public function isOrderSupportEnabledWhenAddCart(): bool
     {
         $config = $this->getConfig();
 
-        return $config ? $config->isOrderSupportEnabled() : false;
+        return $config ? $config->isOrderSupportEnabledWhenAddCart() : false;
+    }
+
+    public function isOrderSupportEnabledWhenCheckout(): bool
+    {
+        $config = $this->getConfig();
+
+        return $config ? $config->isOrderSupportEnabledWhenCheckOut() : false;
     }
 
     /**
@@ -397,5 +404,9 @@ class AceConfigService
     public function shouldSyncProductOnAdminPage(): bool
     {
         return true;
+    }
+
+    public function shouldEnableOrderSupportOnCreateOrder(): bool
+    {
     }
 }

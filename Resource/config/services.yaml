@@ -91,8 +91,12 @@ parameters:
     # TaxType: 1=TAXATION, 2=NON_TAXABLE, 3=TAX_EXEMPT
     ace.processor.charge_tax_display_type: 2
     ace.processor.charge_tax_type: 1
-    ace.processor.delivery_tax_display_type: 1
+    ace.processor.delivery_tax_display_type: 2
     ace.processor.delivery_tax_type: 1
+    ace.processor.discount_tax_display_type: 2
+    ace.processor.discount_tax_type: 1
+    ace.processor.point_discount.name: 'ポイント値引き'
+    ace.processor.promotion_discount.name: 'キャンペーン値引き'
 
     ace.method:
         default_api_type: 'soap'
@@ -127,6 +131,9 @@ parameters:
     ace.log.max_line_length: 50000  # Maximum line length for log messages
 
     ace.post_soap_client.extract_max_length: 200000  # Maximum length for SOAP XML response extraction
+
+    ace.cache.request.ttl: 300 # Request cache TTL (seconds) - 5 minutes
+    ace.cache.response.ttl: 300 # Response cache TTL (seconds) - 5 minutes
 
 monolog:
     channels: ['ace_client', 'ace_client_console']
@@ -238,6 +245,50 @@ services:
               verify: false
               headers:
                   User-Agent: '%ace.name%V%ace.version%'
+        public: false
+
+    Plugin\AceClient43\Cache\RequestCachePool:
+        arguments:
+            $defaultTtl: '%ace.cache.request.ttl%'
+            $isDebug: '%kernel.debug%'
+
+    Plugin\AceClient43\Cache\ResponseCachePool:
+        arguments:
+            $defaultTtl: '%ace.cache.response.ttl%'
+
+    # ===================================================================================================
+    # Converter Services - Immutable Flow-Based Converters
+    # ===================================================================================================
+
+    # AddCartRequestConverter - registered with tags for auto-discovery and decoration
+    # AddCartRequestConverterは自動検出とデコレーションのためにタグ付けされます
+    Plugin\AceClient43\Converter\AddCartRequestConverterInterface:
+        class: Plugin\AceClient43\Converter\AddCartRequestConverter
+
+    # JyumeiDataConverter - single instance used across all flows
+    # JyumeiDataConverterは全フローで共有される単一インスタンス
+
+    # JyumeiDataConverterInterface alias for direct injection
+    Plugin\AceClient43\Converter\JyumeiDataConverterInterface:
+        class: Plugin\AceClient43\Converter\JyumeiDataConverter
+
+    # AddCartRequestCorrectors - applied at the final stage of request building
+    # AddCartRequestCorrectorはリクエスト構築の最終段階で適用されます
+
+    # Default corrector (if needed) - add custom correctors with higher priority
+    # Plugin\AceClient43\Converter\Corrector\DefaultAddCartRequestCorrector:
+    #     tags:
+    #         - { name: 'ace_client.corrector.add_cart_request', priority: 0 }
+
+    # AddCartConverterFactory - manages converters and correctors by flow type
+    # AddCartConverterFactoryはフロータイプごとにコンバータとコレクタを管理します
+    Plugin\AceClient43\Converter\AddCartConverterFactory:
+        arguments:
+            $addCartRequestCorrectors: !tagged_iterator { tag: 'ace_client.corrector.add_cart_request' }
+
+    # Alias for backward compatibility
+    ace_add_cart_converter_factory:
+        alias: Plugin\AceClient43\Converter\AddCartConverterFactory
         public: false
 
     # ===================================================================================================
@@ -603,6 +654,7 @@ services:
             $aceConfigService: '@ace_config_service'
         calls:
             - setExtractMaxLength: ['%ace.post_soap_client.extract_max_length%']
+            - setRequestCachePool: [ '@Plugin\AceClient43\Cache\RequestCachePool' ]
         tags:
             - { name: 'ace_client.api_client' }
 
@@ -678,35 +730,55 @@ services:
             - { name: kernel.cache_warmer }
 
     # Processors - will use ace_client logger
-    Plugin\AceClient43\Service\ChargeProcessor:
+    Plugin\AceClient43\Processor\ChargeProcessor:
         arguments:
             $taxDisplayTypeId: '@=container.hasParameter("ace.processor.charge_tax_display_type") ? parameter("ace.processor.charge_tax_display_type") : 2'
             $taxTypeId: '@=container.hasParameter("ace.processor.charge_tax_type") ? parameter("ace.processor.charge_tax_type") : 1'
         tags:
             - { name: eccube.item.holder.preprocessor, flow_type: shopping, priority: 550 }
 
-    Plugin\AceClient43\Service\DeliveryFeeProcessor:
+    # since we move class from service/processor to processor/charge, so we should add migration to update the class name on database
+    Plugin\AceClient43\Processor\DeliveryFeeProcessor:
         arguments:
             $taxDisplayTypeId: '@=container.hasParameter("ace.processor.delivery_tax_display_type") ? parameter("ace.processor.delivery_tax_display_type") : 2'
             $taxTypeId: '@=container.hasParameter("ace.processor.delivery_tax_type") ? parameter("ace.processor.delivery_tax_type") : 1'
         tags:
             - { name: eccube.item.holder.preprocessor, flow_type: shopping, priority: 750 }
 
+    # 通販Aceのポイント値引きを追加のプロセッサー
+    Plugin\AceClient43\Processor\PointDiscountProcessor:
+        arguments:
+            $taxDisplayTypeId: '@=container.hasParameter("ace.processor.discount_tax_display_type") ? parameter("ace.processor.discount_tax_display_type") : 1'
+            $taxTypeId: '@=container.hasParameter("ace.processor.discount_tax_type") ? parameter("ace.processor.discount_tax_type") : 1'
+            $productName: '@=container.hasParameter("ace.processor.point_discount.name") ? parameter("ace.processor.point_discount.name") : null'
+        tags:
+            - { name: eccube.discount.processor, flow_type: shopping, priority: 900 }
+            - { name: eccube.discount.processor, flow_type: order, priority: 900 }
+
+    # 受注サポートによるキャンペーン値引きなどを追加プロセッサー
+    Plugin\AceClient43\Processor\PromotionDiscountProcessor:
+        arguments:
+            $taxDisplayTypeId: '@=container.hasParameter("ace.processor.discount_tax_display_type") ? parameter("ace.processor.discount_tax_display_type") : 1'
+            $taxTypeId: '@=container.hasParameter("ace.processor.discount_tax_type") ? parameter("ace.processor.discount_tax_type") : 1'
+            $productName: '@=container.hasParameter("ace.processor.promotion_discount.name") ? parameter("ace.processor.promotion_discount.name") : null'
+        tags:
+            - { name: eccube.item.holder.preprocessor, flow_type: shopping, priority: 600 }
+
     # ACE AddPointProcessor - 加算ポイント（ACE連携）
-    Plugin\AceClient43\Service\AddPointProcessor:
+    Plugin\AceClient43\Processor\AddPointProcessor:
         tags:
             - { name: eccube.item.holder.post.validator, flow_type: shopping, priority: 850 }
             - { name: eccube.item.holder.post.validator, flow_type: order, priority: 9500 }
 
     # Decorators
-    Plugin\AceClient43\Service\Decorators\ProductClassComparator:
+    Plugin\AceClient43\Comparator\ProductClassComparator:
         decorates: Eccube\Service\Cart\ProductClassComparator
         decoration_priority: 10
 
     Plugin\AceClient43\Service\Decorators\CartService:
         decorates: Eccube\Service\CartService
         arguments:
-            $cartItemComparator: '@Plugin\AceClient43\Service\Decorators\ProductClassComparator'
+            $cartItemComparator: '@Plugin\AceClient43\Comparator\ProductClassComparator'
         decoration_priority: 10
 
     Plugin\AceClient43\Service\Decorators\OrderHelper:

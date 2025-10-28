@@ -9,6 +9,7 @@ interface OptionsModelInterface
     public const CALC_SUPPORT_MODE_ALL = 'all';
     public const CALC_SUPPORT_MODE_POINT = 'point';
     public const CALC_SUPPORT_MODE_MESSAGE = 'message';
+    public const SUPPORT_POINT_GIVE_KBN = 2;
 
     /**
      * レスポンスグループ化
