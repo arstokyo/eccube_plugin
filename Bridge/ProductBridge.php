@@ -430,7 +430,6 @@ class ProductBridge extends BaseBridge
             /* @var V1GoodsItemsTankaResponseModelInterface $payload */
             return $response->getResponse();
         } catch (\Throwable $e) {
-            dd($e);
             throw new \RuntimeException('商品一覧（v1）の取得に失敗しました。', 0, $e);
         }
     }
