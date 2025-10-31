@@ -125,6 +125,8 @@ class CartBridge extends BaseBridge
     /**
      * Execute AddCart with caching
      *
+     * TODO: on error dispatch the event and remove all the related cached add cart request
+     *
      * @throws CouldNotAddCartException
      */
     public function executeAddCartRequestWithCache(\Closure $factory, array $options = [], ?string $cacheKey = null, ?\Closure $modifier = null): AddCartResponseModelInterface
@@ -160,6 +162,8 @@ class CartBridge extends BaseBridge
      * @param array $options
      *
      * @return AddCartResponseModelInterface
+     *
+     * TODO: on error dispatch the event and remove all the related cached add cart request
      *
      * @throws CouldNotAddCartException
      * @throws MissingRequestParameterException
