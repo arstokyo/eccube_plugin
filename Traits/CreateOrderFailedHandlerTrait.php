@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\AceClient43\Handler;
+namespace Plugin\AceClient43\Traits;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Eccube\Entity\Order;
