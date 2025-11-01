@@ -137,6 +137,8 @@ parameters:
     ace.cache.request.ttl: 300 # Request cache TTL (seconds) - 5 minutes
     ace.cache.response.ttl: 300 # Response cache TTL (seconds) - 5 minutes
 
+    # フリー項目など：
+    ace.free.ec_order_id: null
 monolog:
     channels: ['ace_client', 'ace_client_console']
 

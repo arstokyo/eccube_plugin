@@ -408,5 +408,11 @@ class AceConfigService
 
     public function shouldEnableOrderSupportOnCreateOrder(): bool
     {
+        $config = $this->getConfig();
+        if (!$config) {
+            return false;
+        }
+
+        return $config->isOrderSupportEnabledWhenCheckOut();
     }
 }

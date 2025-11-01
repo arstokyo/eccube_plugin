@@ -12,14 +12,17 @@ namespace Plugin\AceClient43\Bridge;
 
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
+use Eccube\Common\EccubeConfig;
 use Eccube\Entity\CustomerAddress;
 use Eccube\Entity\Shipping;
 use Eccube\Service\CartService;
 use Eccube\Service\PurchaseFlow\PurchaseFlow;
 use Eccube\Service\PurchaseFlow\PurchaseFlowResult;
+use GuzzleHttp\Exception\ClientException;
 use Plugin\AceClient43\AceServices\AceMethod\Jyuden\AddCartMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Jyuden\CreateOrderMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Jyuden\DecisionCartMethod;
+use Plugin\AceClient43\AceServices\AceMethod\WebApi\Order\V1GetAceOrderIdMethod;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\AddCartRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\OptionsModel;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\CreateOrder\CreateOrderRequestModelInterface;
@@ -39,6 +42,7 @@ use Plugin\AceClient43\Synchronizer\AceCartResponseToOrderSynchronizerInterface;
 use Plugin\AceClient43\Synchronizer\CartOrderSynchronizerInterface;
 use Plugin\AceClient43\Traits\GetUserTrait;
 use Plugin\AceClient43\Traits\ShoppingPurchaseFlowTrait;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * 注文関連の処理を行うブリッジクラス
@@ -78,6 +82,10 @@ class OrderBridge extends BaseBridge
 
     protected AceCartResponseToOrderSynchronizerInterface $cartResponseToOrderSynchronizer;
 
+    protected V1GetAceOrderIdMethod $getAceOrderIdMethod;
+
+    protected EccubeConfig $eccubeConfig;
+
     public function __construct(
         PurchaseFlow $purchaseFlow,
         OrderDataConverterInterface $orderDataConverter,
@@ -90,6 +98,8 @@ class OrderBridge extends BaseBridge
         AceCartResponseToOrderSynchronizerInterface $cartResponseToOrderSynchronizer,
         CartService $cartService,
         UpdateEarnablePointPurchaseContext $updateEarnablePointPurchaseContext,
+        V1GetAceOrderIdMethod $getAceOrderIdMethod,
+        EccubeConfig $eccubeConfig,
     ) {
         $this->orderDataConverter = $orderDataConverter;
         $this->addCartMethod = $addCartMethod;
@@ -102,6 +112,8 @@ class OrderBridge extends BaseBridge
         $this->cartOrderSynchronizer = $cartOrderSynchronizer;
         $this->cartResponseToOrderSynchronizer = $cartResponseToOrderSynchronizer;
         $this->updateEarnablePointPurchaseContext = $updateEarnablePointPurchaseContext;
+        $this->getAceOrderIdMethod = $getAceOrderIdMethod;
+        $this->eccubeConfig = $eccubeConfig;
     }
 
     /**
@@ -120,8 +132,6 @@ class OrderBridge extends BaseBridge
      */
     public function create(Shipping $shipping, array $decisionOptions = [], bool $shouldFlush = false, array $options = []): void
     {
-        $config = $this->aceConfigService->getConfig();
-
         try {
             // 受注明細や顧客情報の妥当性をチェック（AddCart 前提と同一）
             [$order, $customer, $customerAddress, $config] = $this->validatePreCreate($shipping);
@@ -217,7 +227,7 @@ class OrderBridge extends BaseBridge
             throw new \LogicException('支払方法にACE決済IDが設定されていません。管理画面で支払方法にACE決済IDを設定してください。');
         }
 
-        return [$order, $customer, $customerAddress];
+        return [$order, $customer, $customerAddress, $this->aceConfigService->getConfig()];
     }
 
     /**
@@ -492,5 +502,50 @@ class OrderBridge extends BaseBridge
         }
 
         return $response->getResponse();
+    }
+
+    /**
+     * @param int $orderId
+     *
+     * @return string|null - null if not exits
+     */
+    public function getAceOrderId(int $orderId): ?string
+    {
+        if (null === $freeKubun = $this->eccubeConfig->get('ace.free.ec_order_id')) {
+            throw new \LogicException('ace.free.ec_order_idを指定してください。');
+        }
+
+        try {
+            $request = [
+                'syid' => $this->getSyid(),
+                'ecOrderNo' => $orderId,
+                'freeKubun' => $freeKubun,
+            ];
+            $respone = $this->getAceOrderIdMethod->withArrayRequest($request)->send();
+
+            if ($respone->getStatusCode() === 404) {
+                return null;
+            }
+
+            return $respone->getResponse();
+        } catch (ClientException $e) {
+            if ($e->getResponse()->getStatusCode() === Response::HTTP_NOT_FOUND) {
+                return null;
+            }
+
+            $this->logger->error('通販Aceの顧客取得する時に、エラーが発生しました。', [
+                'message' => $e->getMessage(),
+                'stack_trace' => $e->getTraceAsString(),
+            ]);
+
+            throw $e;
+        } catch (\Throwable $e) {
+            $this->logger->error('通販Aceの顧客取得する時に、エラーが発生しました。', [
+                'message' => $e->getMessage(),
+                'stack_trace' => $e->getTraceAsString(),
+            ]);
+
+            throw new \RuntimeException('通販Aceの顧客取得処理に失敗しました。', $e);
+        }
     }
 }

@@ -25,6 +25,9 @@ use Plugin\AceClient43\Exception\MissingRequestParameterException;
  */
 interface AceMethodInterface
 {
+    public const RESPONSE_STRING_TYPE = 'string';
+    public const RESPONSE_ARRAY_TYPE = 'array';
+
     /**
      * Set the Request.
      *
@@ -35,6 +38,8 @@ interface AceMethodInterface
      * @throws MissingRequestParameterException
      */
     public function withRequest(Request\RequestModelInterface $requestModel): self;
+
+    public function withArrayRequest(array $requestData): self;
 
     /**
      * Send the Request.

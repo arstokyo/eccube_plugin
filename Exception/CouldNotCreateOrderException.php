@@ -28,9 +28,14 @@ class CouldNotCreateOrderException extends CouldNotAddCartException
      * @param mixed $messageModel HasMessageModelInterface|HasMessageModelExtend1Interface|null
      * @param \Throwable|null $previous
      */
-    public function __construct($messageModel = null, ?\Throwable $previous = null)
+    public function __construct($messageModel = null, ?\Throwable $previous = null, string $defaultMessage = '通販Aceの注文作成に失敗しました。')
     {
         // 既定メッセージを注文作成向けに変更して親コンストラクタへ
-        parent::__construct($messageModel, $previous, '通販Aceに注文を作成できませんでした');
+        parent::__construct($messageModel, $previous, $defaultMessage);
+    }
+
+    public static function new(string $message, $messageModel = null, ?\Throwable $previous = null): CouldNotCreateOrderException
+    {
+        return new self($messageModel, $previous, $message);
     }
 }

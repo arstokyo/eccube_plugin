@@ -76,6 +76,13 @@ abstract class AceMethodAbstract implements AceMethodInterface
         return $this;
     }
 
+    public function withArrayRequest(array $requestData): self
+    {
+        $this->apiClient->withRequest($requestData);
+
+        return $this;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -197,6 +204,10 @@ abstract class AceMethodAbstract implements AceMethodInterface
     protected function getResponseAsObject(): string
     {
         $responseInterface = $this->getResponseInterface();
+
+        if ($responseInterface === AceMethodInterface::RESPONSE_STRING_TYPE) {
+            return '';
+        }
 
         // 1. 設定ファイルから検索
         $responseClass = $this->getResponseClassFromConfig($responseInterface);
