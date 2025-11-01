@@ -17,16 +17,16 @@ trait CreateOrderFailedHandlerTrait
 
     private PurchaseFlow $shoppingPurchaseFlow;
 
-    public function handleWhenCreateOrderFailed(Order $order, \Throwable $exception, ?callable $onRollback = null): ?RedirectResponse
+    public function handleWhenCreateOrderFailed(Order $order, \Throwable $exception, ?callable $preRollback = null): ?RedirectResponse
     {
         if ($exception instanceof CouldNotCreateOrderException) {
-            return $this->handleCouldNotCreateOrderException($exception, $order, $onRollback);
+            return $this->handleCouldNotCreateOrderException($exception, $order, $preRollback);
         }
 
-        return $this->handleUnknownException($exception, $order, $onRollback);
+        return $this->handleUnknownException($exception, $order, $preRollback);
     }
 
-    public function handleCouldNotCreateOrderException(CouldNotCreateOrderException $exception, Order $order, ?callable $onRollback = null): ?RedirectResponse
+    public function handleCouldNotCreateOrderException(CouldNotCreateOrderException $exception, Order $order, ?callable $preRollback = null): ?RedirectResponse
     {
         if ($exception->isAddCartError()) {
             log_warning('['.$order->getId().'] 通販Aceに受注作成する際に、AddCartのエラーが発生しました。ショッピング画面に戻ります。エラー：'.$exception->getUserMessage(), [
@@ -43,7 +43,7 @@ trait CreateOrderFailedHandlerTrait
                 'stackTrace' => $exception->getTraceAsString(),
             ]);
 
-            $this->rollback($order, $onRollback);
+            $this->rollback($order, $preRollback);
 
             return $this->redirectToRoute('shopping_error');
         }
@@ -78,12 +78,12 @@ trait CreateOrderFailedHandlerTrait
         return null;
     }
 
-    private function rollback(Order $order, ?callable $onRollback = null): void
+    private function rollback(Order $order, ?callable $preRollback = null): void
     {
-        $this->shoppingPurchaseFlow->rollback($order, new PurchaseContext());
-        if ($onRollback) {
-            $onRollback($order);
+        if ($preRollback) {
+            $preRollback($order);
         }
+        $this->shoppingPurchaseFlow->rollback($order, new PurchaseContext());
         $this->entityManager->flush();
     }
 

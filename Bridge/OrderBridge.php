@@ -523,7 +523,7 @@ class OrderBridge extends BaseBridge
             ];
             $respone = $this->getAceOrderIdMethod->withArrayRequest($request)->send();
 
-            if ($respone->getStatusCode() === 404) {
+            if ($respone->getStatusCode() === Response::HTTP_NOT_FOUND) {
                 return null;
             }
 
