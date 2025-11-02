@@ -9,13 +9,15 @@ use Eccube\Service\PurchaseFlow\PurchaseFlow;
 use Plugin\AceClient43\Bridge\OrderBridge;
 use Plugin\AceClient43\Exception\CouldNotCreateOrderException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\FlashBagAwareSessionInterface;
 use Symfony\Contracts\Service\Attribute\Required;
 
 trait CreateOrderFailedHandlerTrait
 {
     private OrderBridge $orderBridge;
 
-    private PurchaseFlow $shoppingPurchaseFlow;
+    private RequestStack $requestStack;
 
     public function handleWhenCreateOrderFailed(Order $order, \Throwable $exception, ?callable $preRollback = null): ?RedirectResponse
     {
@@ -23,7 +25,7 @@ trait CreateOrderFailedHandlerTrait
             return $this->handleCouldNotCreateOrderException($exception, $order, $preRollback);
         }
 
-        return $this->handleUnknownException($exception, $order, $preRollback);
+        return $this->handleUnexpectedException($exception, $order, $preRollback);
     }
 
     public function handleCouldNotCreateOrderException(CouldNotCreateOrderException $exception, Order $order, ?callable $preRollback = null): ?RedirectResponse
@@ -34,6 +36,8 @@ trait CreateOrderFailedHandlerTrait
                 'stackTrace' => $exception->getTraceAsString(),
             ]);
 
+            $this->addErrorFlash($exception->getUserMessage());
+
             return $this->redirectToRoute('shopping');
         }
 
@@ -43,6 +47,7 @@ trait CreateOrderFailedHandlerTrait
                 'stackTrace' => $exception->getTraceAsString(),
             ]);
 
+            $this->addErrorFlash(trans('ace_client.create_order.error.unexpected'));
             $this->rollback($order, $preRollback);
 
             return $this->redirectToRoute('shopping_error');
@@ -56,15 +61,15 @@ trait CreateOrderFailedHandlerTrait
         return null;
     }
 
-    public function handleUnknownException(\Throwable $exception, Order $order, ?callable $onRollback = null): ?RedirectResponse
+    public function handleUnexpectedException(\Throwable $exception, Order $order, ?callable $onRollback = null): ?RedirectResponse
     {
-        // 1: check if ace has our oder
         if (null === $aceOrderId = $this->orderBridge->getAceOrderId($order->getId())) {
             log_error('['.$order->getId().'] 通販Ace側に受注データを記録失敗しましたため、受注処理をRollbackします。', [
                 'message' => $exception->getMessage(),
                 'stackTrace' => $exception->getTraceAsString(),
             ]);
 
+            $this->addErrorFlash(trans('ace_client.create_order.error.unexpected'));
             $this->rollback($order, $onRollback);
 
             return $this->redirectToRoute('shopping_error');
@@ -83,13 +88,22 @@ trait CreateOrderFailedHandlerTrait
         if ($preRollback) {
             $preRollback($order);
         }
-        $this->shoppingPurchaseFlow->rollback($order, new PurchaseContext());
+        $this->purchaseFlow->rollback($order, new PurchaseContext());
         $this->entityManager->flush();
     }
 
     abstract protected function redirectToRoute(string $route, array $parameters = [], int $status = 302): RedirectResponse;
 
-    abstract protected function addError(string $message, $namespace = 'front');
+    private function addErrorFlash(string $message, $namespace = 'front'): void
+    {
+        $session = $this->requestStack->getSession();
+
+        if (!$session instanceof FlashBagAwareSessionInterface) {
+            log_error('セッションがFlashBagAwareSessionInterfaceを実装していないため、エラーメッセージを追加できません。');
+        }
+
+        $session->getFlashBag()->add('eccube.'.$namespace.'.error', $message);
+    }
 
     /**
      * @Required
@@ -104,7 +118,7 @@ trait CreateOrderFailedHandlerTrait
      */
     public function setPurchaseFlow(PurchaseFlow $shoppingPurchaseFlow): void
     {
-        $this->shoppingPurchaseFlow = $shoppingPurchaseFlow;
+        $this->purchaseFlow = $shoppingPurchaseFlow;
     }
 
     /**
@@ -113,5 +127,13 @@ trait CreateOrderFailedHandlerTrait
     public function setEntityManager(EntityManagerInterface $entityManager): void
     {
         $this->entityManager = $entityManager;
+    }
+
+    /**
+     * @required
+     */
+    public function setRequestStack(RequestStack $requestStack): void
+    {
+        $this->requestStack = $requestStack;
     }
 }
