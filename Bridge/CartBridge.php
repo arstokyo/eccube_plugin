@@ -30,6 +30,7 @@ use Plugin\AceClient43\Events\PreAddCartFilterCartItemEvent;
 use Plugin\AceClient43\Exception\CouldNotAddCartException;
 use Plugin\AceClient43\Exception\MissingRequestParameterException;
 use Plugin\AceClient43\Processor\DeliveryFeeProcessor;
+use Plugin\AceClient43\Repository\OrderRepository;
 use Plugin\AceClient43\Synchronizer\AceCartResponseToCartSynchronizerInterface;
 
 /**
@@ -49,18 +50,22 @@ class CartBridge extends BaseBridge
 
     protected AddCartConverterFactory $converterFactory;
 
+    protected OrderRepository $orderRepository;
+
     public function __construct(
         AddCartMethod $addCartMethod,
         AceCartResponseToCartSynchronizerInterface $aceCartResponseToCartSynchronizer,
         CartService $cartService,
         DeliveryFeeProcessor $deliveryFeeProcessor,
         AddCartConverterFactory $converterFactory,
+        OrderRepository $orderRepository,
     ) {
         $this->addCartMethod = $addCartMethod;
         $this->addCartHelper = $aceCartResponseToCartSynchronizer;
         $this->cartService = $cartService;
         $this->deliveryFeeProcessor = $deliveryFeeProcessor;
         $this->converterFactory = $converterFactory;
+        $this->orderRepository = $orderRepository;
     }
 
     /**
@@ -257,6 +262,7 @@ class CartBridge extends BaseBridge
         // リクエスト構築の最終段階で補正器を適用（補正器が存在する場合のみ）
         $context = [
             'cart' => $cart,
+            'processingOrder' => $this->orderRepository->getProcessingOrder($cart->getPreOrderId()),
             'config' => $config,
             'customer' => $customer,
         ];
