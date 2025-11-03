@@ -21,7 +21,9 @@ use Eccube\Entity\Cart;
 use Eccube\Entity\CartItem;
 use Eccube\Entity\Customer;
 use Eccube\Entity\Master\DeviceType;
+use Eccube\Entity\Master\OrderItemType;
 use Eccube\Entity\Master\OrderStatus;
+use Eccube\Entity\Master\TaxDisplayType;
 use Eccube\Entity\Order;
 use Eccube\Entity\OrderItem;
 use Eccube\Entity\Shipping;
@@ -245,5 +247,28 @@ class OrderHelper extends BaseOrderHelper
         log_info('カートに商品が入っていません。');
 
         return false;
+    }
+
+    /**
+     * 税表示区分を取得する.
+     *
+     * - 商品: 税込
+     *
+     * @param $OrderItemType
+     *
+     * @return TaxDisplayType
+     */
+    public function getTaxDisplayType($OrderItemType)
+    {
+        if ($OrderItemType instanceof OrderItemType) {
+            $OrderItemType = $OrderItemType->getId();
+        }
+
+        // デフォルト通販Ace側の価格は税込で採用します。
+        if ($OrderItemType === OrderItemType::PRODUCT) {
+            return $this->entityManager->find(TaxDisplayType::class, TaxDisplayType::INCLUDED);
+        }
+
+        return parent::getTaxDisplayType($OrderItemType);
     }
 }
