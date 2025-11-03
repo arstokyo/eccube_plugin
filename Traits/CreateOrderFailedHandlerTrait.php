@@ -88,7 +88,7 @@ trait CreateOrderFailedHandlerTrait
         if ($preRollback) {
             $preRollback($order);
         }
-        $this->purchaseFlow->rollback($order, new PurchaseContext(clone $order, $order->getCustomer()));
+        $this->purchaseFlow->rollback($order, new PurchaseContext());
         $this->entityManager->flush();
     }
 
