@@ -41,15 +41,15 @@ class RequestCachePool
      *
      * TTLをチェックし、期限切れの場合はnullを返します
      *
-     * @param string $endpoint エンドポイント
+     * @param string $cacheKey エンドポイント
      * @param int|null $ttl オプションのTTL（秒）。nullの場合はデフォルトTTLを使用
      *
      * @return string|null キャッシュされたシリアライズ済みリクエスト、見つからない場合または期限切れの場合はnull
      */
-    public function get(string $endpoint, ?int $ttl = null): ?string
+    public function get(string $cacheKey, ?int $ttl = null): ?string
     {
-        $key = $this->generateKey($endpoint);
-        $timestampKey = $this->generateTimestampKey($endpoint);
+        $key = $this->generateKey($cacheKey);
+        $timestampKey = $this->generateTimestampKey($cacheKey);
         $session = $this->requestStack->getSession();
 
         $cached = $session->get($key);
@@ -70,7 +70,7 @@ class RequestCachePool
             $session->remove($key);
             $session->remove($timestampKey);
             if ($this->isDebug) {
-                $requestModelKey = $this->generateRequestModelKey($endpoint);
+                $requestModelKey = $this->generateRequestModelKey($cacheKey);
                 $session->remove($requestModelKey);
             }
 
@@ -93,15 +93,15 @@ class RequestCachePool
      *
      * 現在のタイムスタンプと共にキャッシュを保存します
      *
-     * @param string $endpoint エンドポイント
+     * @param string $cacheKey エンドポイント
      * @param \JsonSerializable|RequestModelInterface|array<mixed, mixed>|string $request リクエストモデル
      * @param string $serializedRequest シリアライズ済みリクエスト
      * @param int|null $ttl オプションのTTL（秒）。nullの場合はデフォルトTTLを使用
      */
-    public function set(string $endpoint, $request, string $serializedRequest, ?int $ttl = null): void
+    public function set(string $cacheKey, $request, string $serializedRequest, ?int $ttl = null): void
     {
-        $key = $this->generateKey($endpoint);
-        $timestampKey = $this->generateTimestampKey($endpoint);
+        $key = $this->generateKey($cacheKey);
+        $timestampKey = $this->generateTimestampKey($cacheKey);
         $session = $this->requestStack->getSession();
         $now = time();
 
@@ -109,7 +109,7 @@ class RequestCachePool
         $session->set($timestampKey, $now);
 
         if ($this->isDebug) {
-            $requestModelKey = $this->generateRequestModelKey($endpoint);
+            $requestModelKey = $this->generateRequestModelKey($cacheKey);
             $session->set($requestModelKey, $request);
         }
     }
@@ -117,23 +117,23 @@ class RequestCachePool
     /**
      * 特定エンドポイントのキャッシュをクリア
      *
-     * @param string $endpoint エンドポイント
+     * @param string $cacheKey エンドポイント
      */
-    public function clear(string $endpoint): void
+    public function clear(string $cacheKey): void
     {
-        $key = $this->generateKey($endpoint);
-        $timestampKey = $this->generateTimestampKey($endpoint);
+        $key = $this->generateKey($cacheKey);
+        $timestampKey = $this->generateTimestampKey($cacheKey);
         $session = $this->requestStack->getSession();
 
         $session->remove($key);
         $session->remove($timestampKey);
         if ($this->isDebug) {
-            $requestModelKey = $this->generateRequestModelKey($endpoint);
+            $requestModelKey = $this->generateRequestModelKey($cacheKey);
             $session->remove($requestModelKey);
         }
 
         $this->logger->debug('[RequestCacheManager] キャッシュクリア', [
-            'endpoint' => $endpoint,
+            'endpoint' => $cacheKey,
             'cache_key' => $key,
         ]);
     }
