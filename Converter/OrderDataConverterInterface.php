@@ -38,6 +38,7 @@ interface OrderDataConverterInterface
         string $sessionId,
         bool $isOrderSupportEnabled,
         array $decisionOptions = [],
+        array $options = [],
     ): CreateOrderRequestModelInterface;
 
     /**

@@ -149,7 +149,8 @@ class OrderBridge extends BaseBridge
                 $this->getSyid(),
                 $sessionId,
                 $this->aceConfigService->shouldEnableOrderSupportOnCreateOrder(),
-                $decisionOptions
+                $decisionOptions,
+                $options,
             );
 
             // 事前作成前イベント（AddCart 相当の調整。Options などをここで上書き可能）

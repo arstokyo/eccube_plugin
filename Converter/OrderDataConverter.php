@@ -47,6 +47,7 @@ class OrderDataConverter implements OrderDataConverterInterface
         string $sessionId,
         bool $isOrderSupportEnabled,
         array $decisionOptions = [],
+        array $options = [],
     ): CreateOrderRequestModelInterface {
         // 1) AddCart 相当のリクエスト（prm）を create_order フローで作成
         $addCartRequest = $this->buildAddCartRequest(
@@ -59,6 +60,7 @@ class OrderDataConverter implements OrderDataConverterInterface
             $sessionId,
             $isOrderSupportEnabled,
             AddCartFlow::createOrder(),
+            $options,
         );
 
         // 2) DecisionCart 用のオプションを作成
