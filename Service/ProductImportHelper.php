@@ -48,6 +48,15 @@ class ProductImportHelper
 
     public const TRIGGER_IMPORT_WITH_GET_ITEMS = 'product_import_helper.import_with_get_items';
 
+    public array $defaultSetting = [
+        '_failed_product_codes' => [],
+        '_product_import_helper.import_stock' => true,
+        '_product_import_helper.set_product_status' => true,
+        '_product_import_helper.set_price' => true,
+        '_product_import_helper.create_new' => true,
+        '_product_import_helper.hide_on_new' => false,
+    ];
+
     protected ProductBridge $productBridge;
 
     protected LoggerInterface $logger;
@@ -109,14 +118,10 @@ class ProductImportHelper
             $logger = $this->logger;
         }
 
-        $options = array_merge([
-            '_trigger' => self::TRIGGER_IMPORT_WITH_GET_GOODS,
-            '_failed_product_codes' => [],
-            '_product_import_helper.import_stock' => true,
-            '_product_import_helper.set_product_status' => true,
-            '_product_import_helper.set_price' => true,
-            '_product_import_helper.create_new' => true,
-        ], $options);
+        $options = array_merge(
+            array_merge($this->defaultSetting, ['_trigger' => self::TRIGGER_IMPORT_WITH_GET_GOODS]),
+            $options
+        );
 
         if ($this->eventDispatcher->hasListeners(Events::HELPER_PRE_IMPORT_PRODUCT)) {
             $request = [
@@ -183,16 +188,14 @@ class ProductImportHelper
             return 0;
         }
 
-        $options = array_merge([
-            '_trigger' => self::TRIGGER_IMPORT_WITH_GET_ITEMS,
-            '_failed_product_codes' => [],
-            '_product_import_helper.import_stock' => true,
-            '_product_import_helper.set_product_status' => true,
-            '_product_import_helper.set_price' => true,
-            '_product_import_helper.create_new' => true,
-            '_get_items.skid' => null,
-            '_get_items.free_kubuns' => [],
-        ], $options);
+        $options = array_merge(
+            array_merge($this->defaultSetting, [
+                '_trigger' => self::TRIGGER_IMPORT_WITH_GET_ITEMS,
+                '_get_items.skid' => null,
+                '_get_items.free_kubuns' => [],
+            ]),
+            $options
+        );
 
         if ($this->eventDispatcher->hasListeners(Events::HELPER_PRE_IMPORT_PRODUCT)) {
             $request['product_ids'] = $productIds;
@@ -246,7 +249,8 @@ class ProductImportHelper
                 $entityManager = EntityManagerResetHelper::resetIfNotOpen($entityManager, $this->managerRegistry, $logger);
 
                 $productClass = $this->productClassRepository->findOneBy(['ace_product_id' => $productModel->getGdid()]);
-                if (null === $productClass && !$options['_product_import_helper.create_new']) {
+                $isNew = null === $productClass;
+                if ($isNew && !$options['_product_import_helper.create_new']) {
                     continue;
                 }
 
@@ -271,8 +275,9 @@ class ProductImportHelper
                 $productClass->setAceProductType($productModel->getGkbn());
                 $productClass->setSaleType($settingBag['normal_sale_type']);
 
-                // set_product_statusがtrueの場合のみStatusを設定
-                if ($options['_product_import_helper.set_product_status']) {
+                if ($isNew && $options['_product_import_helper.hide_on_new']) {
+                    $product->setStatus($settingBag['display_hide_status']);
+                } elseif ($options['_product_import_helper.set_product_status']) {
                     $this->setStatus($productModel, $product, $productClass, $settingBag);
                 }
 
