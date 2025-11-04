@@ -232,7 +232,7 @@ class ProductImportHelper
      *
      * @return <string, ProductClass>[] 作成された商品モデルの配列
      */
-    private function create(array $productModels, array $tankaModels, Member &$creator, LoggerInterface $logger, array &$options = []): array
+    protected function create(array $productModels, array $tankaModels, Member &$creator, LoggerInterface $logger, array &$options = []): array
     {
         $settingBag = $this->createSettingBag($tankaModels);
         $processedProductClasses = [];
@@ -350,7 +350,7 @@ class ProductImportHelper
      *
      * @return void
      */
-    private function setPrice(GoodModelGroup1Interface $productModel, ProductClass $productClass, Member $creator, array $tankaModels, array &$settingBag, array &$options, LoggerInterface $logger): void
+    protected function setPrice(GoodModelGroup1Interface $productModel, ProductClass $productClass, Member $creator, array $tankaModels, array &$settingBag, array &$options, LoggerInterface $logger): void
     {
         $groupedTankaModels = $settingBag['grouped_tanka_models'];
 
@@ -414,7 +414,7 @@ class ProductImportHelper
      *
      * @return array 商品ID、商品クラス、商品、商品在庫の配列
      */
-    private function getOrCreateProductStuff(GoodModelGroup1Interface $productModel, Member $creator): array
+    protected function getOrCreateProductStuff(GoodModelGroup1Interface $productModel, Member $creator): array
     {
         $aceProductId = $productModel->getGdid();
         $productClass = $this->productClassRepository->findOneBy(['ace_product_id' => $aceProductId]);
@@ -449,7 +449,7 @@ class ProductImportHelper
      *
      * @return TaxRule 税率ルール
      */
-    private function getOrCreateTaxRule(ProductClass $productClass, Member $creator): TaxRule
+    protected function getOrCreateTaxRule(ProductClass $productClass, Member $creator): TaxRule
     {
         if ($productClass->getTaxRule()) {
             return $productClass->getTaxRule();
@@ -470,7 +470,7 @@ class ProductImportHelper
      *
      * @return void
      */
-    private function enableOptionProductTaxRule(): void
+    protected function enableOptionProductTaxRule(): void
     {
         $baseInfo = $this->baseInfo;
         if ($baseInfo->isOptionProductTaxRule()) {
@@ -487,7 +487,7 @@ class ProductImportHelper
      *
      * @return array
      */
-    private function createSettingBag(array $tankaModels): array
+    protected function createSettingBag(array $tankaModels): array
     {
         // このあと、設定されたTaxRuleを採用するため、オプション商品税率ルールを有効にする。
         $this->enableOptionProductTaxRule();
@@ -537,7 +537,7 @@ class ProductImportHelper
      *
      * @return void
      */
-    private function setStatus(
+    protected function setStatus(
         GoodModelGroup1Interface $productModel,
         Product $product,
         ProductClass $productClass,
@@ -578,7 +578,7 @@ class ProductImportHelper
      *
      * @return array リセットされた設定情報の配列
      */
-    private function resetSettingBagEntity(array $settingBag): array
+    protected function resetSettingBagEntity(array $settingBag): array
     {
         $displayHideStatus = $this->entityManager->find(ProductStatus::class, ProductStatus::DISPLAY_HIDE);
         $displayAbolishedStatus = $this->entityManager->find(ProductStatus::class, ProductStatus::DISPLAY_ABOLISHED);
@@ -607,7 +607,7 @@ class ProductImportHelper
      *
      * @return void
      */
-    private function handleCreateProductFailed(GoodModelGroup1Interface $productModel, array $processedProductClasses, array &$options, LoggerInterface $logger, array &$settingBag, Member &$creator): void
+    protected function handleCreateProductFailed(GoodModelGroup1Interface $productModel, array $processedProductClasses, array &$options, LoggerInterface $logger, array &$settingBag, Member &$creator): void
     {
         $options['_failed_product_codes'][] = $productModel->getGdid();
         $this->entityManager = EntityManagerResetHelper::resetEntityManager($this->entityManager, $this->managerRegistry, $logger);
