@@ -257,7 +257,7 @@ class ProductImportHelper
                 /** @var ProductClass $productClass */
                 /** @var ProductStock $productStock */
                 /** @var Product $product */
-                [$aceProductId, $productClass, $product, $productStock] = $this->getOrCreateProductStuff($productModel, $creator);
+                [$aceProductId, $productClass, $product, $productStock] = $this->getOrCreateProductStuff($productModel, $creator, $productClass);
 
                 $tankaModels = method_exists($productModel, 'getTanka')
                     ? $productModel->getTanka()
