@@ -95,10 +95,10 @@ parameters:
     ace.processor.delivery_tax_type: 1
     ace.processor.discount_tax_display_type: 2
     ace.processor.discount_tax_type: 1
-    ace.processor.delivery_fee.name: 'Ace送料'
-    ace.processor.charge_fee.name: 'Ace手数料'
-    ace.processor.point_discount.name: 'Aceポイント値引き'
-    ace.processor.promotion_discount.name: 'Aceキャンペーン値引き'
+    ace.processor.delivery_fee.name: '通販Ace送料'
+    ace.processor.charge_fee.name: '通販Ace手数料'
+    ace.processor.point_discount.name: '通販Aceポイント値引き'
+    ace.processor.promotion_discount.name: '通販Aceキャンペーン値引き'
 
     ace.method:
         default_api_type: 'soap'
