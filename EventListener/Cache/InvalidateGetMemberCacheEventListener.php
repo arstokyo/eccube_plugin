@@ -53,7 +53,7 @@ class InvalidateGetMemberCacheEventListener implements EventSubscriberInterface
 
     public function onPostRemoveCustomerAddress(PostRemoveCustomerAddressEvent $event): void
     {
-        $customer = $event->customerAddress->getCustomer();
+        $customer = $event->customer;
 
         $this->doRemoveCache($customer->getAceCustomerId());
     }
