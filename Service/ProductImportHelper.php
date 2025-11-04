@@ -115,6 +115,7 @@ class ProductImportHelper
             '_product_import_helper.import_stock' => true,
             '_product_import_helper.set_product_status' => true,
             '_product_import_helper.set_price' => true,
+            '_product_import_helper.create_new' => true,
         ], $options);
 
         if ($this->eventDispatcher->hasListeners(Events::HELPER_PRE_IMPORT_PRODUCT)) {
@@ -188,6 +189,7 @@ class ProductImportHelper
             '_product_import_helper.import_stock' => true,
             '_product_import_helper.set_product_status' => true,
             '_product_import_helper.set_price' => true,
+            '_product_import_helper.create_new' => true,
             '_get_items.skid' => null,
             '_get_items.free_kubuns' => [],
         ], $options);
@@ -242,6 +244,11 @@ class ProductImportHelper
                 // エンティティマネージャーの状態をリセット
                 $entityManager = $this->entityManager;
                 $entityManager = EntityManagerResetHelper::resetIfNotOpen($entityManager, $this->managerRegistry, $logger);
+
+                $productClass = $this->productClassRepository->findOneBy(['ace_product_id' => $productModel->getGdid()]);
+                if (null === $productClass && !$options['_product_import_helper.create_new']) {
+                    continue;
+                }
 
                 /** @var ProductClass $productClass */
                 /** @var ProductStock $productStock */
@@ -414,10 +421,9 @@ class ProductImportHelper
      *
      * @return array 商品ID、商品クラス、商品、商品在庫の配列
      */
-    protected function getOrCreateProductStuff(GoodModelGroup1Interface $productModel, Member $creator): array
+    protected function getOrCreateProductStuff(GoodModelGroup1Interface $productModel, Member $creator, ?ProductClass $productClass = null): array
     {
         $aceProductId = $productModel->getGdid();
-        $productClass = $this->productClassRepository->findOneBy(['ace_product_id' => $aceProductId]);
         $productStock = $productClass ? $productClass->getProductStock() : null;
         $product = $productClass ? $productClass->getProduct() : null;
 
