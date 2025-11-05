@@ -131,7 +131,7 @@ class OrderDataConverter implements OrderDataConverterInterface
         if (!$excludeBuild) {
             $jyuden
                 ->setPointm($order->getUsePoint())
-                ->setNbikou1($shipping->getNote())
+                ->setNbikou1($order->getMessage())  // TODO: ワックスのプロジェクトに影響があるかを確認
                 ->setHday($shipping->getShippingDeliveryDate())
                 ->setWeborderno($order->getId());
 
