@@ -2,7 +2,6 @@
 
 namespace Plugin\AceClient43\Converter;
 
-use Customize\Enum\JyudenFreeCode;
 use Eccube\Entity\Customer;
 use Eccube\Entity\CustomerAddress;
 use Eccube\Entity\Order;
@@ -132,6 +131,7 @@ class OrderDataConverter implements OrderDataConverterInterface
         if (!$excludeBuild) {
             $jyuden
                 ->setPointm($order->getUsePoint())
+                ->setNbikou1($order->getMessage())  // TODO: ワックスのプロジェクトに影響があるかを確認
                 ->setHday($shipping->getShippingDeliveryDate())
                 ->setWeborderno($order->getId());
 
@@ -164,12 +164,6 @@ class OrderDataConverter implements OrderDataConverterInterface
             $prm->setOptions($addCartRequestConverter->buildOptionsModel($options));
         } else {
             $prm->setOptions($options['_request_options']);
-        }
-        // 備考欄を受注フリー1（注文コメント）に設定
-        if (!$excludeBuild && $order->getMessage()) {
-            $freeModels = $prm->getJyudenFree() ?? [];
-            $freeModels[] = $this->buildJyudenFreeModel(JyudenFreeCode::ORDER_COMMENT->value, $order->getMessage());
-            $prm->setJyudenFree($freeModels);
         }
 
         /** @var AddCartRequestModelInterface $requestModel */
