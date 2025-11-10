@@ -18,6 +18,7 @@ use Plugin\AceClient43\AceServices\Model\Request\RequestModelInterface;
 use Plugin\AceClient43\ApiClient\Response;
 use Plugin\AceClient43\Exception;
 use Plugin\AceClient43\Service\AceConfigService;
+use Plugin\AceClient43\Util\Logger\SelectiveDebugLogger;
 use Plugin\AceClient43\Util\Serializer\SerializerResolver;
 use Psr\Http\Message\ResponseInterface as PsrResponse;
 use Psr\Log\LoggerInterface;
@@ -308,5 +309,17 @@ abstract class AbstractClient implements ClientInterface, ApiTypeSupportInterfac
     public function getHttpClient(): HttpClientInterface
     {
         return $this->httpClient;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function withDebugLogging(bool $enabled): ClientInterface
+    {
+        if ($this->logger instanceof SelectiveDebugLogger) {
+            $this->logger->setDebugEnabled($enabled);
+        }
+
+        return $this;
     }
 }

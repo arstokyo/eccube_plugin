@@ -5,7 +5,7 @@ services:
         public: false
         # Bind ace_client logger to all services by default in dev environment
         bind:
-            Psr\Log\LoggerInterface $logger: '@monolog.logger.ace_client'
+            Psr\Log\LoggerInterface $logger: '@ace_client.selective_debug_logger'
 
     # Traceable Guzzle client for development profiling
     Plugin\AceClient43\Util\HttpClient\TraceableGuzzleClient:

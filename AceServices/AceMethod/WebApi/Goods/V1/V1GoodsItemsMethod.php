@@ -2,6 +2,7 @@
 
 namespace Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1;
 
+use Plugin\AceClient43\AceServices\AceMethod\NonDebugLoggingMethodInterface;
 use Plugin\AceClient43\AceServices\AceMethod\WebApi\AbstractWebApiMethod;
 use Plugin\AceClient43\AceServices\Model\Request\WebApi\Goods\V1\GoodsItems\V1GoodsItemsRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\WebApi\Goods\V1\GoodsItems\V1GoodsItemsResponseModelInterface;
@@ -10,8 +11,11 @@ use Plugin\AceClient43\AceServices\Model\Response\WebApi\Goods\V1\GoodsItems\V1G
  * WebApi v1: 商品一覧を取得するメソッド（JSON GET）
  *
  * エンドポイント: goods/v1/list
+ *
+ * Note: This method implements NonDebugLoggingMethodInterface to suppress debug logs
+ * as it may be called frequently and could clutter logs in production.
  */
-class V1GoodsItemsMethod extends AbstractWebApiMethod
+class V1GoodsItemsMethod extends AbstractWebApiMethod implements NonDebugLoggingMethodInterface
 {
     private const END_POINT_SERVICE = 'goods/v1/items';
 

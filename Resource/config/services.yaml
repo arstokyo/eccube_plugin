@@ -191,6 +191,10 @@ parameters:
     ace.cache_sync.warmup_enabled: '%env(bool:ACE_CACHE_SYNC_WARMUP_ENABLED)%'  # Enable cache warmup
     ace.cache_sync.homepage_reload_count: '%env(int:ACE_CACHE_SYNC_HOMEPAGE_RELOAD_COUNT)%'  # Homepage reload attempts
 
+    # Default value for ACE_CLIENT_DEBUG_ENABLED env variable
+    env(ACE_DEFAULT_LOG_DEBUG_ENABLED): true
+    ace.default_log_debug_enabled: '%env(bool:ACE_DEFAULT_LOG_DEBUG_ENABLED)%'
+
 monolog:
     channels: ['ace_client', 'ace_client_console']
 
@@ -220,14 +224,29 @@ monolog:
             channels: ['!ace_client_console']
 
 services:
+    # ===================================================================================================
+    # Selective Debug Logger - Controls debug logging at runtime
+    # ===================================================================================================
+    # This logger wraps the ace_client logger and allows selective enabling/disabling of debug logs
+    # via the ACE_CLIENT_DEBUG_ENABLED environment variable (default: true)
+    #
+    # Methods implementing NonDebugLoggingMethodInterface will automatically have debug logging disabled
+    # to prevent log clutter for high-frequency API calls
+    ace_client.selective_debug_logger:
+        class: Plugin\AceClient43\Util\Logger\SelectiveDebugLogger
+        arguments:
+            $logger: '@monolog.logger.ace_client'
+            $defaultDebugEnabled: '%ace.default_log_debug_enabled%'
+        public: false
+
     # default configuration for services in *this* file
     _defaults:
         autowire: true
         autoconfigure: true
         public: false
-        # Bind ace_client logger to all services by default
+        # Bind selective debug logger to all services by default
         bind:
-            Psr\Log\LoggerInterface $logger: '@monolog.logger.ace_client'
+            Psr\Log\LoggerInterface $logger: '@ace_client.selective_debug_logger'
             Psr\Log\LoggerInterface $consoleLogger: '@monolog.logger.ace_client_console'
 
     # Exception: CustomerAuthenticator explicitly uses front logger

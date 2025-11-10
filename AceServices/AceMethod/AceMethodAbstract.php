@@ -88,6 +88,9 @@ abstract class AceMethodAbstract implements AceMethodInterface
      */
     public function send(): ResponseInterface
     {
+        $debugLogging = !$this instanceof NonDebugLoggingMethodInterface;
+        $this->apiClient->withDebugLogging($debugLogging);
+
         // Set the endpoint just before sending to ensure it's correct for this specific call
         $this->apiClient->withEndpoint($this->buildEndPoint());
 

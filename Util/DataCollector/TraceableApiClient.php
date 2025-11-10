@@ -467,4 +467,11 @@ class TraceableApiClient implements ClientInterface, ApiTypeSupportInterface, Tr
             $this->client->clearCache();
         }
     }
+
+    public function withDebugLogging(bool $enabled): ClientInterface
+    {
+        $this->client->withDebugLogging($enabled);
+
+        return $this;
+    }
 }
