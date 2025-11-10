@@ -277,6 +277,7 @@ class ProductImportHelper
 
                 if ($isNew && $options['_product_import_helper.hide_on_new']) {
                     $product->setStatus($settingBag['display_hide_status']);
+                    $productClass->setVisible(true);
                 } elseif ($options['_product_import_helper.set_product_status']) {
                     $this->setStatus($productModel, $product, $productClass, $settingBag);
                 }
