@@ -53,7 +53,7 @@ class InternalCacheController extends AbstractController
     /**
      * 内部キャッシュクリアエンドポイント
      *
-     * @Route("/aceclient/internal/cache/clear", name="admin_internal_cache_clear")
+     * @Route("/aceclient/internal/cache/clear", name="admin_internal_cache_clear", methods={"POST"})
      *
      * @param Request $request
      *
