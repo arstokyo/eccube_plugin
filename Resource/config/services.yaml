@@ -185,7 +185,7 @@ parameters:
     ace.cache_sync.auth_token: '%env(ACE_CACHE_SYNC_TOKEN)%'
     ace.cache_sync.front_servers: '%env(json:ACE_CACHE_SYNC_FRONT_SERVERS)%'
     ace.cache_sync.admin_host: '%env(ACE_CACHE_SYNC_ADMIN_HOST)%'  # Optional: explicit admin hostname
-    ace.cache_sync.admin_keywords: ['admin', 'adm.', 'manager']  # Fallback keywords for auto-detection
+    ace.cache_sync.admin_keywords: ['adm', 'manager']  # Fallback keywords for auto-detection
     ace.cache_sync.retry_attempts: '%env(int:ACE_CACHE_SYNC_RETRY_ATTEMPTS)%'
     ace.cache_sync.timeout: '%env(int:ACE_CACHE_SYNC_TIMEOUT)%'
     ace.cache_sync.warmup_enabled: '%env(bool:ACE_CACHE_SYNC_WARMUP_ENABLED)%'  # Enable cache warmup
