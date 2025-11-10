@@ -139,6 +139,58 @@ parameters:
 
     # フリー項目など：
     ace.free.ec_order_id: null
+
+    # ===================================================================================================
+    # Cache Sync Configuration - HTTP-based cache clearing for distributed servers
+    # ===================================================================================================
+    # Purpose:
+    #   - Admin server triggers cache clear on front servers via HTTP
+    #   - Front servers use opcache.validate_timestamps=0, requiring manual OPcache reset
+    #
+    # Configuration via .env (optional):
+    #   ACE_CACHE_SYNC_ENABLED=true                          # Enable/disable cache sync
+    #   ACE_CACHE_SYNC_TOKEN=your-secret-token               # Shared secret for authentication
+    #   ACE_CACHE_SYNC_FRONT_SERVERS=["https://front1.com"]  # Array of front server URLs
+    #   ACE_CACHE_SYNC_ADMIN_HOST=admin.example.com          # Optional: explicit admin hostname
+    #   ACE_CACHE_SYNC_TIMEOUT=10                            # HTTP request timeout (seconds)
+    #   ACE_CACHE_SYNC_RETRY_ATTEMPTS=2                      # Number of retry attempts
+    #   ACE_CACHE_SYNC_WARMUP_ENABLED=true                   # Enable cache warmup after clear
+    #   ACE_CACHE_SYNC_WARMUP_TIMEOUT=30                     # Cache warmup timeout (seconds)
+    #   ACE_CACHE_SYNC_HOMEPAGE_RELOAD_COUNT=3               # Number of homepage reload attempts
+    #
+    # Admin Server Detection Logic:
+    #   1. If ACE_CACHE_SYNC_ADMIN_HOST is set → use exact match with current hostname
+    #   2. Otherwise → fallback to keyword detection (hostname contains 'admin', 'adm.', etc)
+    #
+    # Cache Clear Process on Front Servers:
+    #   1. Clear OPcache (opcache_reset)
+    #   2. Clear Symfony cache (cache:clear --no-warmup)
+    #   3. Reload homepage to fix blank page and trigger Symfony cache rebuild
+    #   4. Warmup cache (optional, if ACE_CACHE_SYNC_WARMUP_ENABLED=true)
+    #
+    # ===================================================================================================
+    # Default values (must be defined before env() references)
+    env(ACE_CACHE_SYNC_ENABLED): true
+    env(ACE_CACHE_SYNC_TOKEN): ''
+    env(ACE_CACHE_SYNC_FRONT_SERVERS): '[]'
+    env(ACE_CACHE_SYNC_ADMIN_HOST): ''
+    env(ACE_CACHE_SYNC_RETRY_ATTEMPTS): 2
+    env(ACE_CACHE_SYNC_WARMUP_ENABLED): true
+    env(ACE_CACHE_SYNC_WARMUP_TIMEOUT): 30
+    env(ACE_CACHE_SYNC_HOMEPAGE_RELOAD_COUNT): 3
+    env(ACE_CACHE_SYNC_TIMEOUT): 2000
+
+    # Actual parameters with env overrides
+    ace.cache_sync.enabled: '%env(bool:ACE_CACHE_SYNC_ENABLED)%'
+    ace.cache_sync.auth_token: '%env(ACE_CACHE_SYNC_TOKEN)%'
+    ace.cache_sync.front_servers: '%env(json:ACE_CACHE_SYNC_FRONT_SERVERS)%'
+    ace.cache_sync.admin_host: '%env(ACE_CACHE_SYNC_ADMIN_HOST)%'  # Optional: explicit admin hostname
+    ace.cache_sync.admin_keywords: ['admin', 'adm.', 'manager']  # Fallback keywords for auto-detection
+    ace.cache_sync.retry_attempts: '%env(int:ACE_CACHE_SYNC_RETRY_ATTEMPTS)%'
+    ace.cache_sync.timeout: '%env(int:ACE_CACHE_SYNC_TIMEOUT)%'
+    ace.cache_sync.warmup_enabled: '%env(bool:ACE_CACHE_SYNC_WARMUP_ENABLED)%'  # Enable cache warmup
+    ace.cache_sync.homepage_reload_count: '%env(int:ACE_CACHE_SYNC_HOMEPAGE_RELOAD_COUNT)%'  # Homepage reload attempts
+
 monolog:
     channels: ['ace_client', 'ace_client_console']
 
@@ -813,6 +865,53 @@ services:
     Plugin\AceClient43\Command\ProductImportCommand:
     Plugin\AceClient43\Command\ProductRepeatImportCommand:
     Plugin\AceClient43\Command\ImportProductStockCommand:
+
+    # ===================================================================================================
+    # Cache Sync Services - HTTP-based cache clearing for distributed servers
+    # ===================================================================================================
+
+    # Dedicated Guzzle HTTP Client for Cache Sync
+    ace_cache_sync.http_client:
+        class: GuzzleHttp\Client
+        arguments:
+            - timeout: '%ace.cache_sync.timeout%'
+              verify: false
+              http_errors: false  # Don't throw exceptions on 4xx/5xx
+              headers:
+                  User-Agent: 'EccubeCacheSync/1.0'
+        public: false
+
+    Plugin\AceClient43\Service\CacheClearSyncService:
+        arguments:
+            $enabled: '%ace.cache_sync.enabled%'
+            $authToken: '%ace.cache_sync.auth_token%'
+            $frontServers: '%ace.cache_sync.front_servers%'
+            $adminHost: '%ace.cache_sync.admin_host%'
+            $adminKeywords: '%ace.cache_sync.admin_keywords%'
+            $timeout: '%ace.cache_sync.timeout%'
+            $retryAttempts: '%ace.cache_sync.retry_attempts%'
+            $httpClient: '@ace_cache_sync.http_client'
+
+    Plugin\AceClient43\Controller\Admin\InternalCacheController:
+        arguments:
+            $authToken: '%ace.cache_sync.auth_token%'
+            $warmupEnabled: '%ace.cache_sync.warmup_enabled%'
+            $homepageReloadCount: '%ace.cache_sync.homepage_reload_count%'
+            $httpClient: '@ace_cache_sync.http_client'
+        tags:
+            - { name: controller.service_arguments }
+
+    # Decorate CacheUtil to hook into cache clearing without modifying core
+    # This is more reliable than kernel.terminate event because it hooks directly
+    # into CacheUtil::forceClearCache() which is guaranteed to run after cache:clear
+    Plugin\AceClient43\Service\CacheUtilDecorator:
+        decorates: Eccube\Util\CacheUtil
+        arguments:
+            $decorated: '@.inner'
+            $kernel: '@kernel'
+            $container: '@service_container'
+            $cacheClearSyncService: '@Plugin\AceClient43\Service\CacheClearSyncService'
+        public: true
 
 security:
     firewalls:
