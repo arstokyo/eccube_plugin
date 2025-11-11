@@ -68,7 +68,15 @@ class CartControllerService
             );
 
             $this->eventDispatcher->dispatch($event, Events::CART_CONTROLLER_SERVICE_PRE_ADD_CART);
+
+            if ($event->shouldSkip) {
+                log_warning('[ACECLIENT-CART_CONTROLLER_SERVICE] 通販AceのAddCart処理がスキップされました。');
+
+                return;
+            }
+
             $options = $event->options;
+            $Cart = $event->currentCart;
         }
 
         try {
