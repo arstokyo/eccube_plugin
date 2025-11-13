@@ -13,6 +13,7 @@
 
 namespace Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V2\GetOrderListV2;
 
+use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
 use Plugin\AceClient43\AceServices\Model\Dependency\Cost\Tax;
 use Plugin\AceClient43\AceServices\Model\Dependency\Rireki;
 
@@ -25,6 +26,9 @@ class JyumeiModel extends Rireki\RirekiModelLevel2 implements JyumeiModelInterfa
 {
     use Tax\TaxTrait;
     use Tax\TaxKbnTrait;
+
+    /** @var ?string キャンセル日 */
+    protected ?AceDateTime\AceDateTimeInterface $cday = null;
 
     /** @var ?string Name */
     protected ?string $name = null;
@@ -64,6 +68,24 @@ class JyumeiModel extends Rireki\RirekiModelLevel2 implements JyumeiModelInterfa
     public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCday()
+    {
+        return $this->cday;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setCday($cday): self
+    {
+        $this->cday = AceDateTime\AceDateTimeFactory::makeAceDateTime($cday);
 
         return $this;
     }

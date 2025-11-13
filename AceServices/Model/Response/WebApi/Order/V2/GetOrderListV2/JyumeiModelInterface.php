@@ -13,6 +13,7 @@
 
 namespace Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V2\GetOrderListV2;
 
+use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime;
 use Plugin\AceClient43\AceServices\Model\Dependency\Cost\Tax;
 use Plugin\AceClient43\AceServices\Model\Dependency\Rireki;
 
@@ -54,4 +55,20 @@ interface JyumeiModelInterface extends Rireki\RirekiModelLevel2Interface, Tax\Ha
      * @return self
      */
     public function setName(?string $name): self;
+
+    /**
+     * Get キャンセル日
+     *
+     * @return ?AceDateTime\AceDateTimeInterface
+     */
+    public function getCday();
+
+    /**
+     * Set キャンセル日
+     *
+     * @param \DateTime|string|null $cday
+     *
+     * @return self
+     */
+    public function setCday($cday): self;
 }
