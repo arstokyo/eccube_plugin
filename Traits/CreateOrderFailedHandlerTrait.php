@@ -37,6 +37,7 @@ trait CreateOrderFailedHandlerTrait
             ]);
 
             $this->addErrorFlash($exception->getUserMessage());
+            $this->rollback($order, $preRollback);
 
             return $this->redirectToRoute('shopping');
         }
