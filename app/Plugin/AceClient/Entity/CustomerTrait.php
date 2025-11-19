@@ -15,6 +15,7 @@ namespace Plugin\AceClient43\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Eccube\Annotation\EntityExtension;
+use Eccube\Entity\Customer;
 use Eccube\Entity\CustomerAddress;
 
 /**
@@ -22,9 +23,6 @@ use Eccube\Entity\CustomerAddress;
  */
 trait CustomerTrait
 {
-    /** @var int 本人住所の枝番 */
-    public const ACE_PRIMARY_ADDRESS_EDA_NO = 0;
-
     /**
      * @var string|null
      *
@@ -82,7 +80,7 @@ trait CustomerTrait
         $primaryAddress = (new CustomerAddress())
             ->setFromCustomer($this);
 
-        $addresses = [self::ACE_PRIMARY_ADDRESS_EDA_NO => $primaryAddress];
+        $addresses = [Customer::getAcePrimaryAddressEdano() => $primaryAddress];
 
         foreach ($this->getCustomerAddresses() as $customerAddress) {
             $addresses[(string) $customerAddress->getAceEdaNo()] = $customerAddress;
@@ -108,6 +106,6 @@ trait CustomerTrait
 
     public static function getAcePrimaryAddressEdano(): int
     {
-        return self::ACE_PRIMARY_ADDRESS_EDA_NO;
+        return 0;
     }
 }

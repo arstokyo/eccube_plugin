@@ -1653,7 +1653,7 @@
 {% block toolbar %}
     {% if collector.requestCount > 0 %}
         {% set icon %}
-            <span class="sf-toolbar-label"><img src="{{ asset('AceClient43/Resource/template/icon/logo.png', 'plugin') }}"/></span>
+            <span class="sf-toolbar-label"><img src="{{ asset('AceClient43/assets/logo.png', 'plugin') }}"/></span>
             <span class="sf-toolbar-value">{{ collector.requestCount }}</span>
             {% if collector.errorCount > 0 %}
                 <span class="sf-toolbar-info-piece-additional-detail">
@@ -1682,7 +1682,7 @@
 
 {% block menu %}
     <span class="label {{ collector.requestCount == 0 ? 'disabled' }} {{ collector.errorCount > 0 ? 'label-status-error' : '' }}">
-        <span class="icon"><img src="{{ asset('AceClient43/Resource/template/icon/logo.png', 'plugin') }}"/></span>
+        <span class="icon"><img src="{{ asset('AceClient43/assets/logo.png', 'plugin') }}"/></span>
         <strong>Ace Client</strong>
         {% if collector.requestCount > 0 %}
             <span class="count">

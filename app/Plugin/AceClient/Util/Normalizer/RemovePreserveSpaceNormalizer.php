@@ -182,7 +182,7 @@ class RemovePreserveSpaceNormalizer extends AbstractObjectNormalizer
      *
      * @return false
      */
-    public function supportsNormalization(mixed $data, ?string $format = null): false
+    public function supportsNormalization(mixed $data, ?string $format = null)
     {
         return false;
     }
