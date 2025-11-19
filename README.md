@@ -53,3 +53,25 @@ Remote details
 4) git stash
 5) git subtree pull --prefix=app/Plugin/AceClient . aceclient-split -m "chore(aceclient): sync from modern repo"
 
+
+### Update from rednaisl project :
+
+# 1. Ensure you're on the target branch
+git checkout compatible/eccube43
+
+# 2. Fetch latest changes from rednails
+git fetch rednails
+
+# 3. Recreate the split branch from the latest rednails/dev
+git branch -f rednails-split $(git subtree split --prefix=app/Plugin/AceClient43 --ignore-joins rednails/dev)
+
+# 4. Merge the updates (accepting their changes if needed)
+git merge -X theirs rednails-split -m "chore(aceclient): rednailsから更新を同期"
+
+# 5. If conflicts occur, resolve with their changes
+git checkout --theirs app/Plugin/AceClient/ || true
+git add app/Plugin/AceClient/
+git commit --no-edit || true
+
+# 6. Push to origin
+git push origin compatible/eccube43
