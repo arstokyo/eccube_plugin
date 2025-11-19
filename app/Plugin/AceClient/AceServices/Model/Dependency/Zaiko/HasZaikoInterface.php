@@ -35,4 +35,6 @@ interface HasZaikoInterface
      * @return $this
      */
     public function setZaiko(?int $zaiko);
+
+    public function getPureZaiko(): ?int;
 }

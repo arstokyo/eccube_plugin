@@ -15,6 +15,8 @@ class CartControllerServicePreAddCart
 
     public Cart $currentCart;
 
+    public bool $shouldSkip = false;
+
     public function __construct(
         array $Carts,
         Cart $currentCart,

@@ -131,4 +131,13 @@ interface ClientInterface
     public function getRequestFormat(): string;
 
     public function getHttpClient(): \GuzzleHttp\ClientInterface;
+
+    /**
+     * デバッグログの有効/無効を設定
+     *
+     * @param bool $enabled True: デバッグログを有効にする, False: デバッグログを無効にする
+     *
+     * @return ClientInterface
+     */
+    public function withDebugLogging(bool $enabled): ClientInterface;
 }

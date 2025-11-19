@@ -1728,79 +1728,15 @@
 
                                     <div class="ace-tab-container">
                                         <div class="ace-tabs">
-                                            <button class="ace-tab active" onclick="switchTab(this, '{{ request_id }}', 'before-serialize')">Before Serialize</button>
+                                            <button class="ace-tab active" onclick="switchTab(this, '{{ request_id }}', 'metadata')">Metadata</button>
+                                            <button class="ace-tab" onclick="switchTab(this, '{{ request_id }}', 'before-serialize')">Before Serialize</button>
                                             <button class="ace-tab" onclick="switchTab(this, '{{ request_id }}', 'raw-request')">Raw Request</button>
                                             <button class="ace-tab" onclick="switchTab(this, '{{ request_id }}', 'raw-response')">Raw Response</button>
                                             <button class="ace-tab" onclick="switchTab(this, '{{ request_id }}', 'deserialized')">Deserialized</button>
-                                            <button class="ace-tab" onclick="switchTab(this, '{{ request_id }}', 'metadata')">Metadata</button>
-                                        </div>
-
-                                        <!-- Before Serialize Tab -->
-                                        <div id="{{ request_id }}-before-serialize" class="ace-tab-content active">
-                                            <h5>Request Data (Before Serialization)
-                                                {{ _self.compare_dropdown(request_id, 'before-serialize', collector) }}
-                                            </h5>
-                                            {% if trace.before_serialize_data_available and trace.before_serialize_data_html %}
-                                                <div class="ace-dump-container">
-                                                    {{ trace.before_serialize_data_html|raw }}
-                                                </div>
-                                            {% else %}
-                                                <div class="ace-data-empty">
-                                                    <strong>No Request Data:</strong> Request data before serialization is not available
-                                                </div>
-                                            {% endif %}
-                                        </div>
-
-                                        <!-- Raw Request Tab -->
-                                        <div id="{{ request_id }}-raw-request" class="ace-tab-content">
-                                            <h5>Raw Request Data
-                                                {{ _self.compare_dropdown(request_id, 'raw-request', collector) }}
-                                            </h5>
-                                            {% if trace.raw_request_data_formatted is defined and trace.raw_request_data_formatted %}
-                                                <div class="ace-raw-content">
-                                                    <button class="ace-copy-button" onclick="copyToClipboard(this, {{ trace.raw_request_data|json_encode|e('html_attr') }})">Copy</button>{{ trace.raw_request_data_formatted }}
-                                                </div>
-                                            {% else %}
-                                                <div class="ace-data-empty">
-                                                    <strong>No Raw Request Data:</strong> Raw HTTP request data is not available
-                                                </div>
-                                            {% endif %}
-                                        </div>
-
-                                        <!-- Raw Response Tab -->
-                                        <div id="{{ request_id }}-raw-response" class="ace-tab-content">
-                                            <h5>Raw Response Data
-                                                {{ _self.compare_dropdown(request_id, 'raw-response', collector) }}
-                                            </h5>
-                                            {% if trace.raw_response_data_formatted is defined and trace.raw_response_data_formatted %}
-                                                <div class="ace-raw-content">
-                                                    <button class="ace-copy-button" onclick="copyToClipboard(this, {{ trace.raw_response_data|json_encode|e('html_attr') }})">Copy</button>{{ trace.raw_response_data_formatted }}
-                                                </div>
-                                            {% else %}
-                                                <div class="ace-data-empty">
-                                                    <strong>No Raw Response Data:</strong> Raw HTTP response data is not available
-                                                </div>
-                                            {% endif %}
-                                        </div>
-
-                                        <!-- Deserialized Tab -->
-                                        <div id="{{ request_id }}-deserialized" class="ace-tab-content">
-                                            <h5>Deserialized Response Data
-                                                {{ _self.compare_dropdown(request_id, 'deserialized', collector) }}
-                                            </h5>
-                                            {% if trace.deserialized_data_available and trace.deserialized_data_html %}
-                                                <div class="ace-dump-container">
-                                                    {{ trace.deserialized_data_html|raw }}
-                                                </div>
-                                            {% else %}
-                                                <div class="ace-data-empty">
-                                                    <strong>No Response Data:</strong> Deserialized response data is not available
-                                                </div>
-                                            {% endif %}
                                         </div>
 
                                         <!-- Metadata Tab -->
-                                        <div id="{{ request_id }}-metadata" class="ace-tab-content">
+                                        <div id="{{ request_id }}-metadata" class="ace-tab-content active">
                                             <h5>Request & Response Metadata</h5>
 
                                             {% if trace.http_request_headers is defined and trace.http_request_headers is not empty %}
@@ -1871,6 +1807,70 @@
                                                 and (trace.metadata is not defined or trace.metadata is empty) %}
                                                 <div class="ace-data-empty">
                                                     <strong>No Metadata:</strong> Request headers, response headers, timing, and metadata information are not available
+                                                </div>
+                                            {% endif %}
+                                        </div>
+
+                                        <!-- Before Serialize Tab -->
+                                        <div id="{{ request_id }}-before-serialize" class="ace-tab-content">
+                                            <h5>Request Data (Before Serialization)
+                                                {{ _self.compare_dropdown(request_id, 'before-serialize', collector) }}
+                                            </h5>
+                                            {% if trace.before_serialize_data_available and trace.before_serialize_data_html %}
+                                                <div class="ace-dump-container">
+                                                    {{ trace.before_serialize_data_html|raw }}
+                                                </div>
+                                            {% else %}
+                                                <div class="ace-data-empty">
+                                                    <strong>No Request Data:</strong> Request data before serialization is not available
+                                                </div>
+                                            {% endif %}
+                                        </div>
+
+                                        <!-- Raw Request Tab -->
+                                        <div id="{{ request_id }}-raw-request" class="ace-tab-content">
+                                            <h5>Raw Request Data
+                                                {{ _self.compare_dropdown(request_id, 'raw-request', collector) }}
+                                            </h5>
+                                            {% if trace.raw_request_data_formatted is defined and trace.raw_request_data_formatted %}
+                                                <div class="ace-raw-content">
+                                                    <button class="ace-copy-button" onclick="copyToClipboard(this, {{ trace.raw_request_data|json_encode|e('html_attr') }})">Copy</button>{{ trace.raw_request_data_formatted }}
+                                                </div>
+                                            {% else %}
+                                                <div class="ace-data-empty">
+                                                    <strong>No Raw Request Data:</strong> Raw HTTP request data is not available
+                                                </div>
+                                            {% endif %}
+                                        </div>
+
+                                        <!-- Raw Response Tab -->
+                                        <div id="{{ request_id }}-raw-response" class="ace-tab-content">
+                                            <h5>Raw Response Data
+                                                {{ _self.compare_dropdown(request_id, 'raw-response', collector) }}
+                                            </h5>
+                                            {% if trace.raw_response_data_formatted is defined and trace.raw_response_data_formatted %}
+                                                <div class="ace-raw-content">
+                                                    <button class="ace-copy-button" onclick="copyToClipboard(this, {{ trace.raw_response_data|json_encode|e('html_attr') }})">Copy</button>{{ trace.raw_response_data_formatted }}
+                                                </div>
+                                            {% else %}
+                                                <div class="ace-data-empty">
+                                                    <strong>No Raw Response Data:</strong> Raw HTTP response data is not available
+                                                </div>
+                                            {% endif %}
+                                        </div>
+
+                                        <!-- Deserialized Tab -->
+                                        <div id="{{ request_id }}-deserialized" class="ace-tab-content">
+                                            <h5>Deserialized Response Data
+                                                {{ _self.compare_dropdown(request_id, 'deserialized', collector) }}
+                                            </h5>
+                                            {% if trace.deserialized_data_available and trace.deserialized_data_html %}
+                                                <div class="ace-dump-container">
+                                                    {{ trace.deserialized_data_html|raw }}
+                                                </div>
+                                            {% else %}
+                                                <div class="ace-data-empty">
+                                                    <strong>No Response Data:</strong> Deserialized response data is not available
                                                 </div>
                                             {% endif %}
                                         </div>

@@ -22,9 +22,10 @@ class Events
     public const ON_GET_AND_UPDATE_CUSTOMER = 'ace_client.on_get_and_update_customer';
     public const PRE_CREATE_OR_UPDATE_IN_ACE_CUSTOMER_ADDRESS = 'ace_client.pre_create_or_update_in_ace_customer_address';
     public const POST_CREATE_OR_UPDATE_IN_ACE_CUSTOMER_ADDRESS = 'ace_client.post_create_or_update_in_ace_customer_address';
-    public const PRE_ADD_CART = 'ace_client.pre_add_cart';
+    public const POST_REMOVE_CUSTOMER_ADDRESS = 'ace_client.post_remove_customer_address';
     public const POST_ADD_CART = 'ace_client.post_add_cart';
     public const POST_EXECUTE_ADD_CART_REQUEST = 'ace_client.post_execute_add_cart_request';
+    public const ON_EXECUTE_ADD_CART_REQUEST_ERROR = 'ace_client.on_execute_add_cart_request_error';
     public const ON_PRE_CREATE_ORDER = 'ace_client.on_pre_create_order';
     public const POST_CREATE_ORDER = 'ace_client.post_create_order';
     public const PRE_PROCESS_CHARGE_EVENT = 'ace_client.pre_process_charge_event';
@@ -39,4 +40,5 @@ class Events
     public const CART_CONTROLLER_SERVICE_PRE_ADD_CART = 'ace_client.cart_controller_service.pre_add_cart';
     public const PRE_ADD_CART_FILTER_CART_ITEM = 'ace_client.pre_add_cart_filter_cart_item';
     public const PRE_GET_ITEMS = 'ace_client.pre_get_items';
+    public const PRE_GET_ITEMS_TANKA = 'ace_client.pre_get_items_tanka';
 }

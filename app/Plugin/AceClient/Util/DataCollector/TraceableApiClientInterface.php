@@ -18,4 +18,6 @@ interface TraceableApiClientInterface
      * Reset traced requests
      */
     public function reset(): void;
+
+    public function isRequestCacheableClient(): bool;
 }

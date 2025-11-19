@@ -14,7 +14,7 @@ use Eccube\Service\Cart\CartItemAllocator;
 use Eccube\Service\Cart\CartItemComparator;
 use Eccube\Service\CartService as BaseCartService;
 use Eccube\Session\Session;
-use Plugin\AceClient43\Service\CartOrderSyncService;
+use Plugin\AceClient43\Synchronizer\CartOrderSynchronizerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -41,7 +41,7 @@ class CartService extends BaseCartService
 {
     protected EventDispatcherInterface $eventDispatcher;
 
-    protected CartOrderSyncService $cartOrderSyncService;
+    protected CartOrderSynchronizerInterface $cartOrderSyncService;
 
     /**
      * CartService constructor.
@@ -56,7 +56,7 @@ class CartService extends BaseCartService
      * @param TokenStorageInterface $tokenStorage
      * @param AuthorizationCheckerInterface $authorizationChecker
      * @param EventDispatcherInterface $eventDispatcher
-     * @param CartOrderSyncService $cartOrderSyncService
+     * @param CartOrderSynchronizerInterface $cartOrderSyncService
      */
     public function __construct(
         Session $session,
@@ -69,7 +69,7 @@ class CartService extends BaseCartService
         TokenStorageInterface $tokenStorage,
         AuthorizationCheckerInterface $authorizationChecker,
         EventDispatcherInterface $eventDispatcher,
-        CartOrderSyncService $cartOrderSyncService,
+        CartOrderSynchronizerInterface $cartOrderSyncService,
     ) {
         parent::__construct($session, $entityManager, $productClassRepository, $cartRepository, $cartItemComparator, $cartItemAllocator, $orderRepository, $tokenStorage, $authorizationChecker);
         $this->eventDispatcher = $eventDispatcher;

@@ -65,4 +65,10 @@ trait CartItemTrait
     {
         return $this->setDirty(true);
     }
+
+    // ShouldIgnoreStockをCartItemTraitに指定したことで、通販Ace側の在庫チェックを無視できます。
+    // public function shouldIgnoreStock(): bool
+    // {
+    //    return false;
+    // }
 }

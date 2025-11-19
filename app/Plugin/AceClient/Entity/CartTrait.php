@@ -33,6 +33,15 @@ trait CartTrait
     private bool $enable_ace_order_support = false;
 
     /**
+     * Ace決済ID
+     *
+     * @ORM\Column(name="ace_payment_id", type="integer", length=4, options={"comment":"ACE決済ID"})
+     *
+     * @var int
+     */
+    private int $ace_payment_id;
+
+    /**
      * Aceの受注サポート機能を有効にする
      *
      * @return $this
@@ -72,6 +81,30 @@ trait CartTrait
     public function setEnableAceOrderSupport(bool $enable)
     {
         $this->enable_ace_order_support = $enable;
+
+        return $this;
+    }
+
+    /**
+     * Ace決済IDを取得する
+     *
+     * @return int
+     */
+    public function getAcePaymentId(): int
+    {
+        return $this->ace_payment_id;
+    }
+
+    /**
+     * Ace決済IDを設定する
+     *
+     * @param int $ace_payment_id
+     *
+     * @return $this
+     */
+    public function setAcePaymentId(int $ace_payment_id): static
+    {
+        $this->ace_payment_id = $ace_payment_id;
 
         return $this;
     }

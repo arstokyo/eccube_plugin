@@ -76,11 +76,21 @@ abstract class AceMethodAbstract implements AceMethodInterface
         return $this;
     }
 
+    public function withArrayRequest(array $requestData): self
+    {
+        $this->apiClient->withRequest($requestData);
+
+        return $this;
+    }
+
     /**
      * {@inheritDoc}
      */
     public function send(): ResponseInterface
     {
+        $debugLogging = !$this instanceof NonDebugLoggingMethodInterface;
+        $this->apiClient->withDebugLogging($debugLogging);
+
         // Set the endpoint just before sending to ensure it's correct for this specific call
         $this->apiClient->withEndpoint($this->buildEndPoint());
 
@@ -111,7 +121,7 @@ abstract class AceMethodAbstract implements AceMethodInterface
      *
      * @throws InvalidClassNameException
      */
-    private function resolveApiClient(ApiClientResolver $clientResolver): ClientInterface
+    protected function resolveApiClient(ApiClientResolver $clientResolver): ClientInterface
     {
         $apiType = $this->getApiType();
         $format = $this->getRequestFormat();
@@ -194,9 +204,13 @@ abstract class AceMethodAbstract implements AceMethodInterface
      * @throws DataTypeMissMatchException
      * @throws InvalidClassNameException
      */
-    private function getResponseAsObject(): string
+    protected function getResponseAsObject(): string
     {
         $responseInterface = $this->getResponseInterface();
+
+        if ($responseInterface === AceMethodInterface::RESPONSE_STRING_TYPE) {
+            return '';
+        }
 
         // 1. 設定ファイルから検索
         $responseClass = $this->getResponseClassFromConfig($responseInterface);

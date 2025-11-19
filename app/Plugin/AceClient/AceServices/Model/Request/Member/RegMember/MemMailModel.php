@@ -13,6 +13,7 @@
 
 namespace Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 
+use Plugin\AceClient43\AceServices\Model\Dependency\Mail\MemMail\MemMailModel as ParentModel;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
@@ -20,7 +21,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  *
  * @author v.t.nguyen@ar-system.co.jp
  */
-class MemMailModel implements MemMailModelInterface
+class MemMailModel extends ParentModel implements MemMailModelInterface
 {
     /**
      * @var MemMailChildModelInterface[]

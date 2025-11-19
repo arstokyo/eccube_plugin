@@ -85,7 +85,22 @@ trait CustomerTrait
         $addresses = [self::ACE_PRIMARY_ADDRESS_EDA_NO => $primaryAddress];
 
         foreach ($this->getCustomerAddresses() as $customerAddress) {
-            $addresses[$customerAddress->getAceEdaNo()] = $customerAddress;
+            $addresses[(string) $customerAddress->getAceEdaNo()] = $customerAddress;
+        }
+
+        return $addresses;
+    }
+
+    public function getAllCustomerAddressWithId(): array
+    {
+        $primaryAddress = (new CustomerAddress())
+            ->setFromCustomer($this);
+
+        $addresses = [0 => $primaryAddress];
+
+        /** @var CustomerAddress $customerAddress */
+        foreach ($this->getCustomerAddresses() as $customerAddress) {
+            $addresses[$customerAddress->getId()] = $customerAddress;
         }
 
         return $addresses;

@@ -7,15 +7,17 @@ use Plugin\AceClient43\Util\Converter\ListConverter;
 
 class V1GoodsItemsRequestModel implements V1GoodsItemsRequestModelInterface
 {
-    private int $syid = 0;
+    protected int $syid = 0;
 
     /** @var string[]|null */
-    private ?array $gdids = null;
+    protected ?array $gdids = null;
 
-    private ?int $skid = null;
+    protected ?int $skid = null;
 
     /** @var array<int, int>|null */
-    private ?array $freeKubuns = null;
+    protected ?array $freeKubuns = null;
+
+    protected ?array $tankaKubuns = null;
 
     public function getSyid(): int
     {
@@ -61,6 +63,18 @@ class V1GoodsItemsRequestModel implements V1GoodsItemsRequestModelInterface
     public function setFreeKubuns(?array $freeKubuns): self
     {
         $this->freeKubuns = $freeKubuns;
+
+        return $this;
+    }
+
+    public function getTankaKubuns(): ?string
+    {
+        return ListConverter::arrayToString($this->tankaKubuns);
+    }
+
+    public function setTankaKubuns(?array $tankaKubuns): self
+    {
+        $this->tankaKubuns = $tankaKubuns;
 
         return $this;
     }

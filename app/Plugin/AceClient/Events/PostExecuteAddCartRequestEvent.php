@@ -11,12 +11,20 @@ class PostExecuteAddCartRequestEvent extends Event
 
     private array $options;
 
+    private bool $fromCache;
+
+    private ?string $cacheKey;
+
     public function __construct(
         AddCartResponseModelInterface $response,
         array $options,
+        bool $fromCache = false,
+        ?string $cacheKey = null,
     ) {
         $this->response = $response;
         $this->options = $options;
+        $this->fromCache = $fromCache;
+        $this->cacheKey = $cacheKey;
     }
 
     public function getAddCartResponseModel(): AddCartResponseModelInterface
@@ -32,5 +40,15 @@ class PostExecuteAddCartRequestEvent extends Event
     public function getTrigger(): string
     {
         return $this->options['_trigger'] ?? '';
+    }
+
+    public function isFromCache(): bool
+    {
+        return $this->fromCache;
+    }
+
+    public function getCacheKey(): ?string
+    {
+        return $this->cacheKey;
     }
 }

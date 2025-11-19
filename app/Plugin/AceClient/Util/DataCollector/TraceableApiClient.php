@@ -5,6 +5,7 @@ namespace Plugin\AceClient43\Util\DataCollector;
 use Plugin\AceClient43\ApiClient\Client\ApiTypeSupportInterface;
 use Plugin\AceClient43\ApiClient\Client\ClientInterface;
 use Plugin\AceClient43\ApiClient\Client\ClientMetadataInterface;
+use Plugin\AceClient43\ApiClient\Client\RequestCacheableClientInterface;
 use Plugin\AceClient43\ApiClient\Response\ResponseInterface;
 use Plugin\AceClient43\Util\HttpClient\TraceableGuzzleClient;
 use Symfony\Component\Stopwatch\Stopwatch;
@@ -100,6 +101,7 @@ class TraceableApiClient implements ClientInterface, ApiTypeSupportInterface, Tr
                 'method' => $metadata->getRequestMethod(),
                 'uri' => $metadata->getUri(),
                 'api_type' => $this->getClientApiType(),
+                'is_request_cacheable_client' => $this->isRequestCacheableClient() ? 'yes' : 'no',
             ],
             'timing' => null,
             'error' => null,
@@ -132,6 +134,12 @@ class TraceableApiClient implements ClientInterface, ApiTypeSupportInterface, Tr
                 'start_time' => $startTime,
                 'end_time' => $endTime,
             ];
+
+            if ($this->isRequestCacheableClient()) {
+                $metadata = $this->client->getMetadata();
+                $traceData['request_data'] = $metadata->getData();
+                $traceData['metadata']['is_request_from_cache'] = $metadata->isRequestFromCache() ? 'yes' : 'no';
+            }
 
             // Capture response data if we have a valid response
             if ($response !== null) {
@@ -417,5 +425,53 @@ class TraceableApiClient implements ClientInterface, ApiTypeSupportInterface, Tr
         }
 
         return false;
+    }
+
+    public function isRequestCacheableClient(): bool
+    {
+        return $this->client instanceof RequestCacheableClientInterface;
+    }
+
+    public function withCaching(callable $requestFactory, ?string $cacheKey = null, ?callable $requestModifier = null): self
+    {
+        if ($this->client instanceof RequestCacheableClientInterface) {
+            $this->client->withCaching($requestFactory, $cacheKey, $requestModifier);
+        }
+
+        return $this;
+    }
+
+    /**
+     * このリクエストのキャッシュを無効化
+     * 新規リクエスト作成とシリアライズを強制します
+     *
+     * @return self
+     */
+    public function withoutCaching(): self
+    {
+        if ($this->client instanceof RequestCacheableClientInterface) {
+            $this->client->withoutCaching();
+        }
+
+        return $this;
+    }
+
+    /**
+     * 現在のエンドポイントのキャッシュをクリア
+     *
+     * @return void
+     */
+    public function clearCache(): void
+    {
+        if ($this->client instanceof RequestCacheableClientInterface) {
+            $this->client->clearCache();
+        }
+    }
+
+    public function withDebugLogging(bool $enabled): ClientInterface
+    {
+        $this->client->withDebugLogging($enabled);
+
+        return $this;
     }
 }

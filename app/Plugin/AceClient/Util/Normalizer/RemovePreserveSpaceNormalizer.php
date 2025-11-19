@@ -1,9 +1,11 @@
 <?php
 
 /*
- * This file is part of the Symfony package.
+ * This file is part of EC-CUBE
  *
- * (c) Fabien Potencier <fabien@symfony.com>
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -43,6 +45,12 @@ class RemovePreserveSpaceNormalizer extends AbstractObjectNormalizer
      * XML デコーダが付与する空白保持キー名
      */
     public const PRESERVE_SPACE_KEY = '@xml:space';
+
+    public const REMOVE_XML_KEYS = [
+        AsListDenormalizer::DIFF_GR_ID,
+        '@msdata:rowOrder',
+        '@diffgr:hasChanges',
+    ];
 
     /**
      * 内部委譲先のグローバル ObjectNormalizer
@@ -149,6 +157,11 @@ class RemovePreserveSpaceNormalizer extends AbstractObjectNormalizer
         }
 
         foreach ($data as $key => $value) {
+            if (\in_array($key, self::REMOVE_XML_KEYS, true) || $value === '') {
+                unset($data[$key]);
+                continue;
+            }
+
             if (!is_array($value) || \count($value) !== 2 || !isset($value[self::PRESERVE_SPACE_KEY])) {
                 continue;
             }
@@ -198,6 +211,6 @@ class RemovePreserveSpaceNormalizer extends AbstractObjectNormalizer
 
     public function getSupportedTypes(?string $format): array
     {
-        return ['object' => $format === 'xml'];
+        return ['object' => true];
     }
 }

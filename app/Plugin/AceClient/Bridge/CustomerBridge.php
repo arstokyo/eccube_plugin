@@ -19,19 +19,24 @@ use Plugin\AceClient43\AceServices\AceMethod\Member\RegMemberMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Member\UpdateTaikaiMethod;
 use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 use Plugin\AceClient43\AceServices\Model\Request\Member\UpdateTaikai\UpdateTaikaiRequestModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetDurationOrderTotal\GetDurationOrderTotalResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode\LoginMemberModelInterface;
-use Plugin\AceClient43\AceServices\Model\Response\Member\RegMember\RegMemberResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\Member\GetPointRireki\GetPointRirekiResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetRirekiDetail\MemberModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\Member\RegMember\RegMemberResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\UpdateTaikai\UpdateTaikaiResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\WebApi\Member\V1\CheckCodeAndMail\CheckCodeAndMailResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrderList\V1GetOrderListResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V2\GetOrderListV2\V2GetOrderListV2ResponseModelInterface;
 use Plugin\AceClient43\Bridge\Helper\CustomerBridgeHelper;
+use Plugin\AceClient43\Cache\ResponseCachePool;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\OnGetAndUpdateCustomerEvent;
 use Plugin\AceClient43\Events\PostRegisterCustomerEvent;
 use Plugin\AceClient43\Events\PreRegisterCustomerEvent;
 use Plugin\AceClient43\Exception\CouldNotCheckCustomerExistingException;
 use Plugin\AceClient43\Exception\CouldNotRegisterNewCustomerException;
-use Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrderList\V1GetOrderListResponseModelInterface;
 
 /**
  * 顧客連携ブリッジクラス
@@ -46,16 +51,20 @@ class CustomerBridge extends BaseBridge
 
     protected UpdateTaikaiMethod $updateTaikaiMethod;
 
+    protected ResponseCachePool $responseCachePool;
+
     public function __construct(
         RegMemberMethod $regMemberMethod,
         CustomerBridgeHelper $helper,
         CustomerAddressBridge $customerAddressBridge,
         UpdateTaikaiMethod $updateTaikaiMethod,
+        ResponseCachePool $responseCachePool,
     ) {
         $this->helper = $helper;
         $this->regMemberMethod = $regMemberMethod;
         $this->customerAddressBridge = $customerAddressBridge;
         $this->updateTaikaiMethod = $updateTaikaiMethod;
+        $this->responseCachePool = $responseCachePool;
     }
 
     /**
@@ -232,6 +241,11 @@ class CustomerBridge extends BaseBridge
 
             $customer->setAceCustomerId($responseObject->getMember()->getJmember()->getCode());
 
+            $this->em->persist($customer);
+            if ($needFlush) {
+                $this->em->flush($customer);
+            }
+
             $postEventName = $eventName === Events::PRE_REGISTER_CUSTOMER
                 ? Events::POST_REGISTER_CUSTOMER
                 : Events::POST_UPDATE_CUSTOMER;
@@ -241,12 +255,6 @@ class CustomerBridge extends BaseBridge
                     new PostRegisterCustomerEvent($responseObject, $customer, $options),
                     $postEventName
                 );
-            }
-
-            $this->em->persist($customer);
-
-            if ($needFlush) {
-                $this->em->flush($customer);
             }
         } catch (\Throwable $e) {
             if ($e instanceof CouldNotRegisterNewCustomerException) {
@@ -265,12 +273,13 @@ class CustomerBridge extends BaseBridge
      * @param string $aceCustomerId - 通販Aceの顧客ID
      * @param array $options - オプションパラメータ
      * @param Customer|null $customer
+     * @param bool $force
      *
      * @return LoginMemberModelInterface|null
      */
-    public function getByAceCustomerId(string $aceCustomerId, array $options = [], ?Customer $customer = null): ?LoginMemberModelInterface
+    public function getByAceCustomerId(string $aceCustomerId, array $options = [], ?Customer $customer = null, bool $force = false): ?LoginMemberModelInterface
     {
-        return $this->helper->getByAceCustomerId($aceCustomerId, $this->getSyid(), $options, $customer);
+        return $this->helper->getByAceCustomerId($aceCustomerId, $this->getSyid(), $options, $customer, $force);
     }
 
     /**
@@ -298,12 +307,20 @@ class CustomerBridge extends BaseBridge
      *
      * @return Customer 更新された顧客エンティティ
      */
-    public function syncCustomerFromAce(Customer $customer, bool $needFlush = true, array $options = []): Customer
+    public function syncCustomerFromAce(Customer $customer, bool $needFlush = true, array $options = [], bool $force = false): Customer
     {
         if (null === $aceCustomerId = $customer->getAceCustomerId()) {
             $loginMemberModel = $this->getByEmailAndPassword($customer->getEmail(), $customer->getPassword());
         } else {
-            $loginMemberModel = $this->getByAceCustomerId($aceCustomerId, $options, $customer);
+            if (!$force) {
+                $cacheKey = 'get_by_ace_customer_id_'.$aceCustomerId.'_'.md5(serialize($options));
+
+                if ($this->responseCachePool->isCacheStillValid($cacheKey)) {
+                    return $customer;
+                }
+            }
+
+            $loginMemberModel = $this->getByAceCustomerId($aceCustomerId, $options, $customer, $force);
         }
 
         // `request`に`return_alladr` オプションを設定している場合
@@ -366,7 +383,7 @@ class CustomerBridge extends BaseBridge
      * ログインメンバーモデルから顧客エンティティを更新する
      *
      * @param Customer $customer 更新対象の顧客エンティティ
-     * @param GetMember\LoginMemberModelInterface|LoginMemberModelInterface|null $loginMemberModel 通販Aceから取得したログインメンバーモデル
+     * @param GetMember\LoginMemberModelInterface|LoginMemberModelInterface|null $loginMemberModel ログインメンバーモデル
      * @param bool $needFlush 更新後にエンティティマネージャーの変更をフラッシュするかどうか
      *
      * @return Customer 更新された顧客エンティティ
@@ -461,9 +478,76 @@ class CustomerBridge extends BaseBridge
         return $responseObject->getMember()->getRirekiDetail() ? $responseObject->getMember() : null;
     }
 
-    public function getOrderList(Customer $customer, int $page = 1, int $limit = 10, int $denno = null, int $sort = 0): ?V1GetOrderListResponseModelInterface
+    public function getOrderList(Customer $customer, int $page = 1, int $limit = 10, ?int $denno = null, int $sort = 0): ?V1GetOrderListResponseModelInterface
     {
         $responseObject = $this->helper->getOrderList($customer->getAceCustomerId(), $this->getSyid(), $page, $limit, $denno, $sort);
+
+        return $responseObject;
+    }
+
+    public function getOrderListV2(Customer $customer, int $page = 1, int $limit = 10, ?int $denno = null, int $sort = 0, ?string $dayFrom = null, ?string $dayTo = null, array $options = []): ?V2GetOrderListV2ResponseModelInterface
+    {
+        $responseObject = $this->helper->getOrderListV2($customer->getAceCustomerId(), $this->getSyid(), $page, $limit, $denno, $sort, $dayFrom, $dayTo, $options);
+
+        return $responseObject;
+    }
+
+    public function getPointHistory(Customer $customer): ?GetPointRirekiResponseModelInterface
+    {
+        $responseObject = $this->helper->getPointHistory($customer->getAceCustomerId(), $this->getSyid());
+
+        return $responseObject;
+    }
+
+    /**
+     * 期間内の注文合計を取得する
+     *
+     * @param Customer $customer 顧客エンティティ
+     * @param \DateTimeInterface $dayfrom 開始日 (YYYYMMDD format)
+     * @param \DateTimeInterface $dayto 終了日 (YYYYMMDD format)
+     *
+     * @return GetDurationOrderTotalResponseModelInterface|null
+     *
+     * @throws \LogicException
+     */
+    public function getDurationOrderTotal(
+        Customer $customer,
+        \DateTimeInterface $dayfrom,
+        \DateTimeInterface $dayto,
+    ): ?GetDurationOrderTotalResponseModelInterface {
+        if (null === $customer->getAceCustomerId()) {
+            $this->logger->error('通販Aceの期間内注文合計取得に失敗しました: 顧客IDが設定されていません', ['customer' => $customer]);
+            throw new \LogicException('顧客IDが設定されていません。');
+        }
+
+        return $this->helper->getDurationOrderTotal(
+            $customer->getAceCustomerId(),
+            $this->getSyid(),
+            $dayfrom,
+            $dayto
+        );
+    }
+
+    /**
+     * 顧客のパスワードをACE側に更新する
+     *
+     * @param Customer $customer パスワードを更新する顧客エンティティ
+     *
+     * @throws \LogicException
+     */
+    public function updatePasswordInAce(Customer $customer, array $options = []): void
+    {
+        if (null === $customer->getAceCustomerId()) {
+            $this->logger->error('通販Aceのパスワード更新に失敗しました: 顧客IDが設定されていません', ['customer' => $customer]);
+            throw new \LogicException('顧客IDが設定されていません。');
+        }
+
+        $this->helper->updatePasswordInAce($customer, $this->getSyid(), $options);
+    }
+
+    public function checkMemberCodeAndMail(array $mcode, array $mail): ?CheckCodeAndMailResponseModelInterface
+    {
+        $responseObject = $this->helper->checkMemberCodeAndMailInAce($this->getSyid(), $mcode, $mail);
 
         return $responseObject;
     }

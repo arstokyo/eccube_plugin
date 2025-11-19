@@ -3,6 +3,7 @@
 namespace Plugin\AceClient43\Util\ModelResolver;
 
 use Plugin\AceClient43\Util\Mapper\OverviewMapper;
+use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Finder\Finder;
 
 class ModelResolver
@@ -15,8 +16,14 @@ class ModelResolver
 
     private array $dependencySearchPaths;
 
-    public function __construct(array $requestSearchPaths = [], array $responseSearchPaths = [])
-    {
+    private CacheItemPoolInterface $cachePool;
+
+    public function __construct(
+        CacheItemPoolInterface $cachePool,
+        array $requestSearchPaths = [],
+        array $responseSearchPaths = [],
+        array $dependencySearchPaths = [],
+    ) {
         $this->requestSearchPaths = $requestSearchPaths ?: [
             'Plugin/'.OverviewMapper::PLUGIN_NAME.'/AceServices/Model/Request',
             'Customize/AceClient/Model/Request',
@@ -27,17 +34,26 @@ class ModelResolver
             'Customize/AceClient/Model/Response',
         ];
 
-        $this->dependencySearchPaths = [
+        $this->dependencySearchPaths = $dependencySearchPaths ?: [
             'Customize/AceClient/Model/Dependency',
             'Plugin/'.OverviewMapper::PLUGIN_NAME.'/AceServices/Model/Dependency',
         ];
+
+        $this->cachePool = $cachePool;
     }
 
     public function findRequestModel(string $type): ?string
     {
-        $cacheKey = 'request:'.$type;
-        if (isset($this->modelCache[$cacheKey])) {
-            return $this->modelCache[$cacheKey];
+        $memoryKey = 'request:'.$type;
+        if (isset($this->modelCache[$memoryKey])) {
+            return $this->modelCache[$memoryKey];
+        }
+
+        $cached = $this->getFromCache($memoryKey);
+        if ($cached !== null) {
+            $this->modelCache[$memoryKey] = $cached;
+
+            return $cached;
         }
 
         // Check if this is a dependency model
@@ -47,16 +63,28 @@ class ModelResolver
             $modelClass = $this->findModelByNamespaceOptimized($type, $this->requestSearchPaths);
         }
 
-        $this->modelCache[$cacheKey] = $modelClass;
+        $this->modelCache[$memoryKey] = $modelClass;
+
+        // store only non-null results in persistent cache
+        if (null !== $modelClass) {
+            $this->saveToCache($memoryKey, $modelClass);
+        }
 
         return $modelClass;
     }
 
     public function findResponseModel(string $type): ?string
     {
-        $cacheKey = 'response:'.$type;
-        if (isset($this->modelCache[$cacheKey])) {
-            return $this->modelCache[$cacheKey];
+        $memoryKey = 'response:'.$type;
+        if (isset($this->modelCache[$memoryKey])) {
+            return $this->modelCache[$memoryKey];
+        }
+
+        $cached = $this->getFromCache($memoryKey);
+        if ($cached !== null) {
+            $this->modelCache[$memoryKey] = $cached;
+
+            return $cached;
         }
 
         // Check if this is a dependency model
@@ -66,7 +94,12 @@ class ModelResolver
             $modelClass = $this->findModelByNamespaceOptimized($type, $this->responseSearchPaths);
         }
 
-        $this->modelCache[$cacheKey] = $modelClass;
+        $this->modelCache[$memoryKey] = $modelClass;
+
+        // store only non-null results in persistent cache
+        if (null !== $modelClass) {
+            $this->saveToCache($memoryKey, $modelClass);
+        }
 
         return $modelClass;
     }
@@ -238,5 +271,38 @@ class ModelResolver
         $namespace = str_replace('/', '\\', $searchPath);
 
         return $namespace.'\\'.$relativePath;
+    }
+
+    private function getFromCache(string $rawKey): ?string
+    {
+        $key = $this->formatCacheKey($rawKey);
+        $item = $this->cachePool->getItem($key);
+
+        if ($item->isHit()) {
+            $val = $item->get();
+
+            return is_string($val) ? $val : null;
+        }
+
+        return null;
+    }
+
+    private function saveToCache(string $rawKey, string $value): void
+    {
+        $key = $this->formatCacheKey($rawKey);
+        $item = $this->cachePool->getItem($key);
+        $item->set($value);
+        $this->cachePool->save($item);
+    }
+
+    private function formatCacheKey(string $rawKey): string
+    {
+        $prefix = 'ace_model_resolver.';
+        // Replace namespace separators and other non-allowed chars
+        $sanitized = strtr($rawKey, ['\\' => '.', '/' => '.', ':' => '.']);
+        $sanitized = preg_replace('/[^A-Za-z0-9_.]/', '.', $sanitized) ?? '';
+        $sanitized = trim($sanitized, '.');
+
+        return $prefix.$sanitized;
     }
 }

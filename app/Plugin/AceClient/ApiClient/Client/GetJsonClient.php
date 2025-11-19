@@ -13,7 +13,7 @@
 
 namespace Plugin\AceClient43\ApiClient\Client;
 
-use Plugin\AceClient43\Exception;
+use Plugin\AceClient43\Exception\CanNotBuildRequestException;
 
 /**
  * GetJsonClient - JSON GET implementation
@@ -22,6 +22,28 @@ use Plugin\AceClient43\Exception;
  */
 class GetJsonClient extends AbstractClient
 {
+    private ?string $uri = null;
+
+    /**
+     * {@inheritDoc}
+     *
+     * @throws CanNotBuildRequestException
+     */
+    public function getMetadata(): ClientMetadataInterface
+    {
+        return new ClientMetadata($this->requestMethod, $this->buildUri(), $this->request ?? []);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function withRequest($request): ClientInterface
+    {
+        $this->uri = null;
+
+        return parent::withRequest($request);
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -63,12 +85,18 @@ class GetJsonClient extends AbstractClient
      *
      * @return string
      *
-     * @throws Exception\CanNotBuildRequestException
+     * @throws CanNotBuildRequestException
      */
     protected function buildUri(): string
     {
+        if ($this->uri) {
+            return $this->uri;
+        }
+
         $baseUri = parent::buildUri();
         if (empty($this->request)) {
+            $this->uri = $baseUri;
+
             return $baseUri;
         }
 
@@ -81,9 +109,12 @@ class GetJsonClient extends AbstractClient
                 : http_build_query($data);
         } catch (\Throwable $t) {
             $this->logger->error("API Client error: {$t->getMessage()}");
-            throw new Exception\CanNotBuildRequestException('Cannot build GET query string', $t);
+            throw new CanNotBuildRequestException('Cannot build GET query string', $t);
         }
 
-        return sprintf('%s%s', $baseUri, $query);
+        $uri = sprintf('%s%s', $baseUri, $query);
+        $this->uri = $uri;
+
+        return $uri;
     }
 }

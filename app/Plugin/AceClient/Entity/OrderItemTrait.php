@@ -13,8 +13,9 @@
 
 namespace Plugin\AceClient43\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Eccube\Annotation\EntityExtension;
+use Plugin\AceClient43\Processor\PointDiscountProcessor;
+use Plugin\AceClient43\Processor\PromotionDiscountProcessor;
 
 /**
  * @EntityExtension("Eccube\Entity\OrderItem")
@@ -24,35 +25,29 @@ trait OrderItemTrait
     use BaseItemTrait;
 
     /**
-     * 通販Aceの在庫を無視するフラグ
-     *
-     * @ORM\Column(name="ace_ignore_stock", type="integer", length="1", options={"comment":"通販Aceの在庫を無視するフラグ", "default":true})
-     *
-     * @var int
-     */
-    private int $ace_ignore_stock = 1;
-
-    /**
-     * 通販Aceの在庫を無視するフラグを取得
+     * ポイント値引きの明細かどうか
      *
      * @return bool
      */
-    public function isAceIgnoreStock(): bool
+    public function isPointDiscount(): bool
     {
-        return (bool) $this->ace_ignore_stock;
+        return $this->getProcessorName() === PointDiscountProcessor::class;
     }
 
     /**
-     * 通販Aceの在庫を無視するフラグを設定
+     * プロモションの明細かどうか
+     * レッドネイルズの場合はセット割引
      *
-     * @param bool $ace_ignore_stock
-     *
-     * @return self
+     * @return bool
      */
-    public function setAceIgnoreStock(bool $ace_ignore_stock): static
+    public function isPromotion(): bool
     {
-        $this->ace_ignore_stock = $ace_ignore_stock ? 1 : 0;
-
-        return $this;
+        return $this->getProcessorName() === PromotionDiscountProcessor::class;
     }
+
+    // ShouldIgnoreStockをOrderItemTraitに指定したことで、通販Ace側の在庫チェックを無視できます。
+    // public function shouldIgnoreStock(): bool
+    // {
+    //    return false;
+    // }
 }

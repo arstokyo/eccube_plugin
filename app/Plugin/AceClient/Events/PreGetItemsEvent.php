@@ -44,11 +44,17 @@ class PreGetItemsEvent extends Event
     private $options;
 
     /**
+     * @var array
+     */
+    private $tankaKubuns;
+
+    /**
      * @param V1GoodsItemsRequestModelInterface $request
      * @param array $gdids
      * @param array $freeKubuns
      * @param string|null $skid
      * @param array $options
+     * @param array $tankaKubuns
      */
     public function __construct(
         V1GoodsItemsRequestModelInterface $request,
@@ -56,12 +62,14 @@ class PreGetItemsEvent extends Event
         array $freeKubuns,
         ?string $skid,
         array $options,
+        array $tankaKubuns,
     ) {
         $this->request = $request;
         $this->gdids = $gdids;
         $this->freeKubuns = $freeKubuns;
         $this->skid = $skid;
         $this->options = $options;
+        $this->tankaKubuns = $tankaKubuns;
     }
 
     /**
@@ -102,5 +110,10 @@ class PreGetItemsEvent extends Event
     public function getOptions(): array
     {
         return $this->options;
+    }
+
+    public function getTankaKubuns(): array
+    {
+        return $this->tankaKubuns;
     }
 }

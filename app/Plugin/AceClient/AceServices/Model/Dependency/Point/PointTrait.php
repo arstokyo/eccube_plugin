@@ -58,6 +58,6 @@ trait PointTrait
      */
     public function getPointAsString(): ?string
     {
-        return null === $this->point ? null : (string) $this->point;
+        return null === $this->point ? null : (string) $this->getPoint();
     }
 }

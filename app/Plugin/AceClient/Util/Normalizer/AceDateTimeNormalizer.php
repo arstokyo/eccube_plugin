@@ -47,10 +47,10 @@ class AceDateTimeNormalizer implements NormalizerInterface
         return $data instanceof AceDateTime;
     }
 
-    public function getSupportedTypes(?string $format)
+    public function getSupportedTypes(?string $format): array
     {
         return [
-            AceDateTime::class => false,
+            AceDateTime::class => true,
         ];
     }
 }

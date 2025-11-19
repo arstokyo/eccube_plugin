@@ -3,11 +3,12 @@
 namespace Plugin\AceClient43\Traits;
 
 use Doctrine\Common\Annotations\Annotation\Required;
+use Eccube\Entity\Order;
 use Eccube\Service\PurchaseFlow\PurchaseContext;
 use Eccube\Service\PurchaseFlow\PurchaseFlow;
 use Eccube\Service\PurchaseFlow\PurchaseFlowResult;
-use Plugin\AceClient43\Service\PurchaseFlow\UpdateDeliveryFeePurchaseContext;
-use Plugin\AceClient43\Service\PurchaseFlow\UpdateEarnablePointPurchaseContext;
+use Plugin\AceClient43\Processor\Context\UpdateDeliveryFeePurchaseContext;
+use Plugin\AceClient43\Processor\Context\UpdateEarnablePointPurchaseContext;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -36,19 +37,19 @@ trait ShoppingPurchaseFlowTrait
     /**
      * ショッピング購入フローを実行する.
      *
-     * @param object $order 対象の Order エンティティ
+     * @param Order $order 対象の Order エンティティ
      * @param string $flowType 'delivery_update' | 'point_update' | 'default'
      * @param bool $shouldExecute 実行フラグ（false の場合は null）
      *
      * @return PurchaseFlowResult|null
      */
-    protected function executeShoppingPurchaseFlow(object $order, string $flowType = 'default', bool $shouldExecute = true): ?PurchaseFlowResult
+    protected function executeShoppingPurchaseFlow(Order $order, string $flowType = 'default', bool $shouldExecute = true): ?PurchaseFlowResult
     {
         if (!$shouldExecute) {
             return null;
         }
 
-        if (!isset($this->purchaseFlow) || !$this->purchaseFlow instanceof PurchaseFlow) {
+        if (!isset($this->purchaseFlow)) {
             throw new \LogicException('PurchaseFlow service is not available on '.static::class);
         }
 
