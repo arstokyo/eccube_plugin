@@ -296,6 +296,7 @@ class CustomerDataConverter implements CustomerDataConverterInterface
     {
         // 検索パラメータを抽出
         $searchName = $options['search_name'] ?? null;
+        $jdFreeKubuns = $options['jd_free_kubuns'] ?? null;
 
         /** @var V2GetOrderListV2RequestModelInterface $requestModel */
         $requestModel = $this->createRequestModel(V2GetOrderListV2RequestModelInterface::class);
@@ -305,6 +306,10 @@ class CustomerDataConverter implements CustomerDataConverterInterface
 
         if ($searchName) {
             $optionsModel->setSearchName($searchName);
+        }
+
+        if ($jdFreeKubuns) {
+            $optionsModel->setReturnJdFreeKubuns($jdFreeKubuns);
         }
 
         return $requestModel
