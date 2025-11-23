@@ -9,6 +9,9 @@ ace_client.create_order:
 ace_client.admin:
     customer:
         label.ace_customer_id: Ace顧客ID
+    order:
+        label.ace_order_id: Ace注文ID
+        tooltip.ace_order_id: 通販Ace側に紐付いている注文IDです。
     product:
         title.sync_from_ace: "Ace商品連携"
         label.sync_status: "連携ステータス"
