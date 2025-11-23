@@ -100,13 +100,6 @@ class PointDiscountProcessor implements DiscountProcessor
             }
         }
 
-        foreach ($itemHolder->getOrderItems() as $item) {
-            if ($item->getProcessorName() === PointDiscountProcessor::class) {
-                $itemHolder->removeOrderItem($item);
-                $this->entityManager->remove($item);
-            }
-        }
-
         $this->pointHelper->removePointDiscountItem($itemHolder);
     }
 
