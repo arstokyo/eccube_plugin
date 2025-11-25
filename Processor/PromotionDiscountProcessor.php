@@ -99,6 +99,12 @@ class PromotionDiscountProcessor implements ItemHolderPreprocessor
             return;
         }
 
+        if (0 >= $applicableAmount = $Order->getApplicablePromotionDiscount()) {
+            return;
+        }
+
+        $discount = min(abs($discount), $applicableAmount) * -1;
+
         $DiscountType = $this->entityManager->find(OrderItemType::class, OrderItemType::DISCOUNT);
         $TaxDisplay = $this->entityManager->find(TaxDisplayType::class, $this->taxDisplayTypeId);
         $Taxation = $this->entityManager->find(TaxType::class, $this->taxTypeId);
