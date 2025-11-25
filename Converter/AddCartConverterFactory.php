@@ -79,9 +79,10 @@ class AddCartConverterFactory
      */
     public function createJyumeiDataConverter(AddCartFlow $flow): JyumeiDataConverterInterface
     {
-        $this->jyumeiDataConverter->setFlow($flow);
+        $immutableConverter = clone $this->jyumeiDataConverter;
+        $immutableConverter->setFlow($flow);
 
-        return $this->jyumeiDataConverter;
+        return $immutableConverter;
     }
 
     /**
