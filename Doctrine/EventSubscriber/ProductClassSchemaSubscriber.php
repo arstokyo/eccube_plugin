@@ -4,6 +4,7 @@ namespace Plugin\AceClient43\Doctrine\EventSubscriber;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Schema\SchemaException;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Event\GenerateSchemaEventArgs;
 use Doctrine\ORM\Tools\ToolEvents;
 
@@ -24,6 +25,7 @@ class ProductClassSchemaSubscriber implements EventSubscriber
 
     /**
      * @param GenerateSchemaEventArgs $args
+     *
      * @throws SchemaException
      */
     public function postGenerateSchema(GenerateSchemaEventArgs $args): void
@@ -35,6 +37,17 @@ class ProductClassSchemaSubscriber implements EventSubscriber
 
             // Check if the unique index doesn't already exist
             if (!$table->hasIndex('ace_product_id_idx')) {
+                try {
+                    $args->getEntityManager()->wrapInTransaction(function (EntityManagerInterface $em) {
+                        $em->getConnection()->executeStatement(
+                            "UPDATE dtb_product_class SET ace_product_id = COALESCE(product_code, id) WHERE ace_product_id IS NULL OR ace_product_id = ''"
+                        );
+                    });
+                } catch (\Throwable $e) {
+                    log_error('通販Aceの商品IDの更新に失敗しました: '.$e->getMessage());
+                    // ignore
+                }
+
                 $table->addUniqueIndex(['ace_product_id'], 'ace_product_id_idx');
             }
         }

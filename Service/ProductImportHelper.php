@@ -137,6 +137,8 @@ class ProductImportHelper
             $options = $event->options;
         }
 
+        $options['_get_goods.import_stock'] = isset($options['_product_import_helper.import_stock']) && $options['_product_import_helper.import_stock'];
+
         $master = $this->productBridge->getAll($updateFrom, $updateTo, $options);
 
         if (null === $master || !$master->hasGoods() || !$master->hasGtanka()) {

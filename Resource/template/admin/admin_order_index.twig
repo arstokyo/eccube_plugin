@@ -1,0 +1,79 @@
+{% if pagination is defined and pagination|length > 0 %}
+<script>
+(function() {
+    function onReady(fn){ if (document.readyState !== 'loading') { fn(); } else { document.addEventListener('DOMContentLoaded', fn); } }
+
+    onReady(function() {
+        var table = document.querySelector('.c-primaryCol table.table');
+        if (!table) return;
+
+        var theadRow = table.querySelector('thead tr');
+        if (!theadRow) return;
+
+        // 1) Insert ACE header TH right after the 2nd TH (Order/Orderer info), only once.
+        var aceHeaderText = {{ 'ace_client.admin.order.label.ace_order_id'|trans|json_encode|raw }};
+        if (!theadRow.querySelector('th.js-ace-header')) {
+            var th = document.createElement('th');
+            th.className = 'border-top-0 pt-2 pb-2 text-center';
+            th.classList.add('js-ace-header');
+            th.textContent = aceHeaderText;
+
+            var ths = theadRow.querySelectorAll('th');
+            // 0: Checkbox, 1: ID/Orderer. We want it after 1.
+            if (ths.length > 1) {
+                var targetTh = ths[1];
+                if (targetTh.nextSibling) {
+                    theadRow.insertBefore(th, targetTh.nextSibling);
+                } else {
+                    theadRow.appendChild(th);
+                }
+            } else {
+                theadRow.appendChild(th);
+            }
+        }
+
+        // 2) Build a map of order_id -> ACE ID
+        var aceMap = {};
+        {% for Order in pagination %}
+        aceMap[{{ Order.id|json_encode|raw }}] = {{ (Order.ace_order_id ?? '-')|json_encode|raw }};
+        {% endfor %}
+
+        // 3) For each data row, insert a TD with the ACE ID right after the 2nd TD.
+        var rows = table.querySelectorAll('tbody tr');
+        rows.forEach(function(tr) {
+            if (tr.querySelector('td.js-ace-cell')) {
+                return; // already inserted
+            }
+
+            // Attempt to find Order ID from the edit link in the 2nd column
+            var anchor = tr.querySelector('td:nth-child(2) a.action-edit');
+            if (!anchor) return;
+
+            var href = anchor.getAttribute('href');
+            var match = href.match(/\/order\/(\d+)\/edit/);
+            var id = match ? match[1] : null;
+
+            if (!id) return;
+
+            var aceVal = aceMap[id] || '-';
+
+            var tds = tr.querySelectorAll('td');
+            if (tds.length < 2) return;
+            var targetTd = tds[1];
+
+            var td = document.createElement('td');
+            td.className = 'align-middle text-center';
+            td.classList.add('js-ace-cell');
+            td.innerHTML = '<span class="text-monospace"></span>';
+            td.querySelector('span').textContent = String(aceVal);
+
+            if (targetTd.nextSibling) {
+                tr.insertBefore(td, targetTd.nextSibling);
+            } else {
+                tr.appendChild(td);
+            }
+        });
+    });
+})();
+</script>
+{% endif %}
