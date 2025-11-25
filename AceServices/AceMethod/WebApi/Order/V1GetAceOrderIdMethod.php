@@ -5,11 +5,9 @@ namespace Plugin\AceClient43\AceServices\AceMethod\WebApi\Order;
 use Plugin\AceClient43\AceServices\AceMethod\WebApi\AbstractWebApiMethod;
 
 /**
- * WebApi v1: 注文一覧を取得するメソッド（JSON GET）
+ * WebApi v1: 通販Aceの受注番号を取得API
  *
- * エンドポイント: order/v1/order_list
- * リクエスト/レスポンスのシリアライズ・デシリアライズは services.yaml で設定された
- * SerializerResolver に委譲します。
+ * エンドポイント: order/v1/ace-order-id
  */
 class V1GetAceOrderIdMethod extends AbstractWebApiMethod
 {
