@@ -345,10 +345,26 @@ class CustomerBridgeHelper
 
     public function getOrderListV2(string $aceCustomerId, string $syid, int $page = 1, int $limit = 10, ?int $denno = null, int $sort = 0, ?string $dayFrom = null, ?string $dayTo = null, array $options = []): ?V2GetOrderListV2ResponseModelInterface
     {
+        if ($denno) {
+            return $this->getOrderDetailFromCache($aceCustomerId, $syid, $denno, $options);
+        }
+
         $request = $this->customerDataConverter->convertCustomerToGetOrderListV2Request($aceCustomerId, $syid, $page, $limit, $denno, $sort, $dayFrom, $dayTo, $options);
         $response = $this->getOrderListV2Method->withRequest($request)->send();
 
         return $response->getResponse();
+    }
+
+    private function getOrderDetailFromCache(string $aceCustomerId, string $syid, int $denno, array $options): ?V2GetOrderListV2ResponseModelInterface
+    {
+        $cacheKey = 'get_order_v2_by_denno_'.$denno.'_'.$aceCustomerId;
+
+        return $this->responseCachePool->get($cacheKey, function () use ($aceCustomerId, $syid, $denno, $options) {
+            $request = $this->customerDataConverter->convertCustomerToGetOrderListV2Request($aceCustomerId, $syid, denno: $denno, page: 1, limit: 1, options: $options);
+            $response = $this->getOrderListV2Method->withRequest($request)->send();
+
+            return $response->getResponse();
+        });
     }
 
     /**
