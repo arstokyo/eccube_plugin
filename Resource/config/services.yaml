@@ -835,6 +835,7 @@ services:
             $itemName: '@=container.hasParameter("ace.processor.point_discount.name") ? parameter("ace.processor.point_discount.name") : null'
         tags:
             - { name: eccube.discount.processor, flow_type: shopping, priority: 900 }
+            - { name: eccube.discount.processor, flow_type: order, priority: 900 }
 
     # 受注サポートによるキャンペーン値引きなどを追加プロセッサー
     Plugin\AceClient43\Processor\PromotionDiscountProcessor:
