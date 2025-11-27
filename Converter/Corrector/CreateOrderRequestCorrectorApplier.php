@@ -10,7 +10,7 @@ use Plugin\AceClient43\AceServices\Model\Request\Jyuden\CreateOrder\CreateOrderR
  * 責務：
  * - CreateOrderRequestConverterの生成とフロー設定
  */
-final class CreateOrderRequestCorrectApplier extends RequestCorrectApplierAbstract
+final class CreateOrderRequestCorrectorApplier extends RequestCorrectorApplierAbstract
 {
     /**
      * 登録されている全てのCreateOrderRequestCorrectorを適用

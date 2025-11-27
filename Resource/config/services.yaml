@@ -355,11 +355,11 @@ services:
     #     tags:
     #         - { name: 'ace_client.corrector.add_cart_request', priority: 0 }
 
-    Plugin\AceClient43\Converter\Corrector\AddCartRequestCorrectApplier:
+    Plugin\AceClient43\Converter\Corrector\AddCartRequestCorrectorApplier:
         arguments:
           $correctors: !tagged_iterator { tag: 'ace_client.corrector.add_cart_request' }
 
-    Plugin\AceClient43\Converter\Corrector\CreateOrderRequestCorrectApplier:
+    Plugin\AceClient43\Converter\Corrector\CreateOrderRequestCorrectorApplier:
         arguments:
           $correctors: !tagged_iterator { tag: 'ace_client.corrector.create_order_request' }
 

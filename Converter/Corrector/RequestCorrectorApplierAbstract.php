@@ -2,7 +2,7 @@
 
 namespace Plugin\AceClient43\Converter\Corrector;
 
-abstract class RequestCorrectApplierAbstract
+abstract class RequestCorrectorApplierAbstract
 {
     protected iterable $correctors;
 

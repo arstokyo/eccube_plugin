@@ -11,7 +11,7 @@ use Plugin\AceClient43\Converter\AddCartFlow;
  * 責務：
  * - AddCartRequestCorrectorの適用管理
  */
-final class AddCartRequestCorrectApplier extends RequestCorrectApplierAbstract
+final class AddCartRequestCorrectorApplier extends RequestCorrectorApplierAbstract
 {
     /**
      * 登録されている全てのAddCartRequestCorrectorを適用

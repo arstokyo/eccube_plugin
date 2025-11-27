@@ -22,7 +22,7 @@ use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart as RequestAddCar
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModelInterface;
 use Plugin\AceClient43\Converter\AddCartConverterFactory;
 use Plugin\AceClient43\Converter\AddCartFlow;
-use Plugin\AceClient43\Converter\Corrector\AddCartRequestCorrectApplier;
+use Plugin\AceClient43\Converter\Corrector\AddCartRequestCorrectorApplier;
 use Plugin\AceClient43\Entity\Config;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\OnExecuteAddCartRequestErrorEvent;
@@ -53,7 +53,7 @@ class CartBridge extends BaseBridge
 
     protected OrderRepository $orderRepository;
 
-    protected AddCartRequestCorrectApplier $addCartRequestCorrectApplier;
+    protected AddCartRequestCorrectorApplier $addCartRequestCorrectorApplier;
 
     public function __construct(
         AddCartMethod $addCartMethod,
@@ -62,7 +62,7 @@ class CartBridge extends BaseBridge
         DeliveryFeeProcessor $deliveryFeeProcessor,
         AddCartConverterFactory $converterFactory,
         OrderRepository $orderRepository,
-        AddCartRequestCorrectApplier $addCartRequestCorrectApplier,
+        AddCartRequestCorrectorApplier $addCartRequestCorrectorApplier,
     ) {
         $this->addCartMethod = $addCartMethod;
         $this->addCartHelper = $aceCartResponseToCartSynchronizer;
@@ -70,7 +70,7 @@ class CartBridge extends BaseBridge
         $this->deliveryFeeProcessor = $deliveryFeeProcessor;
         $this->converterFactory = $converterFactory;
         $this->orderRepository = $orderRepository;
-        $this->addCartRequestCorrectApplier = $addCartRequestCorrectApplier;
+        $this->addCartRequestCorrectorApplier = $addCartRequestCorrectorApplier;
     }
 
     /**
@@ -282,7 +282,7 @@ class CartBridge extends BaseBridge
             ->setId($this->getSyid())
             ->setSessId($this->session->getId());
 
-        if ($this->addCartRequestCorrectApplier->hasCorrectors()) {
+        if ($this->addCartRequestCorrectorApplier->hasCorrectors()) {
             // リクエスト構築の最終段階で補正器を適用（補正器が存在する場合のみ）
             $context = [
                 'cart' => $cart,
@@ -290,7 +290,7 @@ class CartBridge extends BaseBridge
                 'config' => $config,
                 'customer' => $customer,
             ];
-            $this->addCartRequestCorrectApplier->apply($request, $flow, $context, $options);
+            $this->addCartRequestCorrectorApplier->apply($request, $flow, $context, $options);
         }
 
         return $request;
