@@ -31,6 +31,8 @@ use Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrderList\V
 use Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V2\GetOrderListV2\V2GetOrderListV2ResponseModelInterface;
 use Plugin\AceClient43\Bridge\Helper\CustomerBridgeHelper;
 use Plugin\AceClient43\Cache\ResponseCachePool;
+use Plugin\AceClient43\Converter\CustomerDataConverterInterface;
+use Plugin\AceClient43\Converter\RegMemberFlow;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\OnGetAndUpdateCustomerEvent;
 use Plugin\AceClient43\Events\PostRegisterCustomerEvent;
@@ -53,37 +55,42 @@ class CustomerBridge extends BaseBridge
 
     protected ResponseCachePool $responseCachePool;
 
+    protected CustomerDataConverterInterface $customerDataConverter;
+
     public function __construct(
         RegMemberMethod $regMemberMethod,
         CustomerBridgeHelper $helper,
         CustomerAddressBridge $customerAddressBridge,
         UpdateTaikaiMethod $updateTaikaiMethod,
         ResponseCachePool $responseCachePool,
+        CustomerDataConverterInterface $customerDataConverter,
     ) {
         $this->helper = $helper;
         $this->regMemberMethod = $regMemberMethod;
         $this->customerAddressBridge = $customerAddressBridge;
         $this->updateTaikaiMethod = $updateTaikaiMethod;
         $this->responseCachePool = $responseCachePool;
+        $this->customerDataConverter = $customerDataConverter;
     }
 
     /**
      * 顧客を新規登録
      *
      * @param Customer $customer
+     * @param RegMemberFlow $flow
      * @param bool $needFlush - trueの場合、エンティティマネージャーをフラッシュします
      * @param array $options
      *
      * @throws CouldNotRegisterNewCustomerException
      */
-    public function createCustomerInAce(Customer $customer, bool $needFlush = false, array $options = []): void
+    public function createCustomerInAce(Customer $customer, RegMemberFlow $flow, bool $needFlush = false, array $options = []): void
     {
         if (null !== $customer->getAceCustomerId()) {
             $this->logger->error('通販Aceの顧客登録に失敗しました: 顧客IDが既に存在します', ['customer' => $customer]);
             throw new \LogicException('顧客IDが既に登録されています。');
         }
 
-        $regMemberRequest = $this->helper->bindCustomerToRegMember($customer, $this->getSyid(), $options);
+        $regMemberRequest = $this->customerDataConverter->convertCustomerToRegMemberRequest($customer, $flow, $this->getSyid(), $options);
         $this->sendCustomerToAce($regMemberRequest, $customer, Events::PRE_REGISTER_CUSTOMER, $needFlush, $options);
     }
 
@@ -91,19 +98,20 @@ class CustomerBridge extends BaseBridge
      * 顧客情報を更新
      *
      * @param Customer $customer
+     * @param RegMemberFlow $flow
      * @param bool $needFlush - trueの場合、エンティティマネージャーをフラッシュします
      * @param array $options
      *
      * @throws CouldNotRegisterNewCustomerException
      */
-    public function updateCustomerInAce(Customer $customer, bool $needFlush = true, array $options = []): void
+    public function updateCustomerInAce(Customer $customer, RegMemberFlow $flow, bool $needFlush = true, array $options = []): void
     {
         if (null === $customer->getAceCustomerId()) {
             $this->logger->error('通販Aceの顧客更新に失敗しました: 顧客IDが設定されていません', ['customer' => $customer]);
             throw new \LogicException('顧客IDが設定されていません。');
         }
 
-        $regMemberRequest = $this->helper->bindCustomerToRegMember($customer, $this->getSyid(), $options);
+        $regMemberRequest = $this->customerDataConverter->convertCustomerToRegMemberRequest($customer, $flow, $this->getSyid(), $options);
         $this->sendCustomerToAce($regMemberRequest, $customer, Events::PRE_UPDATE_CUSTOMER, $needFlush, $options);
     }
 
@@ -214,7 +222,7 @@ class CustomerBridge extends BaseBridge
      *
      * @throws CouldNotRegisterNewCustomerException
      */
-    private function sendCustomerToAce($regMemberRequest, Customer $customer, string $eventName, bool $needFlush, array $options): void
+    private function sendCustomerToAce(RegMember\RegMemberRequestModelInterface $regMemberRequest, Customer $customer, string $eventName, bool $needFlush, array $options): void
     {
         if ($this->eventDispatcher->hasListeners($eventName)) {
             $this->eventDispatcher->dispatch(
@@ -455,12 +463,12 @@ class CustomerBridge extends BaseBridge
      *
      * @throws CouldNotRegisterNewCustomerException
      */
-    public function syncCustomerToAce(Customer $customer, bool $needFlush = true, array $options = []): void
+    public function syncCustomerToAce(Customer $customer, RegMemberFlow $flow, bool $needFlush = true, array $options = []): void
     {
         if ($customer->getAceCustomerId()) {
-            $this->updateCustomerInAce($customer, $needFlush, $options);
+            $this->updateCustomerInAce($customer, $flow, $needFlush, $options);
         } else {
-            $this->createCustomerInAce($customer, $needFlush, $options);
+            $this->createCustomerInAce($customer, $flow, $needFlush, $options);
         }
     }
 

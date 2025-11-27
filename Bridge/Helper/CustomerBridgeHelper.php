@@ -119,14 +119,6 @@ class CustomerBridgeHelper
     }
 
     /**
-     * 顧客データをRegMemberモデルにバインドする
-     */
-    public function bindCustomerToRegMember(Customer $customer, string $syid, array $options = []): RegMember\RegMemberRequestModelInterface
-    {
-        return $this->customerDataConverter->convertCustomerToRegMemberRequest($customer, $syid, $options);
-    }
-
-    /**
      * メールアドレスとパスワードによる顧客情報の取得
      */
     public function getByEmailAndPassword(string $email, string $password, string $syid, array $options = []): ?GetMemberResponse\LoginMemberModelInterface
