@@ -355,18 +355,15 @@ services:
     #     tags:
     #         - { name: 'ace_client.corrector.add_cart_request', priority: 0 }
 
-    # AddCartConverterFactory - manages converters and correctors by flow type
-    # AddCartConverterFactoryはフロータイプごとにコンバータとコレクタを管理します
-    Plugin\AceClient43\Converter\AddCartConverterFactory:
+    Plugin\AceClient43\Converter\Corrector\AddCartRequestCorrectApplier:
         arguments:
-            $addCartRequestCorrectors: !tagged_iterator { tag: 'ace_client.corrector.add_cart_request' }
+          $correctors: !tagged_iterator { tag: 'ace_client.corrector.add_cart_request' }
 
-    # Alias for backward compatibility
-    ace_add_cart_converter_factory:
-        alias: Plugin\AceClient43\Converter\AddCartConverterFactory
-        public: false
+    Plugin\AceClient43\Converter\Corrector\CreateOrderRequestCorrectApplier:
+        arguments:
+          $correctors: !tagged_iterator { tag: 'ace_client.corrector.create_order_request' }
 
-    # ===================================================================================================
+  # ===================================================================================================
     # コアACEサービス - リゾルバーシステム
     # ===================================================================================================
 
