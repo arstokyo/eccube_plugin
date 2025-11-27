@@ -34,4 +34,13 @@ interface RegMemberRequestCorrectorInterface
         RegMemberFlow $flow,
         array $options = [],
     ): void;
+
+    /**
+     * この補正器が指定されたフローをサポートするか判定
+     *
+     * @param RegMemberFlow $flow 判定対象のフロー
+     *
+     * @return bool サポートする場合true
+     */
+    public function support(RegMemberFlow $flow): bool;
 }
