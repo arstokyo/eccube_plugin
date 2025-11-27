@@ -363,6 +363,10 @@ services:
         arguments:
           $correctors: !tagged_iterator { tag: 'ace_client.corrector.create_order_request' }
 
+    Plugin\AceClient43\Converter\Corrector\RegMemberRequestCorrectorApplier:
+        arguments:
+            $correctors: !tagged_iterator { tag: 'ace_client.corrector.reg_member_request' }
+
   # ===================================================================================================
     # コアACEサービス - リゾルバーシステム
     # ===================================================================================================
