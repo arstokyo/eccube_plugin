@@ -12,6 +12,8 @@ use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart as RequestAddCar
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\CreateOrder\CreateOrderRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\DecisionCart;
 use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
+use Plugin\AceClient43\Converter\Corrector\AddCartRequestCorrectorApplier;
+use Plugin\AceClient43\Converter\Corrector\CreateOrderRequestCorrectorApplier;
 use Plugin\AceClient43\Entity\Config;
 
 class OrderDataConverter implements OrderDataConverterInterface
@@ -20,13 +22,19 @@ class OrderDataConverter implements OrderDataConverterInterface
 
     protected AddCartConverterFactory $converterFactory;
     protected DeliveryTimeRepository $deliveryTimeRepository;
+    protected AddCartRequestCorrectorApplier $addCartRequestCorrectorApplier;
+    protected CreateOrderRequestCorrectorApplier $createOrderRequestCorrectorApplier;
 
     public function __construct(
         AddCartConverterFactory $converterFactory,
         DeliveryTimeRepository $deliveryTimeRepository,
+        AddCartRequestCorrectorApplier $addCartRequestCorrectorApplier,
+        CreateOrderRequestCorrectorApplier $createOrderRequestCorrectorApplier,
     ) {
         $this->deliveryTimeRepository = $deliveryTimeRepository;
         $this->converterFactory = $converterFactory;
+        $this->addCartRequestCorrectorApplier = $addCartRequestCorrectorApplier;
+        $this->createOrderRequestCorrectorApplier = $createOrderRequestCorrectorApplier;
     }
 
     /**
@@ -88,6 +96,18 @@ class OrderDataConverter implements OrderDataConverterInterface
             if (method_exists($opt, 'setNoResponse')) {
                 $opt->setNoResponse(true);
             }
+        }
+
+        if ($this->createOrderRequestCorrectorApplier->hasCorrectors()) {
+            $context = [
+                'shipping' => $shipping,
+                'order' => $order,
+                'customer' => $customer,
+                'customer_address' => $customerAddress,
+                'decision_options' => $decisionOptions,
+                'config' => $config,
+            ];
+            $this->createOrderRequestCorrectorApplier->apply($createOrder, $context, $options);
         }
 
         return $createOrder;
@@ -174,15 +194,17 @@ class OrderDataConverter implements OrderDataConverterInterface
             ->setId($systemId)
             ->setSessId($sessionId);
 
-        // リクエスト構築の最終段階で補正器を適用（補正器が存在する場合のみ）
-        $context = [
-            'shipping' => $shipping,
-            'order' => $order,
-            'customer' => $customer,
-            'customer_address' => $customerAddress,
-            'config' => $config,
-        ];
-        $this->converterFactory->applyCorrections($requestModel, $flow, $context, $options);
+        if ($this->addCartRequestCorrectorApplier->hasCorrectors()) {
+            // リクエスト構築の最終段階で補正器を適用（補正器が存在する場合のみ）
+            $context = [
+                'shipping' => $shipping,
+                'order' => $order,
+                'customer' => $customer,
+                'customer_address' => $customerAddress,
+                'config' => $config,
+            ];
+            $this->addCartRequestCorrectorApplier->apply($requestModel, $flow, $context, $options);
+        }
 
         return $requestModel;
     }

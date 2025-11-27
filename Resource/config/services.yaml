@@ -355,18 +355,15 @@ services:
     #     tags:
     #         - { name: 'ace_client.corrector.add_cart_request', priority: 0 }
 
-    # AddCartConverterFactory - manages converters and correctors by flow type
-    # AddCartConverterFactoryはフロータイプごとにコンバータとコレクタを管理します
-    Plugin\AceClient43\Converter\AddCartConverterFactory:
+    Plugin\AceClient43\Converter\Corrector\AddCartRequestCorrectorApplier:
         arguments:
-            $addCartRequestCorrectors: !tagged_iterator { tag: 'ace_client.corrector.add_cart_request' }
+          $correctors: !tagged_iterator { tag: 'ace_client.corrector.add_cart_request' }
 
-    # Alias for backward compatibility
-    ace_add_cart_converter_factory:
-        alias: Plugin\AceClient43\Converter\AddCartConverterFactory
-        public: false
+    Plugin\AceClient43\Converter\Corrector\CreateOrderRequestCorrectorApplier:
+        arguments:
+          $correctors: !tagged_iterator { tag: 'ace_client.corrector.create_order_request' }
 
-    # ===================================================================================================
+  # ===================================================================================================
     # コアACEサービス - リゾルバーシステム
     # ===================================================================================================
 
@@ -835,6 +832,7 @@ services:
             $itemName: '@=container.hasParameter("ace.processor.point_discount.name") ? parameter("ace.processor.point_discount.name") : null'
         tags:
             - { name: eccube.discount.processor, flow_type: shopping, priority: 900 }
+            - { name: eccube.discount.processor, flow_type: order, priority: 900 }
 
     # 受注サポートによるキャンペーン値引きなどを追加プロセッサー
     Plugin\AceClient43\Processor\PromotionDiscountProcessor:
