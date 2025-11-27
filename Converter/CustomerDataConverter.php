@@ -30,6 +30,7 @@ use Plugin\AceClient43\AceServices\Model\Request\WebApi\Order\V2\GetOrderListV2\
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMember;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetMemberMcode;
 use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
+use Plugin\AceClient43\Converter\Corrector\RegMemberRequestCorrectorApplier;
 use Plugin\AceClient43\Exception\DataTypeMissMatchException;
 use Plugin\AceClient43\Exception\InvalidClassNameException;
 
@@ -43,14 +44,18 @@ class CustomerDataConverter implements CustomerDataConverterInterface
 
     protected CustomerAceNormalizerInterface $normalizer;
 
+    protected RegMemberRequestCorrectorApplier $regMemberRequestCorrectorApplier;
+
     public function __construct(
         SexRepository $sexRepository,
         PrefRepository $prefRepository,
         CustomerAceNormalizerInterface $normalizer,
+        RegMemberRequestCorrectorApplier $regMemberRequestCorrectorApplier,
     ) {
         $this->sexRepository = $sexRepository;
         $this->prefRepository = $prefRepository;
         $this->normalizer = $normalizer;
+        $this->regMemberRequestCorrectorApplier = $regMemberRequestCorrectorApplier;
     }
 
     /**
@@ -97,7 +102,7 @@ class CustomerDataConverter implements CustomerDataConverterInterface
     /**
      * {@inheritdoc}
      */
-    public function convertCustomerToRegMemberRequest(Customer $customer, string $syid, array $options = []): RegMember\RegMemberRequestModelInterface
+    public function convertCustomerToRegMemberRequest(Customer $customer, RegMemberFlow $flow, string $syid, array $options = []): RegMember\RegMemberRequestModelInterface
     {
         $jmember = $this->convertCustomerToJmember($customer, $options);
 
@@ -108,10 +113,16 @@ class CustomerDataConverter implements CustomerDataConverterInterface
         $prmModel = $this->createSubModel(RegMember\MemberPrmModelInterface::class);
         $prmModel->setJmember($jmember);
 
-        return $request
+        $request = $request
             ->setId($syid)
             ->setPrm($prmModel)
             ->setSessId(session_id());
+
+        if ($this->regMemberRequestCorrectorApplier->hasCorrectors()) {
+            $this->regMemberRequestCorrectorApplier->apply($request, $customer, $flow, $options);
+        }
+
+        return $request;
     }
 
     /**
