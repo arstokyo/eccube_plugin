@@ -23,7 +23,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class OnPurchaseCompleteListener implements EventSubscriberInterface
 {
-    public const ACE_CLIENT_CREATING_ORDER = 'ace_client_creating_order';
+    public const ACE_CLIENT_CREATING_ORDER = 'ace_client_creating_order.';
 
     protected OrderBridge $orderBridge;
 
@@ -33,7 +33,7 @@ class OnPurchaseCompleteListener implements EventSubscriberInterface
         $this->orderBridge = $orderBridge;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             Events::ON_PURCHASE_COMPLETE => ['onComplete', 100],
@@ -46,43 +46,55 @@ class OnPurchaseCompleteListener implements EventSubscriberInterface
     public function onComplete(OnPurchaseCompleteEvent $event): void
     {
         $request = $event->request;
+        $Order = $event->Order;
+        $orderId = $Order->getId();
 
         if (!$request->hasSession()) {
-            log_error('[Ace注文処理] セッションが存在しませんため、注文処理を中断します.');
+            log_error('[Ace注文処理] ['.$orderId.'] セッションが存在しませんため、注文処理を中断します。');
 
             return;
         }
 
-        if ($request->getSession()->has(self::ACE_CLIENT_CREATING_ORDER)) {
-            log_warning('[Ace注文処理] 注文処理中に別の注文処理が開始されました.');
+        if (method_exists($Order, 'getAceOrderId') && $aceOrderId = $Order->getAceOrderId()) {
+            log_warning('[Ace注文処理] ['.$orderId.'] 注文はすでに通販Aceと連携ずみのため、注文処理を中断します。', [
+                'ace_order_id' => $aceOrderId,
+            ]);
 
             return;
         }
 
-        $request->getSession()->set(self::ACE_CLIENT_CREATING_ORDER, true);
-        $request->getSession()->save();
+        if ($request->getSession()->has(self::ACE_CLIENT_CREATING_ORDER.$orderId)) {
+            log_warning('[Ace注文処理] ['.$orderId.'] 注文処理中に別の注文処理が開始されましたため、本注文処理を中断します。');
 
-        $Order = $event->Order;
-        $decisionOptions = $event->decisionOptions;
-        $options = $event->options;
-        $shouldFlush = $event->shouldFlush;
+            return;
+        }
 
         foreach ($Order->getShippings() as $Shipping) {
             try {
-                log_info('[Ace注文処理] 通販Aceの注文確定処理を開始します.');
-                $this->orderBridge->create($Shipping, $decisionOptions, $shouldFlush, $options);
-                log_info('[Ace注文処理] 通販Aceの注文確定処理が完了しました.');
+                $request->getSession()->set(self::ACE_CLIENT_CREATING_ORDER.$orderId, true);
+                $request->getSession()->save();
+
+                log_info('[Ace注文処理] ['.$orderId.'] 通販Aceの注文確定処理を開始します。');
+
+                $this->orderBridge->create(
+                    $Shipping,
+                    $event->decisionOptions,
+                    $event->shouldFlush,
+                    $event->options,
+                );
+
+                log_info('[Ace注文処理] ['.$orderId.'] 通販Aceの注文確定処理が完了しました。');
             } catch (\Throwable $e) {
-                log_error('[Ace注文処理] 注文処理中にエラーが発生しました.', [$e->getMessage()]);
+                log_error('[Ace注文処理] ['.$orderId.'] 注文処理中にエラーが発生しました。', [$e->getMessage()]);
 
                 if ($e instanceof CouldNotCreateOrderException) {
                     throw $e;
                 }
 
-                throw new CouldNotCreateOrderException('通販Aceの注文処理中にエラーが発生しました.', $e);
+                throw new CouldNotCreateOrderException('通販Aceの注文処理中にエラーが発生しました。', $e);
             } finally {
-                log_info('[Ace注文処理] 注文処理中のセッションを削除します.');
-                $request->getSession()->remove(self::ACE_CLIENT_CREATING_ORDER);
+                log_info('[Ace注文処理] ['.$orderId.'] 注文処理中のセッションを削除します。');
+                $request->getSession()->remove(self::ACE_CLIENT_CREATING_ORDER.$orderId);
             }
         }
     }
