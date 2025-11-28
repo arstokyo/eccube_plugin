@@ -44,6 +44,148 @@
                                     {{ form_errors(form.is_log_on) }}
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-3"><span>注文ルートID</span></div>
+                                <div class="col mb-2">
+                                    {{ form_widget(form.order_route_id) }}
+                                    {{ form_errors(form.order_route_id) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card rounded border-0 mb-4">
+                        <div class="card-header"><span>連携オプション</span></div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-3"><span>金額連携（ACE側を優先）</span></div>
+                                <div class="col mb-2">
+                                   
+                                    <div class="form-check">
+                                        <div class ="row">
+                                            <div class ="col-3"><label>配送手数料</label></div>
+                                            <div class ="col"> 
+                                            {{ form_widget(form.use_ace_delivery) }}
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                    <div class="form-check">
+                                        <div class ="row">
+                                            <div class ="col-3"><label>割引</label></div>
+                                            <div class ="col">
+                                                {{ form_widget(form.use_ace_discount) }}
+                                            </div>                                                                    
+                                        </div>                                      
+                                    </div>
+                                    <div class="form-check">
+                                        <div class ="row">
+                                            <div class ="col-3"> <label>手数料</label></div>
+                                            <div class ="col">
+                                                {{ form_widget(form.use_ace_charge) }}
+                                            </div>
+                                        </div>  
+                                    </div>
+                                </div>
+                            </div>   
+
+                            <div class="row">
+                                <div class="col-3"><span>ポイント連携</span></div>
+                                <div class="col">
+                                    <div class="row mb-2">
+                                        {{ form_widget(form.add_point_from_ace) }}
+                                        <small class="text-muted">ACEからの付与ポイントを自動反映する</small>
+                                    </div>
+                                </div>
+                            </div>                                                    
+                        </div>                        
+                    </div>
+                    {# 追加: カート・受注サポート設定 #}
+                    <div class="card rounded border-0 mb-4">
+                        <div class="card-header"><span>カート・受注サポート設定</span></div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-3"><span>受注サポート有効化</span></div>
+                                <div class="col mb-2">
+                                    <div class="form-check">
+                                        <div class ="row">
+                                            <div class ="col-3"><label> カート画面</label></div>
+                                            <div class ="col-3"> 
+                                                {{ form_widget(form.enable_order_support_cart) }}
+                                            </div>
+                                            <div class ="col-3"><label> 購入画面</label></div>
+                                            <div class ="col-3"> 
+                                                {{ form_widget(form.enable_order_support_check_out) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3"><span>カート追加連携</span></div>
+                                <div class="col mb-2">
+                                    <div class="form-check">
+                                        <div class ="row">
+                                            <div class ="col-3"><label> 一覧画面</label></div>
+                                            <div class ="col-3"> 
+                                                {{ form_widget(form.add_cart_index) }}
+                                            </div>
+                                            <div class ="col-3"><label> 購入画面</label></div>
+                                            <div class ="col-3"> 
+                                                {{ form_widget(form.add_cart_shopping) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {# 追加: 会員・その他設定 #}
+                    <div class="card rounded border-0 mb-4">
+                        <div class="card-header"><span>会員・その他設定</span></div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-3"><span>会員重複チェック</span></div>
+                                <div class="col mb-2">
+                                <div class="form-check">
+                                        <div class ="row">
+                                            <div class ="col-3"><label> フロント</label></div>
+                                            <div class ="col-3"> 
+                                                {{ form_widget(form.validate_duplicate_entry) }}
+                                            </div>
+                                            <div class ="col-3"><label> 管理画面</label></div>
+                                            <div class ="col-3"> 
+                                                {{ form_widget(form.validate_duplicate_admin_entry) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3"><span>パスワード忘れリダイレクト</span></div>
+                                <div class="col mb-2">
+                                    {{ form_widget(form.redirect_forgot) }}
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-3"><span>リダイレクト先パス</span></div>
+                                <div class="col">
+                                    {{ form_widget(form.forgot_path) }}
+                                    {{ form_errors(form.forgot_path) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3"><span>デフォルト設定</span></div>
+                                <div class="col mb-2">
+                                    <div class="form-group mb-3">
+                                        <label>決済ID</label>
+                                        {{ form_widget(form.default_payment_id) }}
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label>取引区分</label>
+                                        {{ form_widget(form.default_transaction_type) }}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

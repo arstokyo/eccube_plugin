@@ -15,7 +15,10 @@ namespace Plugin\AceClient43\Form\Type\Admin;
 
 use Eccube\Form\Type\ToggleSwitchType;
 use Plugin\AceClient43\Entity\Config;
+use Plugin\AceClient43\Entity\Constants\TransactionType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -41,6 +44,35 @@ class ConfigType extends AbstractType
                     'constraints' => [
                         new NotBlank(),
                         new Length(['max' => 1]),
+                    ],
+                ])
+                ->add('order_route_id', IntegerType::class, [
+                    'label' => '注文ルートID',
+                    'required' => false,
+                ])
+                ->add('use_ace_delivery', ToggleSwitchType::class, ['label' => '配送手数料連携'])
+                ->add('use_ace_discount', ToggleSwitchType::class, ['label' => '割引連携'])
+                ->add('use_ace_charge', ToggleSwitchType::class, ['label' => '手数料連携'])
+
+                ->add('add_point_from_ace', ToggleSwitchType::class, [
+                    'label' => 'ACEポイント反映',
+                ])
+                ->add('enable_order_support_cart', ToggleSwitchType::class, ['label' => '受注サポート(カート)'])
+                ->add('enable_order_support_check_out', ToggleSwitchType::class, ['label' => '受注サポート(購入)'])
+                ->add('add_cart_index', ToggleSwitchType::class, ['label' => 'カート追加連携(一覧)'])
+                ->add('add_cart_shopping', ToggleSwitchType::class, ['label' => 'カート追加連携(購入)'])
+                ->add('validate_duplicate_entry', ToggleSwitchType::class, ['label' => '会員重複チェック(フロント)'])
+                ->add('validate_duplicate_admin_entry', ToggleSwitchType::class, ['label' => '会員重複チェック(管理画面)'])
+                ->add('redirect_forgot', ToggleSwitchType::class, ['label' => 'パスワード忘れリダイレクト'])
+                ->add('forgot_path', TextType::class, [
+                    'label' => 'リダイレクト先パス',
+                    'required' => false,
+                ])
+                ->add('default_payment_id', IntegerType::class, ['label' => 'デフォルト決済ID'])
+                ->add('default_transaction_type', ChoiceType::class, [
+                    'label' => 'デフォルト取引区分',
+                    'choices' => [
+                        '都度決済' => TransactionType::SINGLE_PAYMENT,
                     ],
                 ]);
     }

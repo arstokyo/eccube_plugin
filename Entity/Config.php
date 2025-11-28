@@ -588,6 +588,28 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         }
 
         /**
+         * 注文サポートカートを取得します
+         *
+         * @return bool
+         */
+        public function getEnableOrderSupportCart(): bool
+        {
+            return $this->enable_order_support_cart;
+        }
+
+        /**
+         * set the $enable_order_support_cart
+         *
+         * @return $this
+         */
+        public function setEnableOrderSupportCart(bool $enable_order_support_cart): self
+        {
+            $this->enable_order_support_cart = $enable_order_support_cart;
+
+            return $this;
+        }
+
+        /**
          * Aceの受注サポート機能を有効にするかどうか
          *
          * @return bool
@@ -642,6 +664,11 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
         }
 
         public function isOrderSupportEnabledWhenCheckOut(): bool
+        {
+            return $this->enable_order_support_check_out;
+        }
+
+        public function getEnableOrderSupportCheckout(): bool
         {
             return $this->enable_order_support_check_out;
         }
@@ -836,6 +863,14 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
          * ACEからの付与ポイント自動反映が有効かどうか
          */
         public function shouldAddPoint(): bool
+        {
+            return $this->add_point_from_ace;
+        }
+
+        /**
+         * ACEからの付与ポイント自動反映が有効かどうかを取得
+         */
+        public function getAddPointFromAce(): bool
         {
             return $this->add_point_from_ace;
         }
