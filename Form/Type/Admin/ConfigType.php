@@ -67,6 +67,7 @@ class ConfigType extends AbstractType
                 ->add('forgot_path', TextType::class, [
                     'label' => 'リダイレクト先パス',
                     'required' => false,
+                    'empty_data' => '',
                 ])
                 ->add('default_payment_id', IntegerType::class, ['label' => 'デフォルト決済ID'])
                 ->add('default_transaction_type', ChoiceType::class, [
