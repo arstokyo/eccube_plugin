@@ -673,7 +673,7 @@ if (!class_exists('\Plugin\AceClient43\Entity\Config', false)) {
             return $this->enable_order_support_check_out;
         }
 
-        public function setEnableOrderSupportWhenCheckOut(bool $enable_order_support_check_out): void
+        public function setEnableOrderSupportCheckOut(bool $enable_order_support_check_out): void
         {
             $this->enable_order_support_check_out = $enable_order_support_check_out;
         }

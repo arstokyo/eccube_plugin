@@ -73,6 +73,8 @@ class ConfigType extends AbstractType
                     'label' => 'デフォルト取引区分',
                     'choices' => [
                         '都度決済' => TransactionType::SINGLE_PAYMENT,
+                        '掛け払い' => TransactionType::CREDIT_PAYMENT,
+                        'カード払い' => TransactionType::CARD_PAYMENT,
                     ],
                 ]);
     }
