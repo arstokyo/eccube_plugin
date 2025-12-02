@@ -62,7 +62,7 @@ class AdminOrderEditIndexListener implements EventSubscriberInterface
             'required' => false,
             'constraints' => [
                 new Assert\Regex([
-                    'pattern' => '/^-\d+(\.\d+)?$/',
+                    'pattern' => '/^(-\d+(\.\d+)?|0)$/',
                     'message' => 'ace_client.admin.order.error.positive_discount_point',
                 ]),
             ],
