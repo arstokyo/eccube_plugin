@@ -1,0 +1,31 @@
+  {# サーバーサイドでレンダリングしたWidgetを隠し要素として配置 #}
+  <div id="ace-delivery-time-widgets" style="display: none;">
+      {% for timeForm in form.delivery_times %}
+          <div class="ace-delivery-time-widget" data-index="{{ loop.index0 }}">
+              {{ form_widget(timeForm.ace_delivery_time_id, {'attr': {'class': 'form-control', 'style': 'width: 80px;',
+  'placeholder': 'ACE ID'}}) }}
+          </div>
+      {% endfor %}
+  </div>
+
+  <script>
+  $(function() {
+      // 隠し要素からウィジェットを取得して、適切な位置に移動
+      $('.ace-delivery-time-widget').each(function() {
+          var $widget = $(this);
+          var index = $widget.data('index');
+          var $aceInput = $widget.find('input');
+
+          // 対応する配送時間帯行を探す
+          var $item = $('.delivery-time-item').eq(index);
+          if ($item.length > 0) {
+              var $deliveryTimeInput = $item.find('.mode-edit input[name$="[delivery_time]"]');
+              if ($deliveryTimeInput.length > 0) {
+                  $deliveryTimeInput.closest('.col-auto').after(
+                      $('<div class="col-auto d-flex align-items-center"></div>').append($aceInput)
+                  );
+              }
+          }
+      });
+  });
+  </script>
