@@ -1,31 +1,48 @@
-  {# サーバーサイドでレンダリングしたWidgetを隠し要素として配置 #}
-  <div id="ace-delivery-time-widgets" style="display: none;">
-      {% for timeForm in form.delivery_times %}
-          <div class="ace-delivery-time-widget" data-index="{{ loop.index0 }}">
-              {{ form_widget(timeForm.ace_delivery_time_id, {'attr': {'class': 'form-control', 'style': 'width: 80px;',
-  'placeholder': 'ACE ID'}}) }}
-          </div>
-      {% endfor %}
-  </div>
+{# サーバーサイドでレンダリングしたWidgetを隠し要素として配置 #}
+<div id="ace-delivery-time-widgets" style="display: none;">
+    {% for timeForm in form.delivery_times %}
+        <div class="ace-delivery-time-widget" data-index="{{ loop.index0 }}">
+            {{ form_widget(timeForm.ace_delivery_time_id, {'attr': {'class': 'form-control', 'style': 'width: 80px;', 'placeholder': 'ACE ID'}}) }}
+        </div>
+    {% endfor %}
+</div>
 
-  <script>
-  $(function() {
-      // 隠し要素からウィジェットを取得して、適切な位置に移動
-      $('.ace-delivery-time-widget').each(function() {
-          var $widget = $(this);
-          var index = $widget.data('index');
-          var $aceInput = $widget.find('input');
+<script>
+$(function() {
+    // 1. 既存の配送時間帯行にACE ID入力欄を追加
+    $('.ace-delivery-time-widget').each(function() {
+        var $widget = $(this);
+        var index = $widget.data('index');
+        var $aceInput = $widget.find('input');
 
-          // 対応する配送時間帯行を探す
-          var $item = $('.delivery-time-item').eq(index);
-          if ($item.length > 0) {
-              var $deliveryTimeInput = $item.find('.mode-edit input[name$="[delivery_time]"]');
-              if ($deliveryTimeInput.length > 0) {
-                  $deliveryTimeInput.closest('.col-auto').after(
-                      $('<div class="col-auto d-flex align-items-center"></div>').append($aceInput)
-                  );
-              }
-          }
-      });
-  });
-  </script>
+        var $item = $('.delivery-time-item').eq(index);
+        if ($item.length > 0) {
+            var $deliveryTimeInput = $item.find('.mode-edit input[name$="[delivery_time]"]');
+            if ($deliveryTimeInput.length > 0) {
+                $deliveryTimeInput.closest('.col-auto').after(
+                    $('<div class="col-auto d-flex align-items-center"></div>').append($aceInput)
+                );
+            }
+        }
+    });
+
+    // 2. data-prototypeを修正して新規追加時にもACE ID入力欄を含める
+    var $list = $('#delivery-time-list');
+    var prototype = $list.data('prototype');
+
+    if (prototype) {
+        // delivery_time入力欄の後ろにACE ID入力欄を追加
+        var aceInputHtml = '<div class="col-auto d-flex align-items-center">' +
+            '<input type="number" class="form-control" name="delivery[delivery_times][__name__][ace_delivery_time_id]" style="width: 80px;" placeholder="ACE ID">' +
+            '</div>';
+
+        // delivery_time入力欄を含むdivの後に挿入
+        var modifiedPrototype = prototype.replace(
+            /(<div class="col-auto d-flex align-items-center">[\s\S]*?<input[^>]*\[delivery_time\][^>]*>[\s\S]*?<\/div>)/,
+            '$1' + aceInputHtml
+        );
+
+        $list.data('prototype', modifiedPrototype);
+    }
+});
+</script>
