@@ -8,7 +8,9 @@ ace_client.create_order:
 
 ace_client.admin:
     customer:
-        label.ace_customer_id: Ace顧客ID
+        label.ace_customer_id: Ace顧客ID       
+    
+    config:
         label.order_route_id: 注文ルートID
         label.use_ace_discount: 割引連携
         label.use_ace_charge: 手数料連携

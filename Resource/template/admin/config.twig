@@ -70,7 +70,7 @@
                                     </div>                                    
                                     <div class="form-check">
                                         <div class ="row">
-                                            <div class ="col-3"><label>{{ 'ace_client.admin.customer.label.use_ace_discount' | trans }}</label></div>
+                                            <div class ="col-3"><label>{{ 'ace_client.admin.config.label.use_ace_discount' | trans }}</label></div>
                                             <div class ="col">
                                                 {{ form_widget(form.use_ace_discount) }}
                                             </div>                                                                    
@@ -78,7 +78,7 @@
                                     </div>
                                     <div class="form-check">
                                         <div class ="row">
-                                            <div class ="col-3"><label>{{ 'ace_client.admin.customer.label.use_ace_charge' | trans }}</label></div>
+                                            <div class ="col-3"><label>{{ 'ace_client.admin.config.label.use_ace_charge' | trans }}</label></div>
                                             <div class ="col">
                                                 {{ form_widget(form.use_ace_charge) }}
                                             </div>
@@ -92,7 +92,7 @@
                                 <div class="col">
                                     <div class="form-check">
                                         <div class ="row">
-                                            <div class ="col-3"><label>{{ 'ace_client.admin.customer.label.add_point_from_ace' | trans }}</label> </div>
+                                            <div class ="col-3"><label>{{ 'ace_client.admin.config.label.add_point_from_ace' | trans }}</label> </div>
                                             <div class ="col"> 
                                             {{ form_widget(form.add_point_from_ace) }}
                                              <small class="text-muted m-3">ACEからの付与ポイントを自動反映する</small>
@@ -112,13 +112,13 @@
                                 <div class="col mb-2">
                                     <div class="form-check">
                                         <div class ="row">
-                                            <div class ="col-3"><label>{{ 'ace_client.admin.customer.label.enable_order_support_cart' | trans }}</label></div>
+                                            <div class ="col-3"><label>{{ 'ace_client.admin.config.label.enable_order_support_cart' | trans }}</label></div>
                                             <div class ="col-3"> 
                                                 {{ form_widget(form.enable_order_support_cart) }}
                                             </div>
                                         </div>
                                         <div class ="row">
-                                            <div class ="col-3"><label>{{ 'ace_client.admin.customer.label.enable_order_support_check_out' | trans }}</label></div>
+                                            <div class ="col-3"><label>{{ 'ace_client.admin.config.label.enable_order_support_check_out' | trans }}</label></div>
                                             <div class ="col-3"> 
                                                 {{ form_widget(form.enable_order_support_check_out) }}
                                             </div>
@@ -131,13 +131,13 @@
                                 <div class="col mb-2">
                                     <div class="form-check">
                                         <div class ="row">
-                                            <div class ="col-3"><label>{{ 'ace_client.admin.customer.label.add_cart_index' | trans }}</label></div>
+                                            <div class ="col-3"><label>{{ 'ace_client.admin.config.label.add_cart_index' | trans }}</label></div>
                                             <div class ="col-3"> 
                                                 {{ form_widget(form.add_cart_index) }}
                                             </div>
                                         </div>
                                         <div class ="row">
-                                            <div class ="col-3"><label>{{ 'ace_client.admin.customer.label.add_cart_shopping' | trans }}</label></div>
+                                            <div class ="col-3"><label>{{ 'ace_client.admin.config.label.add_cart_shopping' | trans }}</label></div>
                                             <div class ="col-3"> 
                                                 {{ form_widget(form.add_cart_shopping) }}
                                             </div>
@@ -157,13 +157,13 @@
                                 <div class="col mb-2">
                                 <div class="form-check">
                                         <div class ="row">
-                                            <div class ="col-3"><label>{{ 'ace_client.admin.customer.label.validate_duplicate_entry' | trans }}</label></div>
+                                            <div class ="col-3"><label>{{ 'ace_client.admin.config.label.validate_duplicate_entry' | trans }}</label></div>
                                             <div class ="col-3"> 
                                                 {{ form_widget(form.validate_duplicate_entry) }}
                                             </div>
                                         </div>
                                         <div class ="row">
-                                            <div class ="col-3"><label>{{ 'ace_client.admin.customer.label.validate_duplicate_admin_entry' | trans }}</label></div>
+                                            <div class ="col-3"><label>{{ 'ace_client.admin.config.label.validate_duplicate_admin_entry' | trans }}</label></div>
                                             <div class ="col-3"> 
                                                 {{ form_widget(form.validate_duplicate_admin_entry) }}
                                             </div>
@@ -172,13 +172,13 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-3"><label>{{ 'ace_client.admin.customer.label.redirect_forgot' | trans }}</label></div>
+                                <div class="col-3"><label>{{ 'ace_client.admin.config.label.redirect_forgot' | trans }}</label></div>
                                 <div class="col mb-2">
                                     {{ form_widget(form.redirect_forgot) }}
                                 </div>
                             </div>
                             <div class="row mb-2">
-                                <div class="col-3"><label>{{ 'ace_client.admin.customer.label.forgot_path' | trans }}</label></div>
+                                <div class="col-3"><label>{{ 'ace_client.admin.config.label.forgot_path' | trans }}</label></div>
                                 <div class="col">
                                     {{ form_widget(form.forgot_path) }}
                                     {{ form_errors(form.forgot_path) }}
@@ -188,11 +188,11 @@
                                 <div class="col-3"><span>デフォルト設定</span></div>
                                 <div class="col mb-2">
                                     <div class="form-group mb-3">
-                                       <label>{{ 'ace_client.admin.customer.label.default_payment_id' | trans }}</label>
+                                       <label>{{ 'ace_client.admin.config.label.default_payment_id' | trans }}</label>
                                         {{ form_widget(form.default_payment_id) }}
                                     </div>
                                     <div class="form-group mb-3">
-                                       <label>{{ 'ace_client.admin.customer.label.default_transaction_type' | trans }}</label>
+                                       <label>{{ 'ace_client.admin.config.label.default_transaction_type' | trans }}</label>
                                         {{ form_widget(form.default_transaction_type) }}
                                     </div>
                                 </div>
