@@ -355,18 +355,19 @@ services:
     #     tags:
     #         - { name: 'ace_client.corrector.add_cart_request', priority: 0 }
 
-    # AddCartConverterFactory - manages converters and correctors by flow type
-    # AddCartConverterFactoryはフロータイプごとにコンバータとコレクタを管理します
-    Plugin\AceClient43\Converter\AddCartConverterFactory:
+    Plugin\AceClient43\Converter\Corrector\AddCartRequestCorrectorApplier:
         arguments:
-            $addCartRequestCorrectors: !tagged_iterator { tag: 'ace_client.corrector.add_cart_request' }
+          $correctors: !tagged_iterator { tag: 'ace_client.corrector.add_cart_request' }
 
-    # Alias for backward compatibility
-    ace_add_cart_converter_factory:
-        alias: Plugin\AceClient43\Converter\AddCartConverterFactory
-        public: false
+    Plugin\AceClient43\Converter\Corrector\CreateOrderRequestCorrectorApplier:
+        arguments:
+          $correctors: !tagged_iterator { tag: 'ace_client.corrector.create_order_request' }
 
-    # ===================================================================================================
+    Plugin\AceClient43\Converter\Corrector\RegMemberRequestCorrectorApplier:
+        arguments:
+            $correctors: !tagged_iterator { tag: 'ace_client.corrector.reg_member_request' }
+
+  # ===================================================================================================
     # コアACEサービス - リゾルバーシステム
     # ===================================================================================================
 
@@ -826,7 +827,6 @@ services:
     Plugin\AceClient43\Processor\PrePointDiscountProcessor:
         tags:
             - { name: eccube.discount.processor, flow_type: shopping, priority: 910 }
-            - { name: eccube.discount.processor, flow_type: order, priority: 910 }
 
     # 通販Aceのポイント値引きを追加のプロセッサー
     Plugin\AceClient43\Processor\PointDiscountProcessor:
@@ -851,7 +851,6 @@ services:
     Plugin\AceClient43\Processor\AddPointProcessor:
         tags:
             - { name: eccube.item.holder.post.validator, flow_type: shopping, priority: 850 }
-            - { name: eccube.item.holder.post.validator, flow_type: order, priority: 9500 }
 
     # Decorators
     Plugin\AceClient43\Comparator\ProductClassComparator:

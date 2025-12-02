@@ -17,6 +17,7 @@ use Eccube\Entity\Customer;
 use Eccube\Event\EccubeEvents;
 use Eccube\Event\EventArgs;
 use Plugin\AceClient43\Bridge\CustomerBridge;
+use Plugin\AceClient43\Converter\RegMemberFlow;
 use Plugin\AceClient43\Exception\CouldNotCheckCustomerExistingException;
 use Plugin\AceClient43\Exception\CouldNotRegisterNewCustomerException;
 use Psr\Log\LoggerInterface;
@@ -64,7 +65,8 @@ class AdminCustomerEditCompleteListener implements EventSubscriberInterface
         ]);
 
         try {
-            $this->customerBridge->syncCustomerToAce($Customer);
+            $flow = $Customer->hasAceCustomerId() ? RegMemberFlow::adminUpdate() : RegMemberFlow::adminNew();
+            $this->customerBridge->syncCustomerToAce($Customer, $flow);
         } catch (\Throwable $e) {
             $this->logger->error('[AdminCustomerEditCompleteListener] 通販Aceの顧客情報登録に失敗しました。', [
                 'exception' => $e,

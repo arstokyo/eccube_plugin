@@ -100,6 +100,15 @@ class PointDiscountProcessor implements DiscountProcessor
             }
         }
 
+        if ($context->isOrderFlow()) {
+            foreach ($itemHolder->getOrderItems() as $item) {
+                if ($item->getProcessorName() === PointDiscountProcessor::class) {
+                    $itemHolder->removeOrderItem($item);
+                    $this->entityManager->remove($item);
+                }
+            }
+        }
+
         $this->pointHelper->removePointDiscountItem($itemHolder);
     }
 
@@ -119,7 +128,9 @@ class PointDiscountProcessor implements DiscountProcessor
 
         if ($itemHolder->getTotal() + $discount < 0) {
             log_warning('[Point_Discount_Processor] 値引き額は利用ポイントがお支払い金額を上回っています。');
-            $itemHolder->setAcePointDiscount(0);
+            /** @var Order|null $originalOrder */
+            $originalOrder = $context->getOriginHolder();
+            $itemHolder->setAcePointDiscount($originalOrder ? $originalOrder->getAcePointDiscount() : 0);
 
             return ProcessResult::warn(trans('ace_client.purchase_flow.over_payment_total'), self::class);
         }

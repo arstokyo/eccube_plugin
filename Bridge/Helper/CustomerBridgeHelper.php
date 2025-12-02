@@ -32,7 +32,6 @@ use Plugin\AceClient43\AceServices\Model\Request\Member\GetDurationOrderTotal\Ge
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetMember as GetMemberRequest;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetMemberMcode as GetMemberMcodeRequest;
 use Plugin\AceClient43\AceServices\Model\Request\Member\GetPointRireki\GetPointRirekiRequestModelInterface;
-use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 use Plugin\AceClient43\AceServices\Model\Request\WebApi\Member\V1\CheckCodeAndMail\CheckCodeAndMailRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\CheckMailAdress\CheckMailAdressResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetDurationOrderTotal\GetDurationOrderTotalResponseModelInterface;
@@ -116,14 +115,6 @@ class CustomerBridgeHelper
         $this->updatePasswordMethod = $updatePasswordMethod;
         $this->logger = $logger;
         $this->responseCachePool = $responseCachePool;
-    }
-
-    /**
-     * 顧客データをRegMemberモデルにバインドする
-     */
-    public function bindCustomerToRegMember(Customer $customer, string $syid, array $options = []): RegMember\RegMemberRequestModelInterface
-    {
-        return $this->customerDataConverter->convertCustomerToRegMemberRequest($customer, $syid, $options);
     }
 
     /**
@@ -345,10 +336,26 @@ class CustomerBridgeHelper
 
     public function getOrderListV2(string $aceCustomerId, string $syid, int $page = 1, int $limit = 10, ?int $denno = null, int $sort = 0, ?string $dayFrom = null, ?string $dayTo = null, array $options = []): ?V2GetOrderListV2ResponseModelInterface
     {
+        if ($denno) {
+            return $this->getOrderDetailFromCache($aceCustomerId, $syid, $denno, $options);
+        }
+
         $request = $this->customerDataConverter->convertCustomerToGetOrderListV2Request($aceCustomerId, $syid, $page, $limit, $denno, $sort, $dayFrom, $dayTo, $options);
         $response = $this->getOrderListV2Method->withRequest($request)->send();
 
         return $response->getResponse();
+    }
+
+    private function getOrderDetailFromCache(string $aceCustomerId, string $syid, int $denno, array $options): ?V2GetOrderListV2ResponseModelInterface
+    {
+        $cacheKey = 'get_order_v2_by_denno_'.$denno.'_'.$aceCustomerId;
+
+        return $this->responseCachePool->get($cacheKey, function () use ($aceCustomerId, $syid, $denno, $options) {
+            $request = $this->customerDataConverter->convertCustomerToGetOrderListV2Request($aceCustomerId, $syid, denno: $denno, page: 1, limit: 1, options: $options);
+            $response = $this->getOrderListV2Method->withRequest($request)->send();
+
+            return $response->getResponse();
+        });
     }
 
     /**

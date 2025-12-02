@@ -3,7 +3,6 @@
 namespace Plugin\AceClient43\Converter;
 
 use Eccube\Entity\CartItem;
-use Eccube\Entity\Master\TaxType;
 use Eccube\Entity\OrderItem;
 use Eccube\Entity\ProductClass;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart as RequestAddCart;
@@ -88,25 +87,6 @@ class JyumeiDataConverter implements JyumeiDataConverterInterface
         return $jyumei
             ->setSuu($item->getQuantity())
             ->setRitu($item->getAceMarkupRate());
-    }
-
-    /**
-     * Determine tax type
-     *
-     * @param int $taxType
-     *
-     * @return int
-     */
-    protected function determineTaxType(int $taxType): int
-    {
-        switch ($taxType) {
-            case TaxType::TAXATION:
-                return AceTaxType::TAX_INCLUDED;
-            case TaxType::TAX_EXEMPT:
-                return AceTaxType::TAX_EXEMPT;
-            default:
-                return AceTaxType::TAX_EXCLUDED;
-        }
     }
 
     /**

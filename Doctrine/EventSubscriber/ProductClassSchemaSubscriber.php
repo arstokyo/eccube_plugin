@@ -25,6 +25,7 @@ class ProductClassSchemaSubscriber implements EventSubscriber
 
     /**
      * @param GenerateSchemaEventArgs $args
+     *
      * @throws SchemaException
      */
     public function postGenerateSchema(GenerateSchemaEventArgs $args): void
