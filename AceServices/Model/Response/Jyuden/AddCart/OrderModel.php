@@ -217,7 +217,7 @@ class OrderModel implements OrderModelInterface
         $discount = 0.0;
         foreach ($jyumeiList as $jyumei) {
             // 値引きで、かつ、対象の商品コードと一致する場合
-            if ($jyumei->isDiscount() && $jyumei->getGcode() === $jyumei->getGcode()) {
+            if ($jyumei->isDiscount() && $jyumei->getGcode() === $pointDiscountGcode) {
                 // 税込の合計価格を採用。
                 // 変更したい場合はカスタマイズのOrderModelを継承してください。
                 $discount += (float) $jyumei->getTinmoney();
