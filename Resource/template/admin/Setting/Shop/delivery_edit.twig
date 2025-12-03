@@ -14,6 +14,7 @@ $(function() {
         var $widget = $(this);
         var index = $widget.data('index');
         var $aceInput = $widget.find('input');
+        var aceValue = $aceInput.val();
 
         var $item = $('.delivery-time-item').eq(index);
         if ($item.length > 0) {
@@ -23,6 +24,13 @@ $(function() {
                     $('<div class="col-auto d-flex align-items-center"></div>').append($aceInput)
                 );
             }
+                // 表示モードにもACE IDを表示
+              if (aceValue) {
+                  var $displayLabel = $item.find('.mode-view .display-label');
+                  if ($displayLabel.length > 0) {
+                      $displayLabel.after('<span class="badge bg-secondary ms-2">ACE ID: ' + aceValue + '</span>');
+                  }
+              }
         }
     });
 
