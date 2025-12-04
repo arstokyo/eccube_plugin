@@ -10,7 +10,7 @@
   <script>
   $(function() {
       var aceLabel = '{{ 'ace_client.admin.delivery_time.label.ace_delivery_time_id'|trans }}';
-
+      var aceFieldName = '{{ form.delivery_times.vars.prototype.ace_delivery_time_id.vars.full_name }}';
       // 1. 既存の配送時間帯行にACE ID入力欄を追加
       $('.ace-delivery-time-widget').each(function() {
           var $widget = $(this);
@@ -43,7 +43,7 @@
       if (prototype) {
           // delivery_time入力欄の後ろにACE ID入力欄を追加
           var aceInputHtml = '<div class="col-auto d-flex align-items-center">' +
-              '<input type="number" class="form-control" name="delivery[delivery_times][__name__][ace_delivery_time_id]" style="width: 80px;" placeholder="' + aceLabel + '">' +
+            '<input type="number" class="form-control" name="' + aceFieldName + '" style="width: 80px;" placeholder="' + aceLabel + '">' +
               '</div>';
 
           // delivery_time入力欄を含むdivの後に挿入
