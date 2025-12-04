@@ -11,7 +11,8 @@ ace_client.admin:
         label.ace_customer_id: Ace顧客ID       
     
     config:
-        label.order_route_id: 注文ルートID
+        label.order_route_id: 受注経路
+        label.use_ace_delivery: 送料連携
         label.use_ace_discount: 割引連携
         label.use_ace_charge: 手数料連携
         label.add_point_from_ace: ACEポイント反映 
