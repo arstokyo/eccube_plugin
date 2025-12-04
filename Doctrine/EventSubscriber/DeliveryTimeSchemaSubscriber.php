@@ -34,7 +34,7 @@ class DeliveryTimeSchemaSubscriber implements EventSubscriber
             $table = $schema->getTable('dtb_delivery_time');
 
             // Check if the unique constraint doesn't already exist
-            if (!$table->hasIndex('ace_delivery_time_idx')) {
+            if (!$table->hasIndex('ace_delivery_time_idx') && $table->hasColumn('delivery_id') && $table->hasColumn('ace_delivery_time_id')) {
                 $table->addUniqueIndex(['delivery_id', 'ace_delivery_time_id'], 'ace_delivery_time_idx');
             }
         }

@@ -34,7 +34,7 @@ class CustomerAddressSchemaSubscriber implements EventSubscriber
             $table = $schema->getTable('dtb_customer_address');
 
             // Check if the unique constraint doesn't already exist
-            if (!$table->hasIndex('address_eda_idx')) {
+            if (!$table->hasIndex('address_eda_idx') && $table->hasColumn('customer_id') && $table->hasColumn('ace_eda_no')) {
                 $table->addUniqueIndex(['customer_id', 'ace_eda_no'], 'address_eda_idx');
             }
         }
