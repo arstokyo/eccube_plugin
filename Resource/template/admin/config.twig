@@ -20,30 +20,184 @@
             <div class="c-contentsArea__primaryCol">
                 <div class="c-primaryCol">
                     <div class="card rounded border-0 mb-4">
-                        <div class="card-header"><span>設定</span></div>
+                        <div class="card-header"><span>設定</span>
+                        </div>
+                        <div class="card-body">
+                                <div class="row">
+                                    <div class="col-3"><span>API接続先URI</span><span
+                                                class="badge bg-primary ml-1">必須</span></div>
+                                    <div class="col mb-2">
+                                        {{ form_widget(form.base_uri) }}
+                                        {{ form_errors(form.base_uri) }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3"><span>システムID</span><span></span></div>
+                                    <div class="col mb-2">
+                                        {{ form_widget(form.syid) }}
+                                        {{ form_errors(form.syid) }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3"><span>ログ出力</span><span></span></div>
+                                    <div class="col mb-2">
+                                        {{ form_widget(form.is_log_on) }}
+                                        {{ form_errors(form.is_log_on) }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">{{ 'ace_client.admin.config.label.order_route_id' | trans }}</label> </div>
+                                    <div class="col mb-2">
+                                        {{ form_widget(form.order_route_id) }}
+                                        {{ form_errors(form.order_route_id) }}
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="card rounded border-0 mb-4">
+                        <div class="card-header"><span>連携オプション</span></div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-3"><span>API接続先URI</span><span
-                                            class="badge bg-primary ml-1">必須</span></div>
+                                <div class="col-3"><span>金額連携（ACE側を優先）</span></div>
+                                <div class="col mb-2">                                   
+                                    <div class="form-check">
+                                        <div class ="row">
+                                            <div class ="col-3"><label>{{ 'ace_client.admin.config.label.use_ace_delivery' | trans }}</label> </div>
+                                            <div class ="col"> 
+                                            {{ form_widget(form.use_ace_delivery) }}
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                    <div class="form-check">
+                                        <div class ="row">
+                                            <div class ="col-3"><label>{{ 'ace_client.admin.config.label.use_ace_discount' | trans }}</label></div>
+                                            <div class ="col">
+                                                {{ form_widget(form.use_ace_discount) }}
+                                            </div>                                                                    
+                                        </div>                                      
+                                    </div>
+                                    <div class="form-check">
+                                        <div class ="row">
+                                            <div class ="col-3"><label>{{ 'ace_client.admin.config.label.use_ace_charge' | trans }}</label></div>
+                                            <div class ="col">
+                                                {{ form_widget(form.use_ace_charge) }}
+                                            </div>
+                                        </div>  
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-3"><span>ポイント連携</span></div>
+                                <div class="col">
+                                    <div class="form-check">
+                                        <div class ="row">
+                                            <div class ="col-3"><label>{{ 'ace_client.admin.config.label.add_point_from_ace' | trans }}</label> </div>
+                                            <div class ="col"> 
+                                            {{ form_widget(form.add_point_from_ace) }}
+                                             <small class="text-muted m-3">ACEからの付与ポイントを自動反映する</small>
+                                            </div>
+                                        </div>
+                                    </div>  
+                                </div>
+                            </div>                                                    
+                        </div>                        
+                    </div>
+                    {# 追加: カート・受注サポート設定 #}
+                    <div class="card rounded border-0 mb-4">
+                        <div class="card-header"><span>カート・受注サポート設定</span></div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-3"><span>受注サポート有効化</span></div>
                                 <div class="col mb-2">
-                                    {{ form_widget(form.base_uri) }}
-                                    {{ form_errors(form.base_uri) }}
+                                    <div class="form-check">
+                                        <div class ="row">
+                                            <div class ="col-3"><label>{{ 'ace_client.admin.config.label.enable_order_support_cart' | trans }}</label></div>
+                                            <div class ="col-3"> 
+                                                {{ form_widget(form.enable_order_support_cart) }}
+                                            </div>
+                                        </div>
+                                        <div class ="row">
+                                            <div class ="col-3"><label>{{ 'ace_client.admin.config.label.enable_order_support_check_out' | trans }}</label></div>
+                                            <div class ="col-3"> 
+                                                {{ form_widget(form.enable_order_support_check_out) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                            
+                            <div class="row">
+                                <div class="col-3"><span>カート追加連携</span></div>
+                                <div class="col mb-2">
+                                    <div class="form-check">
+                                        <div class ="row">
+                                            <div class ="col-3"><label>{{ 'ace_client.admin.config.label.add_cart_index' | trans }}</label></div>
+                                            <div class ="col-3"> 
+                                                {{ form_widget(form.add_cart_index) }}
+                                            </div>
+                                        </div>
+                                        <div class ="row">
+                                            <div class ="col-3"><label>{{ 'ace_client.admin.config.label.add_cart_shopping' | trans }}</label></div>
+                                            <div class ="col-3"> 
+                                                {{ form_widget(form.add_cart_shopping) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {# 追加: 会員・その他設定 #}
+                    <div class="card rounded border-0 mb-4">
+                        <div class="card-header"><span>会員・その他設定</span></div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-3"><span>会員重複チェック</span></div>
+                                <div class="col mb-2">
+                                <div class="form-check">
+                                        <div class ="row">
+                                            <div class ="col-3"><label>{{ 'ace_client.admin.config.label.validate_duplicate_entry' | trans }}</label></div>
+                                            <div class ="col-3"> 
+                                                {{ form_widget(form.validate_duplicate_entry) }}
+                                            </div>
+                                        </div>
+                                        <div class ="row">
+                                            <div class ="col-3"><label>{{ 'ace_client.admin.config.label.validate_duplicate_admin_entry' | trans }}</label></div>
+                                            <div class ="col-3"> 
+                                                {{ form_widget(form.validate_duplicate_admin_entry) }}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-3"><span>システムID</span><span></span></div>
+                                <div class="col-3"><label>{{ 'ace_client.admin.config.label.redirect_forgot' | trans }}</label></div>
                                 <div class="col mb-2">
-                                    {{ form_widget(form.syid) }}
-                                    {{ form_errors(form.syid) }}
+                                    {{ form_widget(form.redirect_forgot) }}
                                 </div>
                             </div>
-                             <div class="row">
-                                <div class="col-3"><span>ログ出力</span><span></span></div>
-                                <div class="col mb-2">
-                                    {{ form_widget(form.is_log_on) }}
-                                    {{ form_errors(form.is_log_on) }}
+                            <div class="row mb-2">
+                                <div class="col-3"><label>{{ 'ace_client.admin.config.label.forgot_path' | trans }}</label></div>
+                                <div class="col">
+                                    {{ form_widget(form.forgot_path) }}
+                                    {{ form_errors(form.forgot_path) }}
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-3"><span>デフォルト設定</span></div>
+                                <div class="col mb-2">
+                                    <div class="form-group mb-3">
+                                       <label>{{ 'ace_client.admin.config.label.default_payment_id' | trans }}</label>
+                                        {{ form_widget(form.default_payment_id) }}
+                                    </div>
+                                    <div class="form-group mb-3">
+                                       <label>{{ 'ace_client.admin.config.label.default_transaction_type' | trans }}</label>
+                                        {{ form_widget(form.default_transaction_type) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         </div>
                     </div>
                 </div>

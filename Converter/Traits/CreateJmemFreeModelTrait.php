@@ -3,9 +3,9 @@
 namespace Plugin\AceClient43\Converter\Traits;
 
 use Customize\Enum\CustomerFreeCode;
+use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 use Plugin\AceClient43\Exception\DataTypeMissMatchException;
 use Plugin\AceClient43\Exception\InvalidClassNameException;
-use Plugin\AceClient43\AceServices\Model\Request\Member\RegMember;
 
 trait CreateJmemFreeModelTrait
 {
