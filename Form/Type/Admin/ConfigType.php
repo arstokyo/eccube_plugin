@@ -43,7 +43,7 @@ class ConfigType extends AbstractType
                 ->add('syid', TextType::class, [
                     'constraints' => [
                         new NotBlank(),
-                        new Length(['max' => 1]),
+                        new Length(['max' => 2]),
                     ],
                 ])
                 ->add('order_route_id', IntegerType::class, [
