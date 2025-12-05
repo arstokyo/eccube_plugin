@@ -48,3 +48,5 @@ ace_client.admin:
         error.ajax_error: "通信エラーが発生しました。"
     delivery_time:
         label.ace_delivery_time_id: "Ace配送時間帯ID"
+    payment:
+        label.ace_payment_id: "Ace決済ID"

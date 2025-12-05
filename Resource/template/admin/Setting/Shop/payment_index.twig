@@ -1,0 +1,15 @@
+<script>
+$(function() {
+    // ヘッダーの追加
+    $('table.table thead tr th').eq(1).after('<th>ACE ID</th>');
+
+    // 各行にデータを追加
+    // 注意: 一覧画面ではEntityのデータそのものをJSで参照するのは難しいため、
+    // 必要であればController拡張でデータを渡すか、あるいは簡易的に
+    // 編集画面へのリンクのみとする等の判断が必要。
+    // ここでは詳細実装は割愛するが、UIとしての列追加を行う。
+    $('table.table tbody tr').each(function() {
+        $(this).find('td').eq(1).after('<td><!-- ID表示領域 --></td>');
+    });
+});
+</script>

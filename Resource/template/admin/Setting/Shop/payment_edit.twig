@@ -1,0 +1,13 @@
+<script>
+$(function() {
+    // 既存のフォーム要素を取得し、適切な位置にACE決済IDの入力欄を挿入
+    var acePaymentIdWidget = '{{ form_row(form.ace_payment_id) }}';
+    // 例: "手数料"設定の後ろなどに挿入
+    $('#payment_register_charge').closest('.row').after(
+        '<div class="row">' +
+            '<div class="col-3"><span>ACE決済ID</span></div>' +
+            '<div class="col mb-2">' + acePaymentIdWidget + '</div>' +
+        '</div>'
+    );
+});
+</script>
