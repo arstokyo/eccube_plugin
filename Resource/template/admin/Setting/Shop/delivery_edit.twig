@@ -1,0 +1,58 @@
+  {# サーバーサイドでレンダリングしたWidgetを隠し要素として配置 #}
+  <div id="ace-delivery-time-widgets" style="display: none;">
+      {% for timeForm in form.delivery_times %}
+          <div class="ace-delivery-time-widget" data-index="{{ loop.index0 }}">
+              {{ form_widget(timeForm.ace_delivery_time_id, {'attr': {'class': 'form-control', 'style': 'width: 80px;', 'placeholder': 'ace_client.admin.delivery_time.label.ace_delivery_time_id'|trans}}) }}
+          </div>
+      {% endfor %}
+  </div>
+
+  <script>
+  $(function() {
+      var aceLabel = '{{ 'ace_client.admin.delivery_time.label.ace_delivery_time_id'|trans }}';
+      var aceFieldName = '{{ form.delivery_times.vars.prototype.ace_delivery_time_id.vars.full_name }}';
+      // 1. 既存の配送時間帯行にACE ID入力欄を追加
+      $('.ace-delivery-time-widget').each(function() {
+          var $widget = $(this);
+          var index = $widget.data('index');
+          var $aceInput = $widget.find('input');
+          var aceValue = $aceInput.val();
+
+          var $item = $('.delivery-time-item').eq(index);
+          if ($item.length > 0) {
+              var $deliveryTimeInput = $item.find('.mode-edit input[name$="[delivery_time]"]');
+              if ($deliveryTimeInput.length > 0) {
+                  $deliveryTimeInput.closest('.col-auto').after(
+                      $('<div class="col-auto d-flex align-items-center"></div>').append($aceInput)
+                  );
+              }
+              // 表示モードにもACE IDを表示
+              if (aceValue) {
+                  var $displayLabel = $item.find('.mode-view .display-label');
+                  if ($displayLabel.length > 0) {
+                      $displayLabel.after('<span class="badge bg-secondary ms-2">' + aceLabel + ': ' + aceValue + '</span>');
+                  }
+              }
+          }
+      });
+
+      // 2. data-prototypeを修正して新規追加時にもACE ID入力欄を含める
+      var $list = $('#delivery-time-list');
+      var prototype = $list.data('prototype');
+
+      if (prototype) {
+          // delivery_time入力欄の後ろにACE ID入力欄を追加
+          var aceInputHtml = '<div class="col-auto d-flex align-items-center">' +
+            '<input type="number" class="form-control" name="' + aceFieldName + '" style="width: 80px;" placeholder="' + aceLabel + '">' +
+              '</div>';
+
+          // delivery_time入力欄を含むdivの後に挿入
+          var modifiedPrototype = prototype.replace(
+              /(<div class="col-auto d-flex align-items-center">[\s\S]*?<input[^>]*\[delivery_time\][^>]*>[\s\S]*?<\/div>)/,
+              '$1' + aceInputHtml
+          );
+
+          $list.data('prototype', modifiedPrototype);
+      }
+  });
+  </script>

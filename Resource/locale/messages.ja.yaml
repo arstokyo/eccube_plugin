@@ -46,3 +46,5 @@ ace_client.admin:
         error.product_ids_required: "商品IDを入力してください。"
         error.invalid_product_ids: "商品IDは数字とカンマのみ入力可能です。"
         error.ajax_error: "通信エラーが発生しました。"
+    delivery_time:
+        label.ace_delivery_time_id: "Ace配送時間帯ID"
