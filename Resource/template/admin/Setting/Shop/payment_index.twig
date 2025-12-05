@@ -1,15 +1,28 @@
-<script>
-$(function() {
-    // ヘッダーの追加
-    $('table.table thead tr th').eq(1).after('<th>ACE ID</th>');
+ {# 各支払方法のACE決済IDを隠し要素として出力 #}
+  <div id="ace-payment-data" style="display: none;">
+      {% for Payment in Payments %}
+          <span data-payment-id="{{ Payment.id }}" data-ace-payment-id="{{ Payment.acePaymentId ?? '' }}"></span>
+      {% endfor %}
+  </div>
 
-    // 各行にデータを追加
-    // 注意: 一覧画面ではEntityのデータそのものをJSで参照するのは難しいため、
-    // 必要であればController拡張でデータを渡すか、あるいは簡易的に
-    // 編集画面へのリンクのみとする等の判断が必要。
-    // ここでは詳細実装は割愛するが、UIとしての列追加を行う。
-    $('table.table tbody tr').each(function() {
-        $(this).find('td').eq(1).after('<td><!-- ID表示領域 --></td>');
-    });
-});
-</script>
+  <script>
+  $(function() {
+      var aceLabel = '{{ 'ace_client.admin.payment.label.ace_payment_id'|trans }}';
+
+      // ヘッダーに列を追加
+      $('.list-group-item .row').first().find('.col-auto').eq(1).after(
+         '<div class="col-auto" style="min-width: 100px;"><strong>' + aceLabel + '</strong></div>'
+      );
+
+      // 各行にACE決済IDを追加
+      $('#ace-payment-data span').each(function() {
+          var paymentId = $(this).data('payment-id');
+          var acePaymentId = $(this).data('ace-payment-id');
+          var displayValue = acePaymentId !== '' ? acePaymentId : '-';
+
+          $('#ex-payment-' + paymentId + ' .row .col-auto').eq(1).after(
+            '<div class="col-auto d-flex align-items-center" style="min-width: 100px;">' + displayValue + '</div>'
+          );
+      });
+  });
+  </script>
