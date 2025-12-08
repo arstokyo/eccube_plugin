@@ -8,7 +8,7 @@ use Doctrine\ORM\Tools\Event\GenerateSchemaEventArgs;
 use Doctrine\ORM\Tools\ToolEvents;
 
 /**
- * Add unique constraint to Delivery Time entity
+ * Add unique constraint to Payment entity
  */
 class PaymentSchemaSubscriber implements EventSubscriber
 {
