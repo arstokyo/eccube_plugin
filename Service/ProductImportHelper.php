@@ -124,7 +124,8 @@ class ProductImportHelper
         '_product_import_helper.set_product_status' => true,
         '_product_import_helper.set_price' => true,
         '_product_import_helper.create_new' => true,
-        '_product_import_helper.hide_on_new' => false,
+        '_product_import_helper.hide_on_new' => true,
+        '_product_import_helper.set_name_only_new' => false,
     ];
 
     protected ProductBridge $productBridge;
@@ -358,6 +359,7 @@ class ProductImportHelper
 
                     // メモリ管理のためエンティティマネージャーをクリア
                     $this->entityManager->clear();
+                    $creator = $this->entityManager->getRepository(Member::class)->find($creator->getId());
 
                     $logger->info(sprintf('<info>処理済み商品数: %d (累計: %d)</info>', count($createdProducts), $processed));
                 } catch (\Throwable $e) {
@@ -555,7 +557,8 @@ class ProductImportHelper
      * - `_product_import_helper.set_product_status` (bool): ステータスを設定する（デフォルト: true）
      * - `_product_import_helper.set_price` (bool): 価格を設定する（デフォルト: true）
      * - `_product_import_helper.import_stock` (bool): 在庫を更新する（デフォルト: true）
-     * - `_product_import_helper.hide_on_new` (bool): 新規商品を非表示にする（デフォルト: false）
+     * - `_product_import_helper.hide_on_new` (bool): 新規商品を非表示にする（デフォルト: true）
+     * - `_product_import_helper.set_name_only_new` (bool): 新規商品のみ名前を設定する（デフォルト: false）
      *
      * @param GoodModelGroup1Interface[] $productModels 商品モデルの配列
      * @param GoodTankaModelGroup1Interface[] $tankaModels 単価モデルの配列（空配列の場合は商品モデルから取得）
@@ -603,15 +606,24 @@ class ProductImportHelper
                     continue;
                 }
 
-                $product->setName($productModel->getGname());
                 $productClass->setAceProductId($aceProductId);
-                $productClass->setStockUnlimited(false);
                 $productClass->setAceProductType($productModel->getGkbn());
-                $productClass->setSaleType($settingBag['normal_sale_type']);
 
+                // 新規作成を設定必要な項目
+                if ($isNew) {
+                    $productClass->setSaleType($settingBag['normal_sale_type']);
+                    $productClass->setStockUnlimited(false);
+                    $productClass->setVisible(true);
+                }
+
+                // 条件に商品名称を設定
+                if ($isNew || !$options['_product_import_helper.set_name_only_new']) {
+                    $product->setName($productModel->getGname());
+                }
+
+                // ステータスを条件に設定
                 if ($isNew && $options['_product_import_helper.hide_on_new']) {
                     $product->setStatus($settingBag['display_hide_status']);
-                    $productClass->setVisible(true);
                 } elseif ($options['_product_import_helper.set_product_status']) {
                     $this->setStatus($productModel, $product, $productClass, $settingBag);
                 }
@@ -704,6 +716,7 @@ class ProductImportHelper
             $settingBag['on_set_price_event'],
             $settingBag['on_create_product_failed_event']
         );
+        $this->taxRuleRepository->clearCache();
 
         return $processedProductClasses;
     }
@@ -933,8 +946,6 @@ class ProductImportHelper
                 $status = $displayAbolishedStatus;
                 break;
             default:
-                // 商品の通常またはその以外は、VisibleをTrueとセット
-                $productClass->setVisible(true);
                 break;
         }
 
