@@ -345,8 +345,10 @@ class ProductImportHelper
                 $createdProducts = $this->create($productModels, [], $creator, $logger, $options);
                 $processed += count($createdProducts);
 
-                // フラッシュ成功時のみポストイベントをディスパッチ
-                if ($this->flushBatchAndResetOnError($page, $creator, $logger)) {
+                try {
+                    // バッチで作成した商品をデータベースに保存
+                    $this->entityManager->flush();
+
                     if ($this->eventDispatcher->hasListeners(Events::HELPER_POST_IMPORT_PRODUCT)) {
                         $this->eventDispatcher->dispatch(
                             new HelperImportProductEvent($createdProducts, $productModels, [], $logger, $options),
@@ -354,7 +356,26 @@ class ProductImportHelper
                         );
                     }
 
+                    // メモリ管理のためエンティティマネージャーをクリア
+                    $this->entityManager->clear();
+
                     $logger->info(sprintf('<info>処理済み商品数: %d (累計: %d)</info>', count($createdProducts), $processed));
+                } catch (\Throwable $e) {
+                    // フラッシュエラーをログに記録
+                    $logger->error(sprintf('<error>バッチフラッシュ中にエラーが発生しました: %s</error>', $e->getMessage()));
+
+                    // エンティティマネージャーをリセットして回復
+                    $this->entityManager = EntityManagerResetHelper::resetEntityManager(
+                        $this->entityManager,
+                        $this->managerRegistry,
+                        $logger
+                    );
+
+                    // リセット後、作成者参照を更新
+                    $creator = $this->entityManager->getRepository(Member::class)->find($creator->getId());
+
+                    // 失敗したバッチをログに記録
+                    $logger->warning(sprintf('<warning>ページ %d のフラッシュに失敗しました。次のページに進みます。</warning>', $page));
                 }
             } else {
                 $logger->warning('<warning>商品が取得できませんでした。</warning>');
@@ -986,49 +1007,5 @@ class ProductImportHelper
 
         $this->eventDispatcher->dispatch($onCreateProductFailedEvent, Events::PRODUCT_IMPORT_HELPER_ON_CREATE_PRODUCT_FAILED);
         $options = $onCreateProductFailedEvent->options;
-    }
-
-    /**
-     * バッチのフラッシュ処理とエラー時のリセット
-     *
-     * バッチ処理で作成した商品をデータベースに保存する。
-     * フラッシュに失敗した場合は、エンティティマネージャーをリセットして
-     * 次のバッチに進めるようにする。
-     *
-     * @param int $page 現在処理中のページ番号
-     * @param Member $creator 作成者（参照渡しで更新される）
-     * @param LoggerInterface $logger ロガー
-     *
-     * @return bool フラッシュが成功した場合true、失敗した場合false
-     */
-    protected function flushBatchAndResetOnError(int $page, Member &$creator, LoggerInterface $logger): bool
-    {
-        try {
-            // バッチで作成した商品をデータベースに保存
-            $this->entityManager->flush();
-
-            // メモリ管理のためエンティティマネージャーをクリア
-            $this->entityManager->clear();
-
-            return true;
-        } catch (\Throwable $e) {
-            // フラッシュエラーをログに記録
-            $logger->error(sprintf('<error>バッチフラッシュ中にエラーが発生しました: %s</error>', $e->getMessage()));
-
-            // エンティティマネージャーをリセットして回復
-            $this->entityManager = EntityManagerResetHelper::resetEntityManager(
-                $this->entityManager,
-                $this->managerRegistry,
-                $logger
-            );
-
-            // リセット後、作成者参照を更新
-            $creator = $this->entityManager->getRepository(Member::class)->find($creator->getId());
-
-            // 失敗したバッチをログに記録
-            $logger->warning(sprintf('<warning>ページ %d のフラッシュに失敗しました。次のページに進みます。</warning>', $page));
-
-            return false;
-        }
     }
 }
