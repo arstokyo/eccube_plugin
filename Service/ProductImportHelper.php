@@ -319,15 +319,15 @@ class ProductImportHelper
 
         $processed = 0;
         $pagesProcessed = 0;
-        $page = $fromPage ?? 1;
+        $currentPage = $fromPage ?? 1;
 
         do {
-            $logger->info(sprintf('<info>ページ %d を処理中...</info>', $page));
+            $logger->info(sprintf('<info>ページ %d を処理中...</info>', $currentPage));
 
             $resp = $this->productBridge->getV1List(
                 $updateFrom,
                 $updateTo,
-                $page,
+                $currentPage,
                 $options['_v1_list.limit'],
                 $options['_v1_list.return_zaiko'],
                 $options['_v1_list.skid'],
@@ -375,7 +375,7 @@ class ProductImportHelper
                     $creator = $this->entityManager->getRepository(Member::class)->find($creator->getId());
 
                     // 失敗したバッチをログに記録
-                    $logger->warning(sprintf('<warning>ページ %d のフラッシュに失敗しました。次のページに進みます。</warning>', $page));
+                    $logger->warning(sprintf('<warning>ページ %d のフラッシュに失敗しました。次のページに進みます。</warning>', $currentPage));
                 }
             } else {
                 $logger->warning('<warning>商品が取得できませんでした。</warning>');
@@ -383,7 +383,7 @@ class ProductImportHelper
 
             // 次のページへ進む（常に実行）
             $hasMore = $resp->getHasMore();
-            $page++;
+            $currentPage++;
             $pagesProcessed++;
 
             if ($maxPages !== null && $pagesProcessed >= $maxPages) {
