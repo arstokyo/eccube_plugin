@@ -625,7 +625,7 @@ class ProductImportHelper
                 if ($isNew && $options['_product_import_helper.hide_on_new']) {
                     $product->setStatus($settingBag['display_hide_status']);
                 } elseif ($options['_product_import_helper.set_product_status']) {
-                    $this->setStatus($productModel, $product, $productClass, $settingBag);
+                    $this->setStatus($productModel, $product, $settingBag);
                 }
 
                 if ($options['_product_import_helper.set_price']) {
@@ -915,7 +915,6 @@ class ProductImportHelper
      *
      * @param GoodModelGroup1Interface $productModel 商品モデル
      * @param Product $product 商品エンティティ
-     * @param ProductClass $productClass 商品クラスエンティティ
      * @param array $settingBag 設定情報の配列
      *
      * @return void
@@ -923,7 +922,6 @@ class ProductImportHelper
     protected function setStatus(
         GoodModelGroup1Interface $productModel,
         Product $product,
-        ProductClass $productClass,
         array $settingBag,
     ): void {
         $displayAbolishedStatus = $settingBag['display_abolished_status'];
