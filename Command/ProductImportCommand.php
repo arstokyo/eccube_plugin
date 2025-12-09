@@ -27,11 +27,6 @@ class ProductImportCommand extends AbstractProductImportCommand
             ->setDescription('[非推奨] 通販Aceから商品をインポートするコマンド（V2を推奨）');
     }
 
-    protected function getImportCommandName(): string
-    {
-        return 'eccube:aceclient:import-product';
-    }
-
     protected function executeImport($creator, \DateTime $updateFrom, \DateTime $updateTo, array $options, LoggerInterface $logger): int
     {
         try {

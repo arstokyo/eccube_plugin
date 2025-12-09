@@ -58,11 +58,6 @@ abstract class AbstractProductImportCommand extends Command
     }
 
     /**
-     * Get the command name for this import command
-     */
-    abstract protected function getImportCommandName(): string;
-
-    /**
      * Execute the actual import logic (different between v1 and v2)
      *
      * @param mixed $creator
