@@ -30,8 +30,6 @@ class HelperOnCreateProductEvent extends Event
 
     public array $productModels;
 
-    public array $freeCodeModel;
-
     public ProductClass $productClass;
 
     public array $processedProductsClasses;

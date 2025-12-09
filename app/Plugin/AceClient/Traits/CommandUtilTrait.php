@@ -22,7 +22,7 @@ use Plugin\AceClient43\Service\EntityManagerResetHelper;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 
-trait ProductImportTrait
+trait CommandUtilTrait
 {
     /**
      * 文字列を DateTime オブジェクトに変換する

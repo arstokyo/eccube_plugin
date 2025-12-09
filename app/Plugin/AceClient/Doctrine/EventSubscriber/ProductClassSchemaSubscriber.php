@@ -25,6 +25,7 @@ class ProductClassSchemaSubscriber implements EventSubscriber
 
     /**
      * @param GenerateSchemaEventArgs $args
+     *
      * @throws SchemaException
      */
     public function postGenerateSchema(GenerateSchemaEventArgs $args): void
@@ -35,7 +36,7 @@ class ProductClassSchemaSubscriber implements EventSubscriber
             $table = $schema->getTable('dtb_product_class');
 
             // Check if the unique index doesn't already exist
-            if (!$table->hasIndex('ace_product_id_idx')) {
+            if (!$table->hasIndex('ace_product_id_idx') && $table->hasColumn('ace_product_id')) {
                 try {
                     $args->getEntityManager()->wrapInTransaction(function (EntityManagerInterface $em) {
                         $em->getConnection()->executeStatement(

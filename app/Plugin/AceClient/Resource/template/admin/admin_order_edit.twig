@@ -1,0 +1,91 @@
+{# Render ACE Customer ID below the Customer.id row on admin customer edit page #}
+{% if Order is defined and Order.id %}
+    <div class="row mb-2 js-ace-order-id-row" style="display:none;">
+        <div class="col-3">
+            <div class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ 'ace_client.admin.order.tooltip.ace_order_id'|trans }}">
+                <span>{{ 'ace_client.admin.order.label.ace_order_id'|trans }}</span>
+                <i class="fa fa-question-circle fa-lg ms-1"></i>
+            </div>
+        </div>
+        <div class="col">
+            <p class="text-monospace">{{ Order.ace_order_id ?? '-' }}</p>
+        </div>
+    </div>
+{% endif %}
+
+{% if form.ace_point_discount is defined %}
+    <!-- Aceの値引きポイント -->
+    <div class="row justify-content-end mb-3 js-ace-point-discount-row" style="display: none;">
+        <div class="col-auto"><span class="align-middle">{{ 'ace_client.admin.order.label.ace_point_discount'|trans }}</span></div>
+        <div class="col-2 text-end">
+            <span class="h4 align-middle fw-normal">
+                {{ form_widget(form.ace_point_discount) }}
+                {{ form_errors(form.ace_point_discount) }}
+            </span>
+        </div>
+    </div>
+{% endif %}
+
+{% if (Order is defined and Order.id) or form.ace_point_discount is defined %}
+    <script>
+    (function() {
+        // Ensure DOM is ready
+        function onReady(fn){ if (document.readyState !== 'loading') { fn(); } else { document.addEventListener('DOMContentLoaded', fn); } }
+
+        onReady(function() {
+            var $ = window.jQuery || window.$;
+
+            {% if form.ace_point_discount is defined %}
+                var acePointDiscountRow = document.querySelector('.js-ace-point-discount-row');
+                var usePointInput = document.getElementById('order_use_point');
+
+                // Insert acePointDiscountRow after the "利用ポイント" row
+                if (acePointDiscountRow && usePointInput) {
+                    var usePointRow = usePointInput.closest('.row');
+                    if (usePointRow) {
+                        usePointRow.parentNode.insertBefore(acePointDiscountRow, usePointRow.nextSibling);
+                        acePointDiscountRow.style.display = '';
+                    }
+                }
+            {% endif %}
+
+            {% if Order is defined and Order.id %}
+                var idValue = {{ Order.id|json_encode|raw }};
+
+                // Find the row that displays the Customer.id (a row with a <p> that equals idValue)
+                function findOrderIdRow() {
+                    // Search candidates: rows with p under a .col
+                    var rows = document.querySelectorAll('.row.mb-3');
+                    for (var i = 0; i < rows.length; i++) {
+                        var p = rows[i].querySelector('.col');
+                        if (!p) continue;
+                        var text = (p.textContent || '').trim();
+                        if (text === String(idValue)) {
+                            return rows[i];
+                        }
+                    }
+                    return null;
+                }
+
+                var idRow = findOrderIdRow();
+                var aceRow = document.querySelector('.js-ace-order-id-row');
+
+                if (idRow && aceRow) {
+                    // Insert our block right after the Customer.id row
+                    idRow.parentNode.insertBefore(aceRow, idRow.nextSibling);
+                    aceRow.style.display = '';
+                } else if ($ && aceRow) {
+                    // Fallback: try jQuery-based selector
+                    var $row = $('.row.mb-2').filter(function() {
+                        var $p = $(this).find('> .col > p');
+                        return $p.length && $.trim($p.text()) === String(idValue);
+                    }).first();
+                    if ($row.length) {
+                        $(aceRow).insertAfter($row).show();
+                    }
+                }
+            {% endif %}
+        });
+    })();
+    </script>
+{% endif %}

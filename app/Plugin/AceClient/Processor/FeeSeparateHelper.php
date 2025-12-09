@@ -33,7 +33,8 @@ class FeeSeparateHelper
      * @param string|null $itemName
      */
     public static function separate(
-        float $amount, Order $order,
+        float $amount,
+        Order $order,
         OrderItemType $orderItemType,
         TaxDisplayType $taxDisplayType,
         TaxType $taxation,

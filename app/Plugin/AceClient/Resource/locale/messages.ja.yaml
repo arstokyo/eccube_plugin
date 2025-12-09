@@ -8,7 +8,30 @@ ace_client.create_order:
 
 ace_client.admin:
     customer:
+        label.ace_customer_id: Ace顧客ID       
+    
+    config:
+        label.order_route_id: 受注経路
+        label.use_ace_delivery: 送料連携
+        label.use_ace_discount: 割引連携
+        label.use_ace_charge: 手数料連携
+        label.add_point_from_ace: ACEポイント反映 
+        label.enable_order_support_cart: 受注サポート(カート)
+        label.enable_order_support_check_out: 受注サポート(購入)
+        label.add_cart_index: カート追加連携(一覧)
+        label.add_cart_shopping: カート追加連携(購入)
+        label.validate_duplicate_entry: 会員重複チェック(フロント)
+        label.validate_duplicate_admin_entry : 会員重複チェック(管理画面)
+        label.redirect_forgot: パスワード忘れリダイレクト
+        label.forgot_path: リダイレクト先パス
+        label.default_payment_id: デフォルト決済ID
+        label.default_transaction_type : デフォルト取引区分
+
         label.ace_customer_id: Ace顧客ID
+    order:
+        label.ace_order_id: Ace注文ID
+        tooltip.ace_order_id: 通販Ace側に紐付いている注文IDです。
+        label.ace_point_discount: "ポイント値引き"
     product:
         title.sync_from_ace: "Ace商品連携"
         label.sync_status: "連携ステータス"
@@ -23,3 +46,7 @@ ace_client.admin:
         error.product_ids_required: "商品IDを入力してください。"
         error.invalid_product_ids: "商品IDは数字とカンマのみ入力可能です。"
         error.ajax_error: "通信エラーが発生しました。"
+    delivery_time:
+        label.ace_delivery_time_id: "Ace配送時間帯ID"
+    payment:
+        label.ace_payment_id: "Ace決済ID"

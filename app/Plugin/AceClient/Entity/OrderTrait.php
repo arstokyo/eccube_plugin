@@ -15,6 +15,7 @@ namespace Plugin\AceClient43\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Eccube\Annotation\EntityExtension;
+use Eccube\Entity\ItemInterface;
 use Plugin\AceClient43\Util\Converter\NumberConverter;
 
 /**
@@ -46,6 +47,45 @@ trait OrderTrait
         $this->ace_point_discount = $nomalized;
 
         return $this;
+    }
+
+    public function getApplicablePromotionDiscount(): float
+    {
+        $subTotal = max(0, $this->calculateSubTotal());
+        $nonPointDiscount = min(0, $this->calculateNonPointDiscountTotal());
+        $promotionDiscount = min(0, $this->getPromotionDiscountTotal());
+
+        // ポイント値引きは最低優先のため、クーポン適用できる分として計算します。
+        return (int) max(0, floor(min($subTotal, $subTotal + $promotionDiscount - $nonPointDiscount)));
+    }
+
+    public function calculateSubTotal(): float
+    {
+        return $this->getItems()
+            ->getProductClasses()
+            ->reduce(function ($sum, ItemInterface $item) {
+                $sum += $item->getPriceIncTax() * $item->getQuantity();
+
+                return $sum;
+            }, 0);
+    }
+
+    public function calculateNonPointDiscountTotal(): int
+    {
+        $total = 0;
+
+        foreach ($this->getOrderItems() as $orderItem) {
+            // ポイント値引きではない
+            if ($orderItem->isPointDiscount()) {
+                continue;
+            }
+
+            if ($orderItem->isDiscount() || $orderItem->isPoint()) {
+                $total += $orderItem->getPriceIncTax() * $orderItem->getQuantity();
+            }
+        }
+
+        return $total;
     }
 
     /**

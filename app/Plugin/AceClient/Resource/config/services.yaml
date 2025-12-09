@@ -293,6 +293,7 @@ services:
                 ace_client.methods.v1_get_stock_by_update: '@Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GetStockByUpdateMethod'
                 ace_client.methods.v1_get_goods_items: '@Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GoodsItemsMethod'
                 ace_client.methods.v1_get_goods_items_tanka: '@Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GoodsItemsTankaMethod'
+                ace_client.methods.v1_get_goods_list: '@Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GoodsListMethod'
 
     # ACE Services - Version Independent Aliases (will use ace_client logger)
     ace_config_service:
@@ -355,18 +356,19 @@ services:
     #     tags:
     #         - { name: 'ace_client.corrector.add_cart_request', priority: 0 }
 
-    # AddCartConverterFactory - manages converters and correctors by flow type
-    # AddCartConverterFactoryはフロータイプごとにコンバータとコレクタを管理します
-    Plugin\AceClient43\Converter\AddCartConverterFactory:
+    Plugin\AceClient43\Converter\Corrector\AddCartRequestCorrectorApplier:
         arguments:
-            $addCartRequestCorrectors: !tagged_iterator { tag: 'ace_client.corrector.add_cart_request' }
+          $correctors: !tagged_iterator { tag: 'ace_client.corrector.add_cart_request' }
 
-    # Alias for backward compatibility
-    ace_add_cart_converter_factory:
-        alias: Plugin\AceClient43\Converter\AddCartConverterFactory
-        public: false
+    Plugin\AceClient43\Converter\Corrector\CreateOrderRequestCorrectorApplier:
+        arguments:
+          $correctors: !tagged_iterator { tag: 'ace_client.corrector.create_order_request' }
 
-    # ===================================================================================================
+    Plugin\AceClient43\Converter\Corrector\RegMemberRequestCorrectorApplier:
+        arguments:
+            $correctors: !tagged_iterator { tag: 'ace_client.corrector.reg_member_request' }
+
+  # ===================================================================================================
     # コアACEサービス - リゾルバーシステム
     # ===================================================================================================
 
@@ -826,7 +828,6 @@ services:
     Plugin\AceClient43\Processor\PrePointDiscountProcessor:
         tags:
             - { name: eccube.discount.processor, flow_type: shopping, priority: 910 }
-            - { name: eccube.discount.processor, flow_type: order, priority: 910 }
 
     # 通販Aceのポイント値引きを追加のプロセッサー
     Plugin\AceClient43\Processor\PointDiscountProcessor:
@@ -851,7 +852,6 @@ services:
     Plugin\AceClient43\Processor\AddPointProcessor:
         tags:
             - { name: eccube.item.holder.post.validator, flow_type: shopping, priority: 850 }
-            - { name: eccube.item.holder.post.validator, flow_type: order, priority: 9500 }
 
     # Decorators
     Plugin\AceClient43\Comparator\ProductClassComparator:
@@ -884,6 +884,8 @@ services:
     Plugin\AceClient43\Command\ProductImportCommand:
     Plugin\AceClient43\Command\ProductRepeatImportCommand:
     Plugin\AceClient43\Command\ImportProductStockCommand:
+    Plugin\AceClient43\Command\ProductImportV2Command:
+    Plugin\AceClient43\Command\ProductRepeatImportV2Command:
 
     # ===================================================================================================
     # Cache Sync Services - HTTP-based cache clearing for distributed servers

@@ -13,9 +13,11 @@
 
 namespace Plugin\AceClient43\EventListener;
 
+use Eccube\Entity\Customer;
 use Eccube\Event\EccubeEvents;
 use Eccube\Event\EventArgs;
 use Plugin\AceClient43\Bridge\CustomerBridge;
+use Plugin\AceClient43\Converter\RegMemberFlow;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -41,14 +43,17 @@ class FrontMypageChangeIndexCompleteListener implements EventSubscriberInterface
      */
     public function onComplete(EventArgs $event): void
     {
+        /** @var Customer $Customer */
+        $Customer = $event->getArgument('Customer');
+
         try {
-            $Customer = $event->getArgument('Customer');
-            $this->customerBridge->updateCustomerInAce($Customer);
+            $this->customerBridge->updateCustomerInAce($Customer, RegMemberFlow::frontUpdate());
         } catch (\Throwable $e) {
             $this->logger->error('[FrontMypageChangeIndexCompleteListener] 会員情報更新に失敗しました。', [
                 'exception' => $e,
                 'customer' => $Customer,
             ]);
+
             throw $e;
         }
     }
