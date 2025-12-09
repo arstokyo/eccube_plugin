@@ -39,16 +39,86 @@ use Plugin\AceClient43\Events\HelperOnCreateProductEvent;
 use Plugin\AceClient43\Events\HelperOnCreateProductFailedEvent;
 use Plugin\AceClient43\Events\HelperOnSetPriceEvent;
 use Plugin\AceClient43\Events\HelperPreImportProductEvent;
+use Plugin\AceClient43\Exception\DataTypeMissMatchException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * 商品インポートヘルパー
+ *
+ * 通販Ace APIから商品データを取得し、EC-CUBEの商品エンティティとして
+ * インポートするためのヘルパークラス。
+ *
+ * ## 主な機能
+ *
+ * ### 1. インポートメソッド
+ * - `import()`: GetGoods APIを使用した標準インポート **（非推奨）**
+ * - `batchImport()`: V1 List APIを使用したバッチインポート **（推奨）**
+ * - `importByAceProductIds()`: 商品IDによるインポート
+ *
+ * ### 2. フラッシュモード
+ *
+ * #### 即座フラッシュモード（デフォルト）
+ * - `lazy_flush => false`
+ * - 各商品を作成後すぐにデータベースに保存
+ * - メモリ効率が良い
+ * - エラー発生時は該当商品のみ失敗
+ *
+ * #### 遅延フラッシュモード（バッチ処理用）
+ * - `lazy_flush => true`
+ * - 複数商品をメモリ上に保持し、まとめて保存
+ * - パフォーマンスが向上
+ * - エラー発生時は成功した商品を先に保存してから回復
+ * - バッチインポートで自動的に使用される
+ *
+ * ### 3. エラーハンドリング
+ * - 商品作成エラー時に自動回復
+ * - 遅延フラッシュモードでは未保存商品を自動保存
+ * - エンティティマネージャーのリセットと再初期化
+ * - 失敗した商品コードを `_failed_product_codes` に記録
+ *
+ * ### 4. イベントシステム
+ * - `HELPER_PRE_IMPORT_PRODUCT`: インポート前処理
+ * - `HELPER_POST_IMPORT_PRODUCT`: インポート後処理
+ * - `PRODUCT_IMPORT_HELPER_ON_CREATE_PRODUCT`: 商品作成時の処理
+ * - `PRODUCT_IMPORT_HELPER_ON_SET_PRICE`: 価格設定時の処理
+ * - `PRODUCT_IMPORT_HELPER_ON_CREATE_PRODUCT_FAILED`: エラー時の処理
+ *
+ * ## 使用例
+ *
+ * ```php
+ * // ❌ 非推奨: 標準インポート（古いAPI）
+ * // $count = $helper->import($creator, $dateFrom, $dateTo);
+ *
+ * // ✅ 推奨: バッチインポート（新しいAPI、高速）
+ * $count = $helper->batchImport($creator, $dateFrom, $logger, $dateTo);
+ *
+ * // オプション指定
+ * $options = [
+ *     'lazy_flush' => true,
+ *     'batch_size' => 100,
+ *     '_product_import_helper.import_stock' => true,
+ *     '_v1_list.tanka_kubuns' => [1, 2],
+ * ];
+ * $count = $helper->batchImport($creator, $dateFrom, $logger, $dateTo, $options);
+ * ```
+ *
+ * @author Ars-Thong<v.t.nguyen@ar-system.co.jp>
+ *
+ * @see import() 標準インポート（非推奨）
+ * @see batchImport() バッチインポート（推奨）
+ * @see importByAceProductIds() 商品ID指定インポート
+ */
 class ProductImportHelper
 {
     public const TRIGGER_IMPORT_WITH_GET_GOODS = 'product_import_helper.import_with_get_goods';
 
     public const TRIGGER_IMPORT_WITH_GET_ITEMS = 'product_import_helper.import_with_get_items';
 
+    public const TRIGGER_IMPORT_WITH_V1_LIST = 'product_import_helper.import_with_v1_list';
+
     public array $defaultSetting = [
+        'lazy_flush' => false,
         '_failed_product_codes' => [],
         '_product_import_helper.import_stock' => true,
         '_product_import_helper.set_product_status' => true,
@@ -104,6 +174,23 @@ class ProductImportHelper
     /**
      * 商品をインポートする
      *
+     * @deprecated このメソッドは非推奨です。代わりに batchImport() を使用してください。
+     *
+     * **非推奨の理由:**
+     * - GetGoods APIは古いAPI仕様
+     * - パフォーマンスがbatchImport()より劣る
+     * - メモリ使用量が多い
+     * - ページネーション機能なし
+     *
+     * **移行方法:**
+     * ```php
+     * // 旧: import()
+     * $count = $helper->import($creator, $dateFrom, $dateTo, $options, $logger);
+     *
+     * // 新: batchImport()（推奨）
+     * $count = $helper->batchImport($creator, $dateFrom, $logger, $dateTo, $options);
+     * ```
+     *
      * @param Member $creator 作成者
      * @param \DateTime $updateFrom 更新対象開始日
      * @param \DateTime $updateTo 更新対象終了日
@@ -111,6 +198,10 @@ class ProductImportHelper
      * @param LoggerInterface|null $logger コンソール出力インターフェース
      *
      * @return int インポートされた商品数
+     *
+     * @throws \Throwable
+     *
+     * @see batchImport() 推奨される新しいバッチインポートメソッド
      */
     public function import(Member &$creator, \DateTime $updateFrom, \DateTime $updateTo, array &$options = [], ?LoggerInterface $logger = null): int
     {
@@ -169,6 +260,123 @@ class ProductImportHelper
     }
 
     /**
+     * バッチインポート（V1 List API使用）
+     *
+     * @param Member $creator 作成者
+     * @param \DateTime $updateFrom 更新対象開始日
+     * @param LoggerInterface|null $logger コンソール出力インターフェース
+     * @param \DateTime|null $updateTo 更新対象終了日
+     * @param array $options オプション
+     *
+     * @return int インポートされた商品数
+     *
+     * @throws DataTypeMissMatchException|\Throwable
+     */
+    public function batchImport(
+        Member &$creator,
+        \DateTime $updateFrom,
+        array $options = [],
+        ?LoggerInterface $logger = null,
+        ?\DateTime $updateTo = null,
+        ?int $fromPage = null,
+        ?int $maxPages = null,
+    ): int {
+        if ($logger === null) {
+            $logger = $this->logger;
+        }
+
+        $options = array_merge(
+            array_merge($this->defaultSetting, [
+                '_trigger' => self::TRIGGER_IMPORT_WITH_V1_LIST,
+                'lazy_flush' => true,
+                '_v1_list.limit' => 100,
+                '_v1_list.return_zaiko' => true,
+                '_v1_list.skid' => null,
+                '_v1_list.tanka_kubuns' => [],
+                '_v1_list.free_kubuns' => [],
+            ]),
+            $options
+        );
+
+        // インポート前イベントをディスパッチ
+        if ($this->eventDispatcher->hasListeners(Events::HELPER_PRE_IMPORT_PRODUCT)) {
+            $request = [
+                'update_from' => $updateFrom,
+                'update_to' => $updateTo,
+                'max_pages' => $maxPages,
+                'from_page' => $fromPage,
+            ];
+
+            $event = new HelperPreImportProductEvent($request, $logger, $options);
+            $this->eventDispatcher->dispatch($event, Events::HELPER_PRE_IMPORT_PRODUCT);
+
+            $updateFrom = $event->request['update_from'];
+            $updateTo = $event->request['update_to'];
+            $maxPages = $event->request['max_pages'];
+            $fromPage = $event->request['from_page'];
+            $options = $event->options;
+        }
+
+        $processed = 0;
+        $pagesProcessed = 0;
+        $page = $fromPage ?? 1;
+
+        do {
+            $logger->info(sprintf('<info>ページ %d を処理中...</info>', $page));
+
+            $resp = $this->productBridge->getV1List(
+                $updateFrom,
+                $updateTo,
+                $page,
+                $options['_v1_list.limit'],
+                $options['_v1_list.return_zaiko'],
+                $options['_v1_list.skid'],
+                $options['_v1_list.tanka_kubuns'],
+                $options['_v1_list.free_kubuns'],
+                $options
+            );
+
+            $productModels = $resp->getItems();
+            $logger->info(sprintf('<info>取得した商品数: %d</info>', count($productModels)));
+
+            // 商品が取得できた場合のみ処理
+            if (!empty($productModels)) {
+                // バッチ処理用に商品を作成（遅延フラッシュモード）
+                $createdProducts = $this->create($productModels, [], $creator, $logger, $options);
+                $processed += count($createdProducts);
+
+                // フラッシュ成功時のみポストイベントをディスパッチ
+                if ($this->flushBatchAndResetOnError($page, $creator, $logger)) {
+                    if ($this->eventDispatcher->hasListeners(Events::HELPER_POST_IMPORT_PRODUCT)) {
+                        $this->eventDispatcher->dispatch(
+                            new HelperImportProductEvent($createdProducts, $productModels, [], $logger, $options),
+                            Events::HELPER_POST_IMPORT_PRODUCT
+                        );
+                    }
+
+                    $logger->info(sprintf('<info>処理済み商品数: %d (累計: %d)</info>', count($createdProducts), $processed));
+                }
+            } else {
+                $logger->warning('<warning>商品が取得できませんでした。</warning>');
+            }
+
+            // 次のページへ進む（常に実行）
+            $hasMore = $resp->getHasMore();
+            $page++;
+            $pagesProcessed++;
+
+            if ($maxPages !== null && $pagesProcessed >= $maxPages) {
+                $logger->info(sprintf('<info>最大ページ数 %d に到達しました。</info>', $maxPages));
+                $hasMore = false;
+            }
+        } while ($hasMore);
+
+        $logger->info(sprintf('<info>バッチインポート完了: 合計 %d 商品を処理しました。</info>', $processed));
+
+        return $processed;
+    }
+
+    /**
      * 商品IDによる商品インポート
      *
      * @param Member $creator 作成者
@@ -177,6 +385,8 @@ class ProductImportHelper
      * @param LoggerInterface|null $logger コンソール出力インターフェース
      *
      * @return int インポートされた商品数
+     *
+     * @throws \Throwable
      */
     public function importByAceProductIds(Member &$creator, array $productIds, array &$options = [], ?LoggerInterface $logger = null): int
     {
@@ -195,6 +405,7 @@ class ProductImportHelper
                 '_trigger' => self::TRIGGER_IMPORT_WITH_GET_ITEMS,
                 '_get_items.skid' => null,
                 '_get_items.free_kubuns' => [],
+                '_get_items.tanka_kubuns' => [],
             ]),
             $options
         );
@@ -209,7 +420,7 @@ class ProductImportHelper
             $options = $event->options;
         }
 
-        $payload = $this->productBridge->getItems($productIds, $options['_get_items.free_kubuns'], $options['_get_items.skid'], $options);
+        $payload = $this->productBridge->getItems($productIds, $options['_get_items.free_kubuns'], $options['_get_items.skid'], $options, $options['_get_items.tanka_kubuns']);
         $createdProducts = $this->create($payload->getItems(), [], $creator, $logger, $options);
 
         if ($this->eventDispatcher->hasListeners(Events::HELPER_POST_IMPORT_PRODUCT)) {
@@ -231,18 +442,118 @@ class ProductImportHelper
     /**
      * 商品を作成する
      *
-     * @param GoodModelGroup1Interface[] $productModels 商品モデル
-     * @param GoodTankaModelGroup1Interface[] $tankaModels 単価モデル
-     * @param Member $creator 作成者
-     * @param LoggerInterface $logger
-     * @param array $options オプション
+     * 通販Ace APIから取得した商品データをEC-CUBEの商品エンティティとして作成する。
+     * 即座フラッシュモードと遅延フラッシュモードの2つの動作モードがある。
      *
-     * @return <string, ProductClass>[] 作成された商品モデルの配列
+     * ## フラッシュモード
+     *
+     * ### 即座フラッシュモード（`lazy_flush => false`、デフォルト）
+     *
+     * **動作フロー:**
+     * ```
+     * 商品A → persist → flush → DB保存 ✅
+     * 商品B → persist → flush → DB保存 ✅
+     * 商品C → エラー → handleCreateProductFailed → リセット → 続行
+     * 商品D → persist → flush → DB保存 ✅
+     * ```
+     *
+     * **特徴:**
+     * - 各商品を作成後すぐにデータベースに保存
+     * - メモリ使用量が少ない
+     * - エラーが発生しても既に保存済みの商品は影響を受けない
+     * - 商品数が少ない場合や、確実に1件ずつ保存したい場合に適している
+     *
+     * **エラーハンドリング:**
+     * - エラー発生時はエンティティマネージャーをリセット
+     * - 失敗した商品のみスキップして次の商品へ進む
+     *
+     * ### 遅延フラッシュモード（`lazy_flush => true`、バッチ処理用）
+     *
+     * **正常時の動作フロー:**
+     * ```
+     * 商品A → persist（保留）
+     * 商品B → persist（保留）
+     * 商品C → persist（保留）
+     * ...
+     * バッチ終了 → 呼び出し元でflush → 全商品を一括DB保存 ✅
+     * ```
+     *
+     * **エラー時の動作フロー（重要）:**
+     * ```
+     * 商品A → persist（保留）
+     * 商品B → persist（保留）
+     * 商品C → エラー発生
+     *   ↓
+     *   1. 未保存の商品A、Bを先にflush → DB保存 ✅
+     *   2. entityManager->clear()
+     *   3. handleCreateProductFailed → リセット
+     *   4. $processed = 0（カウンターリセット）
+     *   ↓
+     * 商品D → persist（保留）
+     * 商品E → persist（保留）
+     * ...
+     * バッチ終了 → 呼び出し元でflush → 商品D、Eを一括DB保存 ✅
+     * ```
+     *
+     * **特徴:**
+     * - 複数商品をメモリ上に保持し、まとめて保存
+     * - パフォーマンスが大幅に向上（データベースアクセス回数を削減）
+     * - 大量の商品を扱うバッチ処理に適している
+     *
+     * **エラーハンドリング（フォールトトレラント設計）:**
+     * - エラー発生時、**未保存の商品を失わない**ように自動保存
+     * - `$processed`カウンターで未保存商品数を追跡
+     * - エラー後もエンティティマネージャーをリセットして処理を継続
+     * - 一部の商品でエラーが発生しても、成功した商品は全て保存される
+     *
+     * ## 処理の詳細
+     *
+     * 1. **商品データの取得または作成**
+     *    - 既存商品の場合: DBから取得して更新
+     *    - 新規商品の場合: 新しいエンティティを作成
+     *
+     * 2. **商品情報の設定**
+     *    - 商品名、商品種別の設定
+     *    - 単価情報の設定（`setPrice()`）
+     *    - ステータスの設定（`setStatus()`）
+     *    - 在庫情報の設定（オプション）
+     *
+     * 3. **イベントディスパッチ**
+     *    - `PRODUCT_IMPORT_HELPER_ON_CREATE_PRODUCT`: 商品作成時
+     *    - `PRODUCT_IMPORT_HELPER_ON_SET_PRICE`: 価格設定時
+     *    - `PRODUCT_IMPORT_HELPER_ON_CREATE_PRODUCT_FAILED`: エラー時
+     *
+     * 4. **エンティティの永続化**
+     *    - persist で変更をマーク
+     *    - フラッシュモードに応じてflush実行を制御
+     *
+     * ## オプション
+     *
+     * - `lazy_flush` (bool): 遅延フラッシュモードを有効にする（デフォルト: false）
+     * - `_product_import_helper.create_new` (bool): 新規商品を作成する（デフォルト: true）
+     * - `_product_import_helper.set_product_status` (bool): ステータスを設定する（デフォルト: true）
+     * - `_product_import_helper.set_price` (bool): 価格を設定する（デフォルト: true）
+     * - `_product_import_helper.import_stock` (bool): 在庫を更新する（デフォルト: true）
+     * - `_product_import_helper.hide_on_new` (bool): 新規商品を非表示にする（デフォルト: false）
+     *
+     * @param GoodModelGroup1Interface[] $productModels 商品モデルの配列
+     * @param GoodTankaModelGroup1Interface[] $tankaModels 単価モデルの配列（空配列の場合は商品モデルから取得）
+     * @param Member $creator 作成者（参照渡し、エラー時に更新される可能性あり）
+     * @param LoggerInterface $logger ロガー
+     * @param array $options オプション設定（参照渡し、イベントで更新される可能性あり）
+     *
+     * @return array<string, ProductClass> 作成された商品クラスの配列（キー: Ace商品ID、値: ProductClass）
+     *
+     * @throws \Throwable 商品作成中にエラーが発生した場合（内部でキャッチして処理を継続）
+     *
+     * @see handleCreateProductFailed() 商品作成失敗時の処理
      */
     protected function create(array $productModels, array $tankaModels, Member &$creator, LoggerInterface $logger, array &$options = []): array
     {
         $settingBag = $this->createSettingBag($tankaModels);
+        $processed = 0;
         $processedProductClasses = [];
+        $lazyFlush = $options['lazy_flush'] ?? false;
 
         foreach ($productModels as $productModel) {
             try {
@@ -338,16 +649,40 @@ class ProductImportHelper
                 $entityManager->persist($productClass);
                 $entityManager->persist($productStock);
 
-                $entityManager->flush();
+                if (!$lazyFlush) {
+                    $entityManager->flush();
+                }
 
+                $processed++;
                 $processedProductClasses[$aceProductId] = $productClass;
             } catch (\Throwable $e) {
                 $logger->error(sprintf('<error>商品作成中にエラーが発生しました:%s</error>', $e->getMessage()));
 
-                // エラーが発生した場合は、キャッシュされたエンティティマネージャーをリセット
+                // エラーが発生した場合の処理
+                if ($lazyFlush && $processed > 0) {
+                    // 遅延フラッシュの場合は、成功した商品を先に保存してからリセット
+                    try {
+                        $this->entityManager->flush();
+                        $logger->info(sprintf('<info>エラー発生前に %d 商品を保存しました</info>', $processed));
+
+                        $this->entityManager->clear();
+                    } catch (\Throwable $flushError) {
+                        $logger->error(sprintf('<error>%d件の商品をフラッシュ中にエラーが発生しました: %s</error>', $processed, $flushError->getMessage()));
+                    }
+
+                    $processed = 0;
+                }
+
+                // エンティティマネージャーをリセット
                 $this->handleCreateProductFailed($productModel, $processedProductClasses, $options, $logger, $settingBag, $creator);
             }
         }
+
+        unset(
+            $settingBag['on_create_product_event'],
+            $settingBag['on_set_price_event'],
+            $settingBag['on_create_product_failed_event']
+        );
 
         return $processedProductClasses;
     }
@@ -651,5 +986,49 @@ class ProductImportHelper
 
         $this->eventDispatcher->dispatch($onCreateProductFailedEvent, Events::PRODUCT_IMPORT_HELPER_ON_CREATE_PRODUCT_FAILED);
         $options = $onCreateProductFailedEvent->options;
+    }
+
+    /**
+     * バッチのフラッシュ処理とエラー時のリセット
+     *
+     * バッチ処理で作成した商品をデータベースに保存する。
+     * フラッシュに失敗した場合は、エンティティマネージャーをリセットして
+     * 次のバッチに進めるようにする。
+     *
+     * @param int $page 現在処理中のページ番号
+     * @param Member $creator 作成者（参照渡しで更新される）
+     * @param LoggerInterface $logger ロガー
+     *
+     * @return bool フラッシュが成功した場合true、失敗した場合false
+     */
+    protected function flushBatchAndResetOnError(int $page, Member &$creator, LoggerInterface $logger): bool
+    {
+        try {
+            // バッチで作成した商品をデータベースに保存
+            $this->entityManager->flush();
+
+            // メモリ管理のためエンティティマネージャーをクリア
+            $this->entityManager->clear();
+
+            return true;
+        } catch (\Throwable $e) {
+            // フラッシュエラーをログに記録
+            $logger->error(sprintf('<error>バッチフラッシュ中にエラーが発生しました: %s</error>', $e->getMessage()));
+
+            // エンティティマネージャーをリセットして回復
+            $this->entityManager = EntityManagerResetHelper::resetEntityManager(
+                $this->entityManager,
+                $this->managerRegistry,
+                $logger
+            );
+
+            // リセット後、作成者参照を更新
+            $creator = $this->entityManager->getRepository(Member::class)->find($creator->getId());
+
+            // 失敗したバッチをログに記録
+            $logger->warning(sprintf('<warning>ページ %d のフラッシュに失敗しました。次のページに進みます。</warning>', $page));
+
+            return false;
+        }
     }
 }
