@@ -18,6 +18,8 @@ use Plugin\AceClient43\AceServices\AceMethod\Goods\GetZaikoMethod;
 use Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GetStockByUpdateMethod;
 use Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GoodsItemsMethod;
 use Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GoodsItemsTankaMethod;
+use Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GoodsListMethod;
+use Plugin\AceClient43\AceServices\Model\CustomDataType\AceDateTime\AceDateTimeFactory;
 use Plugin\AceClient43\AceServices\Model\Request\Goods\GetGoods as RequestGetGoods;
 use Plugin\AceClient43\AceServices\Model\Request\Goods\GetGoods\IdPrmModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Goods\GetGoods\OptionsModelInterface;
@@ -31,9 +33,11 @@ use Plugin\AceClient43\AceServices\Model\Response\WebApi\Goods\V1\GetStockByUpda
 use Plugin\AceClient43\AceServices\Model\Response\WebApi\Goods\V1\GetStockByUpdate\V1GetStockByUpdateResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\WebApi\Goods\V1\GoodsItems\V1GoodsItemsResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\WebApi\Goods\V1\GoodsItemsTanka\V1GoodsItemsTankaResponseModelInterface;
+use Plugin\AceClient43\AceServices\Model\Response\WebApi\Goods\V1\GoodsList\V1GoodsListResponseModelInterface;
 use Plugin\AceClient43\Events\Events;
 use Plugin\AceClient43\Events\PreGetItemsEvent;
 use Plugin\AceClient43\Events\PreGetItemsTankaEvent;
+use Plugin\AceClient43\Exception\DataTypeMissMatchException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -41,15 +45,11 @@ use Psr\Container\NotFoundExceptionInterface;
 class ProductBridge extends BaseBridge
 {
     private ?GetGoodsMethod $getGoodsMethod = null;
-
     private ?GetZaikoMethod $getZaikoMethod = null;
-
     private ?V1GetStockByUpdateMethod $v1GetStockByUpdateMethod = null;
-
     private ?V1GoodsItemsMethod $v1GetGoodsListMethod = null;
-
     private ?V1GoodsItemsTankaMethod $v1GoodsItemsTankaMethod = null;
-
+    private ?V1GoodsListMethod $v1GoodsListMethod = null;
     private ContainerInterface $container;
 
     public function __construct(
@@ -121,6 +121,15 @@ class ProductBridge extends BaseBridge
         }
 
         return $this->v1GoodsItemsTankaMethod;
+    }
+
+    protected function getV1GoodsListMethod(): V1GoodsListMethod
+    {
+        if (null === $this->v1GoodsListMethod) {
+            $this->v1GoodsListMethod = $this->container->get('ace_client.methods.v1_get_goods_list');
+        }
+
+        return $this->v1GoodsListMethod;
     }
 
     /**
@@ -428,6 +437,71 @@ class ProductBridge extends BaseBridge
             }
 
             /* @var V1GoodsItemsTankaResponseModelInterface $payload */
+            return $response->getResponse();
+        } catch (\Throwable $e) {
+            throw new \RuntimeException('商品一覧（v1）の取得に失敗しました。', 0, $e);
+        }
+    }
+
+    /**
+     * 商品一覧（v1）を取得します。
+     *
+     * @param \DateTime $updatedFrom
+     * @param \DateTime|null $toDate
+     * @param int|null $page
+     * @param int|null $limit
+     * @param bool $returnZaiko
+     * @param int|null $skid
+     * @param array $tankaKubuns
+     * @param array $freeKubuns
+     * @param array $options
+     *
+     * @return V1GoodsListResponseModelInterface
+     *
+     * @throws DataTypeMissMatchException
+     */
+    public function getV1List(
+        \DateTime $updatedFrom,
+        ?\DateTime $toDate = null,
+        ?int $page = null,
+        ?int $limit = null,
+        bool $returnZaiko = true,
+        ?int $skid = null,
+        array $tankaKubuns = [],
+        array $freeKubuns = [],
+        array $options = [],
+    ): V1GoodsListResponseModelInterface {
+        $request = [
+            'syid' => $this->getSyid(),
+            'updateFrom' => AceDateTimeFactory::makeAceDateTime($updatedFrom)->toWebApiDateTime(),
+            'toDate' => AceDateTimeFactory::makeAceDateTime($toDate)->toWebApiDateTime(),
+            'page' => $page,
+            'limit' => $limit,
+            'zaiko' => $returnZaiko,
+            'skid' => $skid,
+            'tankaKubuns' => empty($tankaKubuns) ? null : implode(',', array_unique($tankaKubuns)),
+            'freeKubuns' => empty($freeKubuns) ? null : implode(',', array_unique($freeKubuns)),
+        ];
+
+        if (\count($requestOptions = $options['_request_options'] ?? []) > 0) {
+            $requestOptions = array_unique($requestOptions);
+            $normalizedValues = array_map(function ($val) {
+                return $val === null ? '' : $val;
+            }, array_values($requestOptions));
+            $request['optsKey'] = implode('|', array_keys($requestOptions));
+            $request['optsVal'] = implode('|', $normalizedValues);
+        }
+
+        try {
+            $response = $this->getV1GoodsListMethod()
+                ->withArrayRequest($request)
+                ->send();
+
+            if (!$response->isOk()) {
+                throw new \RuntimeException(sprintf('商品一覧（v1）取得に失敗しました。(レスポンスコード：%s)', $response->getStatusCode()));
+            }
+
+            /* @var V1GoodsListResponseModelInterface $payload */
             return $response->getResponse();
         } catch (\Throwable $e) {
             throw new \RuntimeException('商品一覧（v1）の取得に失敗しました。', 0, $e);

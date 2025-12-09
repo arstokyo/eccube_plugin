@@ -293,6 +293,7 @@ services:
                 ace_client.methods.v1_get_stock_by_update: '@Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GetStockByUpdateMethod'
                 ace_client.methods.v1_get_goods_items: '@Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GoodsItemsMethod'
                 ace_client.methods.v1_get_goods_items_tanka: '@Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GoodsItemsTankaMethod'
+                ace_client.methods.v1_get_goods_list: '@Plugin\AceClient43\AceServices\AceMethod\WebApi\Goods\V1\V1GoodsListMethod'
 
     # ACE Services - Version Independent Aliases (will use ace_client logger)
     ace_config_service:
@@ -883,6 +884,8 @@ services:
     Plugin\AceClient43\Command\ProductImportCommand:
     Plugin\AceClient43\Command\ProductRepeatImportCommand:
     Plugin\AceClient43\Command\ImportProductStockCommand:
+    Plugin\AceClient43\Command\ProductImportV2Command:
+    Plugin\AceClient43\Command\ProductRepeatImportV2Command:
 
     # ===================================================================================================
     # Cache Sync Services - HTTP-based cache clearing for distributed servers
