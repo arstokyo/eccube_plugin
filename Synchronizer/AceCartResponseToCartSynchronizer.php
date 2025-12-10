@@ -25,23 +25,23 @@ use Plugin\AceClient43\Service\AceConfigService;
 class AceCartResponseToCartSynchronizer implements AceCartResponseToCartSynchronizerInterface
 {
     protected CartService $cartService;
-
     protected ProductClassRepository $productClassRepository;
-
     protected ItemCompareInterface $itemCompare;
-
     protected AceConfigService $aceConfigService;
+    protected AceCartResponseFeeSynchronizer $feeSynchronizer;
 
     public function __construct(
         CartService $cartService,
         ProductClassRepository $productClassRepository,
         ItemCompareInterface $itemCompare,
         AceConfigService $aceConfigService,
+        AceCartResponseFeeSynchronizer $feeSynchronizer,
     ) {
         $this->cartService = $cartService;
         $this->productClassRepository = $productClassRepository;
         $this->itemCompare = $itemCompare;
         $this->aceConfigService = $aceConfigService;
+        $this->feeSynchronizer = $feeSynchronizer;
     }
 
     /**
@@ -147,24 +147,7 @@ class AceCartResponseToCartSynchronizer implements AceCartResponseToCartSynchron
 
     public function syncCartFees(Cart $Cart, OrderModelInterface $orderModel): void
     {
-        if ($this->aceConfigService->shouldUseAceDelivery()) {
-            $deliveryFree = $orderModel->getJyuden()->getSouryou();
-            $Cart->setAceDeliveryFee($deliveryFree);
-        }
-
-        if ($this->aceConfigService->shouldUseAceCharge()) {
-            $chargeFee = $orderModel->getJyuden()->getTesuu();
-            $Cart->setAceChargeFee($chargeFee);
-        }
-
-        if ($this->aceConfigService->shouldAddPoint()) {
-            $Cart->setAceEarnablePoint($orderModel->getEarnablePoints());
-        }
-
-        if ($this->aceConfigService->shouldUseAceDiscount()) {
-            $discountAmount = $orderModel->getPromotionDiscount();
-            $Cart->setAcePromotionDiscount($discountAmount);
-        }
+        $this->feeSynchronizer->sync($Cart, $orderModel);
     }
 
     /**

@@ -2,8 +2,10 @@
 
 namespace Plugin\AceClient43\Service;
 
+use Eccube\Entity\Master\TaxDisplayType;
 use Plugin\AceClient43\Entity\Config;
 use Plugin\AceClient43\Repository\ConfigRepository;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * AceClient設定キャッシュサービス
@@ -15,6 +17,7 @@ use Plugin\AceClient43\Repository\ConfigRepository;
 class AceConfigService
 {
     private ConfigRepository $configRepository;
+    private ParameterBagInterface $parameterBag;
 
     /**
      * キャッシュされた設定
@@ -30,9 +33,12 @@ class AceConfigService
      */
     private bool $cacheInitialized = false;
 
-    public function __construct(ConfigRepository $configRepository)
-    {
+    public function __construct(
+        ConfigRepository $configRepository,
+        ParameterBagInterface $parameterBag,
+    ) {
         $this->configRepository = $configRepository;
+        $this->parameterBag = $parameterBag;
     }
 
     /**
@@ -414,5 +420,25 @@ class AceConfigService
         }
 
         return $config->isOrderSupportEnabledWhenCheckOut();
+    }
+
+    public function isDeliveryFeeDisplayAsIncludedTax(): bool
+    {
+        return (int) $this->parameterBag->get('ace.processor.delivery_tax_display_type') === TaxDisplayType::INCLUDED;
+    }
+
+    public function isChargeFeeDisplayAsIncludedTax(): bool
+    {
+        return (int) $this->parameterBag->get('ace.processor.charge_tax_display_type') === TaxDisplayType::INCLUDED;
+    }
+
+    public function isDiscountDisplayAsIncludedTax(): bool
+    {
+        return (int) $this->parameterBag->get('ace.processor.discount_tax_display_type') === TaxDisplayType::INCLUDED;
+    }
+
+    public function isProductDisplayAsIncludedTax(): bool
+    {
+        return (int) $this->parameterBag->get('ace.default_tax_display_type') === TaxDisplayType::INCLUDED;
     }
 }

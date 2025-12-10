@@ -125,7 +125,7 @@ class BaseBridge
      */
     protected function hasErrorMessage($response): bool
     {
-        if (method_exists($response->getMessage(), 'getResult')) {
+        if (method_exists($response->getMessage(), 'getResult') && null !== $response->getMessage()->getResult()) {
             $isResultOk = 'OK' === $response->getMessage()->getResult();
 
             if (!$isResultOk) {

@@ -45,10 +45,15 @@ trait CampaignTrait
         return $this;
     }
 
-    public function useCampaign($use = true): self
+    public function useCampaign($use = true): static
     {
         $this->setCampaign($use ? 1 : 0);
 
         return $this;
+    }
+
+    public function isUseCampaign(): bool
+    {
+        return 1 === $this->campaign;
     }
 }

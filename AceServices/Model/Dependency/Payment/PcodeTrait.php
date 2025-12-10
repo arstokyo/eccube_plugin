@@ -40,4 +40,9 @@ trait PcodeTrait
 
         return $this;
     }
+
+    public function hasPcode(): bool
+    {
+        return (int) $this->pcode > 0;
+    }
 }

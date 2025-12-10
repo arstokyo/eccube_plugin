@@ -1,9 +1,9 @@
 <?php
 
-namespace Plugin\AceClient43\EventListener;
+namespace Plugin\AceClient43\EventListener\Cart;
 
-use Plugin\AceClient43\Events\PreAddCartFilterCartItemEvent;
 use Plugin\AceClient43\Events\Events;
+use Plugin\AceClient43\Events\PreAddCartFilterCartItemEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class PreAddCartFilterCartItemListener implements EventSubscriberInterface

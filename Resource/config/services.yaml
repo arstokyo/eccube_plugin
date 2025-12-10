@@ -86,19 +86,26 @@ parameters:
     ace.version: '1.1'
     ace.name: 'AceClient43'
 
-    # Default tax display/type for processors (IDs are from master tables)
     # TaxDisplayType: 1=EXCLUDED, 2=INCLUDED
     # TaxType: 1=TAXATION, 2=NON_TAXABLE, 3=TAX_EXEMPT
+
+    # 商品、各値引き、送料、手数料はデフォルト税込金額で表示、計算
+    ace.default_tax_display_type: 2
+
+    # 手数料
     ace.processor.charge_tax_display_type: 2
     ace.processor.charge_tax_type: 1
+    ace.processor.charge_fee.name: '手数料'
+
+    # 送料
     ace.processor.delivery_tax_display_type: 2
     ace.processor.delivery_tax_type: 1
+    ace.processor.delivery_fee.name: '送料'
+
+    #値引き
     ace.processor.discount_tax_display_type: 2
     ace.processor.discount_tax_type: 1
-    ace.processor.delivery_fee.name: '通販Ace送料'
-    ace.processor.charge_fee.name: '通販Ace手数料'
-    ace.processor.point_discount.name: '通販Aceポイント値引き'
-    ace.processor.promotion_discount.name: '通販Aceキャンペーン値引き'
+    ace.processor.point_discount.name: 'ポイント値引き'
 
     ace.method:
         default_api_type: 'soap'
@@ -852,6 +859,19 @@ services:
     Plugin\AceClient43\Processor\AddPointProcessor:
         tags:
             - { name: eccube.item.holder.post.validator, flow_type: shopping, priority: 850 }
+
+    # Correctors
+    Plugin\AceClient43\Converter\Corrector\AddCart\PaymentIdCorrector:
+        tags:
+          - { name: 'ace_client.corrector.add_cart_request', priority: 50 }
+
+    Plugin\AceClient43\Converter\Corrector\AddCart\ShippingAddressEdaCorrector:
+        tags:
+          - { name: 'ace_client.corrector.add_cart_request' }
+
+    Plugin\AceClient43\Converter\Corrector\AddCart\AddCartOptionCorrector:
+        tags:
+            - { name: 'ace_client.corrector.add_cart_request', priority: -100 }  # できるだけ、最終に実行
 
     # Decorators
     Plugin\AceClient43\Comparator\ProductClassComparator:
