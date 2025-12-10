@@ -40,6 +40,7 @@ class CartOrderSynchronizer implements CartOrderSynchronizerInterface
             ->setAceChargeFee($Cart->getAceChargeFee())
             ->setAceEarnablePoint($Cart->getAceEarnablePoint())
             ->setAcePromotionDiscount($Cart->getAcePromotionDiscount())
+            ->setAceDeliverySlipId($Cart->getAceDeliverySlipId())
         ;
 
         if ($shouldSyncOrderItem) {
@@ -119,6 +120,9 @@ class CartOrderSynchronizer implements CartOrderSynchronizerInterface
         }
         if ($this->shouldSyncField('ace_earnable_point', $include, $exclude)) {
             $Cart->setAceEarnablePoint($Order->getAceEarnablePoint());
+        }
+        if ($this->shouldSyncField('ace_delivery_split_id', $include, $exclude)) {
+            $Cart->setAceDeliverySlipId($Order->getAceDeliverySlipId());
         }
     }
 
@@ -213,5 +217,6 @@ class CartOrderSynchronizer implements CartOrderSynchronizerInterface
         $Cart->setAcePromotionDiscount($PrevCart->getAcePromotionDiscount());
         $Cart->setAceChargeFee($PrevCart->getAceChargeFee());
         $Cart->setAceEarnablePoint($PrevCart->getAceEarnablePoint());
+        $Cart->setAceDeliverySlipId($PrevCart->getAceDeliverySlipId());
     }
 }

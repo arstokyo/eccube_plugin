@@ -29,11 +29,11 @@ class AceCartResponseFeeSynchronizer
      *
      * @param Cart|Order $CartOrder 料金を更新するカート注文オブジェクト
      * @param OrderModelInterface $orderModel 料金と割引データを含む注文モデル
-     * @param string|null $context 適用する料金をフィルタリングするためのオプションのコンテキスト
+     * @param array $context 適用する料金をフィルタリングするためのオプションのコンテキスト
      *
      * @return void
      */
-    public function sync($CartOrder, OrderModelInterface $orderModel, ?string $context = 'all'): void
+    public function sync($CartOrder, OrderModelInterface $orderModel, array $context = ['all']): void
     {
         $jyudenModel = $orderModel->getJyuden();
         $config = $this->aceConfigService;
@@ -72,10 +72,14 @@ class AceCartResponseFeeSynchronizer
                 $CartOrder->setAcePointDiscount($pointDiscountAmount);
             }
         }
+
+        if ($this->isGrantFor('ace_delivery_split_id', $context)) {
+            $CartOrder->setAceDeliverySlipId($jyudenModel->getHcode());
+        }
     }
 
-    protected function isGrantFor(string $fee, ?string $context = null): bool
+    protected function isGrantFor(string $fee, array $context): bool
     {
-        return empty($context) || in_array($context, ['all', $fee]);
+        return empty($context) || !empty(array_intersect($context, ['all', $fee]));
     }
 }

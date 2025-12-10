@@ -25,7 +25,7 @@ class AceCartResponseToOrderSynchronizer implements AceCartResponseToOrderSynchr
     /**
      * {@inheritDoc}
      */
-    public function syncOrderFees(Order $order, OrderModelInterface $orderModel, string $context = 'all'): void
+    public function syncOrderFees(Order $order, OrderModelInterface $orderModel, array $context = ['all']): void
     {
         $this->feeSynchronizer->sync($order, $orderModel, $context);
     }

@@ -311,7 +311,7 @@ class OrderBridge extends BaseBridge
 
         $addCartResponse = $this->doRequestAddCartWithCache($shipping, $options, $customerAddress);
 
-        $this->cartResponseToOrderSynchronizer->syncOrderFees($order, $addCartResponse->getOrder(), 'delivery_free');
+        $this->cartResponseToOrderSynchronizer->syncOrderFees($order, $addCartResponse->getOrder(), ['delivery_free', 'ace_delivery_split_id']);
         $result = $this->executeShoppingPurchaseFlow($order, 'delivery_update', $shouldExecutePurchaseFlow);
 
         // Cart へ同期（通常のフィールドをすべて同期）
@@ -372,7 +372,7 @@ class OrderBridge extends BaseBridge
             throw new CouldNotAddCartException(null, $e);
         }
 
-        $this->cartResponseToOrderSynchronizer->syncOrderFees($order, $addCartResponse->getOrder(), 'point');
+        $this->cartResponseToOrderSynchronizer->syncOrderFees($order, $addCartResponse->getOrder(), ['point']);
         $result = $this->executeShoppingPurchaseFlow($order, 'point_update', $shouldExecutePurchaseFlow);
 
         // Cart へは付与予定ポイントのみ同期（その他の項目は除外）
