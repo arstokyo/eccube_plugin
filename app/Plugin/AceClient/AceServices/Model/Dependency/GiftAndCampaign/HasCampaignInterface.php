@@ -13,6 +13,8 @@
 
 namespace Plugin\AceClient43\AceServices\Model\Dependency\GiftAndCampaign;
 
+use Symfony\Component\Serializer\Attribute\Ignore;
+
 /**
  * Interface for Has キャンペーン動作フラグ
  *
@@ -35,4 +37,11 @@ interface HasCampaignInterface
      * @return $this
      */
     public function setCampaign(?int $campaign);
+
+    /**
+     * @Ignore()
+     */
+    public function useCampaign($use = true): static;
+
+    public function isUseCampaign(): bool;
 }

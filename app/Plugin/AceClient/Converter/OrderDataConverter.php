@@ -142,9 +142,9 @@ class OrderDataConverter implements OrderDataConverterInterface
         $member = $addCartRequestConverter->buildMemberOrderModel($customer, $customerAddress, $options);
         $jyuden = $addCartRequestConverter->buildJyudenModel(
             $order->getAceTransactionId(),
-            $options['ace_payment_id'] ?? $order->getPayment()->getAcePaymentId(),
             $isOrderSupportEnabled,
             $config,
+            $options['ace_payment_id'] ?? null,
             $options
         );
 
@@ -178,13 +178,6 @@ class OrderDataConverter implements OrderDataConverterInterface
             ->setJyuden($jyuden)
             ->setDetail($detail)
             ->setMailjyuden($mailJyuden);
-
-        // Use shared converter for options
-        if (!isset($options['_request_options'])) {
-            $prm->setOptions($addCartRequestConverter->buildOptionsModel($options));
-        } else {
-            $prm->setOptions($options['_request_options']);
-        }
 
         /** @var AddCartRequestModelInterface $requestModel */
         $requestModel = $this->createRequestModel(AddCartRequestModelInterface::class);
@@ -248,14 +241,5 @@ class OrderDataConverter implements OrderDataConverterInterface
         }
 
         $jyuden->setHtime($deliveryTimeEntity->getAceDeliveryTimeId());
-    }
-
-    protected function buildJyudenFreeModel(int $fmkbn, string $free): RequestAddCart\JyudenFreeModelInterface
-    {
-        /** @var RequestAddCart\JyudenFreeModelInterface $model */
-        $model = $this->createSubModel(RequestAddCart\JyudenFreeModelInterface::class);
-
-        return $model->setFmkbn($fmkbn)
-            ->setFree($free);
     }
 }

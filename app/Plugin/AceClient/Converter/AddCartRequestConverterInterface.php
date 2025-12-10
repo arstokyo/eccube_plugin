@@ -45,31 +45,20 @@ interface AddCartRequestConverterInterface
      * Bridge固有のフィールド（weborderno, notesなど）は呼び出し元で設定すること
      *
      * @param string $transactionId
-     * @param string $paymentId
      * @param bool $isOrderSupportEnabled
      * @param Config $config
+     * @param int|null $paymentId
      * @param array $options
      *
      * @return RequestAddCart\JyudenModelInterface
      */
     public function buildJyudenModel(
         string $transactionId,
-        string $paymentId,
         bool $isOrderSupportEnabled,
         Config $config,
+        ?int $paymentId = null,
         array $options = [],
     ): RequestAddCart\JyudenModelInterface;
-
-    /**
-     * 共通設定で OptionsModel を構築
-     *
-     * @param array $options
-     *
-     * @return RequestAddCart\OptionsModelInterface
-     */
-    public function buildOptionsModel(
-        array $options = [],
-    ): RequestAddCart\OptionsModelInterface;
 
     /**
      * 共通の注文合計（手数料、値引、送料）を JyudenModel に適用

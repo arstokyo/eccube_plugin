@@ -76,17 +76,19 @@ class AddCartRequestConverter implements AddCartRequestConverterInterface
      */
     public function buildJyudenModel(
         string $transactionId,
-        string $paymentId,
         bool $isOrderSupportEnabled,
         Config $config,
+        ?int $paymentId = null,
         array $options = [],
     ): RequestAddCart\JyudenModelInterface {
         /** @var RequestAddCart\JyudenModelInterface $jyuden */
         $jyuden = $this->createSubModel(RequestAddCart\JyudenModelInterface::class);
-
         $jyuden
-            ->setTorikbn($transactionId)
-            ->setPcode($paymentId);
+            ->setTorikbn($transactionId);
+
+        if (null !== $paymentId) {
+            $jyuden->setPcode($paymentId);
+        }
 
         if ($config->hasOrderRouteId()) {
             $jyuden->setJcode($config->getOrderRouteId());
@@ -97,24 +99,6 @@ class AddCartRequestConverter implements AddCartRequestConverterInterface
         }
 
         return $jyuden;
-    }
-
-    /**
-     * Build OptionsModel with common settings
-     */
-    public function buildOptionsModel(
-        array $options = [],
-    ): RequestAddCart\OptionsModelInterface {
-        /** @var RequestAddCart\OptionsModelInterface $optionsModel */
-        $optionsModel = $this->createSubModel(RequestAddCart\OptionsModelInterface::class);
-
-        //  // Common settings that both CartBridge and OrderBridge use
-        //  $optionsModel
-        //      ->setGroupSupport(true)
-        //      ->setCalcSupportMode(RequestAddCart\OptionsModelInterface::CALC_SUPPORT_MODE_ALL)
-        //      ->setReturnPlannedShippingDay(true)
-        //      ->setReturnSpGiveKbns([RequestAddCart\OptionsModelInterface::SUPPORT_POINT_GIVE_KBN]);
-        return $optionsModel;
     }
 
     /**

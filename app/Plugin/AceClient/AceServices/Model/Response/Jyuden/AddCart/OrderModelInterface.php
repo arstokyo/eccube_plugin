@@ -136,10 +136,14 @@ interface OrderModelInterface extends HasMessageModelInterface, Response\AsListD
      */
     public function getPromotionDiscount(): ?int;
 
+    public function getPromotionDiscountExcludedTax(): ?int;
+
     /**
      * ポイント割引を取得
      *
      * @return int|null
      */
     public function getPointDiscount(): ?int;
+
+    public function getPointDiscountExcludedTax(): ?int;
 }

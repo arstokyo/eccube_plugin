@@ -203,16 +203,12 @@ class CartOrderSynchronizer implements CartOrderSynchronizerInterface
     public function syncCartFromPrevCart(Cart $Cart, ?Cart $PrevCart): void
     {
         if (!$PrevCart) {
-            $Cart->setAcePaymentId($this->aceConfigService->getDefaultPaymentId())
-                ->setAceTransactionId($this->aceConfigService->getDefaultTransactionType())
-                ->setEnableAceOrderSupport($this->aceConfigService->isOrderSupportEnabledWhenAddCart());
+            $Cart->setAceTransactionId($this->aceConfigService->getDefaultTransactionType());
 
             return;
         }
 
-        $Cart->setAcePaymentId($PrevCart->getAcePaymentId());
         $Cart->setAceTransactionId($PrevCart->getAceTransactionId());
-        $Cart->setEnableAceOrderSupport($PrevCart->isAceOrderSupportEnabled());
         $Cart->setAceDeliveryFee($PrevCart->getAceDeliveryFee());
         $Cart->setAcePromotionDiscount($PrevCart->getAcePromotionDiscount());
         $Cart->setAceChargeFee($PrevCart->getAceChargeFee());

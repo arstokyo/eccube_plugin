@@ -36,6 +36,7 @@ use Eccube\Repository\OrderRepository;
 use Eccube\Repository\PaymentRepository;
 use Eccube\Service\OrderHelper as BaseOrderHelper;
 use Eccube\Session\Session;
+use Plugin\AceClient43\Service\AceConfigService;
 use Plugin\AceClient43\Synchronizer\CartOrderSynchronizerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -52,6 +53,8 @@ class OrderHelper extends BaseOrderHelper
 
     protected CartOrderSynchronizerInterface $cartOrderSyncService;
 
+    protected AceConfigService $aceConfigService;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         OrderRepository $orderRepository,
@@ -67,6 +70,7 @@ class OrderHelper extends BaseOrderHelper
         TokenStorageInterface $tokenStorage,
         EventDispatcherInterface $eventDispatcher,
         CartOrderSynchronizerInterface $cartOrderSyncService,
+        AceConfigService $aceConfigService,
     ) {
         parent::__construct(
             $entityManager,
@@ -80,10 +84,11 @@ class OrderHelper extends BaseOrderHelper
             $mobileDetector,
             $session,
             $authorizationChecker,
-            $tokenStorage
+            $tokenStorage,
         );
         $this->eventDispatcher = $eventDispatcher;
         $this->cartOrderSyncService = $cartOrderSyncService;
+        $this->aceConfigService = $aceConfigService;
     }
 
     /**
@@ -266,7 +271,10 @@ class OrderHelper extends BaseOrderHelper
 
         // デフォルト通販Ace側の価格は税込で採用します。
         if ($OrderItemType === OrderItemType::PRODUCT) {
-            return $this->entityManager->find(TaxDisplayType::class, TaxDisplayType::INCLUDED);
+            $type = $this->aceConfigService->isProductDisplayAsIncludedTax()
+                ? TaxDisplayType::INCLUDED
+                : TaxDisplayType::EXCLUDED;
+            return $this->entityManager->find(TaxDisplayType::class, $type);
         }
 
         return parent::getTaxDisplayType($OrderItemType);

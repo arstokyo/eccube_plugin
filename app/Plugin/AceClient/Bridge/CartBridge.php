@@ -243,9 +243,9 @@ class CartBridge extends BaseBridge
         $member = $addCartRequestConverter->buildMemberOrderModel($customer, null, $options);
         $jyuden = $addCartRequestConverter->buildJyudenModel(
             $cart->getAceTransactionId(),
-            $cart->getAcePaymentId(),
-            $cart->isAceOrderSupportEnabled(),
+            $config->isOrderSupportEnabledWhenAddCart(),
             $config,
+            null,
             $options,
         );
 
@@ -257,7 +257,7 @@ class CartBridge extends BaseBridge
         $jyumeis = [];
         /** @var CartItem $item */
         foreach ($cartItems as $item) {
-            if ($jyumeiDataConverter->shouldExcludeCartItem($item, $flow, $cart->isAceOrderSupportEnabled(), $options['_trigger'] ?? null)) {
+            if ($jyumeiDataConverter->shouldExcludeCartItem($item, $flow, $config->isOrderSupportEnabledWhenAddCart(), $options['_trigger'] ?? null)) {
                 continue;
             }
             $jyumeis[] = $jyumeiDataConverter->convertCartItemToJyumei($item, $options);
@@ -271,8 +271,7 @@ class CartBridge extends BaseBridge
         $prm
             ->setMember($member)
             ->setJyuden($jyuden)
-            ->setDetail($detail->setJyumei($jyumeis))
-            ->setOptions($options['_request_options'] ?? null);
+            ->setDetail($detail->setJyumei($jyumeis));
 
         /** @var AddCartRequestModelInterface $request */
         $request = $this->createRequestModel(AddCartRequestModelInterface::class);
