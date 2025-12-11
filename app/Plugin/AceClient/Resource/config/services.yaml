@@ -863,7 +863,15 @@ services:
     # Correctors
     Plugin\AceClient43\Converter\Corrector\AddCart\PaymentIdCorrector:
         tags:
-          - { name: 'ace_client.corrector.add_cart_request', priority: 50 }
+          - { name: 'ace_client.corrector.add_cart_request', priority: 900 }
+
+    Plugin\AceClient43\Converter\Corrector\AddCart\DeliverySlipCodeCorrector:
+        tags:
+          - { name: 'ace_client.corrector.add_cart_request', priority: 800 }
+
+    Plugin\AceClient43\Converter\Corrector\AddCart\CreateOrderHeaderCorrector:
+        tags:
+          - { name: 'ace_client.corrector.add_cart_request', priority: 700 }
 
     Plugin\AceClient43\Converter\Corrector\AddCart\ShippingAddressEdaCorrector:
         tags:

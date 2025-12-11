@@ -13,7 +13,7 @@ use Plugin\AceClient43\Exception\InvalidClassNameException;
 /**
  * お届け予定日の返却とグループサポートを設定
  */
-class AddCartOptionCorrector implements AddCartRequestCorrectorInterface
+final class AddCartOptionCorrector implements AddCartRequestCorrectorInterface
 {
     use CreateRequestModelTrait;
 

@@ -8,7 +8,7 @@ use Plugin\AceClient43\Converter\AddCartFlow;
 use Plugin\AceClient43\Converter\Corrector\AddCartRequestCorrectorInterface;
 use Plugin\AceClient43\Service\AceConfigService;
 
-class PaymentIdCorrector implements AddCartRequestCorrectorInterface
+final class PaymentIdCorrector implements AddCartRequestCorrectorInterface
 {
     private AceConfigService $aceConfigService;
 

@@ -24,7 +24,7 @@ use Plugin\AceClient43\AceServices\AceMethod\Jyuden\CreateOrderMethod;
 use Plugin\AceClient43\AceServices\AceMethod\Jyuden\DecisionCartMethod;
 use Plugin\AceClient43\AceServices\AceMethod\WebApi\Order\V1GetAceOrderIdMethod;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\AddCartRequestModelInterface;
-use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\OptionsModel;
+use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart\OptionsModelInterface;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\CreateOrder\CreateOrderRequestModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\AddCartResponseModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\CreateOrder\CreateOrderResponseModelInterface;
@@ -449,13 +449,6 @@ class OrderBridge extends BaseBridge
         $order = $shipping->getOrder();
         $customer = $order->getCustomer();
 
-        // 最小構成でAceへ問い合わせたい場合（ポイント再計算/送料更新）は Jyuden 拡張生成を抑制
-        $trigger = $options['_trigger'] ?? null;
-        if ($calcSupportMode === 'point' || in_array($trigger, [self::SYNC_DELIVERY_FEE_TRIGGER, self::SYNC_SHIPPING_TRIGGER, self::SYNC_EARNABLE_POINT_TRIGGER])) {
-            $options['_exclude_jyuden_build'] = true;
-        }
-
-        /** @var AddCartRequestModelInterface $request */
         $request = $this->orderDataConverter->buildAddCartRequest(
             $shipping,
             $order,
@@ -473,7 +466,7 @@ class OrderBridge extends BaseBridge
             $prm = $request->getPrm();
             $opts = $prm->getOptions();
             if ($opts === null) {
-                $opts = new OptionsModel();
+                $opts = $this->createSubModel(OptionsModelInterface::class);
                 $prm->setOptions($opts);
             }
             $opts->setCalcSupportMode($calcSupportMode);

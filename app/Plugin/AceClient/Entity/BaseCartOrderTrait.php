@@ -180,6 +180,11 @@ trait BaseCartOrderTrait
         return $this->ace_delivery_slip_id;
     }
 
+    public function hasAceDeliverySlipId(): bool
+    {
+        return (int) $this->ace_delivery_slip_id > 0;
+    }
+
     public function setAceDeliverySlipId(?int $ace_delivery_slip_id): self
     {
         $this->ace_delivery_slip_id = $ace_delivery_slip_id;

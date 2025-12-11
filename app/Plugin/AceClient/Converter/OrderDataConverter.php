@@ -98,17 +98,15 @@ class OrderDataConverter implements OrderDataConverterInterface
             }
         }
 
-        if ($this->createOrderRequestCorrectorApplier->hasCorrectors()) {
-            $context = [
-                'shipping' => $shipping,
-                'order' => $order,
-                'customer' => $customer,
-                'customer_address' => $customerAddress,
-                'decision_options' => $decisionOptions,
-                'config' => $config,
-            ];
-            $this->createOrderRequestCorrectorApplier->apply($createOrder, $context, $options);
-        }
+        $context = [
+            'shipping' => $shipping,
+            'order' => $order,
+            'customer' => $customer,
+            'customer_address' => $customerAddress,
+            'decision_options' => $decisionOptions,
+            'config' => $config,
+        ];
+        $this->createOrderRequestCorrectorApplier->apply($createOrder, $context, $options);
 
         return $createOrder;
     }
@@ -133,7 +131,6 @@ class OrderDataConverter implements OrderDataConverterInterface
         array $options = [],
     ): AddCartRequestModelInterface {
         $trigger = $options['_trigger'] ?? null;
-        $excludeBuild = !empty($options['_exclude_jyuden_build']);
 
         // 指定されたフロー用の不変なコンバータを生成
         $addCartRequestConverter = $this->converterFactory->createAddCartRequestConverter($flow);
@@ -147,16 +144,6 @@ class OrderDataConverter implements OrderDataConverterInterface
             $options['ace_payment_id'] ?? null,
             $options
         );
-
-        if (!$excludeBuild) {
-            $jyuden
-                ->setPointm($order->getUsePoint())
-                ->setNbikou1($order->getMessage())  // TODO: ワックスのプロジェクトに影響があるかを確認
-                ->setHday($shipping->getShippingDeliveryDate())
-                ->setWeborderno($order->getId());
-
-            $this->setDeliveryTime($jyuden, $shipping);
-        }
 
         [$jyumeis, $charge, $discount, $deliveryFee] = $this->buildLines($order, $jyumeiDataConverter, $flow, $isOrderSupportEnabled, $trigger);
 
@@ -187,17 +174,14 @@ class OrderDataConverter implements OrderDataConverterInterface
             ->setId($systemId)
             ->setSessId($sessionId);
 
-        if ($this->addCartRequestCorrectorApplier->hasCorrectors()) {
-            // リクエスト構築の最終段階で補正器を適用（補正器が存在する場合のみ）
-            $context = [
-                'shipping' => $shipping,
-                'order' => $order,
-                'customer' => $customer,
-                'customer_address' => $customerAddress,
-                'config' => $config,
-            ];
-            $this->addCartRequestCorrectorApplier->apply($requestModel, $flow, $context, $options);
-        }
+        $context = [
+            'shipping' => $shipping,
+            'order' => $order,
+            'customer' => $customer,
+            'customer_address' => $customerAddress,
+            'config' => $config,
+        ];
+        $this->addCartRequestCorrectorApplier->apply($requestModel, $flow, $context, $options);
 
         return $requestModel;
     }
@@ -226,20 +210,5 @@ class OrderDataConverter implements OrderDataConverterInterface
         }
 
         return [$jyumeis, $charge, $discount, $deliveryFee];
-    }
-
-    protected function setDeliveryTime(RequestAddCart\JyudenModelInterface $jyuden, Shipping $shipping): void
-    {
-        $deliveryTime = $shipping->getTimeId();
-        if ($deliveryTime === null) {
-            return;
-        }
-
-        $deliveryTimeEntity = $this->deliveryTimeRepository->findOneBy(['id' => $deliveryTime]);
-        if ($deliveryTimeEntity === null || !$deliveryTimeEntity->getAceDeliveryTimeId()) {
-            return;
-        }
-
-        $jyuden->setHtime($deliveryTimeEntity->getAceDeliveryTimeId());
     }
 }
