@@ -375,6 +375,10 @@ services:
         arguments:
             $correctors: !tagged_iterator { tag: 'ace_client.corrector.reg_member_request' }
 
+    Plugin\AceClient43\Converter\Corrector\JyumeiDataCorrectorApplier:
+        arguments:
+          $correctors: !tagged_iterator { tag: 'ace_client.corrector.jyumei_data' }
+
   # ===================================================================================================
     # コアACEサービス - リゾルバーシステム
     # ===================================================================================================

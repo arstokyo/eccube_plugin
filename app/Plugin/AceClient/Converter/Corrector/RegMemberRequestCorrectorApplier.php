@@ -35,7 +35,7 @@ final class RegMemberRequestCorrectorApplier extends RequestCorrectorApplierAbst
     ): void {
         /** @var RegMemberRequestCorrectorInterface $corrector */
         foreach ($this->correctors as $corrector) {
-            if ($corrector->support($flow)) {
+            if ($corrector->supports($flow)) {
                 $corrector->correct($request, $Customer, $flow, $options);
             }
         }
