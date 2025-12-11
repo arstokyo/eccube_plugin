@@ -42,5 +42,5 @@ interface RegMemberRequestCorrectorInterface
      *
      * @return bool サポートする場合true
      */
-    public function support(RegMemberFlow $flow): bool;
+    public function supports(RegMemberFlow $flow): bool;
 }
