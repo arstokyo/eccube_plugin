@@ -8,12 +8,20 @@ use Eccube\Entity\ProductClass;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart as RequestAddCart;
 use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
 use Plugin\AceClient43\Entity\Constants\AceTaxType;
+use Plugin\AceClient43\Converter\Corrector\JyumeiDataCorrectorApplier;
 
 class JyumeiDataConverter implements JyumeiDataConverterInterface
 {
     use CreateRequestModelTrait;
 
+    private JyumeiDataCorrectorApplier $jyumeiDataCorrectorApplier;
     private ?AddCartFlow $flow = null;
+
+    public function __construct(
+        JyumeiDataCorrectorApplier $jyumeiDataCorrectorApplier,
+    ) {
+        $this->jyumeiDataCorrectorApplier = $jyumeiDataCorrectorApplier;
+    }
 
     /**
      * フローを設定
@@ -59,9 +67,15 @@ class JyumeiDataConverter implements JyumeiDataConverterInterface
         }
 
         // CartItem 固有の項目を設定
-        return $jyumei
+        $jyumei = $jyumei
             ->setSuu($item->getQuantity())
             ->setRitu($item->getAceMarkupRate());
+
+        if ($this->flow !== null && $this->jyumeiDataCorrectorApplier->hasCorrectors()) {
+            $this->jyumeiDataCorrectorApplier->applyForCartItem($item, $jyumei, $this->flow, $options);
+        }
+
+        return $jyumei;
     }
 
     /**
@@ -84,9 +98,15 @@ class JyumeiDataConverter implements JyumeiDataConverterInterface
         }
 
         // OrderItem 固有の項目を設定
-        return $jyumei
+        $jyumei = $jyumei
             ->setSuu($item->getQuantity())
             ->setRitu($item->getAceMarkupRate());
+
+        if ($this->flow !== null && $this->jyumeiDataCorrectorApplier->hasCorrectors()) {
+            $this->jyumeiDataCorrectorApplier->applyForOrderItem($item, $jyumei, $this->flow, $options);
+        }
+
+        return $jyumei;
     }
 
     /**
