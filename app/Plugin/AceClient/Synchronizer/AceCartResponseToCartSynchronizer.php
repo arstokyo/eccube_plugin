@@ -3,12 +3,12 @@
 namespace Plugin\AceClient43\Synchronizer;
 
 use Eccube\Entity\Cart;
-use Eccube\Entity\CartItem;
 use Eccube\Repository\ProductClassRepository;
 use Eccube\Service\CartService;
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\JyumeiModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\OrderModelInterface;
 use Plugin\AceClient43\Comparator\ItemCompareInterface;
+use Plugin\AceClient43\Converter\JyumeiToItemConverterInterface;
 use Plugin\AceClient43\Service\AceConfigService;
 
 /**
@@ -29,6 +29,7 @@ class AceCartResponseToCartSynchronizer implements AceCartResponseToCartSynchron
     protected ItemCompareInterface $itemCompare;
     protected AceConfigService $aceConfigService;
     protected AceCartResponseFeeSynchronizer $feeSynchronizer;
+    protected JyumeiToItemConverterInterface $jyumeiToItemConverter;
 
     public function __construct(
         CartService $cartService,
@@ -36,12 +37,14 @@ class AceCartResponseToCartSynchronizer implements AceCartResponseToCartSynchron
         ItemCompareInterface $itemCompare,
         AceConfigService $aceConfigService,
         AceCartResponseFeeSynchronizer $feeSynchronizer,
+        JyumeiToItemConverterInterface $jyumeiToItemConverter,
     ) {
         $this->cartService = $cartService;
         $this->productClassRepository = $productClassRepository;
         $this->itemCompare = $itemCompare;
         $this->aceConfigService = $aceConfigService;
         $this->feeSynchronizer = $feeSynchronizer;
+        $this->jyumeiToItemConverter = $jyumeiToItemConverter;
     }
 
     /**
@@ -71,10 +74,8 @@ class AceCartResponseToCartSynchronizer implements AceCartResponseToCartSynchron
                     $anySync = true;
                     $foundProductCodes[] = $productCode;
 
-                    $cartItem->setQuantity($jyumei->getSuuAsString());
-                    $cartItem->setPrice($jyumei->getPreferTintankaAsString());
-                    $cartItem->setDirty(false);
-                    $cartItem->skipMarkDirty = true;
+                    // Jyumeiの情報でCartItemを更新（コンバータへ委譲）
+                    $this->jyumeiToItemConverter->updateCartItemFromJyumei($cartItem, $jyumei);
 
                     $matchedCartItem = $cartItem;
                     break;
@@ -93,8 +94,8 @@ class AceCartResponseToCartSynchronizer implements AceCartResponseToCartSynchron
 
                 $foundProductCodes[] = $productCode;
 
-                // JyumeiModelからCartItemデータを作成
-                $cartItemData = $this->createCartItemFromJyumei($jyumei);
+                // JyumeiModelからCartItemデータを作成（コンバータへ委譲）
+                $cartItemData = $this->jyumeiToItemConverter->createCartItemFromJyumei($jyumei);
 
                 $options = [
                     '_trigger' => self::class,
@@ -148,27 +149,5 @@ class AceCartResponseToCartSynchronizer implements AceCartResponseToCartSynchron
     public function syncCartFees(Cart $Cart, OrderModelInterface $orderModel): void
     {
         $this->feeSynchronizer->sync($Cart, $orderModel);
-    }
-
-    /**
-     * JyumeiModelからCartItemを作成する
-     *
-     * @param JyumeiModelInterface $jyumei
-     *
-     * @return CartItem
-     */
-    protected function createCartItemFromJyumei(JyumeiModelInterface $jyumei): CartItem
-    {
-        $cartItem = new CartItem();
-
-        // isPresentを設定
-        $cartItem->setIsPresent($jyumei->isPresent());
-
-        // 税抜単価と税込単価を設定（DBのdecimalと一致するよう文字列へ正規化）
-        $cartItem->setPrice($jyumei->getPreferTintankaAsString());
-
-        $cartItem->setDirty(false);
-
-        return $cartItem;
     }
 }
