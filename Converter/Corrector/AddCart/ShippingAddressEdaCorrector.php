@@ -9,7 +9,7 @@ use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
 use Plugin\AceClient43\Converter\AddCartFlow;
 use Plugin\AceClient43\Converter\Corrector\AddCartRequestCorrectorInterface;
 
-class ShippingAddressEdaCorrector implements AddCartRequestCorrectorInterface
+final class ShippingAddressEdaCorrector implements AddCartRequestCorrectorInterface
 {
     use CreateRequestModelTrait;
 

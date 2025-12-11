@@ -281,16 +281,13 @@ class CartBridge extends BaseBridge
             ->setId($this->getSyid())
             ->setSessId($this->session->getId());
 
-        if ($this->addCartRequestCorrectorApplier->hasCorrectors()) {
-            // リクエスト構築の最終段階で補正器を適用（補正器が存在する場合のみ）
-            $context = [
-                'cart' => $cart,
-                'processingOrder' => $this->orderRepository->getProcessingOrder($cart->getPreOrderId()),
-                'config' => $config,
-                'customer' => $customer,
-            ];
-            $this->addCartRequestCorrectorApplier->apply($request, $flow, $context, $options);
-        }
+        $context = [
+            'cart' => $cart,
+            'processingOrder' => $this->orderRepository->getProcessingOrder($cart->getPreOrderId()),
+            'config' => $config,
+            'customer' => $customer,
+        ];
+        $this->addCartRequestCorrectorApplier->apply($request, $flow, $context, $options);
 
         return $request;
     }
