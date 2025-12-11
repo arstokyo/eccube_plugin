@@ -17,7 +17,7 @@ interface AceCartResponseToOrderSynchronizerInterface
      *
      * @param Order $order 同期先受注
      * @param OrderModelInterface $orderModel 同期元の通販Ace受注モデル
-     * @param string $context 同期コンテキスト: 'promotion_discount'|'point_discount'|'charge_fee'|'delivery_free'|'point'|'all'
+     * @param array $context 同期コンテキスト: 'promotion_discount'|'point_discount'|'charge_fee'|'delivery_free'|'point'|'all'
      */
-    public function syncOrderFees(Order $order, OrderModelInterface $orderModel, string $context = 'all'): void;
+    public function syncOrderFees(Order $order, OrderModelInterface $orderModel, array $context = ['all']): void;
 }

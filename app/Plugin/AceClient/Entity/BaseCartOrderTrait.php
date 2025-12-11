@@ -60,6 +60,15 @@ trait BaseCartOrderTrait
     private string $ace_earnable_point = '0.00';
 
     /**
+     * ACEから返却された配送伝票ID
+     *
+     * @var int|null
+     *
+     * @ORM\Column(name="ace_delivery_slip_id", type="integer", length=4, nullable=true, options={"comment":"ACEから返却された配送伝票ID"})
+     */
+    private ?int $ace_delivery_slip_id = null;
+
+    /**
      * Ace取引区分を設定
      *
      * @param int $ace_transaction_type
@@ -162,6 +171,18 @@ trait BaseCartOrderTrait
             return $this;
         }
         $this->ace_charge_fee = $normalized;
+
+        return $this;
+    }
+
+    public function getAceDeliverySlipId(): ?int
+    {
+        return $this->ace_delivery_slip_id;
+    }
+
+    public function setAceDeliverySlipId(?int $ace_delivery_slip_id): self
+    {
+        $this->ace_delivery_slip_id = $ace_delivery_slip_id;
 
         return $this;
     }
