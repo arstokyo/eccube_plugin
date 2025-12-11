@@ -7,7 +7,6 @@ use Eccube\Entity\OrderItem;
 use Eccube\Entity\ProductClass;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart as RequestAddCart;
 use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
-use Plugin\AceClient43\Entity\Constants\AceTaxType;
 use Plugin\AceClient43\Converter\Corrector\JyumeiDataCorrectorApplier;
 
 class JyumeiDataConverter implements JyumeiDataConverterInterface
@@ -15,12 +14,15 @@ class JyumeiDataConverter implements JyumeiDataConverterInterface
     use CreateRequestModelTrait;
 
     private JyumeiDataCorrectorApplier $jyumeiDataCorrectorApplier;
+    private TankaResolverInterface $tankaResolver;
     private ?AddCartFlow $flow = null;
 
     public function __construct(
         JyumeiDataCorrectorApplier $jyumeiDataCorrectorApplier,
+        TankaResolverInterface $tankaResolver,
     ) {
         $this->jyumeiDataCorrectorApplier = $jyumeiDataCorrectorApplier;
+        $this->tankaResolver = $tankaResolver;
     }
 
     /**
@@ -60,7 +62,7 @@ class JyumeiDataConverter implements JyumeiDataConverterInterface
         $productClass = $item->getProductClass();
 
         // ProductClass を起点に共通項目を設定した JyumeiModel を生成
-        $jyumei = $this->preCreateJyumeiFromProductClass($productClass);
+        $jyumei = $this->preCreateJyumeiFromProductClass($productClass, $item, $options);
 
         if (method_exists($item, 'shouldIgnoreStock')) {
             $jyumei->setIgnorezaikoBoolean($item->shouldIgnoreStock());
@@ -91,7 +93,7 @@ class JyumeiDataConverter implements JyumeiDataConverterInterface
         $productClass = $item->getProductClass();
 
         // ProductClass を起点に共通項目を設定した JyumeiModel を生成
-        $jyumei = $this->preCreateJyumeiFromProductClass($productClass);
+        $jyumei = $this->preCreateJyumeiFromProductClass($productClass, $item, $options);
 
         if (method_exists($item, 'shouldIgnoreStock')) {
             $jyumei->setIgnorezaikoBoolean($item->shouldIgnoreStock());
@@ -110,19 +112,6 @@ class JyumeiDataConverter implements JyumeiDataConverterInterface
     }
 
     /**
-     * ProductClass を起点に単価/税区分を決定（既定: price02/price02IncTax と AceTaxType を採用）
-     *
-     * @return array{0: float|int, 1: int} [tanka, taxkbn]
-     */
-    protected function resolveTankaAndTaxKbnFromProductClass(ProductClass $pc): array
-    {
-        $taxKbn = ($pc->getAceTaxType() ?? AceTaxType::TAX_INCLUDED);
-        $price = $taxKbn === AceTaxType::TAX_EXCLUDED ? $pc->getPrice02() : $pc->getPrice02IncTax();
-
-        return [$price, $taxKbn];
-    }
-
-    /**
      * ProductClass を起点に JyumeiModel を作成（共通項目の事前設定）
      *
      * - Gcode（商品コード）
@@ -130,13 +119,17 @@ class JyumeiDataConverter implements JyumeiDataConverterInterface
      * - Taxkbn（税区分）
      *
      * 個別項目（数量・率・在庫無視など）は呼び出し元で設定します。
+     *
+     * @param ProductClass $pc
+     * @param OrderItem|CartItem $item
+     * @param array $options
      */
-    protected function preCreateJyumeiFromProductClass(ProductClass $pc): RequestAddCart\JyumeiModelInterface
+    protected function preCreateJyumeiFromProductClass(ProductClass $pc, $item, array $options): RequestAddCart\JyumeiModelInterface
     {
         /** @var RequestAddCart\JyumeiModelInterface $jyumei */
         $jyumei = $this->createSubModel(RequestAddCart\JyumeiModelInterface::class);
 
-        [$price, $taxKbn] = $this->resolveTankaAndTaxKbnFromProductClass($pc);
+        [$price, $taxKbn] = $this->tankaResolver->resolve($pc, $item, $this->flow, $options);
 
         return $jyumei
             ->setGcode($pc->getAceProductId())
