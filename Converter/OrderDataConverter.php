@@ -16,14 +16,14 @@ use Plugin\AceClient43\Converter\Corrector\AddCartRequestCorrectorApplier;
 use Plugin\AceClient43\Converter\Corrector\CreateOrderRequestCorrectorApplier;
 use Plugin\AceClient43\Entity\Config;
 
-class OrderDataConverter implements OrderDataConverterInterface
+final class OrderDataConverter implements OrderDataConverterInterface
 {
     use CreateRequestModelTrait;
 
-    protected AddCartConverterFactory $converterFactory;
-    protected DeliveryTimeRepository $deliveryTimeRepository;
-    protected AddCartRequestCorrectorApplier $addCartRequestCorrectorApplier;
-    protected CreateOrderRequestCorrectorApplier $createOrderRequestCorrectorApplier;
+    private AddCartConverterFactory $converterFactory;
+    private DeliveryTimeRepository $deliveryTimeRepository;
+    private AddCartRequestCorrectorApplier $addCartRequestCorrectorApplier;
+    private CreateOrderRequestCorrectorApplier $createOrderRequestCorrectorApplier;
 
     public function __construct(
         AddCartConverterFactory $converterFactory,

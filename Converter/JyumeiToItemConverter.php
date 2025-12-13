@@ -11,7 +11,7 @@ use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\JyumeiModelInte
  * プラグインの標準的な変換ロジックを提供します。
  * カスタマイズ側でデコレートすることで、拡張フィールドの設定を追加できます。
  */
-class JyumeiToItemConverter implements JyumeiToItemConverterInterface
+final class JyumeiToItemConverter implements JyumeiToItemConverterInterface
 {
     /**
      * {@inheritDoc}

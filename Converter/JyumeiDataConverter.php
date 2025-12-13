@@ -9,7 +9,7 @@ use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart as RequestAddCar
 use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
 use Plugin\AceClient43\Converter\Corrector\JyumeiDataCorrectorApplier;
 
-class JyumeiDataConverter implements JyumeiDataConverterInterface
+final class JyumeiDataConverter implements JyumeiDataConverterInterface
 {
     use CreateRequestModelTrait;
 
@@ -124,7 +124,7 @@ class JyumeiDataConverter implements JyumeiDataConverterInterface
      * @param OrderItem|CartItem $item
      * @param array $options
      */
-    protected function preCreateJyumeiFromProductClass(ProductClass $pc, $item, array $options): RequestAddCart\JyumeiModelInterface
+    public function preCreateJyumeiFromProductClass(ProductClass $pc, $item, array $options): RequestAddCart\JyumeiModelInterface
     {
         /** @var RequestAddCart\JyumeiModelInterface $jyumei */
         $jyumei = $this->createSubModel(RequestAddCart\JyumeiModelInterface::class);

@@ -351,6 +351,9 @@ services:
     Plugin\AceClient43\Converter\JyumeiDataConverterInterface:
         class: Plugin\AceClient43\Converter\JyumeiDataConverter
 
+    Plugin\AceClient43\Converter\JyumeiToItemConverterInterface:
+      class: Plugin\AceClient43\Converter\JyumeiToItemConverter
+
     Plugin\AceClient43\Converter\CustomerAceNormalizerInterface:
         class: Plugin\AceClient43\Converter\CustomerAceNormalizer
 
@@ -359,6 +362,9 @@ services:
 
     Plugin\AceClient43\Converter\CustomerDataConverterInterface:
         class: Plugin\AceClient43\Converter\CustomerDataConverter
+
+    Plugin\AceClient43\Converter\OrderDataConverterInterface:
+        class: Plugin\AceClient43\Converter\OrderDataConverter
 
     # ===================================================================================================
     # Comparator Services
