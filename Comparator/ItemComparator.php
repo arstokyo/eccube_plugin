@@ -13,7 +13,7 @@ use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\JyumeiModelInte
  * - プラグイン側では ProductClass/外部コード等の「商品同一性」のみを比較対象とし、
  *   カスタム属性は扱わない（Customize 側で拡張）。
  */
-final class ItemComparatorService implements ItemComparatorInterface
+final class ItemComparator implements ItemComparatorInterface
 {
     private ProductComparatorInterface $productComparator;
 

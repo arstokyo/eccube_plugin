@@ -357,6 +357,19 @@ services:
     Plugin\AceClient43\Converter\CustomerAddressDataConverterInterface:
         class: Plugin\AceClient43\Converter\CustomerAddressDataConverter
 
+    Plugin\AceClient43\Converter\CustomerDataConverterInterface:
+        class: Plugin\AceClient43\Converter\CustomerDataConverter
+
+    # ===================================================================================================
+    # Comparator Services
+    # ===================================================================================================
+
+    Plugin\AceClient43\Comparator\ProductComparatorInterface:
+        class: Plugin\AceClient43\Comparator\ProductComparator
+
+    Plugin\AceClient43\Comparator\ItemComparatorInterface:
+        class: Plugin\AceClient43\Comparator\ItemComparator
+
     # ===================================================================================================
     # Default Synchronizer Services
     # ===================================================================================================

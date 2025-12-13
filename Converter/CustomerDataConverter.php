@@ -34,17 +34,14 @@ use Plugin\AceClient43\Converter\Corrector\RegMemberRequestCorrectorApplier;
 use Plugin\AceClient43\Exception\DataTypeMissMatchException;
 use Plugin\AceClient43\Exception\InvalidClassNameException;
 
-class CustomerDataConverter implements CustomerDataConverterInterface
+final class CustomerDataConverter implements CustomerDataConverterInterface
 {
     use CreateRequestModelTrait;
 
-    protected SexRepository $sexRepository;
-
-    protected PrefRepository $prefRepository;
-
-    protected CustomerAceNormalizerInterface $normalizer;
-
-    protected RegMemberRequestCorrectorApplier $regMemberRequestCorrectorApplier;
+    private SexRepository $sexRepository;
+    private PrefRepository $prefRepository;
+    private CustomerAceNormalizerInterface $normalizer;
+    private RegMemberRequestCorrectorApplier $regMemberRequestCorrectorApplier;
 
     public function __construct(
         SexRepository $sexRepository,
@@ -205,7 +202,7 @@ class CustomerDataConverter implements CustomerDataConverterInterface
      * @param mixed $sexValue
      * @param Customer $customer
      */
-    protected function setSex($sexValue, Customer $customer): void
+    private function setSex($sexValue, Customer $customer): void
     {
         if ($sexValue) {
             $sex = $this->sexRepository->find($sexValue);
@@ -221,7 +218,7 @@ class CustomerDataConverter implements CustomerDataConverterInterface
      * @param string|null $prefName
      * @param Customer $customer
      */
-    protected function setPrefecture(?string $prefName, Customer $customer): void
+    private function setPrefecture(?string $prefName, Customer $customer): void
     {
         if ($prefName) {
             $pref = $this->prefRepository->findOneBy(['name' => $prefName]);
