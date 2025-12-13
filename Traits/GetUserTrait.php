@@ -3,6 +3,7 @@
 namespace Plugin\AceClient43\Traits;
 
 use Doctrine\Common\Annotations\Annotation\Required;
+use Eccube\Entity\Customer;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -18,6 +19,9 @@ trait GetUserTrait
         $this->tokenStorage = $tokenStorage;
     }
 
+    /**
+     * @return Customer|null
+     */
     protected function getUser(): ?UserInterface
     {
         if (null === $token = $this->tokenStorage->getToken()) {
