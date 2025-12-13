@@ -12,9 +12,9 @@ use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\OrderModelInter
  * - OrderBridgeから受注更新ロジックを分離し、単一責任の原則に従う
  * - AddCart APIレスポンスから受注エンティティへの同期を一元管理
  */
-class AceCartResponseToOrderSynchronizer implements AceCartResponseToOrderSynchronizerInterface
+final class AceCartResponseToOrderSynchronizer implements AceCartResponseToOrderSynchronizerInterface
 {
-    protected AceCartResponseFeeSynchronizerInterface $feeSynchronizer;
+    private AceCartResponseFeeSynchronizerInterface $feeSynchronizer;
 
     public function __construct(
         AceCartResponseFeeSynchronizerInterface $feeSynchronizer,

@@ -358,6 +358,15 @@ services:
     Plugin\AceClient43\Synchronizer\AceCartResponseFeeSynchronizerInterface:
         class: Plugin\AceClient43\Synchronizer\AceCartResponseFeeSynchronizer
 
+    Plugin\AceClient43\Synchronizer\CartOrderSynchronizerInterface:
+        class: Plugin\AceClient43\Synchronizer\CartOrderSynchronizer
+
+    Plugin\AceClient43\Synchronizer\AceCartResponseToOrderSynchronizerInterface:
+        class: Plugin\AceClient43\Synchronizer\AceCartResponseToOrderSynchronizer
+
+    Plugin\AceClient43\Synchronizer\AceCartResponseToCartSynchronizerInterface:
+        class: Plugin\AceClient43\Synchronizer\AceCartResponseToCartSynchronizer
+
     # AddCartRequestCorrectors - applied at the final stage of request building
     # AddCartRequestCorrectorはリクエスト構築の最終段階で適用されます
 
