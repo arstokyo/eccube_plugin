@@ -109,7 +109,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  * @see batchImport() バッチインポート（推奨）
  * @see importByAceProductIds() 商品ID指定インポート
  */
-class ProductImportHelper
+final class ProductImportHelper
 {
     public const TRIGGER_IMPORT_WITH_GET_GOODS = 'product_import_helper.import_with_get_goods';
 
@@ -128,25 +128,16 @@ class ProductImportHelper
         '_product_import_helper.set_name_only_new' => false,
     ];
 
-    protected ProductBridge $productBridge;
-
-    protected LoggerInterface $logger;
-
-    protected ProductClassRepository $productClassRepository;
-
-    protected ProductStatusRepository $productStatusRepository;
-
-    protected ObjectManager $entityManager;
-
-    protected EventDispatcherInterface $eventDispatcher;
-
-    protected TaxRuleRepository $taxRuleRepository;
-
-    protected BaseInfo $baseInfo;
-
-    protected SaleTypeRepository $saleTypeRepository;
-
-    protected ManagerRegistry $managerRegistry;
+    private ProductBridge $productBridge;
+    private LoggerInterface $logger;
+    private ProductClassRepository $productClassRepository;
+    private ProductStatusRepository $productStatusRepository;
+    private ObjectManager $entityManager;
+    private EventDispatcherInterface $eventDispatcher;
+    private TaxRuleRepository $taxRuleRepository;
+    private BaseInfo $baseInfo;
+    private SaleTypeRepository $saleTypeRepository;
+    private ManagerRegistry $managerRegistry;
 
     public function __construct(
         ProductBridge $productBridge,
@@ -572,7 +563,7 @@ class ProductImportHelper
      *
      * @see handleCreateProductFailed() 商品作成失敗時の処理
      */
-    protected function create(array $productModels, array $tankaModels, Member &$creator, LoggerInterface $logger, array &$options = []): array
+    private function create(array $productModels, array $tankaModels, Member &$creator, LoggerInterface $logger, array &$options = []): array
     {
         $settingBag = $this->createSettingBag($tankaModels);
         $processed = 0;
@@ -734,7 +725,7 @@ class ProductImportHelper
      *
      * @return void
      */
-    protected function setPrice(GoodModelGroup1Interface $productModel, ProductClass $productClass, Member $creator, array $tankaModels, array &$settingBag, array &$options, LoggerInterface $logger): void
+    private function setPrice(GoodModelGroup1Interface $productModel, ProductClass $productClass, Member $creator, array $tankaModels, array &$settingBag, array &$options, LoggerInterface $logger): void
     {
         $groupedTankaModels = $settingBag['grouped_tanka_models'];
 
@@ -798,7 +789,7 @@ class ProductImportHelper
      *
      * @return array 商品ID、商品クラス、商品、商品在庫の配列
      */
-    protected function getOrCreateProductStuff(GoodModelGroup1Interface $productModel, Member $creator, ?ProductClass $productClass = null): array
+    private function getOrCreateProductStuff(GoodModelGroup1Interface $productModel, Member $creator, ?ProductClass $productClass = null): array
     {
         $aceProductId = $productModel->getGdid();
         $productStock = $productClass ? $productClass->getProductStock() : null;
@@ -832,7 +823,7 @@ class ProductImportHelper
      *
      * @return TaxRule 税率ルール
      */
-    protected function getOrCreateTaxRule(ProductClass $productClass, Member $creator): TaxRule
+    private function getOrCreateTaxRule(ProductClass $productClass, Member $creator): TaxRule
     {
         if ($productClass->getTaxRule()) {
             return $productClass->getTaxRule();
@@ -853,7 +844,7 @@ class ProductImportHelper
      *
      * @return void
      */
-    protected function enableOptionProductTaxRule(): void
+    private function enableOptionProductTaxRule(): void
     {
         $baseInfo = $this->baseInfo;
         if ($baseInfo->isOptionProductTaxRule()) {
@@ -870,7 +861,7 @@ class ProductImportHelper
      *
      * @return array
      */
-    protected function createSettingBag(array $tankaModels): array
+    private function createSettingBag(array $tankaModels): array
     {
         // このあと、設定されたTaxRuleを採用するため、オプション商品税率ルールを有効にする。
         $this->enableOptionProductTaxRule();
@@ -919,7 +910,7 @@ class ProductImportHelper
      *
      * @return void
      */
-    protected function setStatus(
+    private function setStatus(
         GoodModelGroup1Interface $productModel,
         Product $product,
         array $settingBag,
@@ -957,7 +948,7 @@ class ProductImportHelper
      *
      * @return array リセットされた設定情報の配列
      */
-    protected function resetSettingBagEntity(array $settingBag): array
+    private function resetSettingBagEntity(array $settingBag): array
     {
         $displayHideStatus = $this->entityManager->find(ProductStatus::class, ProductStatus::DISPLAY_HIDE);
         $displayAbolishedStatus = $this->entityManager->find(ProductStatus::class, ProductStatus::DISPLAY_ABOLISHED);
@@ -986,7 +977,7 @@ class ProductImportHelper
      *
      * @return void
      */
-    protected function handleCreateProductFailed(GoodModelGroup1Interface $productModel, array $processedProductClasses, array &$options, LoggerInterface $logger, array &$settingBag, Member &$creator): void
+    private function handleCreateProductFailed(GoodModelGroup1Interface $productModel, array $processedProductClasses, array &$options, LoggerInterface $logger, array &$settingBag, Member &$creator): void
     {
         $options['_failed_product_codes'][] = $productModel->getGdid();
         $this->entityManager = EntityManagerResetHelper::resetEntityManager($this->entityManager, $this->managerRegistry, $logger);

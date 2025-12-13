@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * 例:
  *  bin/console eccube:aceclient:import-product-stock --updateFrom="2024-01-01 00:00:00" --toDate="now" --skid="0000000" --limit=300
  */
-class ImportProductStockCommand extends Command
+final class ImportProductStockCommand extends Command
 {
     protected static $defaultName = 'eccube:aceclient:import-product-stock';
 

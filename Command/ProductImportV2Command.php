@@ -16,7 +16,7 @@ namespace Plugin\AceClient43\Command;
 use Plugin\AceClient43\Exception\DataTypeMissMatchException;
 use Psr\Log\LoggerInterface;
 
-class ProductImportV2Command extends AbstractProductImportCommand
+final class ProductImportV2Command extends AbstractProductImportCommand
 {
     protected static $defaultName = 'eccube:aceclient:import-product-v2';
 
