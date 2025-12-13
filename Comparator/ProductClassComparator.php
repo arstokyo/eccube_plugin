@@ -14,12 +14,11 @@ use Eccube\Service\Cart\ProductClassComparator as BaseProductClassComparator;
  */
 class ProductClassComparator extends BaseProductClassComparator
 {
-    /** @var ItemCompareInterface */
-    protected $itemCompare;
+    protected ItemComparatorInterface $itemComparator;
 
-    public function __construct(ItemCompareInterface $itemCompare)
+    public function __construct(ItemComparatorInterface $itemComparator)
     {
-        $this->itemCompare = $itemCompare;
+        $this->itemComparator = $itemComparator;
     }
 
     /**
@@ -28,6 +27,6 @@ class ProductClassComparator extends BaseProductClassComparator
     public function compare(CartItem $Item1, CartItem $Item2): bool
     {
         // CartItem 同士の比較は ItemCompare に一元化（ProductClass → カスタム属性）
-        return $this->itemCompare->compareCartItemWithCartItem($Item1, $Item2);
+        return $this->itemComparator->compareCartItemWithCartItem($Item1, $Item2);
     }
 }

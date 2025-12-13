@@ -16,7 +16,7 @@ use Eccube\Entity\ProductClass;
  * 備考:
  * - 付帯情報（ギフト/オーダーメイド等）まで考慮した比較が必要な場合は、Customize 側の実装で拡張/差し替え可能。
  */
-class ProductCompareService implements ProductCompareInterface
+final class ProductComparatorService implements ProductComparatorInterface
 {
     /**
      * {@inheritdoc}
@@ -47,6 +47,6 @@ class ProductCompareService implements ProductCompareInterface
         }
         $aceProductId = $pc->getAceProductId();
 
-        return $aceProductId !== null && (string) $aceProductId === (string) $gcode;
+        return $aceProductId === (string) $gcode;
     }
 }

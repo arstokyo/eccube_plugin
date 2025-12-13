@@ -9,23 +9,23 @@ use Eccube\Entity\Master\OrderItemType;
 use Eccube\Entity\Order;
 use Eccube\Entity\OrderItem;
 use Eccube\Repository\Master\OrderItemTypeRepository;
-use Plugin\AceClient43\Comparator\ItemCompareInterface;
+use Plugin\AceClient43\Comparator\ItemComparatorInterface;
 use Plugin\AceClient43\Service\AceConfigService;
 
 final class CartOrderSynchronizer implements CartOrderSynchronizerInterface
 {
     private AceConfigService $aceConfigService;
 
-    private ItemCompareInterface $itemCompare;
+    private ItemComparatorInterface $itemComparator;
 
     private EntityManagerInterface $entityManager;
 
     private OrderItemTypeRepository $orderItemTypeRepository;
 
-    public function __construct(AceConfigService $aceConfigService, ItemCompareInterface $itemCompare, EntityManagerInterface $entityManager, OrderItemTypeRepository $orderItemTypeRepository)
+    public function __construct(AceConfigService $aceConfigService, ItemComparatorInterface $itemComparator, EntityManagerInterface $entityManager, OrderItemTypeRepository $orderItemTypeRepository)
     {
         $this->aceConfigService = $aceConfigService;
-        $this->itemCompare = $itemCompare;
+        $this->itemComparator = $itemComparator;
         $this->entityManager = $entityManager;
         $this->orderItemTypeRepository = $orderItemTypeRepository;
     }
@@ -51,7 +51,7 @@ final class CartOrderSynchronizer implements CartOrderSynchronizerInterface
                 $matched = false;
 
                 foreach ($Order->getProductOrderItems() as $OrderItem) {
-                    if ($this->itemCompare->compareCartItemWithOrderItem($CartItem, $OrderItem)) {
+                    if ($this->itemComparator->compareCartItemWithOrderItem($CartItem, $OrderItem)) {
                         $this->syncOrderItemFromCartItem($CartItem, $OrderItem);
                         $matchedOrderItemIds[] = $OrderItem->getId();
                         $matched = true;

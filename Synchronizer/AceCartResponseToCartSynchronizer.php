@@ -7,7 +7,7 @@ use Eccube\Repository\ProductClassRepository;
 use Eccube\Service\CartService;
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\JyumeiModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\OrderModelInterface;
-use Plugin\AceClient43\Comparator\ItemCompareInterface;
+use Plugin\AceClient43\Comparator\ItemComparatorInterface;
 use Plugin\AceClient43\Converter\JyumeiToItemConverterInterface;
 
 /**
@@ -25,20 +25,20 @@ final class AceCartResponseToCartSynchronizer implements AceCartResponseToCartSy
 {
     private CartService $cartService;
     private ProductClassRepository $productClassRepository;
-    private ItemCompareInterface $itemCompare;
+    private ItemComparatorInterface $itemComparator;
     private AceCartResponseFeeSynchronizerInterface $feeSynchronizer;
     private JyumeiToItemConverterInterface $jyumeiToItemConverter;
 
     public function __construct(
         CartService $cartService,
         ProductClassRepository $productClassRepository,
-        ItemCompareInterface $itemCompare,
+        ItemComparatorInterface $itemComparator,
         AceCartResponseFeeSynchronizerInterface $feeSynchronizer,
         JyumeiToItemConverterInterface $jyumeiToItemConverter,
     ) {
         $this->cartService = $cartService;
         $this->productClassRepository = $productClassRepository;
-        $this->itemCompare = $itemCompare;
+        $this->itemComparator = $itemComparator;
         $this->feeSynchronizer = $feeSynchronizer;
         $this->jyumeiToItemConverter = $jyumeiToItemConverter;
     }
@@ -65,7 +65,7 @@ final class AceCartResponseToCartSynchronizer implements AceCartResponseToCartSy
             // 既存のカートアイテムで商品コードとカスタムフィールドが一致するものを探す
             foreach ($Cart->getCartItems() as $cartItem) {
                 // 比較ロジックはカスタマイズ実装へ委譲（商品同一性＋拡張属性）
-                if ($this->itemCompare->compareCartItemWithJyumei($cartItem, $jyumei)) {
+                if ($this->itemComparator->compareCartItemWithJyumei($cartItem, $jyumei)) {
                     // 完全一致の場合、数量/価格を更新
                     $anySync = true;
                     $foundProductCodes[] = $productCode;

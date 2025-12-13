@@ -17,7 +17,7 @@ use Eccube\Entity\ProductClass;
  * 注意:
  * - CartItem 同士の比較は ItemCompareInterface で行います（本IFからは削除）。
  */
-interface ProductCompareInterface
+interface ProductComparatorInterface
 {
     /**
      * 2つの ProductClass が同一かを判定する.
