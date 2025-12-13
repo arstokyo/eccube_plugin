@@ -20,10 +20,7 @@ namespace Plugin\AceClient43\Converter;
  */
 final class AddCartConverterFactory
 {
-    /** @var AddCartRequestConverterInterface|null AddCartRequestConverterの単一インスタンス */
-    private ?AddCartRequestConverterInterface $addCartRequestConverter = null;
-
-    /** @var JyumeiDataConverterInterface 全フローで共有されるJyumeiDataConverter */
+    private AddCartRequestConverterInterface $addCartRequestConverter;
     private JyumeiDataConverterInterface $jyumeiDataConverter;
 
     /**

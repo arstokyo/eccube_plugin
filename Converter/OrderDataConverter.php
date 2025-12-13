@@ -186,7 +186,7 @@ final class OrderDataConverter implements OrderDataConverterInterface
         return $requestModel;
     }
 
-    protected function buildLines(Order $order, JyumeiDataConverterInterface $jyumeiDataConverter, AddCartFlow $flow, bool $isOrderSupportEnabled, ?string $trigger): array
+    private function buildLines(Order $order, JyumeiDataConverterInterface $jyumeiDataConverter, AddCartFlow $flow, bool $isOrderSupportEnabled, ?string $trigger): array
     {
         $jyumeis = [];
         $charge = 0;
