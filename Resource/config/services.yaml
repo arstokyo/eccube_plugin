@@ -355,6 +355,9 @@ services:
     Plugin\AceClient43\Converter\JyumeiDataConverterInterface:
         class: Plugin\AceClient43\Converter\JyumeiDataConverter
 
+    Plugin\AceClient43\Synchronizer\AceCartResponseFeeSynchronizerInterface:
+        class: Plugin\AceClient43\Synchronizer\AceCartResponseFeeSynchronizer
+
     # AddCartRequestCorrectors - applied at the final stage of request building
     # AddCartRequestCorrectorはリクエスト構築の最終段階で適用されます
 

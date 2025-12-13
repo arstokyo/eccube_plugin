@@ -14,10 +14,10 @@ use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\OrderModelInter
  */
 class AceCartResponseToOrderSynchronizer implements AceCartResponseToOrderSynchronizerInterface
 {
-    protected AceCartResponseFeeSynchronizer $feeSynchronizer;
+    protected AceCartResponseFeeSynchronizerInterface $feeSynchronizer;
 
     public function __construct(
-        AceCartResponseFeeSynchronizer $feeSynchronizer,
+        AceCartResponseFeeSynchronizerInterface $feeSynchronizer,
     ) {
         $this->feeSynchronizer = $feeSynchronizer;
     }

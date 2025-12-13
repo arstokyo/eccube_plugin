@@ -10,7 +10,7 @@ use Plugin\AceClient43\Service\AceConfigService;
 /**
  * 通販Aceのカートの送料など同期
  */
-class AceCartResponseFeeSynchronizer
+final class AceCartResponseFeeSynchronizer implements AceCartResponseFeeSynchronizerInterface
 {
     protected AceConfigService $aceConfigService;
 
@@ -38,26 +38,26 @@ class AceCartResponseFeeSynchronizer
         $jyudenModel = $orderModel->getJyuden();
         $config = $this->aceConfigService;
 
-        if ($config->shouldUseAceDelivery() && $this->isGrantFor('delivery_free', $context)) {
+        if ($config->shouldUseAceDelivery() && self::isGrantFor('delivery_free', $context)) {
             $deliveryFree = $config->isDeliveryFeeDisplayAsIncludedTax()
                 ? $jyudenModel->getSouryou()
                 : $jyudenModel->getSouryouzn();
             $CartOrder->setAceDeliveryFee($deliveryFree);
         }
 
-        if ($config->shouldUseAceCharge() && $this->isGrantFor('charge_fee', $context)) {
+        if ($config->shouldUseAceCharge() && self::isGrantFor('charge_fee', $context)) {
             $chargeFee = $config->isChargeFeeDisplayAsIncludedTax()
                 ? $jyudenModel->getTesuu()
                 : $jyudenModel->getTesuuzn();
             $CartOrder->setAceChargeFee($chargeFee);
         }
 
-        if ($config->shouldAddPoint() && $this->isGrantFor('point', $context)) {
+        if ($config->shouldAddPoint() && self::isGrantFor('point', $context)) {
             $CartOrder->setAceEarnablePoint($orderModel->getPoint()->getPointp());
         }
 
         if ($config->shouldUseAceDiscount()) {
-            if ($this->isGrantFor('promotion_discount', $context)) {
+            if (self::isGrantFor('promotion_discount', $context)) {
                 $promotionDiscountAmount = $config->isDiscountDisplayAsIncludedTax()
                     ? $orderModel->getPromotionDiscount()
                     : $orderModel->getPromotionDiscountExcludedTax();
@@ -65,7 +65,7 @@ class AceCartResponseFeeSynchronizer
             }
 
             // Orderのみはポイントの値引きセット。
-            if ($CartOrder instanceof Order && $this->isGrantFor('point_discount', $context)) {
+            if ($CartOrder instanceof Order && self::isGrantFor('point_discount', $context)) {
                 $pointDiscountAmount = $config->isDiscountDisplayAsIncludedTax()
                     ? $orderModel->getPointDiscount()
                     : $orderModel->getPointDiscountExcludedTax();
@@ -73,12 +73,12 @@ class AceCartResponseFeeSynchronizer
             }
         }
 
-        if ($this->isGrantFor('ace_delivery_split_id', $context)) {
+        if (self::isGrantFor('ace_delivery_split_id', $context)) {
             $CartOrder->setAceDeliverySlipId($jyudenModel->getHcode());
         }
     }
 
-    protected function isGrantFor(string $fee, array $context): bool
+    public static function isGrantFor(string $fee, array $context): bool
     {
         return empty($context) || !empty(array_intersect($context, ['all', $fee]));
     }

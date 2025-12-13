@@ -28,7 +28,7 @@ class AceCartResponseToCartSynchronizer implements AceCartResponseToCartSynchron
     protected ProductClassRepository $productClassRepository;
     protected ItemCompareInterface $itemCompare;
     protected AceConfigService $aceConfigService;
-    protected AceCartResponseFeeSynchronizer $feeSynchronizer;
+    protected AceCartResponseFeeSynchronizerInterface $feeSynchronizer;
     protected JyumeiToItemConverterInterface $jyumeiToItemConverter;
 
     public function __construct(
@@ -36,7 +36,7 @@ class AceCartResponseToCartSynchronizer implements AceCartResponseToCartSynchron
         ProductClassRepository $productClassRepository,
         ItemCompareInterface $itemCompare,
         AceConfigService $aceConfigService,
-        AceCartResponseFeeSynchronizer $feeSynchronizer,
+        AceCartResponseFeeSynchronizerInterface $feeSynchronizer,
         JyumeiToItemConverterInterface $jyumeiToItemConverter,
     ) {
         $this->cartService = $cartService;
