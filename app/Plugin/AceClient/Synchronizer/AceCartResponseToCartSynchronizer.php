@@ -7,9 +7,8 @@ use Eccube\Repository\ProductClassRepository;
 use Eccube\Service\CartService;
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\JyumeiModelInterface;
 use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\OrderModelInterface;
-use Plugin\AceClient43\Comparator\ItemCompareInterface;
+use Plugin\AceClient43\Comparator\ItemComparatorInterface;
 use Plugin\AceClient43\Converter\JyumeiToItemConverterInterface;
-use Plugin\AceClient43\Service\AceConfigService;
 
 /**
  * 通販Aceのカート同期ヘルパー（差分適用対応）
@@ -22,27 +21,24 @@ use Plugin\AceClient43\Service\AceConfigService;
  * - addProduct/removeProduct 呼び出し時に options['skip_restore_cart']=true を付与し、
  *   デコレータ側で「in-place」更新（差分適用）を選択できるようにする。
  */
-class AceCartResponseToCartSynchronizer implements AceCartResponseToCartSynchronizerInterface
+final class AceCartResponseToCartSynchronizer implements AceCartResponseToCartSynchronizerInterface
 {
-    protected CartService $cartService;
-    protected ProductClassRepository $productClassRepository;
-    protected ItemCompareInterface $itemCompare;
-    protected AceConfigService $aceConfigService;
-    protected AceCartResponseFeeSynchronizer $feeSynchronizer;
-    protected JyumeiToItemConverterInterface $jyumeiToItemConverter;
+    private CartService $cartService;
+    private ProductClassRepository $productClassRepository;
+    private ItemComparatorInterface $itemComparator;
+    private AceCartResponseFeeSynchronizerInterface $feeSynchronizer;
+    private JyumeiToItemConverterInterface $jyumeiToItemConverter;
 
     public function __construct(
         CartService $cartService,
         ProductClassRepository $productClassRepository,
-        ItemCompareInterface $itemCompare,
-        AceConfigService $aceConfigService,
-        AceCartResponseFeeSynchronizer $feeSynchronizer,
+        ItemComparatorInterface $itemComparator,
+        AceCartResponseFeeSynchronizerInterface $feeSynchronizer,
         JyumeiToItemConverterInterface $jyumeiToItemConverter,
     ) {
         $this->cartService = $cartService;
         $this->productClassRepository = $productClassRepository;
-        $this->itemCompare = $itemCompare;
-        $this->aceConfigService = $aceConfigService;
+        $this->itemComparator = $itemComparator;
         $this->feeSynchronizer = $feeSynchronizer;
         $this->jyumeiToItemConverter = $jyumeiToItemConverter;
     }
@@ -69,7 +65,7 @@ class AceCartResponseToCartSynchronizer implements AceCartResponseToCartSynchron
             // 既存のカートアイテムで商品コードとカスタムフィールドが一致するものを探す
             foreach ($Cart->getCartItems() as $cartItem) {
                 // 比較ロジックはカスタマイズ実装へ委譲（商品同一性＋拡張属性）
-                if ($this->itemCompare->compareCartItemWithJyumei($cartItem, $jyumei)) {
+                if ($this->itemComparator->compareCartItemWithJyumei($cartItem, $jyumei)) {
                     // 完全一致の場合、数量/価格を更新
                     $anySync = true;
                     $foundProductCodes[] = $productCode;
@@ -86,7 +82,7 @@ class AceCartResponseToCartSynchronizer implements AceCartResponseToCartSynchron
                 // 一致するカートアイテムが見つからなかった場合、新しいカートアイテムを追加
                 $newProductClass = $this->productClassRepository->findOneBy(['ace_product_id' => $productCode]);
                 if (!$newProductClass) {
-                    log_warning('[AddCartHelper] 通販Aceから取得した商品コードがEC側に存在しません: '.$productCode);
+                    log_warning('[AceCartResponseToCartSynchronizer] 通販Aceから取得した商品コードがEC側に存在しません: '.$productCode);
 
                     // 商品クラスが見つからない場合はスキップ
                     continue;
@@ -130,19 +126,19 @@ class AceCartResponseToCartSynchronizer implements AceCartResponseToCartSynchron
         }
 
         if (count($notFoundItems) > 0) {
-            log_warning('[AddCartHelper] カートに商品が存在しますが、通販Aceのレスポンスに存在しません: '.implode(', ', array_map(function ($item) { return $item->getProductClass()->getAceProductId(); }, $notFoundItems)));
+            log_warning('[AceCartResponseToCartSynchronizer] カートに商品が存在しますが、通販Aceのレスポンスに存在しません: '.implode(', ', array_map(function ($item) { return $item->getProductClass()->getAceProductId(); }, $notFoundItems)));
 
             $options['_add_cart_helper.not_found_items'] = $notFoundItems;
         }
 
         if (!empty($excludeFromSync)) {
-            log_info('[AddCartHelper] 同期から除外された商品コード: '.implode(', ', $excludeFromSync));
+            log_info('[AceCartResponseToCartSynchronizer] 同期から除外された商品コード: '.implode(', ', $excludeFromSync));
         }
 
         if ($anySync) {
-            log_info('[AddCartHelper] カートの同期が完了しました。');
+            log_info('[AceCartResponseToCartSynchronizer] カートの同期が完了しました。');
         } else {
-            log_info('[AddCartHelper] カートの同期は行われませんでした。');
+            log_info('[AceCartResponseToCartSynchronizer] カートの同期は行われませんでした。');
         }
     }
 

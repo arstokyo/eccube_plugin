@@ -15,7 +15,7 @@ namespace Plugin\AceClient43\Command;
 
 use Psr\Log\LoggerInterface;
 
-class ProductImportCommand extends AbstractProductImportCommand
+final class ProductImportCommand extends AbstractProductImportCommand
 {
     protected static $defaultName = 'eccube:aceclient:import-product';
 

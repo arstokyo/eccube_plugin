@@ -9,23 +9,23 @@ use Eccube\Entity\Master\OrderItemType;
 use Eccube\Entity\Order;
 use Eccube\Entity\OrderItem;
 use Eccube\Repository\Master\OrderItemTypeRepository;
-use Plugin\AceClient43\Comparator\ItemCompareInterface;
+use Plugin\AceClient43\Comparator\ItemComparatorInterface;
 use Plugin\AceClient43\Service\AceConfigService;
 
-class CartOrderSynchronizer implements CartOrderSynchronizerInterface
+final class CartOrderSynchronizer implements CartOrderSynchronizerInterface
 {
-    protected AceConfigService $aceConfigService;
+    private AceConfigService $aceConfigService;
 
-    protected ItemCompareInterface $itemCompare;
+    private ItemComparatorInterface $itemComparator;
 
-    protected EntityManagerInterface $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    protected OrderItemTypeRepository $orderItemTypeRepository;
+    private OrderItemTypeRepository $orderItemTypeRepository;
 
-    public function __construct(AceConfigService $aceConfigService, ItemCompareInterface $itemCompare, EntityManagerInterface $entityManager, OrderItemTypeRepository $orderItemTypeRepository)
+    public function __construct(AceConfigService $aceConfigService, ItemComparatorInterface $itemComparator, EntityManagerInterface $entityManager, OrderItemTypeRepository $orderItemTypeRepository)
     {
         $this->aceConfigService = $aceConfigService;
-        $this->itemCompare = $itemCompare;
+        $this->itemComparator = $itemComparator;
         $this->entityManager = $entityManager;
         $this->orderItemTypeRepository = $orderItemTypeRepository;
     }
@@ -51,7 +51,7 @@ class CartOrderSynchronizer implements CartOrderSynchronizerInterface
                 $matched = false;
 
                 foreach ($Order->getProductOrderItems() as $OrderItem) {
-                    if ($this->itemCompare->compareCartItemWithOrderItem($CartItem, $OrderItem)) {
+                    if ($this->itemComparator->compareCartItemWithOrderItem($CartItem, $OrderItem)) {
                         $this->syncOrderItemFromCartItem($CartItem, $OrderItem);
                         $matchedOrderItemIds[] = $OrderItem->getId();
                         $matched = true;
@@ -106,27 +106,27 @@ class CartOrderSynchronizer implements CartOrderSynchronizerInterface
         $include = isset($options['include_fields']) && is_array($options['include_fields']) ? $options['include_fields'] : null;
         $exclude = isset($options['exclude_fields']) && is_array($options['exclude_fields']) ? $options['exclude_fields'] : [];
 
-        if ($this->shouldSyncField('ace_transaction_id', $include, $exclude)) {
+        if (self::shouldSyncField('ace_transaction_id', $include, $exclude)) {
             $Cart->setAceTransactionId($Order->getAceTransactionId());
         }
-        if ($this->shouldSyncField('ace_promotion_discount', $include, $exclude)) {
+        if (self::shouldSyncField('ace_promotion_discount', $include, $exclude)) {
             $Cart->setAcePromotionDiscount($Order->getAcePromotionDiscount());
         }
-        if ($this->shouldSyncField('ace_delivery_fee', $include, $exclude)) {
+        if (self::shouldSyncField('ace_delivery_fee', $include, $exclude)) {
             $Cart->setAceDeliveryFee($Order->getAceDeliveryFee());
         }
-        if ($this->shouldSyncField('ace_charge_fee', $include, $exclude)) {
+        if (self::shouldSyncField('ace_charge_fee', $include, $exclude)) {
             $Cart->setAceChargeFee($Order->getAceChargeFee());
         }
-        if ($this->shouldSyncField('ace_earnable_point', $include, $exclude)) {
+        if (self::shouldSyncField('ace_earnable_point', $include, $exclude)) {
             $Cart->setAceEarnablePoint($Order->getAceEarnablePoint());
         }
-        if ($this->shouldSyncField('ace_delivery_split_id', $include, $exclude)) {
+        if (self::shouldSyncField('ace_delivery_split_id', $include, $exclude)) {
             $Cart->setAceDeliverySlipId($Order->getAceDeliverySlipId());
         }
     }
 
-    protected function shouldSyncField(string $field, ?array $include, array $exclude): bool
+    public static function shouldSyncField(string $field, ?array $include, array $exclude): bool
     {
         if (is_array($include)) {
             return in_array($field, $include, true);

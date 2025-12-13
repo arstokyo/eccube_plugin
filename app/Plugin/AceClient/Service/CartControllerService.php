@@ -10,7 +10,7 @@ use Plugin\AceClient43\Exception\CouldNotAddCartException;
 use Plugin\AceClient43\Traits\GetUserTrait;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class CartControllerService
+final class CartControllerService
 {
     use GetUserTrait;
 
@@ -49,7 +49,6 @@ class CartControllerService
 
         // カートが空であるか、顧客が未設定の場合は処理を中止
         if (!$Cart || $Cart->getCartItems()->isEmpty() || null === $Customer = $Cart->getCustomer()) {
-            log_warning('[ACECLIENT-CART_CONTROLLER_SERVICE] カートが空であるか、顧客が未設定のため、商品を追加できません。');
 
             return;
         }

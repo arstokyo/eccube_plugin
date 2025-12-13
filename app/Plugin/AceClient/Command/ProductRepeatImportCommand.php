@@ -13,7 +13,7 @@
 
 namespace Plugin\AceClient43\Command;
 
-class ProductRepeatImportCommand extends AbstractProductRepeatImportCommand
+final class ProductRepeatImportCommand extends AbstractProductRepeatImportCommand
 {
     protected static $defaultName = 'eccube:aceclient:import-product-repeat';
 

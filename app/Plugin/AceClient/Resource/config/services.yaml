@@ -348,12 +348,49 @@ services:
     Plugin\AceClient43\Converter\AddCartRequestConverterInterface:
         class: Plugin\AceClient43\Converter\AddCartRequestConverter
 
-    # JyumeiDataConverter - single instance used across all flows
-    # JyumeiDataConverterは全フローで共有される単一インスタンス
-
-    # JyumeiDataConverterInterface alias for direct injection
     Plugin\AceClient43\Converter\JyumeiDataConverterInterface:
         class: Plugin\AceClient43\Converter\JyumeiDataConverter
+
+    Plugin\AceClient43\Converter\JyumeiToItemConverterInterface:
+      class: Plugin\AceClient43\Converter\JyumeiToItemConverter
+
+    Plugin\AceClient43\Converter\CustomerAceNormalizerInterface:
+        class: Plugin\AceClient43\Converter\CustomerAceNormalizer
+
+    Plugin\AceClient43\Converter\CustomerAddressDataConverterInterface:
+        class: Plugin\AceClient43\Converter\CustomerAddressDataConverter
+
+    Plugin\AceClient43\Converter\CustomerDataConverterInterface:
+        class: Plugin\AceClient43\Converter\CustomerDataConverter
+
+    Plugin\AceClient43\Converter\OrderDataConverterInterface:
+        class: Plugin\AceClient43\Converter\OrderDataConverter
+
+    # ===================================================================================================
+    # Comparator Services
+    # ===================================================================================================
+
+    Plugin\AceClient43\Comparator\ProductComparatorInterface:
+        class: Plugin\AceClient43\Comparator\ProductComparator
+
+    Plugin\AceClient43\Comparator\ItemComparatorInterface:
+        class: Plugin\AceClient43\Comparator\ItemComparator
+
+    # ===================================================================================================
+    # Default Synchronizer Services
+    # ===================================================================================================
+
+    Plugin\AceClient43\Synchronizer\AceCartResponseFeeSynchronizerInterface:
+        class: Plugin\AceClient43\Synchronizer\AceCartResponseFeeSynchronizer
+
+    Plugin\AceClient43\Synchronizer\CartOrderSynchronizerInterface:
+        class: Plugin\AceClient43\Synchronizer\CartOrderSynchronizer
+
+    Plugin\AceClient43\Synchronizer\AceCartResponseToOrderSynchronizerInterface:
+        class: Plugin\AceClient43\Synchronizer\AceCartResponseToOrderSynchronizer
+
+    Plugin\AceClient43\Synchronizer\AceCartResponseToCartSynchronizerInterface:
+        class: Plugin\AceClient43\Synchronizer\AceCartResponseToCartSynchronizer
 
     # AddCartRequestCorrectors - applied at the final stage of request building
     # AddCartRequestCorrectorはリクエスト構築の最終段階で適用されます

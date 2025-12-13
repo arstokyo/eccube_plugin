@@ -12,7 +12,7 @@ use Plugin\AceClient43\AceServices\Model\Response\Jyuden\AddCart\JyumeiModelInte
  * 役割:
  * - 「商品同一性（ProductClass/外部コード）」＋「カスタム属性」の比較を一元化する。
  */
-interface ItemCompareInterface
+interface ItemComparatorInterface
 {
     /**
      * CartItem 同士の一致比較（ProductClass → カスタム属性）.

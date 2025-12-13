@@ -222,10 +222,11 @@ class CustomerAddressBridge extends BaseBridge
             if ($aceCustomerAddress->getEda() !== '1') {
                 $customerAddress = $this->customerAddressDataConverter->convertCustomerAddressAceToEntity($aceCustomerAddress, $customer);
                 $this->em->persist($customerAddress);
-                if ($needFlush) {
-                    $this->em->flush($customerAddress);
-                }
             }
+        }
+
+        if ($needFlush) {
+            $this->em->flush();
         }
     }
 }

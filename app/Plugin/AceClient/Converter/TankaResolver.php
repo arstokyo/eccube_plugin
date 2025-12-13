@@ -7,7 +7,7 @@ use Eccube\Entity\OrderItem;
 use Eccube\Entity\ProductClass;
 use Plugin\AceClient43\Entity\Constants\AceTaxType;
 
-class TankaResolver implements TankaResolverInterface
+final class TankaResolver implements TankaResolverInterface
 {
     /**
      * ProductClass を起点に単価/税区分を決定（既定: price02/price02IncTax と AceTaxType を採用）
