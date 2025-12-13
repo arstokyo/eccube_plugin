@@ -75,6 +75,7 @@ final class AddCartRequestConverter implements AddCartRequestConverterInterface
 
     /**
      * Build JyudenModel with common fields
+     * TODO: move the logic to correctors
      */
     public function buildJyudenModel(
         string $transactionId,

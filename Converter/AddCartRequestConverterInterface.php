@@ -50,6 +50,8 @@ interface AddCartRequestConverterInterface
      * @param int|null $paymentId
      * @param array $options
      *
+     * @deprecated 今後削除する予定ですので、使用しないでください
+     *
      * @return RequestAddCart\JyudenModelInterface
      */
     public function buildJyudenModel(
