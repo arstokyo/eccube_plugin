@@ -16,7 +16,7 @@ use Psr\Log\LoggerInterface;
  *   1. 明示的設定: $adminHostが設定されている場合、現在のホスト名と比較
  *   2. フォールバック: ホスト名にキーワード('admin', 'adm.', 'manager')が含まれているかチェック
  */
-class CacheClearSyncService
+final class CacheClearSyncService
 {
     private bool $enabled;
     private string $authToken;
