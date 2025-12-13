@@ -6,11 +6,13 @@ use Eccube\Entity\Customer;
 use Eccube\Entity\CustomerAddress;
 use Plugin\AceClient43\AceServices\Model\Request\Jyuden\AddCart as RequestAddCart;
 use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
+use Plugin\AceClient43\Converter\Traits\CreateJyudenFreeModelTrait;
 use Plugin\AceClient43\Entity\Config;
 
-class AddCartRequestConverter implements AddCartRequestConverterInterface
+final class AddCartRequestConverter implements AddCartRequestConverterInterface
 {
     use CreateRequestModelTrait;
+    use CreateJyudenFreeModelTrait;
 
     private ?AddCartFlow $flow = null;
 
@@ -132,21 +134,21 @@ class AddCartRequestConverter implements AddCartRequestConverterInterface
     {
         $models = [];
         foreach ($freeMap as $fmkbn => $free) {
-            if ($free === null || $free === '') {
+            if ($fmkbn === null || $free === '') {
                 continue;
             }
-            $models[] = $this->buildJyudenFreeModel($fmkbn, (string) $free);
+
+            $fmkbnInt = filter_var($fmkbn, FILTER_VALIDATE_INT, [
+                'options' => ['min_range' => 1],
+            ]);
+
+            if ($fmkbnInt === false) {
+                throw new \InvalidArgumentException('fmkbn must be a positive integer');
+            }
+
+            $models[] = $this->createJyudenFreeModel($fmkbnInt, (string) $free);
         }
 
         return $models;
-    }
-
-    protected function buildJyudenFreeModel(int $fmkbn, string $free): RequestAddCart\JyudenFreeModelInterface
-    {
-        /** @var RequestAddCart\JyudenFreeModelInterface $model */
-        $model = $this->createSubModel(RequestAddCart\JyudenFreeModelInterface::class);
-
-        return $model->setFmkbn($fmkbn)
-            ->setFree($free);
     }
 }

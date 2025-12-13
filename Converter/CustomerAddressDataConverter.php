@@ -24,24 +24,13 @@ use Plugin\AceClient43\AceServices\Model\Request\Member\RegMemAdr\RegMemAdrReque
 use Plugin\AceClient43\AceServices\Model\Response\Member\GetHaisoAdrs\GetHaisouAdrsModelInterface;
 use Plugin\AceClient43\Bridge\CreateRequestModelTrait;
 
-class CustomerAddressDataConverter implements CustomerAddressDataConverterInterface
+final class CustomerAddressDataConverter implements CustomerAddressDataConverterInterface
 {
     use CreateRequestModelTrait;
 
-    /**
-     * @var CustomerAddressRepository
-     */
-    protected $customerAddressRepository;
-
-    /**
-     * @var PrefRepository
-     */
-    protected $prefRepository;
-
-    /**
-     * @var CustomerAceNormalizerInterface
-     */
-    protected $normalizer;
+    private CustomerAddressRepository $customerAddressRepository;
+    private PrefRepository $prefRepository;
+    private CustomerAceNormalizerInterface $normalizer;
 
     public function __construct(
         CustomerAddressRepository $customerAddressRepository,
@@ -103,19 +92,6 @@ class CustomerAddressDataConverter implements CustomerAddressDataConverterInterf
             ->setId($syid)
             ->setMcode($customer->getAceCustomerId())
             ->setEda($address->getAceEdaNo());
-    }
-
-    /**
-     * Format full name for ACE
-     *
-     * @param string|null $name01
-     * @param string|null $name02
-     *
-     * @return string
-     */
-    protected function formatFullName(?string $name01, ?string $name02): string
-    {
-        return mb_convert_kana(sprintf('%s　%s', $name01 ?? '', $name02 ?? ''), 'KVA');
     }
 
     /**

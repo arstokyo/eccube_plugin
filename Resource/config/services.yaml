@@ -348,12 +348,18 @@ services:
     Plugin\AceClient43\Converter\AddCartRequestConverterInterface:
         class: Plugin\AceClient43\Converter\AddCartRequestConverter
 
-    # JyumeiDataConverter - single instance used across all flows
-    # JyumeiDataConverterは全フローで共有される単一インスタンス
-
-    # JyumeiDataConverterInterface alias for direct injection
     Plugin\AceClient43\Converter\JyumeiDataConverterInterface:
         class: Plugin\AceClient43\Converter\JyumeiDataConverter
+
+    Plugin\AceClient43\Converter\CustomerAceNormalizerInterface:
+        class: Plugin\AceClient43\Converter\CustomerAceNormalizer
+
+    Plugin\AceClient43\Converter\CustomerAddressDataConverterInterface:
+        class: Plugin\AceClient43\Converter\CustomerAddressDataConverter
+
+    # ===================================================================================================
+    # Default Synchronizer Services
+    # ===================================================================================================
 
     Plugin\AceClient43\Synchronizer\AceCartResponseFeeSynchronizerInterface:
         class: Plugin\AceClient43\Synchronizer\AceCartResponseFeeSynchronizer
