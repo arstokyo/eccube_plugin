@@ -244,6 +244,6 @@ trait BaseCartOrderTrait
      */
     protected function normalizeNumberToDecimalString($value, int $scale = 2): string
     {
-        return NumberConverter::convertNumberToDecimalString($value, $scale);
+        return (string) NumberConverter::convertNumberToDecimalString($value, $scale);
     }
 }

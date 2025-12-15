@@ -38,6 +38,7 @@ use Eccube\Service\OrderHelper as BaseOrderHelper;
 use Eccube\Session\Session;
 use Plugin\AceClient43\Service\AceConfigService;
 use Plugin\AceClient43\Synchronizer\CartOrderSynchronizerInterface;
+use Plugin\AceClient43\Synchronizer\ItemSynchronizerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -50,9 +51,8 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 class OrderHelper extends BaseOrderHelper
 {
     protected EventDispatcherInterface $eventDispatcher;
-
     protected CartOrderSynchronizerInterface $cartOrderSyncService;
-
+    protected ItemSynchronizerInterface $itemSynchronizer;
     protected AceConfigService $aceConfigService;
 
     public function __construct(
@@ -70,6 +70,7 @@ class OrderHelper extends BaseOrderHelper
         TokenStorageInterface $tokenStorage,
         EventDispatcherInterface $eventDispatcher,
         CartOrderSynchronizerInterface $cartOrderSyncService,
+        ItemSynchronizerInterface $itemSynchronizer,
         AceConfigService $aceConfigService,
     ) {
         parent::__construct(
@@ -88,6 +89,7 @@ class OrderHelper extends BaseOrderHelper
         );
         $this->eventDispatcher = $eventDispatcher;
         $this->cartOrderSyncService = $cartOrderSyncService;
+        $this->itemSynchronizer = $itemSynchronizer;
         $this->aceConfigService = $aceConfigService;
     }
 
@@ -150,7 +152,7 @@ class OrderHelper extends BaseOrderHelper
     {
         return array_map(function ($item) {
             /* @var CartItem $item */
-            return $this->cartOrderSyncService->createOrderItemFromCartItem($item);
+            return $this->itemSynchronizer->createOrderItemFromCartItem($item);
         }, $CartItems instanceof Collection ? $CartItems->toArray() : $CartItems);
     }
 

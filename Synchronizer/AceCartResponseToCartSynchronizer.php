@@ -93,14 +93,14 @@ final class AceCartResponseToCartSynchronizer implements AceCartResponseToCartSy
                 // JyumeiModelからCartItemデータを作成（コンバータへ委譲）
                 $cartItemData = $this->jyumeiToItemConverter->createCartItemFromJyumei($jyumei);
 
-                $options = [
+                $addOptions = [
                     '_trigger' => self::class,
                     'cart_item_data' => $cartItemData,
                     // 差分適用（restoreCartsをスキップ）で追加する
                     'skip_restore_cart' => true,
                 ];
 
-                if ($this->cartService->addProduct($newProductClass, $jyumei->getSuu(), $options)) {
+                if ($this->cartService->addProduct($newProductClass, $jyumei->getSuu(), $addOptions)) {
                     $anySync = true;
                 }
             }

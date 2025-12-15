@@ -141,11 +141,10 @@ final class OrderDataConverter implements OrderDataConverterInterface
             $order->getAceTransactionId(),
             $isOrderSupportEnabled,
             $config,
-            $options['ace_payment_id'] ?? null,
             $options
         );
 
-        [$jyumeis, $charge, $discount, $deliveryFee] = $this->buildLines($order, $jyumeiDataConverter, $flow, $isOrderSupportEnabled, $trigger);
+        [$jyumeis, $charge, $discount, $deliveryFee] = $this->buildLines($order, $jyumeiDataConverter, $flow, $isOrderSupportEnabled, $options);
 
         // Use shared converter to apply totals
         $addCartRequestConverter->applyOrderTotals($jyuden, $charge, $discount, $deliveryFee, $config, $options);
@@ -186,7 +185,7 @@ final class OrderDataConverter implements OrderDataConverterInterface
         return $requestModel;
     }
 
-    private function buildLines(Order $order, JyumeiDataConverterInterface $jyumeiDataConverter, AddCartFlow $flow, bool $isOrderSupportEnabled, ?string $trigger): array
+    private function buildLines(Order $order, JyumeiDataConverterInterface $jyumeiDataConverter, AddCartFlow $flow, bool $isOrderSupportEnabled, array $options): array
     {
         $jyumeis = [];
         $charge = 0;
@@ -194,7 +193,7 @@ final class OrderDataConverter implements OrderDataConverterInterface
         $deliveryFee = 0;
 
         foreach ($order->getOrderItems() as $item) {
-            if ($jyumeiDataConverter->shouldExcludeOrderItem($item, $flow, $isOrderSupportEnabled, $trigger)) {
+            if ($jyumeiDataConverter->shouldExcludeOrderItem($item, $flow, $isOrderSupportEnabled, $options)) {
                 continue;
             }
 

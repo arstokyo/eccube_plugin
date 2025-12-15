@@ -47,10 +47,10 @@ interface JyumeiDataConverterInterface
     /**
      * リクエストの受注明細を作成する際に、無視するか
      */
-    public function shouldExcludeOrderItem(OrderItem $orderItem, AddCartFlow $flow, bool $isOrderSupportEnabled, ?string $trigger = null): bool;
+    public function shouldExcludeOrderItem(OrderItem $orderItem, AddCartFlow $flow, bool $isOrderSupportEnabled, array $options): bool;
 
     /**
      * リクエストのカート明細を作成する際に、無視するか
      */
-    public function shouldExcludeCartItem(CartItem $cartItem, AddCartFlow $flow, bool $isOrderSupportEnabled, ?string $trigger = null): bool;
+    public function shouldExcludeCartItem(CartItem $cartItem, AddCartFlow $flow, bool $isOrderSupportEnabled, array $options): bool;
 }

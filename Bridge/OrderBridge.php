@@ -251,9 +251,10 @@ class OrderBridge extends BaseBridge
         array $options = [],
         ?callable $modifier = null,
         ?string $cacheKey = null,
+        ?CustomerAddress $customerAddress = null,
     ): array {
         $order = $shipping->getOrder();
-        $customerAddress = $shipping->getCustomerAddress();
+        $customerAddress = $customerAddress ?? $shipping->getCustomerAddress();
         $options = array_merge([
             '_trigger' => self::SYNC_SHIPPING_TRIGGER,
         ], $options);
@@ -346,12 +347,15 @@ class OrderBridge extends BaseBridge
         Shipping $shipping,
         bool $shouldExecutePurchaseFlow = false,
         bool $canFlush = true,
+        string $cacheKey = 'ace_sync_earnable_point',
+        ?callable $modifier = null,
         array $options = [],
     ): ?PurchaseFlowResult {
         $order = $shipping->getOrder();
         $customerAddress = $shipping->getCustomerAddress();
         $options = array_merge([
             '_trigger' => self::SYNC_EARNABLE_POINT_TRIGGER,
+            'build_all_line' => true,
         ], $options);
 
         try {
@@ -360,7 +364,8 @@ class OrderBridge extends BaseBridge
                 $options,
                 $customerAddress,
                 'point',
-                'ace_sync_earnable_point',
+                $cacheKey,
+                $modifier,
             );
         } catch (\Throwable $e) {
             if ($e instanceof CouldNotAddCartException) {

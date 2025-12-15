@@ -127,4 +127,14 @@ trait OrderTrait
 
         return $total;
     }
+
+    public function getAcePaymentId(): int
+    {
+        return $this->getPayment()->getAcePaymentId();
+    }
+
+    public function hasAcePaymentId(): bool
+    {
+        return $this->getPayment() && $this->getPayment()->getAcePaymentId() !== null;
+    }
 }
