@@ -58,7 +58,6 @@ interface AddCartRequestConverterInterface
         string $transactionId,
         bool $isOrderSupportEnabled,
         Config $config,
-        ?int $paymentId = null,
         array $options = [],
     ): RequestAddCart\JyudenModelInterface;
 

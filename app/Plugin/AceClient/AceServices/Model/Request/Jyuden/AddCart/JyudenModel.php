@@ -96,7 +96,7 @@ class JyudenModel extends JyudenModelGroup1 implements JyudenModelInterface
      *
      * @return self
      */
-    public function setSkkbn(string $skkbn): self
+    public function setSkkbn(?string $skkbn): self
     {
         $this->skkbn = $skkbn;
 

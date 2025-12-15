@@ -38,9 +38,6 @@ interface HasCampaignInterface
      */
     public function setCampaign(?int $campaign);
 
-    /**
-     * @Ignore()
-     */
     public function useCampaign($use = true): static;
 
     public function isUseCampaign(): bool;

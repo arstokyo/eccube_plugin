@@ -46,5 +46,7 @@ class PostAddCartListener implements EventSubscriberInterface
         if ($event->canFlush()) {
             $this->entityManager->flush();
         }
+
+        $event->setOptions($options);
     }
 }

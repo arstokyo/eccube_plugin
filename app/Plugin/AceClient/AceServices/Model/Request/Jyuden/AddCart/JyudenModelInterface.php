@@ -83,7 +83,7 @@ interface JyudenModelInterface extends JyudenModelGroup1Interface
      *
      * @return self
      */
-    public function setSkkbn(string $skkbn): self;
+    public function setSkkbn(?string $skkbn): self;
 
     /**
      * 請求書発送区分を取得

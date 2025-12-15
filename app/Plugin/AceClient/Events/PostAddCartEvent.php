@@ -69,6 +69,11 @@ class PostAddCartEvent extends Event
         return $this->options['trigger'] ?? '';
     }
 
+    public function setOptions(array $options): void
+    {
+        $this->options = $options;
+    }
+
     public function canFlush(): bool
     {
         return $this->canFlush;

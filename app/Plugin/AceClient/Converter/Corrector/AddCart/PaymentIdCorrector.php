@@ -26,6 +26,12 @@ final class PaymentIdCorrector implements AddCartRequestCorrectorInterface
             return;
         }
 
+        // 強制的に設定された場合はその値を設定して終了
+        if (null !== ($forcePaymentId = $options['ace_payment_id'] ?? null)) {
+            $jyudenModel->setPcode($forcePaymentId);
+            return;
+        }
+
         $pcode = (int) $this->aceConfigService->getDefaultPaymentId();
 
         switch ($flow->getValue()) {

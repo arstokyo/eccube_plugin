@@ -137,12 +137,12 @@ final class JyumeiDataConverter implements JyumeiDataConverterInterface
             ->setTaxkbn($taxKbn);
     }
 
-    public function shouldExcludeOrderItem(OrderItem $orderItem, AddCartFlow $flow, bool $isOrderSupportEnabled, ?string $trigger = null): bool
+    public function shouldExcludeOrderItem(OrderItem $orderItem, AddCartFlow $flow, bool $isOrderSupportEnabled, array $options): bool
     {
-        return $isOrderSupportEnabled && (!$orderItem->isProduct() || $orderItem->isPresent());
+        return empty($options['build_all_line']) && $isOrderSupportEnabled && (!$orderItem->isProduct() || $orderItem->isPresent());
     }
 
-    public function shouldExcludeCartItem(CartItem $cartItem, AddCartFlow $flow, bool $isOrderSupportEnabled, ?string $trigger = null): bool
+    public function shouldExcludeCartItem(CartItem $cartItem, AddCartFlow $flow, bool $isOrderSupportEnabled, array $options = []): bool
     {
         // デフォルト無視しない。
         return false;

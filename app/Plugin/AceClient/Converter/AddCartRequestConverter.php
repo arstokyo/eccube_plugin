@@ -81,17 +81,12 @@ final class AddCartRequestConverter implements AddCartRequestConverterInterface
         string $transactionId,
         bool $isOrderSupportEnabled,
         Config $config,
-        ?int $paymentId = null,
         array $options = [],
     ): RequestAddCart\JyudenModelInterface {
         /** @var RequestAddCart\JyudenModelInterface $jyuden */
         $jyuden = $this->createSubModel(RequestAddCart\JyudenModelInterface::class);
         $jyuden
             ->setTorikbn($transactionId);
-
-        if (null !== $paymentId) {
-            $jyuden->setPcode($paymentId);
-        }
 
         if ($config->hasOrderRouteId()) {
             $jyuden->setJcode($config->getOrderRouteId());

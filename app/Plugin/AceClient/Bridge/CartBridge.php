@@ -114,10 +114,12 @@ class CartBridge extends BaseBridge
             $responseObject = $this->executeAddCartRequest($request, $options);
 
             if ($this->eventDispatcher->hasListeners(Events::POST_ADD_CART)) {
+                $postEvent = new PostAddCartEvent($responseObject, $cart, $options, $config, $canFlush);
                 $this->eventDispatcher->dispatch(
-                    new PostAddCartEvent($responseObject, $cart, $options, $config, $canFlush),
+                    $postEvent,
                     Events::POST_ADD_CART
                 );
+                $options = $postEvent->getOptions();
             }
 
             return $responseObject;
@@ -245,7 +247,6 @@ class CartBridge extends BaseBridge
             $cart->getAceTransactionId(),
             $config->isOrderSupportEnabledWhenAddCart(),
             $config,
-            null,
             $options,
         );
 
@@ -257,7 +258,7 @@ class CartBridge extends BaseBridge
         $jyumeis = [];
         /** @var CartItem $item */
         foreach ($cartItems as $item) {
-            if ($jyumeiDataConverter->shouldExcludeCartItem($item, $flow, $config->isOrderSupportEnabledWhenAddCart(), $options['_trigger'] ?? null)) {
+            if ($jyumeiDataConverter->shouldExcludeCartItem($item, $flow, $config->isOrderSupportEnabledWhenAddCart(), $options)) {
                 continue;
             }
             $jyumeis[] = $jyumeiDataConverter->convertCartItemToJyumei($item, $options);

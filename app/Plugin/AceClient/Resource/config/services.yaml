@@ -107,6 +107,9 @@ parameters:
     ace.processor.discount_tax_type: 1
     ace.processor.point_discount.name: 'ポイント値引き'
 
+    # キャンペーンに振られた値引き
+    ace.processor.promotion_discount.name: 'キャンペーン値引き'
+
     ace.method:
         default_api_type: 'soap'
         default_request_format: 'xml'
@@ -385,6 +388,9 @@ services:
 
     Plugin\AceClient43\Synchronizer\CartOrderSynchronizerInterface:
         class: Plugin\AceClient43\Synchronizer\CartOrderSynchronizer
+
+    Plugin\AceClient43\Synchronizer\ItemSynchronizerInterface:
+        class: Plugin\AceClient43\Synchronizer\ItemSynchronizer
 
     Plugin\AceClient43\Synchronizer\AceCartResponseToOrderSynchronizerInterface:
         class: Plugin\AceClient43\Synchronizer\AceCartResponseToOrderSynchronizer
