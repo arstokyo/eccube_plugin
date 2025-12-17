@@ -20,15 +20,6 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class OnPreCreateOrderEvent extends Event
 {
-    /** @var float */
-    private float $charge;
-
-    /** @var float */
-    private float $discount;
-
-    /** @var float */
-    private float $deliveryFee = 0;
-
     /** @var Shipping */
     private Shipping $shipping;
 
@@ -40,36 +31,15 @@ class OnPreCreateOrderEvent extends Event
     private array $options;
 
     public function __construct(
-        float $charge,
-        float $discount,
-        float $deliveryFee,
         CreateOrderRequestModelInterface $createOrderRequest,
         Shipping $shipping,
         Config $config,
         array $options,
     ) {
-        $this->charge = $charge;
-        $this->discount = $discount;
-        $this->deliveryFee = $deliveryFee;
         $this->config = $config;
         $this->shipping = $shipping;
         $this->createOrderRequest = $createOrderRequest;
         $this->options = $options;
-    }
-
-    public function getCharge(): float
-    {
-        return $this->charge;
-    }
-
-    public function getDiscount(): float
-    {
-        return $this->discount;
-    }
-
-    public function getDeliveryFee(): float
-    {
-        return $this->deliveryFee;
     }
 
     public function getShipping(): Shipping

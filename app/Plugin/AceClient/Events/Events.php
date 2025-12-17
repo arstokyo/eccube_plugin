@@ -28,6 +28,7 @@ class Events
     public const ON_EXECUTE_ADD_CART_REQUEST_ERROR = 'ace_client.on_execute_add_cart_request_error';
     public const ON_PRE_CREATE_ORDER = 'ace_client.on_pre_create_order';
     public const POST_CREATE_ORDER = 'ace_client.post_create_order';
+    public const ON_CREATE_ORDER_FAILED = 'ace_client.on_create_order_failed';
     public const PRE_PROCESS_CHARGE_EVENT = 'ace_client.pre_process_charge_event';
     public const POST_PROCESS_CHARGE_EVENT = 'ace_client.post_process_charge_event';
     public const COMMAND_PRE_IMPORT_PRODUCT = 'ace_client.command_pre_import_product';
