@@ -49,6 +49,15 @@ trait OrderTrait
         return $this;
     }
 
+    /**
+     * 使用ポイント・ポイント値引きを無効化
+     */
+    public function invalidateUsePoint(): void
+    {
+        $this->ace_point_discount = '0.00';
+        $this->setUsePoint(0);
+    }
+
     public function getApplicablePromotionDiscount(): float
     {
         $subTotal = max(0, $this->calculateSubTotal());

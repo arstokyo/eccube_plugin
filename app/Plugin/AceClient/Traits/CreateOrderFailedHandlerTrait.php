@@ -9,15 +9,13 @@ use Eccube\Service\PurchaseFlow\PurchaseFlow;
 use Plugin\AceClient43\Bridge\OrderBridge;
 use Plugin\AceClient43\Exception\CouldNotCreateOrderException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\FlashBagAwareSessionInterface;
-use Symfony\Contracts\Service\Attribute\Required;
 
 trait CreateOrderFailedHandlerTrait
 {
-    private OrderBridge $orderBridge;
+    use FlashBagAwareTrait;
+    use AddShoppingErrorFlashTrait;
 
-    private RequestStack $requestStack;
+    private OrderBridge $orderBridge;
 
     public function handleWhenCreateOrderFailed(Order $order, \Throwable $exception, ?callable $preRollback = null): ?RedirectResponse
     {
@@ -36,7 +34,7 @@ trait CreateOrderFailedHandlerTrait
                 'stackTrace' => $exception->getTraceAsString(),
             ]);
 
-            $this->addErrorFlash($exception->getUserMessage());
+            $this->addShoppingErrorFlash($exception->getUserMessage());
             $this->rollback($order, $preRollback);
 
             return $this->redirectToRoute('shopping');
@@ -48,7 +46,7 @@ trait CreateOrderFailedHandlerTrait
                 'stackTrace' => $exception->getTraceAsString(),
             ]);
 
-            $this->addErrorFlash(trans('ace_client.create_order.error.unexpected'));
+            $this->addShoppingErrorFlash(trans('ace_client.create_order.error.unexpected'));
             $this->rollback($order, $preRollback);
 
             return $this->redirectToRoute('shopping_error');
@@ -70,7 +68,7 @@ trait CreateOrderFailedHandlerTrait
                 'stackTrace' => $exception->getTraceAsString(),
             ]);
 
-            $this->addErrorFlash(trans('ace_client.create_order.error.unexpected'));
+            $this->addShoppingErrorFlash(trans('ace_client.create_order.error.unexpected'));
             $this->rollback($order, $onRollback);
 
             return $this->redirectToRoute('shopping_error');
@@ -95,17 +93,6 @@ trait CreateOrderFailedHandlerTrait
 
     abstract protected function redirectToRoute(string $route, array $parameters = [], int $status = 302): RedirectResponse;
 
-    private function addErrorFlash(string $message, $namespace = 'front'): void
-    {
-        $session = $this->requestStack->getSession();
-
-        if (!$session instanceof FlashBagAwareSessionInterface) {
-            log_error('セッションがFlashBagAwareSessionInterfaceを実装していないため、エラーメッセージを追加できません。');
-        }
-
-        $session->getFlashBag()->add('eccube.'.$namespace.'.error', $message);
-    }
-
     /**
      * @Required
      */
@@ -128,13 +115,5 @@ trait CreateOrderFailedHandlerTrait
     public function setEntityManager(EntityManagerInterface $entityManager): void
     {
         $this->entityManager = $entityManager;
-    }
-
-    /**
-     * @required
-     */
-    public function setRequestStack(RequestStack $requestStack): void
-    {
-        $this->requestStack = $requestStack;
     }
 }

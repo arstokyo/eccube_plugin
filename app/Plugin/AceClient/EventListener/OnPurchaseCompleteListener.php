@@ -25,7 +25,7 @@ class OnPurchaseCompleteListener implements EventSubscriberInterface
 {
     public const ACE_CLIENT_CREATING_ORDER = 'ace_client_creating_order.';
 
-    protected OrderBridge $orderBridge;
+    private OrderBridge $orderBridge;
 
     public function __construct(
         OrderBridge $orderBridge,
