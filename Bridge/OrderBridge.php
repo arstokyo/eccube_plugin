@@ -426,7 +426,14 @@ class OrderBridge extends BaseBridge
         };
 
         try {
-            return $this->cartBridge->executeAddCartRequestWithCache($factory, $options, $cacheKey, $modifier);
+            $context = [
+                'shipping' => $shipping,
+                'order' => $shipping->getOrder(),
+                'customer_address' => $customerAddress,
+                'config' => $this->getAceConfig(),
+            ];
+
+            return $this->cartBridge->executeAddCartRequestWithCache($factory, $context, $options, $cacheKey, $modifier);
         } catch (\Throwable $e) {
             if ($e instanceof CouldNotAddCartException) {
                 $this->logger->error('通販Aceのカート追加（ポイント再計算）に失敗しました。', ['exception' => $e]);

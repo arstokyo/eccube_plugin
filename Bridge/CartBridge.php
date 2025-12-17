@@ -111,7 +111,14 @@ class CartBridge extends BaseBridge
         $request = $this->createRequest($cart, $config, $options, $cartItems);
 
         try {
-            $responseObject = $this->executeAddCartRequest($request, $options);
+            $context = [
+                'flow' => AddCartFlow::cartAdd(),
+                'cart' => $cart,
+                'processingOrder' => $this->orderRepository->getProcessingOrder($cart->getPreOrderId()),
+                'config' => $config,
+            ];
+
+            $responseObject = $this->executeAddCartRequest($request, $context, $options);
 
             if ($this->eventDispatcher->hasListeners(Events::POST_ADD_CART)) {
                 $postEvent = new PostAddCartEvent($responseObject, $cart, $options, $config, $canFlush);
@@ -140,7 +147,7 @@ class CartBridge extends BaseBridge
      * @throws CouldNotAddCartException
      * @throws \Throwable
      */
-    public function executeAddCartRequestWithCache(\Closure $factory, array $options = [], ?string $cacheKey = null, ?\Closure $modifier = null): AddCartResponseModelInterface
+    public function executeAddCartRequestWithCache(\Closure $factory, array $context, array $options = [], ?string $cacheKey = null, ?\Closure $modifier = null): AddCartResponseModelInterface
     {
         return $this->doExecuteAddCart(
             function () use ($factory, $cacheKey, $modifier) {
@@ -148,6 +155,7 @@ class CartBridge extends BaseBridge
                     ->withCaching($factory, $cacheKey, $modifier)
                     ->send();
             },
+            $context,
             $options,
             true,
             $cacheKey,
@@ -156,18 +164,20 @@ class CartBridge extends BaseBridge
 
     /**
      * @param AddCartRequestModelInterface $request
+     * @param array $context
      * @param array $options
      *
      * @return AddCartResponseModelInterface
      *
      * @throws CouldNotAddCartException|\Throwable
      */
-    public function executeAddCartRequest(AddCartRequestModelInterface $request, array $options): AddCartResponseModelInterface
+    public function executeAddCartRequest(AddCartRequestModelInterface $request, array $context, array $options): AddCartResponseModelInterface
     {
         return $this->doExecuteAddCart(
             function () use ($request) {
                 return $this->addCartMethod->withRequest($request)->send();
             },
+            $context,
             $options,
             false // fromCache = false
         );
@@ -177,6 +187,7 @@ class CartBridge extends BaseBridge
      * Common execution logic for add cart requests
      *
      * @param \Closure $executor Function that executes the actual request
+     * @param array $context
      * @param array $options
      * @param bool $fromCache
      * @param string|null $cacheKey
@@ -186,7 +197,7 @@ class CartBridge extends BaseBridge
      * @throws CouldNotAddCartException
      * @throws \Throwable
      */
-    protected function doExecuteAddCart(\Closure $executor, array $options, bool $fromCache, ?string $cacheKey = null): AddCartResponseModelInterface
+    protected function doExecuteAddCart(\Closure $executor, array $context, array $options, bool $fromCache, ?string $cacheKey = null): AddCartResponseModelInterface
     {
         try {
             $response = $executor();
@@ -206,7 +217,7 @@ class CartBridge extends BaseBridge
             // Dispatch post-execute event
             if ($this->eventDispatcher->hasListeners(Events::POST_EXECUTE_ADD_CART_REQUEST)) {
                 $this->eventDispatcher->dispatch(
-                    new PostExecuteAddCartRequestEvent($responseObject, $options, $fromCache, $cacheKey),
+                    new PostExecuteAddCartRequestEvent($responseObject, $context, $options, $fromCache, $cacheKey),
                     Events::POST_EXECUTE_ADD_CART_REQUEST,
                 );
             }
@@ -214,10 +225,9 @@ class CartBridge extends BaseBridge
             return $responseObject;
         } catch (\Throwable $e) {
             if ($this->eventDispatcher->hasListeners(Events::ON_EXECUTE_ADD_CART_REQUEST_ERROR)) {
-                $errorEvent = new OnExecuteAddCartRequestErrorEvent($e, $options, $fromCache, $cacheKey);
                 $this->eventDispatcher->dispatch(
-                    $errorEvent,
-                    Events::ON_EXECUTE_ADD_CART_REQUEST_ERROR
+                    new OnExecuteAddCartRequestErrorEvent($e, $context, $options, $fromCache, $cacheKey),
+                    Events::ON_EXECUTE_ADD_CART_REQUEST_ERROR,
                 );
             }
 

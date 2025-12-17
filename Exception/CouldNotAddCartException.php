@@ -89,6 +89,14 @@ class CouldNotAddCartException extends AceApiMessageException
     }
 
     /**
+     * メッセージ1を設定する
+     */
+    public function setMessage(string $message): void
+    {
+        $this->message1 = $message;
+    }
+
+    /**
      * 使用ポイント超過の確認メッセージかどうか
      * 例: 「使用ポイントが累計ポイントを超えています。続行しますか？」
      */
