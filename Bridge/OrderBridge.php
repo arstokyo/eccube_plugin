@@ -31,6 +31,7 @@ use Plugin\AceClient43\AceServices\Model\Response\Jyuden\CreateOrder\CreateOrder
 use Plugin\AceClient43\Converter\AddCartFlow;
 use Plugin\AceClient43\Converter\OrderDataConverterInterface;
 use Plugin\AceClient43\Events\Events;
+use Plugin\AceClient43\Events\OnCreateOrderFailedEvent;
 use Plugin\AceClient43\Events\OnPreCreateOrderEvent;
 use Plugin\AceClient43\Events\PostCreateOrderEvent;
 use Plugin\AceClient43\Exception\CouldNotAddCartException;
@@ -132,6 +133,9 @@ class OrderBridge extends BaseBridge
      */
     public function create(Shipping $shipping, array $decisionOptions = [], bool $shouldFlush = false, array $options = []): void
     {
+        $createOrderReq = null;
+        $apiResponse = null;
+
         try {
             // 受注明細や顧客情報の妥当性をチェック（AddCart 前提と同一）
             [$order, $customer, $customerAddress, $config] = $this->validatePreCreate($shipping);
@@ -139,7 +143,6 @@ class OrderBridge extends BaseBridge
             $sessionId = $this->session->getId();
 
             // 統合リクエストをコンバータで生成（prm と Decision オプションの両方を内包）
-            /** @var CreateOrderRequestModelInterface $createOrderReq */
             $createOrderReq = $this->orderDataConverter->convertToCreateOrderRequest(
                 $shipping,
                 $order,
@@ -155,12 +158,8 @@ class OrderBridge extends BaseBridge
 
             // 事前作成前イベント（AddCart 相当の調整。Options などをここで上書き可能）
             if ($this->eventDispatcher->hasListeners(Events::ON_PRE_CREATE_ORDER)) {
-                $jyuden = $createOrderReq->getPrm()->getJyuden();
                 $this->eventDispatcher->dispatch(
                     new OnPreCreateOrderEvent(
-                        $jyuden->getTesuu() ?? 0,
-                        $jyuden->getNebiki() ?? 0,
-                        $jyuden->getSouryou() ?? 0,
                         $createOrderReq,
                         $shipping,
                         $config,
@@ -192,6 +191,13 @@ class OrderBridge extends BaseBridge
                 $this->em->flush();
             }
         } catch (\Throwable $e) {
+            if ($this->eventDispatcher->hasListeners(Events::ON_CREATE_ORDER_FAILED)) {
+                $this->eventDispatcher->dispatch(
+                    new OnCreateOrderFailedEvent($e, $shipping, $createOrderReq, $apiResponse, $options),
+                    Events::ON_CREATE_ORDER_FAILED,
+                );
+            }
+
             if ($e instanceof CouldNotCreateOrderException) {
                 $this->logger->error('通販Aceの注文作成に失敗しました。', ['exception' => $e]);
                 throw $e;

@@ -19,19 +19,15 @@ class RequestCachePool
     private const CACHE_REQUEST_MODEL_SUFFIX = '_req_model';
 
     private RequestStack $requestStack;
-    private LoggerInterface $logger;
     private int $defaultTtl;
-
     private bool $isDebug;
 
     public function __construct(
         RequestStack $requestStack,
-        LoggerInterface $logger,
         int $defaultTtl,
         bool $isDebug,
     ) {
         $this->requestStack = $requestStack;
-        $this->logger = $logger;
         $this->defaultTtl = $defaultTtl;
         $this->isDebug = $isDebug;
     }
@@ -131,11 +127,6 @@ class RequestCachePool
             $requestModelKey = $this->generateRequestModelKey($cacheKey);
             $session->remove($requestModelKey);
         }
-
-        $this->logger->debug('[RequestCacheManager] キャッシュクリア', [
-            'endpoint' => $cacheKey,
-            'cache_key' => $key,
-        ]);
     }
 
     /**
@@ -146,17 +137,11 @@ class RequestCachePool
         $session = $this->requestStack->getSession();
         $keys = array_keys($session->all());
 
-        $cleared = 0;
         foreach ($keys as $key) {
             if (strpos($key, self::CACHE_PREFIX) === 0) {
                 $session->remove($key);
-                $cleared++;
             }
         }
-
-        $this->logger->debug('[RequestCacheManager] すべてのキャッシュクリア', [
-            'count' => $cleared,
-        ]);
     }
 
     /**
@@ -196,12 +181,6 @@ class RequestCachePool
                     $cleared++;
                 }
             }
-        }
-
-        if ($cleared > 0) {
-            $this->logger->debug('[RequestCacheManager] 期限切れキャッシュクリア', [
-                'count' => $cleared,
-            ]);
         }
 
         return $cleared;
