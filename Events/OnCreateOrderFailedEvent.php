@@ -24,8 +24,8 @@ class OnCreateOrderFailedEvent extends Event
 {
     private \Throwable $exception;
     private Shipping $shipping;
-    private CreateOrderRequestModelInterface $request;
-    private CreateOrderResponseModelInterface $response;
+    private ?CreateOrderRequestModelInterface $request;
+    private ?CreateOrderResponseModelInterface $response;
     private array $options;
 
     public function __construct(
