@@ -23,6 +23,7 @@ use Plugin\AceClient43\AceServices\Model\Dependency\Good;
 use Plugin\AceClient43\AceServices\Model\Dependency\Haiso;
 use Plugin\AceClient43\AceServices\Model\Dependency\NoCategory;
 use Plugin\AceClient43\AceServices\Model\Dependency\Payment;
+use Plugin\AceClient43\Entity\Constants\AceProductType;
 
 /**
  * Model for RirekiLevel2
@@ -59,4 +60,17 @@ class RirekiModelLevel2 extends RirekiModelLevel1 implements RirekiModelLevel2In
     use Free\ThreeFmemoTrait;
     use Haiso\HaisoModelGroup1Trait;
     use Denpyo\JnameTrait;
+
+    public function isDiscount(): bool
+    {
+        return $this->getGkbn() === AceProductType::DISCOUNT;
+    }
+
+    /**
+     * backward compatibility
+     */
+    public function getTinmoney(): float
+    {
+        return $this->getMoney();
+    }
 }

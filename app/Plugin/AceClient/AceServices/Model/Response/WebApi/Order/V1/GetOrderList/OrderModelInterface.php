@@ -14,7 +14,6 @@
 namespace Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrderList;
 
 use Plugin\AceClient43\AceServices\Model\Response\AsListDenormalizableInterface;
-use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * Interface for OrderModel
@@ -46,4 +45,32 @@ interface OrderModelInterface extends AsListDenormalizableInterface
      * @return self
      */
     public function setJyumei(?array $jyumei): self;
+
+    /**
+     * 税抜ポイント値引きを取得
+     *
+     * @return int|null
+     */
+    public function getPointDiscountExcludedTax(): ?int;
+
+    /**
+     * 税込ポイント値引きを取得
+     *
+     * @return int|null
+     */
+    public function getPointDiscount(): ?int;
+
+    /**
+     * 税抜キャペーン値引きを取得
+     *
+     * @return int|null
+     */
+    public function getPromotionDiscountExcludedTax(): ?int;
+
+    /**
+     * 税込キャペーン値引きを取得
+     *
+     * @return int|null
+     */
+    public function getPromotionDiscount(): ?int;
 }

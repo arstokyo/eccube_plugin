@@ -15,6 +15,7 @@ namespace Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrder
 
 use Plugin\AceClient43\AceServices\Model\Dependency\Cost\Tax;
 use Plugin\AceClient43\AceServices\Model\Dependency\Rireki;
+use Plugin\AceClient43\Entity\Constants\AceTaxType;
 
 /**
  * Model for Jyumei
@@ -78,5 +79,10 @@ class JyumeiModel extends Rireki\RirekiModelLevel2 implements JyumeiModelInterfa
     public function IsNonTaxable(): bool
     {
         return $this->getTaxRate() == 0 && $this->getGcode() === self::NON_TAXABLE_GCODE;
+    }
+
+    public function isTaxAdjusted(): bool
+    {
+        return $this->getTaxkbn() === AceTaxType::TAX_ADJUSTMENT;
     }
 }
