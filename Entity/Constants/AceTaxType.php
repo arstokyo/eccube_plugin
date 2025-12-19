@@ -37,9 +37,24 @@ class AceTaxType
     public const TAX_EXEMPT = 2;
 
     /**
-     * 単価依存
+     * 調整のタイプ
      *
      * @var int
      */
-    public const DEPENDS_ON_UNIT_PRICE = 2;
+    public const TAX_ADJUSTMENT = 9;
+
+    public static function isTaxIncluded(int $type): bool
+    {
+        return $type === self::TAX_INCLUDED;
+    }
+
+    public static function isTaxExcluded(int $type): bool
+    {
+        return $type === self::TAX_EXCLUDED;
+    }
+
+    public static function isTaxExcludedOrAdjusted(int $type): bool
+    {
+        return $type === self::TAX_EXCLUDED || $type === self::TAX_ADJUSTMENT;
+    }
 }

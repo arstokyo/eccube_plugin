@@ -13,6 +13,8 @@
 
 namespace Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrderList;
 
+use Plugin\AceClient43\AceServices\Model\Dependency\Calculate\DiscountCalculateTrait;
+
 /**
  * Model for Order
  *
@@ -20,6 +22,8 @@ namespace Plugin\AceClient43\AceServices\Model\Response\WebApi\Order\V1\GetOrder
  */
 class OrderModel implements OrderModelInterface
 {
+    use DiscountCalculateTrait;
+
     /** @var JyudenModel|null */
     protected ?JyudenModel $jyuden = null;
 
